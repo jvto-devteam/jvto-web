@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from "next";
 import { GoogleAnalytics } from '@/components/GoogleAnalytics' // <-- 1. Impor komponen
 
@@ -26,10 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Tambahkan komponen GA di sini */}
-      {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && ( // <-- 2. Pastikan hanya berjalan jika ID ada
-        <GoogleAnalytics />
-      )}      
+        <Suspense>
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <GoogleAnalytics />
+          )}
+        </Suspense>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
