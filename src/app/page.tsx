@@ -1,3 +1,4 @@
+'use client';
 import { useEffect } from 'react';
 import { sendEvent } from '@/lib/gtag'; // Impor fungsi helper
 import Hero from '@/components/Hero';
