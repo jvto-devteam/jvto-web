@@ -14,24 +14,31 @@ const packageData = {
 
 export default function Home() {
   useEffect(() => {
-    // Kirim event saat halaman dimuat dengan struktur yang benar
-    sendEvent({
-      action: 'view_item',
-      params: {
-        currency: 'IDR',
-        value: packageData.price,
-        items: [
-          {
-            item_id: packageData.id,
-            item_name: packageData.name,
-            item_category: packageData.category,
-            price: packageData.price,
-            quantity: 1
-          }
-        ]
-      },
-    });
-    
+    // --- AWAL PERBAIKAN ---
+    // Gunakan setTimeout untuk menunda eksekusi sejenak,
+    // memastikan gtag sudah siap sepenuhnya.
+    const timer = setTimeout(() => {
+      console.log("Attempting to send view_item event now...");
+      sendEvent({
+        action: 'view_item',
+        params: {
+          currency: 'IDR',
+          value: packageData.price,
+          items: [
+            {
+              item_id: packageData.id,
+              item_name: packageData.name,
+              item_category: packageData.category,
+              price: packageData.price,
+              quantity: 1
+            }
+          ]
+        },
+      });
+    }, 100); // Jeda 100 milidetik
+
+    return () => clearTimeout(timer); // Membersihkan timer saat komponen di-unmount
+    // --- AKHIR PERBAIKAN ---
   }, []); // Dijalankan sekali saat komponen dimuat
 
   return (
