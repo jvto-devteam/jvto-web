@@ -31,7 +31,6 @@ export default function Home() {
         ]
       },
     });
-    console.log('Event view_item sent:', packageData);
     
   }, []); // Dijalankan sekali saat komponen dimuat
 
