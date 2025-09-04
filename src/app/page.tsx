@@ -14,19 +14,24 @@ const packageData = {
 
 export default function Home() {
   useEffect(() => {
-    // Kirim event saat halaman dimuat
+    // Kirim event saat halaman dimuat dengan struktur yang benar
     sendEvent({
       action: 'view_item',
       params: {
-        item_id: packageData.id,
-        item_name: packageData.name,
-        item_category: packageData.category,
-        value: packageData.price,
         currency: 'IDR',
+        value: packageData.price,
+        items: [
+          {
+            item_id: packageData.id,
+            item_name: packageData.name,
+            item_category: packageData.category,
+            price: packageData.price,
+            quantity: 1
+          }
+        ]
       },
     });
   }, []); // Dijalankan sekali saat komponen dimuat
-
 
   return (
     <main className="flex flex-col">
@@ -36,4 +41,3 @@ export default function Home() {
     </main>
   );
 }
-
