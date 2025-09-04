@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+import { sendEvent } from '@/lib/gtag'; // Impor fungsi helper
 import Hero from '@/components/Hero';
 import FeaturedTours from '@/components/FeaturedTours';
 import Newsletter from '@/components/Newsletter';
-import { sendEvent } from '@/lib/gtag'; // Impor fungsi helper
 
 const packageData = {
   id: 'VOL-001',
