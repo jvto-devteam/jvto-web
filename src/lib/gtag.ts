@@ -6,12 +6,12 @@
 type GTagEvent = {
   action: string;
   params: {
-    [key: string]: string | number | undefined;
+    [key: string]: any;
   };
 };
 
 export const sendEvent = ({ action, params }: GTagEvent) => {
-  if (typeof window.gtag !== 'undefined') {
-    window.gtag('event', action, params);
+  if (typeof window.gtag !== "undefined") {
+    window.gtag("event", action, params);
   }
 };
