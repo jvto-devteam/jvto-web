@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from '@/components/GoogleAnalytics' // <-- 1. Impor komponen
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -24,6 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Tambahkan komponen GA di sini */}
+      {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && ( // <-- 2. Pastikan hanya berjalan jika ID ada
+        <GoogleAnalytics />
+      )}      
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
