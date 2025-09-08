@@ -56,9 +56,25 @@ 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
 ### Mailgun
 API KEY `e06c423b06428cdf0a2458e5abaec48a-1ae02a08-6959b3ee`
 
+### PostgreSQL Metrics 
+`Bismill@hmetrics1`
+
+### PostgreSQL Pgbouncer 
+```bash
+app_user
+BismillahPgbouncer1
+
+pgbouncer
+BismillahPgbouncer1
+```
+
 ### Akses Adminer
 https://db.java-tour.com
 
+```bash
+admin
+Bismill@hsukses1
+```
 ```bash
 postgres
 Bismill@hsukses1
