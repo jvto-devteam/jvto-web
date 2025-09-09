@@ -57,7 +57,7 @@ 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
 API KEY `e06c423b06428cdf0a2458e5abaec48a-1ae02a08-6959b3ee`
 
 ### PostgreSQL Metrics 
-`Bismill@hmetrics1`
+`BismillahMetrics1`
 
 ### PostgreSQL Pgbouncer 
 ```bash
