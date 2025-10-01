@@ -5,7 +5,12 @@ const nextConfig = {
     return [
       {
         source: "/office",
-        destination: "/why-jvto/the-jvto-difference",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/review",
+        destination: "/why-jvto/reviews",
         permanent: true,
       },
       {
@@ -289,12 +294,12 @@ const nextConfig = {
       },
       {
         source: "/accommodations",
-        destination: "/why-jvto/the-jvto-difference/",
+        destination: "/why-jvto/java-travel-tips/",
         permanent: true,
       },
       {
         source: "/transportations",
-        destination: "/why-jvto/the-jvto-difference/",
+        destination: "/why-jvto/java-travel-tips/",
         permanent: true,
       },
       {
@@ -310,6 +315,21 @@ const nextConfig = {
       {
         source: "/travel-tshirt",
         destination: "/why-jvto/the-jvto-difference/",
+        permanent: true,
+      },
+      {
+        source: "/how-it-works",
+        destination: "/travel-guide/booking-information/",
+        permanent: true,
+      },
+      {
+        source: "/reserve-now-pay-later",
+        destination: "/travel-guide/booking-information/",
+        permanent: true,
+      },
+      {
+        source: "/support/reserve-now-pay-later",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {

@@ -1,17 +1,20 @@
 import type { MetadataRoute } from 'next'
 
-const baseUrl = "https://javavolcano-touroperator.com"
+const baseUrl = "https://java-tour.com"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
     { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/why-jvto`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/why-jvto/the-jvto-difference`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/why-jvto/reviews`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/why-jvto/our-story`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/travel-guide`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/travel-guide/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${baseUrl}/travel-guide/booking-information/`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${baseUrl}/travel-guide/java-travel-tips/`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
 
     // Destinations
     { url: `${baseUrl}/destinations`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
