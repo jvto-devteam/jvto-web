@@ -27,11 +27,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
         <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
             <GoogleAnalytics />
           )}
+                  <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200..700"
+          rel="stylesheet"
+        />
         </Suspense>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
