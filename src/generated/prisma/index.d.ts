@@ -85362,10 +85362,10 @@ export namespace Prisma {
     package_itinerary_days?: boolean | packages$package_itinerary_daysArgs<ExtArgs>
     package_prices?: boolean | packages$package_pricesArgs<ExtArgs>
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["packages"]>
 
@@ -85397,10 +85397,10 @@ export namespace Prisma {
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
   }, ExtArgs["result"]["packages"]>
 
   export type packagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -85431,10 +85431,10 @@ export namespace Prisma {
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
   }, ExtArgs["result"]["packages"]>
 
   export type packagesSelectScalar = {
@@ -85479,25 +85479,25 @@ export namespace Prisma {
     package_itinerary_days?: boolean | packages$package_itinerary_daysArgs<ExtArgs>
     package_prices?: boolean | packages$package_pricesArgs<ExtArgs>
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type packagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
   }
   export type packagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     durations?: boolean | packages$durationsArgs<ExtArgs>
-    destinations_packages_end_destination_idTodestinations?: boolean | packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>
+    end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
-    destinations_packages_start_destination_idTodestinations?: boolean | packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
   }
 
   export type $packagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -85514,10 +85514,10 @@ export namespace Prisma {
       package_itinerary_days: Prisma.$package_itinerary_daysPayload<ExtArgs>[]
       package_prices: Prisma.$package_pricesPayload<ExtArgs>[]
       durations: Prisma.$durationsPayload<ExtArgs> | null
-      destinations_packages_end_destination_idTodestinations: Prisma.$destinationsPayload<ExtArgs> | null
+      end_destination: Prisma.$destinationsPayload<ExtArgs> | null
       order_channels: Prisma.$order_channelsPayload<ExtArgs> | null
       package_categories: Prisma.$package_categoriesPayload<ExtArgs> | null
-      destinations_packages_start_destination_idTodestinations: Prisma.$destinationsPayload<ExtArgs> | null
+      start_destination: Prisma.$destinationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -85951,10 +85951,10 @@ export namespace Prisma {
     package_itinerary_days<T extends packages$package_itinerary_daysArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_itinerary_daysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_daysPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_prices<T extends packages$package_pricesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_pricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_pricesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     durations<T extends packages$durationsArgs<ExtArgs> = {}>(args?: Subset<T, packages$durationsArgs<ExtArgs>>): Prisma__durationsClient<$Result.GetResult<Prisma.$durationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    destinations_packages_end_destination_idTodestinations<T extends packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    end_destination<T extends packages$end_destinationArgs<ExtArgs> = {}>(args?: Subset<T, packages$end_destinationArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     order_channels<T extends packages$order_channelsArgs<ExtArgs> = {}>(args?: Subset<T, packages$order_channelsArgs<ExtArgs>>): Prisma__order_channelsClient<$Result.GetResult<Prisma.$order_channelsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     package_categories<T extends packages$package_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_categoriesArgs<ExtArgs>>): Prisma__package_categoriesClient<$Result.GetResult<Prisma.$package_categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    destinations_packages_start_destination_idTodestinations<T extends packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    start_destination<T extends packages$start_destinationArgs<ExtArgs> = {}>(args?: Subset<T, packages$start_destinationArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -86665,9 +86665,9 @@ export namespace Prisma {
   }
 
   /**
-   * packages.destinations_packages_end_destination_idTodestinations
+   * packages.end_destination
    */
-  export type packages$destinations_packages_end_destination_idTodestinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type packages$end_destinationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the destinations
      */
@@ -86722,9 +86722,9 @@ export namespace Prisma {
   }
 
   /**
-   * packages.destinations_packages_start_destination_idTodestinations
+   * packages.start_destination
    */
-  export type packages$destinations_packages_start_destination_idTodestinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type packages$start_destinationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the destinations
      */
@@ -107556,10 +107556,10 @@ export namespace Prisma {
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     package_prices?: Package_pricesListRelationFilter
     durations?: XOR<DurationsNullableScalarRelationFilter, durationsWhereInput> | null
-    destinations_packages_end_destination_idTodestinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
+    end_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     order_channels?: XOR<Order_channelsNullableScalarRelationFilter, order_channelsWhereInput> | null
     package_categories?: XOR<Package_categoriesNullableScalarRelationFilter, package_categoriesWhereInput> | null
-    destinations_packages_start_destination_idTodestinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
+    start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }
 
   export type packagesOrderByWithRelationInput = {
@@ -107600,10 +107600,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysOrderByRelationAggregateInput
     package_prices?: package_pricesOrderByRelationAggregateInput
     durations?: durationsOrderByWithRelationInput
-    destinations_packages_end_destination_idTodestinations?: destinationsOrderByWithRelationInput
+    end_destination?: destinationsOrderByWithRelationInput
     order_channels?: order_channelsOrderByWithRelationInput
     package_categories?: package_categoriesOrderByWithRelationInput
-    destinations_packages_start_destination_idTodestinations?: destinationsOrderByWithRelationInput
+    start_destination?: destinationsOrderByWithRelationInput
   }
 
   export type packagesWhereUniqueInput = Prisma.AtLeast<{
@@ -107647,10 +107647,10 @@ export namespace Prisma {
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     package_prices?: Package_pricesListRelationFilter
     durations?: XOR<DurationsNullableScalarRelationFilter, durationsWhereInput> | null
-    destinations_packages_end_destination_idTodestinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
+    end_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     order_channels?: XOR<Order_channelsNullableScalarRelationFilter, order_channelsWhereInput> | null
     package_categories?: XOR<Package_categoriesNullableScalarRelationFilter, package_categoriesWhereInput> | null
-    destinations_packages_start_destination_idTodestinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
+    start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }, "id" | "code" | "slug">
 
   export type packagesOrderByWithAggregationInput = {
@@ -112524,8 +112524,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateInput = {
@@ -112555,8 +112555,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUpdateInput = {
@@ -112586,8 +112586,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateInput = {
@@ -112617,8 +112617,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsCreateManyInput = {
@@ -114542,10 +114542,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateInput = {
@@ -114620,10 +114620,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateInput = {
@@ -123674,17 +123674,17 @@ export namespace Prisma {
     connect?: package_destinationsWhereUniqueInput | package_destinationsWhereUniqueInput[]
   }
 
-  export type packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_end_destination_idTodestinationsInputEnvelope
+  export type packagesCreateNestedManyWithoutEnd_destinationInput = {
+    create?: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput> | packagesCreateWithoutEnd_destinationInput[] | packagesUncheckedCreateWithoutEnd_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutEnd_destinationInput | packagesCreateOrConnectWithoutEnd_destinationInput[]
+    createMany?: packagesCreateManyEnd_destinationInputEnvelope
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
   }
 
-  export type packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_start_destination_idTodestinationsInputEnvelope
+  export type packagesCreateNestedManyWithoutStart_destinationInput = {
+    create?: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput> | packagesCreateWithoutStart_destinationInput[] | packagesUncheckedCreateWithoutStart_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutStart_destinationInput | packagesCreateOrConnectWithoutStart_destinationInput[]
+    createMany?: packagesCreateManyStart_destinationInputEnvelope
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
   }
 
@@ -123737,17 +123737,17 @@ export namespace Prisma {
     connect?: package_destinationsWhereUniqueInput | package_destinationsWhereUniqueInput[]
   }
 
-  export type packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_end_destination_idTodestinationsInputEnvelope
+  export type packagesUncheckedCreateNestedManyWithoutEnd_destinationInput = {
+    create?: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput> | packagesCreateWithoutEnd_destinationInput[] | packagesUncheckedCreateWithoutEnd_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutEnd_destinationInput | packagesCreateOrConnectWithoutEnd_destinationInput[]
+    createMany?: packagesCreateManyEnd_destinationInputEnvelope
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
   }
 
-  export type packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_start_destination_idTodestinationsInputEnvelope
+  export type packagesUncheckedCreateNestedManyWithoutStart_destinationInput = {
+    create?: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput> | packagesCreateWithoutStart_destinationInput[] | packagesUncheckedCreateWithoutStart_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutStart_destinationInput | packagesCreateOrConnectWithoutStart_destinationInput[]
+    createMany?: packagesCreateManyStart_destinationInputEnvelope
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
   }
 
@@ -123849,31 +123849,31 @@ export namespace Prisma {
     deleteMany?: package_destinationsScalarWhereInput | package_destinationsScalarWhereInput[]
   }
 
-  export type packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    upsert?: packagesUpsertWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpsertWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_end_destination_idTodestinationsInputEnvelope
+  export type packagesUpdateManyWithoutEnd_destinationNestedInput = {
+    create?: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput> | packagesCreateWithoutEnd_destinationInput[] | packagesUncheckedCreateWithoutEnd_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutEnd_destinationInput | packagesCreateOrConnectWithoutEnd_destinationInput[]
+    upsert?: packagesUpsertWithWhereUniqueWithoutEnd_destinationInput | packagesUpsertWithWhereUniqueWithoutEnd_destinationInput[]
+    createMany?: packagesCreateManyEnd_destinationInputEnvelope
     set?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     disconnect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     delete?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
-    update?: packagesUpdateWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpdateWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    updateMany?: packagesUpdateManyWithWhereWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpdateManyWithWhereWithoutDestinations_packages_end_destination_idTodestinationsInput[]
+    update?: packagesUpdateWithWhereUniqueWithoutEnd_destinationInput | packagesUpdateWithWhereUniqueWithoutEnd_destinationInput[]
+    updateMany?: packagesUpdateManyWithWhereWithoutEnd_destinationInput | packagesUpdateManyWithWhereWithoutEnd_destinationInput[]
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
-  export type packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    upsert?: packagesUpsertWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpsertWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_start_destination_idTodestinationsInputEnvelope
+  export type packagesUpdateManyWithoutStart_destinationNestedInput = {
+    create?: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput> | packagesCreateWithoutStart_destinationInput[] | packagesUncheckedCreateWithoutStart_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutStart_destinationInput | packagesCreateOrConnectWithoutStart_destinationInput[]
+    upsert?: packagesUpsertWithWhereUniqueWithoutStart_destinationInput | packagesUpsertWithWhereUniqueWithoutStart_destinationInput[]
+    createMany?: packagesCreateManyStart_destinationInputEnvelope
     set?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     disconnect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     delete?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
-    update?: packagesUpdateWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpdateWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    updateMany?: packagesUpdateManyWithWhereWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpdateManyWithWhereWithoutDestinations_packages_start_destination_idTodestinationsInput[]
+    update?: packagesUpdateWithWhereUniqueWithoutStart_destinationInput | packagesUpdateWithWhereUniqueWithoutStart_destinationInput[]
+    updateMany?: packagesUpdateManyWithWhereWithoutStart_destinationInput | packagesUpdateManyWithWhereWithoutStart_destinationInput[]
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
@@ -123975,31 +123975,31 @@ export namespace Prisma {
     deleteMany?: package_destinationsScalarWhereInput | package_destinationsScalarWhereInput[]
   }
 
-  export type packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    upsert?: packagesUpsertWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpsertWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_end_destination_idTodestinationsInputEnvelope
+  export type packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput = {
+    create?: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput> | packagesCreateWithoutEnd_destinationInput[] | packagesUncheckedCreateWithoutEnd_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutEnd_destinationInput | packagesCreateOrConnectWithoutEnd_destinationInput[]
+    upsert?: packagesUpsertWithWhereUniqueWithoutEnd_destinationInput | packagesUpsertWithWhereUniqueWithoutEnd_destinationInput[]
+    createMany?: packagesCreateManyEnd_destinationInputEnvelope
     set?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     disconnect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     delete?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
-    update?: packagesUpdateWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpdateWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput[]
-    updateMany?: packagesUpdateManyWithWhereWithoutDestinations_packages_end_destination_idTodestinationsInput | packagesUpdateManyWithWhereWithoutDestinations_packages_end_destination_idTodestinationsInput[]
+    update?: packagesUpdateWithWhereUniqueWithoutEnd_destinationInput | packagesUpdateWithWhereUniqueWithoutEnd_destinationInput[]
+    updateMany?: packagesUpdateManyWithWhereWithoutEnd_destinationInput | packagesUpdateManyWithWhereWithoutEnd_destinationInput[]
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
-  export type packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput = {
-    create?: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput> | packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[] | packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    connectOrCreate?: packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    upsert?: packagesUpsertWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpsertWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    createMany?: packagesCreateManyDestinations_packages_start_destination_idTodestinationsInputEnvelope
+  export type packagesUncheckedUpdateManyWithoutStart_destinationNestedInput = {
+    create?: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput> | packagesCreateWithoutStart_destinationInput[] | packagesUncheckedCreateWithoutStart_destinationInput[]
+    connectOrCreate?: packagesCreateOrConnectWithoutStart_destinationInput | packagesCreateOrConnectWithoutStart_destinationInput[]
+    upsert?: packagesUpsertWithWhereUniqueWithoutStart_destinationInput | packagesUpsertWithWhereUniqueWithoutStart_destinationInput[]
+    createMany?: packagesCreateManyStart_destinationInputEnvelope
     set?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     disconnect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     delete?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
-    update?: packagesUpdateWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpdateWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput[]
-    updateMany?: packagesUpdateManyWithWhereWithoutDestinations_packages_start_destination_idTodestinationsInput | packagesUpdateManyWithWhereWithoutDestinations_packages_start_destination_idTodestinationsInput[]
+    update?: packagesUpdateWithWhereUniqueWithoutStart_destinationInput | packagesUpdateWithWhereUniqueWithoutStart_destinationInput[]
+    updateMany?: packagesUpdateManyWithWhereWithoutStart_destinationInput | packagesUpdateManyWithWhereWithoutStart_destinationInput[]
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
@@ -126833,8 +126833,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivitiesInput = {
@@ -126863,8 +126863,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivitiesInput = {
@@ -126970,8 +126970,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivitiesInput = {
@@ -127000,8 +127000,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutActivitiesInput = {
@@ -127129,8 +127129,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_endsInput = {
@@ -127159,8 +127159,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_endsInput = {
@@ -127295,8 +127295,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_endsInput = {
@@ -127325,8 +127325,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_endsInput = {
@@ -127427,8 +127427,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_startsInput = {
@@ -127457,8 +127457,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_startsInput = {
@@ -127593,8 +127593,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_startsInput = {
@@ -127623,8 +127623,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_startsInput = {
@@ -128835,8 +128835,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -128865,8 +128865,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -129069,8 +129069,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -129099,8 +129099,8 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_schedulesInput = {
@@ -135013,10 +135013,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutBookingsInput = {
@@ -135824,10 +135824,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutBookingsInput = {
@@ -136065,10 +136065,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutCombined_package_detailsInput = {
@@ -136190,10 +136190,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutCombined_package_detailsInput = {
@@ -137566,8 +137566,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_activitiesInput = {
@@ -137596,8 +137596,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_activitiesInput = {
@@ -137685,8 +137685,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_activitiesInput = {
@@ -137715,8 +137715,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type vendorsUpsertWithoutDestination_activitiesInput = {
@@ -138042,7 +138042,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesCreateWithoutEnd_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -138077,10 +138077,10 @@ export namespace Prisma {
     durations?: durationsCreateNestedOneWithoutPackagesInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
-  export type packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUncheckedCreateWithoutEnd_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -138118,17 +138118,17 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
   }
 
-  export type packagesCreateOrConnectWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesCreateOrConnectWithoutEnd_destinationInput = {
     where: packagesWhereUniqueInput
-    create: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput>
+    create: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput>
   }
 
-  export type packagesCreateManyDestinations_packages_end_destination_idTodestinationsInputEnvelope = {
-    data: packagesCreateManyDestinations_packages_end_destination_idTodestinationsInput | packagesCreateManyDestinations_packages_end_destination_idTodestinationsInput[]
+  export type packagesCreateManyEnd_destinationInputEnvelope = {
+    data: packagesCreateManyEnd_destinationInput | packagesCreateManyEnd_destinationInput[]
     skipDuplicates?: boolean
   }
 
-  export type packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesCreateWithoutStart_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -138161,12 +138161,12 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
   }
 
-  export type packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUncheckedCreateWithoutStart_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -138204,13 +138204,13 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
   }
 
-  export type packagesCreateOrConnectWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesCreateOrConnectWithoutStart_destinationInput = {
     where: packagesWhereUniqueInput
-    create: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput>
+    create: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput>
   }
 
-  export type packagesCreateManyDestinations_packages_start_destination_idTodestinationsInputEnvelope = {
-    data: packagesCreateManyDestinations_packages_start_destination_idTodestinationsInput | packagesCreateManyDestinations_packages_start_destination_idTodestinationsInput[]
+  export type packagesCreateManyStart_destinationInputEnvelope = {
+    data: packagesCreateManyStart_destinationInput | packagesCreateManyStart_destinationInput[]
     skipDuplicates?: boolean
   }
 
@@ -138417,20 +138417,20 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"package_destinations"> | Date | string | null
   }
 
-  export type packagesUpsertWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUpsertWithWhereUniqueWithoutEnd_destinationInput = {
     where: packagesWhereUniqueInput
-    update: XOR<packagesUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput>
-    create: XOR<packagesCreateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_end_destination_idTodestinationsInput>
+    update: XOR<packagesUpdateWithoutEnd_destinationInput, packagesUncheckedUpdateWithoutEnd_destinationInput>
+    create: XOR<packagesCreateWithoutEnd_destinationInput, packagesUncheckedCreateWithoutEnd_destinationInput>
   }
 
-  export type packagesUpdateWithWhereUniqueWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUpdateWithWhereUniqueWithoutEnd_destinationInput = {
     where: packagesWhereUniqueInput
-    data: XOR<packagesUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput, packagesUncheckedUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput>
+    data: XOR<packagesUpdateWithoutEnd_destinationInput, packagesUncheckedUpdateWithoutEnd_destinationInput>
   }
 
-  export type packagesUpdateManyWithWhereWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUpdateManyWithWhereWithoutEnd_destinationInput = {
     where: packagesScalarWhereInput
-    data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsInput>
+    data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutEnd_destinationInput>
   }
 
   export type packagesScalarWhereInput = {
@@ -138465,20 +138465,20 @@ export namespace Prisma {
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
   }
 
-  export type packagesUpsertWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUpsertWithWhereUniqueWithoutStart_destinationInput = {
     where: packagesWhereUniqueInput
-    update: XOR<packagesUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput>
-    create: XOR<packagesCreateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedCreateWithoutDestinations_packages_start_destination_idTodestinationsInput>
+    update: XOR<packagesUpdateWithoutStart_destinationInput, packagesUncheckedUpdateWithoutStart_destinationInput>
+    create: XOR<packagesCreateWithoutStart_destinationInput, packagesUncheckedCreateWithoutStart_destinationInput>
   }
 
-  export type packagesUpdateWithWhereUniqueWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUpdateWithWhereUniqueWithoutStart_destinationInput = {
     where: packagesWhereUniqueInput
-    data: XOR<packagesUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput, packagesUncheckedUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput>
+    data: XOR<packagesUpdateWithoutStart_destinationInput, packagesUncheckedUpdateWithoutStart_destinationInput>
   }
 
-  export type packagesUpdateManyWithWhereWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUpdateManyWithWhereWithoutStart_destinationInput = {
     where: packagesScalarWhereInput
-    data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsInput>
+    data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutStart_destinationInput>
   }
 
   export type booking_payment_termsCreateWithoutDiscountsInput = {
@@ -138807,10 +138807,10 @@ export namespace Prisma {
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutDurationsInput = {
@@ -139255,8 +139255,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutHotelsInput = {
@@ -139285,8 +139285,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutHotelsInput = {
@@ -139519,8 +139519,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutHotelsInput = {
@@ -139549,8 +139549,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type package_hotel_optionsUpsertWithWhereUniqueWithoutHotelsInput = {
@@ -139979,9 +139979,9 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutOrder_channelsInput = {
@@ -140348,10 +140348,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_addonsInput = {
@@ -140479,10 +140479,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_addonsInput = {
@@ -140556,9 +140556,9 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_categoriesInput = {
@@ -140651,8 +140651,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackage_destinationsInput = {
@@ -140681,8 +140681,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackage_destinationsInput = {
@@ -140722,10 +140722,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_destinationsInput = {
@@ -140808,8 +140808,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -140838,8 +140838,8 @@ export namespace Prisma {
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type packagesUpsertWithoutPackage_destinationsInput = {
@@ -140885,10 +140885,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -140982,10 +140982,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_excludesInput = {
@@ -141101,10 +141101,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_excludesInput = {
@@ -141238,10 +141238,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_hotel_optionsInput = {
@@ -141397,10 +141397,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_hotel_optionsInput = {
@@ -141473,10 +141473,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_imagesInput = {
@@ -141565,10 +141565,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_imagesInput = {
@@ -141662,10 +141662,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_includesInput = {
@@ -141781,10 +141781,10 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_includesInput = {
@@ -142168,10 +142168,10 @@ export namespace Prisma {
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_itinerary_daysInput = {
@@ -142421,10 +142421,10 @@ export namespace Prisma {
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_itinerary_daysInput = {
@@ -142497,10 +142497,10 @@ export namespace Prisma {
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
-    destinations_packages_end_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    destinations_packages_start_destination_idTodestinations?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_pricesInput = {
@@ -142616,10 +142616,10 @@ export namespace Prisma {
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_pricesInput = {
@@ -143129,7 +143129,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -143159,7 +143159,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_start_destination_idTodestinationsInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -143252,7 +143252,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -143282,7 +143282,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutDestinations_packages_end_destination_idTodestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -143553,7 +143553,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -143583,7 +143583,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
   }
 
   export type order_channelsUpsertWithoutPackagesInput = {
@@ -143694,7 +143694,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -143724,7 +143724,7 @@ export namespace Prisma {
     destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
   }
 
   export type booking_payment_termsCreateWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -147692,7 +147692,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
   }
 
-  export type packagesCreateManyDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesCreateManyEnd_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -147720,7 +147720,7 @@ export namespace Prisma {
     aggregate_rating_count?: number | null
   }
 
-  export type packagesCreateManyDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesCreateManyStart_destinationInput = {
     id?: bigint | number
     uuid?: string | null
     code?: string | null
@@ -148065,7 +148065,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type packagesUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUpdateWithoutEnd_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148100,10 +148100,10 @@ export namespace Prisma {
     durations?: durationsUpdateOneWithoutPackagesNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
-  export type packagesUncheckedUpdateWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUncheckedUpdateWithoutEnd_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148141,7 +148141,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
   }
 
-  export type packagesUncheckedUpdateManyWithoutDestinations_packages_end_destination_idTodestinationsInput = {
+  export type packagesUncheckedUpdateManyWithoutEnd_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148169,7 +148169,7 @@ export namespace Prisma {
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
-  export type packagesUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUpdateWithoutStart_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148202,12 +148202,12 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
   }
 
-  export type packagesUncheckedUpdateWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUncheckedUpdateWithoutStart_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148245,7 +148245,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
   }
 
-  export type packagesUncheckedUpdateManyWithoutDestinations_packages_start_destination_idTodestinationsInput = {
+  export type packagesUncheckedUpdateManyWithoutStart_destinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     uuid?: NullableStringFieldUpdateOperationsInput | string | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148627,10 +148627,10 @@ export namespace Prisma {
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutDurationsInput = {
@@ -149452,9 +149452,9 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutOrder_channelsInput = {
@@ -149666,9 +149666,9 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_end_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
-    destinations_packages_start_destination_idTodestinations?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_categoriesInput = {
