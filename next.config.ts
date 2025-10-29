@@ -75,7 +75,7 @@ const nextConfig = {
       },
       {
         source: "/experiences/photography-tours",
-        destination: "/tours/style/experiences/photography-tours",
+        destination: "/tours/style/photography-tours",
         permanent: true,
       },
       {
@@ -293,16 +293,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/accommodations",
-        destination: "/why-jvto/java-travel-tips/",
-        permanent: true,
-      },
-      {
-        source: "/transportations",
-        destination: "/why-jvto/java-travel-tips/",
-        permanent: true,
-      },
-      {
         source: "/police-escort",
         destination: "/why-jvto/the-jvto-difference/",
         permanent: true,
@@ -350,6 +340,16 @@ const nextConfig = {
       {
         source: "/privacy-policy",
         destination: "/travel-guide/booking-information/",
+        permanent: true,
+      },
+      {
+        source: "/accommodations",
+        destination: "/travel-guide/java-travel-tips/",
+        permanent: true,
+      },
+      {
+        source: "/transportations",
+        destination: "/travel-guide/java-travel-tips/",
         permanent: true,
       },
       {
