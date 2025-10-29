@@ -1,3 +1,4 @@
+import { activities } from './../../../../generated/prisma/index.d';
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
@@ -36,7 +37,11 @@ export async function GET(
       package_includes: { include: { item_includes: true } },
       package_itinerary_days: {
         orderBy: { day_no: "asc" },
-        include: { package_itinerary_day_details: true },
+        include: {
+          package_itinerary_day_details: {
+            include: { activities: true },
+          },
+        },
       },
       package_prices: {
         include: { price_tiers: true },
@@ -165,7 +170,7 @@ export async function GET(
               summary: day.activity,
               activities:
                 day.package_itinerary_day_details?.map((act: any) => ({
-                  type: act.type || "",
+                  type: act.activities.activity_category_id,
                   timeApprox: act.time || "",
                   fromLocation: { name: act.from_location || "" },
                   toLocation: { name: act.to_location || "" },
