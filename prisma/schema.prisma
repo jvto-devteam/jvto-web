@@ -731,6 +731,7 @@ model destinations {
   updated_at                                           DateTime?                        @db.Timestamp(6)
   deleted_at                                           DateTime?                        @db.Timestamp(6)
   slug                                                 String?                          @db.VarChar(255)
+  highlight                                            String?                          
   activities                                           activities[]
   activity_ends                                        activity_ends[]
   activity_starts                                      activity_starts[]
