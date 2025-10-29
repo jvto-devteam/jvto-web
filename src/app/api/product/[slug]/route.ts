@@ -32,7 +32,11 @@ export async function GET(
       package_includes: { include: { item_includes: true } },
       package_itinerary_days: {
         orderBy: { day_no: "asc" },
-        include: { package_itinerary_day_details: true },
+        include: {
+          package_itinerary_day_details: {
+            include: { activities: true },
+          },
+        },
       },
       package_prices: {
         include: { price_tiers: true },
@@ -113,12 +117,12 @@ export async function GET(
 
           physicality: serialized.physicality,
 
-          inclusions: serialized.package_includes.map(
-            (inc: any) => inc.item_includes?.item?.replace(/<\/?b>/g, "")
+          inclusions: serialized.package_includes.map((inc: any) =>
+            inc.item_includes?.item?.replace(/<\/?b>/g, "")
           ),
 
-          exclusions: serialized.package_excludes.map(
-            (exc: any) => exc.item_excludes?.item?.replace(/<\/?b>/g, "")
+          exclusions: serialized.package_excludes.map((exc: any) =>
+            exc.item_excludes?.item?.replace(/<\/?b>/g, "")
           ),
 
           addOns: serialized.package_addons.map((addon: any) => ({
@@ -170,16 +174,18 @@ export async function GET(
           travelerRequirements: travelerRequirements,
 
           marketing: {
-            perfectFor:
-              ["Couples, friends, and small private groups seeking an intense volcano & waterfall experience in East Java"],
+            perfectFor: [
+              "Couples, friends, and small private groups seeking an intense volcano & waterfall experience in East Java",
+            ],
             highlightsBullets: serialized.package_destinations
               .filter(
                 (d: any) => d.destination_id != 3 && d.destination_id != 4
               )
               .map((d: any) => d.destinations.highlight),
-            safetyPositioning:
-              ["Locally operated, professional guides, safety gear included"],
-              tone : ""
+            safetyPositioning: [
+              "Locally operated, professional guides, safety gear included",
+            ],
+            tone: "",
           },
           operationalComplexityNote: [],
           provider: {
