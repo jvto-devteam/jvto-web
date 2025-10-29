@@ -675,7 +675,8 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
-  slug: 'slug'
+  slug: 'slug',
+  highlight: 'highlight'
 };
 
 exports.Prisma.DiscountsScalarFieldEnum = {

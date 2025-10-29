@@ -1,4 +1,3 @@
-import { activities } from "./../../../../generated/prisma/index.d";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
@@ -35,7 +34,14 @@ export async function GET(
         orderBy: { day_no: "asc" },
         include: { package_itinerary_day_details: true },
       },
-      package_prices: { include: { price_tiers: true } },
+      package_prices: {
+        include: { price_tiers: true },
+        orderBy: {
+          price_tiers: {
+            min_pax: "asc",
+          },
+        },
+      },
     },
   });
 
@@ -62,6 +68,28 @@ export async function GET(
       .map((a: any) => a.activity_name) // ambil hanya nama aktivitasnya
       .filter(Boolean) || [];
 
+  function ucwords(str) {
+    str = str.toLowerCase();
+    return str.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+  }
+  const prices = serialized.package_prices?.map((p: any) => p.price) || [];
+
+  const lowPrice = prices.length ? Math.min(...prices) : 0;
+  const highPrice = prices.length ? Math.max(...prices) : 0;
+  let travelerRequirements = [
+    "Moderate fitness required (night hikes, uneven surfaces)",
+    "Warm clothing (5–10°C before sunrise)",
+    "Sturdy hiking shoes",
+  ];
+  const hasIjen = serialized.package_destinations?.some(
+    (d: any) => Number(d.destination_id) == 2
+  );
+
+  if (hasIjen) {
+    travelerRequirements.push("Printed passport copy required for Ijen permit");
+  }
   const mapped =
     all === "true"
       ? serialized // kalau ?all=true kirim data lengkap
@@ -86,40 +114,50 @@ export async function GET(
           physicality: serialized.physicality,
 
           inclusions: serialized.package_includes.map(
-            (inc: any) => inc.item_includes?.item
+            (inc: any) => inc.item_includes?.item?.replace(/<\/?b>/g, "")
           ),
 
           exclusions: serialized.package_excludes.map(
-            (exc: any) => exc.item_excludes?.item
+            (exc: any) => exc.item_excludes?.item?.replace(/<\/?b>/g, "")
           ),
 
           addOns: serialized.package_addons.map((addon: any) => ({
-            name: addon.addons?.name,
-            description: addon.addons?.is_transport ? `Transport ${addon.addons.transport_type}` : "",
+            name: addon.addons?.is_transport
+              ? `Transport to ${ucwords(addon.addons?.name)}`
+              : addon.addons?.name,
+            description: addon.addons?.is_transport
+              ? `Transport to ${ucwords(addon.addons?.name)} - ${ucwords(
+                  addon.addons.transport_type
+                )} Car (${
+                  addon.addons.transport_type == "small"
+                    ? "1-3 Pax"
+                    : addon.addons.transport_type == "medium"
+                    ? "4-9 Pax"
+                    : "10 Pax Above"
+                })`
+              : "",
             price: addon.addons?.price,
           })),
 
           offers: {
             currency: "IDR",
             aggregateOffer: {
-              lowPrice: "",
-              highPrice: "",
+              lowPrice: lowPrice,
+              highPrice: highPrice,
               priceCurrency: "IDR",
             },
-            tiers: [
-              {
-                sku: "",
-                paxMin: "",
-                paxMax: "",
-                pricePerPerson: "",
-                unit: "person",
-              },
-            ],
+            tiers: serialized.package_prices?.map((p: any) => ({
+              sku: `${serialized.code}-${p.price_tiers?.min_pax}-${p.price_tiers?.max_pax}PAX`,
+              paxMin: p.price_tiers?.min_pax || 0,
+              paxMax: p.price_tiers?.max_pax || 0,
+              pricePerPerson: p.price || 0,
+              unit: "person",
+            })),
           },
 
           aggregateRating: {
-            ratingValue: "",
-            reviewCount: "",
+            ratingValue: 4.9,
+            reviewCount: 102,
             sourceExamples: [
               {
                 text: "",
@@ -129,19 +167,26 @@ export async function GET(
             ],
           },
 
-          travelerRequirements: [],
+          travelerRequirements: travelerRequirements,
 
           marketing: {
-            perfectFor: "",
-            highlightsBullets: [],
-            safetyPositioning: "",
+            perfectFor:
+              ["Couples, friends, and small private groups seeking an intense volcano & waterfall experience in East Java"],
+            highlightsBullets: serialized.package_destinations
+              .filter(
+                (d: any) => d.destination_id != 3 && d.destination_id != 4
+              )
+              .map((d: any) => d.destinations.highlight),
+            safetyPositioning:
+              ["Locally operated, professional guides, safety gear included"],
+              tone : ""
           },
-
+          operationalComplexityNote: [],
           provider: {
-            name: "",
-            legalEntity: "",
-            headOffice: "",
-            license: "",
+            name: "Java Volcano Tour Operator (JVTO)",
+            legalEntity: "PT. JAVA VOLCANO RENDEZVOUS",
+            headOffice: "Bondowoso, East Java, Indonesia",
+            license: "0220001393513",
           },
         };
 

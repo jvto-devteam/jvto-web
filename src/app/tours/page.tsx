@@ -21,7 +21,7 @@ export default async function ToursPage() {
               key={pkg.id}
               className="border p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
-              <a href={`api/tours/${pkg.slug}`}>
+              <a href={`api/product/${pkg.slug}`}>
                 <h2 className="text-lg font-semibold">{pkg.name}</h2>
                 <p className="text-sm text-gray-600">
                   Category: {pkg.package_categories?.name || "-"}

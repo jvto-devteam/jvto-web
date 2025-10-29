@@ -57460,6 +57460,7 @@ export namespace Prisma {
     updated_at: Date | null
     deleted_at: Date | null
     slug: string | null
+    highlight: string | null
   }
 
   export type DestinationsMaxAggregateOutputType = {
@@ -57482,6 +57483,7 @@ export namespace Prisma {
     updated_at: Date | null
     deleted_at: Date | null
     slug: string | null
+    highlight: string | null
   }
 
   export type DestinationsCountAggregateOutputType = {
@@ -57504,6 +57506,7 @@ export namespace Prisma {
     updated_at: number
     deleted_at: number
     slug: number
+    highlight: number
     _all: number
   }
 
@@ -57536,6 +57539,7 @@ export namespace Prisma {
     updated_at?: true
     deleted_at?: true
     slug?: true
+    highlight?: true
   }
 
   export type DestinationsMaxAggregateInputType = {
@@ -57558,6 +57562,7 @@ export namespace Prisma {
     updated_at?: true
     deleted_at?: true
     slug?: true
+    highlight?: true
   }
 
   export type DestinationsCountAggregateInputType = {
@@ -57580,6 +57585,7 @@ export namespace Prisma {
     updated_at?: true
     deleted_at?: true
     slug?: true
+    highlight?: true
     _all?: true
   }
 
@@ -57689,6 +57695,7 @@ export namespace Prisma {
     updated_at: Date | null
     deleted_at: Date | null
     slug: string | null
+    highlight: string | null
     _count: DestinationsCountAggregateOutputType | null
     _avg: DestinationsAvgAggregateOutputType | null
     _sum: DestinationsSumAggregateOutputType | null
@@ -57730,6 +57737,7 @@ export namespace Prisma {
     updated_at?: boolean
     deleted_at?: boolean
     slug?: boolean
+    highlight?: boolean
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
     activity_starts?: boolean | destinations$activity_startsArgs<ExtArgs>
@@ -57762,6 +57770,7 @@ export namespace Prisma {
     updated_at?: boolean
     deleted_at?: boolean
     slug?: boolean
+    highlight?: boolean
   }, ExtArgs["result"]["destinations"]>
 
   export type destinationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -57784,6 +57793,7 @@ export namespace Prisma {
     updated_at?: boolean
     deleted_at?: boolean
     slug?: boolean
+    highlight?: boolean
   }, ExtArgs["result"]["destinations"]>
 
   export type destinationsSelectScalar = {
@@ -57806,9 +57816,10 @@ export namespace Prisma {
     updated_at?: boolean
     deleted_at?: boolean
     slug?: boolean
+    highlight?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "thumbnail_url" | "description" | "weather_by_season" | "rainfall_intensity" | "trail_details" | "required_gear" | "difficulty_level" | "environmental_factors" | "physical_requirements" | "main_attractions" | "best_time_to_visit" | "tips_for_visitors" | "created_at" | "updated_at" | "deleted_at" | "slug", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "thumbnail_url" | "description" | "weather_by_season" | "rainfall_intensity" | "trail_details" | "required_gear" | "difficulty_level" | "environmental_factors" | "physical_requirements" | "main_attractions" | "best_time_to_visit" | "tips_for_visitors" | "created_at" | "updated_at" | "deleted_at" | "slug" | "highlight", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -57857,6 +57868,7 @@ export namespace Prisma {
       updated_at: Date | null
       deleted_at: Date | null
       slug: string | null
+      highlight: string | null
     }, ExtArgs["result"]["destinations"]>
     composites: {}
   }
@@ -58308,6 +58320,7 @@ export namespace Prisma {
     readonly updated_at: FieldRef<"destinations", 'DateTime'>
     readonly deleted_at: FieldRef<"destinations", 'DateTime'>
     readonly slug: FieldRef<"destinations", 'String'>
+    readonly highlight: FieldRef<"destinations", 'String'>
   }
     
 
@@ -101425,7 +101438,8 @@ export namespace Prisma {
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
-    slug: 'slug'
+    slug: 'slug',
+    highlight: 'highlight'
   };
 
   export type DestinationsScalarFieldEnum = (typeof DestinationsScalarFieldEnum)[keyof typeof DestinationsScalarFieldEnum]
@@ -105686,6 +105700,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     slug?: StringNullableFilter<"destinations"> | string | null
+    highlight?: StringNullableFilter<"destinations"> | string | null
     activities?: ActivitiesListRelationFilter
     activity_ends?: Activity_endsListRelationFilter
     activity_starts?: Activity_startsListRelationFilter
@@ -105717,6 +105732,7 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
+    highlight?: SortOrderInput | SortOrder
     activities?: activitiesOrderByRelationAggregateInput
     activity_ends?: activity_endsOrderByRelationAggregateInput
     activity_starts?: activity_startsOrderByRelationAggregateInput
@@ -105751,6 +105767,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     slug?: StringNullableFilter<"destinations"> | string | null
+    highlight?: StringNullableFilter<"destinations"> | string | null
     activities?: ActivitiesListRelationFilter
     activity_ends?: Activity_endsListRelationFilter
     activity_starts?: Activity_startsListRelationFilter
@@ -105782,6 +105799,7 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
+    highlight?: SortOrderInput | SortOrder
     _count?: destinationsCountOrderByAggregateInput
     _avg?: destinationsAvgOrderByAggregateInput
     _max?: destinationsMaxOrderByAggregateInput
@@ -105812,6 +105830,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
     slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    highlight?: StringNullableWithAggregatesFilter<"destinations"> | string | null
   }
 
   export type discountsWhereInput = {
@@ -112517,6 +112536,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -112548,6 +112568,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -112579,6 +112600,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -112610,6 +112632,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -112641,6 +112664,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
   }
 
   export type destinationsUpdateManyMutationInput = {
@@ -112663,6 +112687,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type destinationsUncheckedUpdateManyInput = {
@@ -112685,6 +112710,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type discountsCreateInput = {
@@ -118700,6 +118726,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     deleted_at?: SortOrder
     slug?: SortOrder
+    highlight?: SortOrder
   }
 
   export type destinationsAvgOrderByAggregateInput = {
@@ -118726,6 +118753,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     deleted_at?: SortOrder
     slug?: SortOrder
+    highlight?: SortOrder
   }
 
   export type destinationsMinOrderByAggregateInput = {
@@ -118748,6 +118776,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     deleted_at?: SortOrder
     slug?: SortOrder
+    highlight?: SortOrder
   }
 
   export type destinationsSumOrderByAggregateInput = {
@@ -126827,6 +126856,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -126857,6 +126887,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -126964,6 +126995,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -126994,6 +127026,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -127123,6 +127156,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -127153,6 +127187,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -127289,6 +127324,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -127319,6 +127355,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -127421,6 +127458,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -127451,6 +127489,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -127587,6 +127626,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -127617,6 +127657,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -128829,6 +128870,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -128859,6 +128901,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -129063,6 +129106,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -129093,6 +129137,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -137560,6 +137605,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -137590,6 +137636,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -137679,6 +137726,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -137709,6 +137757,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -139249,6 +139298,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -139279,6 +139329,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -139513,6 +139564,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -139543,6 +139595,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -140645,6 +140698,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -140675,6 +140729,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -140802,6 +140857,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -140832,6 +140888,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -143122,6 +143179,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -143152,6 +143210,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -143245,6 +143304,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -143275,6 +143335,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     slug?: string | null
+    highlight?: string | null
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -143546,6 +143607,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -143576,6 +143638,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -143687,6 +143750,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -143717,6 +143781,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
