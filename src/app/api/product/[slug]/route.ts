@@ -195,6 +195,14 @@ export async function GET(
             license: "0220001393513",
           },
         };
+    if (searchParams.get("download") === "true") {
+      return new Response(JSON.stringify(mapped, null, 2), {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Disposition": `attachment; filename="product-${serialized.code}.json"`,
+        },
+      });
+    }
 
   return Response.json(mapped);
 }
