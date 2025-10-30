@@ -6,6 +6,7 @@ export default async function ToursPage() {
       package_categories: true,
       durations: true,
     },
+    where: { is_publish: true },
   });
 
   return (
@@ -21,15 +22,47 @@ export default async function ToursPage() {
               key={pkg.id}
               className="border p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
-              <a href={`api/product/${pkg.slug}`}>
-                <h2 className="text-lg font-semibold">{pkg.name}</h2>
-                <p className="text-sm text-gray-600">
-                  Category: {pkg.package_categories?.name || "-"}
-                </p>
-                <p className="text-sm text-gray-600">
-                  Duration: {pkg.durations?.name || "-"}
-                </p>
-              </a>
+              <h2 className="text-lg font-semibold mb-2">{pkg.name}</h2>
+              <p className="text-sm text-gray-600">
+                Category: {pkg.package_categories?.name || "-"}
+              </p>
+              <p className="text-sm text-gray-600 mb-3">
+                Duration: {pkg.durations?.name || "-"}
+              </p>
+
+              <div className="flex gap-3">
+                {/* Link to view API */}
+                <a
+                  href={`api/product/${pkg.slug}`}
+                  target="_blank"
+                  className="text-blue-600 hover:underline"
+                >
+                  View Product JSON
+                </a>
+                <a
+                  href={`api/trip/${pkg.slug}`}
+                  target="_blank"
+                  className="text-blue-600 hover:underline"
+                >
+                  View Trip JSON
+                </a>
+
+                {/* Link to download product JSON */}
+                <a
+                  href={`api/product/${pkg.slug}?download=true`}
+                  className="text-green-600 hover:underline"
+                >
+                  Download Product JSON
+                </a>
+
+                {/* Link to download trip JSON */}
+                <a
+                  href={`api/trip/${pkg.slug}?download=true`}
+                  className="text-green-600 hover:underline"
+                >
+                  Download Trip JSON
+                </a>
+              </div>
             </li>
           ))}
         </ul>

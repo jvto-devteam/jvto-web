@@ -1,4 +1,3 @@
-import { activities } from './../../../../generated/prisma/index.d';
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
@@ -39,8 +38,14 @@ export async function GET(
         orderBy: { day_no: "asc" },
         include: {
           package_itinerary_day_details: {
-            include: { activities: true },
+            orderBy: { sort_order: "asc" },
+            include: {
+              activities: {
+                include: { destinations: true, activity_categories: true },
+              },
+            },
           },
+          hotels: true,
         },
       },
       package_prices: {
@@ -73,9 +78,27 @@ export async function GET(
     (d: any) => Number(d.destination_id) == 7 || Number(d.destination_id) == 6
   );
 
-  let gearRecommended = ["Warm jacket, beanie, gloves (5–10°C before sunrise)"];
+  const gearRecommended = [
+    "Warm jacket, beanie, gloves (5–10°C before sunrise)",
+  ];
+  const crewRolesNeeded = [
+    "Driver (full-trip)",
+    "Escort Guide / English-speaking driver-guide",
+  ];
+
+  function formatTime(timeString) {
+    if (!timeString) return "";
+    const [hours, minutes] = timeString.split(":");
+    return `${hours}:${minutes}`;
+  }
 
   // Tambahkan item berdasarkan destinasi
+  if (hasIjen) {
+    crewRolesNeeded.push("Local Ijen Trekking Guide (licensed crater guide)");
+  }
+  if (hasBromo) {
+    crewRolesNeeded.push("4WD Jeep Driver (Bromo Sunrise segment)");
+  }
   if (hasIjen || hasBromo) {
     gearRecommended.push("Sturdy hiking shoes with grip");
     gearRecommended.push("Spare socks");
@@ -83,7 +106,46 @@ export async function GET(
 
   if (hasWaterfall) {
     gearRecommended.push("Waterproof bag for waterfall areas");
+    crewRolesNeeded.push("Local Waterfall Guide");
   }
+  const operationalNotes = {
+    healthRequirements: [],
+    environmentalRisks: [],
+    safetyMitigation: [],
+  };
+
+  // Ijen
+  if (hasIjen) {
+    operationalNotes.healthRequirements.push(
+      "Doctor’s health certificate required for Ijen entry (we arrange this).",
+      "Not recommended for guests with severe respiratory or cardiac issues."
+    );
+    operationalNotes.environmentalRisks.push(
+      "Volcanic gas exposure at Ijen (gas mask provided)"
+    );
+    operationalNotes.safetyMitigation.push(
+      "Gas mask sanitized after each use",
+      "Headlamps for pre-dawn hiking"
+    );
+  }
+
+  // Bromo
+  if (hasBromo) {
+    operationalNotes.environmentalRisks.push(
+      "Cold temperatures (as low as ~5°C at Bromo sunrise)"
+    );
+  }
+
+  // Waterfall (Madakaripura, Tumpak Sewu)
+  if (hasWaterfall) {
+    operationalNotes.environmentalRisks.push(
+      "Wet, slippery rocks at Waterfall"
+    );
+    operationalNotes.safetyMitigation.push(
+      "Local waterfall guide required for canyon safety"
+    );
+  }
+
   const mapped =
     all === "true"
       ? serialized
@@ -110,7 +172,7 @@ export async function GET(
                     {
                       type: "hotel",
                       label: "Any hotel in Bali (Kuta, Seminyak, Ubud, etc.)",
-                      notes: "Pickup time coordinated (latest 08:00 on Day 1)",
+                      notes: "Send flight number e.g. TR264, SIN-SUB",
                     },
                   ]
                 : [
@@ -164,34 +226,99 @@ export async function GET(
             : [],
           gearRecommended: gearRecommended,
           itineraryDays:
-            serialized.package_itinerary_days?.map((day: any) => ({
-              day: day.day_no,
-              title: day.title,
-              summary: day.activity,
-              activities:
-                day.package_itinerary_day_details?.map((act: any) => ({
-                  type: act.activities.activity_category_id,
-                  timeApprox: act.time || "",
-                  fromLocation: { name: act.from_location || "" },
-                  toLocation: { name: act.to_location || "" },
-                  destination: {
-                    slug: act.destination_slug || "",
-                    name: act.destination_name || "",
-                  },
-                  transport: act.transport || "",
-                  location: {
-                    slug: act.location_slug || "",
-                    name: act.location_name || "",
-                  },
-                  description: act.description || "",
-                })) || [],
-            })) || [],
-          crewRolesNeeded: [],
-          operationalNotes: {
-            healthRequirements: [],
-            environmentalRisks: [],
-            safetyMitigation: [],
-          },
+            serialized.package_itinerary_days?.map((day: any) => {
+              // Buat array mealsIncluded berdasarkan boolean
+              const mealsIncluded: string[] = [];
+              if (day.meal_breakfast) mealsIncluded.push("Breakfast");
+              if (day.meal_lunch) mealsIncluded.push("Lunch");
+              if (day.meal_dinner) mealsIncluded.push("Dinner");
+
+              return {
+                day: day.day_no,
+                title: day.title,
+                summary: day.activity,
+                mealsIncluded: mealsIncluded,
+                activities:
+                  day.package_itinerary_day_details?.map((act: any) => {
+                    const type =
+                      act.activities.activity_category_id == 2
+                        ? "TouristAttractionVisit"
+                        : act.activities.activity_category_id == 3 &&
+                          act.notes.toLowerCase().includes("check in")
+                        ? "CheckInAction"
+                        : act.activities.activity_category_id == 4
+                        ? "MealsAction"
+                        : "TravelAction";
+
+                    if (type === "TravelAction") {
+                      const travelData: any = {
+                        type,
+                        timeApprox: formatTime(act.time) || "",
+                        fromLocation: { name: act.from_location || "" },
+                        toLocation: { name: act.to_location || "" },
+                        destination: act.destination_slug
+                          ? {
+                              slug: act.destination_slug,
+                              name: act.destination_name || "",
+                            }
+                          : undefined,
+                        description: act.notes || "",
+                        category:
+                          act.activities.activity_categories?.name || "",
+                      };
+
+                      if (Number(act.activities.activity_category_id) === 5) {
+                        travelData.transport = act.activities.activity_name;
+                      }
+
+                      return travelData;
+                    }
+
+                    if (type === "CheckInAction") {
+                      const todayHotel = day.hotels?.name;
+                      return {
+                        type,
+                        timeApprox: formatTime(act.time) || "",
+                        location: { name: todayHotel },
+                        description: act.notes || "",
+                      };
+                    }
+
+                    if (type === "MealsAction") {
+                      return {
+                        type,
+                        timeApprox: formatTime(act.time) || "",
+                        location: { name: "meals location" },
+                        description: act.notes || "",
+                        meals: act.activities.activity_name || "",
+                      };
+                    }
+
+                    if (type === "TouristAttractionVisit") {
+                      return {
+                        type,
+                        timeApprox: formatTime(act.time),
+                        location: {
+                          slug: act.activities.destinations?.slug || "",
+                          name: act.activities.destinations?.name || "",
+                        },
+                        description: act.notes || "",
+                      };
+                    }
+                  }) || [],
+              };
+            }) || [],
+          crewRolesNeeded: crewRolesNeeded,
+          operationalNotes: operationalNotes,
         };
+    if (searchParams.get("download") === "true") {
+      return new Response(JSON.stringify(mapped, null, 2), {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Disposition": `attachment; filename="trip-${serialized.code}.json"`,
+        },
+      });
+    }
+
   return Response.json(mapped);
 }
