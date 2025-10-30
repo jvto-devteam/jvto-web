@@ -43,6 +43,8 @@ export async function GET(
               activities: {
                 include: { destinations: true, activity_categories: true },
               },
+              locations_from: true,
+              locations_to: true,
             },
           },
           hotels: true,
@@ -254,8 +256,8 @@ export async function GET(
                       const travelData: any = {
                         type,
                         timeApprox: formatTime(act.time) || "",
-                        fromLocation: { name: act.from_location || "" },
-                        toLocation: { name: act.to_location || "" },
+                        fromLocation: { name: act.locations_from?.name },
+                        toLocation: { name: act.locations_to?.name },
                         destination: act.destination_slug
                           ? {
                               slug: act.destination_slug,
@@ -263,8 +265,6 @@ export async function GET(
                             }
                           : undefined,
                         description: act.notes || "",
-                        category:
-                          act.activities.activity_categories?.name || "",
                       };
 
                       if (Number(act.activities.activity_category_id) === 5) {
@@ -290,7 +290,7 @@ export async function GET(
                         timeApprox: formatTime(act.time) || "",
                         location: { name: "meals location" },
                         description: act.notes || "",
-                        meals: act.activities.activity_name || "",
+                        location: { name: act.locations_from?.name },
                       };
                     }
 
@@ -311,14 +311,14 @@ export async function GET(
           crewRolesNeeded: crewRolesNeeded,
           operationalNotes: operationalNotes,
         };
-    if (searchParams.get("download") === "true") {
-      return new Response(JSON.stringify(mapped, null, 2), {
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Disposition": `attachment; filename="trip-${serialized.code}.json"`,
-        },
-      });
-    }
+  if (searchParams.get("download") === "true") {
+    return new Response(JSON.stringify(mapped, null, 2), {
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Disposition": `attachment; filename="trip-${serialized.slug}.json"`,
+      },
+    });
+  }
 
   return Response.json(mapped);
 }

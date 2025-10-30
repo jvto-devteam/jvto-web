@@ -320,6 +320,11 @@ export type package_images = $Result.DefaultSelection<Prisma.$package_imagesPayl
  */
 export type package_includes = $Result.DefaultSelection<Prisma.$package_includesPayload>
 /**
+ * Model locations
+ * 
+ */
+export type locations = $Result.DefaultSelection<Prisma.$locationsPayload>
+/**
  * Model package_itinerary_day_details
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -1127,6 +1132,16 @@ export class PrismaClient<
   get package_includes(): Prisma.package_includesDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.locations`: Exposes CRUD operations for the **locations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Locations
+    * const locations = await prisma.locations.findMany()
+    * ```
+    */
+  get locations(): Prisma.locationsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.package_itinerary_day_details`: Exposes CRUD operations for the **package_itinerary_day_details** model.
     * Example usage:
     * ```ts
@@ -1785,6 +1800,7 @@ export namespace Prisma {
     package_hotel_options: 'package_hotel_options',
     package_images: 'package_images',
     package_includes: 'package_includes',
+    locations: 'locations',
     package_itinerary_day_details: 'package_itinerary_day_details',
     package_itinerary_days: 'package_itinerary_days',
     package_prices: 'package_prices',
@@ -1819,7 +1835,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6189,6 +6205,80 @@ export namespace Prisma {
           }
         }
       }
+      locations: {
+        payload: Prisma.$locationsPayload<ExtArgs>
+        fields: Prisma.locationsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.locationsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.locationsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          findFirst: {
+            args: Prisma.locationsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.locationsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          findMany: {
+            args: Prisma.locationsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>[]
+          }
+          create: {
+            args: Prisma.locationsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          createMany: {
+            args: Prisma.locationsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.locationsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>[]
+          }
+          delete: {
+            args: Prisma.locationsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          update: {
+            args: Prisma.locationsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          deleteMany: {
+            args: Prisma.locationsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.locationsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.locationsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>[]
+          }
+          upsert: {
+            args: Prisma.locationsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$locationsPayload>
+          }
+          aggregate: {
+            args: Prisma.LocationsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLocations>
+          }
+          groupBy: {
+            args: Prisma.locationsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LocationsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.locationsCountArgs<ExtArgs>
+            result: $Utils.Optional<LocationsCountAggregateOutputType> | number
+          }
+        }
+      }
       package_itinerary_day_details: {
         payload: Prisma.$package_itinerary_day_detailsPayload<ExtArgs>
         fields: Prisma.package_itinerary_day_detailsFieldRefs
@@ -7528,6 +7618,7 @@ export namespace Prisma {
     package_hotel_options?: package_hotel_optionsOmit
     package_images?: package_imagesOmit
     package_includes?: package_includesOmit
+    locations?: locationsOmit
     package_itinerary_day_details?: package_itinerary_day_detailsOmit
     package_itinerary_days?: package_itinerary_daysOmit
     package_prices?: package_pricesOmit
@@ -8810,6 +8901,46 @@ export namespace Prisma {
    */
   export type Package_categoriesCountOutputTypeCountPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: packagesWhereInput
+  }
+
+
+  /**
+   * Count Type LocationsCountOutputType
+   */
+
+  export type LocationsCountOutputType = {
+    package_itinerary_day_details_from_location: number
+    package_itinerary_day_details_to_location: number
+  }
+
+  export type LocationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package_itinerary_day_details_from_location?: boolean | LocationsCountOutputTypeCountPackage_itinerary_day_details_from_locationArgs
+    package_itinerary_day_details_to_location?: boolean | LocationsCountOutputTypeCountPackage_itinerary_day_details_to_locationArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LocationsCountOutputType
+     */
+    select?: LocationsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountPackage_itinerary_day_details_from_locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: package_itinerary_day_detailsWhereInput
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountPackage_itinerary_day_details_to_locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: package_itinerary_day_detailsWhereInput
   }
 
 
@@ -81188,6 +81319,1099 @@ export namespace Prisma {
 
 
   /**
+   * Model locations
+   */
+
+  export type AggregateLocations = {
+    _count: LocationsCountAggregateOutputType | null
+    _avg: LocationsAvgAggregateOutputType | null
+    _sum: LocationsSumAggregateOutputType | null
+    _min: LocationsMinAggregateOutputType | null
+    _max: LocationsMaxAggregateOutputType | null
+  }
+
+  export type LocationsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type LocationsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type LocationsMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type LocationsMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type LocationsCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+
+  export type LocationsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type LocationsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type LocationsMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type LocationsMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type LocationsCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type LocationsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which locations to aggregate.
+     */
+    where?: locationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of locations to fetch.
+     */
+    orderBy?: locationsOrderByWithRelationInput | locationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: locationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned locations
+    **/
+    _count?: true | LocationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LocationsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LocationsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LocationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LocationsMaxAggregateInputType
+  }
+
+  export type GetLocationsAggregateType<T extends LocationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateLocations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLocations[P]>
+      : GetScalarType<T[P], AggregateLocations[P]>
+  }
+
+
+
+
+  export type locationsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: locationsWhereInput
+    orderBy?: locationsOrderByWithAggregationInput | locationsOrderByWithAggregationInput[]
+    by: LocationsScalarFieldEnum[] | LocationsScalarFieldEnum
+    having?: locationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LocationsCountAggregateInputType | true
+    _avg?: LocationsAvgAggregateInputType
+    _sum?: LocationsSumAggregateInputType
+    _min?: LocationsMinAggregateInputType
+    _max?: LocationsMaxAggregateInputType
+  }
+
+  export type LocationsGroupByOutputType = {
+    id: number
+    name: string
+    _count: LocationsCountAggregateOutputType | null
+    _avg: LocationsAvgAggregateOutputType | null
+    _sum: LocationsSumAggregateOutputType | null
+    _min: LocationsMinAggregateOutputType | null
+    _max: LocationsMaxAggregateOutputType | null
+  }
+
+  type GetLocationsGroupByPayload<T extends locationsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LocationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LocationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LocationsGroupByOutputType[P]>
+            : GetScalarType<T[P], LocationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type locationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    package_itinerary_day_details_from_location?: boolean | locations$package_itinerary_day_details_from_locationArgs<ExtArgs>
+    package_itinerary_day_details_to_location?: boolean | locations$package_itinerary_day_details_to_locationArgs<ExtArgs>
+    _count?: boolean | LocationsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["locations"]>
+
+  export type locationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["locations"]>
+
+  export type locationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["locations"]>
+
+  export type locationsSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type locationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["locations"]>
+  export type locationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package_itinerary_day_details_from_location?: boolean | locations$package_itinerary_day_details_from_locationArgs<ExtArgs>
+    package_itinerary_day_details_to_location?: boolean | locations$package_itinerary_day_details_to_locationArgs<ExtArgs>
+    _count?: boolean | LocationsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type locationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type locationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $locationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "locations"
+    objects: {
+      package_itinerary_day_details_from_location: Prisma.$package_itinerary_day_detailsPayload<ExtArgs>[]
+      package_itinerary_day_details_to_location: Prisma.$package_itinerary_day_detailsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+    }, ExtArgs["result"]["locations"]>
+    composites: {}
+  }
+
+  type locationsGetPayload<S extends boolean | null | undefined | locationsDefaultArgs> = $Result.GetResult<Prisma.$locationsPayload, S>
+
+  type locationsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<locationsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LocationsCountAggregateInputType | true
+    }
+
+  export interface locationsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['locations'], meta: { name: 'locations' } }
+    /**
+     * Find zero or one Locations that matches the filter.
+     * @param {locationsFindUniqueArgs} args - Arguments to find a Locations
+     * @example
+     * // Get one Locations
+     * const locations = await prisma.locations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends locationsFindUniqueArgs>(args: SelectSubset<T, locationsFindUniqueArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Locations that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {locationsFindUniqueOrThrowArgs} args - Arguments to find a Locations
+     * @example
+     * // Get one Locations
+     * const locations = await prisma.locations.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends locationsFindUniqueOrThrowArgs>(args: SelectSubset<T, locationsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Locations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsFindFirstArgs} args - Arguments to find a Locations
+     * @example
+     * // Get one Locations
+     * const locations = await prisma.locations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends locationsFindFirstArgs>(args?: SelectSubset<T, locationsFindFirstArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Locations that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsFindFirstOrThrowArgs} args - Arguments to find a Locations
+     * @example
+     * // Get one Locations
+     * const locations = await prisma.locations.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends locationsFindFirstOrThrowArgs>(args?: SelectSubset<T, locationsFindFirstOrThrowArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Locations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Locations
+     * const locations = await prisma.locations.findMany()
+     * 
+     * // Get first 10 Locations
+     * const locations = await prisma.locations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const locationsWithIdOnly = await prisma.locations.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends locationsFindManyArgs>(args?: SelectSubset<T, locationsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Locations.
+     * @param {locationsCreateArgs} args - Arguments to create a Locations.
+     * @example
+     * // Create one Locations
+     * const Locations = await prisma.locations.create({
+     *   data: {
+     *     // ... data to create a Locations
+     *   }
+     * })
+     * 
+     */
+    create<T extends locationsCreateArgs>(args: SelectSubset<T, locationsCreateArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Locations.
+     * @param {locationsCreateManyArgs} args - Arguments to create many Locations.
+     * @example
+     * // Create many Locations
+     * const locations = await prisma.locations.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends locationsCreateManyArgs>(args?: SelectSubset<T, locationsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Locations and returns the data saved in the database.
+     * @param {locationsCreateManyAndReturnArgs} args - Arguments to create many Locations.
+     * @example
+     * // Create many Locations
+     * const locations = await prisma.locations.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Locations and only return the `id`
+     * const locationsWithIdOnly = await prisma.locations.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends locationsCreateManyAndReturnArgs>(args?: SelectSubset<T, locationsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Locations.
+     * @param {locationsDeleteArgs} args - Arguments to delete one Locations.
+     * @example
+     * // Delete one Locations
+     * const Locations = await prisma.locations.delete({
+     *   where: {
+     *     // ... filter to delete one Locations
+     *   }
+     * })
+     * 
+     */
+    delete<T extends locationsDeleteArgs>(args: SelectSubset<T, locationsDeleteArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Locations.
+     * @param {locationsUpdateArgs} args - Arguments to update one Locations.
+     * @example
+     * // Update one Locations
+     * const locations = await prisma.locations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends locationsUpdateArgs>(args: SelectSubset<T, locationsUpdateArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Locations.
+     * @param {locationsDeleteManyArgs} args - Arguments to filter Locations to delete.
+     * @example
+     * // Delete a few Locations
+     * const { count } = await prisma.locations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends locationsDeleteManyArgs>(args?: SelectSubset<T, locationsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Locations
+     * const locations = await prisma.locations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends locationsUpdateManyArgs>(args: SelectSubset<T, locationsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Locations and returns the data updated in the database.
+     * @param {locationsUpdateManyAndReturnArgs} args - Arguments to update many Locations.
+     * @example
+     * // Update many Locations
+     * const locations = await prisma.locations.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Locations and only return the `id`
+     * const locationsWithIdOnly = await prisma.locations.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends locationsUpdateManyAndReturnArgs>(args: SelectSubset<T, locationsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Locations.
+     * @param {locationsUpsertArgs} args - Arguments to update or create a Locations.
+     * @example
+     * // Update or create a Locations
+     * const locations = await prisma.locations.upsert({
+     *   create: {
+     *     // ... data to create a Locations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Locations we want to update
+     *   }
+     * })
+     */
+    upsert<T extends locationsUpsertArgs>(args: SelectSubset<T, locationsUpsertArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsCountArgs} args - Arguments to filter Locations to count.
+     * @example
+     * // Count the number of Locations
+     * const count = await prisma.locations.count({
+     *   where: {
+     *     // ... the filter for the Locations we want to count
+     *   }
+     * })
+    **/
+    count<T extends locationsCountArgs>(
+      args?: Subset<T, locationsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LocationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LocationsAggregateArgs>(args: Subset<T, LocationsAggregateArgs>): Prisma.PrismaPromise<GetLocationsAggregateType<T>>
+
+    /**
+     * Group by Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {locationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends locationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: locationsGroupByArgs['orderBy'] }
+        : { orderBy?: locationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, locationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLocationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the locations model
+   */
+  readonly fields: locationsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for locations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__locationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    package_itinerary_day_details_from_location<T extends locations$package_itinerary_day_details_from_locationArgs<ExtArgs> = {}>(args?: Subset<T, locations$package_itinerary_day_details_from_locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_day_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    package_itinerary_day_details_to_location<T extends locations$package_itinerary_day_details_to_locationArgs<ExtArgs> = {}>(args?: Subset<T, locations$package_itinerary_day_details_to_locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_day_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the locations model
+   */
+  interface locationsFieldRefs {
+    readonly id: FieldRef<"locations", 'Int'>
+    readonly name: FieldRef<"locations", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * locations findUnique
+   */
+  export type locationsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter, which locations to fetch.
+     */
+    where: locationsWhereUniqueInput
+  }
+
+  /**
+   * locations findUniqueOrThrow
+   */
+  export type locationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter, which locations to fetch.
+     */
+    where: locationsWhereUniqueInput
+  }
+
+  /**
+   * locations findFirst
+   */
+  export type locationsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter, which locations to fetch.
+     */
+    where?: locationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of locations to fetch.
+     */
+    orderBy?: locationsOrderByWithRelationInput | locationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for locations.
+     */
+    cursor?: locationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of locations.
+     */
+    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
+  }
+
+  /**
+   * locations findFirstOrThrow
+   */
+  export type locationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter, which locations to fetch.
+     */
+    where?: locationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of locations to fetch.
+     */
+    orderBy?: locationsOrderByWithRelationInput | locationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for locations.
+     */
+    cursor?: locationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of locations.
+     */
+    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
+  }
+
+  /**
+   * locations findMany
+   */
+  export type locationsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter, which locations to fetch.
+     */
+    where?: locationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of locations to fetch.
+     */
+    orderBy?: locationsOrderByWithRelationInput | locationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing locations.
+     */
+    cursor?: locationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` locations.
+     */
+    skip?: number
+    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
+  }
+
+  /**
+   * locations create
+   */
+  export type locationsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a locations.
+     */
+    data: XOR<locationsCreateInput, locationsUncheckedCreateInput>
+  }
+
+  /**
+   * locations createMany
+   */
+  export type locationsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many locations.
+     */
+    data: locationsCreateManyInput | locationsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * locations createManyAndReturn
+   */
+  export type locationsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * The data used to create many locations.
+     */
+    data: locationsCreateManyInput | locationsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * locations update
+   */
+  export type locationsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a locations.
+     */
+    data: XOR<locationsUpdateInput, locationsUncheckedUpdateInput>
+    /**
+     * Choose, which locations to update.
+     */
+    where: locationsWhereUniqueInput
+  }
+
+  /**
+   * locations updateMany
+   */
+  export type locationsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update locations.
+     */
+    data: XOR<locationsUpdateManyMutationInput, locationsUncheckedUpdateManyInput>
+    /**
+     * Filter which locations to update
+     */
+    where?: locationsWhereInput
+    /**
+     * Limit how many locations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * locations updateManyAndReturn
+   */
+  export type locationsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * The data used to update locations.
+     */
+    data: XOR<locationsUpdateManyMutationInput, locationsUncheckedUpdateManyInput>
+    /**
+     * Filter which locations to update
+     */
+    where?: locationsWhereInput
+    /**
+     * Limit how many locations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * locations upsert
+   */
+  export type locationsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the locations to update in case it exists.
+     */
+    where: locationsWhereUniqueInput
+    /**
+     * In case the locations found by the `where` argument doesn't exist, create a new locations with this data.
+     */
+    create: XOR<locationsCreateInput, locationsUncheckedCreateInput>
+    /**
+     * In case the locations was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<locationsUpdateInput, locationsUncheckedUpdateInput>
+  }
+
+  /**
+   * locations delete
+   */
+  export type locationsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    /**
+     * Filter which locations to delete.
+     */
+    where: locationsWhereUniqueInput
+  }
+
+  /**
+   * locations deleteMany
+   */
+  export type locationsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which locations to delete
+     */
+    where?: locationsWhereInput
+    /**
+     * Limit how many locations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * locations.package_itinerary_day_details_from_location
+   */
+  export type locations$package_itinerary_day_details_from_locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_itinerary_day_details
+     */
+    select?: package_itinerary_day_detailsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_itinerary_day_details
+     */
+    omit?: package_itinerary_day_detailsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_itinerary_day_detailsInclude<ExtArgs> | null
+    where?: package_itinerary_day_detailsWhereInput
+    orderBy?: package_itinerary_day_detailsOrderByWithRelationInput | package_itinerary_day_detailsOrderByWithRelationInput[]
+    cursor?: package_itinerary_day_detailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Package_itinerary_day_detailsScalarFieldEnum | Package_itinerary_day_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * locations.package_itinerary_day_details_to_location
+   */
+  export type locations$package_itinerary_day_details_to_locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_itinerary_day_details
+     */
+    select?: package_itinerary_day_detailsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_itinerary_day_details
+     */
+    omit?: package_itinerary_day_detailsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_itinerary_day_detailsInclude<ExtArgs> | null
+    where?: package_itinerary_day_detailsWhereInput
+    orderBy?: package_itinerary_day_detailsOrderByWithRelationInput | package_itinerary_day_detailsOrderByWithRelationInput[]
+    cursor?: package_itinerary_day_detailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Package_itinerary_day_detailsScalarFieldEnum | Package_itinerary_day_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * locations without action
+   */
+  export type locationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model package_itinerary_day_details
    */
 
@@ -81204,6 +82428,8 @@ export namespace Prisma {
     itinerary_day_id: number | null
     sort_order: number | null
     activity_id: number | null
+    from_location: number | null
+    to_location: number | null
   }
 
   export type Package_itinerary_day_detailsSumAggregateOutputType = {
@@ -81211,6 +82437,8 @@ export namespace Prisma {
     itinerary_day_id: bigint | null
     sort_order: number | null
     activity_id: bigint | null
+    from_location: number | null
+    to_location: number | null
   }
 
   export type Package_itinerary_day_detailsMinAggregateOutputType = {
@@ -81220,6 +82448,8 @@ export namespace Prisma {
     time: string | null
     activity_id: bigint | null
     notes: string | null
+    from_location: number | null
+    to_location: number | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -81232,6 +82462,8 @@ export namespace Prisma {
     time: string | null
     activity_id: bigint | null
     notes: string | null
+    from_location: number | null
+    to_location: number | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -81244,6 +82476,8 @@ export namespace Prisma {
     time: number
     activity_id: number
     notes: number
+    from_location: number
+    to_location: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -81256,6 +82490,8 @@ export namespace Prisma {
     itinerary_day_id?: true
     sort_order?: true
     activity_id?: true
+    from_location?: true
+    to_location?: true
   }
 
   export type Package_itinerary_day_detailsSumAggregateInputType = {
@@ -81263,6 +82499,8 @@ export namespace Prisma {
     itinerary_day_id?: true
     sort_order?: true
     activity_id?: true
+    from_location?: true
+    to_location?: true
   }
 
   export type Package_itinerary_day_detailsMinAggregateInputType = {
@@ -81272,6 +82510,8 @@ export namespace Prisma {
     time?: true
     activity_id?: true
     notes?: true
+    from_location?: true
+    to_location?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -81284,6 +82524,8 @@ export namespace Prisma {
     time?: true
     activity_id?: true
     notes?: true
+    from_location?: true
+    to_location?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -81296,6 +82538,8 @@ export namespace Prisma {
     time?: true
     activity_id?: true
     notes?: true
+    from_location?: true
+    to_location?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -81395,6 +82639,8 @@ export namespace Prisma {
     time: string | null
     activity_id: bigint | null
     notes: string | null
+    from_location: number | null
+    to_location: number | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -81426,11 +82672,15 @@ export namespace Prisma {
     time?: boolean
     activity_id?: boolean
     notes?: boolean
+    from_location?: boolean
+    to_location?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }, ExtArgs["result"]["package_itinerary_day_details"]>
 
   export type package_itinerary_day_detailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -81440,11 +82690,15 @@ export namespace Prisma {
     time?: boolean
     activity_id?: boolean
     notes?: boolean
+    from_location?: boolean
+    to_location?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }, ExtArgs["result"]["package_itinerary_day_details"]>
 
   export type package_itinerary_day_detailsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -81454,11 +82708,15 @@ export namespace Prisma {
     time?: boolean
     activity_id?: boolean
     notes?: boolean
+    from_location?: boolean
+    to_location?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }, ExtArgs["result"]["package_itinerary_day_details"]>
 
   export type package_itinerary_day_detailsSelectScalar = {
@@ -81468,23 +82726,31 @@ export namespace Prisma {
     time?: boolean
     activity_id?: boolean
     notes?: boolean
+    from_location?: boolean
+    to_location?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
   }
 
-  export type package_itinerary_day_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itinerary_day_id" | "sort_order" | "time" | "activity_id" | "notes" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["package_itinerary_day_details"]>
+  export type package_itinerary_day_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "itinerary_day_id" | "sort_order" | "time" | "activity_id" | "notes" | "from_location" | "to_location" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["package_itinerary_day_details"]>
   export type package_itinerary_day_detailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }
   export type package_itinerary_day_detailsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }
   export type package_itinerary_day_detailsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | package_itinerary_day_details$activitiesArgs<ExtArgs>
     package_itinerary_days?: boolean | package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>
+    locations_from?: boolean | package_itinerary_day_details$locations_fromArgs<ExtArgs>
+    locations_to?: boolean | package_itinerary_day_details$locations_toArgs<ExtArgs>
   }
 
   export type $package_itinerary_day_detailsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -81492,6 +82758,8 @@ export namespace Prisma {
     objects: {
       activities: Prisma.$activitiesPayload<ExtArgs> | null
       package_itinerary_days: Prisma.$package_itinerary_daysPayload<ExtArgs> | null
+      locations_from: Prisma.$locationsPayload<ExtArgs> | null
+      locations_to: Prisma.$locationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -81500,6 +82768,8 @@ export namespace Prisma {
       time: string | null
       activity_id: bigint | null
       notes: string | null
+      from_location: number | null
+      to_location: number | null
       created_at: Date | null
       updated_at: Date | null
       deleted_at: Date | null
@@ -81899,6 +83169,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     activities<T extends package_itinerary_day_details$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, package_itinerary_day_details$activitiesArgs<ExtArgs>>): Prisma__activitiesClient<$Result.GetResult<Prisma.$activitiesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     package_itinerary_days<T extends package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs> = {}>(args?: Subset<T, package_itinerary_day_details$package_itinerary_daysArgs<ExtArgs>>): Prisma__package_itinerary_daysClient<$Result.GetResult<Prisma.$package_itinerary_daysPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    locations_from<T extends package_itinerary_day_details$locations_fromArgs<ExtArgs> = {}>(args?: Subset<T, package_itinerary_day_details$locations_fromArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    locations_to<T extends package_itinerary_day_details$locations_toArgs<ExtArgs> = {}>(args?: Subset<T, package_itinerary_day_details$locations_toArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -81934,6 +83206,8 @@ export namespace Prisma {
     readonly time: FieldRef<"package_itinerary_day_details", 'String'>
     readonly activity_id: FieldRef<"package_itinerary_day_details", 'BigInt'>
     readonly notes: FieldRef<"package_itinerary_day_details", 'String'>
+    readonly from_location: FieldRef<"package_itinerary_day_details", 'Int'>
+    readonly to_location: FieldRef<"package_itinerary_day_details", 'Int'>
     readonly created_at: FieldRef<"package_itinerary_day_details", 'DateTime'>
     readonly updated_at: FieldRef<"package_itinerary_day_details", 'DateTime'>
     readonly deleted_at: FieldRef<"package_itinerary_day_details", 'DateTime'>
@@ -82368,6 +83642,44 @@ export namespace Prisma {
      */
     include?: package_itinerary_daysInclude<ExtArgs> | null
     where?: package_itinerary_daysWhereInput
+  }
+
+  /**
+   * package_itinerary_day_details.locations_from
+   */
+  export type package_itinerary_day_details$locations_fromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
+  }
+
+  /**
+   * package_itinerary_day_details.locations_to
+   */
+  export type package_itinerary_day_details$locations_toArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
   }
 
   /**
@@ -101713,6 +103025,14 @@ export namespace Prisma {
   export type Package_includesScalarFieldEnum = (typeof Package_includesScalarFieldEnum)[keyof typeof Package_includesScalarFieldEnum]
 
 
+  export const LocationsScalarFieldEnum: {
+    id: 'id',
+    name: 'name'
+  };
+
+  export type LocationsScalarFieldEnum = (typeof LocationsScalarFieldEnum)[keyof typeof LocationsScalarFieldEnum]
+
+
   export const Package_itinerary_day_detailsScalarFieldEnum: {
     id: 'id',
     itinerary_day_id: 'itinerary_day_id',
@@ -101720,6 +103040,8 @@ export namespace Prisma {
     time: 'time',
     activity_id: 'activity_id',
     notes: 'notes',
+    from_location: 'from_location',
+    to_location: 'to_location',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at'
@@ -107260,6 +108582,51 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"package_includes"> | Date | string | null
   }
 
+  export type locationsWhereInput = {
+    AND?: locationsWhereInput | locationsWhereInput[]
+    OR?: locationsWhereInput[]
+    NOT?: locationsWhereInput | locationsWhereInput[]
+    id?: IntFilter<"locations"> | number
+    name?: StringFilter<"locations"> | string
+    package_itinerary_day_details_from_location?: Package_itinerary_day_detailsListRelationFilter
+    package_itinerary_day_details_to_location?: Package_itinerary_day_detailsListRelationFilter
+  }
+
+  export type locationsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsOrderByRelationAggregateInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsOrderByRelationAggregateInput
+  }
+
+  export type locationsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: locationsWhereInput | locationsWhereInput[]
+    OR?: locationsWhereInput[]
+    NOT?: locationsWhereInput | locationsWhereInput[]
+    name?: StringFilter<"locations"> | string
+    package_itinerary_day_details_from_location?: Package_itinerary_day_detailsListRelationFilter
+    package_itinerary_day_details_to_location?: Package_itinerary_day_detailsListRelationFilter
+  }, "id">
+
+  export type locationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: locationsCountOrderByAggregateInput
+    _avg?: locationsAvgOrderByAggregateInput
+    _max?: locationsMaxOrderByAggregateInput
+    _min?: locationsMinOrderByAggregateInput
+    _sum?: locationsSumOrderByAggregateInput
+  }
+
+  export type locationsScalarWhereWithAggregatesInput = {
+    AND?: locationsScalarWhereWithAggregatesInput | locationsScalarWhereWithAggregatesInput[]
+    OR?: locationsScalarWhereWithAggregatesInput[]
+    NOT?: locationsScalarWhereWithAggregatesInput | locationsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"locations"> | number
+    name?: StringWithAggregatesFilter<"locations"> | string
+  }
+
   export type package_itinerary_day_detailsWhereInput = {
     AND?: package_itinerary_day_detailsWhereInput | package_itinerary_day_detailsWhereInput[]
     OR?: package_itinerary_day_detailsWhereInput[]
@@ -107270,11 +108637,15 @@ export namespace Prisma {
     time?: StringNullableFilter<"package_itinerary_day_details"> | string | null
     activity_id?: BigIntNullableFilter<"package_itinerary_day_details"> | bigint | number | null
     notes?: StringNullableFilter<"package_itinerary_day_details"> | string | null
+    from_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
+    to_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
     created_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     activities?: XOR<ActivitiesNullableScalarRelationFilter, activitiesWhereInput> | null
     package_itinerary_days?: XOR<Package_itinerary_daysNullableScalarRelationFilter, package_itinerary_daysWhereInput> | null
+    locations_from?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_to?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }
 
   export type package_itinerary_day_detailsOrderByWithRelationInput = {
@@ -107284,11 +108655,15 @@ export namespace Prisma {
     time?: SortOrderInput | SortOrder
     activity_id?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    from_location?: SortOrderInput | SortOrder
+    to_location?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
     activities?: activitiesOrderByWithRelationInput
     package_itinerary_days?: package_itinerary_daysOrderByWithRelationInput
+    locations_from?: locationsOrderByWithRelationInput
+    locations_to?: locationsOrderByWithRelationInput
   }
 
   export type package_itinerary_day_detailsWhereUniqueInput = Prisma.AtLeast<{
@@ -107301,11 +108676,15 @@ export namespace Prisma {
     time?: StringNullableFilter<"package_itinerary_day_details"> | string | null
     activity_id?: BigIntNullableFilter<"package_itinerary_day_details"> | bigint | number | null
     notes?: StringNullableFilter<"package_itinerary_day_details"> | string | null
+    from_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
+    to_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
     created_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     activities?: XOR<ActivitiesNullableScalarRelationFilter, activitiesWhereInput> | null
     package_itinerary_days?: XOR<Package_itinerary_daysNullableScalarRelationFilter, package_itinerary_daysWhereInput> | null
+    locations_from?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_to?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }, "id">
 
   export type package_itinerary_day_detailsOrderByWithAggregationInput = {
@@ -107315,6 +108694,8 @@ export namespace Prisma {
     time?: SortOrderInput | SortOrder
     activity_id?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
+    from_location?: SortOrderInput | SortOrder
+    to_location?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -107335,6 +108716,8 @@ export namespace Prisma {
     time?: StringNullableWithAggregatesFilter<"package_itinerary_day_details"> | string | null
     activity_id?: BigIntNullableWithAggregatesFilter<"package_itinerary_day_details"> | bigint | number | null
     notes?: StringNullableWithAggregatesFilter<"package_itinerary_day_details"> | string | null
+    from_location?: IntNullableWithAggregatesFilter<"package_itinerary_day_details"> | number | null
+    to_location?: IntNullableWithAggregatesFilter<"package_itinerary_day_details"> | number | null
     created_at?: DateTimeNullableWithAggregatesFilter<"package_itinerary_day_details"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"package_itinerary_day_details"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"package_itinerary_day_details"> | Date | string | null
@@ -114252,6 +115635,46 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type locationsCreateInput = {
+    name: string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+  }
+
+  export type locationsUncheckedCreateInput = {
+    id?: number
+    name: string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+  }
+
+  export type locationsUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+  }
+
+  export type locationsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+  }
+
+  export type locationsCreateManyInput = {
+    id?: number
+    name: string
+  }
+
+  export type locationsUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type locationsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type package_itinerary_day_detailsCreateInput = {
     id?: bigint | number
     sort_order?: number | null
@@ -114262,6 +115685,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     activities?: activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput
     package_itinerary_days?: package_itinerary_daysCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    locations_from?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_from_locationInput
+    locations_to?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_to_locationInput
   }
 
   export type package_itinerary_day_detailsUncheckedCreateInput = {
@@ -114271,6 +115696,8 @@ export namespace Prisma {
     time?: string | null
     activity_id?: bigint | number | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -114286,6 +115713,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activities?: activitiesUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    locations_from?: locationsUpdateOneWithoutPackage_itinerary_day_details_from_locationNestedInput
+    locations_to?: locationsUpdateOneWithoutPackage_itinerary_day_details_to_locationNestedInput
   }
 
   export type package_itinerary_day_detailsUncheckedUpdateInput = {
@@ -114295,6 +115724,8 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -114307,6 +115738,8 @@ export namespace Prisma {
     time?: string | null
     activity_id?: bigint | number | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -114329,6 +115762,8 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -119778,6 +121213,29 @@ export namespace Prisma {
     item_include_id?: SortOrder
   }
 
+  export type locationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type locationsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type locationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type locationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type locationsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type ActivitiesNullableScalarRelationFilter = {
     is?: activitiesWhereInput | null
     isNot?: activitiesWhereInput | null
@@ -119788,6 +121246,11 @@ export namespace Prisma {
     isNot?: package_itinerary_daysWhereInput | null
   }
 
+  export type LocationsNullableScalarRelationFilter = {
+    is?: locationsWhereInput | null
+    isNot?: locationsWhereInput | null
+  }
+
   export type package_itinerary_day_detailsCountOrderByAggregateInput = {
     id?: SortOrder
     itinerary_day_id?: SortOrder
@@ -119795,6 +121258,8 @@ export namespace Prisma {
     time?: SortOrder
     activity_id?: SortOrder
     notes?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -119805,6 +121270,8 @@ export namespace Prisma {
     itinerary_day_id?: SortOrder
     sort_order?: SortOrder
     activity_id?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
   }
 
   export type package_itinerary_day_detailsMaxOrderByAggregateInput = {
@@ -119814,6 +121281,8 @@ export namespace Prisma {
     time?: SortOrder
     activity_id?: SortOrder
     notes?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -119826,6 +121295,8 @@ export namespace Prisma {
     time?: SortOrder
     activity_id?: SortOrder
     notes?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -119836,6 +121307,8 @@ export namespace Prisma {
     itinerary_day_id?: SortOrder
     sort_order?: SortOrder
     activity_id?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -125142,6 +126615,90 @@ export namespace Prisma {
     update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutPackage_includesInput, packagesUpdateWithoutPackage_includesInput>, packagesUncheckedUpdateWithoutPackage_includesInput>
   }
 
+  export type package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_fromInputEnvelope
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+  }
+
+  export type package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput> | package_itinerary_day_detailsCreateWithoutLocations_toInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_toInputEnvelope
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+  }
+
+  export type package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_fromInputEnvelope
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+  }
+
+  export type package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput> | package_itinerary_day_detailsCreateWithoutLocations_toInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_toInputEnvelope
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+  }
+
+  export type package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
+    upsert?: package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput | package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_fromInputEnvelope
+    set?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    disconnect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    delete?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    update?: package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_fromInput | package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_fromInput[]
+    updateMany?: package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_fromInput | package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_fromInput[]
+    deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
+  }
+
+  export type package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput> | package_itinerary_day_detailsCreateWithoutLocations_toInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput[]
+    upsert?: package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_toInput | package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_toInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_toInputEnvelope
+    set?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    disconnect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    delete?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    update?: package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput | package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput[]
+    updateMany?: package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput | package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput[]
+    deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
+    upsert?: package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput | package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_fromInputEnvelope
+    set?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    disconnect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    delete?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    update?: package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_fromInput | package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_fromInput[]
+    updateMany?: package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_fromInput | package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_fromInput[]
+    deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput = {
+    create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput> | package_itinerary_day_detailsCreateWithoutLocations_toInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput[]
+    connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput[]
+    upsert?: package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_toInput | package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_toInput[]
+    createMany?: package_itinerary_day_detailsCreateManyLocations_toInputEnvelope
+    set?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    disconnect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    delete?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+    update?: package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput | package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput[]
+    updateMany?: package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput | package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput[]
+    deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
+  }
+
   export type activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput = {
     create?: XOR<activitiesCreateWithoutPackage_itinerary_day_detailsInput, activitiesUncheckedCreateWithoutPackage_itinerary_day_detailsInput>
     connectOrCreate?: activitiesCreateOrConnectWithoutPackage_itinerary_day_detailsInput
@@ -125152,6 +126709,18 @@ export namespace Prisma {
     create?: XOR<package_itinerary_daysCreateWithoutPackage_itinerary_day_detailsInput, package_itinerary_daysUncheckedCreateWithoutPackage_itinerary_day_detailsInput>
     connectOrCreate?: package_itinerary_daysCreateOrConnectWithoutPackage_itinerary_day_detailsInput
     connect?: package_itinerary_daysWhereUniqueInput
+  }
+
+  export type locationsCreateNestedOneWithoutPackage_itinerary_day_details_from_locationInput = {
+    create?: XOR<locationsCreateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutPackage_itinerary_day_details_from_locationInput
+    connect?: locationsWhereUniqueInput
+  }
+
+  export type locationsCreateNestedOneWithoutPackage_itinerary_day_details_to_locationInput = {
+    create?: XOR<locationsCreateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutPackage_itinerary_day_details_to_locationInput
+    connect?: locationsWhereUniqueInput
   }
 
   export type activitiesUpdateOneWithoutPackage_itinerary_day_detailsNestedInput = {
@@ -125172,6 +126741,26 @@ export namespace Prisma {
     delete?: package_itinerary_daysWhereInput | boolean
     connect?: package_itinerary_daysWhereUniqueInput
     update?: XOR<XOR<package_itinerary_daysUpdateToOneWithWhereWithoutPackage_itinerary_day_detailsInput, package_itinerary_daysUpdateWithoutPackage_itinerary_day_detailsInput>, package_itinerary_daysUncheckedUpdateWithoutPackage_itinerary_day_detailsInput>
+  }
+
+  export type locationsUpdateOneWithoutPackage_itinerary_day_details_from_locationNestedInput = {
+    create?: XOR<locationsCreateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutPackage_itinerary_day_details_from_locationInput
+    upsert?: locationsUpsertWithoutPackage_itinerary_day_details_from_locationInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutPackage_itinerary_day_details_from_locationInput, locationsUpdateWithoutPackage_itinerary_day_details_from_locationInput>, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_from_locationInput>
+  }
+
+  export type locationsUpdateOneWithoutPackage_itinerary_day_details_to_locationNestedInput = {
+    create?: XOR<locationsCreateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutPackage_itinerary_day_details_to_locationInput
+    upsert?: locationsUpsertWithoutPackage_itinerary_day_details_to_locationInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutPackage_itinerary_day_details_to_locationInput, locationsUpdateWithoutPackage_itinerary_day_details_to_locationInput>, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_to_locationInput>
   }
 
   export type package_itinerary_day_detailsCreateNestedManyWithoutPackage_itinerary_daysInput = {
@@ -126912,6 +128501,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     package_itinerary_days?: package_itinerary_daysCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    locations_from?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_from_locationInput
+    locations_to?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_to_locationInput
   }
 
   export type package_itinerary_day_detailsUncheckedCreateWithoutActivitiesInput = {
@@ -126920,6 +128511,8 @@ export namespace Prisma {
     sort_order?: number | null
     time?: string | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -127063,6 +128656,8 @@ export namespace Prisma {
     time?: StringNullableFilter<"package_itinerary_day_details"> | string | null
     activity_id?: BigIntNullableFilter<"package_itinerary_day_details"> | bigint | number | null
     notes?: StringNullableFilter<"package_itinerary_day_details"> | string | null
+    from_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
+    to_location?: IntNullableFilter<"package_itinerary_day_details"> | number | null
     created_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"package_itinerary_day_details"> | Date | string | null
@@ -141882,6 +143477,110 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
   }
 
+  export type package_itinerary_day_detailsCreateWithoutLocations_fromInput = {
+    id?: bigint | number
+    sort_order?: number | null
+    time?: string | null
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    locations_to?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_to_locationInput
+  }
+
+  export type package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput = {
+    id?: bigint | number
+    itinerary_day_id?: bigint | number | null
+    sort_order?: number | null
+    time?: string | null
+    activity_id?: bigint | number | null
+    notes?: string | null
+    to_location?: number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    create: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput>
+  }
+
+  export type package_itinerary_day_detailsCreateManyLocations_fromInputEnvelope = {
+    data: package_itinerary_day_detailsCreateManyLocations_fromInput | package_itinerary_day_detailsCreateManyLocations_fromInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type package_itinerary_day_detailsCreateWithoutLocations_toInput = {
+    id?: bigint | number
+    sort_order?: number | null
+    time?: string | null
+    notes?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    locations_from?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_from_locationInput
+  }
+
+  export type package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput = {
+    id?: bigint | number
+    itinerary_day_id?: bigint | number | null
+    sort_order?: number | null
+    time?: string | null
+    activity_id?: bigint | number | null
+    notes?: string | null
+    from_location?: number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    create: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput>
+  }
+
+  export type package_itinerary_day_detailsCreateManyLocations_toInputEnvelope = {
+    data: package_itinerary_day_detailsCreateManyLocations_toInput | package_itinerary_day_detailsCreateManyLocations_toInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    update: XOR<package_itinerary_day_detailsUpdateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedUpdateWithoutLocations_fromInput>
+    create: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput>
+  }
+
+  export type package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_fromInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    data: XOR<package_itinerary_day_detailsUpdateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedUpdateWithoutLocations_fromInput>
+  }
+
+  export type package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_fromInput = {
+    where: package_itinerary_day_detailsScalarWhereInput
+    data: XOR<package_itinerary_day_detailsUpdateManyMutationInput, package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromInput>
+  }
+
+  export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_toInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    update: XOR<package_itinerary_day_detailsUpdateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedUpdateWithoutLocations_toInput>
+    create: XOR<package_itinerary_day_detailsCreateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_toInput>
+  }
+
+  export type package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput = {
+    where: package_itinerary_day_detailsWhereUniqueInput
+    data: XOR<package_itinerary_day_detailsUpdateWithoutLocations_toInput, package_itinerary_day_detailsUncheckedUpdateWithoutLocations_toInput>
+  }
+
+  export type package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput = {
+    where: package_itinerary_day_detailsScalarWhereInput
+    data: XOR<package_itinerary_day_detailsUpdateManyMutationInput, package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toInput>
+  }
+
   export type activitiesCreateWithoutPackage_itinerary_day_detailsInput = {
     id?: bigint | number
     code?: string | null
@@ -141950,6 +143649,38 @@ export namespace Prisma {
   export type package_itinerary_daysCreateOrConnectWithoutPackage_itinerary_day_detailsInput = {
     where: package_itinerary_daysWhereUniqueInput
     create: XOR<package_itinerary_daysCreateWithoutPackage_itinerary_day_detailsInput, package_itinerary_daysUncheckedCreateWithoutPackage_itinerary_day_detailsInput>
+  }
+
+  export type locationsCreateWithoutPackage_itinerary_day_details_from_locationInput = {
+    name: string
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+  }
+
+  export type locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput = {
+    id?: number
+    name: string
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+  }
+
+  export type locationsCreateOrConnectWithoutPackage_itinerary_day_details_from_locationInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput>
+  }
+
+  export type locationsCreateWithoutPackage_itinerary_day_details_to_locationInput = {
+    name: string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+  }
+
+  export type locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput = {
+    id?: number
+    name: string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+  }
+
+  export type locationsCreateOrConnectWithoutPackage_itinerary_day_details_to_locationInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput>
   }
 
   export type activitiesUpsertWithoutPackage_itinerary_day_detailsInput = {
@@ -142034,6 +143765,50 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type locationsUpsertWithoutPackage_itinerary_day_details_from_locationInput = {
+    update: XOR<locationsUpdateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_from_locationInput>
+    create: XOR<locationsCreateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput>
+    where?: locationsWhereInput
+  }
+
+  export type locationsUpdateToOneWithWhereWithoutPackage_itinerary_day_details_from_locationInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutPackage_itinerary_day_details_from_locationInput, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_from_locationInput>
+  }
+
+  export type locationsUpdateWithoutPackage_itinerary_day_details_from_locationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutPackage_itinerary_day_details_from_locationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+  }
+
+  export type locationsUpsertWithoutPackage_itinerary_day_details_to_locationInput = {
+    update: XOR<locationsUpdateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_to_locationInput>
+    create: XOR<locationsCreateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput>
+    where?: locationsWhereInput
+  }
+
+  export type locationsUpdateToOneWithWhereWithoutPackage_itinerary_day_details_to_locationInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutPackage_itinerary_day_details_to_locationInput, locationsUncheckedUpdateWithoutPackage_itinerary_day_details_to_locationInput>
+  }
+
+  export type locationsUpdateWithoutPackage_itinerary_day_details_to_locationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutPackage_itinerary_day_details_to_locationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+  }
+
   export type package_itinerary_day_detailsCreateWithoutPackage_itinerary_daysInput = {
     id?: bigint | number
     sort_order?: number | null
@@ -142043,6 +143818,8 @@ export namespace Prisma {
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
     activities?: activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput
+    locations_from?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_from_locationInput
+    locations_to?: locationsCreateNestedOneWithoutPackage_itinerary_day_details_to_locationInput
   }
 
   export type package_itinerary_day_detailsUncheckedCreateWithoutPackage_itinerary_daysInput = {
@@ -142051,6 +143828,8 @@ export namespace Prisma {
     time?: string | null
     activity_id?: bigint | number | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -145244,6 +147023,8 @@ export namespace Prisma {
     sort_order?: number | null
     time?: string | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -145258,6 +147039,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     package_itinerary_days?: package_itinerary_daysUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    locations_from?: locationsUpdateOneWithoutPackage_itinerary_day_details_from_locationNestedInput
+    locations_to?: locationsUpdateOneWithoutPackage_itinerary_day_details_to_locationNestedInput
   }
 
   export type package_itinerary_day_detailsUncheckedUpdateWithoutActivitiesInput = {
@@ -145266,6 +147049,8 @@ export namespace Prisma {
     sort_order?: NullableIntFieldUpdateOperationsInput | number | null
     time?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145277,6 +147062,8 @@ export namespace Prisma {
     sort_order?: NullableIntFieldUpdateOperationsInput | number | null
     time?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149802,12 +151589,118 @@ export namespace Prisma {
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
+  export type package_itinerary_day_detailsCreateManyLocations_fromInput = {
+    id?: bigint | number
+    itinerary_day_id?: bigint | number | null
+    sort_order?: number | null
+    time?: string | null
+    activity_id?: bigint | number | null
+    notes?: string | null
+    to_location?: number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type package_itinerary_day_detailsCreateManyLocations_toInput = {
+    id?: bigint | number
+    itinerary_day_id?: bigint | number | null
+    sort_order?: number | null
+    time?: string | null
+    activity_id?: bigint | number | null
+    notes?: string | null
+    from_location?: number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+  }
+
+  export type package_itinerary_day_detailsUpdateWithoutLocations_fromInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    locations_to?: locationsUpdateOneWithoutPackage_itinerary_day_details_to_locationNestedInput
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateWithoutLocations_fromInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    itinerary_day_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    itinerary_day_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type package_itinerary_day_detailsUpdateWithoutLocations_toInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    locations_from?: locationsUpdateOneWithoutPackage_itinerary_day_details_from_locationNestedInput
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateWithoutLocations_toInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    itinerary_day_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    itinerary_day_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
+    time?: NullableStringFieldUpdateOperationsInput | string | null
+    activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type package_itinerary_day_detailsCreateManyPackage_itinerary_daysInput = {
     id?: bigint | number
     sort_order?: number | null
     time?: string | null
     activity_id?: bigint | number | null
     notes?: string | null
+    from_location?: number | null
+    to_location?: number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -149822,6 +151715,8 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activities?: activitiesUpdateOneWithoutPackage_itinerary_day_detailsNestedInput
+    locations_from?: locationsUpdateOneWithoutPackage_itinerary_day_details_from_locationNestedInput
+    locations_to?: locationsUpdateOneWithoutPackage_itinerary_day_details_to_locationNestedInput
   }
 
   export type package_itinerary_day_detailsUncheckedUpdateWithoutPackage_itinerary_daysInput = {
@@ -149830,6 +151725,8 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149841,6 +151738,8 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     activity_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location?: NullableIntFieldUpdateOperationsInput | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
