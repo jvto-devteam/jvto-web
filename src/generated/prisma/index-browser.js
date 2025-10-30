@@ -890,6 +890,11 @@ exports.Prisma.Package_includesScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.LocationsScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.Package_itinerary_day_detailsScalarFieldEnum = {
   id: 'id',
   itinerary_day_id: 'itinerary_day_id',
@@ -897,6 +902,8 @@ exports.Prisma.Package_itinerary_day_detailsScalarFieldEnum = {
   time: 'time',
   activity_id: 'activity_id',
   notes: 'notes',
+  from_location: 'from_location',
+  to_location: 'to_location',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -1185,6 +1192,7 @@ exports.Prisma.ModelName = {
   package_hotel_options: 'package_hotel_options',
   package_images: 'package_images',
   package_includes: 'package_includes',
+  locations: 'locations',
   package_itinerary_day_details: 'package_itinerary_day_details',
   package_itinerary_days: 'package_itinerary_days',
   package_prices: 'package_prices',

@@ -1020,6 +1020,13 @@ model package_includes {
   @@unique([package_id, item_include_id], map: "uq_package_includes")
 }
 
+model locations {
+  id                                          Int                             @id @default(autoincrement())
+  name                                        String                          @db.VarChar
+  package_itinerary_day_details_from_location package_itinerary_day_details[] @relation("package_itinerary_day_details_from_location")
+  package_itinerary_day_details_to_location   package_itinerary_day_details[] @relation("package_itinerary_day_details_to_location")
+}
+
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model package_itinerary_day_details {
   id                     BigInt                  @id @default(autoincrement())
@@ -1028,11 +1035,15 @@ model package_itinerary_day_details {
   time                   String?
   activity_id            BigInt?
   notes                  String?
+  from_location          Int?
+  to_location            Int?
   created_at             DateTime?               @db.Timestamp(6)
   updated_at             DateTime?               @db.Timestamp(6)
   deleted_at             DateTime?               @db.Timestamp(6)
   activities             activities?             @relation(fields: [activity_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_package_itinerary_day_details_activity_id")
   package_itinerary_days package_itinerary_days? @relation(fields: [itinerary_day_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_package_itinerary_day_details_itinerary_day_id")
+  locations_from         locations?              @relation("package_itinerary_day_details_from_location", fields: [from_location], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_package_itinerary_day_details_from_location")
+  locations_to           locations?              @relation("package_itinerary_day_details_to_location", fields: [to_location], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_package_itinerary_day_details_to_location")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments

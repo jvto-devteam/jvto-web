@@ -192,14 +192,14 @@ export async function GET(
             name: "Java Volcano Tour Operator (JVTO)",
             legalEntity: "PT. JAVA VOLCANO RENDEZVOUS",
             headOffice: "Bondowoso, East Java, Indonesia",
-            license: "0220001393513",
+            license: "1102230032918",
           },
         };
     if (searchParams.get("download") === "true") {
       return new Response(JSON.stringify(mapped, null, 2), {
         headers: {
           "Content-Type": "application/json",
-          "Content-Disposition": `attachment; filename="product-${serialized.code}.json"`,
+          "Content-Disposition": `attachment; filename="product-${serialized.slug}.json"`,
         },
       });
     }
