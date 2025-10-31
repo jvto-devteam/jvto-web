@@ -1,0 +1,529 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import Image from "next/image";
+
+type Package = any; // Replace with your actual type
+
+interface ToursClientProps {
+  packages: Package[];
+  durations: any[];
+  destinations: any[];
+  startCities: string[];
+}
+
+export default function ToursClient({
+  packages,
+  durations,
+  destinations,
+  startCities,
+}: ToursClientProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("rating");
+  
+  // Filter states
+  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+  const [selectedStartCities, setSelectedStartCities] = useState<string[]>([]);
+  const [selectedTourTypes, setSelectedTourTypes] = useState<string[]>([]);
+  const [selectedAttractions, setSelectedAttractions] = useState<string[]>([]);
+
+  // Filter and sort packages
+  const filteredPackages = useMemo(() => {
+    console.log('Total packages received:', packages.length);
+    console.log('Sample package:', packages[0]);
+    
+    let filtered = packages.filter((pkg) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = pkg.name?.toLowerCase().includes(query);
+        const matchesStart = pkg.start_destination?.name?.toLowerCase().includes(query);
+        const matchesEnd = pkg.end_destination?.name?.toLowerCase().includes(query);
+        if (!matchesName && !matchesStart && !matchesEnd) return false;
+      }
+
+      // Duration filter
+      if (selectedDurations.length > 0) {
+        const duration = pkg.durations;
+        let matchesDuration = false;
+        
+        if (selectedDurations.includes("1 Day") && duration?.day === 1) {
+          matchesDuration = true;
+        }
+        if (selectedDurations.includes("2 Days") && duration?.day === 2) {
+          matchesDuration = true;
+        }
+        if (selectedDurations.includes("3+ Days") && (duration?.day || 0) >= 3) {
+          matchesDuration = true;
+        }
+        
+        if (!matchesDuration) return false;
+      }
+
+      // Price filter (convert IDR to USD for comparison, approx 1 USD = 15000 IDR)
+      const minPrice = pkg.package_prices?.[0]?.price || 0;
+      const minPriceUSD = minPrice / 15000;
+      if (minPriceUSD < priceRange.min || minPriceUSD > priceRange.max) {
+        return false;
+      }
+
+      // Start city filter
+      if (selectedStartCities.length > 0) {
+        const startCity = pkg.start_destination?.name;
+        if (!startCity || !selectedStartCities.includes(startCity)) return false;
+      }
+
+      // Tour type filter - check if package name contains the type
+      if (selectedTourTypes.length > 0) {
+        const hasType = selectedTourTypes.some((type) =>
+          pkg.name?.toLowerCase().includes(type.toLowerCase())
+        );
+        if (!hasType) return false;
+      }
+
+      // Attractions filter
+      if (selectedAttractions.length > 0) {
+        const hasAttraction = selectedAttractions.some((attr) =>
+          pkg.name?.toLowerCase().includes(attr.toLowerCase())
+        );
+        if (!hasAttraction) return false;
+      }
+
+      return true;
+    });
+
+    console.log('Filtered packages:', filtered.length);
+    console.log('Active filters:', {
+      searchQuery,
+      selectedDurations,
+      priceRange: { min: priceRange.min, max: priceRange.max },
+      selectedStartCities,
+      selectedTourTypes,
+      selectedAttractions
+    });
+    
+    // Log all package prices for debugging
+    console.log('All package prices (USD):', packages.map(pkg => ({
+      name: pkg.name,
+      priceIDR: pkg.package_prices?.[0]?.price,
+      priceUSD: (pkg.package_prices?.[0]?.price || 0) / 15000
+    })));
+
+    // Sort packages
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "price-low":
+          return (a.package_prices?.[0]?.price || 0) - (b.package_prices?.[0]?.price || 0);
+        case "price-high":
+          return (b.package_prices?.[0]?.price || 0) - (a.package_prices?.[0]?.price || 0);
+        case "duration":
+          return (a.durations?.day || 0) - (b.durations?.day || 0);
+        case "rating":
+        default:
+          return parseFloat(b.aggregate_rating_value || "0") - parseFloat(a.aggregate_rating_value || "0");
+      }
+    });
+
+    return filtered;
+  }, [packages, searchQuery, sortBy, selectedDurations, priceRange, selectedStartCities, selectedTourTypes, selectedAttractions]);
+
+  const handleCheckboxChange = (
+    value: string,
+    setter: React.Dispatch<React.SetStateAction<string[]>>
+  ) => {
+    setter((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    );
+  };
+
+  return (
+    <div className="relative flex h-auto min-h-screen w-full flex-col bg-[#f6f7f8] dark:bg-[#101c22] text-[#0d171b] dark:text-slate-50">
+      <div className="layout-container flex h-full grow flex-col">
+        {/* Header */}
+        <header className="sticky top-0 z-10 bg-[#f6f7f8] dark:bg-[#101c22] shadow-sm">
+          <div className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eff3] dark:border-b-slate-800 px-4 sm:px-10 py-3 max-w-7xl mx-auto">
+            <div className="flex items-center gap-4 text-[#1193d4]">
+              <span className="material-symbols-outlined text-3xl">explore</span>
+              <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0d171b] dark:text-slate-50">
+                JVTO All-Inclusive Tours
+              </h2>
+            </div>
+            <nav className="hidden md:flex items-center gap-9">
+              <Link href="/" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                Home
+              </Link>
+              <Link href="/tours" className="text-sm font-medium leading-normal text-[#1193d4]">
+                Tours
+              </Link>
+              <Link href="/about" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                About Us
+              </Link>
+              <Link href="/contact" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                Contact
+              </Link>
+            </nav>
+            <div className="flex items-center gap-2">
+              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1193d4] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
+                <span className="truncate">Book Now</span>
+              </button>
+              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#e7eff3] dark:bg-slate-800 text-[#0d171b] dark:text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
+                <span className="truncate">Log In</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-10 max-w-7xl mx-auto w-full">
+          <div className="flex flex-col gap-8">
+            {/* Page Title */}
+            <div className="flex flex-wrap justify-between items-center gap-4 p-4">
+              <div className="flex flex-col gap-3">
+                <p className="text-4xl font-black leading-tight tracking-[-0.033em] text-[#0d171b] dark:text-slate-50">
+                  Find Your Perfect East Java Adventure
+                </p>
+                <p className="text-base font-normal leading-normal text-[#4c809a] dark:text-slate-400">
+                  Explore our curated all-inclusive tour packages
+                </p>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="px-4 py-3">
+              <label className="flex flex-col min-w-40 h-12 w-full">
+                <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
+                  <div className="text-[#4c809a] dark:text-slate-400 flex border-none bg-[#e7eff3] dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+                    <span className="material-symbols-outlined">search</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-[#0d171b] dark:text-slate-50 focus:outline-0 focus:ring-0 border-none bg-[#e7eff3] dark:bg-slate-800 focus:border-none h-full placeholder:text-[#4c809a] dark:placeholder:text-slate-400 px-4 text-base font-normal leading-normal"
+                    placeholder="Search for destinations or starting cities"
+                  />
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {/* Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-8">
+            {/* Sidebar Filters */}
+            <aside className="lg:col-span-1">
+              <div className="flex h-full min-h-[700px] flex-col justify-start bg-[#f6f7f8] dark:bg-[#101c22] p-4 rounded-lg border border-solid border-[#e7eff3] dark:border-slate-800">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col">
+                    <h1 className="text-base font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                      Filter Tours
+                    </h1>
+                    <p className="text-sm font-normal leading-normal text-[#4c809a] dark:text-slate-400">
+                      Refine your search
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-6">
+                    {/* Duration Filter */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#e7eff3] dark:bg-slate-800">
+                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
+                          schedule
+                        </span>
+                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                          Duration
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2 pl-4 mt-2">
+                        {["1 Day", "2 Days", "3+ Days"].map((duration) => (
+                          <label key={duration} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedDurations.includes(duration)}
+                              onChange={() => handleCheckboxChange(duration, setSelectedDurations)}
+                              className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
+                            />
+                            <span className="text-sm">{duration}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Price Range Filter */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
+                          payments
+                        </span>
+                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                          Price Range
+                        </p>
+                      </div>
+                      <div className="p-4">
+                        <div className="flex h-[38px] w-full pt-1.5">
+                          <div className="flex h-1 w-full rounded-sm bg-[#cfdfe7] dark:bg-slate-700">
+                            <div className="relative w-full">
+                              <div className="absolute left-0 -top-1.5 flex flex-col items-center gap-1">
+                                <div className="size-4 rounded-full bg-[#1193d4]"></div>
+                                <p className="text-sm font-normal leading-normal text-[#0d171b] dark:text-slate-50">
+                                  ${priceRange.min}
+                                </p>
+                              </div>
+                              <div className="absolute right-0 -top-1.5 flex flex-col items-center gap-1">
+                                <div className="size-4 rounded-full bg-[#1193d4]"></div>
+                                <p className="text-sm font-normal leading-normal text-[#0d171b] dark:text-slate-50">
+                                  ${priceRange.max}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-center mt-2 text-[#4c809a] dark:text-slate-400">
+                          Drag sliders to adjust (currently showing all)
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Start City Filter */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
+                          flight_takeoff
+                        </span>
+                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                          Start City
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2 pl-4">
+                        {startCities.map((city) => (
+                          <label key={city} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedStartCities.includes(city)}
+                              onChange={() => handleCheckboxChange(city, setSelectedStartCities)}
+                              className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
+                            />
+                            <span className="text-sm">{city}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tour Type Filter */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
+                          category
+                        </span>
+                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                          Tour Type
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2 pl-4">
+                        {["Adventure", "Cultural", "Relaxation"].map((type) => (
+                          <label key={type} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedTourTypes.includes(type)}
+                              onChange={() => handleCheckboxChange(type, setSelectedTourTypes)}
+                              className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
+                            />
+                            <span className="text-sm">{type}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Key Attractions Filter */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-3 px-3 py-2">
+                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
+                          attractions
+                        </span>
+                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+                          Key Attractions
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-2 pl-4">
+                        {["Bromo", "Ijen Crater", "Tumpak Sewu Waterfall"].map((attraction) => (
+                          <label key={attraction} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedAttractions.includes(attraction)}
+                              onChange={() => handleCheckboxChange(attraction, setSelectedAttractions)}
+                              className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
+                            />
+                            <span className="text-sm">{attraction}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* Tours Grid */}
+            <main className="lg:col-span-3">
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-sm text-[#4c809a] dark:text-slate-400">
+                  Showing {filteredPackages.length} of {packages.length} tours
+                </p>
+                <div className="flex items-center gap-2">
+                  <label
+                    className="text-sm font-medium text-[#0d171b] dark:text-slate-50"
+                    htmlFor="sort-by"
+                  >
+                    Sort by:
+                  </label>
+                  <select
+                    id="sort-by"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="rounded-lg border-gray-300 dark:border-slate-700 bg-[#f6f7f8] dark:bg-[#101c22] text-sm focus:border-[#1193d4] focus:ring-[#1193d4]/50"
+                  >
+                    <option value="rating">Rating</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="duration">Duration</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredPackages.map((pkg) => {
+                  const minPrice = pkg.package_prices?.[0]?.price || 0;
+                  const image = pkg.package_images?.[0]?.url || "/img/destinations/fb4.jpg";
+                  const rating = pkg.aggregate_rating_value || "4.9";
+                  const reviewCount = pkg.aggregate_rating_count || 0;
+
+                  return (
+                    <div
+                      key={pkg.id}
+                      className="relative group flex flex-col rounded-xl overflow-hidden shadow-md bg-white dark:bg-slate-800 hover:shadow-xl transition-shadow duration-300"
+                    >
+                      <div className="relative h-48 w-full">
+                        <img
+                          src={`https://javavolcano-touroperator.com/assets${image}`}
+                          alt={pkg.name || "Tour package"}
+                          className="object-cover h-full w-full"
+                        />
+                      </div>
+                      <div className="p-4 flex-1 flex flex-col">
+                        <h3 className="text-lg font-bold text-[#0d171b] dark:text-slate-50">
+                          {pkg.name}
+                        </h3>
+                        <div className="flex items-center gap-1 mt-1 text-sm text-[#4c809a] dark:text-slate-400">
+                          <span
+                            className="material-symbols-outlined text-yellow-500 text-base"
+                            style={{ fontVariationSettings: "'FILL' 1" }}
+                          >
+                            star
+                          </span>
+                          <span>
+                            {rating} ({reviewCount} reviews)
+                          </span>
+                        </div>
+                        <div className="mt-4 flex-1">
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="material-symbols-outlined text-base">schedule</span>
+                            <span>{pkg.durations?.name || "N/A"}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm mt-1">
+                            <span className="material-symbols-outlined text-base">
+                              calendar_today
+                            </span>
+                            <span>Next: Available</span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center mt-4">
+                          <span className="text-lg font-bold text-[#1193d4]">IDR {minPrice}</span>
+                          <Link href={`/tours/${pkg.slug}`}>
+                            <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#1193d4] text-white px-3 py-1 rounded-md text-sm">
+                              View Details
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                      {pkg.package_category_id === "1" && (
+                        <div className="absolute top-2 right-2 bg-green-200/80 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
+                          Free Cancellation
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Pagination */}
+              <div className="mt-10 flex justify-center">
+                <nav className="flex items-center gap-2">
+                  <a
+                    href="#"
+                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-lg">chevron_left</span>
+                  </a>
+                  <a href="#" className="px-3 py-1 rounded-md bg-[#1193d4] text-white">
+                    1
+                  </a>
+                  <a
+                    href="#"
+                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
+                  >
+                    2
+                  </a>
+                  <a
+                    href="#"
+                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
+                  >
+                    3
+                  </a>
+                  <span className="px-3 py-1">...</span>
+                  <a
+                    href="#"
+                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-lg">chevron_right</span>
+                  </a>
+                </nav>
+              </div>
+            </main>
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-[#e7eff3] dark:bg-slate-900 mt-16">
+          <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-[#4c809a] dark:text-slate-400">
+                © 2023 JVTO All-Inclusive Tours
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href="#"
+                  className="text-[#4c809a] dark:text-slate-400 hover:text-[#1193d4] dark:hover:text-[#1193d4]"
+                >
+                  Facebook
+                </a>
+                <a
+                  href="#"
+                  className="text-[#4c809a] dark:text-slate-400 hover:text-[#1193d4] dark:hover:text-[#1193d4]"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="#"
+                  className="text-[#4c809a] dark:text-slate-400 hover:text-[#1193d4] dark:hover:text-[#1193d4]"
+                >
+                  Twitter
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}
