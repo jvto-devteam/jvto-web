@@ -1,10 +1,10 @@
-'use client'
-import React, { useState } from 'react';
-import { 
-  Star, 
-  Check, 
-  X, 
-  ChevronDown, 
+"use client";
+import React, { useState } from "react";
+import {
+  Star,
+  Check,
+  X,
+  ChevronDown,
   ChevronUp,
   CreditCard,
   Award,
@@ -13,27 +13,47 @@ import {
   ArrowRight,
   Wifi,
   UtensilsCrossed,
-  Flame
-} from 'lucide-react';
+  Flame,
+} from "lucide-react";
 
 export default function PackageDetail({ pkg }) {
   const [openModal, setOpenModal] = useState(false);
-  const [modalImage, setModalImage] = useState('');
+  const [modalImage, setModalImage] = useState("");
   const [openDay, setOpenDay] = useState(1);
   const [openFaq, setOpenFaq] = useState(null);
 
   // Format price to IDR
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
     }).format(price);
   };
 
+  const handleBookNow = () => {
+    // Simpan package data ke localStorage
+    const bookingData = {
+      packageId: pkg.id,
+      packageName: pkg.name,
+      packageSlug: pkg.slug,
+      lowestPrice: lowestPrice,
+      duration: pkg.durations.day,
+      rating: pkg.aggregate_rating_value || "4.9",
+      image: pkg.package_images[0]?.url || "",
+      orderChannel: pkg.order_channels.name,
+    };
+
+    localStorage.setItem("selectedTour", JSON.stringify(bookingData));
+
+    // Redirect ke checkout
+    window.location.href = "/checkout";
+  };
+
   // Get lowest price
-  const lowestPrice = pkg.package_prices.reduce((min, p) => 
-    p.price < min ? p.price : min, pkg.package_prices[0]?.price || 0
+  const lowestPrice = pkg.package_prices.reduce(
+    (min, p) => (p.price < min ? p.price : min),
+    pkg.package_prices[0]?.price || 0
   );
 
   return (
@@ -45,23 +65,51 @@ export default function PackageDetail({ pkg }) {
             {pkg.order_channels.name}
           </a>
           <nav className="hidden md:flex items-center space-x-6">
-            <a className="text-gray-600 dark:text-gray-400 hover:text-blue-600" href="#">Tours</a>
-            <a className="text-gray-600 dark:text-gray-400 hover:text-blue-600" href="#">About Us</a>
-            <a className="text-gray-600 dark:text-gray-400 hover:text-blue-600" href="#">Contact</a>
+            <a
+              className="text-gray-600 dark:text-gray-400 hover:text-blue-600"
+              href="#"
+            >
+              Tours
+            </a>
+            <a
+              className="text-gray-600 dark:text-gray-400 hover:text-blue-600"
+              href="#"
+            >
+              About Us
+            </a>
+            <a
+              className="text-gray-600 dark:text-gray-400 hover:text-blue-600"
+              href="#"
+            >
+              Contact
+            </a>
           </nav>
           <div className="flex items-center space-x-4">
-            <a className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700" href="#">
+            <button
+              onClick={handleBookNow}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
+            >
               Book Now
-            </a>
+            </button>
           </div>
         </header>
 
         <main>
           {/* Breadcrumb */}
           <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            <a className="hover:text-blue-600" href="#">Home</a> /
-            <a className="hover:text-blue-600" href="#"> Tours</a> /
-            <span className="text-gray-900 dark:text-gray-100"> {pkg.name}</span>
+            <a className="hover:text-blue-600" href="#">
+              Home
+            </a>{" "}
+            /
+            <a className="hover:text-blue-600" href="#">
+              {" "}
+              Tours
+            </a>{" "}
+            /
+            <span className="text-gray-900 dark:text-gray-100">
+              {" "}
+              {pkg.name}
+            </span>
           </div>
 
           {/* Title */}
@@ -76,12 +124,14 @@ export default function PackageDetail({ pkg }) {
                   setOpenModal(true);
                   setModalImage(img.url);
                 }}
-                className={`${idx === 0 ? 'col-span-2 row-span-2' : ''} rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity`}
+                className={`${
+                  idx === 0 ? "col-span-2 row-span-2" : ""
+                } rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity`}
               >
                 <img
                   alt={img.alt_text || img.caption}
                   className="w-full h-full object-cover"
-                  src={`https://javavolcano-touroperator.com/assets/`+img.url}
+                  src={`https://javavolcano-touroperator.com/assets/` + img.url}
                 />
               </div>
             ))}
@@ -93,18 +143,29 @@ export default function PackageDetail({ pkg }) {
               {/* Quick Info Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
                 <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
-                  <p className="text-gray-600 dark:text-gray-400">Starting Price</p>
-                  <p className="text-2xl font-semibold">{formatPrice(lowestPrice)}</p>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Starting Price
+                  </p>
+                  <p className="text-2xl font-semibold">
+                    {formatPrice(lowestPrice)}
+                  </p>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
                   <p className="text-gray-600 dark:text-gray-400">Duration</p>
-                  <p className="text-2xl font-semibold">{pkg.durations.day} Days</p>
+                  <p className="text-2xl font-semibold">
+                    {pkg.durations.day} Days
+                  </p>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
                   <p className="text-gray-600 dark:text-gray-400">Rating</p>
                   <div className="flex items-center justify-center space-x-1">
-                    <p className="text-2xl font-semibold">{pkg.aggregate_rating_value || '4.9'}</p>
-                    <Star className="text-yellow-500 fill-yellow-500" size={20} />
+                    <p className="text-2xl font-semibold">
+                      {pkg.aggregate_rating_value || "4.9"}
+                    </p>
+                    <Star
+                      className="text-yellow-500 fill-yellow-500"
+                      size={20}
+                    />
                   </div>
                 </div>
               </div>
@@ -112,7 +173,9 @@ export default function PackageDetail({ pkg }) {
               {/* Overview */}
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">Overview Tours</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">{pkg.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  {pkg.description}
+                </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg flex flex-col items-center justify-center">
                     <CreditCard className="text-blue-600 mb-2" size={32} />
@@ -120,11 +183,15 @@ export default function PackageDetail({ pkg }) {
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg flex flex-col items-center justify-center">
                     <Award className="text-blue-600 mb-2" size={32} />
-                    <span className="text-sm font-medium">Founder-Led Safety</span>
+                    <span className="text-sm font-medium">
+                      Founder-Led Safety
+                    </span>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg flex flex-col items-center justify-center">
                     <Users className="text-blue-600 mb-2" size={32} />
-                    <span className="text-sm font-medium">Verifiable Legitimacy</span>
+                    <span className="text-sm font-medium">
+                      Verifiable Legitimacy
+                    </span>
                   </div>
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg flex flex-col items-center justify-center">
                     <ShieldCheck className="text-blue-600 mb-2" size={32} />
@@ -145,9 +212,19 @@ export default function PackageDetail({ pkg }) {
                     </h3>
                     <ul className="space-y-2">
                       {pkg.package_includes.map((item) => (
-                        <li key={item.id} className="flex items-start text-gray-600 dark:text-gray-400">
-                          <ArrowRight className="text-blue-600 mr-2 mt-1 flex-shrink-0" size={16} />
-                          <span dangerouslySetInnerHTML={{ __html: item.item_includes.item }} />
+                        <li
+                          key={item.id}
+                          className="flex items-start text-gray-600 dark:text-gray-400"
+                        >
+                          <ArrowRight
+                            className="text-blue-600 mr-2 mt-1 flex-shrink-0"
+                            size={16}
+                          />
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: item.item_includes.item,
+                            }}
+                          />
                         </li>
                       ))}
                     </ul>
@@ -161,9 +238,19 @@ export default function PackageDetail({ pkg }) {
                     </h3>
                     <ul className="space-y-2">
                       {pkg.package_excludes.map((item) => (
-                        <li key={item.id} className="flex items-start text-gray-600 dark:text-gray-400">
-                          <ArrowRight className="text-blue-600 mr-2 mt-1 flex-shrink-0" size={16} />
-                          <span dangerouslySetInnerHTML={{ __html: item.item_excludes.item }} />
+                        <li
+                          key={item.id}
+                          className="flex items-start text-gray-600 dark:text-gray-400"
+                        >
+                          <ArrowRight
+                            className="text-blue-600 mr-2 mt-1 flex-shrink-0"
+                            size={16}
+                          />
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: item.item_excludes.item,
+                            }}
+                          />
                         </li>
                       ))}
                     </ul>
@@ -176,9 +263,14 @@ export default function PackageDetail({ pkg }) {
                 <h2 className="text-2xl font-bold mb-4">Itinerary</h2>
                 <div className="space-y-4">
                   {pkg.package_itinerary_days.map((day) => (
-                    <div key={day.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl">
+                    <div
+                      key={day.id}
+                      className="bg-gray-50 dark:bg-gray-800 rounded-xl"
+                    >
                       <button
-                        onClick={() => setOpenDay(openDay === day.day_no ? null : day.day_no)}
+                        onClick={() =>
+                          setOpenDay(openDay === day.day_no ? null : day.day_no)
+                        }
                         className="w-full text-left p-4 font-semibold flex justify-between items-center cursor-pointer"
                       >
                         Day {day.day_no}: {day.title}
@@ -206,27 +298,35 @@ export default function PackageDetail({ pkg }) {
                                 ))}
                             </ul>
                           )}
-                          {day.meal_breakfast || day.meal_lunch || day.meal_dinner ? (
-                          <div className="bg-blue-50 dark:bg-gray-700 ml-2 p-4 my-4 border-l-2 border-blue-600">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                              <div>
-                                <p className="font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
-                                  <UtensilsCrossed size={18} className="mr-2 text-blue-600" />
-                                  Meals Included:
-                                </p>
-                                <div className="space-y-1">
-                                  {day.meal_breakfast && <p>• Breakfast</p>}
-                                  {day.meal_lunch && <p>• Lunch</p>}
-                                  {day.meal_dinner && <p>• Dinner</p>}
-                                  {!day.meal_breakfast && !day.meal_lunch && !day.meal_dinner && (
-                                    <p>• No meals included</p>
-                                  )}
+                          {day.meal_breakfast ||
+                          day.meal_lunch ||
+                          day.meal_dinner ? (
+                            <div className="bg-blue-50 dark:bg-gray-700 ml-2 p-4 my-4 border-l-2 border-blue-600">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                  <p className="font-semibold text-gray-900 dark:text-gray-100 mb-2 flex items-center">
+                                    <UtensilsCrossed
+                                      size={18}
+                                      className="mr-2 text-blue-600"
+                                    />
+                                    Meals Included:
+                                  </p>
+                                  <div className="space-y-1">
+                                    {day.meal_breakfast && <p>• Breakfast</p>}
+                                    {day.meal_lunch && <p>• Lunch</p>}
+                                    {day.meal_dinner && <p>• Dinner</p>}
+                                    {!day.meal_breakfast &&
+                                      !day.meal_lunch &&
+                                      !day.meal_dinner && (
+                                        <p>• No meals included</p>
+                                      )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          ) : ''}
-
+                          ) : (
+                            ""
+                          )}
                         </div>
                       )}
                     </div>
@@ -238,28 +338,46 @@ export default function PackageDetail({ pkg }) {
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">Accommodation</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Rest and recharge in comfort. We've carefully selected accommodations that offer the best location and amenities.
+                  Rest and recharge in comfort. We've carefully selected
+                  accommodations that offer the best location and amenities.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {pkg.package_hotel_options.map((option) => (
-                    <div key={option.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <div
+                      key={option.id}
+                      className="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden"
+                    >
                       <img
                         alt={option.hotels.name}
                         className="w-full h-48 object-cover"
-                        src={`https://javavolcano-touroperator.com/assets/img/hotels/`+option.hotels.banner}
+                        src={
+                          `https://javavolcano-touroperator.com/assets/img/hotels/` +
+                          option.hotels.banner
+                        }
                       />
                       <div className="p-6">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Day {option.day_no}</p>
-                        <h3 className="text-xl font-semibold my-1">{option.hotels.name}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Day {option.day_no}
+                        </p>
+                        <h3 className="text-xl font-semibold my-1">
+                          {option.hotels.name}
+                        </h3>
                         <div className="flex items-center space-x-1 text-yellow-500 mb-2">
                           {[...Array(4)].map((_, i) => (
-                            <Star key={i} size={16} className="fill-yellow-500" />
+                            <Star
+                              key={i}
+                              size={16}
+                              className="fill-yellow-500"
+                            />
                           ))}
                           <Star size={16} />
                         </div>
-                        <p className="text-sm text-blue-600 mb-3">{option.hotels.address}</p>
+                        <p className="text-sm text-blue-600 mb-3">
+                          {option.hotels.address}
+                        </p>
                         <p className="text-gray-600 dark:text-gray-400 mb-4">
-                          {option.hotels.description || 'Comfortable accommodation with excellent amenities.'}
+                          {option.hotels.description ||
+                            "Comfortable accommodation with excellent amenities."}
                         </p>
                         <div className="flex items-center space-x-4 text-sm">
                           <div className="flex items-center">
@@ -267,7 +385,10 @@ export default function PackageDetail({ pkg }) {
                             Wifi
                           </div>
                           <div className="flex items-center">
-                            <UtensilsCrossed className="text-blue-600 mr-1" size={16} />
+                            <UtensilsCrossed
+                              className="text-blue-600 mr-1"
+                              size={16}
+                            />
                             Restaurant
                           </div>
                           <div className="flex items-center">
@@ -294,17 +415,25 @@ export default function PackageDetail({ pkg }) {
                         </div>
                         <div>
                           <p className="font-semibold">Alex Johnson</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">March 2024</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            March 2024
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={16} className="fill-yellow-500 text-yellow-500" />
+                          <Star
+                            key={i}
+                            size={16}
+                            className="fill-yellow-500 text-yellow-500"
+                          />
                         ))}
                       </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                      "An unforgettable experience! The views were breathtaking and the guides were incredibly knowledgeable. Everything was seamless from pickup to drop-off. Highly recommend!"
+                      "An unforgettable experience! The views were breathtaking
+                      and the guides were incredibly knowledgeable. Everything
+                      was seamless from pickup to drop-off. Highly recommend!"
                     </p>
                   </div>
 
@@ -317,18 +446,26 @@ export default function PackageDetail({ pkg }) {
                         </div>
                         <div>
                           <p className="font-semibold">Maria Garcia</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">February 2024</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            February 2024
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-1">
                         {[...Array(4)].map((_, i) => (
-                          <Star key={i} size={16} className="fill-yellow-500 text-yellow-500" />
+                          <Star
+                            key={i}
+                            size={16}
+                            className="fill-yellow-500 text-yellow-500"
+                          />
                         ))}
                         <Star size={16} className="text-yellow-500" />
                       </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                      "The Ijen blue fire was magical, and the Bromo sunrise was out of this world. The drivers and guides were fantastic. A must-do trip in East Java."
+                      "The Ijen blue fire was magical, and the Bromo sunrise was
+                      out of this world. The drivers and guides were fantastic.
+                      A must-do trip in East Java."
                     </p>
                   </div>
 
@@ -341,17 +478,25 @@ export default function PackageDetail({ pkg }) {
                         </div>
                         <div>
                           <p className="font-semibold">David Lee</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">January 2024</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            January 2024
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={16} className="fill-yellow-500 text-yellow-500" />
+                          <Star
+                            key={i}
+                            size={16}
+                            className="fill-yellow-500 text-yellow-500"
+                          />
                         ))}
                       </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                      "Perfect organization, comfortable hotels, and stunning natural beauty. The Madakaripura Waterfall was a hidden gem. Worth every penny!"
+                      "Perfect organization, comfortable hotels, and stunning
+                      natural beauty. The Madakaripura Waterfall was a hidden
+                      gem. Worth every penny!"
                     </p>
                   </div>
                 </div>
@@ -359,43 +504,57 @@ export default function PackageDetail({ pkg }) {
 
               {/* FAQ */}
               <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+                <h2 className="text-2xl font-bold mb-6">
+                  Frequently Asked Questions
+                </h2>
                 <div className="space-y-4">
                   {[
                     {
                       id: 1,
                       question: "What is the fitness level required?",
-                      answer: "This tour requires a moderate fitness level. The Ijen trek involves a 1.5-2 hour hike uphill and steep descent into the crater. Bromo involves shorter walks with optional pony rides. If you can walk for 2-3 hours with breaks, you'll be fine."
+                      answer:
+                        "This tour requires a moderate fitness level. The Ijen trek involves a 1.5-2 hour hike uphill and steep descent into the crater. Bromo involves shorter walks with optional pony rides. If you can walk for 2-3 hours with breaks, you'll be fine.",
                     },
                     {
                       id: 2,
                       question: "What should I pack for the tour?",
-                      answer: "Essential items include: warm layers (temperatures can drop to 5°C at night), trekking shoes, waterproof jacket, headlamp/flashlight, sunscreen, personal medications, and a small backpack. We provide gas masks and trekking poles for Ijen."
+                      answer:
+                        "Essential items include: warm layers (temperatures can drop to 5°C at night), trekking shoes, waterproof jacket, headlamp/flashlight, sunscreen, personal medications, and a small backpack. We provide gas masks and trekking poles for Ijen.",
                     },
                     {
                       id: 3,
                       question: "Is the blue fire at Ijen guaranteed?",
-                      answer: "The blue fire phenomenon is natural and depends on weather conditions. It's visible on most clear nights, but can be obscured by rain, fog, or strong winds. We time the trek to maximize your chances of seeing it, typically between 2-4 AM."
+                      answer:
+                        "The blue fire phenomenon is natural and depends on weather conditions. It's visible on most clear nights, but can be obscured by rain, fog, or strong winds. We time the trek to maximize your chances of seeing it, typically between 2-4 AM.",
                     },
                     {
                       id: 4,
-                      question: "Can I join the tour if I have respiratory issues?",
-                      answer: "The sulfur fumes at Ijen can be challenging for those with asthma or respiratory conditions. We provide gas masks, but if you have serious respiratory issues, please consult your doctor before booking. The Bromo portion should be fine for most visitors."
+                      question:
+                        "Can I join the tour if I have respiratory issues?",
+                      answer:
+                        "The sulfur fumes at Ijen can be challenging for those with asthma or respiratory conditions. We provide gas masks, but if you have serious respiratory issues, please consult your doctor before booking. The Bromo portion should be fine for most visitors.",
                     },
                     {
                       id: 5,
                       question: "What meals are included?",
-                      answer: "The tour includes 2 breakfasts and 1 dinner as specified in the itinerary. Lunches and additional meals are at your own expense, giving you flexibility to choose based on your preferences and dietary needs. We can recommend good local restaurants."
+                      answer:
+                        "The tour includes 2 breakfasts and 1 dinner as specified in the itinerary. Lunches and additional meals are at your own expense, giving you flexibility to choose based on your preferences and dietary needs. We can recommend good local restaurants.",
                     },
                     {
                       id: 6,
                       question: "Is travel insurance required?",
-                      answer: "While not mandatory, we highly recommend travel insurance covering trip interruptions, medical emergencies, and lost luggage. The trekking at altitude involves some risks, and insurance provides peace of mind."
-                    }
+                      answer:
+                        "While not mandatory, we highly recommend travel insurance covering trip interruptions, medical emergencies, and lost luggage. The trekking at altitude involves some risks, and insurance provides peace of mind.",
+                    },
                   ].map((faq) => (
-                    <div key={faq.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl">
+                    <div
+                      key={faq.id}
+                      className="bg-gray-50 dark:bg-gray-800 rounded-xl"
+                    >
                       <button
-                        onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
+                        onClick={() =>
+                          setOpenFaq(openFaq === faq.id ? null : faq.id)
+                        }
                         className="w-full text-left p-4 font-semibold flex justify-between items-center cursor-pointer"
                       >
                         {faq.question}
@@ -440,12 +599,19 @@ export default function PackageDetail({ pkg }) {
             <div className="lg:col-span-1">
               <div className="sticky top-8">
                 <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl text-center">
-                  <p className="text-gray-600 dark:text-gray-400">Starting from</p>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Starting from
+                  </p>
                   <p className="text-4xl font-bold my-2">
                     {formatPrice(lowestPrice)}
-                    <span className="text-base font-normal text-gray-600 dark:text-gray-400">/person</span>
+                    <span className="text-base font-normal text-gray-600 dark:text-gray-400">
+                      /person
+                    </span>
                   </p>
-                  <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                  <button
+                    onClick={handleBookNow}
+                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                  >
                     Book This Tour
                   </button>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mt-4">
@@ -463,8 +629,17 @@ export default function PackageDetail({ pkg }) {
             onClick={() => setOpenModal(false)}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 transition-opacity"
           >
-            <div onClick={(e) => e.stopPropagation()} className="relative max-w-4xl max-h-[90vh] mx-4">
-              <img src={`https://javavolcano-touroperator.com/assets/`+modalImage} alt="Popup" className="rounded-lg object-contain w-full h-full" />
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl max-h-[90vh] mx-4"
+            >
+              <img
+                src={
+                  `https://javavolcano-touroperator.com/assets/` + modalImage
+                }
+                alt="Popup"
+                className="rounded-lg object-contain w-full h-full"
+              />
               <button
                 onClick={() => setOpenModal(false)}
                 className="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-70"
