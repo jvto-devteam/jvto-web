@@ -25,7 +25,8 @@ export function middleware(req: NextRequest) {
     '/packages/bali/3d2n/3',
     '/packages/bali/4d3n/3',
     '/packages/bali/4d3n/4',
-    '/isic/student-package',
+    '/accommodations',
+    '/transportations',
   ];
 
   // 410 untuk exact match
