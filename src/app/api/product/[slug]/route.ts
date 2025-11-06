@@ -2,11 +2,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ slug: string }> }
+  context: { params: { slug: string } }
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-   const { slug } = await context.params;
+  const { slug } = await context.params;
 
   const pkg = await prisma.packages.findFirst({
     where: { slug },
@@ -95,7 +95,7 @@ export async function GET(
   if (hasIjen) {
     travelerRequirements.push("Printed passport copy required for Ijen permit");
   }
-  const mapped =
+  const mapped: any =
     all === "true"
       ? serialized // kalau ?all=true kirim data lengkap
       : {
@@ -196,14 +196,14 @@ export async function GET(
             license: "1102230032918",
           },
         };
-    if (searchParams.get("download") === "true") {
-      return new Response(JSON.stringify(mapped, null, 2), {
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Disposition": `attachment; filename="product-${serialized.slug}.json"`,
-        },
-      });
-    }
+  if (searchParams.get("download") === "true") {
+    return new Response(JSON.stringify(mapped, null, 2), {
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Disposition": `attachment; filename="product-${serialized.slug}.json"`,
+      },
+    });
+  }
 
   return Response.json(mapped);
 }
