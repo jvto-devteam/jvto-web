@@ -23,6 +23,7 @@ export default async function ToursPage() {
 
   const durations = await prisma.durations.findMany({
     orderBy: { name: "asc" },
+    take:6
   });
 
   const destinations = await prisma.destinations.findMany({
