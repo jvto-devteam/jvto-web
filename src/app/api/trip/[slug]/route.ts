@@ -75,19 +75,19 @@ export async function GET(
   // ✅ FIXED: Safe array checks with strict equality
   const hasIjen = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
-        (d) => Number(d.destination_id) === 2
+        (d: any) => Number(d.destination_id) === 2
       )
     : false;
 
   const hasBromo = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
-        (d) => Number(d.destination_id) === 1
+        (d: any) => Number(d.destination_id) === 1
       )
     : false;
 
   const hasWaterfall = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
-        (d) => Number(d.destination_id) === 7 || Number(d.destination_id) === 6
+        (d: any) => Number(d.destination_id) === 7 || Number(d.destination_id) === 6
       )
     : false;
 
