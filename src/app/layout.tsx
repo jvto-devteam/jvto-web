@@ -1,13 +1,13 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@/components/GoogleAnalytics"; // <-- 1. Impor komponen
+import { Suspense } from "react";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Poppins } from "next/font/google";
-
 import "./globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"], // atau sesuai kebutuhanmu
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "optional", // ✅ menghindari warning font-display
 });
 
 export const metadata: Metadata = {
@@ -17,21 +17,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <head>
+      <body className={`${poppins.className} antialiased`}>
+        {/* ✅ Komponen React harus berada di body, bukan di head */}
         <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
-          <link
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200..700"
-            rel="stylesheet"
-          />
         </Suspense>
-      </head>
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+        {children}
+      </body>
     </html>
   );
 }
