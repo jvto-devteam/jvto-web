@@ -89,7 +89,7 @@ export async function GET(
     "Escort Guide / English-speaking driver-guide",
   ];
 
-  function formatTime(timeString) {
+  function formatTime(timeString: string) {
     if (!timeString) return "";
     const [hours, minutes] = timeString.split(":");
     return `${hours}:${minutes}`;
