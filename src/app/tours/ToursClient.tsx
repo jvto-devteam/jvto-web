@@ -2,14 +2,52 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
-type Package = any; // Replace with your actual type
+// ✅ FIXED: Proper type definitions
+interface PackagePrice {
+  price: number;
+  [key: string]: any;
+}
+
+interface PackageImage {
+  url: string;
+  sort_order?: number;
+  [key: string]: any;
+}
+
+interface Destination {
+  id: string | number;
+  name: string;
+  [key: string]: any;
+}
+
+interface Duration {
+  id: string;
+  name: string;
+  day?: number;
+  night?: number;
+  [key: string]: any;
+}
+
+interface Package {
+  id: string | number;
+  name: string;
+  slug: string;
+  durations?: Duration;
+  start_destination?: Destination;
+  end_destination?: Destination;
+  package_prices?: PackagePrice[];
+  package_images?: PackageImage[];
+  aggregate_rating_value?: string;
+  aggregate_rating_count?: number;
+  package_category_id?: string;
+  [key: string]: any;
+}
 
 interface ToursClientProps {
   packages: Package[];
-  durations: any[];
-  destinations: any[];
+  durations: Duration[];
+  destinations: Destination[];
   startCities: string[];
 }
 
@@ -98,6 +136,7 @@ export default function ToursClient({
 
       return true;
     });
+
     // Sort packages
     filtered.sort((a, b) => {
       switch (sortBy) {
@@ -142,7 +181,9 @@ export default function ToursClient({
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
-  const formatPrice = (price) => {
+
+  // ✅ FIXED: Add type annotation for price parameter
+  const formatPrice = (price: number): string => {
     return new Intl.NumberFormat("id-ID", {
       minimumFractionDigits: 0,
     }).format(price);
@@ -347,31 +388,6 @@ export default function ToursClient({
                       </div>
                     </div>
 
-                    {/* Tour Type Filter */}
-                    {/* <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-3 px-3 py-2">
-                        <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
-                          category
-                        </span>
-                        <p className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
-                          Tour Type
-                        </p>
-                      </div>
-                      <div className="flex flex-col gap-2 pl-4">
-                        {["Adventure", "Cultural", "Relaxation"].map((type) => (
-                          <label key={type} className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={selectedTourTypes.includes(type)}
-                              onChange={() => handleCheckboxChange(type, setSelectedTourTypes)}
-                              className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
-                            />
-                            <span className="text-sm">{type}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div> */}
-
                     {/* Key Attractions Filter */}
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3 px-3 py-2">
@@ -391,11 +407,11 @@ export default function ToursClient({
                             <input
                               type="checkbox"
                               checked={selectedAttractions.includes(
-                                attraction.id
+                                String(attraction.id)
                               )}
                               onChange={() =>
                                 handleCheckboxChange(
-                                  attraction.id,
+                                  String(attraction.id),
                                   setSelectedAttractions
                                 )
                               }
@@ -484,7 +500,7 @@ export default function ToursClient({
                             <span className="material-symbols-outlined text-base">
                               assistant_navigation
                             </span>
-                            <span>From: {pkg.start_destination.name}</span>
+                            <span>From: {pkg.start_destination?.name || "N/A"}</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">
@@ -507,40 +523,6 @@ export default function ToursClient({
                   );
                 })}
               </div>
-
-              {/* Pagination */}
-              {/* <div className="mt-10 flex justify-center">
-                <nav className="flex items-center gap-2">
-                  <a
-                    href="#"
-                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-lg">chevron_left</span>
-                  </a>
-                  <a href="#" className="px-3 py-1 rounded-md bg-[#1193d4] text-white">
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
-                  >
-                    2
-                  </a>
-                  <a
-                    href="#"
-                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
-                  >
-                    3
-                  </a>
-                  <span className="px-3 py-1">...</span>
-                  <a
-                    href="#"
-                    className="px-3 py-1 rounded-md bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-[#1193d4] hover:text-white dark:hover:bg-[#1193d4] dark:hover:text-white transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-lg">chevron_right</span>
-                  </a>
-                </nav>
-              </div> */}
             </main>
           </div>
         </main>
