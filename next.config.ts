@@ -309,47 +309,37 @@ const nextConfig = {
       },
       {
         source: "/how-it-works",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/reserve-now-pay-later",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/support/reserve-now-pay-later",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/how-to-book",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/terms-and-conditions",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/payment-information",
-        destination: "/travel-guide/booking-information/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
         source: "/privacy-policy",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/accommodations",
-        destination: "/travel-guide/java-travel-tips/",
-        permanent: true,
-      },
-      {
-        source: "/transportations",
-        destination: "/travel-guide/java-travel-tips/",
+        destination: "/travel-guide/booking-payment-cancellation/",
         permanent: true,
       },
       {
