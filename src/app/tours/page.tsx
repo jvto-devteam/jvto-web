@@ -12,12 +12,6 @@ export default async function ToursPage() {
     },
     where: { is_publish: true },
   });
-  const durations = await prisma.durations.findMany({
-    orderBy: { name: "asc" },
-  });
-  const destinations = await prisma.destinations.findMany({
-    orderBy: { name: "asc" },
-  });
 
   return (
     <div className="p-4">

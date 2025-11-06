@@ -4,6 +4,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/about",
+        destination: "/why-jvto",
+        permanent: true,
+      },
+      {
         source: "/office",
         destination: "/contact",
         permanent: true,
