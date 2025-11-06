@@ -21,26 +21,27 @@ export default function ToursClient({
 }: ToursClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("rating");
-  
+
   // Filter states
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2000000 });
   const [selectedStartCities, setSelectedStartCities] = useState<string[]>([]);
   const [selectedTourTypes, setSelectedTourTypes] = useState<string[]>([]);
   const [selectedAttractions, setSelectedAttractions] = useState<string[]>([]);
 
   // Filter and sort packages
   const filteredPackages = useMemo(() => {
-    console.log('Total packages received:', packages.length);
-    console.log('Sample package:', packages[0]);
-    
     let filtered = packages.filter((pkg) => {
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matchesName = pkg.name?.toLowerCase().includes(query);
-        const matchesStart = pkg.start_destination?.name?.toLowerCase().includes(query);
-        const matchesEnd = pkg.end_destination?.name?.toLowerCase().includes(query);
+        const matchesStart = pkg.start_destination?.name
+          ?.toLowerCase()
+          .includes(query);
+        const matchesEnd = pkg.end_destination?.name
+          ?.toLowerCase()
+          .includes(query);
         if (!matchesName && !matchesStart && !matchesEnd) return false;
       }
 
@@ -48,17 +49,20 @@ export default function ToursClient({
       if (selectedDurations.length > 0) {
         const duration = pkg.durations;
         let matchesDuration = false;
-        
+
         if (selectedDurations.includes("1 Day") && duration?.day === 1) {
           matchesDuration = true;
         }
         if (selectedDurations.includes("2 Days") && duration?.day === 2) {
           matchesDuration = true;
         }
-        if (selectedDurations.includes("3+ Days") && (duration?.day || 0) >= 3) {
+        if (
+          selectedDurations.includes("3+ Days") &&
+          (duration?.day || 0) >= 3
+        ) {
           matchesDuration = true;
         }
-        
+
         if (!matchesDuration) return false;
       }
 
@@ -72,7 +76,8 @@ export default function ToursClient({
       // Start city filter
       if (selectedStartCities.length > 0) {
         const startCity = pkg.start_destination?.name;
-        if (!startCity || !selectedStartCities.includes(startCity)) return false;
+        if (!startCity || !selectedStartCities.includes(startCity))
+          return false;
       }
 
       // Tour type filter - check if package name contains the type
@@ -93,41 +98,41 @@ export default function ToursClient({
 
       return true;
     });
-
-    console.log('Filtered packages:', filtered.length);
-    console.log('Active filters:', {
-      searchQuery,
-      selectedDurations,
-      priceRange: { min: priceRange.min, max: priceRange.max },
-      selectedStartCities,
-      selectedTourTypes,
-      selectedAttractions
-    });
-    
-    // Log all package prices for debugging
-    console.log('All package prices (USD):', packages.map(pkg => ({
-      name: pkg.name,
-      priceIDR: pkg.package_prices?.[0]?.price,
-      priceUSD: (pkg.package_prices?.[0]?.price || 0) / 15000
-    })));
-
     // Sort packages
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price-low":
-          return (a.package_prices?.[0]?.price || 0) - (b.package_prices?.[0]?.price || 0);
+          return (
+            (a.package_prices?.[0]?.price || 0) -
+            (b.package_prices?.[0]?.price || 0)
+          );
         case "price-high":
-          return (b.package_prices?.[0]?.price || 0) - (a.package_prices?.[0]?.price || 0);
+          return (
+            (b.package_prices?.[0]?.price || 0) -
+            (a.package_prices?.[0]?.price || 0)
+          );
         case "duration":
           return (a.durations?.day || 0) - (b.durations?.day || 0);
         case "rating":
         default:
-          return parseFloat(b.aggregate_rating_value || "0") - parseFloat(a.aggregate_rating_value || "0");
+          return (
+            parseFloat(b.aggregate_rating_value || "0") -
+            parseFloat(a.aggregate_rating_value || "0")
+          );
       }
     });
 
     return filtered;
-  }, [packages, searchQuery, sortBy, selectedDurations, priceRange, selectedStartCities, selectedTourTypes, selectedAttractions]);
+  }, [
+    packages,
+    searchQuery,
+    sortBy,
+    selectedDurations,
+    priceRange,
+    selectedStartCities,
+    selectedTourTypes,
+    selectedAttractions,
+  ]);
 
   const handleCheckboxChange = (
     value: string,
@@ -137,6 +142,11 @@ export default function ToursClient({
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
   };
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("id-ID", {
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col bg-[#f6f7f8] dark:bg-[#101c22] text-[#0d171b] dark:text-slate-50">
@@ -145,22 +155,36 @@ export default function ToursClient({
         <header className="sticky top-0 z-10 bg-[#f6f7f8] dark:bg-[#101c22] shadow-sm">
           <div className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eff3] dark:border-b-slate-800 px-4 sm:px-10 py-3 max-w-7xl mx-auto">
             <div className="flex items-center gap-4 text-[#1193d4]">
-              <span className="material-symbols-outlined text-3xl">explore</span>
+              <span className="material-symbols-outlined text-3xl">
+                explore
+              </span>
               <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] text-[#0d171b] dark:text-slate-50">
                 JVTO All-Inclusive Tours
               </h2>
             </div>
             <nav className="hidden md:flex items-center gap-9">
-              <Link href="/" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+              <Link
+                href="/"
+                className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50"
+              >
                 Home
               </Link>
-              <Link href="/tours" className="text-sm font-medium leading-normal text-[#1193d4]">
+              <Link
+                href="/tours"
+                className="text-sm font-medium leading-normal text-[#1193d4]"
+              >
                 Tours
               </Link>
-              <Link href="/about" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+              <Link
+                href="/about"
+                className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50"
+              >
                 About Us
               </Link>
-              <Link href="/contact" className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50">
+              <Link
+                href="/contact"
+                className="text-sm font-medium leading-normal text-[#0d171b] dark:text-slate-50"
+              >
                 Contact
               </Link>
             </nav>
@@ -236,15 +260,23 @@ export default function ToursClient({
                         </p>
                       </div>
                       <div className="flex flex-col gap-2 pl-4 mt-2">
-                        {["1 Day", "2 Days", "3+ Days"].map((duration) => (
-                          <label key={duration} className="flex items-center gap-2">
+                        {durations.map((duration) => (
+                          <label
+                            key={duration.id}
+                            className="flex items-center gap-2"
+                          >
                             <input
                               type="checkbox"
-                              checked={selectedDurations.includes(duration)}
-                              onChange={() => handleCheckboxChange(duration, setSelectedDurations)}
+                              checked={selectedDurations.includes(duration.id)}
+                              onChange={() =>
+                                handleCheckboxChange(
+                                  duration.id,
+                                  setSelectedDurations
+                                )
+                              }
                               className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
                             />
-                            <span className="text-sm">{duration}</span>
+                            <span className="text-sm">{duration.name}</span>
                           </label>
                         ))}
                       </div>
@@ -267,13 +299,13 @@ export default function ToursClient({
                               <div className="absolute left-0 -top-1.5 flex flex-col items-center gap-1">
                                 <div className="size-4 rounded-full bg-[#1193d4]"></div>
                                 <p className="text-sm font-normal leading-normal text-[#0d171b] dark:text-slate-50">
-                                  ${priceRange.min}
+                                  {formatPrice(priceRange.min)}
                                 </p>
                               </div>
                               <div className="absolute right-0 -top-1.5 flex flex-col items-center gap-1">
                                 <div className="size-4 rounded-full bg-[#1193d4]"></div>
                                 <p className="text-sm font-normal leading-normal text-[#0d171b] dark:text-slate-50">
-                                  ${priceRange.max}
+                                  {formatPrice(priceRange.max)}
                                 </p>
                               </div>
                             </div>
@@ -301,7 +333,12 @@ export default function ToursClient({
                             <input
                               type="checkbox"
                               checked={selectedStartCities.includes(city)}
-                              onChange={() => handleCheckboxChange(city, setSelectedStartCities)}
+                              onChange={() =>
+                                handleCheckboxChange(
+                                  city,
+                                  setSelectedStartCities
+                                )
+                              }
                               className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
                             />
                             <span className="text-sm">{city}</span>
@@ -311,7 +348,7 @@ export default function ToursClient({
                     </div>
 
                     {/* Tour Type Filter */}
-                    <div className="flex flex-col gap-2">
+                    {/* <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-3 px-3 py-2">
                         <span className="material-symbols-outlined text-[#0d171b] dark:text-slate-50">
                           category
@@ -333,7 +370,7 @@ export default function ToursClient({
                           </label>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Key Attractions Filter */}
                     <div className="flex flex-col gap-2">
@@ -346,15 +383,25 @@ export default function ToursClient({
                         </p>
                       </div>
                       <div className="flex flex-col gap-2 pl-4">
-                        {["Bromo", "Ijen Crater", "Tumpak Sewu Waterfall"].map((attraction) => (
-                          <label key={attraction} className="flex items-center gap-2">
+                        {destinations.map((attraction) => (
+                          <label
+                            key={attraction.id}
+                            className="flex items-center gap-2"
+                          >
                             <input
                               type="checkbox"
-                              checked={selectedAttractions.includes(attraction)}
-                              onChange={() => handleCheckboxChange(attraction, setSelectedAttractions)}
+                              checked={selectedAttractions.includes(
+                                attraction.id
+                              )}
+                              onChange={() =>
+                                handleCheckboxChange(
+                                  attraction.id,
+                                  setSelectedAttractions
+                                )
+                              }
                               className="rounded text-[#1193d4] focus:ring-[#1193d4]/50"
                             />
-                            <span className="text-sm">{attraction}</span>
+                            <span className="text-sm">{attraction.name}</span>
                           </label>
                         ))}
                       </div>
@@ -394,7 +441,8 @@ export default function ToursClient({
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredPackages.map((pkg) => {
                   const minPrice = pkg.package_prices?.[0]?.price || 0;
-                  const image = pkg.package_images?.[0]?.url || "/img/destinations/fb4.jpg";
+                  const image =
+                    pkg.package_images?.[0]?.url || "/img/destinations/fb4.jpg";
                   const rating = pkg.aggregate_rating_value || "4.9";
                   const reviewCount = pkg.aggregate_rating_count || 0;
 
@@ -411,7 +459,7 @@ export default function ToursClient({
                         />
                       </div>
                       <div className="p-4 flex-1 flex flex-col">
-                        <h3 className="text-lg font-bold text-[#0d171b] dark:text-slate-50">
+                        <h3 className="text-lg font-bold text-[#0d171b] dark:text-slate-50 line-clamp-2">
                           {pkg.name}
                         </h3>
                         <div className="flex items-center gap-1 mt-1 text-sm text-[#4c809a] dark:text-slate-400">
@@ -427,18 +475,22 @@ export default function ToursClient({
                         </div>
                         <div className="mt-4 flex-1">
                           <div className="flex items-center gap-2 text-sm">
-                            <span className="material-symbols-outlined text-base">schedule</span>
+                            <span className="material-symbols-outlined text-base">
+                              schedule
+                            </span>
                             <span>{pkg.durations?.name || "N/A"}</span>
                           </div>
                           <div className="flex items-center gap-2 text-sm mt-1">
                             <span className="material-symbols-outlined text-base">
-                              calendar_today
+                              assistant_navigation
                             </span>
-                            <span>Next: Available</span>
+                            <span>From: {pkg.start_destination.name}</span>
                           </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">
-                          <span className="text-lg font-bold text-[#1193d4]">IDR {minPrice}</span>
+                          <span className="text-lg font-bold text-[#1193d4]">
+                            IDR {formatPrice(minPrice)}
+                          </span>
                           <Link href={`/tours/${pkg.slug}`}>
                             <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#1193d4] text-white px-3 py-1 rounded-md text-sm">
                               View Details
@@ -457,7 +509,7 @@ export default function ToursClient({
               </div>
 
               {/* Pagination */}
-              <div className="mt-10 flex justify-center">
+              {/* <div className="mt-10 flex justify-center">
                 <nav className="flex items-center gap-2">
                   <a
                     href="#"
@@ -488,7 +540,7 @@ export default function ToursClient({
                     <span className="material-symbols-outlined text-lg">chevron_right</span>
                   </a>
                 </nav>
-              </div>
+              </div> */}
             </main>
           </div>
         </main>
