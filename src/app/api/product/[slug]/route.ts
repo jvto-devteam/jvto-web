@@ -2,11 +2,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  context: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-  const { slug } = await context.params; 
+  const { slug } = await context.params; // ✅ await the Promise
 
   const pkg = await prisma.packages.findFirst({
     where: { slug },
@@ -60,30 +60,29 @@ export async function GET(
     )
   );
 
-  // ✅ FIXED: Safe array handling
+  // ✅ Safe array handling with strict equality
   const routePackage =
     serialized.package_destinations
-      ?.filter((d: any) => d.destination_id != 3 && d.destination_id != 4)
+      ?.filter((d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4)
       .map((d: any) => d.destinations?.name)
       .filter(Boolean)
       .join(" • ") || "";
 
-  // ✅ FIXED: Safe array handling
   const keyExperiences =
     serialized.package_destinations
-      ?.filter((d: any) => d.destination_id != 3 && d.destination_id != 4)
+      ?.filter((d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4)
       .flatMap((d: any) => d.destinations?.activities || [])
       .map((a: any) => a.activity_name)
       .filter(Boolean) || [];
 
   function ucwords(str: string) {
+    if (!str) return "";
     str = str.toLowerCase();
     return str.replace(/\b\w/g, function (char) {
       return char.toUpperCase();
     });
   }
 
-  // ✅ FIXED: Safe array handling
   const prices = serialized.package_prices?.map((p: any) => p.price) || [];
   const lowPrice = prices.length ? Math.min(...prices) : 0;
   const highPrice = prices.length ? Math.max(...prices) : 0;
@@ -94,7 +93,6 @@ export async function GET(
     "Sturdy hiking shoes",
   ];
 
-  // ✅ FIXED: Safe array check
   const hasIjen = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
         (d: any) => Number(d.destination_id) === 2
@@ -113,7 +111,7 @@ export async function GET(
           slug: serialized.slug,
           name: serialized.name,
           shortLabel: `${serialized.durations?.day || 0}D${serialized.durations?.night || 0}N ${routePackage}`,
-          description: serialized.description,
+          description: serialized.description || "",
           originCity: serialized.start_destination?.name || "",
           endCity: serialized.end_destination?.name || "",
           durationDays: serialized.durations?.day || 0,
@@ -125,9 +123,8 @@ export async function GET(
           },
 
           keyExperiences: keyExperiences,
-          physicality: serialized.physicality,
+          physicality: serialized.physicality || "",
 
-          // ✅ FIXED: Safe array handling
           inclusions: (serialized.package_includes || []).map((inc: any) =>
             inc.item_includes?.item?.replace(/<\/?b>/g, "") || ""
           ),
@@ -190,7 +187,7 @@ export async function GET(
             ],
             highlightsBullets: (serialized.package_destinations || [])
               .filter(
-                (d: any) => d.destination_id != 3 && d.destination_id != 4
+                (d: any) => Number(d.destination_id) !== 3 && Number(d.destination_id) !== 4
               )
               .map((d: any) => d.destinations?.highlight || "")
               .filter(Boolean),
