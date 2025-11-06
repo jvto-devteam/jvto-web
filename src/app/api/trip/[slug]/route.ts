@@ -2,11 +2,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  context: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-  const { slug } = await context.params;
+  const { slug } = await context.params; // ✅ await the Promise
 
   const pkg = await prisma.packages.findFirst({
     where: { slug },
