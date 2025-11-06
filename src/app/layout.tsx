@@ -23,7 +23,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        {/* ✅ Komponen React harus berada di body, bukan di head */}
         <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
         </Suspense>
