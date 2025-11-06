@@ -2,14 +2,14 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  context: { params: Promise<{ slug: string }> }
+  context: { params: { slug: string } }
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-   const { slug } = await context.params;
+  const { slug } = await context.params;
 
   const pkg = await prisma.packages.findFirst({
-    where: { slug},
+    where: { slug },
     include: {
       order_channels: true,
       durations: true,
@@ -71,15 +71,21 @@ export async function GET(
       typeof value === "bigint" ? value.toString() : value
     )
   );
-  const hasIjen = serialized.package_destinations?.some(
-    (d: any) => Number(d.destination_id) == 2
-  );
-  const hasBromo = serialized.package_destinations?.some(
-    (d: any) => Number(d.destination_id) == 1
-  );
-  const hasWaterfall = serialized.package_destinations?.some(
-    (d: any) => Number(d.destination_id) == 7 || Number(d.destination_id) == 6
-  );
+  const hasIjen = Array.isArray(serialized.package_destinations)
+    ? serialized.package_destinations.some(
+        (d) => Number(d.destination_id) === 2
+      )
+    : false;
+  const hasBromo = Array.isArray(serialized.package_destinations)
+    ? serialized.package_destinations.some(
+        (d) => Number(d.destination_id) === 1
+      )
+    : false;
+  const hasWaterfall = Array.isArray(serialized.package_destinations)
+    ? serialized.package_destinations.some(
+        (d) => Number(d.destination_id) === 7 || Number(d.destination_id) === 6
+      )
+    : false;
 
   const gearRecommended = [
     "Warm jacket, beanie, gloves (5–10°C before sunrise)",
@@ -111,7 +117,13 @@ export async function GET(
     gearRecommended.push("Waterproof bag for waterfall areas");
     crewRolesNeeded.push("Local Waterfall Guide");
   }
-  const operationalNotes = {
+  type OperationalNotes = {
+    healthRequirements: string[];
+    environmentalRisks: string[];
+    safetyMitigation: string[];
+  };
+
+  const operationalNotes: OperationalNotes = {
     healthRequirements: [],
     environmentalRisks: [],
     safetyMitigation: [],
@@ -149,7 +161,7 @@ export async function GET(
     );
   }
 
-  const mapped =
+  const mapped: any =
     all === "true"
       ? serialized
       : {
@@ -289,7 +301,6 @@ export async function GET(
                       return {
                         type,
                         timeApprox: formatTime(act.time) || "",
-                        location: { name: "meals location" },
                         description: act.notes || "",
                         location: { name: act.locations_from?.name },
                       };
