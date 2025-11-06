@@ -4,12 +4,12 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ slug: string }> }
 ) {
-  const { params } = await context;
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
+   const { slug } = await context.params;
 
   const pkg = await prisma.packages.findFirst({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       order_channels: true,
       durations: true,
