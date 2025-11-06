@@ -36,22 +36,13 @@ export default function CheckoutPage() {
     large: { name: 'Large Group', range: '11+ Travelers', price: 120, min: 11, max: 50 }
   };
 
-  // Format price to IDR
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0
-    }).format(price);
-  };
-
   // Calculate totals
   const subtotal = priceTiers[selectedTier].price * travelerCount;
   const taxesAndFees = subtotal * 0.08; // 8% tax
   const total = subtotal + taxesAndFees;
 
   // Handle traveler count change
-  const handleTravelerChange = (delta) => {
+  const handleTravelerChange = (delta: number) => {
     const newCount = travelerCount + delta;
     const tier = priceTiers[selectedTier];
     if (newCount >= tier.min && newCount <= tier.max) {
@@ -60,7 +51,7 @@ export default function CheckoutPage() {
   };
 
   // Handle tier change
-  const handleTierChange = (tier) => {
+  const handleTierChange = (tier: number) => {
     setSelectedTier(tier);
     const tierData = priceTiers[tier];
     if (travelerCount < tierData.min) {
