@@ -2,8 +2,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
+  const { params } = await context;
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
 
