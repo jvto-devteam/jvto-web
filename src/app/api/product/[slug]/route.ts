@@ -73,7 +73,7 @@ export async function GET(
       .map((a: any) => a.activity_name) // ambil hanya nama aktivitasnya
       .filter(Boolean) || [];
 
-  function ucwords(str) {
+  function ucwords(str: string) {
     str = str.toLowerCase();
     return str.replace(/\b\w/g, function (char) {
       return char.toUpperCase();
@@ -83,7 +83,7 @@ export async function GET(
 
   const lowPrice = prices.length ? Math.min(...prices) : 0;
   const highPrice = prices.length ? Math.max(...prices) : 0;
-  let travelerRequirements = [
+  const travelerRequirements = [
     "Moderate fitness required (night hikes, uneven surfaces)",
     "Warm clothing (5–10°C before sunrise)",
     "Sturdy hiking shoes",
