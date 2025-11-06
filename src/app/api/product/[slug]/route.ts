@@ -6,7 +6,7 @@ export async function GET(
 ) {
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all");
-  const { slug } = await context.params;
+  const { slug } = await context.params; 
 
   const pkg = await prisma.packages.findFirst({
     where: { slug },
@@ -60,17 +60,20 @@ export async function GET(
     )
   );
 
+  // ✅ FIXED: Safe array handling
   const routePackage =
     serialized.package_destinations
       ?.filter((d: any) => d.destination_id != 3 && d.destination_id != 4)
       .map((d: any) => d.destinations?.name)
       .filter(Boolean)
       .join(" • ") || "";
+
+  // ✅ FIXED: Safe array handling
   const keyExperiences =
     serialized.package_destinations
       ?.filter((d: any) => d.destination_id != 3 && d.destination_id != 4)
-      .flatMap((d: any) => d.destinations?.activities || []) // ambil semua activity dari setiap destinasi
-      .map((a: any) => a.activity_name) // ambil hanya nama aktivitasnya
+      .flatMap((d: any) => d.destinations?.activities || [])
+      .map((a: any) => a.activity_name)
       .filter(Boolean) || [];
 
   function ucwords(str: string) {
@@ -79,35 +82,42 @@ export async function GET(
       return char.toUpperCase();
     });
   }
-  const prices = serialized.package_prices?.map((p: any) => p.price) || [];
 
+  // ✅ FIXED: Safe array handling
+  const prices = serialized.package_prices?.map((p: any) => p.price) || [];
   const lowPrice = prices.length ? Math.min(...prices) : 0;
   const highPrice = prices.length ? Math.max(...prices) : 0;
+
   const travelerRequirements = [
     "Moderate fitness required (night hikes, uneven surfaces)",
     "Warm clothing (5–10°C before sunrise)",
     "Sturdy hiking shoes",
   ];
-  const hasIjen = serialized.package_destinations?.some(
-    (d: any) => Number(d.destination_id) == 2
-  );
+
+  // ✅ FIXED: Safe array check
+  const hasIjen = Array.isArray(serialized.package_destinations)
+    ? serialized.package_destinations.some(
+        (d: any) => Number(d.destination_id) === 2
+      )
+    : false;
 
   if (hasIjen) {
     travelerRequirements.push("Printed passport copy required for Ijen permit");
   }
+
   const mapped: any =
     all === "true"
-      ? serialized // kalau ?all=true kirim data lengkap
+      ? serialized
       : {
           id: serialized.code,
           slug: serialized.slug,
           name: serialized.name,
-          shortLabel: `${serialized.durations.day}D${serialized.durations.night}N ${routePackage}`,
+          shortLabel: `${serialized.durations?.day || 0}D${serialized.durations?.night || 0}N ${routePackage}`,
           description: serialized.description,
-          originCity: serialized.start_destination.name,
-          endCity: serialized.start_destination.name,
-          durationDays: serialized.durations.day,
-          durationNights: serialized.durations.night,
+          originCity: serialized.start_destination?.name || "",
+          endCity: serialized.end_destination?.name || "",
+          durationDays: serialized.durations?.day || 0,
+          durationNights: serialized.durations?.night || 0,
 
           tripRef: {
             tripId: `trip-${serialized.code}`,
@@ -115,33 +125,33 @@ export async function GET(
           },
 
           keyExperiences: keyExperiences,
-
           physicality: serialized.physicality,
 
-          inclusions: serialized.package_includes.map((inc: any) =>
-            inc.item_includes?.item?.replace(/<\/?b>/g, "")
+          // ✅ FIXED: Safe array handling
+          inclusions: (serialized.package_includes || []).map((inc: any) =>
+            inc.item_includes?.item?.replace(/<\/?b>/g, "") || ""
           ),
 
-          exclusions: serialized.package_excludes.map((exc: any) =>
-            exc.item_excludes?.item?.replace(/<\/?b>/g, "")
+          exclusions: (serialized.package_excludes || []).map((exc: any) =>
+            exc.item_excludes?.item?.replace(/<\/?b>/g, "") || ""
           ),
 
-          addOns: serialized.package_addons.map((addon: any) => ({
+          addOns: (serialized.package_addons || []).map((addon: any) => ({
             name: addon.addons?.is_transport
-              ? `Transport to ${ucwords(addon.addons?.name)}`
-              : addon.addons?.name,
+              ? `Transport to ${ucwords(addon.addons?.name || "")}`
+              : addon.addons?.name || "",
             description: addon.addons?.is_transport
-              ? `Transport to ${ucwords(addon.addons?.name)} - ${ucwords(
-                  addon.addons.transport_type
+              ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
+                  addon.addons?.transport_type || ""
                 )} Car (${
-                  addon.addons.transport_type == "small"
+                  addon.addons?.transport_type === "small"
                     ? "1-3 Pax"
-                    : addon.addons.transport_type == "medium"
+                    : addon.addons?.transport_type === "medium"
                     ? "4-9 Pax"
                     : "10 Pax Above"
                 })`
               : "",
-            price: addon.addons?.price,
+            price: addon.addons?.price || 0,
           })),
 
           offers: {
@@ -151,8 +161,8 @@ export async function GET(
               highPrice: highPrice,
               priceCurrency: "IDR",
             },
-            tiers: serialized.package_prices?.map((p: any) => ({
-              sku: `${serialized.code}-${p.price_tiers?.min_pax}-${p.price_tiers?.max_pax}PAX`,
+            tiers: (serialized.package_prices || []).map((p: any) => ({
+              sku: `${serialized.code}-${p.price_tiers?.min_pax || 0}-${p.price_tiers?.max_pax || 0}PAX`,
               paxMin: p.price_tiers?.min_pax || 0,
               paxMax: p.price_tiers?.max_pax || 0,
               pricePerPerson: p.price || 0,
@@ -178,11 +188,12 @@ export async function GET(
             perfectFor: [
               "Couples, friends, and small private groups seeking an intense volcano & waterfall experience in East Java",
             ],
-            highlightsBullets: serialized.package_destinations
+            highlightsBullets: (serialized.package_destinations || [])
               .filter(
                 (d: any) => d.destination_id != 3 && d.destination_id != 4
               )
-              .map((d: any) => d.destinations.highlight),
+              .map((d: any) => d.destinations?.highlight || "")
+              .filter(Boolean),
             safetyPositioning: [
               "Locally operated, professional guides, safety gear included",
             ],
@@ -196,6 +207,7 @@ export async function GET(
             license: "1102230032918",
           },
         };
+
   if (searchParams.get("download") === "true") {
     return new Response(JSON.stringify(mapped, null, 2), {
       headers: {

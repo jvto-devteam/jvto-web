@@ -71,16 +71,20 @@ export async function GET(
       typeof value === "bigint" ? value.toString() : value
     )
   );
+
+  // ✅ FIXED: Safe array checks with strict equality
   const hasIjen = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
         (d) => Number(d.destination_id) === 2
       )
     : false;
+
   const hasBromo = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
         (d) => Number(d.destination_id) === 1
       )
     : false;
+
   const hasWaterfall = Array.isArray(serialized.package_destinations)
     ? serialized.package_destinations.some(
         (d) => Number(d.destination_id) === 7 || Number(d.destination_id) === 6
@@ -90,12 +94,13 @@ export async function GET(
   const gearRecommended = [
     "Warm jacket, beanie, gloves (5–10°C before sunrise)",
   ];
+
   const crewRolesNeeded = [
     "Driver (full-trip)",
     "Escort Guide / English-speaking driver-guide",
   ];
 
-  function formatTime(timeString: string) {
+  function formatTime(timeString: string | null | undefined) {
     if (!timeString) return "";
     const [hours, minutes] = timeString.split(":");
     return `${hours}:${minutes}`;
@@ -117,6 +122,7 @@ export async function GET(
     gearRecommended.push("Waterproof bag for waterfall areas");
     crewRolesNeeded.push("Local Waterfall Guide");
   }
+
   type OperationalNotes = {
     healthRequirements: string[];
     environmentalRisks: string[];
@@ -132,7 +138,7 @@ export async function GET(
   // Ijen
   if (hasIjen) {
     operationalNotes.healthRequirements.push(
-      "Doctor’s health certificate required for Ijen entry (we arrange this).",
+      "Doctor's health certificate required for Ijen entry (we arrange this).",
       "Not recommended for guests with severe respiratory or cardiac issues."
     );
     operationalNotes.environmentalRisks.push(
@@ -161,6 +167,10 @@ export async function GET(
     );
   }
 
+  // ✅ FIXED: Strict equality untuk ID checks
+  const startDestId = Number(serialized.start_destination?.id);
+  const endDestId = Number(serialized.end_destination?.id);
+
   const mapped: any =
     all === "true"
       ? serialized
@@ -168,16 +178,16 @@ export async function GET(
           tripId: serialized.code,
           name: serialized.name,
           duration: {
-            days: serialized.durations?.day,
-            nights: serialized.durations?.night,
+            days: serialized.durations?.day || 0,
+            nights: serialized.durations?.night || 0,
             iso8601: serialized.durations
               ? `P${serialized.durations.day}D${serialized.durations.night}N`
               : "",
           },
           start: {
-            city: serialized.start_destination?.name,
+            city: serialized.start_destination?.name || "",
             pickupOptions:
-              serialized.start_destination?.id == 3
+              startDestId === 3
                 ? [
                     {
                       type: "airport",
@@ -209,9 +219,9 @@ export async function GET(
                   ],
           },
           end: {
-            city: serialized.end_destination?.name,
+            city: serialized.end_destination?.name || "",
             dropoffOptions:
-              serialized.end_destination?.id == 3
+              endDestId === 3
                 ? [
                     "Hotel in Bali (Kuta, Seminyak, Ubud, etc.)",
                     "Ngurah Rai International Airport (DPS)",
@@ -222,19 +232,19 @@ export async function GET(
                     "Juanda International Airport (SUB)",
                   ],
             recommendedDepartureNote:
-              serialized.end_destination?.id == 3
+              endDestId === 3
                 ? `For flights from Ngurah Rai International Airport (DPS) on the final day, we strongly recommend booking flights that depart after 20:00 (8:00 PM).`
                 : `For flights from Juanda International Airport (SUB) on the final day, we strongly recommend booking flights that depart after 20:00 (8:00 PM).`,
           },
           route:
             serialized.package_destinations?.map(
-              (d: any) => d.destinations?.name
+              (d: any) => d.destinations?.name || ""
             ) || [],
           accommodationPlan:
             serialized.package_hotel_options?.map((h: any) => ({
-              night: h.day_no,
-              area: h.hotels?.destinations.name,
-              hotel: h.hotels?.name,
+              night: h.day_no || 0,
+              area: h.hotels?.destinations?.name || "",
+              hotel: h.hotels?.name || "",
             })) || [],
           gearProvided: hasIjen
             ? ["Gas mask (sanitized after each use)", "Trekking poles"]
@@ -249,19 +259,23 @@ export async function GET(
               if (day.meal_dinner) mealsIncluded.push("Dinner");
 
               return {
-                day: day.day_no,
-                title: day.title,
-                summary: day.activity,
+                day: day.day_no || 0,
+                title: day.title || "",
+                summary: day.activity || "",
                 mealsIncluded: mealsIncluded,
                 activities:
                   day.package_itinerary_day_details?.map((act: any) => {
+                    // ✅ FIXED: Safe access dengan optional chaining
+                    const actCatId = Number(act.activities?.activity_category_id);
+                    const actNotes = act.notes || "";
+
                     const type =
-                      act.activities.activity_category_id == 2
+                      actCatId === 2
                         ? "TouristAttractionVisit"
-                        : act.activities.activity_category_id == 3 &&
-                          act.notes.toLowerCase().includes("check in")
+                        : actCatId === 3 &&
+                          actNotes.toLowerCase().includes("check in")
                         ? "CheckInAction"
-                        : act.activities.activity_category_id == 4
+                        : actCatId === 4
                         ? "MealsAction"
                         : "TravelAction";
 
@@ -269,31 +283,31 @@ export async function GET(
                       const travelData: any = {
                         type,
                         timeApprox: formatTime(act.time) || "",
-                        fromLocation: { name: act.locations_from?.name },
-                        toLocation: { name: act.locations_to?.name },
+                        fromLocation: { name: act.locations_from?.name || "" },
+                        toLocation: { name: act.locations_to?.name || "" },
                         destination: act.destination_slug
                           ? {
                               slug: act.destination_slug,
                               name: act.destination_name || "",
                             }
                           : undefined,
-                        description: act.notes || "",
+                        description: actNotes,
                       };
 
-                      if (Number(act.activities.activity_category_id) === 5) {
-                        travelData.transport = act.activities.activity_name;
+                      if (actCatId === 5) {
+                        travelData.transport = act.activities?.activity_name || "";
                       }
 
                       return travelData;
                     }
 
                     if (type === "CheckInAction") {
-                      const todayHotel = day.hotels?.name;
+                      const todayHotel = day.hotels?.name || "";
                       return {
                         type,
                         timeApprox: formatTime(act.time) || "",
                         location: { name: todayHotel },
-                        description: act.notes || "",
+                        description: actNotes,
                       };
                     }
 
@@ -301,20 +315,20 @@ export async function GET(
                       return {
                         type,
                         timeApprox: formatTime(act.time) || "",
-                        description: act.notes || "",
-                        location: { name: act.locations_from?.name },
+                        description: actNotes,
+                        location: { name: act.locations_from?.name || "" },
                       };
                     }
 
                     if (type === "TouristAttractionVisit") {
                       return {
                         type,
-                        timeApprox: formatTime(act.time),
+                        timeApprox: formatTime(act.time) || "",
                         location: {
-                          slug: act.activities.destinations?.slug || "",
-                          name: act.activities.destinations?.name || "",
+                          slug: act.activities?.destinations?.slug || "",
+                          name: act.activities?.destinations?.name || "",
                         },
-                        description: act.notes || "",
+                        description: actNotes,
                       };
                     }
                   }) || [],
@@ -323,6 +337,7 @@ export async function GET(
           crewRolesNeeded: crewRolesNeeded,
           operationalNotes: operationalNotes,
         };
+
   if (searchParams.get("download") === "true") {
     return new Response(JSON.stringify(mapped, null, 2), {
       headers: {
