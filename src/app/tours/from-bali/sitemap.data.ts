@@ -17,7 +17,6 @@ export async function sitemapToursFromBali(t: Date): Promise<MetadataRoute.Sitem
     where: {
       is_publish: true,
       start_destination_id:3,
-      is_publish: true,
     },
     select: {
       slug: true,
