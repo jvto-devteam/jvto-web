@@ -19,7 +19,6 @@ export async function sitemapToursFromSurabaya(t: Date): Promise<MetadataRoute.S
     where: {
       is_publish: true,
       start_destination_id:4,
-      is_publish: true,
     },
     select: {
       slug: true,

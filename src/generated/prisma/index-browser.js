@@ -727,6 +727,17 @@ exports.Prisma.DurationsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.FaqsScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  tags: 'tags',
+  is_published: 'is_published',
+  sort_order: 'sort_order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   booking_id: 'booking_id',
@@ -1177,6 +1188,7 @@ exports.Prisma.ModelName = {
   document_categories: 'document_categories',
   documents: 'documents',
   durations: 'durations',
+  faqs: 'faqs',
   feedback: 'feedback',
   hotels: 'hotels',
   inclusion_rules: 'inclusion_rules',
