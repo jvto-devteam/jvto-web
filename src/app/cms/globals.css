@@ -1,0 +1,34 @@
+:root{
+  /* Warna default untuk dark UI kamu */
+  --scroll-track: #0b1220;         /* ~ slate-950-ish */
+  --scroll-thumb: #334155;         /* slate-700 */
+  --scroll-thumb-hover: #475569;   /* slate-600 */
+  --scroll-thumb-active: #64748b;  /* slate-500 */
+}
+
+/* Pakai class ini di elemen yang scroll (sidebar & main) */
+.nice-scrollbar{
+  scrollbar-width: thin;                               /* Firefox: tipis */
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+
+/* Chromium/WebKit */
+.nice-scrollbar::-webkit-scrollbar{
+  width: 8px;
+  height: 8px;
+}
+.nice-scrollbar::-webkit-scrollbar-track{
+  background: var(--scroll-track);
+  border-radius: 999px;
+}
+.nice-scrollbar::-webkit-scrollbar-thumb{
+  background: var(--scroll-thumb);
+  border-radius: 999px;             /* rounded */
+  border: 2px solid var(--scroll-track); /* efek “pill” */
+}
+.nice-scrollbar:hover::-webkit-scrollbar-thumb{
+  background: var(--scroll-thumb-hover);
+}
+.nice-scrollbar::-webkit-scrollbar-thumb:active{
+  background: var(--scroll-thumb-active);
+}
