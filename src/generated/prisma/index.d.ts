@@ -249,6 +249,16 @@ export type durations = $Result.DefaultSelection<Prisma.$durationsPayload>
  */
 export type faqs = $Result.DefaultSelection<Prisma.$faqsPayload>
 /**
+ * Model policy_documents
+ * 
+ */
+export type policy_documents = $Result.DefaultSelection<Prisma.$policy_documentsPayload>
+/**
+ * Model site_identity
+ * 
+ */
+export type site_identity = $Result.DefaultSelection<Prisma.$site_identityPayload>
+/**
  * Model feedback
  * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -415,7 +425,17 @@ export type web_metadata = $Result.DefaultSelection<Prisma.$web_metadataPayload>
  * Enums
  */
 export namespace $Enums {
-  export const source_enum: {
+  export const policy_document_type: {
+  booking_payment_cancellation: 'booking_payment_cancellation',
+  inclusions_exclusions: 'inclusions_exclusions',
+  privacy: 'privacy',
+  guest_responsibilities: 'guest_responsibilities'
+};
+
+export type policy_document_type = (typeof policy_document_type)[keyof typeof policy_document_type]
+
+
+export const source_enum: {
   UPLOAD: 'UPLOAD',
   LINK: 'LINK'
 };
@@ -423,6 +443,10 @@ export namespace $Enums {
 export type source_enum = (typeof source_enum)[keyof typeof source_enum]
 
 }
+
+export type policy_document_type = $Enums.policy_document_type
+
+export const policy_document_type: typeof $Enums.policy_document_type
 
 export type source_enum = $Enums.source_enum
 
@@ -995,6 +1019,26 @@ export class PrismaClient<
     * ```
     */
   get faqs(): Prisma.faqsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.policy_documents`: Exposes CRUD operations for the **policy_documents** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Policy_documents
+    * const policy_documents = await prisma.policy_documents.findMany()
+    * ```
+    */
+  get policy_documents(): Prisma.policy_documentsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.site_identity`: Exposes CRUD operations for the **site_identity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Site_identities
+    * const site_identities = await prisma.site_identity.findMany()
+    * ```
+    */
+  get site_identity(): Prisma.site_identityDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.feedback`: Exposes CRUD operations for the **feedback** model.
@@ -1801,6 +1845,8 @@ export namespace Prisma {
     documents: 'documents',
     durations: 'durations',
     faqs: 'faqs',
+    policy_documents: 'policy_documents',
+    site_identity: 'site_identity',
     feedback: 'feedback',
     hotels: 'hotels',
     inclusion_rules: 'inclusion_rules',
@@ -1851,7 +1897,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "faqs" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5185,6 +5231,154 @@ export namespace Prisma {
           }
         }
       }
+      policy_documents: {
+        payload: Prisma.$policy_documentsPayload<ExtArgs>
+        fields: Prisma.policy_documentsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.policy_documentsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.policy_documentsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          findFirst: {
+            args: Prisma.policy_documentsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.policy_documentsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          findMany: {
+            args: Prisma.policy_documentsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>[]
+          }
+          create: {
+            args: Prisma.policy_documentsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          createMany: {
+            args: Prisma.policy_documentsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.policy_documentsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>[]
+          }
+          delete: {
+            args: Prisma.policy_documentsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          update: {
+            args: Prisma.policy_documentsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          deleteMany: {
+            args: Prisma.policy_documentsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.policy_documentsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.policy_documentsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>[]
+          }
+          upsert: {
+            args: Prisma.policy_documentsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$policy_documentsPayload>
+          }
+          aggregate: {
+            args: Prisma.Policy_documentsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePolicy_documents>
+          }
+          groupBy: {
+            args: Prisma.policy_documentsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Policy_documentsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.policy_documentsCountArgs<ExtArgs>
+            result: $Utils.Optional<Policy_documentsCountAggregateOutputType> | number
+          }
+        }
+      }
+      site_identity: {
+        payload: Prisma.$site_identityPayload<ExtArgs>
+        fields: Prisma.site_identityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.site_identityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.site_identityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          findFirst: {
+            args: Prisma.site_identityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.site_identityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          findMany: {
+            args: Prisma.site_identityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>[]
+          }
+          create: {
+            args: Prisma.site_identityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          createMany: {
+            args: Prisma.site_identityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.site_identityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>[]
+          }
+          delete: {
+            args: Prisma.site_identityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          update: {
+            args: Prisma.site_identityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          deleteMany: {
+            args: Prisma.site_identityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.site_identityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.site_identityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>[]
+          }
+          upsert: {
+            args: Prisma.site_identityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$site_identityPayload>
+          }
+          aggregate: {
+            args: Prisma.Site_identityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSite_identity>
+          }
+          groupBy: {
+            args: Prisma.site_identityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Site_identityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.site_identityCountArgs<ExtArgs>
+            result: $Utils.Optional<Site_identityCountAggregateOutputType> | number
+          }
+        }
+      }
       feedback: {
         payload: Prisma.$feedbackPayload<ExtArgs>
         fields: Prisma.feedbackFieldRefs
@@ -7694,6 +7888,8 @@ export namespace Prisma {
     documents?: documentsOmit
     durations?: durationsOmit
     faqs?: faqsOmit
+    policy_documents?: policy_documentsOmit
+    site_identity?: site_identityOmit
     feedback?: feedbackOmit
     hotels?: hotelsOmit
     inclusion_rules?: inclusion_rulesOmit
@@ -64913,6 +65109,2189 @@ export namespace Prisma {
 
 
   /**
+   * Model policy_documents
+   */
+
+  export type AggregatePolicy_documents = {
+    _count: Policy_documentsCountAggregateOutputType | null
+    _min: Policy_documentsMinAggregateOutputType | null
+    _max: Policy_documentsMaxAggregateOutputType | null
+  }
+
+  export type Policy_documentsMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    policy_type: $Enums.policy_document_type | null
+    version: string | null
+    effective_date: Date | null
+    content: string | null
+    is_binding: boolean | null
+    seo_meta_title: string | null
+    seo_meta_description: string | null
+    seo_og_image_url: string | null
+    include_in_sitemap: boolean | null
+    created_at: Date | null
+    date_modified: Date | null
+  }
+
+  export type Policy_documentsMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    policy_type: $Enums.policy_document_type | null
+    version: string | null
+    effective_date: Date | null
+    content: string | null
+    is_binding: boolean | null
+    seo_meta_title: string | null
+    seo_meta_description: string | null
+    seo_og_image_url: string | null
+    include_in_sitemap: boolean | null
+    created_at: Date | null
+    date_modified: Date | null
+  }
+
+  export type Policy_documentsCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    policy_type: number
+    version: number
+    effective_date: number
+    content: number
+    is_binding: number
+    seo_meta_title: number
+    seo_meta_description: number
+    seo_og_image_url: number
+    include_in_sitemap: number
+    created_at: number
+    date_modified: number
+    _all: number
+  }
+
+
+  export type Policy_documentsMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    policy_type?: true
+    version?: true
+    effective_date?: true
+    content?: true
+    is_binding?: true
+    seo_meta_title?: true
+    seo_meta_description?: true
+    seo_og_image_url?: true
+    include_in_sitemap?: true
+    created_at?: true
+    date_modified?: true
+  }
+
+  export type Policy_documentsMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    policy_type?: true
+    version?: true
+    effective_date?: true
+    content?: true
+    is_binding?: true
+    seo_meta_title?: true
+    seo_meta_description?: true
+    seo_og_image_url?: true
+    include_in_sitemap?: true
+    created_at?: true
+    date_modified?: true
+  }
+
+  export type Policy_documentsCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    policy_type?: true
+    version?: true
+    effective_date?: true
+    content?: true
+    is_binding?: true
+    seo_meta_title?: true
+    seo_meta_description?: true
+    seo_og_image_url?: true
+    include_in_sitemap?: true
+    created_at?: true
+    date_modified?: true
+    _all?: true
+  }
+
+  export type Policy_documentsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which policy_documents to aggregate.
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of policy_documents to fetch.
+     */
+    orderBy?: policy_documentsOrderByWithRelationInput | policy_documentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: policy_documentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` policy_documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` policy_documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned policy_documents
+    **/
+    _count?: true | Policy_documentsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Policy_documentsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Policy_documentsMaxAggregateInputType
+  }
+
+  export type GetPolicy_documentsAggregateType<T extends Policy_documentsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePolicy_documents]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePolicy_documents[P]>
+      : GetScalarType<T[P], AggregatePolicy_documents[P]>
+  }
+
+
+
+
+  export type policy_documentsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: policy_documentsWhereInput
+    orderBy?: policy_documentsOrderByWithAggregationInput | policy_documentsOrderByWithAggregationInput[]
+    by: Policy_documentsScalarFieldEnum[] | Policy_documentsScalarFieldEnum
+    having?: policy_documentsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Policy_documentsCountAggregateInputType | true
+    _min?: Policy_documentsMinAggregateInputType
+    _max?: Policy_documentsMaxAggregateInputType
+  }
+
+  export type Policy_documentsGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    policy_type: $Enums.policy_document_type
+    version: string | null
+    effective_date: Date | null
+    content: string
+    is_binding: boolean
+    seo_meta_title: string | null
+    seo_meta_description: string | null
+    seo_og_image_url: string | null
+    include_in_sitemap: boolean
+    created_at: Date | null
+    date_modified: Date | null
+    _count: Policy_documentsCountAggregateOutputType | null
+    _min: Policy_documentsMinAggregateOutputType | null
+    _max: Policy_documentsMaxAggregateOutputType | null
+  }
+
+  type GetPolicy_documentsGroupByPayload<T extends policy_documentsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Policy_documentsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Policy_documentsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Policy_documentsGroupByOutputType[P]>
+            : GetScalarType<T[P], Policy_documentsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type policy_documentsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    policy_type?: boolean
+    version?: boolean
+    effective_date?: boolean
+    content?: boolean
+    is_binding?: boolean
+    seo_meta_title?: boolean
+    seo_meta_description?: boolean
+    seo_og_image_url?: boolean
+    include_in_sitemap?: boolean
+    created_at?: boolean
+    date_modified?: boolean
+  }, ExtArgs["result"]["policy_documents"]>
+
+  export type policy_documentsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    policy_type?: boolean
+    version?: boolean
+    effective_date?: boolean
+    content?: boolean
+    is_binding?: boolean
+    seo_meta_title?: boolean
+    seo_meta_description?: boolean
+    seo_og_image_url?: boolean
+    include_in_sitemap?: boolean
+    created_at?: boolean
+    date_modified?: boolean
+  }, ExtArgs["result"]["policy_documents"]>
+
+  export type policy_documentsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    policy_type?: boolean
+    version?: boolean
+    effective_date?: boolean
+    content?: boolean
+    is_binding?: boolean
+    seo_meta_title?: boolean
+    seo_meta_description?: boolean
+    seo_og_image_url?: boolean
+    include_in_sitemap?: boolean
+    created_at?: boolean
+    date_modified?: boolean
+  }, ExtArgs["result"]["policy_documents"]>
+
+  export type policy_documentsSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    policy_type?: boolean
+    version?: boolean
+    effective_date?: boolean
+    content?: boolean
+    is_binding?: boolean
+    seo_meta_title?: boolean
+    seo_meta_description?: boolean
+    seo_og_image_url?: boolean
+    include_in_sitemap?: boolean
+    created_at?: boolean
+    date_modified?: boolean
+  }
+
+  export type policy_documentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "policy_type" | "version" | "effective_date" | "content" | "is_binding" | "seo_meta_title" | "seo_meta_description" | "seo_og_image_url" | "include_in_sitemap" | "created_at" | "date_modified", ExtArgs["result"]["policy_documents"]>
+
+  export type $policy_documentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "policy_documents"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      policy_type: $Enums.policy_document_type
+      version: string | null
+      effective_date: Date | null
+      content: string
+      is_binding: boolean
+      seo_meta_title: string | null
+      seo_meta_description: string | null
+      seo_og_image_url: string | null
+      include_in_sitemap: boolean
+      created_at: Date | null
+      date_modified: Date | null
+    }, ExtArgs["result"]["policy_documents"]>
+    composites: {}
+  }
+
+  type policy_documentsGetPayload<S extends boolean | null | undefined | policy_documentsDefaultArgs> = $Result.GetResult<Prisma.$policy_documentsPayload, S>
+
+  type policy_documentsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<policy_documentsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Policy_documentsCountAggregateInputType | true
+    }
+
+  export interface policy_documentsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['policy_documents'], meta: { name: 'policy_documents' } }
+    /**
+     * Find zero or one Policy_documents that matches the filter.
+     * @param {policy_documentsFindUniqueArgs} args - Arguments to find a Policy_documents
+     * @example
+     * // Get one Policy_documents
+     * const policy_documents = await prisma.policy_documents.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends policy_documentsFindUniqueArgs>(args: SelectSubset<T, policy_documentsFindUniqueArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Policy_documents that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {policy_documentsFindUniqueOrThrowArgs} args - Arguments to find a Policy_documents
+     * @example
+     * // Get one Policy_documents
+     * const policy_documents = await prisma.policy_documents.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends policy_documentsFindUniqueOrThrowArgs>(args: SelectSubset<T, policy_documentsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Policy_documents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsFindFirstArgs} args - Arguments to find a Policy_documents
+     * @example
+     * // Get one Policy_documents
+     * const policy_documents = await prisma.policy_documents.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends policy_documentsFindFirstArgs>(args?: SelectSubset<T, policy_documentsFindFirstArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Policy_documents that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsFindFirstOrThrowArgs} args - Arguments to find a Policy_documents
+     * @example
+     * // Get one Policy_documents
+     * const policy_documents = await prisma.policy_documents.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends policy_documentsFindFirstOrThrowArgs>(args?: SelectSubset<T, policy_documentsFindFirstOrThrowArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Policy_documents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Policy_documents
+     * const policy_documents = await prisma.policy_documents.findMany()
+     * 
+     * // Get first 10 Policy_documents
+     * const policy_documents = await prisma.policy_documents.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const policy_documentsWithIdOnly = await prisma.policy_documents.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends policy_documentsFindManyArgs>(args?: SelectSubset<T, policy_documentsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Policy_documents.
+     * @param {policy_documentsCreateArgs} args - Arguments to create a Policy_documents.
+     * @example
+     * // Create one Policy_documents
+     * const Policy_documents = await prisma.policy_documents.create({
+     *   data: {
+     *     // ... data to create a Policy_documents
+     *   }
+     * })
+     * 
+     */
+    create<T extends policy_documentsCreateArgs>(args: SelectSubset<T, policy_documentsCreateArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Policy_documents.
+     * @param {policy_documentsCreateManyArgs} args - Arguments to create many Policy_documents.
+     * @example
+     * // Create many Policy_documents
+     * const policy_documents = await prisma.policy_documents.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends policy_documentsCreateManyArgs>(args?: SelectSubset<T, policy_documentsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Policy_documents and returns the data saved in the database.
+     * @param {policy_documentsCreateManyAndReturnArgs} args - Arguments to create many Policy_documents.
+     * @example
+     * // Create many Policy_documents
+     * const policy_documents = await prisma.policy_documents.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Policy_documents and only return the `id`
+     * const policy_documentsWithIdOnly = await prisma.policy_documents.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends policy_documentsCreateManyAndReturnArgs>(args?: SelectSubset<T, policy_documentsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Policy_documents.
+     * @param {policy_documentsDeleteArgs} args - Arguments to delete one Policy_documents.
+     * @example
+     * // Delete one Policy_documents
+     * const Policy_documents = await prisma.policy_documents.delete({
+     *   where: {
+     *     // ... filter to delete one Policy_documents
+     *   }
+     * })
+     * 
+     */
+    delete<T extends policy_documentsDeleteArgs>(args: SelectSubset<T, policy_documentsDeleteArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Policy_documents.
+     * @param {policy_documentsUpdateArgs} args - Arguments to update one Policy_documents.
+     * @example
+     * // Update one Policy_documents
+     * const policy_documents = await prisma.policy_documents.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends policy_documentsUpdateArgs>(args: SelectSubset<T, policy_documentsUpdateArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Policy_documents.
+     * @param {policy_documentsDeleteManyArgs} args - Arguments to filter Policy_documents to delete.
+     * @example
+     * // Delete a few Policy_documents
+     * const { count } = await prisma.policy_documents.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends policy_documentsDeleteManyArgs>(args?: SelectSubset<T, policy_documentsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Policy_documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Policy_documents
+     * const policy_documents = await prisma.policy_documents.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends policy_documentsUpdateManyArgs>(args: SelectSubset<T, policy_documentsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Policy_documents and returns the data updated in the database.
+     * @param {policy_documentsUpdateManyAndReturnArgs} args - Arguments to update many Policy_documents.
+     * @example
+     * // Update many Policy_documents
+     * const policy_documents = await prisma.policy_documents.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Policy_documents and only return the `id`
+     * const policy_documentsWithIdOnly = await prisma.policy_documents.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends policy_documentsUpdateManyAndReturnArgs>(args: SelectSubset<T, policy_documentsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Policy_documents.
+     * @param {policy_documentsUpsertArgs} args - Arguments to update or create a Policy_documents.
+     * @example
+     * // Update or create a Policy_documents
+     * const policy_documents = await prisma.policy_documents.upsert({
+     *   create: {
+     *     // ... data to create a Policy_documents
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Policy_documents we want to update
+     *   }
+     * })
+     */
+    upsert<T extends policy_documentsUpsertArgs>(args: SelectSubset<T, policy_documentsUpsertArgs<ExtArgs>>): Prisma__policy_documentsClient<$Result.GetResult<Prisma.$policy_documentsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Policy_documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsCountArgs} args - Arguments to filter Policy_documents to count.
+     * @example
+     * // Count the number of Policy_documents
+     * const count = await prisma.policy_documents.count({
+     *   where: {
+     *     // ... the filter for the Policy_documents we want to count
+     *   }
+     * })
+    **/
+    count<T extends policy_documentsCountArgs>(
+      args?: Subset<T, policy_documentsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Policy_documentsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Policy_documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Policy_documentsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Policy_documentsAggregateArgs>(args: Subset<T, Policy_documentsAggregateArgs>): Prisma.PrismaPromise<GetPolicy_documentsAggregateType<T>>
+
+    /**
+     * Group by Policy_documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {policy_documentsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends policy_documentsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: policy_documentsGroupByArgs['orderBy'] }
+        : { orderBy?: policy_documentsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, policy_documentsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPolicy_documentsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the policy_documents model
+   */
+  readonly fields: policy_documentsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for policy_documents.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__policy_documentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the policy_documents model
+   */
+  interface policy_documentsFieldRefs {
+    readonly id: FieldRef<"policy_documents", 'String'>
+    readonly title: FieldRef<"policy_documents", 'String'>
+    readonly slug: FieldRef<"policy_documents", 'String'>
+    readonly policy_type: FieldRef<"policy_documents", 'policy_document_type'>
+    readonly version: FieldRef<"policy_documents", 'String'>
+    readonly effective_date: FieldRef<"policy_documents", 'DateTime'>
+    readonly content: FieldRef<"policy_documents", 'String'>
+    readonly is_binding: FieldRef<"policy_documents", 'Boolean'>
+    readonly seo_meta_title: FieldRef<"policy_documents", 'String'>
+    readonly seo_meta_description: FieldRef<"policy_documents", 'String'>
+    readonly seo_og_image_url: FieldRef<"policy_documents", 'String'>
+    readonly include_in_sitemap: FieldRef<"policy_documents", 'Boolean'>
+    readonly created_at: FieldRef<"policy_documents", 'DateTime'>
+    readonly date_modified: FieldRef<"policy_documents", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * policy_documents findUnique
+   */
+  export type policy_documentsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter, which policy_documents to fetch.
+     */
+    where: policy_documentsWhereUniqueInput
+  }
+
+  /**
+   * policy_documents findUniqueOrThrow
+   */
+  export type policy_documentsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter, which policy_documents to fetch.
+     */
+    where: policy_documentsWhereUniqueInput
+  }
+
+  /**
+   * policy_documents findFirst
+   */
+  export type policy_documentsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter, which policy_documents to fetch.
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of policy_documents to fetch.
+     */
+    orderBy?: policy_documentsOrderByWithRelationInput | policy_documentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for policy_documents.
+     */
+    cursor?: policy_documentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` policy_documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` policy_documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of policy_documents.
+     */
+    distinct?: Policy_documentsScalarFieldEnum | Policy_documentsScalarFieldEnum[]
+  }
+
+  /**
+   * policy_documents findFirstOrThrow
+   */
+  export type policy_documentsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter, which policy_documents to fetch.
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of policy_documents to fetch.
+     */
+    orderBy?: policy_documentsOrderByWithRelationInput | policy_documentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for policy_documents.
+     */
+    cursor?: policy_documentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` policy_documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` policy_documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of policy_documents.
+     */
+    distinct?: Policy_documentsScalarFieldEnum | Policy_documentsScalarFieldEnum[]
+  }
+
+  /**
+   * policy_documents findMany
+   */
+  export type policy_documentsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter, which policy_documents to fetch.
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of policy_documents to fetch.
+     */
+    orderBy?: policy_documentsOrderByWithRelationInput | policy_documentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing policy_documents.
+     */
+    cursor?: policy_documentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` policy_documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` policy_documents.
+     */
+    skip?: number
+    distinct?: Policy_documentsScalarFieldEnum | Policy_documentsScalarFieldEnum[]
+  }
+
+  /**
+   * policy_documents create
+   */
+  export type policy_documentsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a policy_documents.
+     */
+    data: XOR<policy_documentsCreateInput, policy_documentsUncheckedCreateInput>
+  }
+
+  /**
+   * policy_documents createMany
+   */
+  export type policy_documentsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many policy_documents.
+     */
+    data: policy_documentsCreateManyInput | policy_documentsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * policy_documents createManyAndReturn
+   */
+  export type policy_documentsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * The data used to create many policy_documents.
+     */
+    data: policy_documentsCreateManyInput | policy_documentsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * policy_documents update
+   */
+  export type policy_documentsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a policy_documents.
+     */
+    data: XOR<policy_documentsUpdateInput, policy_documentsUncheckedUpdateInput>
+    /**
+     * Choose, which policy_documents to update.
+     */
+    where: policy_documentsWhereUniqueInput
+  }
+
+  /**
+   * policy_documents updateMany
+   */
+  export type policy_documentsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update policy_documents.
+     */
+    data: XOR<policy_documentsUpdateManyMutationInput, policy_documentsUncheckedUpdateManyInput>
+    /**
+     * Filter which policy_documents to update
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * Limit how many policy_documents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * policy_documents updateManyAndReturn
+   */
+  export type policy_documentsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * The data used to update policy_documents.
+     */
+    data: XOR<policy_documentsUpdateManyMutationInput, policy_documentsUncheckedUpdateManyInput>
+    /**
+     * Filter which policy_documents to update
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * Limit how many policy_documents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * policy_documents upsert
+   */
+  export type policy_documentsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the policy_documents to update in case it exists.
+     */
+    where: policy_documentsWhereUniqueInput
+    /**
+     * In case the policy_documents found by the `where` argument doesn't exist, create a new policy_documents with this data.
+     */
+    create: XOR<policy_documentsCreateInput, policy_documentsUncheckedCreateInput>
+    /**
+     * In case the policy_documents was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<policy_documentsUpdateInput, policy_documentsUncheckedUpdateInput>
+  }
+
+  /**
+   * policy_documents delete
+   */
+  export type policy_documentsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+    /**
+     * Filter which policy_documents to delete.
+     */
+    where: policy_documentsWhereUniqueInput
+  }
+
+  /**
+   * policy_documents deleteMany
+   */
+  export type policy_documentsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which policy_documents to delete
+     */
+    where?: policy_documentsWhereInput
+    /**
+     * Limit how many policy_documents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * policy_documents without action
+   */
+  export type policy_documentsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the policy_documents
+     */
+    select?: policy_documentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the policy_documents
+     */
+    omit?: policy_documentsOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model site_identity
+   */
+
+  export type AggregateSite_identity = {
+    _count: Site_identityCountAggregateOutputType | null
+    _min: Site_identityMinAggregateOutputType | null
+    _max: Site_identityMaxAggregateOutputType | null
+  }
+
+  export type Site_identityMinAggregateOutputType = {
+    id: string | null
+    brand_name: string | null
+    legal_entity_name: string | null
+    official_website_url: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Site_identityMaxAggregateOutputType = {
+    id: string | null
+    brand_name: string | null
+    legal_entity_name: string | null
+    official_website_url: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Site_identityCountAggregateOutputType = {
+    id: number
+    brand_name: number
+    legal_entity_name: number
+    official_website_url: number
+    official_emails: number
+    official_whatsapp_numbers: number
+    registration_ids: number
+    official_payment_accounts: number
+    maps_listings: number
+    association_memberships: number
+    org_schema_json_ld: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Site_identityMinAggregateInputType = {
+    id?: true
+    brand_name?: true
+    legal_entity_name?: true
+    official_website_url?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Site_identityMaxAggregateInputType = {
+    id?: true
+    brand_name?: true
+    legal_entity_name?: true
+    official_website_url?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Site_identityCountAggregateInputType = {
+    id?: true
+    brand_name?: true
+    legal_entity_name?: true
+    official_website_url?: true
+    official_emails?: true
+    official_whatsapp_numbers?: true
+    registration_ids?: true
+    official_payment_accounts?: true
+    maps_listings?: true
+    association_memberships?: true
+    org_schema_json_ld?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Site_identityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which site_identity to aggregate.
+     */
+    where?: site_identityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of site_identities to fetch.
+     */
+    orderBy?: site_identityOrderByWithRelationInput | site_identityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: site_identityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` site_identities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` site_identities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned site_identities
+    **/
+    _count?: true | Site_identityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Site_identityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Site_identityMaxAggregateInputType
+  }
+
+  export type GetSite_identityAggregateType<T extends Site_identityAggregateArgs> = {
+        [P in keyof T & keyof AggregateSite_identity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSite_identity[P]>
+      : GetScalarType<T[P], AggregateSite_identity[P]>
+  }
+
+
+
+
+  export type site_identityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: site_identityWhereInput
+    orderBy?: site_identityOrderByWithAggregationInput | site_identityOrderByWithAggregationInput[]
+    by: Site_identityScalarFieldEnum[] | Site_identityScalarFieldEnum
+    having?: site_identityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Site_identityCountAggregateInputType | true
+    _min?: Site_identityMinAggregateInputType
+    _max?: Site_identityMaxAggregateInputType
+  }
+
+  export type Site_identityGroupByOutputType = {
+    id: string
+    brand_name: string
+    legal_entity_name: string
+    official_website_url: string
+    official_emails: JsonValue
+    official_whatsapp_numbers: JsonValue
+    registration_ids: JsonValue
+    official_payment_accounts: JsonValue
+    maps_listings: JsonValue
+    association_memberships: JsonValue
+    org_schema_json_ld: JsonValue | null
+    created_at: Date
+    updated_at: Date
+    _count: Site_identityCountAggregateOutputType | null
+    _min: Site_identityMinAggregateOutputType | null
+    _max: Site_identityMaxAggregateOutputType | null
+  }
+
+  type GetSite_identityGroupByPayload<T extends site_identityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Site_identityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Site_identityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Site_identityGroupByOutputType[P]>
+            : GetScalarType<T[P], Site_identityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type site_identitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    brand_name?: boolean
+    legal_entity_name?: boolean
+    official_website_url?: boolean
+    official_emails?: boolean
+    official_whatsapp_numbers?: boolean
+    registration_ids?: boolean
+    official_payment_accounts?: boolean
+    maps_listings?: boolean
+    association_memberships?: boolean
+    org_schema_json_ld?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["site_identity"]>
+
+  export type site_identitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    brand_name?: boolean
+    legal_entity_name?: boolean
+    official_website_url?: boolean
+    official_emails?: boolean
+    official_whatsapp_numbers?: boolean
+    registration_ids?: boolean
+    official_payment_accounts?: boolean
+    maps_listings?: boolean
+    association_memberships?: boolean
+    org_schema_json_ld?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["site_identity"]>
+
+  export type site_identitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    brand_name?: boolean
+    legal_entity_name?: boolean
+    official_website_url?: boolean
+    official_emails?: boolean
+    official_whatsapp_numbers?: boolean
+    registration_ids?: boolean
+    official_payment_accounts?: boolean
+    maps_listings?: boolean
+    association_memberships?: boolean
+    org_schema_json_ld?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["site_identity"]>
+
+  export type site_identitySelectScalar = {
+    id?: boolean
+    brand_name?: boolean
+    legal_entity_name?: boolean
+    official_website_url?: boolean
+    official_emails?: boolean
+    official_whatsapp_numbers?: boolean
+    registration_ids?: boolean
+    official_payment_accounts?: boolean
+    maps_listings?: boolean
+    association_memberships?: boolean
+    org_schema_json_ld?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type site_identityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand_name" | "legal_entity_name" | "official_website_url" | "official_emails" | "official_whatsapp_numbers" | "registration_ids" | "official_payment_accounts" | "maps_listings" | "association_memberships" | "org_schema_json_ld" | "created_at" | "updated_at", ExtArgs["result"]["site_identity"]>
+
+  export type $site_identityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "site_identity"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      brand_name: string
+      legal_entity_name: string
+      official_website_url: string
+      official_emails: Prisma.JsonValue
+      official_whatsapp_numbers: Prisma.JsonValue
+      registration_ids: Prisma.JsonValue
+      official_payment_accounts: Prisma.JsonValue
+      maps_listings: Prisma.JsonValue
+      association_memberships: Prisma.JsonValue
+      org_schema_json_ld: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["site_identity"]>
+    composites: {}
+  }
+
+  type site_identityGetPayload<S extends boolean | null | undefined | site_identityDefaultArgs> = $Result.GetResult<Prisma.$site_identityPayload, S>
+
+  type site_identityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<site_identityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Site_identityCountAggregateInputType | true
+    }
+
+  export interface site_identityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['site_identity'], meta: { name: 'site_identity' } }
+    /**
+     * Find zero or one Site_identity that matches the filter.
+     * @param {site_identityFindUniqueArgs} args - Arguments to find a Site_identity
+     * @example
+     * // Get one Site_identity
+     * const site_identity = await prisma.site_identity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends site_identityFindUniqueArgs>(args: SelectSubset<T, site_identityFindUniqueArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Site_identity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {site_identityFindUniqueOrThrowArgs} args - Arguments to find a Site_identity
+     * @example
+     * // Get one Site_identity
+     * const site_identity = await prisma.site_identity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends site_identityFindUniqueOrThrowArgs>(args: SelectSubset<T, site_identityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Site_identity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityFindFirstArgs} args - Arguments to find a Site_identity
+     * @example
+     * // Get one Site_identity
+     * const site_identity = await prisma.site_identity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends site_identityFindFirstArgs>(args?: SelectSubset<T, site_identityFindFirstArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Site_identity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityFindFirstOrThrowArgs} args - Arguments to find a Site_identity
+     * @example
+     * // Get one Site_identity
+     * const site_identity = await prisma.site_identity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends site_identityFindFirstOrThrowArgs>(args?: SelectSubset<T, site_identityFindFirstOrThrowArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Site_identities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Site_identities
+     * const site_identities = await prisma.site_identity.findMany()
+     * 
+     * // Get first 10 Site_identities
+     * const site_identities = await prisma.site_identity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const site_identityWithIdOnly = await prisma.site_identity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends site_identityFindManyArgs>(args?: SelectSubset<T, site_identityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Site_identity.
+     * @param {site_identityCreateArgs} args - Arguments to create a Site_identity.
+     * @example
+     * // Create one Site_identity
+     * const Site_identity = await prisma.site_identity.create({
+     *   data: {
+     *     // ... data to create a Site_identity
+     *   }
+     * })
+     * 
+     */
+    create<T extends site_identityCreateArgs>(args: SelectSubset<T, site_identityCreateArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Site_identities.
+     * @param {site_identityCreateManyArgs} args - Arguments to create many Site_identities.
+     * @example
+     * // Create many Site_identities
+     * const site_identity = await prisma.site_identity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends site_identityCreateManyArgs>(args?: SelectSubset<T, site_identityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Site_identities and returns the data saved in the database.
+     * @param {site_identityCreateManyAndReturnArgs} args - Arguments to create many Site_identities.
+     * @example
+     * // Create many Site_identities
+     * const site_identity = await prisma.site_identity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Site_identities and only return the `id`
+     * const site_identityWithIdOnly = await prisma.site_identity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends site_identityCreateManyAndReturnArgs>(args?: SelectSubset<T, site_identityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Site_identity.
+     * @param {site_identityDeleteArgs} args - Arguments to delete one Site_identity.
+     * @example
+     * // Delete one Site_identity
+     * const Site_identity = await prisma.site_identity.delete({
+     *   where: {
+     *     // ... filter to delete one Site_identity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends site_identityDeleteArgs>(args: SelectSubset<T, site_identityDeleteArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Site_identity.
+     * @param {site_identityUpdateArgs} args - Arguments to update one Site_identity.
+     * @example
+     * // Update one Site_identity
+     * const site_identity = await prisma.site_identity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends site_identityUpdateArgs>(args: SelectSubset<T, site_identityUpdateArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Site_identities.
+     * @param {site_identityDeleteManyArgs} args - Arguments to filter Site_identities to delete.
+     * @example
+     * // Delete a few Site_identities
+     * const { count } = await prisma.site_identity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends site_identityDeleteManyArgs>(args?: SelectSubset<T, site_identityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Site_identities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Site_identities
+     * const site_identity = await prisma.site_identity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends site_identityUpdateManyArgs>(args: SelectSubset<T, site_identityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Site_identities and returns the data updated in the database.
+     * @param {site_identityUpdateManyAndReturnArgs} args - Arguments to update many Site_identities.
+     * @example
+     * // Update many Site_identities
+     * const site_identity = await prisma.site_identity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Site_identities and only return the `id`
+     * const site_identityWithIdOnly = await prisma.site_identity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends site_identityUpdateManyAndReturnArgs>(args: SelectSubset<T, site_identityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Site_identity.
+     * @param {site_identityUpsertArgs} args - Arguments to update or create a Site_identity.
+     * @example
+     * // Update or create a Site_identity
+     * const site_identity = await prisma.site_identity.upsert({
+     *   create: {
+     *     // ... data to create a Site_identity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Site_identity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends site_identityUpsertArgs>(args: SelectSubset<T, site_identityUpsertArgs<ExtArgs>>): Prisma__site_identityClient<$Result.GetResult<Prisma.$site_identityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Site_identities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityCountArgs} args - Arguments to filter Site_identities to count.
+     * @example
+     * // Count the number of Site_identities
+     * const count = await prisma.site_identity.count({
+     *   where: {
+     *     // ... the filter for the Site_identities we want to count
+     *   }
+     * })
+    **/
+    count<T extends site_identityCountArgs>(
+      args?: Subset<T, site_identityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Site_identityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Site_identity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Site_identityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Site_identityAggregateArgs>(args: Subset<T, Site_identityAggregateArgs>): Prisma.PrismaPromise<GetSite_identityAggregateType<T>>
+
+    /**
+     * Group by Site_identity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {site_identityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends site_identityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: site_identityGroupByArgs['orderBy'] }
+        : { orderBy?: site_identityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, site_identityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSite_identityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the site_identity model
+   */
+  readonly fields: site_identityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for site_identity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__site_identityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the site_identity model
+   */
+  interface site_identityFieldRefs {
+    readonly id: FieldRef<"site_identity", 'String'>
+    readonly brand_name: FieldRef<"site_identity", 'String'>
+    readonly legal_entity_name: FieldRef<"site_identity", 'String'>
+    readonly official_website_url: FieldRef<"site_identity", 'String'>
+    readonly official_emails: FieldRef<"site_identity", 'Json'>
+    readonly official_whatsapp_numbers: FieldRef<"site_identity", 'Json'>
+    readonly registration_ids: FieldRef<"site_identity", 'Json'>
+    readonly official_payment_accounts: FieldRef<"site_identity", 'Json'>
+    readonly maps_listings: FieldRef<"site_identity", 'Json'>
+    readonly association_memberships: FieldRef<"site_identity", 'Json'>
+    readonly org_schema_json_ld: FieldRef<"site_identity", 'Json'>
+    readonly created_at: FieldRef<"site_identity", 'DateTime'>
+    readonly updated_at: FieldRef<"site_identity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * site_identity findUnique
+   */
+  export type site_identityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter, which site_identity to fetch.
+     */
+    where: site_identityWhereUniqueInput
+  }
+
+  /**
+   * site_identity findUniqueOrThrow
+   */
+  export type site_identityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter, which site_identity to fetch.
+     */
+    where: site_identityWhereUniqueInput
+  }
+
+  /**
+   * site_identity findFirst
+   */
+  export type site_identityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter, which site_identity to fetch.
+     */
+    where?: site_identityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of site_identities to fetch.
+     */
+    orderBy?: site_identityOrderByWithRelationInput | site_identityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for site_identities.
+     */
+    cursor?: site_identityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` site_identities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` site_identities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of site_identities.
+     */
+    distinct?: Site_identityScalarFieldEnum | Site_identityScalarFieldEnum[]
+  }
+
+  /**
+   * site_identity findFirstOrThrow
+   */
+  export type site_identityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter, which site_identity to fetch.
+     */
+    where?: site_identityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of site_identities to fetch.
+     */
+    orderBy?: site_identityOrderByWithRelationInput | site_identityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for site_identities.
+     */
+    cursor?: site_identityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` site_identities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` site_identities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of site_identities.
+     */
+    distinct?: Site_identityScalarFieldEnum | Site_identityScalarFieldEnum[]
+  }
+
+  /**
+   * site_identity findMany
+   */
+  export type site_identityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter, which site_identities to fetch.
+     */
+    where?: site_identityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of site_identities to fetch.
+     */
+    orderBy?: site_identityOrderByWithRelationInput | site_identityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing site_identities.
+     */
+    cursor?: site_identityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` site_identities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` site_identities.
+     */
+    skip?: number
+    distinct?: Site_identityScalarFieldEnum | Site_identityScalarFieldEnum[]
+  }
+
+  /**
+   * site_identity create
+   */
+  export type site_identityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * The data needed to create a site_identity.
+     */
+    data: XOR<site_identityCreateInput, site_identityUncheckedCreateInput>
+  }
+
+  /**
+   * site_identity createMany
+   */
+  export type site_identityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many site_identities.
+     */
+    data: site_identityCreateManyInput | site_identityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * site_identity createManyAndReturn
+   */
+  export type site_identityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * The data used to create many site_identities.
+     */
+    data: site_identityCreateManyInput | site_identityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * site_identity update
+   */
+  export type site_identityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * The data needed to update a site_identity.
+     */
+    data: XOR<site_identityUpdateInput, site_identityUncheckedUpdateInput>
+    /**
+     * Choose, which site_identity to update.
+     */
+    where: site_identityWhereUniqueInput
+  }
+
+  /**
+   * site_identity updateMany
+   */
+  export type site_identityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update site_identities.
+     */
+    data: XOR<site_identityUpdateManyMutationInput, site_identityUncheckedUpdateManyInput>
+    /**
+     * Filter which site_identities to update
+     */
+    where?: site_identityWhereInput
+    /**
+     * Limit how many site_identities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * site_identity updateManyAndReturn
+   */
+  export type site_identityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * The data used to update site_identities.
+     */
+    data: XOR<site_identityUpdateManyMutationInput, site_identityUncheckedUpdateManyInput>
+    /**
+     * Filter which site_identities to update
+     */
+    where?: site_identityWhereInput
+    /**
+     * Limit how many site_identities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * site_identity upsert
+   */
+  export type site_identityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * The filter to search for the site_identity to update in case it exists.
+     */
+    where: site_identityWhereUniqueInput
+    /**
+     * In case the site_identity found by the `where` argument doesn't exist, create a new site_identity with this data.
+     */
+    create: XOR<site_identityCreateInput, site_identityUncheckedCreateInput>
+    /**
+     * In case the site_identity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<site_identityUpdateInput, site_identityUncheckedUpdateInput>
+  }
+
+  /**
+   * site_identity delete
+   */
+  export type site_identityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+    /**
+     * Filter which site_identity to delete.
+     */
+    where: site_identityWhereUniqueInput
+  }
+
+  /**
+   * site_identity deleteMany
+   */
+  export type site_identityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which site_identities to delete
+     */
+    where?: site_identityWhereInput
+    /**
+     * Limit how many site_identities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * site_identity without action
+   */
+  export type site_identityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the site_identity
+     */
+    select?: site_identitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the site_identity
+     */
+    omit?: site_identityOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model feedback
    */
 
@@ -103990,6 +106369,45 @@ export namespace Prisma {
   export type FaqsScalarFieldEnum = (typeof FaqsScalarFieldEnum)[keyof typeof FaqsScalarFieldEnum]
 
 
+  export const Policy_documentsScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    policy_type: 'policy_type',
+    version: 'version',
+    effective_date: 'effective_date',
+    content: 'content',
+    is_binding: 'is_binding',
+    seo_meta_title: 'seo_meta_title',
+    seo_meta_description: 'seo_meta_description',
+    seo_og_image_url: 'seo_og_image_url',
+    include_in_sitemap: 'include_in_sitemap',
+    created_at: 'created_at',
+    date_modified: 'date_modified'
+  };
+
+  export type Policy_documentsScalarFieldEnum = (typeof Policy_documentsScalarFieldEnum)[keyof typeof Policy_documentsScalarFieldEnum]
+
+
+  export const Site_identityScalarFieldEnum: {
+    id: 'id',
+    brand_name: 'brand_name',
+    legal_entity_name: 'legal_entity_name',
+    official_website_url: 'official_website_url',
+    official_emails: 'official_emails',
+    official_whatsapp_numbers: 'official_whatsapp_numbers',
+    registration_ids: 'registration_ids',
+    official_payment_accounts: 'official_payment_accounts',
+    maps_listings: 'maps_listings',
+    association_memberships: 'association_memberships',
+    org_schema_json_ld: 'org_schema_json_ld',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Site_identityScalarFieldEnum = (typeof Site_identityScalarFieldEnum)[keyof typeof Site_identityScalarFieldEnum]
+
+
   export const FeedbackScalarFieldEnum: {
     id: 'id',
     booking_id: 'booking_id',
@@ -104469,6 +106887,13 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
@@ -104609,6 +107034,20 @@ export namespace Prisma {
    * Reference to a field of type 'source_enum[]'
    */
   export type ListEnumsource_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'source_enum[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'policy_document_type'
+   */
+  export type Enumpolicy_document_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'policy_document_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'policy_document_type[]'
+   */
+  export type ListEnumpolicy_document_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'policy_document_type[]'>
     
 
 
@@ -108706,6 +111145,195 @@ export namespace Prisma {
     sort_order?: IntWithAggregatesFilter<"faqs"> | number
     created_at?: DateTimeNullableWithAggregatesFilter<"faqs"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"faqs"> | Date | string | null
+  }
+
+  export type policy_documentsWhereInput = {
+    AND?: policy_documentsWhereInput | policy_documentsWhereInput[]
+    OR?: policy_documentsWhereInput[]
+    NOT?: policy_documentsWhereInput | policy_documentsWhereInput[]
+    id?: UuidFilter<"policy_documents"> | string
+    title?: StringFilter<"policy_documents"> | string
+    slug?: StringFilter<"policy_documents"> | string
+    policy_type?: Enumpolicy_document_typeFilter<"policy_documents"> | $Enums.policy_document_type
+    version?: StringNullableFilter<"policy_documents"> | string | null
+    effective_date?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+    content?: StringFilter<"policy_documents"> | string
+    is_binding?: BoolFilter<"policy_documents"> | boolean
+    seo_meta_title?: StringNullableFilter<"policy_documents"> | string | null
+    seo_meta_description?: StringNullableFilter<"policy_documents"> | string | null
+    seo_og_image_url?: StringNullableFilter<"policy_documents"> | string | null
+    include_in_sitemap?: BoolFilter<"policy_documents"> | boolean
+    created_at?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+    date_modified?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+  }
+
+  export type policy_documentsOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    policy_type?: SortOrder
+    version?: SortOrderInput | SortOrder
+    effective_date?: SortOrderInput | SortOrder
+    content?: SortOrder
+    is_binding?: SortOrder
+    seo_meta_title?: SortOrderInput | SortOrder
+    seo_meta_description?: SortOrderInput | SortOrder
+    seo_og_image_url?: SortOrderInput | SortOrder
+    include_in_sitemap?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    date_modified?: SortOrderInput | SortOrder
+  }
+
+  export type policy_documentsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: policy_documentsWhereInput | policy_documentsWhereInput[]
+    OR?: policy_documentsWhereInput[]
+    NOT?: policy_documentsWhereInput | policy_documentsWhereInput[]
+    title?: StringFilter<"policy_documents"> | string
+    policy_type?: Enumpolicy_document_typeFilter<"policy_documents"> | $Enums.policy_document_type
+    version?: StringNullableFilter<"policy_documents"> | string | null
+    effective_date?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+    content?: StringFilter<"policy_documents"> | string
+    is_binding?: BoolFilter<"policy_documents"> | boolean
+    seo_meta_title?: StringNullableFilter<"policy_documents"> | string | null
+    seo_meta_description?: StringNullableFilter<"policy_documents"> | string | null
+    seo_og_image_url?: StringNullableFilter<"policy_documents"> | string | null
+    include_in_sitemap?: BoolFilter<"policy_documents"> | boolean
+    created_at?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+    date_modified?: DateTimeNullableFilter<"policy_documents"> | Date | string | null
+  }, "id" | "slug">
+
+  export type policy_documentsOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    policy_type?: SortOrder
+    version?: SortOrderInput | SortOrder
+    effective_date?: SortOrderInput | SortOrder
+    content?: SortOrder
+    is_binding?: SortOrder
+    seo_meta_title?: SortOrderInput | SortOrder
+    seo_meta_description?: SortOrderInput | SortOrder
+    seo_og_image_url?: SortOrderInput | SortOrder
+    include_in_sitemap?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    date_modified?: SortOrderInput | SortOrder
+    _count?: policy_documentsCountOrderByAggregateInput
+    _max?: policy_documentsMaxOrderByAggregateInput
+    _min?: policy_documentsMinOrderByAggregateInput
+  }
+
+  export type policy_documentsScalarWhereWithAggregatesInput = {
+    AND?: policy_documentsScalarWhereWithAggregatesInput | policy_documentsScalarWhereWithAggregatesInput[]
+    OR?: policy_documentsScalarWhereWithAggregatesInput[]
+    NOT?: policy_documentsScalarWhereWithAggregatesInput | policy_documentsScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"policy_documents"> | string
+    title?: StringWithAggregatesFilter<"policy_documents"> | string
+    slug?: StringWithAggregatesFilter<"policy_documents"> | string
+    policy_type?: Enumpolicy_document_typeWithAggregatesFilter<"policy_documents"> | $Enums.policy_document_type
+    version?: StringNullableWithAggregatesFilter<"policy_documents"> | string | null
+    effective_date?: DateTimeNullableWithAggregatesFilter<"policy_documents"> | Date | string | null
+    content?: StringWithAggregatesFilter<"policy_documents"> | string
+    is_binding?: BoolWithAggregatesFilter<"policy_documents"> | boolean
+    seo_meta_title?: StringNullableWithAggregatesFilter<"policy_documents"> | string | null
+    seo_meta_description?: StringNullableWithAggregatesFilter<"policy_documents"> | string | null
+    seo_og_image_url?: StringNullableWithAggregatesFilter<"policy_documents"> | string | null
+    include_in_sitemap?: BoolWithAggregatesFilter<"policy_documents"> | boolean
+    created_at?: DateTimeNullableWithAggregatesFilter<"policy_documents"> | Date | string | null
+    date_modified?: DateTimeNullableWithAggregatesFilter<"policy_documents"> | Date | string | null
+  }
+
+  export type site_identityWhereInput = {
+    AND?: site_identityWhereInput | site_identityWhereInput[]
+    OR?: site_identityWhereInput[]
+    NOT?: site_identityWhereInput | site_identityWhereInput[]
+    id?: UuidFilter<"site_identity"> | string
+    brand_name?: StringFilter<"site_identity"> | string
+    legal_entity_name?: StringFilter<"site_identity"> | string
+    official_website_url?: StringFilter<"site_identity"> | string
+    official_emails?: JsonFilter<"site_identity">
+    official_whatsapp_numbers?: JsonFilter<"site_identity">
+    registration_ids?: JsonFilter<"site_identity">
+    official_payment_accounts?: JsonFilter<"site_identity">
+    maps_listings?: JsonFilter<"site_identity">
+    association_memberships?: JsonFilter<"site_identity">
+    org_schema_json_ld?: JsonNullableFilter<"site_identity">
+    created_at?: DateTimeFilter<"site_identity"> | Date | string
+    updated_at?: DateTimeFilter<"site_identity"> | Date | string
+  }
+
+  export type site_identityOrderByWithRelationInput = {
+    id?: SortOrder
+    brand_name?: SortOrder
+    legal_entity_name?: SortOrder
+    official_website_url?: SortOrder
+    official_emails?: SortOrder
+    official_whatsapp_numbers?: SortOrder
+    registration_ids?: SortOrder
+    official_payment_accounts?: SortOrder
+    maps_listings?: SortOrder
+    association_memberships?: SortOrder
+    org_schema_json_ld?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type site_identityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: site_identityWhereInput | site_identityWhereInput[]
+    OR?: site_identityWhereInput[]
+    NOT?: site_identityWhereInput | site_identityWhereInput[]
+    brand_name?: StringFilter<"site_identity"> | string
+    legal_entity_name?: StringFilter<"site_identity"> | string
+    official_website_url?: StringFilter<"site_identity"> | string
+    official_emails?: JsonFilter<"site_identity">
+    official_whatsapp_numbers?: JsonFilter<"site_identity">
+    registration_ids?: JsonFilter<"site_identity">
+    official_payment_accounts?: JsonFilter<"site_identity">
+    maps_listings?: JsonFilter<"site_identity">
+    association_memberships?: JsonFilter<"site_identity">
+    org_schema_json_ld?: JsonNullableFilter<"site_identity">
+    created_at?: DateTimeFilter<"site_identity"> | Date | string
+    updated_at?: DateTimeFilter<"site_identity"> | Date | string
+  }, "id">
+
+  export type site_identityOrderByWithAggregationInput = {
+    id?: SortOrder
+    brand_name?: SortOrder
+    legal_entity_name?: SortOrder
+    official_website_url?: SortOrder
+    official_emails?: SortOrder
+    official_whatsapp_numbers?: SortOrder
+    registration_ids?: SortOrder
+    official_payment_accounts?: SortOrder
+    maps_listings?: SortOrder
+    association_memberships?: SortOrder
+    org_schema_json_ld?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: site_identityCountOrderByAggregateInput
+    _max?: site_identityMaxOrderByAggregateInput
+    _min?: site_identityMinOrderByAggregateInput
+  }
+
+  export type site_identityScalarWhereWithAggregatesInput = {
+    AND?: site_identityScalarWhereWithAggregatesInput | site_identityScalarWhereWithAggregatesInput[]
+    OR?: site_identityScalarWhereWithAggregatesInput[]
+    NOT?: site_identityScalarWhereWithAggregatesInput | site_identityScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"site_identity"> | string
+    brand_name?: StringWithAggregatesFilter<"site_identity"> | string
+    legal_entity_name?: StringWithAggregatesFilter<"site_identity"> | string
+    official_website_url?: StringWithAggregatesFilter<"site_identity"> | string
+    official_emails?: JsonWithAggregatesFilter<"site_identity">
+    official_whatsapp_numbers?: JsonWithAggregatesFilter<"site_identity">
+    registration_ids?: JsonWithAggregatesFilter<"site_identity">
+    official_payment_accounts?: JsonWithAggregatesFilter<"site_identity">
+    maps_listings?: JsonWithAggregatesFilter<"site_identity">
+    association_memberships?: JsonWithAggregatesFilter<"site_identity">
+    org_schema_json_ld?: JsonNullableWithAggregatesFilter<"site_identity">
+    created_at?: DateTimeWithAggregatesFilter<"site_identity"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"site_identity"> | Date | string
   }
 
   export type feedbackWhereInput = {
@@ -115766,6 +118394,237 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type policy_documentsCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    policy_type: $Enums.policy_document_type
+    version?: string | null
+    effective_date?: Date | string | null
+    content: string
+    is_binding?: boolean
+    seo_meta_title?: string | null
+    seo_meta_description?: string | null
+    seo_og_image_url?: string | null
+    include_in_sitemap?: boolean
+    created_at?: Date | string | null
+    date_modified?: Date | string | null
+  }
+
+  export type policy_documentsUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    policy_type: $Enums.policy_document_type
+    version?: string | null
+    effective_date?: Date | string | null
+    content: string
+    is_binding?: boolean
+    seo_meta_title?: string | null
+    seo_meta_description?: string | null
+    seo_og_image_url?: string | null
+    include_in_sitemap?: boolean
+    created_at?: Date | string | null
+    date_modified?: Date | string | null
+  }
+
+  export type policy_documentsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    policy_type?: Enumpolicy_document_typeFieldUpdateOperationsInput | $Enums.policy_document_type
+    version?: NullableStringFieldUpdateOperationsInput | string | null
+    effective_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    is_binding?: BoolFieldUpdateOperationsInput | boolean
+    seo_meta_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta_description?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    include_in_sitemap?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_modified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type policy_documentsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    policy_type?: Enumpolicy_document_typeFieldUpdateOperationsInput | $Enums.policy_document_type
+    version?: NullableStringFieldUpdateOperationsInput | string | null
+    effective_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    is_binding?: BoolFieldUpdateOperationsInput | boolean
+    seo_meta_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta_description?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    include_in_sitemap?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_modified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type policy_documentsCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    policy_type: $Enums.policy_document_type
+    version?: string | null
+    effective_date?: Date | string | null
+    content: string
+    is_binding?: boolean
+    seo_meta_title?: string | null
+    seo_meta_description?: string | null
+    seo_og_image_url?: string | null
+    include_in_sitemap?: boolean
+    created_at?: Date | string | null
+    date_modified?: Date | string | null
+  }
+
+  export type policy_documentsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    policy_type?: Enumpolicy_document_typeFieldUpdateOperationsInput | $Enums.policy_document_type
+    version?: NullableStringFieldUpdateOperationsInput | string | null
+    effective_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    is_binding?: BoolFieldUpdateOperationsInput | boolean
+    seo_meta_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta_description?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    include_in_sitemap?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_modified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type policy_documentsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    policy_type?: Enumpolicy_document_typeFieldUpdateOperationsInput | $Enums.policy_document_type
+    version?: NullableStringFieldUpdateOperationsInput | string | null
+    effective_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    is_binding?: BoolFieldUpdateOperationsInput | boolean
+    seo_meta_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta_description?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    include_in_sitemap?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    date_modified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type site_identityCreateInput = {
+    id?: string
+    brand_name: string
+    legal_entity_name: string
+    official_website_url: string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type site_identityUncheckedCreateInput = {
+    id?: string
+    brand_name: string
+    legal_entity_name: string
+    official_website_url: string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type site_identityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand_name?: StringFieldUpdateOperationsInput | string
+    legal_entity_name?: StringFieldUpdateOperationsInput | string
+    official_website_url?: StringFieldUpdateOperationsInput | string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type site_identityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand_name?: StringFieldUpdateOperationsInput | string
+    legal_entity_name?: StringFieldUpdateOperationsInput | string
+    official_website_url?: StringFieldUpdateOperationsInput | string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type site_identityCreateManyInput = {
+    id?: string
+    brand_name: string
+    legal_entity_name: string
+    official_website_url: string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type site_identityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand_name?: StringFieldUpdateOperationsInput | string
+    legal_entity_name?: StringFieldUpdateOperationsInput | string
+    official_website_url?: StringFieldUpdateOperationsInput | string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type site_identityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    brand_name?: StringFieldUpdateOperationsInput | string
+    legal_entity_name?: StringFieldUpdateOperationsInput | string
+    official_website_url?: StringFieldUpdateOperationsInput | string
+    official_emails?: JsonNullValueInput | InputJsonValue
+    official_whatsapp_numbers?: JsonNullValueInput | InputJsonValue
+    registration_ids?: JsonNullValueInput | InputJsonValue
+    official_payment_accounts?: JsonNullValueInput | InputJsonValue
+    maps_listings?: JsonNullValueInput | InputJsonValue
+    association_memberships?: JsonNullValueInput | InputJsonValue
+    org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type feedbackCreateInput = {
     id?: bigint | number
     rating_smallint?: number | null
@@ -121844,6 +124703,233 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type UuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type Enumpolicy_document_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.policy_document_type | Enumpolicy_document_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumpolicy_document_typeFilter<$PrismaModel> | $Enums.policy_document_type
+  }
+
+  export type policy_documentsCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    policy_type?: SortOrder
+    version?: SortOrder
+    effective_date?: SortOrder
+    content?: SortOrder
+    is_binding?: SortOrder
+    seo_meta_title?: SortOrder
+    seo_meta_description?: SortOrder
+    seo_og_image_url?: SortOrder
+    include_in_sitemap?: SortOrder
+    created_at?: SortOrder
+    date_modified?: SortOrder
+  }
+
+  export type policy_documentsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    policy_type?: SortOrder
+    version?: SortOrder
+    effective_date?: SortOrder
+    content?: SortOrder
+    is_binding?: SortOrder
+    seo_meta_title?: SortOrder
+    seo_meta_description?: SortOrder
+    seo_og_image_url?: SortOrder
+    include_in_sitemap?: SortOrder
+    created_at?: SortOrder
+    date_modified?: SortOrder
+  }
+
+  export type policy_documentsMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    policy_type?: SortOrder
+    version?: SortOrder
+    effective_date?: SortOrder
+    content?: SortOrder
+    is_binding?: SortOrder
+    seo_meta_title?: SortOrder
+    seo_meta_description?: SortOrder
+    seo_og_image_url?: SortOrder
+    include_in_sitemap?: SortOrder
+    created_at?: SortOrder
+    date_modified?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type Enumpolicy_document_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.policy_document_type | Enumpolicy_document_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumpolicy_document_typeWithAggregatesFilter<$PrismaModel> | $Enums.policy_document_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
+    _max?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type site_identityCountOrderByAggregateInput = {
+    id?: SortOrder
+    brand_name?: SortOrder
+    legal_entity_name?: SortOrder
+    official_website_url?: SortOrder
+    official_emails?: SortOrder
+    official_whatsapp_numbers?: SortOrder
+    registration_ids?: SortOrder
+    official_payment_accounts?: SortOrder
+    maps_listings?: SortOrder
+    association_memberships?: SortOrder
+    org_schema_json_ld?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type site_identityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    brand_name?: SortOrder
+    legal_entity_name?: SortOrder
+    official_website_url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type site_identityMinOrderByAggregateInput = {
+    id?: SortOrder
+    brand_name?: SortOrder
+    legal_entity_name?: SortOrder
+    official_website_url?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type feedbackCountOrderByAggregateInput = {
     id?: SortOrder
     booking_id?: SortOrder
@@ -123500,29 +126586,6 @@ export namespace Prisma {
     id?: SortOrder
     vendor_category_id?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type web_metadataCountOrderByAggregateInput = {
     id?: SortOrder
@@ -123567,32 +126630,6 @@ export namespace Prisma {
 
   export type web_metadataSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -127083,6 +130120,10 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type Enumpolicy_document_typeFieldUpdateOperationsInput = {
+    set?: $Enums.policy_document_type
+  }
+
   export type bookingsCreateNestedOneWithoutFeedbackInput = {
     create?: XOR<bookingsCreateWithoutFeedbackInput, bookingsUncheckedCreateWithoutFeedbackInput>
     connectOrCreate?: bookingsCreateOrConnectWithoutFeedbackInput
@@ -129746,6 +132787,71 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedUuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type NestedEnumpolicy_document_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.policy_document_type | Enumpolicy_document_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumpolicy_document_typeFilter<$PrismaModel> | $Enums.policy_document_type
+  }
+
+  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedEnumpolicy_document_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.policy_document_type | Enumpolicy_document_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.policy_document_type[] | ListEnumpolicy_document_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumpolicy_document_typeWithAggregatesFilter<$PrismaModel> | $Enums.policy_document_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
+    _max?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<

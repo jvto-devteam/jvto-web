@@ -738,6 +738,39 @@ exports.Prisma.FaqsScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.Policy_documentsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  policy_type: 'policy_type',
+  version: 'version',
+  effective_date: 'effective_date',
+  content: 'content',
+  is_binding: 'is_binding',
+  seo_meta_title: 'seo_meta_title',
+  seo_meta_description: 'seo_meta_description',
+  seo_og_image_url: 'seo_og_image_url',
+  include_in_sitemap: 'include_in_sitemap',
+  created_at: 'created_at',
+  date_modified: 'date_modified'
+};
+
+exports.Prisma.Site_identityScalarFieldEnum = {
+  id: 'id',
+  brand_name: 'brand_name',
+  legal_entity_name: 'legal_entity_name',
+  official_website_url: 'official_website_url',
+  official_emails: 'official_emails',
+  official_whatsapp_numbers: 'official_whatsapp_numbers',
+  registration_ids: 'registration_ids',
+  official_payment_accounts: 'official_payment_accounts',
+  maps_listings: 'maps_listings',
+  association_memberships: 'association_memberships',
+  org_schema_json_ld: 'org_schema_json_ld',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   booking_id: 'booking_id',
@@ -1118,6 +1151,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
@@ -1141,6 +1178,13 @@ exports.Prisma.JsonNullValueFilter = {
 exports.source_enum = exports.$Enums.source_enum = {
   UPLOAD: 'UPLOAD',
   LINK: 'LINK'
+};
+
+exports.policy_document_type = exports.$Enums.policy_document_type = {
+  booking_payment_cancellation: 'booking_payment_cancellation',
+  inclusions_exclusions: 'inclusions_exclusions',
+  privacy: 'privacy',
+  guest_responsibilities: 'guest_responsibilities'
 };
 
 exports.Prisma.ModelName = {
@@ -1189,6 +1233,8 @@ exports.Prisma.ModelName = {
   documents: 'documents',
   durations: 'durations',
   faqs: 'faqs',
+  policy_documents: 'policy_documents',
+  site_identity: 'site_identity',
   feedback: 'feedback',
   hotels: 'hotels',
   inclusion_rules: 'inclusion_rules',

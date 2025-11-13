@@ -810,6 +810,73 @@ model faqs {
   updated_at   DateTime? @default(now()) @db.Timestamp(6)
 }
 
+enum policy_document_type {
+  booking_payment_cancellation
+  inclusions_exclusions
+  privacy
+  guest_responsibilities
+}
+
+model policy_documents {
+  id String @id @default(uuid()) @db.Uuid
+
+  title String @db.Text
+  slug  String @unique @db.Text
+
+  policy_type policy_document_type
+
+  version        String?   @db.Text
+  effective_date DateTime? @db.Date
+
+  content String @db.Text
+
+  is_binding Boolean @default(true)
+
+  seo_meta_title       String? @db.Text
+  seo_meta_description String? @db.Text
+  seo_og_image_url     String? @db.Text
+
+  include_in_sitemap Boolean @default(true)
+
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  date_modified DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@index([policy_type])
+  @@index([effective_date])
+}
+
+model site_identity {
+  id String @id @default(uuid()) @db.Uuid
+
+  // Basic Identity
+  brand_name           String @db.Text
+  legal_entity_name    String @db.Text
+  official_website_url String @db.Text
+
+  // Contact Arrays (stored as JSONB)
+  official_emails           Json @default("[]") // string[]
+  official_whatsapp_numbers Json @default("[]") // string[]
+
+  // Registration IDs (array of objects)
+  registration_ids Json @default("[]") // {label, value, document?}[]
+
+  // Payment Accounts (array of objects)
+  official_payment_accounts Json @default("[]") // {label, accountDetails}[]
+
+  // Listings & Associations
+  maps_listings           Json @default("[]") // string[]
+  association_memberships Json @default("[]") // string[]
+
+  // Auto-generated Organization Schema
+  org_schema_json_ld Json? // Generated JSON-LD for SEO
+
+  // Timestamps
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  @@map("site_identity")
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model feedback {

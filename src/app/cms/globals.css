@@ -32,3 +32,13 @@
 .nice-scrollbar::-webkit-scrollbar-thumb:active{
   background: var(--scroll-thumb-active);
 }
+/* Editor Policy – atur tinggi minimum area tulis */
+.policy-quill-editor .ql-container {
+  min-height: 180px; /* tinggi total box */
+}
+
+.policy-quill-editor .ql-editor {
+  min-height: 140px; /* tinggi area teks di dalamnya */
+  padding-top: 0.75rem;   /* optional: biar nafas */
+  padding-bottom: 0.75rem;
+}
