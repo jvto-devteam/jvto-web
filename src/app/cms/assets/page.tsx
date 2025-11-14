@@ -1,25 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import {
   Folder as FolderIcon,
   FolderOpen,
   FileText,
   Image as ImageIcon,
   Video,
-  Link2,
   Plus,
   Tag as TagIcon,
-  MoreVertical,
   ArrowLeft,
+  Pencil,
+  Trash2,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 
 /**
- * TYPES - disesuaikan dengan struktur tabel sederhana
+ * TYPES
  */
 
-type AssetType = "image" | "video" | "document" | "link";
+type AssetType = "image" | "video" | "document";
 
 type Folder = {
   id: number;
@@ -37,19 +38,22 @@ type Asset = {
   id: number;
   folderId: number;
   name: string;
+  caption?: string | null;
   description?: string | null;
   type: AssetType;
   url: string;
   fileExt?: string | null;
   sizeBytes?: number | null;
+  sizeMegabytes?: number | null;
+  sha256?: string | null;
+  lastVerifiedISO?: string | null;
   isActive: boolean;
   createdAt: string;
-  tagIds: number[]; // relasi ke tags (asset_tags)
+  tagIds: number[];
 };
 
 /**
- * INITIAL STATE (mock data)
- * Nanti bagian ini bisa diganti fetch dari API/Postgre.
+ * INITIAL STATE
  */
 
 const initialFolders: Folder[] = [
@@ -73,11 +77,15 @@ const initialAssets: Asset[] = [
     id: 1,
     folderId: 3,
     name: "Hero Image Bromo Sunrise",
+    caption: "Hero untuk landing page Bromo.",
     description: "Foto utama untuk landing tour Bromo sunrise.",
     type: "image",
     url: "https://via.placeholder.com/800x400?text=Bromo+Hero",
     fileExt: "jpg",
     sizeBytes: 320000,
+    sizeMegabytes: 0.32,
+    sha256: "c0ffee...deadbeef001",
+    lastVerifiedISO: new Date().toISOString(),
     isActive: true,
     createdAt: new Date().toISOString(),
     tagIds: [1, 4],
@@ -86,11 +94,15 @@ const initialAssets: Asset[] = [
     id: 2,
     folderId: 3,
     name: "Video Drone Bromo",
+    caption: "Footage aerial drone.",
     description: "Footage drone panorama kawah dan lautan pasir.",
     type: "video",
     url: "https://youtube.com/watch?v=xxxxx",
     fileExt: null,
     sizeBytes: null,
+    sizeMegabytes: null,
+    sha256: null,
+    lastVerifiedISO: null,
     isActive: true,
     createdAt: new Date().toISOString(),
     tagIds: [1],
@@ -99,11 +111,15 @@ const initialAssets: Asset[] = [
     id: 3,
     folderId: 5,
     name: "Scan NIB 2025",
+    caption: "Dokumen legal untuk keperluan perizinan.",
     description: "Dokumen legal NIB perusahaan (PDF).",
     type: "document",
     url: "https://your-cdn.com/legal/nib-2025.pdf",
     fileExt: "pdf",
     sizeBytes: 540000,
+    sizeMegabytes: 0.54,
+    sha256: "abc123...9988776655",
+    lastVerifiedISO: new Date().toISOString(),
     isActive: true,
     createdAt: new Date().toISOString(),
     tagIds: [3],
@@ -122,8 +138,6 @@ function getTypeIcon(type: AssetType) {
       return <Video className="h-4 w-4 text-sky-400" />;
     case "document":
       return <FileText className="h-4 w-4 text-indigo-400" />;
-    case "link":
-      return <Link2 className="h-4 w-4 text-slate-400" />;
     default:
       return <FileText className="h-4 w-4 text-slate-400" />;
   }
@@ -140,20 +154,76 @@ function formatSize(sizeBytes?: number | null) {
   return `${gb.toFixed(1)} GB`;
 }
 
+function getDescendantFolderIds(all: Folder[], folderId: number): number[] {
+  const ids: number[] = [];
+  function walk(id: number) {
+    const children = all.filter((f) => f.parentId === id);
+    for (const child of children) {
+      ids.push(child.id);
+      walk(child.id);
+    }
+  }
+  walk(folderId);
+  return ids;
+}
+
+function detectAssetTypeFromFile(file: File): AssetType {
+  const mime = file.type.toLowerCase();
+  const name = file.name.toLowerCase();
+
+  if (
+    mime.startsWith("image/") ||
+    /\.(png|jpe?g|gif|webp|avif|svg)$/.test(name)
+  ) {
+    return "image";
+  }
+  if (mime.startsWith("video/") || /\.(mp4|mov|webm|mkv)$/.test(name)) {
+    return "video";
+  }
+  return "document";
+}
+
 /**
- * MAIN PAGE
+ * MAIN COMPONENT
  */
 
 export default function AssetsPage() {
-  // state
   const [folders, setFolders] = useState<Folder[]>(initialFolders);
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
   const [tags, setTags] = useState<Tag[]>(initialTags);
 
-  const [currentFolderId, setCurrentFolderId] = useState<number | null>(1); // default ke "Tours"
+  const [currentFolderId, setCurrentFolderId] = useState<number | null>(1);
   const [expandedFolders, setExpandedFolders] = useState<number[]>([1, 2, 3]);
   const [search, setSearch] = useState("");
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
+
+  // MODAL STATE
+  type FolderFormMode = "create-root" | "create-sub" | "rename";
+  type AssetFormMode = "create" | "edit";
+
+  const [folderFormState, setFolderFormState] = useState<{
+    open: boolean;
+    mode: FolderFormMode;
+    targetFolderId: number | null;
+  }>({
+    open: false,
+    mode: "create-root",
+    targetFolderId: null,
+  });
+
+  const [assetFormState, setAssetFormState] = useState<{
+    open: boolean;
+    mode: AssetFormMode;
+    folderId: number | null;
+    assetId: number | null;
+  }>({
+    open: false,
+    mode: "create",
+    folderId: null,
+    assetId: null,
+  });
+
+  const [detailAssetId, setDetailAssetId] = useState<number | null>(null);
 
   // derived
   const currentFolder = useMemo(
@@ -161,15 +231,10 @@ export default function AssetsPage() {
     [folders, currentFolderId]
   );
 
-  const childFolders = useMemo(
-    () => folders.filter((f) => f.parentId === currentFolderId),
-    [folders, currentFolderId]
-  );
-
   const folderPath = useMemo(() => {
     if (!currentFolder) return [];
     const path: Folder[] = [];
-    let cursor: Folder | undefined | null = currentFolder;
+    let cursor: Folder | null | undefined = currentFolder;
     while (cursor) {
       path.unshift(cursor);
       cursor = folders.find((f) => f.id === cursor!.parentId) ?? null;
@@ -185,13 +250,49 @@ export default function AssetsPage() {
       const q = search.toLowerCase();
       return (
         a.name.toLowerCase().includes(q) ||
-        (a.description || "").toLowerCase().includes(q)
+        (a.description || "").toLowerCase().includes(q) ||
+        (a.caption || "").toLowerCase().includes(q)
       );
     });
   }, [assets, currentFolderId, search, selectedTagId]);
 
+  const detailAsset = useMemo(
+    () =>
+      detailAssetId ? assets.find((a) => a.id === detailAssetId) ?? null : null,
+    [assets, detailAssetId]
+  );
+
+  const detailAssetFolder = useMemo(
+    () =>
+      detailAsset
+        ? folders.find((f) => f.id === detailAsset.folderId) ?? null
+        : null,
+    [detailAsset, folders]
+  );
+
+  const editingAsset = useMemo(
+    () =>
+      assetFormState.assetId != null
+        ? assets.find((a) => a.id === assetFormState.assetId) ?? null
+        : null,
+    [assets, assetFormState.assetId]
+  );
+
+  function buildFolderPathLabel(folderId: number | null): string {
+    if (folderId == null) return "-";
+    const folder = folders.find((f) => f.id === folderId);
+    if (!folder) return "-";
+    const path: Folder[] = [];
+    let cursor: Folder | null | undefined = folder;
+    while (cursor) {
+      path.unshift(cursor);
+      cursor = folders.find((f) => f.id === cursor!.parentId) ?? null;
+    }
+    return path.map((f) => f.name).join(" / ");
+  }
+
   /**
-   * HANDLERS
+   * FOLDER HANDLERS
    */
 
   function toggleFolderExpand(id: number) {
@@ -200,175 +301,236 @@ export default function AssetsPage() {
     );
   }
 
-  function handleCreateFolder(parentId: number | null) {
-    const name = window.prompt("Nama folder:");
-    if (!name || !name.trim()) return;
-    const id = Date.now();
-    const newFolder: Folder = {
-      id,
-      parentId,
-      name: name.trim(),
-      createdAt: new Date().toISOString(),
-    };
-    setFolders((prev) => [...prev, newFolder]);
-    setExpandedFolders((prev) =>
-      parentId && !prev.includes(parentId) ? [...prev, parentId] : prev
+  function openCreateRootFolderForm() {
+    setFolderFormState({
+      open: true,
+      mode: "create-root",
+      targetFolderId: null,
+    });
+  }
+
+  function openCreateSubFolderForm(parentId: number) {
+    setFolderFormState({
+      open: true,
+      mode: "create-sub",
+      targetFolderId: parentId,
+    });
+  }
+
+  function openRenameFolderForm(folderId: number) {
+    setFolderFormState({
+      open: true,
+      mode: "rename",
+      targetFolderId: folderId,
+    });
+  }
+
+  function handleSaveFolderName(name: string) {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+
+    const { mode, targetFolderId } = folderFormState;
+
+    if (mode === "create-root" || mode === "create-sub") {
+      const parentId = mode === "create-root" ? null : targetFolderId;
+      const id = Date.now();
+      const newFolder: Folder = {
+        id,
+        parentId,
+        name: trimmed,
+        createdAt: new Date().toISOString(),
+      };
+      setFolders((prev) => [...prev, newFolder]);
+      if (parentId && !expandedFolders.includes(parentId)) {
+        setExpandedFolders((prev) => [...prev, parentId]);
+      }
+      setCurrentFolderId(id);
+    } else if (mode === "rename" && targetFolderId != null) {
+      setFolders((prev) =>
+        prev.map((f) => (f.id === targetFolderId ? { ...f, name: trimmed } : f))
+      );
+    }
+
+    setFolderFormState((prev) => ({ ...prev, open: false }));
+  }
+
+  function handleDeleteFolder(folderId: number) {
+    const folder = folders.find((f) => f.id === folderId);
+    if (!folder) return;
+
+    const descendants = getDescendantFolderIds(folders, folderId);
+    const allToDelete = [folderId, ...descendants];
+
+    const ok = window.confirm(
+      `Hapus folder "${folder.name}" dan semua subfolder + aset di dalamnya?`
     );
-    setCurrentFolderId(id);
+    if (!ok) return;
+
+    setFolders((prev) => prev.filter((f) => !allToDelete.includes(f.id)));
+    setAssets((prev) => prev.filter((a) => !allToDelete.includes(a.folderId)));
+
+    if (currentFolderId && allToDelete.includes(currentFolderId)) {
+      setCurrentFolderId(null);
+    }
   }
 
-  function handleCreateAsset(folderId: number) {
-    const name = window.prompt("Nama asset:");
-    if (!name || !name.trim()) return;
+  /**
+   * ASSET HANDLERS
+   */
 
-    const typeInput = window
-      .prompt("Tipe (image/video/document/link):", "image")
-      ?.toLowerCase() as AssetType | undefined;
-
-    const type: AssetType =
-      typeInput && ["image", "video", "document", "link"].includes(typeInput)
-        ? typeInput
-        : "image";
-
-    const url = window.prompt("URL / path asset:") || "";
-    if (!url.trim()) return;
-
-    const id = Date.now();
-    const newAsset: Asset = {
-      id,
+  function openCreateAssetForm(folderId: number) {
+    setAssetFormState({
+      open: true,
+      mode: "create",
       folderId,
-      name: name.trim(),
-      description: "",
-      type,
-      url: url.trim(),
-      fileExt: null,
-      sizeBytes: null,
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      tagIds: [],
-    };
-    setAssets((prev) => [...prev, newAsset]);
+      assetId: null,
+    });
   }
 
-  function handleAssignTag(assetId: number) {
+  function openEditAssetForm(assetId: number) {
+    const asset = assets.find((a) => a.id === assetId);
+    setAssetFormState({
+      open: true,
+      mode: "edit",
+      folderId: asset?.folderId ?? currentFolderId,
+      assetId,
+    });
+  }
+
+  function handleSaveAssetForm(data: {
+    name: string;
+    caption: string;
+    description: string;
+    file: File | null;
+  }) {
+    const { mode, assetId, folderId } = assetFormState;
+    if (folderId == null) return;
+
+    if (mode === "create") {
+      if (!data.file) return;
+      const file = data.file;
+      const ext = file.name.includes(".")
+        ? file.name.split(".").pop()!.toLowerCase()
+        : null;
+      const type = detectAssetTypeFromFile(file);
+      const sizeBytes = file.size;
+      const sizeMegabytes = sizeBytes / (1024 * 1024);
+      const url = URL.createObjectURL(file);
+
+      const id = Date.now();
+      const newAsset: Asset = {
+        id,
+        folderId,
+        name: data.name.trim(),
+        caption: data.caption.trim() || null,
+        description: data.description.trim() || "",
+        type,
+        url,
+        fileExt: ext,
+        sizeBytes,
+        sizeMegabytes,
+        sha256: null,
+        lastVerifiedISO: null,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        tagIds: [],
+      };
+      setAssets((prev) => [...prev, newAsset]);
+    } else if (mode === "edit" && assetId != null) {
+      setAssets((prev) =>
+        prev.map((a) => {
+          if (a.id !== assetId) return a;
+          let updated: Asset = {
+            ...a,
+            name: data.name.trim() || a.name,
+            caption: data.caption.trim() || null,
+            description: data.description.trim() || "",
+          };
+
+          if (data.file) {
+            const file = data.file;
+            const ext = file.name.includes(".")
+              ? file.name.split(".").pop()!.toLowerCase()
+              : null;
+            const type = detectAssetTypeFromFile(file);
+            const sizeBytes = file.size;
+            const sizeMegabytes = sizeBytes / (1024 * 1024);
+            const url = URL.createObjectURL(file);
+
+            updated = {
+              ...updated,
+              type,
+              url,
+              fileExt: ext,
+              sizeBytes,
+              sizeMegabytes,
+            };
+          }
+
+          return updated;
+        })
+      );
+    }
+
+    setAssetFormState((prev) => ({ ...prev, open: false }));
+  }
+
+  function handleDeleteAsset(assetId: number) {
     const asset = assets.find((a) => a.id === assetId);
     if (!asset) return;
+    const ok = window.confirm(`Hapus asset "${asset.name}"?`);
+    if (!ok) return;
+    setAssets((prev) => prev.filter((a) => a.id !== assetId));
+    if (detailAssetId === assetId) setDetailAssetId(null);
+  }
 
-    const input = window.prompt(
-      "Masukkan tag (pisahkan dengan koma). Tag baru akan dibuat otomatis.",
-      ""
+  function handleToggleAssetActive(assetId: number) {
+    setAssets((prev) =>
+      prev.map((a) => (a.id === assetId ? { ...a, isActive: !a.isActive } : a))
     );
-    if (input == null) return;
+  }
 
-    const rawNames = input
+  /**
+   * TAG HANDLERS
+   */
+
+  function handleAddTagsToAsset(assetId: number, rawInput: string) {
+    const rawNames = rawInput
       .split(",")
       .map((s) => s.trim().toLowerCase())
       .filter(Boolean);
 
     if (rawNames.length === 0) return;
 
-    setTags((prevTags) => {
-      const next = [...prevTags];
-      for (const name of rawNames) {
-        if (!next.some((t) => t.name === name)) {
-          next.push({ id: Date.now() + Math.random(), name });
-        }
-      }
-      return next;
-    });
+    let nextTags = [...tags];
 
-    setAssets((prev) =>
-      prev.map((a) => {
+    for (const name of rawNames) {
+      if (!nextTags.some((t) => t.name === name)) {
+        nextTags.push({ id: Date.now() + Math.random(), name });
+      }
+    }
+
+    setTags(nextTags);
+
+    setAssets((prevAssets) =>
+      prevAssets.map((a) => {
         if (a.id !== assetId) return a;
-        const nextTagIds = [...a.tagIds];
+        const newTagIds = new Set(a.tagIds);
         rawNames.forEach((name) => {
-          const tag = (prevTags: Tag[], allTags: Tag[]) =>
-            allTags.find((t) => t.name === name);
-          // kita resolve pakai state terbaru via closure di bawah
+          const tag = nextTags.find((t) => t.name === name);
+          if (tag) newTagIds.add(tag.id);
         });
-        return a;
+        return { ...a, tagIds: Array.from(newTagIds) };
       })
     );
   }
 
-  // perbaiki assign tag dengan akses ke tags terbaru
-  function handleAssignTagSafe(assetId: number) {
-    const asset = assets.find((a) => a.id === assetId);
-    if (!asset) return;
-
-    const input = window.prompt(
-      "Masukkan tag (pisahkan dengan koma). Tag baru akan dibuat otomatis.",
-      ""
-    );
-    if (input == null) return;
-
-    const rawNames = input
-      .split(",")
-      .map((s) => s.trim().toLowerCase())
-      .filter(Boolean);
-
-    if (rawNames.length === 0) return;
-
-    // update tags dulu
-    setTags((prevTags) => {
-      const next = [...prevTags];
-      for (const name of rawNames) {
-        if (!next.some((t) => t.name === name)) {
-          next.push({ id: Date.now() + Math.random(), name });
-        }
-      }
-      return next;
-    });
-
-    // lalu update asset tagIds berdasarkan tags terbaru (pakai functional update)
-    setAssets((prevAssets) => {
-      return prevAssets.map((a) => {
-        if (a.id !== assetId) return a;
-
-        // ambil tags terbaru dari closure setTags tidak bisa,
-        // jadi kita hitung ulang di dalam dengan gabungan prev + new
-        // cara simpel: setelah setTags di atas, kita kira-kira semua nama sudah ada.
-        // kita bangun mapping on the fly dari tags + rawNames.
-        // untuk presisi di versi API/DB nanti akan lebih rapi.
-
-        // Sementara: kita gunakan kombinasi dari state `tags` lama + nama baru:
-        // (cukup untuk mock).
-        const syntheticTags: Tag[] = [
-          ...tags,
-          ...rawNames
-            .filter((name) => !tags.some((t) => t.name === name))
-            .map((name, idx) => ({
-              id: Date.now() + idx,
-              name,
-            })),
-        ];
-
-        const newTagIds = new Set(a.tagIds);
-        rawNames.forEach((name) => {
-          const tag = syntheticTags.find((t) => t.name === name);
-          if (tag) newTagIds.add(tag.id);
-        });
-
-        return { ...a, tagIds: Array.from(newTagIds) };
-      });
-    });
-  }
-
-  function handleMoveAsset(assetId: number) {
-    const targetName = window.prompt("Pindahkan ke folder (nama persis):");
-    if (!targetName) return;
-
-    const target = folders.find(
-      (f) => f.name.toLowerCase() === targetName.toLowerCase()
-    );
-    if (!target) {
-      alert("Folder tidak ditemukan.");
-      return;
-    }
-
+  function handleRemoveTagFromAsset(assetId: number, tagId: number) {
     setAssets((prev) =>
       prev.map((a) =>
-        a.id === assetId ? { ...a, folderId: target.id } : a
+        a.id === assetId
+          ? { ...a, tagIds: a.tagIds.filter((id) => id !== tagId) }
+          : a
       )
     );
   }
@@ -386,7 +548,7 @@ export default function AssetsPage() {
             Folder Structure
           </div>
           <button
-            onClick={() => handleCreateFolder(null)}
+            onClick={openCreateRootFolderForm}
             className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-900 border border-slate-700 text-[10px] text-slate-300 hover:bg-slate-800 transition"
           >
             <Plus className="h-3 w-3" />
@@ -395,7 +557,7 @@ export default function AssetsPage() {
         </div>
 
         <div className="text-[10px] text-slate-500 mb-1">
-          Klik folder untuk melihat aset. Tours & Legal cukup jadi folder.
+          Klik folder untuk melihat aset. Tours &amp; Legal cukup jadi folder.
         </div>
 
         <FolderTree
@@ -404,7 +566,9 @@ export default function AssetsPage() {
           expandedFolders={expandedFolders}
           onToggleExpand={toggleFolderExpand}
           onSelectFolder={setCurrentFolderId}
-          onCreateSubFolder={handleCreateFolder}
+          onCreateSubFolder={openCreateSubFolderForm}
+          onRenameFolder={openRenameFolderForm}
+          onDeleteFolder={handleDeleteFolder}
         />
       </div>
 
@@ -418,9 +582,7 @@ export default function AssetsPage() {
                 <button
                   onClick={() => {
                     if (!currentFolder) return;
-                    if (currentFolder.parentId === null) {
-                      return;
-                    }
+                    if (currentFolder.parentId === null) return;
                     setCurrentFolderId(currentFolder.parentId);
                   }}
                   className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border border-slate-800 text-slate-400 hover:text-slate-100 hover:bg-slate-900 transition"
@@ -456,9 +618,7 @@ export default function AssetsPage() {
             <select
               value={selectedTagId ?? ""}
               onChange={(e) =>
-                setSelectedTagId(
-                  e.target.value ? Number(e.target.value) : null
-                )
+                setSelectedTagId(e.target.value ? Number(e.target.value) : null)
               }
               className="bg-slate-950 border border-slate-800 text-[10px] px-2 py-1 rounded-md text-slate-300"
             >
@@ -472,7 +632,7 @@ export default function AssetsPage() {
 
             {currentFolderId && (
               <button
-                onClick={() => handleCreateAsset(currentFolderId)}
+                onClick={() => openCreateAssetForm(currentFolderId)}
                 className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-emerald-500/90 hover:bg-emerald-400 text-[10px] font-medium text-slate-950 transition"
               >
                 <Plus className="h-3 w-3" />
@@ -512,12 +672,11 @@ export default function AssetsPage() {
                 return (
                   <div
                     key={asset.id}
-                    className="group border border-slate-800/80 bg-slate-950/80 rounded-lg px-3 py-2 flex flex-col gap-1 hover:border-emerald-500/50 hover:bg-slate-900/80 transition"
+                    onClick={() => setDetailAssetId(asset.id)}
+                    className="group border border-slate-800/80 bg-slate-950/80 rounded-lg px-3 py-2 flex flex-col gap-1 hover:border-emerald-500/50 hover:bg-slate-900/80 transition cursor-pointer"
                   >
                     <div className="flex items-start gap-2">
-                      <div className="mt-0.5">
-                        {getTypeIcon(asset.type)}
-                      </div>
+                      <div className="mt-0.5">{getTypeIcon(asset.type)}</div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <div className="text-xs font-semibold text-slate-100 truncate">
@@ -529,11 +688,19 @@ export default function AssetsPage() {
                             </span>
                           )}
                         </div>
+
+                        {asset.caption && (
+                          <div className="text-[10px] text-slate-400 line-clamp-1">
+                            {asset.caption}
+                          </div>
+                        )}
+
                         {asset.description && (
                           <div className="text-[10px] text-slate-500 line-clamp-2">
                             {asset.description}
                           </div>
                         )}
+
                         <div className="mt-1 flex flex-wrap items-center gap-2 text-[9px] text-slate-500">
                           <span>{asset.type}</span>
                           {asset.fileExt && (
@@ -542,9 +709,13 @@ export default function AssetsPage() {
                             </span>
                           )}
                           <span>· {formatSize(asset.sizeBytes)}</span>
+                          {typeof asset.sizeMegabytes === "number" && (
+                            <span>· {asset.sizeMegabytes.toFixed(2)} MB</span>
+                          )}
                           <Link
                             href={asset.url}
                             target="_blank"
+                            onClick={(e) => e.stopPropagation()}
                             className="text-emerald-400 hover:text-emerald-300 truncate max-w-[120px]"
                           >
                             Open
@@ -564,19 +735,50 @@ export default function AssetsPage() {
                             ))}
                           </div>
                         )}
+
+                        {(asset.sha256 || asset.lastVerifiedISO) && (
+                          <div className="mt-1 text-[8px] text-slate-600 space-y-0.5">
+                            {asset.sha256 && (
+                              <div className="truncate">
+                                hash: {asset.sha256}
+                              </div>
+                            )}
+                            {asset.lastVerifiedISO && (
+                              <div>last verified: {asset.lastVerifiedISO}</div>
+                            )}
+                          </div>
+                        )}
                       </div>
+
                       <div className="flex flex-col items-end gap-1">
                         <button
-                          onClick={() => handleAssignTagSafe(asset.id)}
-                          className="px-1.5 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[8px] text-slate-400 hover:bg-slate-800 hover:text-emerald-400 transition"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEditAssetForm(asset.id);
+                          }}
+                          className="px-1.5 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[8px] text-slate-400 hover:bg-slate-800 hover:text-emerald-400 transition inline-flex items-center gap-1"
                         >
-                          + Tag
+                          <Pencil className="h-3 w-3" />
+                          Edit
                         </button>
                         <button
-                          onClick={() => handleMoveAsset(asset.id)}
-                          className="p-1 rounded-md text-slate-500 hover:text-emerald-400 hover:bg-slate-900 transition"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleAssetActive(asset.id);
+                          }}
+                          className="px-1.5 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-[8px] text-slate-400 hover:bg-slate-800 hover:text-emerald-400 transition"
                         >
-                          <MoreVertical className="h-3 w-3" />
+                          {asset.isActive ? "Deactivate" : "Activate"}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteAsset(asset.id);
+                          }}
+                          className="p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-slate-900 transition"
+                          title="Hapus asset"
+                        >
+                          <Trash2 className="h-3 w-3" />
                         </button>
                       </div>
                     </div>
@@ -588,17 +790,69 @@ export default function AssetsPage() {
         </div>
 
         <div className="text-[9px] text-slate-600">
-          Ini full client-side pakai state. Langkah berikut tinggal:
-          ganti source data ke API yang baca tulis ke PostgreSQL dengan struktur
-          tabel yang sama.
+          Ini full client-side pakai state. Tinggal nanti disambungkan ke API
+          yang simpan ke PostgreSQL.
         </div>
       </div>
+
+      {/* MODALS */}
+
+      {/* Folder Form Modal */}
+      <FolderFormModal
+        key={
+          folderFormState.mode +
+          "-" +
+          (folderFormState.targetFolderId ?? "root")
+        }
+        open={folderFormState.open}
+        mode={folderFormState.mode}
+        folder={
+          folderFormState.mode === "rename" && folderFormState.targetFolderId
+            ? folders.find((f) => f.id === folderFormState.targetFolderId) ??
+              null
+            : null
+        }
+        onClose={() => setFolderFormState((prev) => ({ ...prev, open: false }))}
+        onSave={handleSaveFolderName}
+      />
+
+      {/* Asset Form Modal */}
+      <AssetFormModal
+        key={
+          assetFormState.mode +
+          "-" +
+          (assetFormState.assetId ?? "new") +
+          "-" +
+          (assetFormState.folderId ?? "none")
+        }
+        open={assetFormState.open}
+        mode={assetFormState.mode}
+        folderPathLabel={buildFolderPathLabel(assetFormState.folderId)}
+        asset={editingAsset}
+        onClose={() => setAssetFormState((prev) => ({ ...prev, open: false }))}
+        onSave={handleSaveAssetForm}
+      />
+
+      {/* Asset Detail Modal */}
+      <AssetDetailModal
+        key={detailAsset?.id ?? "none"}
+        open={!!detailAsset}
+        asset={detailAsset}
+        folder={detailAssetFolder}
+        tags={tags}
+        onClose={() => setDetailAssetId(null)}
+        onToggleActive={handleToggleAssetActive}
+        onDelete={handleDeleteAsset}
+        onEdit={(id) => openEditAssetForm(id)}
+        onAddTags={handleAddTagsToAsset}
+        onRemoveTag={handleRemoveTagFromAsset}
+      />
     </div>
   );
 }
 
 /**
- * FOLDER TREE COMPONENT
+ * FOLDER TREE
  */
 
 type FolderTreeProps = {
@@ -607,7 +861,9 @@ type FolderTreeProps = {
   expandedFolders: number[];
   onToggleExpand: (id: number) => void;
   onSelectFolder: (id: number) => void;
-  onCreateSubFolder: (parentId: number | null) => void;
+  onCreateSubFolder: (parentId: number) => void;
+  onRenameFolder: (id: number) => void;
+  onDeleteFolder: (id: number) => void;
 };
 
 function FolderTree({
@@ -617,6 +873,8 @@ function FolderTree({
   onToggleExpand,
   onSelectFolder,
   onCreateSubFolder,
+  onRenameFolder,
+  onDeleteFolder,
 }: FolderTreeProps) {
   const rootFolders = folders.filter((f) => f.parentId === null);
 
@@ -633,6 +891,8 @@ function FolderTree({
           onToggleExpand={onToggleExpand}
           onSelectFolder={onSelectFolder}
           onCreateSubFolder={onCreateSubFolder}
+          onRenameFolder={onRenameFolder}
+          onDeleteFolder={onDeleteFolder}
         />
       ))}
     </div>
@@ -647,7 +907,9 @@ type FolderNodeProps = {
   expandedFolders: number[];
   onToggleExpand: (id: number) => void;
   onSelectFolder: (id: number) => void;
-  onCreateSubFolder: (parentId: number | null) => void;
+  onCreateSubFolder: (parentId: number) => void;
+  onRenameFolder: (id: number) => void;
+  onDeleteFolder: (id: number) => void;
 };
 
 function FolderNode({
@@ -659,6 +921,8 @@ function FolderNode({
   onToggleExpand,
   onSelectFolder,
   onCreateSubFolder,
+  onRenameFolder,
+  onDeleteFolder,
 }: FolderNodeProps) {
   const children = folders.filter((f) => f.parentId === folder.id);
   const isExpanded = expandedFolders.includes(folder.id);
@@ -676,7 +940,6 @@ function FolderNode({
         style={{ paddingLeft: 6 + level * 12 }}
         onClick={() => onSelectFolder(folder.id)}
       >
-        {/* Toggle caret */}
         {children.length > 0 ? (
           <button
             onClick={(e) => {
@@ -697,15 +960,38 @@ function FolderNode({
 
         <span className="truncate text-[11px]">{folder.name}</span>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onCreateSubFolder(folder.id);
-          }}
-          className="opacity-0 group-hover:opacity-100 ml-auto px-1 py-0.5 rounded-md text-[9px] text-slate-500 hover:text-emerald-400 hover:bg-slate-900 transition"
-        >
-          +
-        </button>
+        <div className="ml-auto flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onCreateSubFolder(folder.id);
+            }}
+            className="px-1 py-0.5 rounded-md text-[9px] text-slate-500 hover:text-emerald-400 hover:bg-slate-900 transition"
+            title="Subfolder"
+          >
+            +
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRenameFolder(folder.id);
+            }}
+            className="p-0.5 rounded-md text-slate-500 hover:text-emerald-400 hover:bg-slate-900 transition"
+            title="Rename folder"
+          >
+            <Pencil className="h-3 w-3" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteFolder(folder.id);
+            }}
+            className="p-0.5 rounded-md text-slate-500 hover:text-rose-400 hover:bg-slate-900 transition"
+            title="Delete folder"
+          >
+            <Trash2 className="h-3 w-3" />
+          </button>
+        </div>
       </div>
 
       {isExpanded &&
@@ -721,8 +1007,487 @@ function FolderNode({
             onToggleExpand={onToggleExpand}
             onSelectFolder={onSelectFolder}
             onCreateSubFolder={onCreateSubFolder}
+            onRenameFolder={onRenameFolder}
+            onDeleteFolder={onDeleteFolder}
           />
         ))}
+    </div>
+  );
+}
+
+/**
+ * MODALS
+ */
+
+type FolderFormModalProps = {
+  open: boolean;
+  mode: "create-root" | "create-sub" | "rename";
+  folder: Folder | null;
+  onClose: () => void;
+  onSave: (name: string) => void;
+};
+
+function FolderFormModal({
+  open,
+  mode,
+  folder,
+  onClose,
+  onSave,
+}: FolderFormModalProps) {
+  const [name, setName] = useState(folder?.name ?? "");
+
+  if (!open) return null;
+
+  const title =
+    mode === "rename"
+      ? "Rename Folder"
+      : mode === "create-sub"
+      ? "Create Subfolder"
+      : "Create Root Folder";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+      <div className="w-full max-w-sm rounded-lg border border-slate-800 bg-slate-950/95 p-4 shadow-xl">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-slate-100">{title}</h2>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-md text-slate-500 hover:text-slate-200 hover:bg-slate-900"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <label className="text-[11px] text-slate-400">Folder name</label>
+            <input
+              autoFocus
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-md px-2 py-1.5 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-emerald-500/70"
+            />
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center justify-end gap-2">
+          <button
+            onClick={onClose}
+            className="px-3 py-1.5 rounded-md text-[11px] text-slate-400 hover:text-slate-100 hover:bg-slate-900"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => onSave(name)}
+            className="px-3 py-1.5 rounded-md text-[11px] font-medium bg-emerald-500/90 text-slate-950 hover:bg-emerald-400"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type AssetFormModalProps = {
+  open: boolean;
+  mode: "create" | "edit";
+  folderPathLabel: string;
+  asset: Asset | null;
+  onClose: () => void;
+  onSave: (data: {
+    name: string;
+    caption: string;
+    description: string;
+    file: File | null;
+  }) => void;
+};
+
+function AssetFormModal({
+  open,
+  mode,
+  folderPathLabel,
+  asset,
+  onClose,
+  onSave,
+}: AssetFormModalProps) {
+  const [name, setName] = useState(asset?.name ?? "");
+  const [caption, setCaption] = useState(asset?.caption ?? "");
+  const [description, setDescription] = useState(asset?.description ?? "");
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewType, setPreviewType] = useState<AssetType | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  if (!open) return null;
+
+  const title = mode === "create" ? "Create Asset" : "Edit Asset";
+
+  function handleSelectFile(f: File) {
+    setFile(f);
+    const url = URL.createObjectURL(f);
+    setPreviewUrl(url);
+    const detected = detectAssetTypeFromFile(f);
+    setPreviewType(detected);
+    if (!name) {
+      setName(f.name);
+    }
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    handleSelectFile(f);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    const f = e.dataTransfer.files?.[0];
+    if (!f) return;
+    handleSelectFile(f);
+  }
+
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim()) return;
+    if (mode === "create" && !file) return;
+    onSave({
+      name,
+      caption,
+      description,
+      file,
+    });
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+      <div className="w-full max-w-lg rounded-lg border border-slate-800 bg-slate-950/95 p-4 shadow-xl">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-sm font-semibold text-slate-100">{title}</h2>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-md text-slate-500 hover:text-slate-200 hover:bg-slate-900"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Info folder path */}
+        <div className="mb-3 text-[11px] text-slate-400">
+          <span className="font-medium text-slate-300">Upload to:</span>{" "}
+          <span className="text-slate-200">{folderPathLabel}</span>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-1">
+            <label className="text-[11px] text-slate-400">Name</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-md px-2 py-1.5 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-emerald-500/70"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[11px] text-slate-400">Caption</label>
+            <input
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-md px-2 py-1.5 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-emerald-500/70"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[11px] text-slate-400">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-md px-2 py-1.5 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-emerald-500/70 min-h-[60px]"
+            />
+          </div>
+
+          {/* File upload area */}
+          <div className="space-y-1">
+            <label className="text-[11px] text-slate-400">File</label>
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              className="border border-dashed border-slate-700 rounded-md px-3 py-4 text-center text-[11px] text-slate-400 bg-slate-950/80 flex flex-col items-center gap-2"
+            >
+              <div>Drag &amp; drop file ke sini, atau</div>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="px-3 py-1.5 rounded-md bg-slate-900 border border-slate-700 text-[11px] text-slate-100 hover:bg-slate-800"
+              >
+                Choose File
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+
+              {file ? (
+                <div className="mt-2 text-[10px] text-slate-400">
+                  <div>{file.name}</div>
+                  <div>{formatSize(file.size)}</div>
+                  <div>
+                    Detected type:{" "}
+                    <span className="text-emerald-400">
+                      {previewType ?? "-"}
+                    </span>
+                  </div>
+                </div>
+              ) : mode === "edit" && asset ? (
+                <div className="mt-2 text-[10px] text-slate-400">
+                  <div>Current file: {asset.url}</div>
+                  <div>Type: {asset.type}</div>
+                  {asset.sizeBytes && (
+                    <div>Size: {formatSize(asset.sizeBytes)}</div>
+                  )}
+                  <div>Upload baru untuk mengganti file (opsional).</div>
+                </div>
+              ) : null}
+
+              {/* Preview */}
+              {previewUrl && previewType === "image" && (
+                <div className="mt-3">
+                  <img
+                    src={previewUrl}
+                    alt="preview"
+                    className="max-h-40 rounded-md border border-slate-700 mx-auto"
+                  />
+                </div>
+              )}
+              {previewUrl && previewType === "video" && (
+                <div className="mt-3">
+                  <video
+                    src={previewUrl}
+                    controls
+                    className="max-h-40 rounded-md border border-slate-700 mx-auto"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-3 py-1.5 rounded-md text-[11px] text-slate-400 hover:text-slate-100 hover:bg-slate-900"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-3 py-1.5 rounded-md text-[11px] font-medium bg-emerald-500/90 text-slate-950 hover:bg-emerald-400"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+type AssetDetailModalProps = {
+  open: boolean;
+  asset: Asset | null;
+  folder: Folder | null;
+  tags: Tag[];
+  onClose: () => void;
+  onToggleActive: (assetId: number) => void;
+  onDelete: (assetId: number) => void;
+  onEdit: (assetId: number) => void;
+  onAddTags: (assetId: number, raw: string) => void;
+  onRemoveTag: (assetId: number, tagId: number) => void;
+};
+
+function AssetDetailModal({
+  open,
+  asset,
+  folder,
+  tags,
+  onClose,
+  onToggleActive,
+  onDelete,
+  onEdit,
+  onAddTags,
+  onRemoveTag,
+}: AssetDetailModalProps) {
+  const [tagInput, setTagInput] = useState("");
+
+  if (!open || !asset) return null;
+
+  const assetTags = asset.tagIds
+    .map((tid) => tags.find((t) => t.id === tid))
+    .filter(Boolean) as Tag[];
+
+  function handleAddTags() {
+    if (!tagInput.trim()) return;
+    onAddTags(asset.id, tagInput);
+    setTagInput("");
+  }
+
+  const isImage = asset.type === "image";
+  const isVideo = asset.type === "video";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+      <div className="w-full max-w-xl rounded-lg border border-slate-800 bg-slate-950/95 p-4 shadow-xl max-h-[80vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-100">
+              {asset.name}
+            </h2>
+            <p className="text-[11px] text-slate-500">
+              {folder ? folder.name : "No folder"} · {asset.type}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onEdit(asset.id)}
+              className="px-2 py-1 rounded-md bg-slate-900 border border-slate-800 text-[10px] text-slate-300 hover:bg-slate-800 hover:text-emerald-400 inline-flex items-center gap-1"
+            >
+              <Pencil className="h-3 w-3" />
+              Edit
+            </button>
+            <button
+              onClick={() => onToggleActive(asset.id)}
+              className="px-2 py-1 rounded-md bg-slate-900 border border-slate-800 text-[10px] text-slate-300 hover:bg-slate-800 hover:text-emerald-400"
+            >
+              {asset.isActive ? "Deactivate" : "Activate"}
+            </button>
+            <button
+              onClick={() => onDelete(asset.id)}
+              className="px-2 py-1 rounded-md bg-slate-900 border border-rose-800/70 text-[10px] text-rose-300 hover:bg-slate-900/80"
+            >
+              Delete
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1 rounded-md text-slate-500 hover:text-slate-200 hover:bg-slate-900"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Preview di detail */}
+        {(isImage || isVideo) && (
+          <div className="mb-3">
+            {isImage && (
+              <img
+                src={asset.url}
+                alt={asset.name}
+                className="max-h-64 rounded-md border border-slate-700 mx-auto"
+              />
+            )}
+            {isVideo && (
+              <video
+                src={asset.url}
+                controls
+                className="max-h-64 rounded-md border border-slate-700 mx-auto"
+              />
+            )}
+          </div>
+        )}
+
+        {/* Basic info */}
+        <div className="space-y-2 text-[11px] text-slate-300">
+          {asset.caption && <p className="text-slate-400">{asset.caption}</p>}
+          {asset.description && (
+            <p className="text-slate-400 whitespace-pre-line">
+              {asset.description}
+            </p>
+          )}
+
+          <div className="mt-2 grid grid-cols-2 gap-2 text-[10px] text-slate-400">
+            <div className="space-y-1">
+              <div>Type: {asset.type}</div>
+              <div>
+                Size bytes: {asset.sizeBytes ?? "-"} (
+                {formatSize(asset.sizeBytes)})
+              </div>
+              <div>
+                Size MB:{" "}
+                {typeof asset.sizeMegabytes === "number"
+                  ? asset.sizeMegabytes.toFixed(2)
+                  : "-"}
+              </div>
+              <div>Created: {asset.createdAt}</div>
+              <div>Status: {asset.isActive ? "Active" : "Inactive"}</div>
+            </div>
+            <div className="space-y-1">
+              <div className="truncate">
+                URL:{" "}
+                <Link
+                  href={asset.url}
+                  target="_blank"
+                  className="text-emerald-400 hover:text-emerald-300 break-all"
+                >
+                  {asset.url}
+                </Link>
+              </div>
+              <div>Extension: {asset.fileExt ?? "-"}</div>
+              <div className="truncate">hash: {asset.sha256 ?? "-"}</div>
+              <div>last verified: {asset.lastVerifiedISO ?? "-"}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-slate-400">Tags</span>
+          </div>
+
+          {assetTags.length > 0 ? (
+            <div className="flex flex-wrap gap-1">
+              {assetTags.map((tag) => (
+                <button
+                  key={tag.id}
+                  onClick={() => onRemoveTag(asset.id, tag.id)}
+                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-slate-900/90 border border-slate-800 text-[9px] text-slate-300 hover:border-rose-500/70 hover:text-rose-300"
+                  title="Klik untuk hapus tag dari asset"
+                >
+                  <TagIcon className="h-2 w-2" />
+                  {tag.name}
+                  <span className="text-[10px] leading-none">×</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[10px] text-slate-500">Belum ada tag.</p>
+          )}
+
+          <div className="flex items-center gap-2">
+            <input
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              placeholder="Tambah tag (pisahkan dengan koma)..."
+              className="flex-1 bg-slate-950 border border-slate-800 rounded-md px-2 py-1.5 text-[10px] text-slate-100 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500/70"
+            />
+            <button
+              onClick={handleAddTags}
+              className="px-3 py-1.5 rounded-md bg-emerald-500/90 text-[10px] font-medium text-slate-950 hover:bg-emerald-400"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

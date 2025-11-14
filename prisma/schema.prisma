@@ -1384,3 +1384,72 @@ enum source_enum {
   UPLOAD
   LINK
 }
+
+enum asset_type {
+  image
+  video
+  document
+}
+model folders {
+  id         BigInt    @id @default(autoincrement())
+  parent_id  BigInt?   // FK ke folders.id
+  name       String
+  created_at DateTime  @default(now())
+
+  // RELATIONS
+  parent   folders? @relation("FolderToFolder", fields: [parent_id], references: [id])
+  children folders[] @relation("FolderToFolder")
+
+  assets   assets[]
+
+  @@index([parent_id], name: "idx_folders_parent_id")
+}
+
+model tags_assets {
+  id   BigInt  @id @default(autoincrement())
+  name String  @unique
+
+  // relasi many-to-many ke assets lewat asset_tags
+  assets asset_tags[]
+}
+
+model assets {
+  id              BigInt      @id @default(autoincrement())
+  folder_id       BigInt
+  name            String
+  caption         String?
+  description     String?
+  type            asset_type
+  url             String
+  file_ext        String?
+  size_bytes      BigInt?
+  size_megabytes  Decimal?    @db.Decimal(12, 4)
+  sha256          String?
+  last_verified   DateTime?
+  is_active       Boolean     @default(true)
+  created_at      DateTime    @default(now())
+
+  // RELATIONS
+  folder folders    @relation(fields: [folder_id], references: [id])
+  tags   asset_tags[]
+
+  @@index([folder_id],    name: "idx_assets_folder_id")
+  @@index([is_active],    name: "idx_assets_is_active")
+  @@index([type],         name: "idx_assets_type")
+  @@index([created_at],   name: "idx_assets_created_at")
+  @@index([sha256],       name: "idx_assets_sha256")
+}
+
+model asset_tags {
+  asset_id BigInt
+  tag_id   BigInt
+
+  // RELATIONS
+  asset assets      @relation(fields: [asset_id], references: [id])
+  tag   tags_assets @relation(fields: [tag_id], references: [id])
+
+  @@id([asset_id, tag_id])
+
+  @@index([tag_id],   name: "idx_asset_tags_tag_id")
+  @@index([asset_id], name: "idx_asset_tags_asset_id")
+}
