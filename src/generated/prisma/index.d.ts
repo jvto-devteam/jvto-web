@@ -420,6 +420,26 @@ export type vendors = $Result.DefaultSelection<Prisma.$vendorsPayload>
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
 export type web_metadata = $Result.DefaultSelection<Prisma.$web_metadataPayload>
+/**
+ * Model folders
+ * 
+ */
+export type folders = $Result.DefaultSelection<Prisma.$foldersPayload>
+/**
+ * Model tags_assets
+ * 
+ */
+export type tags_assets = $Result.DefaultSelection<Prisma.$tags_assetsPayload>
+/**
+ * Model assets
+ * 
+ */
+export type assets = $Result.DefaultSelection<Prisma.$assetsPayload>
+/**
+ * Model asset_tags
+ * 
+ */
+export type asset_tags = $Result.DefaultSelection<Prisma.$asset_tagsPayload>
 
 /**
  * Enums
@@ -442,6 +462,15 @@ export const source_enum: {
 
 export type source_enum = (typeof source_enum)[keyof typeof source_enum]
 
+
+export const asset_type: {
+  image: 'image',
+  video: 'video',
+  document: 'document'
+};
+
+export type asset_type = (typeof asset_type)[keyof typeof asset_type]
+
 }
 
 export type policy_document_type = $Enums.policy_document_type
@@ -451,6 +480,10 @@ export const policy_document_type: typeof $Enums.policy_document_type
 export type source_enum = $Enums.source_enum
 
 export const source_enum: typeof $Enums.source_enum
+
+export type asset_type = $Enums.asset_type
+
+export const asset_type: typeof $Enums.asset_type
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1359,6 +1392,46 @@ export class PrismaClient<
     * ```
     */
   get web_metadata(): Prisma.web_metadataDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.folders`: Exposes CRUD operations for the **folders** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Folders
+    * const folders = await prisma.folders.findMany()
+    * ```
+    */
+  get folders(): Prisma.foldersDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tags_assets`: Exposes CRUD operations for the **tags_assets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tags_assets
+    * const tags_assets = await prisma.tags_assets.findMany()
+    * ```
+    */
+  get tags_assets(): Prisma.tags_assetsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assets`: Exposes CRUD operations for the **assets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assets
+    * const assets = await prisma.assets.findMany()
+    * ```
+    */
+  get assets(): Prisma.assetsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.asset_tags`: Exposes CRUD operations for the **asset_tags** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Asset_tags
+    * const asset_tags = await prisma.asset_tags.findMany()
+    * ```
+    */
+  get asset_tags(): Prisma.asset_tagsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1878,7 +1951,11 @@ export namespace Prisma {
     vehicle_units: 'vehicle_units',
     vendor_categories: 'vendor_categories',
     vendors: 'vendors',
-    web_metadata: 'web_metadata'
+    web_metadata: 'web_metadata',
+    folders: 'folders',
+    tags_assets: 'tags_assets',
+    assets: 'assets',
+    asset_tags: 'asset_tags'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1897,7 +1974,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7747,6 +7824,302 @@ export namespace Prisma {
           }
         }
       }
+      folders: {
+        payload: Prisma.$foldersPayload<ExtArgs>
+        fields: Prisma.foldersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.foldersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.foldersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          findFirst: {
+            args: Prisma.foldersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.foldersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          findMany: {
+            args: Prisma.foldersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>[]
+          }
+          create: {
+            args: Prisma.foldersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          createMany: {
+            args: Prisma.foldersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.foldersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>[]
+          }
+          delete: {
+            args: Prisma.foldersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          update: {
+            args: Prisma.foldersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          deleteMany: {
+            args: Prisma.foldersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.foldersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.foldersUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>[]
+          }
+          upsert: {
+            args: Prisma.foldersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$foldersPayload>
+          }
+          aggregate: {
+            args: Prisma.FoldersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFolders>
+          }
+          groupBy: {
+            args: Prisma.foldersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FoldersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.foldersCountArgs<ExtArgs>
+            result: $Utils.Optional<FoldersCountAggregateOutputType> | number
+          }
+        }
+      }
+      tags_assets: {
+        payload: Prisma.$tags_assetsPayload<ExtArgs>
+        fields: Prisma.tags_assetsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.tags_assetsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.tags_assetsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          findFirst: {
+            args: Prisma.tags_assetsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.tags_assetsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          findMany: {
+            args: Prisma.tags_assetsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>[]
+          }
+          create: {
+            args: Prisma.tags_assetsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          createMany: {
+            args: Prisma.tags_assetsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.tags_assetsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>[]
+          }
+          delete: {
+            args: Prisma.tags_assetsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          update: {
+            args: Prisma.tags_assetsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          deleteMany: {
+            args: Prisma.tags_assetsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.tags_assetsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.tags_assetsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>[]
+          }
+          upsert: {
+            args: Prisma.tags_assetsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$tags_assetsPayload>
+          }
+          aggregate: {
+            args: Prisma.Tags_assetsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTags_assets>
+          }
+          groupBy: {
+            args: Prisma.tags_assetsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Tags_assetsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.tags_assetsCountArgs<ExtArgs>
+            result: $Utils.Optional<Tags_assetsCountAggregateOutputType> | number
+          }
+        }
+      }
+      assets: {
+        payload: Prisma.$assetsPayload<ExtArgs>
+        fields: Prisma.assetsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.assetsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.assetsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          findFirst: {
+            args: Prisma.assetsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.assetsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          findMany: {
+            args: Prisma.assetsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>[]
+          }
+          create: {
+            args: Prisma.assetsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          createMany: {
+            args: Prisma.assetsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.assetsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>[]
+          }
+          delete: {
+            args: Prisma.assetsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          update: {
+            args: Prisma.assetsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          deleteMany: {
+            args: Prisma.assetsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.assetsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.assetsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>[]
+          }
+          upsert: {
+            args: Prisma.assetsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assetsPayload>
+          }
+          aggregate: {
+            args: Prisma.AssetsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssets>
+          }
+          groupBy: {
+            args: Prisma.assetsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssetsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.assetsCountArgs<ExtArgs>
+            result: $Utils.Optional<AssetsCountAggregateOutputType> | number
+          }
+        }
+      }
+      asset_tags: {
+        payload: Prisma.$asset_tagsPayload<ExtArgs>
+        fields: Prisma.asset_tagsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.asset_tagsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.asset_tagsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          findFirst: {
+            args: Prisma.asset_tagsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.asset_tagsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          findMany: {
+            args: Prisma.asset_tagsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>[]
+          }
+          create: {
+            args: Prisma.asset_tagsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          createMany: {
+            args: Prisma.asset_tagsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.asset_tagsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>[]
+          }
+          delete: {
+            args: Prisma.asset_tagsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          update: {
+            args: Prisma.asset_tagsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          deleteMany: {
+            args: Prisma.asset_tagsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.asset_tagsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.asset_tagsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>[]
+          }
+          upsert: {
+            args: Prisma.asset_tagsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$asset_tagsPayload>
+          }
+          aggregate: {
+            args: Prisma.Asset_tagsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAsset_tags>
+          }
+          groupBy: {
+            args: Prisma.asset_tagsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Asset_tagsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.asset_tagsCountArgs<ExtArgs>
+            result: $Utils.Optional<Asset_tagsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -7922,6 +8295,10 @@ export namespace Prisma {
     vendor_categories?: vendor_categoriesOmit
     vendors?: vendorsOmit
     web_metadata?: web_metadataOmit
+    folders?: foldersOmit
+    tags_assets?: tags_assetsOmit
+    assets?: assetsOmit
+    asset_tags?: asset_tagsOmit
   }
 
   /* Types for Logging */
@@ -9633,6 +10010,108 @@ export namespace Prisma {
    */
   export type VendorsCountOutputTypeCountVehicle_unitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: vehicle_unitsWhereInput
+  }
+
+
+  /**
+   * Count Type FoldersCountOutputType
+   */
+
+  export type FoldersCountOutputType = {
+    children: number
+    assets: number
+  }
+
+  export type FoldersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    children?: boolean | FoldersCountOutputTypeCountChildrenArgs
+    assets?: boolean | FoldersCountOutputTypeCountAssetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FoldersCountOutputType without action
+   */
+  export type FoldersCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FoldersCountOutputType
+     */
+    select?: FoldersCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FoldersCountOutputType without action
+   */
+  export type FoldersCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: foldersWhereInput
+  }
+
+  /**
+   * FoldersCountOutputType without action
+   */
+  export type FoldersCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: assetsWhereInput
+  }
+
+
+  /**
+   * Count Type Tags_assetsCountOutputType
+   */
+
+  export type Tags_assetsCountOutputType = {
+    assets: number
+  }
+
+  export type Tags_assetsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assets?: boolean | Tags_assetsCountOutputTypeCountAssetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Tags_assetsCountOutputType without action
+   */
+  export type Tags_assetsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tags_assetsCountOutputType
+     */
+    select?: Tags_assetsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Tags_assetsCountOutputType without action
+   */
+  export type Tags_assetsCountOutputTypeCountAssetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: asset_tagsWhereInput
+  }
+
+
+  /**
+   * Count Type AssetsCountOutputType
+   */
+
+  export type AssetsCountOutputType = {
+    tags: number
+  }
+
+  export type AssetsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tags?: boolean | AssetsCountOutputTypeCountTagsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AssetsCountOutputType without action
+   */
+  export type AssetsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssetsCountOutputType
+     */
+    select?: AssetsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AssetsCountOutputType without action
+   */
+  export type AssetsCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: asset_tagsWhereInput
   }
 
 
@@ -105603,6 +106082,4547 @@ export namespace Prisma {
 
 
   /**
+   * Model folders
+   */
+
+  export type AggregateFolders = {
+    _count: FoldersCountAggregateOutputType | null
+    _avg: FoldersAvgAggregateOutputType | null
+    _sum: FoldersSumAggregateOutputType | null
+    _min: FoldersMinAggregateOutputType | null
+    _max: FoldersMaxAggregateOutputType | null
+  }
+
+  export type FoldersAvgAggregateOutputType = {
+    id: number | null
+    parent_id: number | null
+  }
+
+  export type FoldersSumAggregateOutputType = {
+    id: bigint | null
+    parent_id: bigint | null
+  }
+
+  export type FoldersMinAggregateOutputType = {
+    id: bigint | null
+    parent_id: bigint | null
+    name: string | null
+    created_at: Date | null
+  }
+
+  export type FoldersMaxAggregateOutputType = {
+    id: bigint | null
+    parent_id: bigint | null
+    name: string | null
+    created_at: Date | null
+  }
+
+  export type FoldersCountAggregateOutputType = {
+    id: number
+    parent_id: number
+    name: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type FoldersAvgAggregateInputType = {
+    id?: true
+    parent_id?: true
+  }
+
+  export type FoldersSumAggregateInputType = {
+    id?: true
+    parent_id?: true
+  }
+
+  export type FoldersMinAggregateInputType = {
+    id?: true
+    parent_id?: true
+    name?: true
+    created_at?: true
+  }
+
+  export type FoldersMaxAggregateInputType = {
+    id?: true
+    parent_id?: true
+    name?: true
+    created_at?: true
+  }
+
+  export type FoldersCountAggregateInputType = {
+    id?: true
+    parent_id?: true
+    name?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type FoldersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which folders to aggregate.
+     */
+    where?: foldersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of folders to fetch.
+     */
+    orderBy?: foldersOrderByWithRelationInput | foldersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: foldersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned folders
+    **/
+    _count?: true | FoldersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FoldersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FoldersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FoldersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FoldersMaxAggregateInputType
+  }
+
+  export type GetFoldersAggregateType<T extends FoldersAggregateArgs> = {
+        [P in keyof T & keyof AggregateFolders]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFolders[P]>
+      : GetScalarType<T[P], AggregateFolders[P]>
+  }
+
+
+
+
+  export type foldersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: foldersWhereInput
+    orderBy?: foldersOrderByWithAggregationInput | foldersOrderByWithAggregationInput[]
+    by: FoldersScalarFieldEnum[] | FoldersScalarFieldEnum
+    having?: foldersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FoldersCountAggregateInputType | true
+    _avg?: FoldersAvgAggregateInputType
+    _sum?: FoldersSumAggregateInputType
+    _min?: FoldersMinAggregateInputType
+    _max?: FoldersMaxAggregateInputType
+  }
+
+  export type FoldersGroupByOutputType = {
+    id: bigint
+    parent_id: bigint | null
+    name: string
+    created_at: Date
+    _count: FoldersCountAggregateOutputType | null
+    _avg: FoldersAvgAggregateOutputType | null
+    _sum: FoldersSumAggregateOutputType | null
+    _min: FoldersMinAggregateOutputType | null
+    _max: FoldersMaxAggregateOutputType | null
+  }
+
+  type GetFoldersGroupByPayload<T extends foldersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FoldersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FoldersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FoldersGroupByOutputType[P]>
+            : GetScalarType<T[P], FoldersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type foldersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parent_id?: boolean
+    name?: boolean
+    created_at?: boolean
+    parent?: boolean | folders$parentArgs<ExtArgs>
+    children?: boolean | folders$childrenArgs<ExtArgs>
+    assets?: boolean | folders$assetsArgs<ExtArgs>
+    _count?: boolean | FoldersCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["folders"]>
+
+  export type foldersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parent_id?: boolean
+    name?: boolean
+    created_at?: boolean
+    parent?: boolean | folders$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["folders"]>
+
+  export type foldersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    parent_id?: boolean
+    name?: boolean
+    created_at?: boolean
+    parent?: boolean | folders$parentArgs<ExtArgs>
+  }, ExtArgs["result"]["folders"]>
+
+  export type foldersSelectScalar = {
+    id?: boolean
+    parent_id?: boolean
+    name?: boolean
+    created_at?: boolean
+  }
+
+  export type foldersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "parent_id" | "name" | "created_at", ExtArgs["result"]["folders"]>
+  export type foldersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | folders$parentArgs<ExtArgs>
+    children?: boolean | folders$childrenArgs<ExtArgs>
+    assets?: boolean | folders$assetsArgs<ExtArgs>
+    _count?: boolean | FoldersCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type foldersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | folders$parentArgs<ExtArgs>
+  }
+  export type foldersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    parent?: boolean | folders$parentArgs<ExtArgs>
+  }
+
+  export type $foldersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "folders"
+    objects: {
+      parent: Prisma.$foldersPayload<ExtArgs> | null
+      children: Prisma.$foldersPayload<ExtArgs>[]
+      assets: Prisma.$assetsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      parent_id: bigint | null
+      name: string
+      created_at: Date
+    }, ExtArgs["result"]["folders"]>
+    composites: {}
+  }
+
+  type foldersGetPayload<S extends boolean | null | undefined | foldersDefaultArgs> = $Result.GetResult<Prisma.$foldersPayload, S>
+
+  type foldersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<foldersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FoldersCountAggregateInputType | true
+    }
+
+  export interface foldersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['folders'], meta: { name: 'folders' } }
+    /**
+     * Find zero or one Folders that matches the filter.
+     * @param {foldersFindUniqueArgs} args - Arguments to find a Folders
+     * @example
+     * // Get one Folders
+     * const folders = await prisma.folders.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends foldersFindUniqueArgs>(args: SelectSubset<T, foldersFindUniqueArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Folders that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {foldersFindUniqueOrThrowArgs} args - Arguments to find a Folders
+     * @example
+     * // Get one Folders
+     * const folders = await prisma.folders.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends foldersFindUniqueOrThrowArgs>(args: SelectSubset<T, foldersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersFindFirstArgs} args - Arguments to find a Folders
+     * @example
+     * // Get one Folders
+     * const folders = await prisma.folders.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends foldersFindFirstArgs>(args?: SelectSubset<T, foldersFindFirstArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Folders that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersFindFirstOrThrowArgs} args - Arguments to find a Folders
+     * @example
+     * // Get one Folders
+     * const folders = await prisma.folders.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends foldersFindFirstOrThrowArgs>(args?: SelectSubset<T, foldersFindFirstOrThrowArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Folders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Folders
+     * const folders = await prisma.folders.findMany()
+     * 
+     * // Get first 10 Folders
+     * const folders = await prisma.folders.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const foldersWithIdOnly = await prisma.folders.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends foldersFindManyArgs>(args?: SelectSubset<T, foldersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Folders.
+     * @param {foldersCreateArgs} args - Arguments to create a Folders.
+     * @example
+     * // Create one Folders
+     * const Folders = await prisma.folders.create({
+     *   data: {
+     *     // ... data to create a Folders
+     *   }
+     * })
+     * 
+     */
+    create<T extends foldersCreateArgs>(args: SelectSubset<T, foldersCreateArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Folders.
+     * @param {foldersCreateManyArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folders = await prisma.folders.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends foldersCreateManyArgs>(args?: SelectSubset<T, foldersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Folders and returns the data saved in the database.
+     * @param {foldersCreateManyAndReturnArgs} args - Arguments to create many Folders.
+     * @example
+     * // Create many Folders
+     * const folders = await prisma.folders.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Folders and only return the `id`
+     * const foldersWithIdOnly = await prisma.folders.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends foldersCreateManyAndReturnArgs>(args?: SelectSubset<T, foldersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Folders.
+     * @param {foldersDeleteArgs} args - Arguments to delete one Folders.
+     * @example
+     * // Delete one Folders
+     * const Folders = await prisma.folders.delete({
+     *   where: {
+     *     // ... filter to delete one Folders
+     *   }
+     * })
+     * 
+     */
+    delete<T extends foldersDeleteArgs>(args: SelectSubset<T, foldersDeleteArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Folders.
+     * @param {foldersUpdateArgs} args - Arguments to update one Folders.
+     * @example
+     * // Update one Folders
+     * const folders = await prisma.folders.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends foldersUpdateArgs>(args: SelectSubset<T, foldersUpdateArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Folders.
+     * @param {foldersDeleteManyArgs} args - Arguments to filter Folders to delete.
+     * @example
+     * // Delete a few Folders
+     * const { count } = await prisma.folders.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends foldersDeleteManyArgs>(args?: SelectSubset<T, foldersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Folders
+     * const folders = await prisma.folders.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends foldersUpdateManyArgs>(args: SelectSubset<T, foldersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Folders and returns the data updated in the database.
+     * @param {foldersUpdateManyAndReturnArgs} args - Arguments to update many Folders.
+     * @example
+     * // Update many Folders
+     * const folders = await prisma.folders.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Folders and only return the `id`
+     * const foldersWithIdOnly = await prisma.folders.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends foldersUpdateManyAndReturnArgs>(args: SelectSubset<T, foldersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Folders.
+     * @param {foldersUpsertArgs} args - Arguments to update or create a Folders.
+     * @example
+     * // Update or create a Folders
+     * const folders = await prisma.folders.upsert({
+     *   create: {
+     *     // ... data to create a Folders
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Folders we want to update
+     *   }
+     * })
+     */
+    upsert<T extends foldersUpsertArgs>(args: SelectSubset<T, foldersUpsertArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersCountArgs} args - Arguments to filter Folders to count.
+     * @example
+     * // Count the number of Folders
+     * const count = await prisma.folders.count({
+     *   where: {
+     *     // ... the filter for the Folders we want to count
+     *   }
+     * })
+    **/
+    count<T extends foldersCountArgs>(
+      args?: Subset<T, foldersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FoldersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FoldersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FoldersAggregateArgs>(args: Subset<T, FoldersAggregateArgs>): Prisma.PrismaPromise<GetFoldersAggregateType<T>>
+
+    /**
+     * Group by Folders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {foldersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends foldersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: foldersGroupByArgs['orderBy'] }
+        : { orderBy?: foldersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, foldersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFoldersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the folders model
+   */
+  readonly fields: foldersFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for folders.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__foldersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    parent<T extends folders$parentArgs<ExtArgs> = {}>(args?: Subset<T, folders$parentArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends folders$childrenArgs<ExtArgs> = {}>(args?: Subset<T, folders$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    assets<T extends folders$assetsArgs<ExtArgs> = {}>(args?: Subset<T, folders$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the folders model
+   */
+  interface foldersFieldRefs {
+    readonly id: FieldRef<"folders", 'BigInt'>
+    readonly parent_id: FieldRef<"folders", 'BigInt'>
+    readonly name: FieldRef<"folders", 'String'>
+    readonly created_at: FieldRef<"folders", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * folders findUnique
+   */
+  export type foldersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter, which folders to fetch.
+     */
+    where: foldersWhereUniqueInput
+  }
+
+  /**
+   * folders findUniqueOrThrow
+   */
+  export type foldersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter, which folders to fetch.
+     */
+    where: foldersWhereUniqueInput
+  }
+
+  /**
+   * folders findFirst
+   */
+  export type foldersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter, which folders to fetch.
+     */
+    where?: foldersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of folders to fetch.
+     */
+    orderBy?: foldersOrderByWithRelationInput | foldersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for folders.
+     */
+    cursor?: foldersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of folders.
+     */
+    distinct?: FoldersScalarFieldEnum | FoldersScalarFieldEnum[]
+  }
+
+  /**
+   * folders findFirstOrThrow
+   */
+  export type foldersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter, which folders to fetch.
+     */
+    where?: foldersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of folders to fetch.
+     */
+    orderBy?: foldersOrderByWithRelationInput | foldersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for folders.
+     */
+    cursor?: foldersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` folders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of folders.
+     */
+    distinct?: FoldersScalarFieldEnum | FoldersScalarFieldEnum[]
+  }
+
+  /**
+   * folders findMany
+   */
+  export type foldersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter, which folders to fetch.
+     */
+    where?: foldersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of folders to fetch.
+     */
+    orderBy?: foldersOrderByWithRelationInput | foldersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing folders.
+     */
+    cursor?: foldersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` folders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` folders.
+     */
+    skip?: number
+    distinct?: FoldersScalarFieldEnum | FoldersScalarFieldEnum[]
+  }
+
+  /**
+   * folders create
+   */
+  export type foldersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * The data needed to create a folders.
+     */
+    data: XOR<foldersCreateInput, foldersUncheckedCreateInput>
+  }
+
+  /**
+   * folders createMany
+   */
+  export type foldersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many folders.
+     */
+    data: foldersCreateManyInput | foldersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * folders createManyAndReturn
+   */
+  export type foldersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * The data used to create many folders.
+     */
+    data: foldersCreateManyInput | foldersCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * folders update
+   */
+  export type foldersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * The data needed to update a folders.
+     */
+    data: XOR<foldersUpdateInput, foldersUncheckedUpdateInput>
+    /**
+     * Choose, which folders to update.
+     */
+    where: foldersWhereUniqueInput
+  }
+
+  /**
+   * folders updateMany
+   */
+  export type foldersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update folders.
+     */
+    data: XOR<foldersUpdateManyMutationInput, foldersUncheckedUpdateManyInput>
+    /**
+     * Filter which folders to update
+     */
+    where?: foldersWhereInput
+    /**
+     * Limit how many folders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * folders updateManyAndReturn
+   */
+  export type foldersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * The data used to update folders.
+     */
+    data: XOR<foldersUpdateManyMutationInput, foldersUncheckedUpdateManyInput>
+    /**
+     * Filter which folders to update
+     */
+    where?: foldersWhereInput
+    /**
+     * Limit how many folders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * folders upsert
+   */
+  export type foldersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * The filter to search for the folders to update in case it exists.
+     */
+    where: foldersWhereUniqueInput
+    /**
+     * In case the folders found by the `where` argument doesn't exist, create a new folders with this data.
+     */
+    create: XOR<foldersCreateInput, foldersUncheckedCreateInput>
+    /**
+     * In case the folders was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<foldersUpdateInput, foldersUncheckedUpdateInput>
+  }
+
+  /**
+   * folders delete
+   */
+  export type foldersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    /**
+     * Filter which folders to delete.
+     */
+    where: foldersWhereUniqueInput
+  }
+
+  /**
+   * folders deleteMany
+   */
+  export type foldersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which folders to delete
+     */
+    where?: foldersWhereInput
+    /**
+     * Limit how many folders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * folders.parent
+   */
+  export type folders$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    where?: foldersWhereInput
+  }
+
+  /**
+   * folders.children
+   */
+  export type folders$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+    where?: foldersWhereInput
+    orderBy?: foldersOrderByWithRelationInput | foldersOrderByWithRelationInput[]
+    cursor?: foldersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FoldersScalarFieldEnum | FoldersScalarFieldEnum[]
+  }
+
+  /**
+   * folders.assets
+   */
+  export type folders$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    where?: assetsWhereInput
+    orderBy?: assetsOrderByWithRelationInput | assetsOrderByWithRelationInput[]
+    cursor?: assetsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssetsScalarFieldEnum | AssetsScalarFieldEnum[]
+  }
+
+  /**
+   * folders without action
+   */
+  export type foldersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the folders
+     */
+    select?: foldersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the folders
+     */
+    omit?: foldersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: foldersInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model tags_assets
+   */
+
+  export type AggregateTags_assets = {
+    _count: Tags_assetsCountAggregateOutputType | null
+    _avg: Tags_assetsAvgAggregateOutputType | null
+    _sum: Tags_assetsSumAggregateOutputType | null
+    _min: Tags_assetsMinAggregateOutputType | null
+    _max: Tags_assetsMaxAggregateOutputType | null
+  }
+
+  export type Tags_assetsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Tags_assetsSumAggregateOutputType = {
+    id: bigint | null
+  }
+
+  export type Tags_assetsMinAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+  }
+
+  export type Tags_assetsMaxAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+  }
+
+  export type Tags_assetsCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+
+  export type Tags_assetsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Tags_assetsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Tags_assetsMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type Tags_assetsMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type Tags_assetsCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type Tags_assetsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tags_assets to aggregate.
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tags_assets to fetch.
+     */
+    orderBy?: tags_assetsOrderByWithRelationInput | tags_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: tags_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tags_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tags_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned tags_assets
+    **/
+    _count?: true | Tags_assetsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Tags_assetsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Tags_assetsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Tags_assetsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Tags_assetsMaxAggregateInputType
+  }
+
+  export type GetTags_assetsAggregateType<T extends Tags_assetsAggregateArgs> = {
+        [P in keyof T & keyof AggregateTags_assets]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTags_assets[P]>
+      : GetScalarType<T[P], AggregateTags_assets[P]>
+  }
+
+
+
+
+  export type tags_assetsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: tags_assetsWhereInput
+    orderBy?: tags_assetsOrderByWithAggregationInput | tags_assetsOrderByWithAggregationInput[]
+    by: Tags_assetsScalarFieldEnum[] | Tags_assetsScalarFieldEnum
+    having?: tags_assetsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Tags_assetsCountAggregateInputType | true
+    _avg?: Tags_assetsAvgAggregateInputType
+    _sum?: Tags_assetsSumAggregateInputType
+    _min?: Tags_assetsMinAggregateInputType
+    _max?: Tags_assetsMaxAggregateInputType
+  }
+
+  export type Tags_assetsGroupByOutputType = {
+    id: bigint
+    name: string
+    _count: Tags_assetsCountAggregateOutputType | null
+    _avg: Tags_assetsAvgAggregateOutputType | null
+    _sum: Tags_assetsSumAggregateOutputType | null
+    _min: Tags_assetsMinAggregateOutputType | null
+    _max: Tags_assetsMaxAggregateOutputType | null
+  }
+
+  type GetTags_assetsGroupByPayload<T extends tags_assetsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Tags_assetsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Tags_assetsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Tags_assetsGroupByOutputType[P]>
+            : GetScalarType<T[P], Tags_assetsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type tags_assetsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    assets?: boolean | tags_assets$assetsArgs<ExtArgs>
+    _count?: boolean | Tags_assetsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tags_assets"]>
+
+  export type tags_assetsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["tags_assets"]>
+
+  export type tags_assetsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+  }, ExtArgs["result"]["tags_assets"]>
+
+  export type tags_assetsSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type tags_assetsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["tags_assets"]>
+  export type tags_assetsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assets?: boolean | tags_assets$assetsArgs<ExtArgs>
+    _count?: boolean | Tags_assetsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type tags_assetsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type tags_assetsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $tags_assetsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "tags_assets"
+    objects: {
+      assets: Prisma.$asset_tagsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      name: string
+    }, ExtArgs["result"]["tags_assets"]>
+    composites: {}
+  }
+
+  type tags_assetsGetPayload<S extends boolean | null | undefined | tags_assetsDefaultArgs> = $Result.GetResult<Prisma.$tags_assetsPayload, S>
+
+  type tags_assetsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<tags_assetsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Tags_assetsCountAggregateInputType | true
+    }
+
+  export interface tags_assetsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['tags_assets'], meta: { name: 'tags_assets' } }
+    /**
+     * Find zero or one Tags_assets that matches the filter.
+     * @param {tags_assetsFindUniqueArgs} args - Arguments to find a Tags_assets
+     * @example
+     * // Get one Tags_assets
+     * const tags_assets = await prisma.tags_assets.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends tags_assetsFindUniqueArgs>(args: SelectSubset<T, tags_assetsFindUniqueArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Tags_assets that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {tags_assetsFindUniqueOrThrowArgs} args - Arguments to find a Tags_assets
+     * @example
+     * // Get one Tags_assets
+     * const tags_assets = await prisma.tags_assets.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends tags_assetsFindUniqueOrThrowArgs>(args: SelectSubset<T, tags_assetsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tags_assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsFindFirstArgs} args - Arguments to find a Tags_assets
+     * @example
+     * // Get one Tags_assets
+     * const tags_assets = await prisma.tags_assets.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends tags_assetsFindFirstArgs>(args?: SelectSubset<T, tags_assetsFindFirstArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tags_assets that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsFindFirstOrThrowArgs} args - Arguments to find a Tags_assets
+     * @example
+     * // Get one Tags_assets
+     * const tags_assets = await prisma.tags_assets.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends tags_assetsFindFirstOrThrowArgs>(args?: SelectSubset<T, tags_assetsFindFirstOrThrowArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tags_assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tags_assets
+     * const tags_assets = await prisma.tags_assets.findMany()
+     * 
+     * // Get first 10 Tags_assets
+     * const tags_assets = await prisma.tags_assets.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tags_assetsWithIdOnly = await prisma.tags_assets.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends tags_assetsFindManyArgs>(args?: SelectSubset<T, tags_assetsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Tags_assets.
+     * @param {tags_assetsCreateArgs} args - Arguments to create a Tags_assets.
+     * @example
+     * // Create one Tags_assets
+     * const Tags_assets = await prisma.tags_assets.create({
+     *   data: {
+     *     // ... data to create a Tags_assets
+     *   }
+     * })
+     * 
+     */
+    create<T extends tags_assetsCreateArgs>(args: SelectSubset<T, tags_assetsCreateArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tags_assets.
+     * @param {tags_assetsCreateManyArgs} args - Arguments to create many Tags_assets.
+     * @example
+     * // Create many Tags_assets
+     * const tags_assets = await prisma.tags_assets.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends tags_assetsCreateManyArgs>(args?: SelectSubset<T, tags_assetsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tags_assets and returns the data saved in the database.
+     * @param {tags_assetsCreateManyAndReturnArgs} args - Arguments to create many Tags_assets.
+     * @example
+     * // Create many Tags_assets
+     * const tags_assets = await prisma.tags_assets.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tags_assets and only return the `id`
+     * const tags_assetsWithIdOnly = await prisma.tags_assets.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends tags_assetsCreateManyAndReturnArgs>(args?: SelectSubset<T, tags_assetsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Tags_assets.
+     * @param {tags_assetsDeleteArgs} args - Arguments to delete one Tags_assets.
+     * @example
+     * // Delete one Tags_assets
+     * const Tags_assets = await prisma.tags_assets.delete({
+     *   where: {
+     *     // ... filter to delete one Tags_assets
+     *   }
+     * })
+     * 
+     */
+    delete<T extends tags_assetsDeleteArgs>(args: SelectSubset<T, tags_assetsDeleteArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Tags_assets.
+     * @param {tags_assetsUpdateArgs} args - Arguments to update one Tags_assets.
+     * @example
+     * // Update one Tags_assets
+     * const tags_assets = await prisma.tags_assets.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends tags_assetsUpdateArgs>(args: SelectSubset<T, tags_assetsUpdateArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tags_assets.
+     * @param {tags_assetsDeleteManyArgs} args - Arguments to filter Tags_assets to delete.
+     * @example
+     * // Delete a few Tags_assets
+     * const { count } = await prisma.tags_assets.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends tags_assetsDeleteManyArgs>(args?: SelectSubset<T, tags_assetsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tags_assets
+     * const tags_assets = await prisma.tags_assets.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends tags_assetsUpdateManyArgs>(args: SelectSubset<T, tags_assetsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tags_assets and returns the data updated in the database.
+     * @param {tags_assetsUpdateManyAndReturnArgs} args - Arguments to update many Tags_assets.
+     * @example
+     * // Update many Tags_assets
+     * const tags_assets = await prisma.tags_assets.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tags_assets and only return the `id`
+     * const tags_assetsWithIdOnly = await prisma.tags_assets.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends tags_assetsUpdateManyAndReturnArgs>(args: SelectSubset<T, tags_assetsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Tags_assets.
+     * @param {tags_assetsUpsertArgs} args - Arguments to update or create a Tags_assets.
+     * @example
+     * // Update or create a Tags_assets
+     * const tags_assets = await prisma.tags_assets.upsert({
+     *   create: {
+     *     // ... data to create a Tags_assets
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tags_assets we want to update
+     *   }
+     * })
+     */
+    upsert<T extends tags_assetsUpsertArgs>(args: SelectSubset<T, tags_assetsUpsertArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tags_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsCountArgs} args - Arguments to filter Tags_assets to count.
+     * @example
+     * // Count the number of Tags_assets
+     * const count = await prisma.tags_assets.count({
+     *   where: {
+     *     // ... the filter for the Tags_assets we want to count
+     *   }
+     * })
+    **/
+    count<T extends tags_assetsCountArgs>(
+      args?: Subset<T, tags_assetsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Tags_assetsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tags_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Tags_assetsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Tags_assetsAggregateArgs>(args: Subset<T, Tags_assetsAggregateArgs>): Prisma.PrismaPromise<GetTags_assetsAggregateType<T>>
+
+    /**
+     * Group by Tags_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {tags_assetsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends tags_assetsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: tags_assetsGroupByArgs['orderBy'] }
+        : { orderBy?: tags_assetsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, tags_assetsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTags_assetsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the tags_assets model
+   */
+  readonly fields: tags_assetsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for tags_assets.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__tags_assetsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    assets<T extends tags_assets$assetsArgs<ExtArgs> = {}>(args?: Subset<T, tags_assets$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the tags_assets model
+   */
+  interface tags_assetsFieldRefs {
+    readonly id: FieldRef<"tags_assets", 'BigInt'>
+    readonly name: FieldRef<"tags_assets", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * tags_assets findUnique
+   */
+  export type tags_assetsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which tags_assets to fetch.
+     */
+    where: tags_assetsWhereUniqueInput
+  }
+
+  /**
+   * tags_assets findUniqueOrThrow
+   */
+  export type tags_assetsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which tags_assets to fetch.
+     */
+    where: tags_assetsWhereUniqueInput
+  }
+
+  /**
+   * tags_assets findFirst
+   */
+  export type tags_assetsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which tags_assets to fetch.
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tags_assets to fetch.
+     */
+    orderBy?: tags_assetsOrderByWithRelationInput | tags_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tags_assets.
+     */
+    cursor?: tags_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tags_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tags_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tags_assets.
+     */
+    distinct?: Tags_assetsScalarFieldEnum | Tags_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * tags_assets findFirstOrThrow
+   */
+  export type tags_assetsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which tags_assets to fetch.
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tags_assets to fetch.
+     */
+    orderBy?: tags_assetsOrderByWithRelationInput | tags_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for tags_assets.
+     */
+    cursor?: tags_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tags_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tags_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tags_assets.
+     */
+    distinct?: Tags_assetsScalarFieldEnum | Tags_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * tags_assets findMany
+   */
+  export type tags_assetsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which tags_assets to fetch.
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of tags_assets to fetch.
+     */
+    orderBy?: tags_assetsOrderByWithRelationInput | tags_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing tags_assets.
+     */
+    cursor?: tags_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` tags_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` tags_assets.
+     */
+    skip?: number
+    distinct?: Tags_assetsScalarFieldEnum | Tags_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * tags_assets create
+   */
+  export type tags_assetsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a tags_assets.
+     */
+    data: XOR<tags_assetsCreateInput, tags_assetsUncheckedCreateInput>
+  }
+
+  /**
+   * tags_assets createMany
+   */
+  export type tags_assetsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many tags_assets.
+     */
+    data: tags_assetsCreateManyInput | tags_assetsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tags_assets createManyAndReturn
+   */
+  export type tags_assetsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * The data used to create many tags_assets.
+     */
+    data: tags_assetsCreateManyInput | tags_assetsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * tags_assets update
+   */
+  export type tags_assetsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a tags_assets.
+     */
+    data: XOR<tags_assetsUpdateInput, tags_assetsUncheckedUpdateInput>
+    /**
+     * Choose, which tags_assets to update.
+     */
+    where: tags_assetsWhereUniqueInput
+  }
+
+  /**
+   * tags_assets updateMany
+   */
+  export type tags_assetsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update tags_assets.
+     */
+    data: XOR<tags_assetsUpdateManyMutationInput, tags_assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which tags_assets to update
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * Limit how many tags_assets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tags_assets updateManyAndReturn
+   */
+  export type tags_assetsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * The data used to update tags_assets.
+     */
+    data: XOR<tags_assetsUpdateManyMutationInput, tags_assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which tags_assets to update
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * Limit how many tags_assets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * tags_assets upsert
+   */
+  export type tags_assetsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the tags_assets to update in case it exists.
+     */
+    where: tags_assetsWhereUniqueInput
+    /**
+     * In case the tags_assets found by the `where` argument doesn't exist, create a new tags_assets with this data.
+     */
+    create: XOR<tags_assetsCreateInput, tags_assetsUncheckedCreateInput>
+    /**
+     * In case the tags_assets was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<tags_assetsUpdateInput, tags_assetsUncheckedUpdateInput>
+  }
+
+  /**
+   * tags_assets delete
+   */
+  export type tags_assetsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+    /**
+     * Filter which tags_assets to delete.
+     */
+    where: tags_assetsWhereUniqueInput
+  }
+
+  /**
+   * tags_assets deleteMany
+   */
+  export type tags_assetsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which tags_assets to delete
+     */
+    where?: tags_assetsWhereInput
+    /**
+     * Limit how many tags_assets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * tags_assets.assets
+   */
+  export type tags_assets$assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    where?: asset_tagsWhereInput
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    cursor?: asset_tagsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * tags_assets without action
+   */
+  export type tags_assetsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the tags_assets
+     */
+    select?: tags_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the tags_assets
+     */
+    omit?: tags_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: tags_assetsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model assets
+   */
+
+  export type AggregateAssets = {
+    _count: AssetsCountAggregateOutputType | null
+    _avg: AssetsAvgAggregateOutputType | null
+    _sum: AssetsSumAggregateOutputType | null
+    _min: AssetsMinAggregateOutputType | null
+    _max: AssetsMaxAggregateOutputType | null
+  }
+
+  export type AssetsAvgAggregateOutputType = {
+    id: number | null
+    folder_id: number | null
+    size_bytes: number | null
+    size_megabytes: Decimal | null
+  }
+
+  export type AssetsSumAggregateOutputType = {
+    id: bigint | null
+    folder_id: bigint | null
+    size_bytes: bigint | null
+    size_megabytes: Decimal | null
+  }
+
+  export type AssetsMinAggregateOutputType = {
+    id: bigint | null
+    folder_id: bigint | null
+    name: string | null
+    caption: string | null
+    description: string | null
+    type: $Enums.asset_type | null
+    url: string | null
+    file_ext: string | null
+    size_bytes: bigint | null
+    size_megabytes: Decimal | null
+    sha256: string | null
+    last_verified: Date | null
+    is_active: boolean | null
+    created_at: Date | null
+  }
+
+  export type AssetsMaxAggregateOutputType = {
+    id: bigint | null
+    folder_id: bigint | null
+    name: string | null
+    caption: string | null
+    description: string | null
+    type: $Enums.asset_type | null
+    url: string | null
+    file_ext: string | null
+    size_bytes: bigint | null
+    size_megabytes: Decimal | null
+    sha256: string | null
+    last_verified: Date | null
+    is_active: boolean | null
+    created_at: Date | null
+  }
+
+  export type AssetsCountAggregateOutputType = {
+    id: number
+    folder_id: number
+    name: number
+    caption: number
+    description: number
+    type: number
+    url: number
+    file_ext: number
+    size_bytes: number
+    size_megabytes: number
+    sha256: number
+    last_verified: number
+    is_active: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type AssetsAvgAggregateInputType = {
+    id?: true
+    folder_id?: true
+    size_bytes?: true
+    size_megabytes?: true
+  }
+
+  export type AssetsSumAggregateInputType = {
+    id?: true
+    folder_id?: true
+    size_bytes?: true
+    size_megabytes?: true
+  }
+
+  export type AssetsMinAggregateInputType = {
+    id?: true
+    folder_id?: true
+    name?: true
+    caption?: true
+    description?: true
+    type?: true
+    url?: true
+    file_ext?: true
+    size_bytes?: true
+    size_megabytes?: true
+    sha256?: true
+    last_verified?: true
+    is_active?: true
+    created_at?: true
+  }
+
+  export type AssetsMaxAggregateInputType = {
+    id?: true
+    folder_id?: true
+    name?: true
+    caption?: true
+    description?: true
+    type?: true
+    url?: true
+    file_ext?: true
+    size_bytes?: true
+    size_megabytes?: true
+    sha256?: true
+    last_verified?: true
+    is_active?: true
+    created_at?: true
+  }
+
+  export type AssetsCountAggregateInputType = {
+    id?: true
+    folder_id?: true
+    name?: true
+    caption?: true
+    description?: true
+    type?: true
+    url?: true
+    file_ext?: true
+    size_bytes?: true
+    size_megabytes?: true
+    sha256?: true
+    last_verified?: true
+    is_active?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type AssetsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which assets to aggregate.
+     */
+    where?: assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assets to fetch.
+     */
+    orderBy?: assetsOrderByWithRelationInput | assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned assets
+    **/
+    _count?: true | AssetsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssetsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssetsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssetsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssetsMaxAggregateInputType
+  }
+
+  export type GetAssetsAggregateType<T extends AssetsAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssets]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssets[P]>
+      : GetScalarType<T[P], AggregateAssets[P]>
+  }
+
+
+
+
+  export type assetsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: assetsWhereInput
+    orderBy?: assetsOrderByWithAggregationInput | assetsOrderByWithAggregationInput[]
+    by: AssetsScalarFieldEnum[] | AssetsScalarFieldEnum
+    having?: assetsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssetsCountAggregateInputType | true
+    _avg?: AssetsAvgAggregateInputType
+    _sum?: AssetsSumAggregateInputType
+    _min?: AssetsMinAggregateInputType
+    _max?: AssetsMaxAggregateInputType
+  }
+
+  export type AssetsGroupByOutputType = {
+    id: bigint
+    folder_id: bigint
+    name: string
+    caption: string | null
+    description: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext: string | null
+    size_bytes: bigint | null
+    size_megabytes: Decimal | null
+    sha256: string | null
+    last_verified: Date | null
+    is_active: boolean
+    created_at: Date
+    _count: AssetsCountAggregateOutputType | null
+    _avg: AssetsAvgAggregateOutputType | null
+    _sum: AssetsSumAggregateOutputType | null
+    _min: AssetsMinAggregateOutputType | null
+    _max: AssetsMaxAggregateOutputType | null
+  }
+
+  type GetAssetsGroupByPayload<T extends assetsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssetsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssetsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssetsGroupByOutputType[P]>
+            : GetScalarType<T[P], AssetsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type assetsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    folder_id?: boolean
+    name?: boolean
+    caption?: boolean
+    description?: boolean
+    type?: boolean
+    url?: boolean
+    file_ext?: boolean
+    size_bytes?: boolean
+    size_megabytes?: boolean
+    sha256?: boolean
+    last_verified?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+    tags?: boolean | assets$tagsArgs<ExtArgs>
+    _count?: boolean | AssetsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assets"]>
+
+  export type assetsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    folder_id?: boolean
+    name?: boolean
+    caption?: boolean
+    description?: boolean
+    type?: boolean
+    url?: boolean
+    file_ext?: boolean
+    size_bytes?: boolean
+    size_megabytes?: boolean
+    sha256?: boolean
+    last_verified?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assets"]>
+
+  export type assetsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    folder_id?: boolean
+    name?: boolean
+    caption?: boolean
+    description?: boolean
+    type?: boolean
+    url?: boolean
+    file_ext?: boolean
+    size_bytes?: boolean
+    size_megabytes?: boolean
+    sha256?: boolean
+    last_verified?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assets"]>
+
+  export type assetsSelectScalar = {
+    id?: boolean
+    folder_id?: boolean
+    name?: boolean
+    caption?: boolean
+    description?: boolean
+    type?: boolean
+    url?: boolean
+    file_ext?: boolean
+    size_bytes?: boolean
+    size_megabytes?: boolean
+    sha256?: boolean
+    last_verified?: boolean
+    is_active?: boolean
+    created_at?: boolean
+  }
+
+  export type assetsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "folder_id" | "name" | "caption" | "description" | "type" | "url" | "file_ext" | "size_bytes" | "size_megabytes" | "sha256" | "last_verified" | "is_active" | "created_at", ExtArgs["result"]["assets"]>
+  export type assetsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+    tags?: boolean | assets$tagsArgs<ExtArgs>
+    _count?: boolean | AssetsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type assetsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+  }
+  export type assetsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    folder?: boolean | foldersDefaultArgs<ExtArgs>
+  }
+
+  export type $assetsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "assets"
+    objects: {
+      folder: Prisma.$foldersPayload<ExtArgs>
+      tags: Prisma.$asset_tagsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      folder_id: bigint
+      name: string
+      caption: string | null
+      description: string | null
+      type: $Enums.asset_type
+      url: string
+      file_ext: string | null
+      size_bytes: bigint | null
+      size_megabytes: Prisma.Decimal | null
+      sha256: string | null
+      last_verified: Date | null
+      is_active: boolean
+      created_at: Date
+    }, ExtArgs["result"]["assets"]>
+    composites: {}
+  }
+
+  type assetsGetPayload<S extends boolean | null | undefined | assetsDefaultArgs> = $Result.GetResult<Prisma.$assetsPayload, S>
+
+  type assetsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<assetsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssetsCountAggregateInputType | true
+    }
+
+  export interface assetsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['assets'], meta: { name: 'assets' } }
+    /**
+     * Find zero or one Assets that matches the filter.
+     * @param {assetsFindUniqueArgs} args - Arguments to find a Assets
+     * @example
+     * // Get one Assets
+     * const assets = await prisma.assets.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends assetsFindUniqueArgs>(args: SelectSubset<T, assetsFindUniqueArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Assets that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {assetsFindUniqueOrThrowArgs} args - Arguments to find a Assets
+     * @example
+     * // Get one Assets
+     * const assets = await prisma.assets.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends assetsFindUniqueOrThrowArgs>(args: SelectSubset<T, assetsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsFindFirstArgs} args - Arguments to find a Assets
+     * @example
+     * // Get one Assets
+     * const assets = await prisma.assets.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends assetsFindFirstArgs>(args?: SelectSubset<T, assetsFindFirstArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assets that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsFindFirstOrThrowArgs} args - Arguments to find a Assets
+     * @example
+     * // Get one Assets
+     * const assets = await prisma.assets.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends assetsFindFirstOrThrowArgs>(args?: SelectSubset<T, assetsFindFirstOrThrowArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assets
+     * const assets = await prisma.assets.findMany()
+     * 
+     * // Get first 10 Assets
+     * const assets = await prisma.assets.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assetsWithIdOnly = await prisma.assets.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends assetsFindManyArgs>(args?: SelectSubset<T, assetsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Assets.
+     * @param {assetsCreateArgs} args - Arguments to create a Assets.
+     * @example
+     * // Create one Assets
+     * const Assets = await prisma.assets.create({
+     *   data: {
+     *     // ... data to create a Assets
+     *   }
+     * })
+     * 
+     */
+    create<T extends assetsCreateArgs>(args: SelectSubset<T, assetsCreateArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Assets.
+     * @param {assetsCreateManyArgs} args - Arguments to create many Assets.
+     * @example
+     * // Create many Assets
+     * const assets = await prisma.assets.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends assetsCreateManyArgs>(args?: SelectSubset<T, assetsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assets and returns the data saved in the database.
+     * @param {assetsCreateManyAndReturnArgs} args - Arguments to create many Assets.
+     * @example
+     * // Create many Assets
+     * const assets = await prisma.assets.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assets and only return the `id`
+     * const assetsWithIdOnly = await prisma.assets.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends assetsCreateManyAndReturnArgs>(args?: SelectSubset<T, assetsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Assets.
+     * @param {assetsDeleteArgs} args - Arguments to delete one Assets.
+     * @example
+     * // Delete one Assets
+     * const Assets = await prisma.assets.delete({
+     *   where: {
+     *     // ... filter to delete one Assets
+     *   }
+     * })
+     * 
+     */
+    delete<T extends assetsDeleteArgs>(args: SelectSubset<T, assetsDeleteArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Assets.
+     * @param {assetsUpdateArgs} args - Arguments to update one Assets.
+     * @example
+     * // Update one Assets
+     * const assets = await prisma.assets.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends assetsUpdateArgs>(args: SelectSubset<T, assetsUpdateArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Assets.
+     * @param {assetsDeleteManyArgs} args - Arguments to filter Assets to delete.
+     * @example
+     * // Delete a few Assets
+     * const { count } = await prisma.assets.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends assetsDeleteManyArgs>(args?: SelectSubset<T, assetsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assets
+     * const assets = await prisma.assets.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends assetsUpdateManyArgs>(args: SelectSubset<T, assetsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assets and returns the data updated in the database.
+     * @param {assetsUpdateManyAndReturnArgs} args - Arguments to update many Assets.
+     * @example
+     * // Update many Assets
+     * const assets = await prisma.assets.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Assets and only return the `id`
+     * const assetsWithIdOnly = await prisma.assets.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends assetsUpdateManyAndReturnArgs>(args: SelectSubset<T, assetsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Assets.
+     * @param {assetsUpsertArgs} args - Arguments to update or create a Assets.
+     * @example
+     * // Update or create a Assets
+     * const assets = await prisma.assets.upsert({
+     *   create: {
+     *     // ... data to create a Assets
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Assets we want to update
+     *   }
+     * })
+     */
+    upsert<T extends assetsUpsertArgs>(args: SelectSubset<T, assetsUpsertArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsCountArgs} args - Arguments to filter Assets to count.
+     * @example
+     * // Count the number of Assets
+     * const count = await prisma.assets.count({
+     *   where: {
+     *     // ... the filter for the Assets we want to count
+     *   }
+     * })
+    **/
+    count<T extends assetsCountArgs>(
+      args?: Subset<T, assetsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssetsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssetsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssetsAggregateArgs>(args: Subset<T, AssetsAggregateArgs>): Prisma.PrismaPromise<GetAssetsAggregateType<T>>
+
+    /**
+     * Group by Assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assetsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends assetsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: assetsGroupByArgs['orderBy'] }
+        : { orderBy?: assetsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, assetsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssetsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the assets model
+   */
+  readonly fields: assetsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for assets.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__assetsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    folder<T extends foldersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, foldersDefaultArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tags<T extends assets$tagsArgs<ExtArgs> = {}>(args?: Subset<T, assets$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the assets model
+   */
+  interface assetsFieldRefs {
+    readonly id: FieldRef<"assets", 'BigInt'>
+    readonly folder_id: FieldRef<"assets", 'BigInt'>
+    readonly name: FieldRef<"assets", 'String'>
+    readonly caption: FieldRef<"assets", 'String'>
+    readonly description: FieldRef<"assets", 'String'>
+    readonly type: FieldRef<"assets", 'asset_type'>
+    readonly url: FieldRef<"assets", 'String'>
+    readonly file_ext: FieldRef<"assets", 'String'>
+    readonly size_bytes: FieldRef<"assets", 'BigInt'>
+    readonly size_megabytes: FieldRef<"assets", 'Decimal'>
+    readonly sha256: FieldRef<"assets", 'String'>
+    readonly last_verified: FieldRef<"assets", 'DateTime'>
+    readonly is_active: FieldRef<"assets", 'Boolean'>
+    readonly created_at: FieldRef<"assets", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * assets findUnique
+   */
+  export type assetsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which assets to fetch.
+     */
+    where: assetsWhereUniqueInput
+  }
+
+  /**
+   * assets findUniqueOrThrow
+   */
+  export type assetsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which assets to fetch.
+     */
+    where: assetsWhereUniqueInput
+  }
+
+  /**
+   * assets findFirst
+   */
+  export type assetsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which assets to fetch.
+     */
+    where?: assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assets to fetch.
+     */
+    orderBy?: assetsOrderByWithRelationInput | assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for assets.
+     */
+    cursor?: assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of assets.
+     */
+    distinct?: AssetsScalarFieldEnum | AssetsScalarFieldEnum[]
+  }
+
+  /**
+   * assets findFirstOrThrow
+   */
+  export type assetsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which assets to fetch.
+     */
+    where?: assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assets to fetch.
+     */
+    orderBy?: assetsOrderByWithRelationInput | assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for assets.
+     */
+    cursor?: assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of assets.
+     */
+    distinct?: AssetsScalarFieldEnum | AssetsScalarFieldEnum[]
+  }
+
+  /**
+   * assets findMany
+   */
+  export type assetsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which assets to fetch.
+     */
+    where?: assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assets to fetch.
+     */
+    orderBy?: assetsOrderByWithRelationInput | assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing assets.
+     */
+    cursor?: assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assets.
+     */
+    skip?: number
+    distinct?: AssetsScalarFieldEnum | AssetsScalarFieldEnum[]
+  }
+
+  /**
+   * assets create
+   */
+  export type assetsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a assets.
+     */
+    data: XOR<assetsCreateInput, assetsUncheckedCreateInput>
+  }
+
+  /**
+   * assets createMany
+   */
+  export type assetsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many assets.
+     */
+    data: assetsCreateManyInput | assetsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * assets createManyAndReturn
+   */
+  export type assetsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * The data used to create many assets.
+     */
+    data: assetsCreateManyInput | assetsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * assets update
+   */
+  export type assetsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a assets.
+     */
+    data: XOR<assetsUpdateInput, assetsUncheckedUpdateInput>
+    /**
+     * Choose, which assets to update.
+     */
+    where: assetsWhereUniqueInput
+  }
+
+  /**
+   * assets updateMany
+   */
+  export type assetsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update assets.
+     */
+    data: XOR<assetsUpdateManyMutationInput, assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which assets to update
+     */
+    where?: assetsWhereInput
+    /**
+     * Limit how many assets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * assets updateManyAndReturn
+   */
+  export type assetsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * The data used to update assets.
+     */
+    data: XOR<assetsUpdateManyMutationInput, assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which assets to update
+     */
+    where?: assetsWhereInput
+    /**
+     * Limit how many assets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * assets upsert
+   */
+  export type assetsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the assets to update in case it exists.
+     */
+    where: assetsWhereUniqueInput
+    /**
+     * In case the assets found by the `where` argument doesn't exist, create a new assets with this data.
+     */
+    create: XOR<assetsCreateInput, assetsUncheckedCreateInput>
+    /**
+     * In case the assets was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<assetsUpdateInput, assetsUncheckedUpdateInput>
+  }
+
+  /**
+   * assets delete
+   */
+  export type assetsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+    /**
+     * Filter which assets to delete.
+     */
+    where: assetsWhereUniqueInput
+  }
+
+  /**
+   * assets deleteMany
+   */
+  export type assetsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which assets to delete
+     */
+    where?: assetsWhereInput
+    /**
+     * Limit how many assets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * assets.tags
+   */
+  export type assets$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    where?: asset_tagsWhereInput
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    cursor?: asset_tagsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * assets without action
+   */
+  export type assetsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assets
+     */
+    select?: assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assets
+     */
+    omit?: assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: assetsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model asset_tags
+   */
+
+  export type AggregateAsset_tags = {
+    _count: Asset_tagsCountAggregateOutputType | null
+    _avg: Asset_tagsAvgAggregateOutputType | null
+    _sum: Asset_tagsSumAggregateOutputType | null
+    _min: Asset_tagsMinAggregateOutputType | null
+    _max: Asset_tagsMaxAggregateOutputType | null
+  }
+
+  export type Asset_tagsAvgAggregateOutputType = {
+    asset_id: number | null
+    tag_id: number | null
+  }
+
+  export type Asset_tagsSumAggregateOutputType = {
+    asset_id: bigint | null
+    tag_id: bigint | null
+  }
+
+  export type Asset_tagsMinAggregateOutputType = {
+    asset_id: bigint | null
+    tag_id: bigint | null
+  }
+
+  export type Asset_tagsMaxAggregateOutputType = {
+    asset_id: bigint | null
+    tag_id: bigint | null
+  }
+
+  export type Asset_tagsCountAggregateOutputType = {
+    asset_id: number
+    tag_id: number
+    _all: number
+  }
+
+
+  export type Asset_tagsAvgAggregateInputType = {
+    asset_id?: true
+    tag_id?: true
+  }
+
+  export type Asset_tagsSumAggregateInputType = {
+    asset_id?: true
+    tag_id?: true
+  }
+
+  export type Asset_tagsMinAggregateInputType = {
+    asset_id?: true
+    tag_id?: true
+  }
+
+  export type Asset_tagsMaxAggregateInputType = {
+    asset_id?: true
+    tag_id?: true
+  }
+
+  export type Asset_tagsCountAggregateInputType = {
+    asset_id?: true
+    tag_id?: true
+    _all?: true
+  }
+
+  export type Asset_tagsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which asset_tags to aggregate.
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of asset_tags to fetch.
+     */
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: asset_tagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` asset_tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` asset_tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned asset_tags
+    **/
+    _count?: true | Asset_tagsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Asset_tagsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Asset_tagsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Asset_tagsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Asset_tagsMaxAggregateInputType
+  }
+
+  export type GetAsset_tagsAggregateType<T extends Asset_tagsAggregateArgs> = {
+        [P in keyof T & keyof AggregateAsset_tags]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAsset_tags[P]>
+      : GetScalarType<T[P], AggregateAsset_tags[P]>
+  }
+
+
+
+
+  export type asset_tagsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: asset_tagsWhereInput
+    orderBy?: asset_tagsOrderByWithAggregationInput | asset_tagsOrderByWithAggregationInput[]
+    by: Asset_tagsScalarFieldEnum[] | Asset_tagsScalarFieldEnum
+    having?: asset_tagsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Asset_tagsCountAggregateInputType | true
+    _avg?: Asset_tagsAvgAggregateInputType
+    _sum?: Asset_tagsSumAggregateInputType
+    _min?: Asset_tagsMinAggregateInputType
+    _max?: Asset_tagsMaxAggregateInputType
+  }
+
+  export type Asset_tagsGroupByOutputType = {
+    asset_id: bigint
+    tag_id: bigint
+    _count: Asset_tagsCountAggregateOutputType | null
+    _avg: Asset_tagsAvgAggregateOutputType | null
+    _sum: Asset_tagsSumAggregateOutputType | null
+    _min: Asset_tagsMinAggregateOutputType | null
+    _max: Asset_tagsMaxAggregateOutputType | null
+  }
+
+  type GetAsset_tagsGroupByPayload<T extends asset_tagsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Asset_tagsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Asset_tagsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Asset_tagsGroupByOutputType[P]>
+            : GetScalarType<T[P], Asset_tagsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type asset_tagsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    asset_id?: boolean
+    tag_id?: boolean
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["asset_tags"]>
+
+  export type asset_tagsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    asset_id?: boolean
+    tag_id?: boolean
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["asset_tags"]>
+
+  export type asset_tagsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    asset_id?: boolean
+    tag_id?: boolean
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["asset_tags"]>
+
+  export type asset_tagsSelectScalar = {
+    asset_id?: boolean
+    tag_id?: boolean
+  }
+
+  export type asset_tagsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"asset_id" | "tag_id", ExtArgs["result"]["asset_tags"]>
+  export type asset_tagsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }
+  export type asset_tagsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }
+  export type asset_tagsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+    tag?: boolean | tags_assetsDefaultArgs<ExtArgs>
+  }
+
+  export type $asset_tagsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "asset_tags"
+    objects: {
+      asset: Prisma.$assetsPayload<ExtArgs>
+      tag: Prisma.$tags_assetsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      asset_id: bigint
+      tag_id: bigint
+    }, ExtArgs["result"]["asset_tags"]>
+    composites: {}
+  }
+
+  type asset_tagsGetPayload<S extends boolean | null | undefined | asset_tagsDefaultArgs> = $Result.GetResult<Prisma.$asset_tagsPayload, S>
+
+  type asset_tagsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<asset_tagsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Asset_tagsCountAggregateInputType | true
+    }
+
+  export interface asset_tagsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['asset_tags'], meta: { name: 'asset_tags' } }
+    /**
+     * Find zero or one Asset_tags that matches the filter.
+     * @param {asset_tagsFindUniqueArgs} args - Arguments to find a Asset_tags
+     * @example
+     * // Get one Asset_tags
+     * const asset_tags = await prisma.asset_tags.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends asset_tagsFindUniqueArgs>(args: SelectSubset<T, asset_tagsFindUniqueArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Asset_tags that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {asset_tagsFindUniqueOrThrowArgs} args - Arguments to find a Asset_tags
+     * @example
+     * // Get one Asset_tags
+     * const asset_tags = await prisma.asset_tags.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends asset_tagsFindUniqueOrThrowArgs>(args: SelectSubset<T, asset_tagsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Asset_tags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsFindFirstArgs} args - Arguments to find a Asset_tags
+     * @example
+     * // Get one Asset_tags
+     * const asset_tags = await prisma.asset_tags.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends asset_tagsFindFirstArgs>(args?: SelectSubset<T, asset_tagsFindFirstArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Asset_tags that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsFindFirstOrThrowArgs} args - Arguments to find a Asset_tags
+     * @example
+     * // Get one Asset_tags
+     * const asset_tags = await prisma.asset_tags.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends asset_tagsFindFirstOrThrowArgs>(args?: SelectSubset<T, asset_tagsFindFirstOrThrowArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Asset_tags that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Asset_tags
+     * const asset_tags = await prisma.asset_tags.findMany()
+     * 
+     * // Get first 10 Asset_tags
+     * const asset_tags = await prisma.asset_tags.findMany({ take: 10 })
+     * 
+     * // Only select the `asset_id`
+     * const asset_tagsWithAsset_idOnly = await prisma.asset_tags.findMany({ select: { asset_id: true } })
+     * 
+     */
+    findMany<T extends asset_tagsFindManyArgs>(args?: SelectSubset<T, asset_tagsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Asset_tags.
+     * @param {asset_tagsCreateArgs} args - Arguments to create a Asset_tags.
+     * @example
+     * // Create one Asset_tags
+     * const Asset_tags = await prisma.asset_tags.create({
+     *   data: {
+     *     // ... data to create a Asset_tags
+     *   }
+     * })
+     * 
+     */
+    create<T extends asset_tagsCreateArgs>(args: SelectSubset<T, asset_tagsCreateArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Asset_tags.
+     * @param {asset_tagsCreateManyArgs} args - Arguments to create many Asset_tags.
+     * @example
+     * // Create many Asset_tags
+     * const asset_tags = await prisma.asset_tags.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends asset_tagsCreateManyArgs>(args?: SelectSubset<T, asset_tagsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Asset_tags and returns the data saved in the database.
+     * @param {asset_tagsCreateManyAndReturnArgs} args - Arguments to create many Asset_tags.
+     * @example
+     * // Create many Asset_tags
+     * const asset_tags = await prisma.asset_tags.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Asset_tags and only return the `asset_id`
+     * const asset_tagsWithAsset_idOnly = await prisma.asset_tags.createManyAndReturn({
+     *   select: { asset_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends asset_tagsCreateManyAndReturnArgs>(args?: SelectSubset<T, asset_tagsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Asset_tags.
+     * @param {asset_tagsDeleteArgs} args - Arguments to delete one Asset_tags.
+     * @example
+     * // Delete one Asset_tags
+     * const Asset_tags = await prisma.asset_tags.delete({
+     *   where: {
+     *     // ... filter to delete one Asset_tags
+     *   }
+     * })
+     * 
+     */
+    delete<T extends asset_tagsDeleteArgs>(args: SelectSubset<T, asset_tagsDeleteArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Asset_tags.
+     * @param {asset_tagsUpdateArgs} args - Arguments to update one Asset_tags.
+     * @example
+     * // Update one Asset_tags
+     * const asset_tags = await prisma.asset_tags.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends asset_tagsUpdateArgs>(args: SelectSubset<T, asset_tagsUpdateArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Asset_tags.
+     * @param {asset_tagsDeleteManyArgs} args - Arguments to filter Asset_tags to delete.
+     * @example
+     * // Delete a few Asset_tags
+     * const { count } = await prisma.asset_tags.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends asset_tagsDeleteManyArgs>(args?: SelectSubset<T, asset_tagsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Asset_tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Asset_tags
+     * const asset_tags = await prisma.asset_tags.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends asset_tagsUpdateManyArgs>(args: SelectSubset<T, asset_tagsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Asset_tags and returns the data updated in the database.
+     * @param {asset_tagsUpdateManyAndReturnArgs} args - Arguments to update many Asset_tags.
+     * @example
+     * // Update many Asset_tags
+     * const asset_tags = await prisma.asset_tags.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Asset_tags and only return the `asset_id`
+     * const asset_tagsWithAsset_idOnly = await prisma.asset_tags.updateManyAndReturn({
+     *   select: { asset_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends asset_tagsUpdateManyAndReturnArgs>(args: SelectSubset<T, asset_tagsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Asset_tags.
+     * @param {asset_tagsUpsertArgs} args - Arguments to update or create a Asset_tags.
+     * @example
+     * // Update or create a Asset_tags
+     * const asset_tags = await prisma.asset_tags.upsert({
+     *   create: {
+     *     // ... data to create a Asset_tags
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Asset_tags we want to update
+     *   }
+     * })
+     */
+    upsert<T extends asset_tagsUpsertArgs>(args: SelectSubset<T, asset_tagsUpsertArgs<ExtArgs>>): Prisma__asset_tagsClient<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Asset_tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsCountArgs} args - Arguments to filter Asset_tags to count.
+     * @example
+     * // Count the number of Asset_tags
+     * const count = await prisma.asset_tags.count({
+     *   where: {
+     *     // ... the filter for the Asset_tags we want to count
+     *   }
+     * })
+    **/
+    count<T extends asset_tagsCountArgs>(
+      args?: Subset<T, asset_tagsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Asset_tagsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Asset_tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Asset_tagsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Asset_tagsAggregateArgs>(args: Subset<T, Asset_tagsAggregateArgs>): Prisma.PrismaPromise<GetAsset_tagsAggregateType<T>>
+
+    /**
+     * Group by Asset_tags.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {asset_tagsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends asset_tagsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: asset_tagsGroupByArgs['orderBy'] }
+        : { orderBy?: asset_tagsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, asset_tagsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAsset_tagsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the asset_tags model
+   */
+  readonly fields: asset_tagsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for asset_tags.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__asset_tagsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    asset<T extends assetsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, assetsDefaultArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tag<T extends tags_assetsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tags_assetsDefaultArgs<ExtArgs>>): Prisma__tags_assetsClient<$Result.GetResult<Prisma.$tags_assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the asset_tags model
+   */
+  interface asset_tagsFieldRefs {
+    readonly asset_id: FieldRef<"asset_tags", 'BigInt'>
+    readonly tag_id: FieldRef<"asset_tags", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * asset_tags findUnique
+   */
+  export type asset_tagsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter, which asset_tags to fetch.
+     */
+    where: asset_tagsWhereUniqueInput
+  }
+
+  /**
+   * asset_tags findUniqueOrThrow
+   */
+  export type asset_tagsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter, which asset_tags to fetch.
+     */
+    where: asset_tagsWhereUniqueInput
+  }
+
+  /**
+   * asset_tags findFirst
+   */
+  export type asset_tagsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter, which asset_tags to fetch.
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of asset_tags to fetch.
+     */
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for asset_tags.
+     */
+    cursor?: asset_tagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` asset_tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` asset_tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of asset_tags.
+     */
+    distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * asset_tags findFirstOrThrow
+   */
+  export type asset_tagsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter, which asset_tags to fetch.
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of asset_tags to fetch.
+     */
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for asset_tags.
+     */
+    cursor?: asset_tagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` asset_tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` asset_tags.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of asset_tags.
+     */
+    distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * asset_tags findMany
+   */
+  export type asset_tagsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter, which asset_tags to fetch.
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of asset_tags to fetch.
+     */
+    orderBy?: asset_tagsOrderByWithRelationInput | asset_tagsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing asset_tags.
+     */
+    cursor?: asset_tagsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` asset_tags from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` asset_tags.
+     */
+    skip?: number
+    distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * asset_tags create
+   */
+  export type asset_tagsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a asset_tags.
+     */
+    data: XOR<asset_tagsCreateInput, asset_tagsUncheckedCreateInput>
+  }
+
+  /**
+   * asset_tags createMany
+   */
+  export type asset_tagsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many asset_tags.
+     */
+    data: asset_tagsCreateManyInput | asset_tagsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * asset_tags createManyAndReturn
+   */
+  export type asset_tagsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * The data used to create many asset_tags.
+     */
+    data: asset_tagsCreateManyInput | asset_tagsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * asset_tags update
+   */
+  export type asset_tagsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a asset_tags.
+     */
+    data: XOR<asset_tagsUpdateInput, asset_tagsUncheckedUpdateInput>
+    /**
+     * Choose, which asset_tags to update.
+     */
+    where: asset_tagsWhereUniqueInput
+  }
+
+  /**
+   * asset_tags updateMany
+   */
+  export type asset_tagsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update asset_tags.
+     */
+    data: XOR<asset_tagsUpdateManyMutationInput, asset_tagsUncheckedUpdateManyInput>
+    /**
+     * Filter which asset_tags to update
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * Limit how many asset_tags to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * asset_tags updateManyAndReturn
+   */
+  export type asset_tagsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * The data used to update asset_tags.
+     */
+    data: XOR<asset_tagsUpdateManyMutationInput, asset_tagsUncheckedUpdateManyInput>
+    /**
+     * Filter which asset_tags to update
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * Limit how many asset_tags to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * asset_tags upsert
+   */
+  export type asset_tagsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the asset_tags to update in case it exists.
+     */
+    where: asset_tagsWhereUniqueInput
+    /**
+     * In case the asset_tags found by the `where` argument doesn't exist, create a new asset_tags with this data.
+     */
+    create: XOR<asset_tagsCreateInput, asset_tagsUncheckedCreateInput>
+    /**
+     * In case the asset_tags was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<asset_tagsUpdateInput, asset_tagsUncheckedUpdateInput>
+  }
+
+  /**
+   * asset_tags delete
+   */
+  export type asset_tagsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+    /**
+     * Filter which asset_tags to delete.
+     */
+    where: asset_tagsWhereUniqueInput
+  }
+
+  /**
+   * asset_tags deleteMany
+   */
+  export type asset_tagsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which asset_tags to delete
+     */
+    where?: asset_tagsWhereInput
+    /**
+     * Limit how many asset_tags to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * asset_tags without action
+   */
+  export type asset_tagsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the asset_tags
+     */
+    select?: asset_tagsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the asset_tags
+     */
+    omit?: asset_tagsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: asset_tagsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -106879,6 +111899,52 @@ export namespace Prisma {
   export type Web_metadataScalarFieldEnum = (typeof Web_metadataScalarFieldEnum)[keyof typeof Web_metadataScalarFieldEnum]
 
 
+  export const FoldersScalarFieldEnum: {
+    id: 'id',
+    parent_id: 'parent_id',
+    name: 'name',
+    created_at: 'created_at'
+  };
+
+  export type FoldersScalarFieldEnum = (typeof FoldersScalarFieldEnum)[keyof typeof FoldersScalarFieldEnum]
+
+
+  export const Tags_assetsScalarFieldEnum: {
+    id: 'id',
+    name: 'name'
+  };
+
+  export type Tags_assetsScalarFieldEnum = (typeof Tags_assetsScalarFieldEnum)[keyof typeof Tags_assetsScalarFieldEnum]
+
+
+  export const AssetsScalarFieldEnum: {
+    id: 'id',
+    folder_id: 'folder_id',
+    name: 'name',
+    caption: 'caption',
+    description: 'description',
+    type: 'type',
+    url: 'url',
+    file_ext: 'file_ext',
+    size_bytes: 'size_bytes',
+    size_megabytes: 'size_megabytes',
+    sha256: 'sha256',
+    last_verified: 'last_verified',
+    is_active: 'is_active',
+    created_at: 'created_at'
+  };
+
+  export type AssetsScalarFieldEnum = (typeof AssetsScalarFieldEnum)[keyof typeof AssetsScalarFieldEnum]
+
+
+  export const Asset_tagsScalarFieldEnum: {
+    asset_id: 'asset_id',
+    tag_id: 'tag_id'
+  };
+
+  export type Asset_tagsScalarFieldEnum = (typeof Asset_tagsScalarFieldEnum)[keyof typeof Asset_tagsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -107062,6 +112128,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'asset_type'
+   */
+  export type Enumasset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'asset_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'asset_type[]'
+   */
+  export type ListEnumasset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'asset_type[]'>
     
   /**
    * Deep Input Types
@@ -113895,6 +118975,257 @@ export namespace Prisma {
     created_at?: DateTimeWithAggregatesFilter<"web_metadata"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"web_metadata"> | Date | string
     deleted_at?: DateTimeNullableWithAggregatesFilter<"web_metadata"> | Date | string | null
+  }
+
+  export type foldersWhereInput = {
+    AND?: foldersWhereInput | foldersWhereInput[]
+    OR?: foldersWhereInput[]
+    NOT?: foldersWhereInput | foldersWhereInput[]
+    id?: BigIntFilter<"folders"> | bigint | number
+    parent_id?: BigIntNullableFilter<"folders"> | bigint | number | null
+    name?: StringFilter<"folders"> | string
+    created_at?: DateTimeFilter<"folders"> | Date | string
+    parent?: XOR<FoldersNullableScalarRelationFilter, foldersWhereInput> | null
+    children?: FoldersListRelationFilter
+    assets?: AssetsListRelationFilter
+  }
+
+  export type foldersOrderByWithRelationInput = {
+    id?: SortOrder
+    parent_id?: SortOrderInput | SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+    parent?: foldersOrderByWithRelationInput
+    children?: foldersOrderByRelationAggregateInput
+    assets?: assetsOrderByRelationAggregateInput
+  }
+
+  export type foldersWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: foldersWhereInput | foldersWhereInput[]
+    OR?: foldersWhereInput[]
+    NOT?: foldersWhereInput | foldersWhereInput[]
+    parent_id?: BigIntNullableFilter<"folders"> | bigint | number | null
+    name?: StringFilter<"folders"> | string
+    created_at?: DateTimeFilter<"folders"> | Date | string
+    parent?: XOR<FoldersNullableScalarRelationFilter, foldersWhereInput> | null
+    children?: FoldersListRelationFilter
+    assets?: AssetsListRelationFilter
+  }, "id">
+
+  export type foldersOrderByWithAggregationInput = {
+    id?: SortOrder
+    parent_id?: SortOrderInput | SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+    _count?: foldersCountOrderByAggregateInput
+    _avg?: foldersAvgOrderByAggregateInput
+    _max?: foldersMaxOrderByAggregateInput
+    _min?: foldersMinOrderByAggregateInput
+    _sum?: foldersSumOrderByAggregateInput
+  }
+
+  export type foldersScalarWhereWithAggregatesInput = {
+    AND?: foldersScalarWhereWithAggregatesInput | foldersScalarWhereWithAggregatesInput[]
+    OR?: foldersScalarWhereWithAggregatesInput[]
+    NOT?: foldersScalarWhereWithAggregatesInput | foldersScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"folders"> | bigint | number
+    parent_id?: BigIntNullableWithAggregatesFilter<"folders"> | bigint | number | null
+    name?: StringWithAggregatesFilter<"folders"> | string
+    created_at?: DateTimeWithAggregatesFilter<"folders"> | Date | string
+  }
+
+  export type tags_assetsWhereInput = {
+    AND?: tags_assetsWhereInput | tags_assetsWhereInput[]
+    OR?: tags_assetsWhereInput[]
+    NOT?: tags_assetsWhereInput | tags_assetsWhereInput[]
+    id?: BigIntFilter<"tags_assets"> | bigint | number
+    name?: StringFilter<"tags_assets"> | string
+    assets?: Asset_tagsListRelationFilter
+  }
+
+  export type tags_assetsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    assets?: asset_tagsOrderByRelationAggregateInput
+  }
+
+  export type tags_assetsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    name?: string
+    AND?: tags_assetsWhereInput | tags_assetsWhereInput[]
+    OR?: tags_assetsWhereInput[]
+    NOT?: tags_assetsWhereInput | tags_assetsWhereInput[]
+    assets?: Asset_tagsListRelationFilter
+  }, "id" | "name">
+
+  export type tags_assetsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: tags_assetsCountOrderByAggregateInput
+    _avg?: tags_assetsAvgOrderByAggregateInput
+    _max?: tags_assetsMaxOrderByAggregateInput
+    _min?: tags_assetsMinOrderByAggregateInput
+    _sum?: tags_assetsSumOrderByAggregateInput
+  }
+
+  export type tags_assetsScalarWhereWithAggregatesInput = {
+    AND?: tags_assetsScalarWhereWithAggregatesInput | tags_assetsScalarWhereWithAggregatesInput[]
+    OR?: tags_assetsScalarWhereWithAggregatesInput[]
+    NOT?: tags_assetsScalarWhereWithAggregatesInput | tags_assetsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"tags_assets"> | bigint | number
+    name?: StringWithAggregatesFilter<"tags_assets"> | string
+  }
+
+  export type assetsWhereInput = {
+    AND?: assetsWhereInput | assetsWhereInput[]
+    OR?: assetsWhereInput[]
+    NOT?: assetsWhereInput | assetsWhereInput[]
+    id?: BigIntFilter<"assets"> | bigint | number
+    folder_id?: BigIntFilter<"assets"> | bigint | number
+    name?: StringFilter<"assets"> | string
+    caption?: StringNullableFilter<"assets"> | string | null
+    description?: StringNullableFilter<"assets"> | string | null
+    type?: Enumasset_typeFilter<"assets"> | $Enums.asset_type
+    url?: StringFilter<"assets"> | string
+    file_ext?: StringNullableFilter<"assets"> | string | null
+    size_bytes?: BigIntNullableFilter<"assets"> | bigint | number | null
+    size_megabytes?: DecimalNullableFilter<"assets"> | Decimal | DecimalJsLike | number | string | null
+    sha256?: StringNullableFilter<"assets"> | string | null
+    last_verified?: DateTimeNullableFilter<"assets"> | Date | string | null
+    is_active?: BoolFilter<"assets"> | boolean
+    created_at?: DateTimeFilter<"assets"> | Date | string
+    folder?: XOR<FoldersScalarRelationFilter, foldersWhereInput>
+    tags?: Asset_tagsListRelationFilter
+  }
+
+  export type assetsOrderByWithRelationInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    name?: SortOrder
+    caption?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    file_ext?: SortOrderInput | SortOrder
+    size_bytes?: SortOrderInput | SortOrder
+    size_megabytes?: SortOrderInput | SortOrder
+    sha256?: SortOrderInput | SortOrder
+    last_verified?: SortOrderInput | SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    folder?: foldersOrderByWithRelationInput
+    tags?: asset_tagsOrderByRelationAggregateInput
+  }
+
+  export type assetsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: assetsWhereInput | assetsWhereInput[]
+    OR?: assetsWhereInput[]
+    NOT?: assetsWhereInput | assetsWhereInput[]
+    folder_id?: BigIntFilter<"assets"> | bigint | number
+    name?: StringFilter<"assets"> | string
+    caption?: StringNullableFilter<"assets"> | string | null
+    description?: StringNullableFilter<"assets"> | string | null
+    type?: Enumasset_typeFilter<"assets"> | $Enums.asset_type
+    url?: StringFilter<"assets"> | string
+    file_ext?: StringNullableFilter<"assets"> | string | null
+    size_bytes?: BigIntNullableFilter<"assets"> | bigint | number | null
+    size_megabytes?: DecimalNullableFilter<"assets"> | Decimal | DecimalJsLike | number | string | null
+    sha256?: StringNullableFilter<"assets"> | string | null
+    last_verified?: DateTimeNullableFilter<"assets"> | Date | string | null
+    is_active?: BoolFilter<"assets"> | boolean
+    created_at?: DateTimeFilter<"assets"> | Date | string
+    folder?: XOR<FoldersScalarRelationFilter, foldersWhereInput>
+    tags?: Asset_tagsListRelationFilter
+  }, "id">
+
+  export type assetsOrderByWithAggregationInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    name?: SortOrder
+    caption?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    file_ext?: SortOrderInput | SortOrder
+    size_bytes?: SortOrderInput | SortOrder
+    size_megabytes?: SortOrderInput | SortOrder
+    sha256?: SortOrderInput | SortOrder
+    last_verified?: SortOrderInput | SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    _count?: assetsCountOrderByAggregateInput
+    _avg?: assetsAvgOrderByAggregateInput
+    _max?: assetsMaxOrderByAggregateInput
+    _min?: assetsMinOrderByAggregateInput
+    _sum?: assetsSumOrderByAggregateInput
+  }
+
+  export type assetsScalarWhereWithAggregatesInput = {
+    AND?: assetsScalarWhereWithAggregatesInput | assetsScalarWhereWithAggregatesInput[]
+    OR?: assetsScalarWhereWithAggregatesInput[]
+    NOT?: assetsScalarWhereWithAggregatesInput | assetsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"assets"> | bigint | number
+    folder_id?: BigIntWithAggregatesFilter<"assets"> | bigint | number
+    name?: StringWithAggregatesFilter<"assets"> | string
+    caption?: StringNullableWithAggregatesFilter<"assets"> | string | null
+    description?: StringNullableWithAggregatesFilter<"assets"> | string | null
+    type?: Enumasset_typeWithAggregatesFilter<"assets"> | $Enums.asset_type
+    url?: StringWithAggregatesFilter<"assets"> | string
+    file_ext?: StringNullableWithAggregatesFilter<"assets"> | string | null
+    size_bytes?: BigIntNullableWithAggregatesFilter<"assets"> | bigint | number | null
+    size_megabytes?: DecimalNullableWithAggregatesFilter<"assets"> | Decimal | DecimalJsLike | number | string | null
+    sha256?: StringNullableWithAggregatesFilter<"assets"> | string | null
+    last_verified?: DateTimeNullableWithAggregatesFilter<"assets"> | Date | string | null
+    is_active?: BoolWithAggregatesFilter<"assets"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"assets"> | Date | string
+  }
+
+  export type asset_tagsWhereInput = {
+    AND?: asset_tagsWhereInput | asset_tagsWhereInput[]
+    OR?: asset_tagsWhereInput[]
+    NOT?: asset_tagsWhereInput | asset_tagsWhereInput[]
+    asset_id?: BigIntFilter<"asset_tags"> | bigint | number
+    tag_id?: BigIntFilter<"asset_tags"> | bigint | number
+    asset?: XOR<AssetsScalarRelationFilter, assetsWhereInput>
+    tag?: XOR<Tags_assetsScalarRelationFilter, tags_assetsWhereInput>
+  }
+
+  export type asset_tagsOrderByWithRelationInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+    asset?: assetsOrderByWithRelationInput
+    tag?: tags_assetsOrderByWithRelationInput
+  }
+
+  export type asset_tagsWhereUniqueInput = Prisma.AtLeast<{
+    asset_id_tag_id?: asset_tagsAsset_idTag_idCompoundUniqueInput
+    AND?: asset_tagsWhereInput | asset_tagsWhereInput[]
+    OR?: asset_tagsWhereInput[]
+    NOT?: asset_tagsWhereInput | asset_tagsWhereInput[]
+    asset_id?: BigIntFilter<"asset_tags"> | bigint | number
+    tag_id?: BigIntFilter<"asset_tags"> | bigint | number
+    asset?: XOR<AssetsScalarRelationFilter, assetsWhereInput>
+    tag?: XOR<Tags_assetsScalarRelationFilter, tags_assetsWhereInput>
+  }, "asset_id_tag_id">
+
+  export type asset_tagsOrderByWithAggregationInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+    _count?: asset_tagsCountOrderByAggregateInput
+    _avg?: asset_tagsAvgOrderByAggregateInput
+    _max?: asset_tagsMaxOrderByAggregateInput
+    _min?: asset_tagsMinOrderByAggregateInput
+    _sum?: asset_tagsSumOrderByAggregateInput
+  }
+
+  export type asset_tagsScalarWhereWithAggregatesInput = {
+    AND?: asset_tagsScalarWhereWithAggregatesInput | asset_tagsScalarWhereWithAggregatesInput[]
+    OR?: asset_tagsScalarWhereWithAggregatesInput[]
+    NOT?: asset_tagsScalarWhereWithAggregatesInput | asset_tagsScalarWhereWithAggregatesInput[]
+    asset_id?: BigIntWithAggregatesFilter<"asset_tags"> | bigint | number
+    tag_id?: BigIntWithAggregatesFilter<"asset_tags"> | bigint | number
   }
 
   export type activitiesCreateInput = {
@@ -121370,6 +126701,257 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type foldersCreateInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+    parent?: foldersCreateNestedOneWithoutChildrenInput
+    children?: foldersCreateNestedManyWithoutParentInput
+    assets?: assetsCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersUncheckedCreateInput = {
+    id?: bigint | number
+    parent_id?: bigint | number | null
+    name: string
+    created_at?: Date | string
+    children?: foldersUncheckedCreateNestedManyWithoutParentInput
+    assets?: assetsUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: foldersUpdateOneWithoutChildrenNestedInput
+    children?: foldersUpdateManyWithoutParentNestedInput
+    assets?: assetsUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    parent_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: foldersUncheckedUpdateManyWithoutParentNestedInput
+    assets?: assetsUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersCreateManyInput = {
+    id?: bigint | number
+    parent_id?: bigint | number | null
+    name: string
+    created_at?: Date | string
+  }
+
+  export type foldersUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type foldersUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    parent_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tags_assetsCreateInput = {
+    id?: bigint | number
+    name: string
+    assets?: asset_tagsCreateNestedManyWithoutTagInput
+  }
+
+  export type tags_assetsUncheckedCreateInput = {
+    id?: bigint | number
+    name: string
+    assets?: asset_tagsUncheckedCreateNestedManyWithoutTagInput
+  }
+
+  export type tags_assetsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    assets?: asset_tagsUpdateManyWithoutTagNestedInput
+  }
+
+  export type tags_assetsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    assets?: asset_tagsUncheckedUpdateManyWithoutTagNestedInput
+  }
+
+  export type tags_assetsCreateManyInput = {
+    id?: bigint | number
+    name: string
+  }
+
+  export type tags_assetsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tags_assetsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type assetsCreateInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    folder: foldersCreateNestedOneWithoutAssetsInput
+    tags?: asset_tagsCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsUncheckedCreateInput = {
+    id?: bigint | number
+    folder_id: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    tags?: asset_tagsUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: foldersUpdateOneRequiredWithoutAssetsNestedInput
+    tags?: asset_tagsUpdateManyWithoutAssetNestedInput
+  }
+
+  export type assetsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type assetsCreateManyInput = {
+    id?: bigint | number
+    folder_id: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+  }
+
+  export type assetsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type assetsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type asset_tagsCreateInput = {
+    asset: assetsCreateNestedOneWithoutTagsInput
+    tag: tags_assetsCreateNestedOneWithoutAssetsInput
+  }
+
+  export type asset_tagsUncheckedCreateInput = {
+    asset_id: bigint | number
+    tag_id: bigint | number
+  }
+
+  export type asset_tagsUpdateInput = {
+    asset?: assetsUpdateOneRequiredWithoutTagsNestedInput
+    tag?: tags_assetsUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type asset_tagsUncheckedUpdateInput = {
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type asset_tagsCreateManyInput = {
+    asset_id: bigint | number
+    tag_id: bigint | number
+  }
+
+  export type asset_tagsUpdateManyMutationInput = {
+
+  }
+
+  export type asset_tagsUncheckedUpdateManyInput = {
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -126630,6 +132212,222 @@ export namespace Prisma {
 
   export type web_metadataSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type FoldersNullableScalarRelationFilter = {
+    is?: foldersWhereInput | null
+    isNot?: foldersWhereInput | null
+  }
+
+  export type FoldersListRelationFilter = {
+    every?: foldersWhereInput
+    some?: foldersWhereInput
+    none?: foldersWhereInput
+  }
+
+  export type AssetsListRelationFilter = {
+    every?: assetsWhereInput
+    some?: assetsWhereInput
+    none?: assetsWhereInput
+  }
+
+  export type foldersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type assetsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type foldersCountOrderByAggregateInput = {
+    id?: SortOrder
+    parent_id?: SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type foldersAvgOrderByAggregateInput = {
+    id?: SortOrder
+    parent_id?: SortOrder
+  }
+
+  export type foldersMaxOrderByAggregateInput = {
+    id?: SortOrder
+    parent_id?: SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type foldersMinOrderByAggregateInput = {
+    id?: SortOrder
+    parent_id?: SortOrder
+    name?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type foldersSumOrderByAggregateInput = {
+    id?: SortOrder
+    parent_id?: SortOrder
+  }
+
+  export type Asset_tagsListRelationFilter = {
+    every?: asset_tagsWhereInput
+    some?: asset_tagsWhereInput
+    none?: asset_tagsWhereInput
+  }
+
+  export type asset_tagsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type tags_assetsCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type tags_assetsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type tags_assetsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type tags_assetsMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type tags_assetsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type Enumasset_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumasset_typeFilter<$PrismaModel> | $Enums.asset_type
+  }
+
+  export type FoldersScalarRelationFilter = {
+    is?: foldersWhereInput
+    isNot?: foldersWhereInput
+  }
+
+  export type assetsCountOrderByAggregateInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    name?: SortOrder
+    caption?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    file_ext?: SortOrder
+    size_bytes?: SortOrder
+    size_megabytes?: SortOrder
+    sha256?: SortOrder
+    last_verified?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type assetsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    size_bytes?: SortOrder
+    size_megabytes?: SortOrder
+  }
+
+  export type assetsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    name?: SortOrder
+    caption?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    file_ext?: SortOrder
+    size_bytes?: SortOrder
+    size_megabytes?: SortOrder
+    sha256?: SortOrder
+    last_verified?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type assetsMinOrderByAggregateInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    name?: SortOrder
+    caption?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    url?: SortOrder
+    file_ext?: SortOrder
+    size_bytes?: SortOrder
+    size_megabytes?: SortOrder
+    sha256?: SortOrder
+    last_verified?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type assetsSumOrderByAggregateInput = {
+    id?: SortOrder
+    folder_id?: SortOrder
+    size_bytes?: SortOrder
+    size_megabytes?: SortOrder
+  }
+
+  export type Enumasset_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumasset_typeWithAggregatesFilter<$PrismaModel> | $Enums.asset_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumasset_typeFilter<$PrismaModel>
+    _max?: NestedEnumasset_typeFilter<$PrismaModel>
+  }
+
+  export type AssetsScalarRelationFilter = {
+    is?: assetsWhereInput
+    isNot?: assetsWhereInput
+  }
+
+  export type Tags_assetsScalarRelationFilter = {
+    is?: tags_assetsWhereInput
+    isNot?: tags_assetsWhereInput
+  }
+
+  export type asset_tagsAsset_idTag_idCompoundUniqueInput = {
+    asset_id: bigint | number
+    tag_id: bigint | number
+  }
+
+  export type asset_tagsCountOrderByAggregateInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+  }
+
+  export type asset_tagsAvgOrderByAggregateInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+  }
+
+  export type asset_tagsMaxOrderByAggregateInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+  }
+
+  export type asset_tagsMinOrderByAggregateInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
+  }
+
+  export type asset_tagsSumOrderByAggregateInput = {
+    asset_id?: SortOrder
+    tag_id?: SortOrder
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -132461,6 +138259,236 @@ export namespace Prisma {
     deleteMany?: vehicle_unitsScalarWhereInput | vehicle_unitsScalarWhereInput[]
   }
 
+  export type foldersCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<foldersCreateWithoutChildrenInput, foldersUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: foldersCreateOrConnectWithoutChildrenInput
+    connect?: foldersWhereUniqueInput
+  }
+
+  export type foldersCreateNestedManyWithoutParentInput = {
+    create?: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput> | foldersCreateWithoutParentInput[] | foldersUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: foldersCreateOrConnectWithoutParentInput | foldersCreateOrConnectWithoutParentInput[]
+    createMany?: foldersCreateManyParentInputEnvelope
+    connect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+  }
+
+  export type assetsCreateNestedManyWithoutFolderInput = {
+    create?: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput> | assetsCreateWithoutFolderInput[] | assetsUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: assetsCreateOrConnectWithoutFolderInput | assetsCreateOrConnectWithoutFolderInput[]
+    createMany?: assetsCreateManyFolderInputEnvelope
+    connect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+  }
+
+  export type foldersUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput> | foldersCreateWithoutParentInput[] | foldersUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: foldersCreateOrConnectWithoutParentInput | foldersCreateOrConnectWithoutParentInput[]
+    createMany?: foldersCreateManyParentInputEnvelope
+    connect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+  }
+
+  export type assetsUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput> | assetsCreateWithoutFolderInput[] | assetsUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: assetsCreateOrConnectWithoutFolderInput | assetsCreateOrConnectWithoutFolderInput[]
+    createMany?: assetsCreateManyFolderInputEnvelope
+    connect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+  }
+
+  export type foldersUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<foldersCreateWithoutChildrenInput, foldersUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: foldersCreateOrConnectWithoutChildrenInput
+    upsert?: foldersUpsertWithoutChildrenInput
+    disconnect?: foldersWhereInput | boolean
+    delete?: foldersWhereInput | boolean
+    connect?: foldersWhereUniqueInput
+    update?: XOR<XOR<foldersUpdateToOneWithWhereWithoutChildrenInput, foldersUpdateWithoutChildrenInput>, foldersUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type foldersUpdateManyWithoutParentNestedInput = {
+    create?: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput> | foldersCreateWithoutParentInput[] | foldersUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: foldersCreateOrConnectWithoutParentInput | foldersCreateOrConnectWithoutParentInput[]
+    upsert?: foldersUpsertWithWhereUniqueWithoutParentInput | foldersUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: foldersCreateManyParentInputEnvelope
+    set?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    disconnect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    delete?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    connect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    update?: foldersUpdateWithWhereUniqueWithoutParentInput | foldersUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: foldersUpdateManyWithWhereWithoutParentInput | foldersUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: foldersScalarWhereInput | foldersScalarWhereInput[]
+  }
+
+  export type assetsUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput> | assetsCreateWithoutFolderInput[] | assetsUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: assetsCreateOrConnectWithoutFolderInput | assetsCreateOrConnectWithoutFolderInput[]
+    upsert?: assetsUpsertWithWhereUniqueWithoutFolderInput | assetsUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: assetsCreateManyFolderInputEnvelope
+    set?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    disconnect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    delete?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    connect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    update?: assetsUpdateWithWhereUniqueWithoutFolderInput | assetsUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: assetsUpdateManyWithWhereWithoutFolderInput | assetsUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: assetsScalarWhereInput | assetsScalarWhereInput[]
+  }
+
+  export type foldersUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput> | foldersCreateWithoutParentInput[] | foldersUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: foldersCreateOrConnectWithoutParentInput | foldersCreateOrConnectWithoutParentInput[]
+    upsert?: foldersUpsertWithWhereUniqueWithoutParentInput | foldersUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: foldersCreateManyParentInputEnvelope
+    set?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    disconnect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    delete?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    connect?: foldersWhereUniqueInput | foldersWhereUniqueInput[]
+    update?: foldersUpdateWithWhereUniqueWithoutParentInput | foldersUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: foldersUpdateManyWithWhereWithoutParentInput | foldersUpdateManyWithWhereWithoutParentInput[]
+    deleteMany?: foldersScalarWhereInput | foldersScalarWhereInput[]
+  }
+
+  export type assetsUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput> | assetsCreateWithoutFolderInput[] | assetsUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: assetsCreateOrConnectWithoutFolderInput | assetsCreateOrConnectWithoutFolderInput[]
+    upsert?: assetsUpsertWithWhereUniqueWithoutFolderInput | assetsUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: assetsCreateManyFolderInputEnvelope
+    set?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    disconnect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    delete?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    connect?: assetsWhereUniqueInput | assetsWhereUniqueInput[]
+    update?: assetsUpdateWithWhereUniqueWithoutFolderInput | assetsUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: assetsUpdateManyWithWhereWithoutFolderInput | assetsUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: assetsScalarWhereInput | assetsScalarWhereInput[]
+  }
+
+  export type asset_tagsCreateNestedManyWithoutTagInput = {
+    create?: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput> | asset_tagsCreateWithoutTagInput[] | asset_tagsUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutTagInput | asset_tagsCreateOrConnectWithoutTagInput[]
+    createMany?: asset_tagsCreateManyTagInputEnvelope
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+  }
+
+  export type asset_tagsUncheckedCreateNestedManyWithoutTagInput = {
+    create?: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput> | asset_tagsCreateWithoutTagInput[] | asset_tagsUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutTagInput | asset_tagsCreateOrConnectWithoutTagInput[]
+    createMany?: asset_tagsCreateManyTagInputEnvelope
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+  }
+
+  export type asset_tagsUpdateManyWithoutTagNestedInput = {
+    create?: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput> | asset_tagsCreateWithoutTagInput[] | asset_tagsUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutTagInput | asset_tagsCreateOrConnectWithoutTagInput[]
+    upsert?: asset_tagsUpsertWithWhereUniqueWithoutTagInput | asset_tagsUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: asset_tagsCreateManyTagInputEnvelope
+    set?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    disconnect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    delete?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    update?: asset_tagsUpdateWithWhereUniqueWithoutTagInput | asset_tagsUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: asset_tagsUpdateManyWithWhereWithoutTagInput | asset_tagsUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+  }
+
+  export type asset_tagsUncheckedUpdateManyWithoutTagNestedInput = {
+    create?: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput> | asset_tagsCreateWithoutTagInput[] | asset_tagsUncheckedCreateWithoutTagInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutTagInput | asset_tagsCreateOrConnectWithoutTagInput[]
+    upsert?: asset_tagsUpsertWithWhereUniqueWithoutTagInput | asset_tagsUpsertWithWhereUniqueWithoutTagInput[]
+    createMany?: asset_tagsCreateManyTagInputEnvelope
+    set?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    disconnect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    delete?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    update?: asset_tagsUpdateWithWhereUniqueWithoutTagInput | asset_tagsUpdateWithWhereUniqueWithoutTagInput[]
+    updateMany?: asset_tagsUpdateManyWithWhereWithoutTagInput | asset_tagsUpdateManyWithWhereWithoutTagInput[]
+    deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+  }
+
+  export type foldersCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<foldersCreateWithoutAssetsInput, foldersUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: foldersCreateOrConnectWithoutAssetsInput
+    connect?: foldersWhereUniqueInput
+  }
+
+  export type asset_tagsCreateNestedManyWithoutAssetInput = {
+    create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
+    createMany?: asset_tagsCreateManyAssetInputEnvelope
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+  }
+
+  export type asset_tagsUncheckedCreateNestedManyWithoutAssetInput = {
+    create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
+    createMany?: asset_tagsCreateManyAssetInputEnvelope
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+  }
+
+  export type Enumasset_typeFieldUpdateOperationsInput = {
+    set?: $Enums.asset_type
+  }
+
+  export type foldersUpdateOneRequiredWithoutAssetsNestedInput = {
+    create?: XOR<foldersCreateWithoutAssetsInput, foldersUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: foldersCreateOrConnectWithoutAssetsInput
+    upsert?: foldersUpsertWithoutAssetsInput
+    connect?: foldersWhereUniqueInput
+    update?: XOR<XOR<foldersUpdateToOneWithWhereWithoutAssetsInput, foldersUpdateWithoutAssetsInput>, foldersUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type asset_tagsUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
+    upsert?: asset_tagsUpsertWithWhereUniqueWithoutAssetInput | asset_tagsUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: asset_tagsCreateManyAssetInputEnvelope
+    set?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    disconnect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    delete?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    update?: asset_tagsUpdateWithWhereUniqueWithoutAssetInput | asset_tagsUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: asset_tagsUpdateManyWithWhereWithoutAssetInput | asset_tagsUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+  }
+
+  export type asset_tagsUncheckedUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
+    upsert?: asset_tagsUpsertWithWhereUniqueWithoutAssetInput | asset_tagsUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: asset_tagsCreateManyAssetInputEnvelope
+    set?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    disconnect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    delete?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+    update?: asset_tagsUpdateWithWhereUniqueWithoutAssetInput | asset_tagsUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: asset_tagsUpdateManyWithWhereWithoutAssetInput | asset_tagsUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+  }
+
+  export type assetsCreateNestedOneWithoutTagsInput = {
+    create?: XOR<assetsCreateWithoutTagsInput, assetsUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: assetsCreateOrConnectWithoutTagsInput
+    connect?: assetsWhereUniqueInput
+  }
+
+  export type tags_assetsCreateNestedOneWithoutAssetsInput = {
+    create?: XOR<tags_assetsCreateWithoutAssetsInput, tags_assetsUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: tags_assetsCreateOrConnectWithoutAssetsInput
+    connect?: tags_assetsWhereUniqueInput
+  }
+
+  export type assetsUpdateOneRequiredWithoutTagsNestedInput = {
+    create?: XOR<assetsCreateWithoutTagsInput, assetsUncheckedCreateWithoutTagsInput>
+    connectOrCreate?: assetsCreateOrConnectWithoutTagsInput
+    upsert?: assetsUpsertWithoutTagsInput
+    connect?: assetsWhereUniqueInput
+    update?: XOR<XOR<assetsUpdateToOneWithWhereWithoutTagsInput, assetsUpdateWithoutTagsInput>, assetsUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type tags_assetsUpdateOneRequiredWithoutAssetsNestedInput = {
+    create?: XOR<tags_assetsCreateWithoutAssetsInput, tags_assetsUncheckedCreateWithoutAssetsInput>
+    connectOrCreate?: tags_assetsCreateOrConnectWithoutAssetsInput
+    upsert?: tags_assetsUpsertWithoutAssetsInput
+    connect?: tags_assetsWhereUniqueInput
+    update?: XOR<XOR<tags_assetsUpdateToOneWithWhereWithoutAssetsInput, tags_assetsUpdateWithoutAssetsInput>, tags_assetsUncheckedUpdateWithoutAssetsInput>
+  }
+
   export type NestedBigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -132875,6 +138903,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumasset_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumasset_typeFilter<$PrismaModel> | $Enums.asset_type
+  }
+
+  export type NestedEnumasset_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumasset_typeWithAggregatesFilter<$PrismaModel> | $Enums.asset_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumasset_typeFilter<$PrismaModel>
+    _max?: NestedEnumasset_typeFilter<$PrismaModel>
   }
 
   export type activity_categoriesCreateWithoutActivitiesInput = {
@@ -151492,6 +157537,430 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type foldersCreateWithoutChildrenInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+    parent?: foldersCreateNestedOneWithoutChildrenInput
+    assets?: assetsCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersUncheckedCreateWithoutChildrenInput = {
+    id?: bigint | number
+    parent_id?: bigint | number | null
+    name: string
+    created_at?: Date | string
+    assets?: assetsUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersCreateOrConnectWithoutChildrenInput = {
+    where: foldersWhereUniqueInput
+    create: XOR<foldersCreateWithoutChildrenInput, foldersUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type foldersCreateWithoutParentInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+    children?: foldersCreateNestedManyWithoutParentInput
+    assets?: assetsCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersUncheckedCreateWithoutParentInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+    children?: foldersUncheckedCreateNestedManyWithoutParentInput
+    assets?: assetsUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type foldersCreateOrConnectWithoutParentInput = {
+    where: foldersWhereUniqueInput
+    create: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput>
+  }
+
+  export type foldersCreateManyParentInputEnvelope = {
+    data: foldersCreateManyParentInput | foldersCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type assetsCreateWithoutFolderInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    tags?: asset_tagsCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsUncheckedCreateWithoutFolderInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    tags?: asset_tagsUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsCreateOrConnectWithoutFolderInput = {
+    where: assetsWhereUniqueInput
+    create: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput>
+  }
+
+  export type assetsCreateManyFolderInputEnvelope = {
+    data: assetsCreateManyFolderInput | assetsCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type foldersUpsertWithoutChildrenInput = {
+    update: XOR<foldersUpdateWithoutChildrenInput, foldersUncheckedUpdateWithoutChildrenInput>
+    create: XOR<foldersCreateWithoutChildrenInput, foldersUncheckedCreateWithoutChildrenInput>
+    where?: foldersWhereInput
+  }
+
+  export type foldersUpdateToOneWithWhereWithoutChildrenInput = {
+    where?: foldersWhereInput
+    data: XOR<foldersUpdateWithoutChildrenInput, foldersUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type foldersUpdateWithoutChildrenInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: foldersUpdateOneWithoutChildrenNestedInput
+    assets?: assetsUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersUncheckedUpdateWithoutChildrenInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    parent_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assets?: assetsUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersUpsertWithWhereUniqueWithoutParentInput = {
+    where: foldersWhereUniqueInput
+    update: XOR<foldersUpdateWithoutParentInput, foldersUncheckedUpdateWithoutParentInput>
+    create: XOR<foldersCreateWithoutParentInput, foldersUncheckedCreateWithoutParentInput>
+  }
+
+  export type foldersUpdateWithWhereUniqueWithoutParentInput = {
+    where: foldersWhereUniqueInput
+    data: XOR<foldersUpdateWithoutParentInput, foldersUncheckedUpdateWithoutParentInput>
+  }
+
+  export type foldersUpdateManyWithWhereWithoutParentInput = {
+    where: foldersScalarWhereInput
+    data: XOR<foldersUpdateManyMutationInput, foldersUncheckedUpdateManyWithoutParentInput>
+  }
+
+  export type foldersScalarWhereInput = {
+    AND?: foldersScalarWhereInput | foldersScalarWhereInput[]
+    OR?: foldersScalarWhereInput[]
+    NOT?: foldersScalarWhereInput | foldersScalarWhereInput[]
+    id?: BigIntFilter<"folders"> | bigint | number
+    parent_id?: BigIntNullableFilter<"folders"> | bigint | number | null
+    name?: StringFilter<"folders"> | string
+    created_at?: DateTimeFilter<"folders"> | Date | string
+  }
+
+  export type assetsUpsertWithWhereUniqueWithoutFolderInput = {
+    where: assetsWhereUniqueInput
+    update: XOR<assetsUpdateWithoutFolderInput, assetsUncheckedUpdateWithoutFolderInput>
+    create: XOR<assetsCreateWithoutFolderInput, assetsUncheckedCreateWithoutFolderInput>
+  }
+
+  export type assetsUpdateWithWhereUniqueWithoutFolderInput = {
+    where: assetsWhereUniqueInput
+    data: XOR<assetsUpdateWithoutFolderInput, assetsUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type assetsUpdateManyWithWhereWithoutFolderInput = {
+    where: assetsScalarWhereInput
+    data: XOR<assetsUpdateManyMutationInput, assetsUncheckedUpdateManyWithoutFolderInput>
+  }
+
+  export type assetsScalarWhereInput = {
+    AND?: assetsScalarWhereInput | assetsScalarWhereInput[]
+    OR?: assetsScalarWhereInput[]
+    NOT?: assetsScalarWhereInput | assetsScalarWhereInput[]
+    id?: BigIntFilter<"assets"> | bigint | number
+    folder_id?: BigIntFilter<"assets"> | bigint | number
+    name?: StringFilter<"assets"> | string
+    caption?: StringNullableFilter<"assets"> | string | null
+    description?: StringNullableFilter<"assets"> | string | null
+    type?: Enumasset_typeFilter<"assets"> | $Enums.asset_type
+    url?: StringFilter<"assets"> | string
+    file_ext?: StringNullableFilter<"assets"> | string | null
+    size_bytes?: BigIntNullableFilter<"assets"> | bigint | number | null
+    size_megabytes?: DecimalNullableFilter<"assets"> | Decimal | DecimalJsLike | number | string | null
+    sha256?: StringNullableFilter<"assets"> | string | null
+    last_verified?: DateTimeNullableFilter<"assets"> | Date | string | null
+    is_active?: BoolFilter<"assets"> | boolean
+    created_at?: DateTimeFilter<"assets"> | Date | string
+  }
+
+  export type asset_tagsCreateWithoutTagInput = {
+    asset: assetsCreateNestedOneWithoutTagsInput
+  }
+
+  export type asset_tagsUncheckedCreateWithoutTagInput = {
+    asset_id: bigint | number
+  }
+
+  export type asset_tagsCreateOrConnectWithoutTagInput = {
+    where: asset_tagsWhereUniqueInput
+    create: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput>
+  }
+
+  export type asset_tagsCreateManyTagInputEnvelope = {
+    data: asset_tagsCreateManyTagInput | asset_tagsCreateManyTagInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type asset_tagsUpsertWithWhereUniqueWithoutTagInput = {
+    where: asset_tagsWhereUniqueInput
+    update: XOR<asset_tagsUpdateWithoutTagInput, asset_tagsUncheckedUpdateWithoutTagInput>
+    create: XOR<asset_tagsCreateWithoutTagInput, asset_tagsUncheckedCreateWithoutTagInput>
+  }
+
+  export type asset_tagsUpdateWithWhereUniqueWithoutTagInput = {
+    where: asset_tagsWhereUniqueInput
+    data: XOR<asset_tagsUpdateWithoutTagInput, asset_tagsUncheckedUpdateWithoutTagInput>
+  }
+
+  export type asset_tagsUpdateManyWithWhereWithoutTagInput = {
+    where: asset_tagsScalarWhereInput
+    data: XOR<asset_tagsUpdateManyMutationInput, asset_tagsUncheckedUpdateManyWithoutTagInput>
+  }
+
+  export type asset_tagsScalarWhereInput = {
+    AND?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+    OR?: asset_tagsScalarWhereInput[]
+    NOT?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+    asset_id?: BigIntFilter<"asset_tags"> | bigint | number
+    tag_id?: BigIntFilter<"asset_tags"> | bigint | number
+  }
+
+  export type foldersCreateWithoutAssetsInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+    parent?: foldersCreateNestedOneWithoutChildrenInput
+    children?: foldersCreateNestedManyWithoutParentInput
+  }
+
+  export type foldersUncheckedCreateWithoutAssetsInput = {
+    id?: bigint | number
+    parent_id?: bigint | number | null
+    name: string
+    created_at?: Date | string
+    children?: foldersUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type foldersCreateOrConnectWithoutAssetsInput = {
+    where: foldersWhereUniqueInput
+    create: XOR<foldersCreateWithoutAssetsInput, foldersUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type asset_tagsCreateWithoutAssetInput = {
+    tag: tags_assetsCreateNestedOneWithoutAssetsInput
+  }
+
+  export type asset_tagsUncheckedCreateWithoutAssetInput = {
+    tag_id: bigint | number
+  }
+
+  export type asset_tagsCreateOrConnectWithoutAssetInput = {
+    where: asset_tagsWhereUniqueInput
+    create: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput>
+  }
+
+  export type asset_tagsCreateManyAssetInputEnvelope = {
+    data: asset_tagsCreateManyAssetInput | asset_tagsCreateManyAssetInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type foldersUpsertWithoutAssetsInput = {
+    update: XOR<foldersUpdateWithoutAssetsInput, foldersUncheckedUpdateWithoutAssetsInput>
+    create: XOR<foldersCreateWithoutAssetsInput, foldersUncheckedCreateWithoutAssetsInput>
+    where?: foldersWhereInput
+  }
+
+  export type foldersUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: foldersWhereInput
+    data: XOR<foldersUpdateWithoutAssetsInput, foldersUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type foldersUpdateWithoutAssetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: foldersUpdateOneWithoutChildrenNestedInput
+    children?: foldersUpdateManyWithoutParentNestedInput
+  }
+
+  export type foldersUncheckedUpdateWithoutAssetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    parent_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: foldersUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type asset_tagsUpsertWithWhereUniqueWithoutAssetInput = {
+    where: asset_tagsWhereUniqueInput
+    update: XOR<asset_tagsUpdateWithoutAssetInput, asset_tagsUncheckedUpdateWithoutAssetInput>
+    create: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput>
+  }
+
+  export type asset_tagsUpdateWithWhereUniqueWithoutAssetInput = {
+    where: asset_tagsWhereUniqueInput
+    data: XOR<asset_tagsUpdateWithoutAssetInput, asset_tagsUncheckedUpdateWithoutAssetInput>
+  }
+
+  export type asset_tagsUpdateManyWithWhereWithoutAssetInput = {
+    where: asset_tagsScalarWhereInput
+    data: XOR<asset_tagsUpdateManyMutationInput, asset_tagsUncheckedUpdateManyWithoutAssetInput>
+  }
+
+  export type assetsCreateWithoutTagsInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    folder: foldersCreateNestedOneWithoutAssetsInput
+  }
+
+  export type assetsUncheckedCreateWithoutTagsInput = {
+    id?: bigint | number
+    folder_id: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+  }
+
+  export type assetsCreateOrConnectWithoutTagsInput = {
+    where: assetsWhereUniqueInput
+    create: XOR<assetsCreateWithoutTagsInput, assetsUncheckedCreateWithoutTagsInput>
+  }
+
+  export type tags_assetsCreateWithoutAssetsInput = {
+    id?: bigint | number
+    name: string
+  }
+
+  export type tags_assetsUncheckedCreateWithoutAssetsInput = {
+    id?: bigint | number
+    name: string
+  }
+
+  export type tags_assetsCreateOrConnectWithoutAssetsInput = {
+    where: tags_assetsWhereUniqueInput
+    create: XOR<tags_assetsCreateWithoutAssetsInput, tags_assetsUncheckedCreateWithoutAssetsInput>
+  }
+
+  export type assetsUpsertWithoutTagsInput = {
+    update: XOR<assetsUpdateWithoutTagsInput, assetsUncheckedUpdateWithoutTagsInput>
+    create: XOR<assetsCreateWithoutTagsInput, assetsUncheckedCreateWithoutTagsInput>
+    where?: assetsWhereInput
+  }
+
+  export type assetsUpdateToOneWithWhereWithoutTagsInput = {
+    where?: assetsWhereInput
+    data: XOR<assetsUpdateWithoutTagsInput, assetsUncheckedUpdateWithoutTagsInput>
+  }
+
+  export type assetsUpdateWithoutTagsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: foldersUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type assetsUncheckedUpdateWithoutTagsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type tags_assetsUpsertWithoutAssetsInput = {
+    update: XOR<tags_assetsUpdateWithoutAssetsInput, tags_assetsUncheckedUpdateWithoutAssetsInput>
+    create: XOR<tags_assetsCreateWithoutAssetsInput, tags_assetsUncheckedCreateWithoutAssetsInput>
+    where?: tags_assetsWhereInput
+  }
+
+  export type tags_assetsUpdateToOneWithWhereWithoutAssetsInput = {
+    where?: tags_assetsWhereInput
+    data: XOR<tags_assetsUpdateWithoutAssetsInput, tags_assetsUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type tags_assetsUpdateWithoutAssetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type tags_assetsUncheckedUpdateWithoutAssetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type package_itinerary_day_detailsCreateManyActivitiesInput = {
     id?: bigint | number
     itinerary_day_id?: bigint | number | null
@@ -157432,6 +163901,132 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type foldersCreateManyParentInput = {
+    id?: bigint | number
+    name: string
+    created_at?: Date | string
+  }
+
+  export type assetsCreateManyFolderInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+  }
+
+  export type foldersUpdateWithoutParentInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: foldersUpdateManyWithoutParentNestedInput
+    assets?: assetsUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersUncheckedUpdateWithoutParentInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: foldersUncheckedUpdateManyWithoutParentNestedInput
+    assets?: assetsUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type foldersUncheckedUpdateManyWithoutParentInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type assetsUpdateWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: asset_tagsUpdateManyWithoutAssetNestedInput
+  }
+
+  export type assetsUncheckedUpdateWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type assetsUncheckedUpdateManyWithoutFolderInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type asset_tagsCreateManyTagInput = {
+    asset_id: bigint | number
+  }
+
+  export type asset_tagsUpdateWithoutTagInput = {
+    asset?: assetsUpdateOneRequiredWithoutTagsNestedInput
+  }
+
+  export type asset_tagsUncheckedUpdateWithoutTagInput = {
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type asset_tagsUncheckedUpdateManyWithoutTagInput = {
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type asset_tagsCreateManyAssetInput = {
+    tag_id: bigint | number
+  }
+
+  export type asset_tagsUpdateWithoutAssetInput = {
+    tag?: tags_assetsUpdateOneRequiredWithoutAssetsNestedInput
+  }
+
+  export type asset_tagsUncheckedUpdateWithoutAssetInput = {
+    tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type asset_tagsUncheckedUpdateManyWithoutAssetInput = {
+    tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
 

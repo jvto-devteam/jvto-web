@@ -1146,6 +1146,40 @@ exports.Prisma.Web_metadataScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.FoldersScalarFieldEnum = {
+  id: 'id',
+  parent_id: 'parent_id',
+  name: 'name',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Tags_assetsScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.AssetsScalarFieldEnum = {
+  id: 'id',
+  folder_id: 'folder_id',
+  name: 'name',
+  caption: 'caption',
+  description: 'description',
+  type: 'type',
+  url: 'url',
+  file_ext: 'file_ext',
+  size_bytes: 'size_bytes',
+  size_megabytes: 'size_megabytes',
+  sha256: 'sha256',
+  last_verified: 'last_verified',
+  is_active: 'is_active',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Asset_tagsScalarFieldEnum = {
+  asset_id: 'asset_id',
+  tag_id: 'tag_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1185,6 +1219,12 @@ exports.policy_document_type = exports.$Enums.policy_document_type = {
   inclusions_exclusions: 'inclusions_exclusions',
   privacy: 'privacy',
   guest_responsibilities: 'guest_responsibilities'
+};
+
+exports.asset_type = exports.$Enums.asset_type = {
+  image: 'image',
+  video: 'video',
+  document: 'document'
 };
 
 exports.Prisma.ModelName = {
@@ -1266,7 +1306,11 @@ exports.Prisma.ModelName = {
   vehicle_units: 'vehicle_units',
   vendor_categories: 'vendor_categories',
   vendors: 'vendors',
-  web_metadata: 'web_metadata'
+  web_metadata: 'web_metadata',
+  folders: 'folders',
+  tags_assets: 'tags_assets',
+  assets: 'assets',
+  asset_tags: 'asset_tags'
 };
 
 /**
