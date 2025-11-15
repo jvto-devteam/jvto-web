@@ -1,6 +1,27 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: `
+              default-src 'self';
+              img-src 'self' data: https: blob:;
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+              style-src 'self' 'unsafe-inline' https:;
+              connect-src 'self' https:;
+              font-src 'self' https: data:;
+              frame-src 'self' https:;
+            `.replace(/\s{2,}/g, " ").trim(),
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
