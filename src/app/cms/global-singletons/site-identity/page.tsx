@@ -26,6 +26,38 @@ type PaymentAccount = {
   accountDetails: string;
 };
 
+type OperatingHours = {
+  Monday?: string;
+  Tuesday?: string;
+  Wednesday?: string;
+  Thursday?: string;
+  Friday?: string;
+  Saturday?: string;
+  Sunday?: string;
+};
+
+type OfficeAddress = {
+  street?: string;
+  city?: string;
+  operating_hours?: OperatingHours;
+};
+
+type AssociationMembership = {
+  name: string;
+  asset_url?: string;
+};
+
+type Founder = {
+  name?: string;
+  known_as?: string;
+  full_name?: string;
+  role_in_JVTO?: string;
+  status_dinas?: string;
+  public_mission_statement?: string;
+  social_role?: string;
+  asset_url?: string;
+};
+
 type SiteIdentity = {
   id: string;
   brand_name: string;
@@ -36,8 +68,13 @@ type SiteIdentity = {
   registration_ids: RegistrationId[];
   official_payment_accounts: PaymentAccount[];
   maps_listings: string[];
-  association_memberships: string[];
+  association_memberships: AssociationMembership[];
   org_schema_json_ld: any;
+
+  office_address?: OfficeAddress | null;
+  google_business_profile_url?: string | null;
+  founder?: Founder | null;
+
   created_at?: string | null;
   updated_at?: string | null;
 };
@@ -53,7 +90,6 @@ export default function SiteIdentityPage() {
   const [emailInput, setEmailInput] = useState("");
   const [waInput, setWaInput] = useState("");
   const [mapsInput, setMapsInput] = useState("");
-  const [assocInput, setAssocInput] = useState("");
 
   const [regForm, setRegForm] = useState<RegistrationId>({
     label: "",
@@ -63,6 +99,11 @@ export default function SiteIdentityPage() {
   const [payForm, setPayForm] = useState<PaymentAccount>({
     label: "",
     accountDetails: "",
+  });
+
+  const [assocForm, setAssocForm] = useState<AssociationMembership>({
+    name: "",
+    asset_url: "",
   });
 
   const loadData = async () => {
@@ -86,7 +127,26 @@ export default function SiteIdentityPage() {
         throw new Error(msg);
       }
 
-      const json: SiteIdentity = await res.json();
+      const raw: any = await res.json();
+
+      const normalizedAssoc: AssociationMembership[] = Array.isArray(
+        raw.association_memberships
+      )
+        ? raw.association_memberships.map((a: any) =>
+            typeof a === "string"
+              ? { name: a }
+              : {
+                  name: a?.name ?? "",
+                  asset_url: a?.asset_url ?? "",
+                }
+          )
+        : [];
+
+      const json: SiteIdentity = {
+        ...raw,
+        association_memberships: normalizedAssoc,
+      };
+
       setData(json);
     } catch (err: any) {
       console.error("loadData error:", err);
@@ -100,59 +160,9 @@ export default function SiteIdentityPage() {
     loadData();
   }, []);
 
-  const saveData = async () => {
+  const updateField = (field: keyof SiteIdentity, value: any) => {
     if (!data) return;
-
-    setError(null);
-    setSuccessMsg(null);
-    setSaving(true);
-
-    try {
-      // Generate org schema before saving
-      const orgSchema = generateOrgSchema();
-
-      const payload = {
-        brand_name: data.brand_name,
-        legal_entity_name: data.legal_entity_name,
-        official_website_url: data.official_website_url,
-        official_emails: data.official_emails,
-        official_whatsapp_numbers: data.official_whatsapp_numbers,
-        registration_ids: data.registration_ids,
-        official_payment_accounts: data.official_payment_accounts,
-        maps_listings: data.maps_listings,
-        association_memberships: data.association_memberships,
-        org_schema_json_ld: orgSchema,
-      };
-
-      const res = await fetch("/api/site-identity", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        let msg = "Failed to save site identity";
-        try {
-          const errorData = await res.json();
-          if (errorData?.message) msg = errorData.message;
-        } catch {
-          msg = `Save failed: ${res.status} ${res.statusText}`;
-        }
-        throw new Error(msg);
-      }
-
-      const updated: SiteIdentity = await res.json();
-      setData(updated);
-      setSuccessMsg("Site identity saved successfully! ✓");
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMsg(null), 3000);
-    } catch (err: any) {
-      console.error("saveData error:", err);
-      setError(err.message || "Failed to save site identity");
-    } finally {
-      setSaving(false);
-    }
+    setData({ ...data, [field]: value });
   };
 
   const generateOrgSchema = () => {
@@ -187,18 +197,131 @@ export default function SiteIdentityPage() {
     }
 
     if (data.association_memberships.length > 0) {
-      schema.memberOf = data.association_memberships.map((a) => ({
-        "@type": "Organization",
-        name: a,
-      }));
+      schema.memberOf = data.association_memberships
+        .filter((a) => a.name)
+        .map((a) => ({
+          "@type": "Organization",
+          name: a.name,
+        }));
+    }
+
+    // Office address -> PostalAddress
+    if (
+      data.office_address &&
+      (data.office_address.street || data.office_address.city)
+    ) {
+      schema.address = {
+        "@type": "PostalAddress",
+        streetAddress: data.office_address.street,
+        addressLocality: data.office_address.city,
+      };
+    }
+
+    // Google Business Profile URL -> sameAs
+    if (
+      data.google_business_profile_url &&
+      data.google_business_profile_url !== "To be confirmed"
+    ) {
+      const sameAs: string[] = [];
+      sameAs.push(data.google_business_profile_url);
+      schema.sameAs = sameAs;
+    }
+
+    // Founder info -> Person
+    if (data.founder && (data.founder.name || data.founder.full_name)) {
+      const founderSchema: any = {
+        "@type": "Person",
+        name: data.founder.full_name || data.founder.name,
+        givenName: data.founder.name,
+        jobTitle: data.founder.role_in_JVTO,
+      };
+
+      if (data.founder.asset_url) {
+        founderSchema.image = data.founder.asset_url;
+      }
+
+      schema.founder = founderSchema;
+
+      if (data.founder.public_mission_statement && !schema.description) {
+        schema.description = data.founder.public_mission_statement;
+      }
     }
 
     return schema;
   };
 
-  const updateField = (field: keyof SiteIdentity, value: any) => {
+  const saveData = async () => {
     if (!data) return;
-    setData({ ...data, [field]: value });
+
+    setError(null);
+    setSuccessMsg(null);
+    setSaving(true);
+
+    try {
+      const orgSchema = generateOrgSchema();
+
+      const payload = {
+        brand_name: data.brand_name,
+        legal_entity_name: data.legal_entity_name,
+        official_website_url: data.official_website_url,
+        official_emails: data.official_emails,
+        official_whatsapp_numbers: data.official_whatsapp_numbers,
+        registration_ids: data.registration_ids,
+        official_payment_accounts: data.official_payment_accounts,
+        maps_listings: data.maps_listings,
+        association_memberships: data.association_memberships,
+        office_address: data.office_address,
+        google_business_profile_url: data.google_business_profile_url,
+        founder: data.founder,
+        org_schema_json_ld: orgSchema,
+      };
+
+      const res = await fetch("/api/site-identity", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        let msg = "Failed to save site identity";
+        try {
+          const errorData = await res.json();
+          if (errorData?.message) msg = errorData.message;
+        } catch {
+          msg = `Save failed: ${res.status} ${res.statusText}`;
+        }
+        throw new Error(msg);
+      }
+
+      const updated: any = await res.json();
+
+      const normalizedAssoc: AssociationMembership[] =
+        Array.isArray(updated.association_memberships)
+          ? updated.association_memberships.map((a: any) =>
+              typeof a === "string"
+                ? { name: a }
+                : {
+                    name: a?.name ?? "",
+                    asset_url: a?.asset_url ?? "",
+                  }
+            )
+          : [];
+
+      const updatedData: SiteIdentity = {
+        ...updated,
+        association_memberships: normalizedAssoc,
+      };
+
+      setData(updatedData);
+      setSuccessMsg("Site identity saved successfully! ✓");
+
+      setTimeout(() => setSuccessMsg(null), 3000);
+    } catch (err: any) {
+      console.error("saveData error:", err);
+      setError(err.message || "Failed to save site identity");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const addEmail = () => {
@@ -281,12 +404,15 @@ export default function SiteIdentityPage() {
   };
 
   const addAssoc = () => {
-    if (!assocInput.trim() || !data) return;
+    if (!assocForm.name.trim() || !data) return;
     updateField("association_memberships", [
       ...data.association_memberships,
-      assocInput.trim(),
+      {
+        name: assocForm.name.trim(),
+        asset_url: assocForm.asset_url?.trim() || undefined,
+      },
     ]);
-    setAssocInput("");
+    setAssocForm({ name: "", asset_url: "" });
   };
 
   const removeAssoc = (index: number) => {
@@ -328,7 +454,7 @@ export default function SiteIdentityPage() {
           <div className="h-9 w-9 rounded-lg bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center">
             <Building2 className="w-5 h-5 text-emerald-400" />
           </div>
-          <div>
+        <div>
             <h1 className="text-lg font-semibold text-slate-50">
               Site Identity
             </h1>
@@ -426,6 +552,21 @@ export default function SiteIdentityPage() {
               placeholder="https://yourdomain.com"
             />
           </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Google Business Profile URL
+            </label>
+            <input
+              type="url"
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              value={data.google_business_profile_url ?? ""}
+              onChange={(e) =>
+                updateField("google_business_profile_url", e.target.value)
+              }
+              placeholder="https://www.google.com/maps/place/..."
+            />
+          </div>
         </div>
       </div>
 
@@ -446,7 +587,7 @@ export default function SiteIdentityPage() {
               value={emailInput}
               onChange={(e) => setEmailInput(e.target.value)}
               placeholder="e.g. hello@yourdomain.com"
-              onKeyPress={(e) => e.key === "Enter" && addEmail()}
+              onKeyDown={(e) => e.key === "Enter" && addEmail()}
             />
             <button
               onClick={addEmail}
@@ -492,7 +633,7 @@ export default function SiteIdentityPage() {
               value={waInput}
               onChange={(e) => setWaInput(e.target.value)}
               placeholder="e.g. +62 812-xxxx-xxxx"
-              onKeyPress={(e) => e.key === "Enter" && addWA()}
+              onKeyDown={(e) => e.key === "Enter" && addWA()}
             />
             <button
               onClick={addWA}
@@ -567,7 +708,7 @@ export default function SiteIdentityPage() {
               Add Registration ID
             </button>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2 max-h-52 overflow-y-auto">
             {data.registration_ids.map((r, i) => (
               <li
                 key={i}
@@ -637,7 +778,7 @@ export default function SiteIdentityPage() {
               Add Payment Account
             </button>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2 max-h-52 overflow-y-auto">
             {data.official_payment_accounts.map((p, i) => (
               <li
                 key={i}
@@ -682,7 +823,7 @@ export default function SiteIdentityPage() {
               value={mapsInput}
               onChange={(e) => setMapsInput(e.target.value)}
               placeholder="https://maps.google.com/..."
-              onKeyPress={(e) => e.key === "Enter" && addMaps()}
+              onKeyDown={(e) => e.key === "Enter" && addMaps()}
             />
             <button
               onClick={addMaps}
@@ -691,7 +832,7 @@ export default function SiteIdentityPage() {
               Add
             </button>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2 max-h-52 overflow-y-auto">
             {data.maps_listings.map((m, i) => (
               <li
                 key={i}
@@ -729,34 +870,59 @@ export default function SiteIdentityPage() {
               Association Memberships
             </h3>
           </div>
-          <div className="flex gap-2">
+          <div className="space-y-2">
             <input
-              className="flex-1 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-              value={assocInput}
-              onChange={(e) => setAssocInput(e.target.value)}
-              placeholder="e.g. ASITA, HPI, PHRI"
-              onKeyPress={(e) => e.key === "Enter" && addAssoc()}
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              value={assocForm.name}
+              onChange={(e) =>
+                setAssocForm({ ...assocForm, name: e.target.value })
+              }
+              placeholder="Association name (e.g. ASITA, HPI, PHRI)"
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              value={assocForm.asset_url ?? ""}
+              onChange={(e) =>
+                setAssocForm({ ...assocForm, asset_url: e.target.value })
+              }
+              placeholder="Logo / asset URL (optional)"
             />
             <button
               onClick={addAssoc}
-              className="px-3 py-2 bg-emerald-500 hover:bg-emerald-400 rounded-md text-xs font-semibold text-slate-950"
+              className="w-full px-3 py-2 bg-emerald-500 hover:bg-emerald-400 rounded-md text-xs font-semibold text-slate-950"
             >
-              Add
+              Add Association
             </button>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2 max-h-52 overflow-y-auto">
             {data.association_memberships.map((a, i) => (
               <li
                 key={i}
-                className="flex items-center justify-between text-xs bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2"
+                className="text-xs bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2"
               >
-                <span className="text-slate-200">{a}</span>
-                <button
-                  onClick={() => removeAssoc(i)}
-                  className="text-slate-400 hover:text-red-400 text-[10px]"
-                >
-                  Remove
-                </button>
+                <div className="flex justify-between items-start gap-3">
+                  <div className="space-y-1">
+                    <div className="font-medium text-slate-100">
+                      {a.name || "-"}
+                    </div>
+                    {a.asset_url && (
+                      <a
+                        href={a.asset_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-sky-400 underline break-all"
+                      >
+                        Asset URL
+                      </a>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => removeAssoc(i)}
+                    className="text-slate-400 hover:text-red-400 text-[10px]"
+                  >
+                    Remove
+                  </button>
+                </div>
               </li>
             ))}
             {data.association_memberships.length === 0 && (
@@ -768,8 +934,180 @@ export default function SiteIdentityPage() {
         </div>
       </div>
 
-      {/* Preview Organization Schema */}
-      {/* <div className="rounded-lg border border-slate-800 bg-slate-950/40 */}
+      {/* Office Address & Founder */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Office Address */}
+        <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4 md:p-5 space-y-3">
+          <div className="flex items-center gap-2">
+            <Map className="w-4 h-4 text-slate-400" />
+            <h3 className="text-sm font-semibold text-slate-100">
+              Office Address
+            </h3>
+          </div>
+          <div className="space-y-2">
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Street address"
+              value={data.office_address?.street ?? ""}
+              onChange={(e) =>
+                updateField("office_address", {
+                  ...(data.office_address ?? {}),
+                  street: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="City"
+              value={data.office_address?.city ?? ""}
+              onChange={(e) =>
+                updateField("office_address", {
+                  ...(data.office_address ?? {}),
+                  city: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          {/* Operating hours per day */}
+          <div className="space-y-1 mt-2">
+            <div className="text-[10px] font-medium text-slate-400">
+              Operating Hours (per day)
+            </div>
+            {[
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ].map((day) => (
+              <div key={day} className="flex items-center gap-2">
+                <span className="w-20 text-[11px] text-slate-300">{day}</span>
+                <input
+                  className="flex-1 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-1.5 text-[11px] text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  placeholder="e.g. 08:00–21:00"
+                  value={
+                    data.office_address?.operating_hours?.[
+                      day as keyof OperatingHours
+                    ] ?? ""
+                  }
+                  onChange={(e) =>
+                    updateField("office_address", {
+                      ...(data.office_address ?? {}),
+                      operating_hours: {
+                        ...(data.office_address?.operating_hours ?? {}),
+                        [day]: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Founder */}
+        <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4 md:p-5 space-y-3">
+          <div className="flex items-center gap-2">
+            <Award className="w-4 h-4 text-slate-400" />
+            <h3 className="text-sm font-semibold text-slate-100">
+              Founder
+            </h3>
+          </div>
+          <div className="space-y-2">
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Name"
+              value={data.founder?.name ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  name: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Known as (public name)"
+              value={data.founder?.known_as ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  known_as: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Full legal name"
+              value={data.founder?.full_name ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  full_name: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Role in JVTO"
+              value={data.founder?.role_in_JVTO ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  role_in_JVTO: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Status dinas"
+              value={data.founder?.status_dinas ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  status_dinas: e.target.value,
+                })
+              }
+            />
+            <textarea
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500 min-h-[80px]"
+              placeholder="Public mission statement"
+              value={data.founder?.public_mission_statement ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  public_mission_statement: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Social role (e.g. Pembina HPWKI)"
+              value={data.founder?.social_role ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  social_role: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="Founder asset URL (photo, etc.)"
+              value={data.founder?.asset_url ?? ""}
+              onChange={(e) =>
+                updateField("founder", {
+                  ...(data.founder ?? {}),
+                  asset_url: e.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

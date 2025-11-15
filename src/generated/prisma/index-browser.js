@@ -766,6 +766,9 @@ exports.Prisma.Site_identityScalarFieldEnum = {
   official_payment_accounts: 'official_payment_accounts',
   maps_listings: 'maps_listings',
   association_memberships: 'association_memberships',
+  office_address: 'office_address',
+  google_business_profile_url: 'google_business_profile_url',
+  founder: 'founder',
   org_schema_json_ld: 'org_schema_json_ld',
   created_at: 'created_at',
   updated_at: 'updated_at'

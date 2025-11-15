@@ -12,6 +12,21 @@ type PaymentAccount = {
   label: string;
   accountDetails: string;
 };
+type OfficeAddress = {
+  street?: string;
+  city?: string;
+  operating_hours?: string;
+};
+
+type Founder = {
+  name?: string;
+  known_as?: string;
+  full_name?: string;
+  role_in_JVTO?: string;
+  status_dinas?: string;
+  public_mission_statement?: string;
+  social_role?: string;
+};
 
 type SiteIdentityResponse = {
   id: string;
@@ -24,7 +39,10 @@ type SiteIdentityResponse = {
   official_payment_accounts: PaymentAccount[];
   maps_listings: string[];
   association_memberships: string[];
-  org_schema_json_ld: any;
+  office_address: OfficeAddress | null;
+  google_business_profile_url: string | null;
+  founder: Founder | null;
+
   created_at: string | null;
   updated_at: string | null;
 };
@@ -48,6 +66,9 @@ function serializeSiteIdentity(data: any): SiteIdentityResponse {
     association_memberships: Array.isArray(data.association_memberships)
       ? data.association_memberships
       : [],
+    office_address: data.office_address ?? null,
+    google_business_profile_url: data.google_business_profile_url ?? null,
+    founder: data.founder ?? null,
     created_at: data.created_at ? data.created_at.toISOString() : null,
     updated_at: data.updated_at ? data.updated_at.toISOString() : null,
   };
@@ -74,7 +95,10 @@ export async function GET() {
           official_payment_accounts: [],
           maps_listings: [],
           association_memberships: [],
-//          org_schema_json_ld: Prisma.JsonNull,
+          office_address: {},
+          google_business_profile_url: null,
+          founder: {},
+          //          org_schema_json_ld: Prisma.JsonNull,
         },
       });
     }
@@ -151,6 +175,20 @@ export async function PATCH(req: NextRequest) {
     // JSON-LD schema
     if (body.org_schema_json_ld !== undefined) {
       data.org_schema_json_ld = body.org_schema_json_ld;
+    }
+    if (body.office_address && typeof body.office_address === "object") {
+      data.office_address = body.office_address;
+    }
+
+    // >>> NEW: google_business_profile_url
+    if (typeof body.google_business_profile_url === "string") {
+      const trimmed = body.google_business_profile_url.trim();
+      data.google_business_profile_url = trimmed || null;
+    }
+
+    // >>> NEW: founder
+    if (body.founder && typeof body.founder === "object") {
+      data.founder = body.founder;
     }
 
     if (Object.keys(data).length === 0) {
