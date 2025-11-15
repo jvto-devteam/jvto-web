@@ -57,6 +57,19 @@ type Founder = {
   social_role?: string;
   asset_url?: string;
 };
+type ValuePropositions = {
+  safety_leadership?: string;
+  transparency?: string;
+  inclusivity?: string;
+  social_impact?: string;
+};
+
+type BrandPositioning = {
+  founding_mission?: string;
+  slogans?: string[];
+  value_propositions?: ValuePropositions;
+  differentiators?: string[];
+};
 
 type SiteIdentity = {
   id: string;
@@ -74,6 +87,7 @@ type SiteIdentity = {
   office_address?: OfficeAddress | null;
   google_business_profile_url?: string | null;
   founder?: Founder | null;
+  brand_positioning?: BrandPositioning | null;
 
   created_at?: string | null;
   updated_at?: string | null;
@@ -90,6 +104,9 @@ export default function SiteIdentityPage() {
   const [emailInput, setEmailInput] = useState("");
   const [waInput, setWaInput] = useState("");
   const [mapsInput, setMapsInput] = useState("");
+
+  const [sloganInput, setSloganInput] = useState("");
+  const [diffInput, setDiffInput] = useState("");
 
   const [regForm, setRegForm] = useState<RegistrationId>({
     label: "",
@@ -246,6 +263,18 @@ export default function SiteIdentityPage() {
         schema.description = data.founder.public_mission_statement;
       }
     }
+    if (data.brand_positioning) {
+      const bp = data.brand_positioning;
+
+      if (bp.founding_mission && !schema.description) {
+        schema.description = bp.founding_mission;
+      }
+
+      if (Array.isArray(bp.slogans) && bp.slogans.length > 0) {
+        // schema.org punya property "slogan"
+        schema.slogan = bp.slogans[0];
+      }
+    }
 
     return schema;
   };
@@ -273,6 +302,7 @@ export default function SiteIdentityPage() {
         office_address: data.office_address,
         google_business_profile_url: data.google_business_profile_url,
         founder: data.founder,
+        brand_positioning: data.brand_positioning,
         org_schema_json_ld: orgSchema,
       };
 
@@ -295,17 +325,18 @@ export default function SiteIdentityPage() {
 
       const updated: any = await res.json();
 
-      const normalizedAssoc: AssociationMembership[] =
-        Array.isArray(updated.association_memberships)
-          ? updated.association_memberships.map((a: any) =>
-              typeof a === "string"
-                ? { name: a }
-                : {
-                    name: a?.name ?? "",
-                    asset_url: a?.asset_url ?? "",
-                  }
-            )
-          : [];
+      const normalizedAssoc: AssociationMembership[] = Array.isArray(
+        updated.association_memberships
+      )
+        ? updated.association_memberships.map((a: any) =>
+            typeof a === "string"
+              ? { name: a }
+              : {
+                  name: a?.name ?? "",
+                  asset_url: a?.asset_url ?? "",
+                }
+          )
+        : [];
 
       const updatedData: SiteIdentity = {
         ...updated,
@@ -454,7 +485,7 @@ export default function SiteIdentityPage() {
           <div className="h-9 w-9 rounded-lg bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center">
             <Building2 className="w-5 h-5 text-emerald-400" />
           </div>
-        <div>
+          <div>
             <h1 className="text-lg font-semibold text-slate-50">
               Site Identity
             </h1>
@@ -1012,9 +1043,7 @@ export default function SiteIdentityPage() {
         <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4 md:p-5 space-y-3">
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-slate-400" />
-            <h3 className="text-sm font-semibold text-slate-100">
-              Founder
-            </h3>
+            <h3 className="text-sm font-semibold text-slate-100">Founder</h3>
           </div>
           <div className="space-y-2">
             <input
@@ -1106,6 +1135,210 @@ export default function SiteIdentityPage() {
               }
             />
           </div>
+        </div>
+      </div>
+      {/* Brand Positioning */}
+      <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-4 md:p-5 space-y-4">
+        <div className="flex items-center gap-2">
+          <Award className="w-4 h-4 text-slate-400" />
+          <h2 className="text-sm font-semibold text-slate-100">
+            Brand Positioning
+          </h2>
+        </div>
+
+        {/* Founding Mission */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-slate-300">
+            Founding Mission
+          </label>
+          <textarea
+            className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500 min-h-[80px]"
+            placeholder="Why this brand was founded..."
+            value={data.brand_positioning?.founding_mission ?? ""}
+            onChange={(e) =>
+              updateField("brand_positioning", {
+                ...(data.brand_positioning ?? {}),
+                founding_mission: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        {/* Slogans */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="block text-xs font-medium text-slate-300">
+              Slogans
+            </label>
+          </div>
+          <div className="flex gap-2">
+            <input
+              className="flex-1 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder='e.g. "Safety-led Java volcano tours..."'
+              value={sloganInput}
+              onChange={(e) => setSloganInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  if (!sloganInput.trim()) return;
+                  const current = data.brand_positioning?.slogans ?? [];
+                  updateField("brand_positioning", {
+                    ...(data.brand_positioning ?? {}),
+                    slogans: [...current, sloganInput.trim()],
+                  });
+                  setSloganInput("");
+                }
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (!sloganInput.trim()) return;
+                const current = data.brand_positioning?.slogans ?? [];
+                updateField("brand_positioning", {
+                  ...(data.brand_positioning ?? {}),
+                  slogans: [...current, sloganInput.trim()],
+                });
+                setSloganInput("");
+              }}
+              className="px-3 py-2 bg-emerald-500 hover:bg-emerald-400 rounded-md text-xs font-semibold text-slate-950"
+            >
+              Add
+            </button>
+          </div>
+          <ul className="space-y-1">
+            {(data.brand_positioning?.slogans ?? []).map((s, i) => (
+              <li
+                key={i}
+                className="flex items-center justify-between text-[11px] bg-slate-900/60 border border-slate-800 rounded-md px-3 py-1.5"
+              >
+                <span className="text-slate-200">{s}</span>
+                <button
+                  type="button"
+                  className="text-slate-400 hover:text-red-400 text-[10px]"
+                  onClick={() => {
+                    const current = data.brand_positioning?.slogans ?? [];
+                    updateField("brand_positioning", {
+                      ...(data.brand_positioning ?? {}),
+                      slogans: current.filter((_, idx) => idx !== i),
+                    });
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+            {(data.brand_positioning?.slogans ?? []).length === 0 && (
+              <li className="text-[11px] text-slate-500 text-center py-1.5">
+                No slogans added yet
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Value Propositions */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-slate-300">
+            Value Propositions
+          </label>
+          {[
+            ["safety_leadership", "Safety leadership"],
+            ["transparency", "Transparency"],
+            ["inclusivity", "Inclusivity"],
+            ["social_impact", "Social impact"],
+          ].map(([key, label]) => (
+            <div key={key} className="space-y-1">
+              <div className="text-[11px] text-slate-400">{label}</div>
+              <input
+                className="w-full bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                value={
+                  (data.brand_positioning?.value_propositions as any)?.[key] ??
+                  ""
+                }
+                onChange={(e) =>
+                  updateField("brand_positioning", {
+                    ...(data.brand_positioning ?? {}),
+                    value_propositions: {
+                      ...(data.brand_positioning?.value_propositions ?? {}),
+                      [key]: e.target.value,
+                    },
+                  })
+                }
+                placeholder={`Explain your ${label.toLowerCase()} value...`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Differentiators */}
+        <div className="space-y-2">
+          <label className="block text-xs font-medium text-slate-300">
+            Differentiators
+          </label>
+          <div className="flex gap-2">
+            <input
+              className="flex-1 bg-slate-900/60 border border-slate-800 rounded-md px-3 py-2 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              placeholder="What makes you different?"
+              value={diffInput}
+              onChange={(e) => setDiffInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  if (!diffInput.trim()) return;
+                  const current = data.brand_positioning?.differentiators ?? [];
+                  updateField("brand_positioning", {
+                    ...(data.brand_positioning ?? {}),
+                    differentiators: [...current, diffInput.trim()],
+                  });
+                  setDiffInput("");
+                }
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (!diffInput.trim()) return;
+                const current = data.brand_positioning?.differentiators ?? [];
+                updateField("brand_positioning", {
+                  ...(data.brand_positioning ?? {}),
+                  differentiators: [...current, diffInput.trim()],
+                });
+                setDiffInput("");
+              }}
+              className="px-3 py-2 bg-emerald-500 hover:bg-emerald-400 rounded-md text-xs font-semibold text-slate-950"
+            >
+              Add
+            </button>
+          </div>
+          <ul className="space-y-1">
+            {(data.brand_positioning?.differentiators ?? []).map((d, i) => (
+              <li
+                key={i}
+                className="flex items-center justify-between text-[11px] bg-slate-900/60 border border-slate-800 rounded-md px-3 py-1.5"
+              >
+                <span className="text-slate-200">{d}</span>
+                <button
+                  type="button"
+                  className="text-slate-400 hover:text-red-400 text-[10px]"
+                  onClick={() => {
+                    const current =
+                      data.brand_positioning?.differentiators ?? [];
+                    updateField("brand_positioning", {
+                      ...(data.brand_positioning ?? {}),
+                      differentiators: current.filter((_, idx) => idx !== i),
+                    });
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+            {(data.brand_positioning?.differentiators ?? []).length === 0 && (
+              <li className="text-[11px] text-slate-500 text-center py-1.5">
+                No differentiators added yet
+              </li>
+            )}
+          </ul>
         </div>
       </div>
     </div>

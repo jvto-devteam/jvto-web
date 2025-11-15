@@ -845,38 +845,41 @@ model policy_documents {
 }
 model site_identity {
   id                        String   @id @default(uuid()) @db.Uuid
-  
+
   // Basic Identity
   brand_name                String   @db.Text
   legal_entity_name         String   @db.Text
   official_website_url      String   @db.Text
-  
+
   // Contact Arrays (stored as JSONB)
   official_emails           Json     @default("[]") // string[]
   official_whatsapp_numbers Json     @default("[]") // string[]
-  
+
   // Registration IDs (array of objects)
   registration_ids          Json     @default("[]") // {label, value, document?}[]
-  
+
   // Payment Accounts (array of objects)
   official_payment_accounts Json     @default("[]") // {label, accountDetails}[]
-  
+
   // Listings & Associations
   maps_listings             Json     @default("[]") // string[]
-  association_memberships   Json     @default("[]") // string[]
-  
-  // NEW
-  office_address            Json?    @default("{}")    // {street, city, operating_hours?}
-  google_business_profile_url String? @db.Text
-  founder                   Json?    @default("{}")    // {name, known_as, ...}
+  association_memberships   Json     @default("[]") // {name, asset_url?}[]
 
-  // Auto-generated Organization Schema
-  org_schema_json_ld        Json?    // Generated JSON-LD for SEO
-  
-  // Timestamps
+  // Office & Branding
+  office_address            Json?    @default("{}")
+  google_business_profile_url String? @db.Text
+
+  // NEW: Brand positioning
+  brand_positioning         Json?    @default("{}") // {founding_mission, slogans[], value_propositions{}, differentiators[]}
+
+  // Founder
+  founder                   Json?    @default("{}")
+
+  org_schema_json_ld        Json?
+
   created_at                DateTime @default(now()) @db.Timestamptz(6)
   updated_at                DateTime @default(now()) @updatedAt @db.Timestamptz(6)
-  
+
   @@map("site_identity")
 }
 

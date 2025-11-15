@@ -768,6 +768,7 @@ exports.Prisma.Site_identityScalarFieldEnum = {
   association_memberships: 'association_memberships',
   office_address: 'office_address',
   google_business_profile_url: 'google_business_profile_url',
+  brand_positioning: 'brand_positioning',
   founder: 'founder',
   org_schema_json_ld: 'org_schema_json_ld',
   created_at: 'created_at',

@@ -27,6 +27,19 @@ type Founder = {
   public_mission_statement?: string;
   social_role?: string;
 };
+type ValuePropositions = {
+  safety_leadership?: string;
+  transparency?: string;
+  inclusivity?: string;
+  social_impact?: string;
+};
+
+type BrandPositioning = {
+  founding_mission?: string;
+  slogans?: string[];
+  value_propositions?: ValuePropositions;
+  differentiators?: string[];
+};
 
 type SiteIdentityResponse = {
   id: string;
@@ -38,10 +51,15 @@ type SiteIdentityResponse = {
   registration_ids: RegistrationId[];
   official_payment_accounts: PaymentAccount[];
   maps_listings: string[];
-  association_memberships: string[];
-  office_address: OfficeAddress | null;
+  association_memberships: any[];
+  org_schema_json_ld: any;
+
+  office_address: any | null;
   google_business_profile_url: string | null;
-  founder: Founder | null;
+  founder: any | null;
+
+  // NEW
+  brand_positioning: BrandPositioning | null;
 
   created_at: string | null;
   updated_at: string | null;
@@ -69,6 +87,7 @@ function serializeSiteIdentity(data: any): SiteIdentityResponse {
     office_address: data.office_address ?? null,
     google_business_profile_url: data.google_business_profile_url ?? null,
     founder: data.founder ?? null,
+    brand_positioning: data.brand_positioning ?? null,
     created_at: data.created_at ? data.created_at.toISOString() : null,
     updated_at: data.updated_at ? data.updated_at.toISOString() : null,
   };
@@ -98,6 +117,7 @@ export async function GET() {
           office_address: {},
           google_business_profile_url: null,
           founder: {},
+          brand_positioning: {},
           //          org_schema_json_ld: Prisma.JsonNull,
         },
       });
@@ -189,6 +209,10 @@ export async function PATCH(req: NextRequest) {
     // >>> NEW: founder
     if (body.founder && typeof body.founder === "object") {
       data.founder = body.founder;
+    }
+
+    if (body.brand_positioning && typeof body.brand_positioning === "object") {
+      data.brand_positioning = body.brand_positioning;
     }
 
     if (Object.keys(data).length === 0) {

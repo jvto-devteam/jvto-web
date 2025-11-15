@@ -66742,6 +66742,7 @@ export namespace Prisma {
     association_memberships: number
     office_address: number
     google_business_profile_url: number
+    brand_positioning: number
     founder: number
     org_schema_json_ld: number
     created_at: number
@@ -66783,6 +66784,7 @@ export namespace Prisma {
     association_memberships?: true
     office_address?: true
     google_business_profile_url?: true
+    brand_positioning?: true
     founder?: true
     org_schema_json_ld?: true
     created_at?: true
@@ -66875,6 +66877,7 @@ export namespace Prisma {
     association_memberships: JsonValue
     office_address: JsonValue | null
     google_business_profile_url: string | null
+    brand_positioning: JsonValue | null
     founder: JsonValue | null
     org_schema_json_ld: JsonValue | null
     created_at: Date
@@ -66911,6 +66914,7 @@ export namespace Prisma {
     association_memberships?: boolean
     office_address?: boolean
     google_business_profile_url?: boolean
+    brand_positioning?: boolean
     founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
@@ -66930,6 +66934,7 @@ export namespace Prisma {
     association_memberships?: boolean
     office_address?: boolean
     google_business_profile_url?: boolean
+    brand_positioning?: boolean
     founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
@@ -66949,6 +66954,7 @@ export namespace Prisma {
     association_memberships?: boolean
     office_address?: boolean
     google_business_profile_url?: boolean
+    brand_positioning?: boolean
     founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
@@ -66968,13 +66974,14 @@ export namespace Prisma {
     association_memberships?: boolean
     office_address?: boolean
     google_business_profile_url?: boolean
+    brand_positioning?: boolean
     founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type site_identityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand_name" | "legal_entity_name" | "official_website_url" | "official_emails" | "official_whatsapp_numbers" | "registration_ids" | "official_payment_accounts" | "maps_listings" | "association_memberships" | "office_address" | "google_business_profile_url" | "founder" | "org_schema_json_ld" | "created_at" | "updated_at", ExtArgs["result"]["site_identity"]>
+  export type site_identityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand_name" | "legal_entity_name" | "official_website_url" | "official_emails" | "official_whatsapp_numbers" | "registration_ids" | "official_payment_accounts" | "maps_listings" | "association_memberships" | "office_address" | "google_business_profile_url" | "brand_positioning" | "founder" | "org_schema_json_ld" | "created_at" | "updated_at", ExtArgs["result"]["site_identity"]>
 
   export type $site_identityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "site_identity"
@@ -66992,6 +66999,7 @@ export namespace Prisma {
       association_memberships: Prisma.JsonValue
       office_address: Prisma.JsonValue | null
       google_business_profile_url: string | null
+      brand_positioning: Prisma.JsonValue | null
       founder: Prisma.JsonValue | null
       org_schema_json_ld: Prisma.JsonValue | null
       created_at: Date
@@ -67431,6 +67439,7 @@ export namespace Prisma {
     readonly association_memberships: FieldRef<"site_identity", 'Json'>
     readonly office_address: FieldRef<"site_identity", 'Json'>
     readonly google_business_profile_url: FieldRef<"site_identity", 'String'>
+    readonly brand_positioning: FieldRef<"site_identity", 'Json'>
     readonly founder: FieldRef<"site_identity", 'Json'>
     readonly org_schema_json_ld: FieldRef<"site_identity", 'Json'>
     readonly created_at: FieldRef<"site_identity", 'DateTime'>
@@ -111453,6 +111462,7 @@ export namespace Prisma {
     association_memberships: 'association_memberships',
     office_address: 'office_address',
     google_business_profile_url: 'google_business_profile_url',
+    brand_positioning: 'brand_positioning',
     founder: 'founder',
     org_schema_json_ld: 'org_schema_json_ld',
     created_at: 'created_at',
@@ -116374,6 +116384,7 @@ export namespace Prisma {
     association_memberships?: JsonFilter<"site_identity">
     office_address?: JsonNullableFilter<"site_identity">
     google_business_profile_url?: StringNullableFilter<"site_identity"> | string | null
+    brand_positioning?: JsonNullableFilter<"site_identity">
     founder?: JsonNullableFilter<"site_identity">
     org_schema_json_ld?: JsonNullableFilter<"site_identity">
     created_at?: DateTimeFilter<"site_identity"> | Date | string
@@ -116393,6 +116404,7 @@ export namespace Prisma {
     association_memberships?: SortOrder
     office_address?: SortOrderInput | SortOrder
     google_business_profile_url?: SortOrderInput | SortOrder
+    brand_positioning?: SortOrderInput | SortOrder
     founder?: SortOrderInput | SortOrder
     org_schema_json_ld?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -116415,6 +116427,7 @@ export namespace Prisma {
     association_memberships?: JsonFilter<"site_identity">
     office_address?: JsonNullableFilter<"site_identity">
     google_business_profile_url?: StringNullableFilter<"site_identity"> | string | null
+    brand_positioning?: JsonNullableFilter<"site_identity">
     founder?: JsonNullableFilter<"site_identity">
     org_schema_json_ld?: JsonNullableFilter<"site_identity">
     created_at?: DateTimeFilter<"site_identity"> | Date | string
@@ -116434,6 +116447,7 @@ export namespace Prisma {
     association_memberships?: SortOrder
     office_address?: SortOrderInput | SortOrder
     google_business_profile_url?: SortOrderInput | SortOrder
+    brand_positioning?: SortOrderInput | SortOrder
     founder?: SortOrderInput | SortOrder
     org_schema_json_ld?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -116459,6 +116473,7 @@ export namespace Prisma {
     association_memberships?: JsonWithAggregatesFilter<"site_identity">
     office_address?: JsonNullableWithAggregatesFilter<"site_identity">
     google_business_profile_url?: StringNullableWithAggregatesFilter<"site_identity"> | string | null
+    brand_positioning?: JsonNullableWithAggregatesFilter<"site_identity">
     founder?: JsonNullableWithAggregatesFilter<"site_identity">
     org_schema_json_ld?: JsonNullableWithAggregatesFilter<"site_identity">
     created_at?: DateTimeWithAggregatesFilter<"site_identity"> | Date | string
@@ -123906,6 +123921,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
@@ -123925,6 +123941,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
@@ -123944,6 +123961,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -123963,6 +123981,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -123982,6 +124001,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
@@ -124001,6 +124021,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -124020,6 +124041,7 @@ export namespace Prisma {
     association_memberships?: JsonNullValueInput | InputJsonValue
     office_address?: NullableJsonNullValueInput | InputJsonValue
     google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_positioning?: NullableJsonNullValueInput | InputJsonValue
     founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -130509,6 +130531,7 @@ export namespace Prisma {
     association_memberships?: SortOrder
     office_address?: SortOrder
     google_business_profile_url?: SortOrder
+    brand_positioning?: SortOrder
     founder?: SortOrder
     org_schema_json_ld?: SortOrder
     created_at?: SortOrder
