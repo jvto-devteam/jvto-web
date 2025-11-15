@@ -727,6 +727,16 @@ exports.Prisma.DurationsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.Category_faqsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  sort_order: 'sort_order',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.FaqsScalarFieldEnum = {
   id: 'id',
   question: 'question',
@@ -735,7 +745,8 @@ exports.Prisma.FaqsScalarFieldEnum = {
   is_published: 'is_published',
   sort_order: 'sort_order',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  category_id: 'category_id'
 };
 
 exports.Prisma.Policy_documentsScalarFieldEnum = {
@@ -1276,6 +1287,7 @@ exports.Prisma.ModelName = {
   document_categories: 'document_categories',
   documents: 'documents',
   durations: 'durations',
+  category_faqs: 'category_faqs',
   faqs: 'faqs',
   policy_documents: 'policy_documents',
   site_identity: 'site_identity',

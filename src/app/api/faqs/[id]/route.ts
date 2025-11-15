@@ -12,6 +12,14 @@ function serializeFaq(faq: any) {
   return {
     ...faq,
     id: Number(faq.id),
+    category_id: faq.category_id ? Number(faq.category_id) : null,
+    category: faq.category
+      ? {
+          id: Number(faq.category.id),
+          name: faq.category.name,
+          slug: faq.category.slug,
+        }
+      : null,
   };
 }
 
@@ -22,13 +30,16 @@ export async function GET(
 ) {
   const { id: idParam } = await params;
   const id = parseId(idParam);
-  
+
   if (!id) {
     return NextResponse.json({ message: "Invalid id" }, { status: 400 });
   }
 
   try {
-    const faq = await prisma.faqs.findUnique({ where: { id } });
+    const faq = await prisma.faqs.findUnique({
+      where: { id },
+      include: { category: true },
+    });
     if (!faq) {
       return NextResponse.json({ message: "FAQ not found" }, { status: 404 });
     }
@@ -50,7 +61,7 @@ export async function PATCH(
 ) {
   const { id: idParam } = await params;
   const id = parseId(idParam);
-  
+
   if (!id) {
     return NextResponse.json({ message: "Invalid id" }, { status: 400 });
   }
@@ -59,10 +70,8 @@ export async function PATCH(
     const body = await req.json();
     const data: any = {};
 
-    if (typeof body.question === "string")
-      data.question = body.question.trim();
-    if (typeof body.answer === "string")
-      data.answer = body.answer.trim();
+    if (typeof body.question === "string") data.question = body.question.trim();
+    if (typeof body.answer === "string") data.answer = body.answer.trim();
     if (typeof body.is_published === "boolean")
       data.is_published = body.is_published;
     if (
@@ -73,15 +82,14 @@ export async function PATCH(
 
     if (body.tags !== undefined) {
       const tagsInput = body.tags;
-      data.tags =
-        Array.isArray(tagsInput)
-          ? tagsInput.map((t: string) => t.trim()).filter(Boolean)
-          : typeof tagsInput === "string"
-          ? tagsInput
-              .split(",")
-              .map((t: string) => t.trim())
-              .filter(Boolean)
-          : [];
+      data.tags = Array.isArray(tagsInput)
+        ? tagsInput.map((t: string) => t.trim()).filter(Boolean)
+        : typeof tagsInput === "string"
+        ? tagsInput
+            .split(",")
+            .map((t: string) => t.trim())
+            .filter(Boolean)
+        : [];
     }
 
     if (Object.keys(data).length === 0) {
@@ -91,9 +99,18 @@ export async function PATCH(
       );
     }
 
+    if (body.category_id !== undefined) {
+      const raw = body.category_id;
+      if (typeof raw === "number" && Number.isInteger(raw) && raw > 0) {
+        data.category_id = BigInt(raw);
+      } else if (raw === null) {
+        data.category_id = null;
+      }
+    }
     const updated = await prisma.faqs.update({
       where: { id },
       data,
+      include: { category: true },
     });
 
     return NextResponse.json(serializeFaq(updated), { status: 200 });
@@ -113,7 +130,7 @@ export async function DELETE(
 ) {
   const { id: idParam } = await params;
   const id = parseId(idParam);
-  
+
   if (!id) {
     return NextResponse.json({ message: "Invalid id" }, { status: 400 });
   }
@@ -125,10 +142,7 @@ export async function DELETE(
     console.error("DELETE /api/faqs/[id] error:", error);
 
     if (error.code === "P2025") {
-      return NextResponse.json(
-        { message: "FAQ not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "FAQ not found" }, { status: 404 });
     }
 
     return NextResponse.json(

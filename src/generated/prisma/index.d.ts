@@ -244,6 +244,11 @@ export type documents = $Result.DefaultSelection<Prisma.$documentsPayload>
  */
 export type durations = $Result.DefaultSelection<Prisma.$durationsPayload>
 /**
+ * Model category_faqs
+ * 
+ */
+export type category_faqs = $Result.DefaultSelection<Prisma.$category_faqsPayload>
+/**
  * Model faqs
  * 
  */
@@ -1042,6 +1047,16 @@ export class PrismaClient<
     * ```
     */
   get durations(): Prisma.durationsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.category_faqs`: Exposes CRUD operations for the **category_faqs** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Category_faqs
+    * const category_faqs = await prisma.category_faqs.findMany()
+    * ```
+    */
+  get category_faqs(): Prisma.category_faqsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.faqs`: Exposes CRUD operations for the **faqs** model.
@@ -1917,6 +1932,7 @@ export namespace Prisma {
     document_categories: 'document_categories',
     documents: 'documents',
     durations: 'durations',
+    category_faqs: 'category_faqs',
     faqs: 'faqs',
     policy_documents: 'policy_documents',
     site_identity: 'site_identity',
@@ -1974,7 +1990,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5234,6 +5250,80 @@ export namespace Prisma {
           }
         }
       }
+      category_faqs: {
+        payload: Prisma.$category_faqsPayload<ExtArgs>
+        fields: Prisma.category_faqsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.category_faqsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.category_faqsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          findFirst: {
+            args: Prisma.category_faqsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.category_faqsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          findMany: {
+            args: Prisma.category_faqsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>[]
+          }
+          create: {
+            args: Prisma.category_faqsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          createMany: {
+            args: Prisma.category_faqsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.category_faqsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>[]
+          }
+          delete: {
+            args: Prisma.category_faqsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          update: {
+            args: Prisma.category_faqsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          deleteMany: {
+            args: Prisma.category_faqsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.category_faqsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.category_faqsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>[]
+          }
+          upsert: {
+            args: Prisma.category_faqsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$category_faqsPayload>
+          }
+          aggregate: {
+            args: Prisma.Category_faqsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCategory_faqs>
+          }
+          groupBy: {
+            args: Prisma.category_faqsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Category_faqsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.category_faqsCountArgs<ExtArgs>
+            result: $Utils.Optional<Category_faqsCountAggregateOutputType> | number
+          }
+        }
+      }
       faqs: {
         payload: Prisma.$faqsPayload<ExtArgs>
         fields: Prisma.faqsFieldRefs
@@ -8260,6 +8350,7 @@ export namespace Prisma {
     document_categories?: document_categoriesOmit
     documents?: documentsOmit
     durations?: durationsOmit
+    category_faqs?: category_faqsOmit
     faqs?: faqsOmit
     policy_documents?: policy_documentsOmit
     site_identity?: site_identityOmit
@@ -9289,6 +9380,37 @@ export namespace Prisma {
    */
   export type DurationsCountOutputTypeCountPackagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: packagesWhereInput
+  }
+
+
+  /**
+   * Count Type Category_faqsCountOutputType
+   */
+
+  export type Category_faqsCountOutputType = {
+    faqs: number
+  }
+
+  export type Category_faqsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    faqs?: boolean | Category_faqsCountOutputTypeCountFaqsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Category_faqsCountOutputType without action
+   */
+  export type Category_faqsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category_faqsCountOutputType
+     */
+    select?: Category_faqsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Category_faqsCountOutputType without action
+   */
+  export type Category_faqsCountOutputTypeCountFaqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: faqsWhereInput
   }
 
 
@@ -64520,6 +64642,1140 @@ export namespace Prisma {
 
 
   /**
+   * Model category_faqs
+   */
+
+  export type AggregateCategory_faqs = {
+    _count: Category_faqsCountAggregateOutputType | null
+    _avg: Category_faqsAvgAggregateOutputType | null
+    _sum: Category_faqsSumAggregateOutputType | null
+    _min: Category_faqsMinAggregateOutputType | null
+    _max: Category_faqsMaxAggregateOutputType | null
+  }
+
+  export type Category_faqsAvgAggregateOutputType = {
+    id: number | null
+    sort_order: number | null
+  }
+
+  export type Category_faqsSumAggregateOutputType = {
+    id: bigint | null
+    sort_order: number | null
+  }
+
+  export type Category_faqsMinAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    slug: string | null
+    sort_order: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Category_faqsMaxAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    slug: string | null
+    sort_order: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Category_faqsCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    sort_order: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Category_faqsAvgAggregateInputType = {
+    id?: true
+    sort_order?: true
+  }
+
+  export type Category_faqsSumAggregateInputType = {
+    id?: true
+    sort_order?: true
+  }
+
+  export type Category_faqsMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    sort_order?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Category_faqsMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    sort_order?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Category_faqsCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    sort_order?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Category_faqsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which category_faqs to aggregate.
+     */
+    where?: category_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of category_faqs to fetch.
+     */
+    orderBy?: category_faqsOrderByWithRelationInput | category_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: category_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` category_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` category_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned category_faqs
+    **/
+    _count?: true | Category_faqsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Category_faqsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Category_faqsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Category_faqsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Category_faqsMaxAggregateInputType
+  }
+
+  export type GetCategory_faqsAggregateType<T extends Category_faqsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCategory_faqs]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCategory_faqs[P]>
+      : GetScalarType<T[P], AggregateCategory_faqs[P]>
+  }
+
+
+
+
+  export type category_faqsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: category_faqsWhereInput
+    orderBy?: category_faqsOrderByWithAggregationInput | category_faqsOrderByWithAggregationInput[]
+    by: Category_faqsScalarFieldEnum[] | Category_faqsScalarFieldEnum
+    having?: category_faqsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Category_faqsCountAggregateInputType | true
+    _avg?: Category_faqsAvgAggregateInputType
+    _sum?: Category_faqsSumAggregateInputType
+    _min?: Category_faqsMinAggregateInputType
+    _max?: Category_faqsMaxAggregateInputType
+  }
+
+  export type Category_faqsGroupByOutputType = {
+    id: bigint
+    name: string
+    slug: string
+    sort_order: number
+    is_active: boolean
+    created_at: Date
+    updated_at: Date
+    _count: Category_faqsCountAggregateOutputType | null
+    _avg: Category_faqsAvgAggregateOutputType | null
+    _sum: Category_faqsSumAggregateOutputType | null
+    _min: Category_faqsMinAggregateOutputType | null
+    _max: Category_faqsMaxAggregateOutputType | null
+  }
+
+  type GetCategory_faqsGroupByPayload<T extends category_faqsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Category_faqsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Category_faqsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Category_faqsGroupByOutputType[P]>
+            : GetScalarType<T[P], Category_faqsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type category_faqsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    sort_order?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    faqs?: boolean | category_faqs$faqsArgs<ExtArgs>
+    _count?: boolean | Category_faqsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["category_faqs"]>
+
+  export type category_faqsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    sort_order?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["category_faqs"]>
+
+  export type category_faqsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    sort_order?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["category_faqs"]>
+
+  export type category_faqsSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    sort_order?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type category_faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "sort_order" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["category_faqs"]>
+  export type category_faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    faqs?: boolean | category_faqs$faqsArgs<ExtArgs>
+    _count?: boolean | Category_faqsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type category_faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type category_faqsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $category_faqsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "category_faqs"
+    objects: {
+      faqs: Prisma.$faqsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      name: string
+      slug: string
+      sort_order: number
+      is_active: boolean
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["category_faqs"]>
+    composites: {}
+  }
+
+  type category_faqsGetPayload<S extends boolean | null | undefined | category_faqsDefaultArgs> = $Result.GetResult<Prisma.$category_faqsPayload, S>
+
+  type category_faqsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<category_faqsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Category_faqsCountAggregateInputType | true
+    }
+
+  export interface category_faqsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['category_faqs'], meta: { name: 'category_faqs' } }
+    /**
+     * Find zero or one Category_faqs that matches the filter.
+     * @param {category_faqsFindUniqueArgs} args - Arguments to find a Category_faqs
+     * @example
+     * // Get one Category_faqs
+     * const category_faqs = await prisma.category_faqs.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends category_faqsFindUniqueArgs>(args: SelectSubset<T, category_faqsFindUniqueArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Category_faqs that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {category_faqsFindUniqueOrThrowArgs} args - Arguments to find a Category_faqs
+     * @example
+     * // Get one Category_faqs
+     * const category_faqs = await prisma.category_faqs.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends category_faqsFindUniqueOrThrowArgs>(args: SelectSubset<T, category_faqsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsFindFirstArgs} args - Arguments to find a Category_faqs
+     * @example
+     * // Get one Category_faqs
+     * const category_faqs = await prisma.category_faqs.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends category_faqsFindFirstArgs>(args?: SelectSubset<T, category_faqsFindFirstArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Category_faqs that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsFindFirstOrThrowArgs} args - Arguments to find a Category_faqs
+     * @example
+     * // Get one Category_faqs
+     * const category_faqs = await prisma.category_faqs.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends category_faqsFindFirstOrThrowArgs>(args?: SelectSubset<T, category_faqsFindFirstOrThrowArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Category_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Category_faqs
+     * const category_faqs = await prisma.category_faqs.findMany()
+     * 
+     * // Get first 10 Category_faqs
+     * const category_faqs = await prisma.category_faqs.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const category_faqsWithIdOnly = await prisma.category_faqs.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends category_faqsFindManyArgs>(args?: SelectSubset<T, category_faqsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Category_faqs.
+     * @param {category_faqsCreateArgs} args - Arguments to create a Category_faqs.
+     * @example
+     * // Create one Category_faqs
+     * const Category_faqs = await prisma.category_faqs.create({
+     *   data: {
+     *     // ... data to create a Category_faqs
+     *   }
+     * })
+     * 
+     */
+    create<T extends category_faqsCreateArgs>(args: SelectSubset<T, category_faqsCreateArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Category_faqs.
+     * @param {category_faqsCreateManyArgs} args - Arguments to create many Category_faqs.
+     * @example
+     * // Create many Category_faqs
+     * const category_faqs = await prisma.category_faqs.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends category_faqsCreateManyArgs>(args?: SelectSubset<T, category_faqsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Category_faqs and returns the data saved in the database.
+     * @param {category_faqsCreateManyAndReturnArgs} args - Arguments to create many Category_faqs.
+     * @example
+     * // Create many Category_faqs
+     * const category_faqs = await prisma.category_faqs.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Category_faqs and only return the `id`
+     * const category_faqsWithIdOnly = await prisma.category_faqs.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends category_faqsCreateManyAndReturnArgs>(args?: SelectSubset<T, category_faqsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Category_faqs.
+     * @param {category_faqsDeleteArgs} args - Arguments to delete one Category_faqs.
+     * @example
+     * // Delete one Category_faqs
+     * const Category_faqs = await prisma.category_faqs.delete({
+     *   where: {
+     *     // ... filter to delete one Category_faqs
+     *   }
+     * })
+     * 
+     */
+    delete<T extends category_faqsDeleteArgs>(args: SelectSubset<T, category_faqsDeleteArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Category_faqs.
+     * @param {category_faqsUpdateArgs} args - Arguments to update one Category_faqs.
+     * @example
+     * // Update one Category_faqs
+     * const category_faqs = await prisma.category_faqs.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends category_faqsUpdateArgs>(args: SelectSubset<T, category_faqsUpdateArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Category_faqs.
+     * @param {category_faqsDeleteManyArgs} args - Arguments to filter Category_faqs to delete.
+     * @example
+     * // Delete a few Category_faqs
+     * const { count } = await prisma.category_faqs.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends category_faqsDeleteManyArgs>(args?: SelectSubset<T, category_faqsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Category_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Category_faqs
+     * const category_faqs = await prisma.category_faqs.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends category_faqsUpdateManyArgs>(args: SelectSubset<T, category_faqsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Category_faqs and returns the data updated in the database.
+     * @param {category_faqsUpdateManyAndReturnArgs} args - Arguments to update many Category_faqs.
+     * @example
+     * // Update many Category_faqs
+     * const category_faqs = await prisma.category_faqs.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Category_faqs and only return the `id`
+     * const category_faqsWithIdOnly = await prisma.category_faqs.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends category_faqsUpdateManyAndReturnArgs>(args: SelectSubset<T, category_faqsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Category_faqs.
+     * @param {category_faqsUpsertArgs} args - Arguments to update or create a Category_faqs.
+     * @example
+     * // Update or create a Category_faqs
+     * const category_faqs = await prisma.category_faqs.upsert({
+     *   create: {
+     *     // ... data to create a Category_faqs
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Category_faqs we want to update
+     *   }
+     * })
+     */
+    upsert<T extends category_faqsUpsertArgs>(args: SelectSubset<T, category_faqsUpsertArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Category_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsCountArgs} args - Arguments to filter Category_faqs to count.
+     * @example
+     * // Count the number of Category_faqs
+     * const count = await prisma.category_faqs.count({
+     *   where: {
+     *     // ... the filter for the Category_faqs we want to count
+     *   }
+     * })
+    **/
+    count<T extends category_faqsCountArgs>(
+      args?: Subset<T, category_faqsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Category_faqsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Category_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Category_faqsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Category_faqsAggregateArgs>(args: Subset<T, Category_faqsAggregateArgs>): Prisma.PrismaPromise<GetCategory_faqsAggregateType<T>>
+
+    /**
+     * Group by Category_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {category_faqsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends category_faqsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: category_faqsGroupByArgs['orderBy'] }
+        : { orderBy?: category_faqsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, category_faqsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCategory_faqsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the category_faqs model
+   */
+  readonly fields: category_faqsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for category_faqs.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__category_faqsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    faqs<T extends category_faqs$faqsArgs<ExtArgs> = {}>(args?: Subset<T, category_faqs$faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the category_faqs model
+   */
+  interface category_faqsFieldRefs {
+    readonly id: FieldRef<"category_faqs", 'BigInt'>
+    readonly name: FieldRef<"category_faqs", 'String'>
+    readonly slug: FieldRef<"category_faqs", 'String'>
+    readonly sort_order: FieldRef<"category_faqs", 'Int'>
+    readonly is_active: FieldRef<"category_faqs", 'Boolean'>
+    readonly created_at: FieldRef<"category_faqs", 'DateTime'>
+    readonly updated_at: FieldRef<"category_faqs", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * category_faqs findUnique
+   */
+  export type category_faqsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which category_faqs to fetch.
+     */
+    where: category_faqsWhereUniqueInput
+  }
+
+  /**
+   * category_faqs findUniqueOrThrow
+   */
+  export type category_faqsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which category_faqs to fetch.
+     */
+    where: category_faqsWhereUniqueInput
+  }
+
+  /**
+   * category_faqs findFirst
+   */
+  export type category_faqsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which category_faqs to fetch.
+     */
+    where?: category_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of category_faqs to fetch.
+     */
+    orderBy?: category_faqsOrderByWithRelationInput | category_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for category_faqs.
+     */
+    cursor?: category_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` category_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` category_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of category_faqs.
+     */
+    distinct?: Category_faqsScalarFieldEnum | Category_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * category_faqs findFirstOrThrow
+   */
+  export type category_faqsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which category_faqs to fetch.
+     */
+    where?: category_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of category_faqs to fetch.
+     */
+    orderBy?: category_faqsOrderByWithRelationInput | category_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for category_faqs.
+     */
+    cursor?: category_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` category_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` category_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of category_faqs.
+     */
+    distinct?: Category_faqsScalarFieldEnum | Category_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * category_faqs findMany
+   */
+  export type category_faqsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which category_faqs to fetch.
+     */
+    where?: category_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of category_faqs to fetch.
+     */
+    orderBy?: category_faqsOrderByWithRelationInput | category_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing category_faqs.
+     */
+    cursor?: category_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` category_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` category_faqs.
+     */
+    skip?: number
+    distinct?: Category_faqsScalarFieldEnum | Category_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * category_faqs create
+   */
+  export type category_faqsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a category_faqs.
+     */
+    data: XOR<category_faqsCreateInput, category_faqsUncheckedCreateInput>
+  }
+
+  /**
+   * category_faqs createMany
+   */
+  export type category_faqsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many category_faqs.
+     */
+    data: category_faqsCreateManyInput | category_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * category_faqs createManyAndReturn
+   */
+  export type category_faqsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to create many category_faqs.
+     */
+    data: category_faqsCreateManyInput | category_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * category_faqs update
+   */
+  export type category_faqsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a category_faqs.
+     */
+    data: XOR<category_faqsUpdateInput, category_faqsUncheckedUpdateInput>
+    /**
+     * Choose, which category_faqs to update.
+     */
+    where: category_faqsWhereUniqueInput
+  }
+
+  /**
+   * category_faqs updateMany
+   */
+  export type category_faqsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update category_faqs.
+     */
+    data: XOR<category_faqsUpdateManyMutationInput, category_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which category_faqs to update
+     */
+    where?: category_faqsWhereInput
+    /**
+     * Limit how many category_faqs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * category_faqs updateManyAndReturn
+   */
+  export type category_faqsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to update category_faqs.
+     */
+    data: XOR<category_faqsUpdateManyMutationInput, category_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which category_faqs to update
+     */
+    where?: category_faqsWhereInput
+    /**
+     * Limit how many category_faqs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * category_faqs upsert
+   */
+  export type category_faqsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the category_faqs to update in case it exists.
+     */
+    where: category_faqsWhereUniqueInput
+    /**
+     * In case the category_faqs found by the `where` argument doesn't exist, create a new category_faqs with this data.
+     */
+    create: XOR<category_faqsCreateInput, category_faqsUncheckedCreateInput>
+    /**
+     * In case the category_faqs was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<category_faqsUpdateInput, category_faqsUncheckedUpdateInput>
+  }
+
+  /**
+   * category_faqs delete
+   */
+  export type category_faqsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    /**
+     * Filter which category_faqs to delete.
+     */
+    where: category_faqsWhereUniqueInput
+  }
+
+  /**
+   * category_faqs deleteMany
+   */
+  export type category_faqsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which category_faqs to delete
+     */
+    where?: category_faqsWhereInput
+    /**
+     * Limit how many category_faqs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * category_faqs.faqs
+   */
+  export type category_faqs$faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the faqs
+     */
+    select?: faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the faqs
+     */
+    omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    where?: faqsWhereInput
+    orderBy?: faqsOrderByWithRelationInput | faqsOrderByWithRelationInput[]
+    cursor?: faqsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FaqsScalarFieldEnum | FaqsScalarFieldEnum[]
+  }
+
+  /**
+   * category_faqs without action
+   */
+  export type category_faqsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model faqs
    */
 
@@ -64534,11 +65790,13 @@ export namespace Prisma {
   export type FaqsAvgAggregateOutputType = {
     id: number | null
     sort_order: number | null
+    category_id: number | null
   }
 
   export type FaqsSumAggregateOutputType = {
     id: bigint | null
     sort_order: number | null
+    category_id: bigint | null
   }
 
   export type FaqsMinAggregateOutputType = {
@@ -64549,6 +65807,7 @@ export namespace Prisma {
     sort_order: number | null
     created_at: Date | null
     updated_at: Date | null
+    category_id: bigint | null
   }
 
   export type FaqsMaxAggregateOutputType = {
@@ -64559,6 +65818,7 @@ export namespace Prisma {
     sort_order: number | null
     created_at: Date | null
     updated_at: Date | null
+    category_id: bigint | null
   }
 
   export type FaqsCountAggregateOutputType = {
@@ -64570,6 +65830,7 @@ export namespace Prisma {
     sort_order: number
     created_at: number
     updated_at: number
+    category_id: number
     _all: number
   }
 
@@ -64577,11 +65838,13 @@ export namespace Prisma {
   export type FaqsAvgAggregateInputType = {
     id?: true
     sort_order?: true
+    category_id?: true
   }
 
   export type FaqsSumAggregateInputType = {
     id?: true
     sort_order?: true
+    category_id?: true
   }
 
   export type FaqsMinAggregateInputType = {
@@ -64592,6 +65855,7 @@ export namespace Prisma {
     sort_order?: true
     created_at?: true
     updated_at?: true
+    category_id?: true
   }
 
   export type FaqsMaxAggregateInputType = {
@@ -64602,6 +65866,7 @@ export namespace Prisma {
     sort_order?: true
     created_at?: true
     updated_at?: true
+    category_id?: true
   }
 
   export type FaqsCountAggregateInputType = {
@@ -64613,6 +65878,7 @@ export namespace Prisma {
     sort_order?: true
     created_at?: true
     updated_at?: true
+    category_id?: true
     _all?: true
   }
 
@@ -64711,6 +65977,7 @@ export namespace Prisma {
     sort_order: number
     created_at: Date | null
     updated_at: Date | null
+    category_id: bigint | null
     _count: FaqsCountAggregateOutputType | null
     _avg: FaqsAvgAggregateOutputType | null
     _sum: FaqsSumAggregateOutputType | null
@@ -64741,6 +66008,8 @@ export namespace Prisma {
     sort_order?: boolean
     created_at?: boolean
     updated_at?: boolean
+    category_id?: boolean
+    category?: boolean | faqs$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["faqs"]>
 
   export type faqsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -64752,6 +66021,8 @@ export namespace Prisma {
     sort_order?: boolean
     created_at?: boolean
     updated_at?: boolean
+    category_id?: boolean
+    category?: boolean | faqs$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["faqs"]>
 
   export type faqsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -64763,6 +66034,8 @@ export namespace Prisma {
     sort_order?: boolean
     created_at?: boolean
     updated_at?: boolean
+    category_id?: boolean
+    category?: boolean | faqs$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["faqs"]>
 
   export type faqsSelectScalar = {
@@ -64774,13 +66047,25 @@ export namespace Prisma {
     sort_order?: boolean
     created_at?: boolean
     updated_at?: boolean
+    category_id?: boolean
   }
 
-  export type faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "tags" | "is_published" | "sort_order" | "created_at" | "updated_at", ExtArgs["result"]["faqs"]>
+  export type faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "tags" | "is_published" | "sort_order" | "created_at" | "updated_at" | "category_id", ExtArgs["result"]["faqs"]>
+  export type faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | faqs$categoryArgs<ExtArgs>
+  }
+  export type faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | faqs$categoryArgs<ExtArgs>
+  }
+  export type faqsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | faqs$categoryArgs<ExtArgs>
+  }
 
   export type $faqsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "faqs"
-    objects: {}
+    objects: {
+      category: Prisma.$category_faqsPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       question: string
@@ -64790,6 +66075,7 @@ export namespace Prisma {
       sort_order: number
       created_at: Date | null
       updated_at: Date | null
+      category_id: bigint | null
     }, ExtArgs["result"]["faqs"]>
     composites: {}
   }
@@ -65184,6 +66470,7 @@ export namespace Prisma {
    */
   export interface Prisma__faqsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends faqs$categoryArgs<ExtArgs> = {}>(args?: Subset<T, faqs$categoryArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -65221,6 +66508,7 @@ export namespace Prisma {
     readonly sort_order: FieldRef<"faqs", 'Int'>
     readonly created_at: FieldRef<"faqs", 'DateTime'>
     readonly updated_at: FieldRef<"faqs", 'DateTime'>
+    readonly category_id: FieldRef<"faqs", 'BigInt'>
   }
     
 
@@ -65237,6 +66525,10 @@ export namespace Prisma {
      * Omit specific fields from the faqs
      */
     omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
     /**
      * Filter, which faqs to fetch.
      */
@@ -65256,6 +66548,10 @@ export namespace Prisma {
      */
     omit?: faqsOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    /**
      * Filter, which faqs to fetch.
      */
     where: faqsWhereUniqueInput
@@ -65273,6 +66569,10 @@ export namespace Prisma {
      * Omit specific fields from the faqs
      */
     omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
     /**
      * Filter, which faqs to fetch.
      */
@@ -65322,6 +66622,10 @@ export namespace Prisma {
      */
     omit?: faqsOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    /**
      * Filter, which faqs to fetch.
      */
     where?: faqsWhereInput
@@ -65370,6 +66674,10 @@ export namespace Prisma {
      */
     omit?: faqsOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    /**
      * Filter, which faqs to fetch.
      */
     where?: faqsWhereInput
@@ -65413,6 +66721,10 @@ export namespace Prisma {
      */
     omit?: faqsOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    /**
      * The data needed to create a faqs.
      */
     data: XOR<faqsCreateInput, faqsUncheckedCreateInput>
@@ -65446,6 +66758,10 @@ export namespace Prisma {
      */
     data: faqsCreateManyInput | faqsCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -65460,6 +66776,10 @@ export namespace Prisma {
      * Omit specific fields from the faqs
      */
     omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
     /**
      * The data needed to update a faqs.
      */
@@ -65512,6 +66832,10 @@ export namespace Prisma {
      * Limit how many faqs to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -65526,6 +66850,10 @@ export namespace Prisma {
      * Omit specific fields from the faqs
      */
     omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
     /**
      * The filter to search for the faqs to update in case it exists.
      */
@@ -65553,6 +66881,10 @@ export namespace Prisma {
      */
     omit?: faqsOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
+    /**
      * Filter which faqs to delete.
      */
     where: faqsWhereUniqueInput
@@ -65573,6 +66905,25 @@ export namespace Prisma {
   }
 
   /**
+   * faqs.category
+   */
+  export type faqs$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the category_faqs
+     */
+    select?: category_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the category_faqs
+     */
+    omit?: category_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: category_faqsInclude<ExtArgs> | null
+    where?: category_faqsWhereInput
+  }
+
+  /**
    * faqs without action
    */
   export type faqsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -65584,6 +66935,10 @@ export namespace Prisma {
      * Omit specific fields from the faqs
      */
     omit?: faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: faqsInclude<ExtArgs> | null
   }
 
 
@@ -111415,6 +112770,19 @@ export namespace Prisma {
   export type DurationsScalarFieldEnum = (typeof DurationsScalarFieldEnum)[keyof typeof DurationsScalarFieldEnum]
 
 
+  export const Category_faqsScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    sort_order: 'sort_order',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Category_faqsScalarFieldEnum = (typeof Category_faqsScalarFieldEnum)[keyof typeof Category_faqsScalarFieldEnum]
+
+
   export const FaqsScalarFieldEnum: {
     id: 'id',
     question: 'question',
@@ -111423,7 +112791,8 @@ export namespace Prisma {
     is_published: 'is_published',
     sort_order: 'sort_order',
     created_at: 'created_at',
-    updated_at: 'updated_at'
+    updated_at: 'updated_at',
+    category_id: 'category_id'
   };
 
   export type FaqsScalarFieldEnum = (typeof FaqsScalarFieldEnum)[keyof typeof FaqsScalarFieldEnum]
@@ -116202,6 +117571,73 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"durations"> | Date | string | null
   }
 
+  export type category_faqsWhereInput = {
+    AND?: category_faqsWhereInput | category_faqsWhereInput[]
+    OR?: category_faqsWhereInput[]
+    NOT?: category_faqsWhereInput | category_faqsWhereInput[]
+    id?: BigIntFilter<"category_faqs"> | bigint | number
+    name?: StringFilter<"category_faqs"> | string
+    slug?: StringFilter<"category_faqs"> | string
+    sort_order?: IntFilter<"category_faqs"> | number
+    is_active?: BoolFilter<"category_faqs"> | boolean
+    created_at?: DateTimeFilter<"category_faqs"> | Date | string
+    updated_at?: DateTimeFilter<"category_faqs"> | Date | string
+    faqs?: FaqsListRelationFilter
+  }
+
+  export type category_faqsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    sort_order?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    faqs?: faqsOrderByRelationAggregateInput
+  }
+
+  export type category_faqsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    slug?: string
+    AND?: category_faqsWhereInput | category_faqsWhereInput[]
+    OR?: category_faqsWhereInput[]
+    NOT?: category_faqsWhereInput | category_faqsWhereInput[]
+    name?: StringFilter<"category_faqs"> | string
+    sort_order?: IntFilter<"category_faqs"> | number
+    is_active?: BoolFilter<"category_faqs"> | boolean
+    created_at?: DateTimeFilter<"category_faqs"> | Date | string
+    updated_at?: DateTimeFilter<"category_faqs"> | Date | string
+    faqs?: FaqsListRelationFilter
+  }, "id" | "slug">
+
+  export type category_faqsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    sort_order?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: category_faqsCountOrderByAggregateInput
+    _avg?: category_faqsAvgOrderByAggregateInput
+    _max?: category_faqsMaxOrderByAggregateInput
+    _min?: category_faqsMinOrderByAggregateInput
+    _sum?: category_faqsSumOrderByAggregateInput
+  }
+
+  export type category_faqsScalarWhereWithAggregatesInput = {
+    AND?: category_faqsScalarWhereWithAggregatesInput | category_faqsScalarWhereWithAggregatesInput[]
+    OR?: category_faqsScalarWhereWithAggregatesInput[]
+    NOT?: category_faqsScalarWhereWithAggregatesInput | category_faqsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"category_faqs"> | bigint | number
+    name?: StringWithAggregatesFilter<"category_faqs"> | string
+    slug?: StringWithAggregatesFilter<"category_faqs"> | string
+    sort_order?: IntWithAggregatesFilter<"category_faqs"> | number
+    is_active?: BoolWithAggregatesFilter<"category_faqs"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"category_faqs"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"category_faqs"> | Date | string
+  }
+
   export type faqsWhereInput = {
     AND?: faqsWhereInput | faqsWhereInput[]
     OR?: faqsWhereInput[]
@@ -116214,6 +117650,8 @@ export namespace Prisma {
     sort_order?: IntFilter<"faqs"> | number
     created_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
+    category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
+    category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
   }
 
   export type faqsOrderByWithRelationInput = {
@@ -116225,6 +117663,8 @@ export namespace Prisma {
     sort_order?: SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    category_id?: SortOrderInput | SortOrder
+    category?: category_faqsOrderByWithRelationInput
   }
 
   export type faqsWhereUniqueInput = Prisma.AtLeast<{
@@ -116239,6 +117679,8 @@ export namespace Prisma {
     sort_order?: IntFilter<"faqs"> | number
     created_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
+    category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
+    category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
   }, "id">
 
   export type faqsOrderByWithAggregationInput = {
@@ -116250,6 +117692,7 @@ export namespace Prisma {
     sort_order?: SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
+    category_id?: SortOrderInput | SortOrder
     _count?: faqsCountOrderByAggregateInput
     _avg?: faqsAvgOrderByAggregateInput
     _max?: faqsMaxOrderByAggregateInput
@@ -116269,6 +117712,7 @@ export namespace Prisma {
     sort_order?: IntWithAggregatesFilter<"faqs"> | number
     created_at?: DateTimeNullableWithAggregatesFilter<"faqs"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"faqs"> | Date | string | null
+    category_id?: BigIntNullableWithAggregatesFilter<"faqs"> | bigint | number | null
   }
 
   export type policy_documentsWhereInput = {
@@ -123712,6 +125156,80 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type category_faqsCreateInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    sort_order?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    faqs?: faqsCreateNestedManyWithoutCategoryInput
+  }
+
+  export type category_faqsUncheckedCreateInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    sort_order?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    faqs?: faqsUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type category_faqsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    faqs?: faqsUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type category_faqsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    faqs?: faqsUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type category_faqsCreateManyInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    sort_order?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type category_faqsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type category_faqsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type faqsCreateInput = {
     id?: bigint | number
     question: string
@@ -123721,6 +125239,7 @@ export namespace Prisma {
     sort_order?: number
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    category?: category_faqsCreateNestedOneWithoutFaqsInput
   }
 
   export type faqsUncheckedCreateInput = {
@@ -123732,6 +125251,7 @@ export namespace Prisma {
     sort_order?: number
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    category_id?: bigint | number | null
   }
 
   export type faqsUpdateInput = {
@@ -123743,6 +125263,7 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: category_faqsUpdateOneWithoutFaqsNestedInput
   }
 
   export type faqsUncheckedUpdateInput = {
@@ -123754,6 +125275,7 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type faqsCreateManyInput = {
@@ -123765,6 +125287,7 @@ export namespace Prisma {
     sort_order?: number
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    category_id?: bigint | number | null
   }
 
   export type faqsUpdateManyMutationInput = {
@@ -123787,6 +125310,7 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type policy_documentsCreateInput = {
@@ -130328,43 +131852,52 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type faqsCountOrderByAggregateInput = {
+  export type FaqsListRelationFilter = {
+    every?: faqsWhereInput
+    some?: faqsWhereInput
+    none?: faqsWhereInput
+  }
+
+  export type faqsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type category_faqsCountOrderByAggregateInput = {
     id?: SortOrder
-    question?: SortOrder
-    answer?: SortOrder
-    tags?: SortOrder
-    is_published?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
     sort_order?: SortOrder
+    is_active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type faqsAvgOrderByAggregateInput = {
+  export type category_faqsAvgOrderByAggregateInput = {
     id?: SortOrder
     sort_order?: SortOrder
   }
 
-  export type faqsMaxOrderByAggregateInput = {
+  export type category_faqsMaxOrderByAggregateInput = {
     id?: SortOrder
-    question?: SortOrder
-    answer?: SortOrder
-    is_published?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
     sort_order?: SortOrder
+    is_active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type faqsMinOrderByAggregateInput = {
+  export type category_faqsMinOrderByAggregateInput = {
     id?: SortOrder
-    question?: SortOrder
-    answer?: SortOrder
-    is_published?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
     sort_order?: SortOrder
+    is_active?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
-  export type faqsSumOrderByAggregateInput = {
+  export type category_faqsSumOrderByAggregateInput = {
     id?: SortOrder
     sort_order?: SortOrder
   }
@@ -130375,6 +131908,57 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type Category_faqsNullableScalarRelationFilter = {
+    is?: category_faqsWhereInput | null
+    isNot?: category_faqsWhereInput | null
+  }
+
+  export type faqsCountOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    tags?: SortOrder
+    is_published?: SortOrder
+    sort_order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    category_id?: SortOrder
+  }
+
+  export type faqsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    sort_order?: SortOrder
+    category_id?: SortOrder
+  }
+
+  export type faqsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    is_published?: SortOrder
+    sort_order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    category_id?: SortOrder
+  }
+
+  export type faqsMinOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    is_published?: SortOrder
+    sort_order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    category_id?: SortOrder
+  }
+
+  export type faqsSumOrderByAggregateInput = {
+    id?: SortOrder
+    sort_order?: SortOrder
+    category_id?: SortOrder
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -136003,8 +137587,60 @@ export namespace Prisma {
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
+  export type faqsCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput> | faqsCreateWithoutCategoryInput[] | faqsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: faqsCreateOrConnectWithoutCategoryInput | faqsCreateOrConnectWithoutCategoryInput[]
+    createMany?: faqsCreateManyCategoryInputEnvelope
+    connect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+  }
+
+  export type faqsUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput> | faqsCreateWithoutCategoryInput[] | faqsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: faqsCreateOrConnectWithoutCategoryInput | faqsCreateOrConnectWithoutCategoryInput[]
+    createMany?: faqsCreateManyCategoryInputEnvelope
+    connect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type faqsUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput> | faqsCreateWithoutCategoryInput[] | faqsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: faqsCreateOrConnectWithoutCategoryInput | faqsCreateOrConnectWithoutCategoryInput[]
+    upsert?: faqsUpsertWithWhereUniqueWithoutCategoryInput | faqsUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: faqsCreateManyCategoryInputEnvelope
+    set?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    disconnect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    delete?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    connect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    update?: faqsUpdateWithWhereUniqueWithoutCategoryInput | faqsUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: faqsUpdateManyWithWhereWithoutCategoryInput | faqsUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: faqsScalarWhereInput | faqsScalarWhereInput[]
+  }
+
+  export type faqsUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput> | faqsCreateWithoutCategoryInput[] | faqsUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: faqsCreateOrConnectWithoutCategoryInput | faqsCreateOrConnectWithoutCategoryInput[]
+    upsert?: faqsUpsertWithWhereUniqueWithoutCategoryInput | faqsUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: faqsCreateManyCategoryInputEnvelope
+    set?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    disconnect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    delete?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    connect?: faqsWhereUniqueInput | faqsWhereUniqueInput[]
+    update?: faqsUpdateWithWhereUniqueWithoutCategoryInput | faqsUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: faqsUpdateManyWithWhereWithoutCategoryInput | faqsUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: faqsScalarWhereInput | faqsScalarWhereInput[]
+  }
+
   export type faqsCreatetagsInput = {
     set: string[]
+  }
+
+  export type category_faqsCreateNestedOneWithoutFaqsInput = {
+    create?: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
+    connectOrCreate?: category_faqsCreateOrConnectWithoutFaqsInput
+    connect?: category_faqsWhereUniqueInput
   }
 
   export type faqsUpdatetagsInput = {
@@ -136012,8 +137648,14 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type category_faqsUpdateOneWithoutFaqsNestedInput = {
+    create?: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
+    connectOrCreate?: category_faqsCreateOrConnectWithoutFaqsInput
+    upsert?: category_faqsUpsertWithoutFaqsInput
+    disconnect?: category_faqsWhereInput | boolean
+    delete?: category_faqsWhereInput | boolean
+    connect?: category_faqsWhereUniqueInput
+    update?: XOR<XOR<category_faqsUpdateToOneWithWhereWithoutFaqsInput, category_faqsUpdateWithoutFaqsInput>, category_faqsUncheckedUpdateWithoutFaqsInput>
   }
 
   export type Enumpolicy_document_typeFieldUpdateOperationsInput = {
@@ -151155,6 +152797,125 @@ export namespace Prisma {
     data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutDurationsInput>
   }
 
+  export type faqsCreateWithoutCategoryInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type faqsUncheckedCreateWithoutCategoryInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type faqsCreateOrConnectWithoutCategoryInput = {
+    where: faqsWhereUniqueInput
+    create: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type faqsCreateManyCategoryInputEnvelope = {
+    data: faqsCreateManyCategoryInput | faqsCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type faqsUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: faqsWhereUniqueInput
+    update: XOR<faqsUpdateWithoutCategoryInput, faqsUncheckedUpdateWithoutCategoryInput>
+    create: XOR<faqsCreateWithoutCategoryInput, faqsUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type faqsUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: faqsWhereUniqueInput
+    data: XOR<faqsUpdateWithoutCategoryInput, faqsUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type faqsUpdateManyWithWhereWithoutCategoryInput = {
+    where: faqsScalarWhereInput
+    data: XOR<faqsUpdateManyMutationInput, faqsUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type faqsScalarWhereInput = {
+    AND?: faqsScalarWhereInput | faqsScalarWhereInput[]
+    OR?: faqsScalarWhereInput[]
+    NOT?: faqsScalarWhereInput | faqsScalarWhereInput[]
+    id?: BigIntFilter<"faqs"> | bigint | number
+    question?: StringFilter<"faqs"> | string
+    answer?: StringFilter<"faqs"> | string
+    tags?: StringNullableListFilter<"faqs">
+    is_published?: BoolFilter<"faqs"> | boolean
+    sort_order?: IntFilter<"faqs"> | number
+    created_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
+    category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
+  }
+
+  export type category_faqsCreateWithoutFaqsInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    sort_order?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type category_faqsUncheckedCreateWithoutFaqsInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    sort_order?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type category_faqsCreateOrConnectWithoutFaqsInput = {
+    where: category_faqsWhereUniqueInput
+    create: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
+  }
+
+  export type category_faqsUpsertWithoutFaqsInput = {
+    update: XOR<category_faqsUpdateWithoutFaqsInput, category_faqsUncheckedUpdateWithoutFaqsInput>
+    create: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
+    where?: category_faqsWhereInput
+  }
+
+  export type category_faqsUpdateToOneWithWhereWithoutFaqsInput = {
+    where?: category_faqsWhereInput
+    data: XOR<category_faqsUpdateWithoutFaqsInput, category_faqsUncheckedUpdateWithoutFaqsInput>
+  }
+
+  export type category_faqsUpdateWithoutFaqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type category_faqsUncheckedUpdateWithoutFaqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    sort_order?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type bookingsCreateWithoutFeedbackInput = {
     id?: bigint | number
     booking_code?: string | null
@@ -161591,6 +163352,50 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type faqsCreateManyCategoryInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type faqsUpdateWithoutCategoryInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type faqsUncheckedUpdateWithoutCategoryInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type faqsUncheckedUpdateManyWithoutCategoryInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type booking_destination_schedulesCreateManyHotelsInput = {
