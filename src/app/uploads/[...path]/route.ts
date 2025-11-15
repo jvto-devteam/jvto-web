@@ -3,20 +3,18 @@ import { promises as fs } from "fs";
 import path from "path";
 import mime from "mime";
 
-export const runtime = "nodejs";          // pakai fs, jangan edge
-export const dynamic = "force-dynamic";   // jangan di-static-kan
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { path: string[] } }
+  _req: NextRequest,
+  context: { params: { path: string[] } }
 ) {
+  const relPath = context.params.path.join("/");
+
+  const filePath = path.join(process.cwd(), "public", "uploads", relPath);
+
   try {
-    // /uploads/a/b/c.png  -> params.path = ["a","b","c.png"]
-    const relPath = params.path.join("/");
-
-    // SESUAI tempat kamu simpan file:
-    const filePath = path.join(process.cwd(), "public", "uploads", relPath);
-
     const file = await fs.readFile(filePath);
     const type = mime.getType(filePath) || "application/octet-stream";
 
@@ -24,12 +22,11 @@ export async function GET(
       status: 200,
       headers: {
         "Content-Type": type,
-        // optional cache
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
-  } catch (err) {
-    console.error("[/uploads/*] file not found", err);
+  } catch (error) {
+    console.error("[/uploads/*] file not found", error);
     return new NextResponse("Not found", { status: 404 });
   }
 }
