@@ -20,9 +20,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const file = await fs.readFile(filePath);
+    const fileUint8 = new Uint8Array(file); // ⬅️ konversi Buffer -> Uint8Array
     const type = mime.getType(filePath) || "application/octet-stream";
 
-    return new NextResponse(file, {
+    return new NextResponse(fileUint8, {
       status: 200,
       headers: {
         "Content-Type": type,
