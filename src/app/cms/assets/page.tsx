@@ -122,6 +122,7 @@ function AssetsPageContent() {
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [copiedAssetId, setCopiedAssetId] = useState<number | null>(null);
 
   // MODAL STATE
   type FolderFormMode = "create-root" | "create-sub" | "rename";
@@ -1348,8 +1349,21 @@ function AssetsPageContent() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 if (navigator?.clipboard) {
+                                  const origin =
+                                    typeof window !== "undefined"
+                                      ? window.location.origin
+                                      : "";
+                                  const fullUrl = origin + asset.url;
+
                                   navigator.clipboard
-                                    .writeText(asset.url)
+                                    .writeText(fullUrl)
+                                    .then(() => {
+                                      setCopiedAssetId(asset.id);
+                                      setTimeout(
+                                        () => setCopiedAssetId(null),
+                                        1500
+                                      );
+                                    })
                                     .catch((err) => {
                                       console.error("Failed to copy URL:", err);
                                     });
@@ -1357,7 +1371,9 @@ function AssetsPageContent() {
                               }}
                               className="text-emerald-400 hover:text-emerald-300 text-[11px] underline decoration-dotted"
                             >
-                              Copy URL
+                              {copiedAssetId === asset.id
+                                ? "Copied"
+                                : "Copy URL"}
                             </button>
                           </div>
 
@@ -1797,25 +1813,25 @@ function AssetFormModal({
 
   const title = mode === "create" ? "Create Asset" : "Edit Asset";
 
-function handleSelectFile(f: File) {
-  setFile(f);
+  function handleSelectFile(f: File) {
+    setFile(f);
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    if (typeof reader.result === "string") {
-      // data: URL → aman dengan img-src 'self' data: https:
-      setPreviewUrl(reader.result);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        // data: URL → aman dengan img-src 'self' data: https:
+        setPreviewUrl(reader.result);
+      }
+    };
+    reader.readAsDataURL(f);
+
+    const detected = detectAssetTypeFromFile(f);
+    setPreviewType(detected);
+
+    if (!name) {
+      setName(f.name);
     }
-  };
-  reader.readAsDataURL(f);
-
-  const detected = detectAssetTypeFromFile(f);
-  setPreviewType(detected);
-
-  if (!name) {
-    setName(f.name);
   }
-}
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -2015,6 +2031,7 @@ function AssetDetailModal({
 
   const isImage = asset.type === "image";
   const isVideo = asset.type === "video";
+  const [copied, setCopied] = useState(false);
 
   function handleAddTags() {
     if (!asset) return;
@@ -2103,16 +2120,27 @@ function AssetDetailModal({
                 type="button"
                 onClick={() => {
                   if (navigator?.clipboard) {
-                    navigator.clipboard.writeText(asset.url).catch((err) => {
-                      console.error("Failed to copy URL:", err);
-                    });
+                    const origin =
+                      typeof window !== "undefined"
+                        ? window.location.origin
+                        : "";
+                    const fullUrl = origin + asset.url;
+
+                    navigator.clipboard
+                      .writeText(fullUrl)
+                      .then(() => {
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 1500);
+                      })
+                      .catch((err) => {
+                        console.error("Failed to copy URL:", err);
+                      });
                   }
                 }}
                 className="ml-2 inline-flex items-center px-2 py-0.5 rounded-md border border-slate-700 text-[10px] text-slate-200 hover:bg-slate-900"
               >
-                Copy URL
+                {copied ? "Copied" : "Copy URL"}
               </button>
-
               <div className="truncate">
                 URL:{" "}
                 <Link
