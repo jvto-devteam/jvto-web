@@ -450,6 +450,11 @@ export type asset_tags = $Result.DefaultSelection<Prisma.$asset_tagsPayload>
  * 
  */
 export type destination_assets = $Result.DefaultSelection<Prisma.$destination_assetsPayload>
+/**
+ * Model destination_faqs
+ * 
+ */
+export type destination_faqs = $Result.DefaultSelection<Prisma.$destination_faqsPayload>
 
 /**
  * Enums
@@ -1474,6 +1479,16 @@ export class PrismaClient<
     * ```
     */
   get destination_assets(): Prisma.destination_assetsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.destination_faqs`: Exposes CRUD operations for the **destination_faqs** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Destination_faqs
+    * const destination_faqs = await prisma.destination_faqs.findMany()
+    * ```
+    */
+  get destination_faqs(): Prisma.destination_faqsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1999,7 +2014,8 @@ export namespace Prisma {
     tags_assets: 'tags_assets',
     assets: 'assets',
     asset_tags: 'asset_tags',
-    destination_assets: 'destination_assets'
+    destination_assets: 'destination_assets',
+    destination_faqs: 'destination_faqs'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2018,7 +2034,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8312,6 +8328,80 @@ export namespace Prisma {
           }
         }
       }
+      destination_faqs: {
+        payload: Prisma.$destination_faqsPayload<ExtArgs>
+        fields: Prisma.destination_faqsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.destination_faqsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.destination_faqsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          findFirst: {
+            args: Prisma.destination_faqsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.destination_faqsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          findMany: {
+            args: Prisma.destination_faqsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>[]
+          }
+          create: {
+            args: Prisma.destination_faqsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          createMany: {
+            args: Prisma.destination_faqsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.destination_faqsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>[]
+          }
+          delete: {
+            args: Prisma.destination_faqsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          update: {
+            args: Prisma.destination_faqsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          deleteMany: {
+            args: Prisma.destination_faqsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.destination_faqsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.destination_faqsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>[]
+          }
+          upsert: {
+            args: Prisma.destination_faqsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_faqsPayload>
+          }
+          aggregate: {
+            args: Prisma.Destination_faqsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDestination_faqs>
+          }
+          groupBy: {
+            args: Prisma.destination_faqsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Destination_faqsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.destination_faqsCountArgs<ExtArgs>
+            result: $Utils.Optional<Destination_faqsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -8493,6 +8583,7 @@ export namespace Prisma {
     assets?: assetsOmit
     asset_tags?: asset_tagsOmit
     destination_assets?: destination_assetsOmit
+    destination_faqs?: destination_faqsOmit
   }
 
   /* Types for Logging */
@@ -9296,6 +9387,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations: number
     packages_packages_start_destination_idTodestinations: number
     destination_assets: number
+    destination_faqs: number
   }
 
   export type DestinationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9309,6 +9401,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: boolean | DestinationsCountOutputTypeCountPackages_packages_end_destination_idTodestinationsArgs
     packages_packages_start_destination_idTodestinations?: boolean | DestinationsCountOutputTypeCountPackages_packages_start_destination_idTodestinationsArgs
     destination_assets?: boolean | DestinationsCountOutputTypeCountDestination_assetsArgs
+    destination_faqs?: boolean | DestinationsCountOutputTypeCountDestination_faqsArgs
   }
 
   // Custom InputTypes
@@ -9390,6 +9483,13 @@ export namespace Prisma {
    */
   export type DestinationsCountOutputTypeCountDestination_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: destination_assetsWhereInput
+  }
+
+  /**
+   * DestinationsCountOutputType without action
+   */
+  export type DestinationsCountOutputTypeCountDestination_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_faqsWhereInput
   }
 
 
@@ -9523,6 +9623,37 @@ export namespace Prisma {
    */
   export type Category_faqsCountOutputTypeCountFaqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: faqsWhereInput
+  }
+
+
+  /**
+   * Count Type FaqsCountOutputType
+   */
+
+  export type FaqsCountOutputType = {
+    destination_faqs: number
+  }
+
+  export type FaqsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination_faqs?: boolean | FaqsCountOutputTypeCountDestination_faqsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FaqsCountOutputType without action
+   */
+  export type FaqsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FaqsCountOutputType
+     */
+    select?: FaqsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FaqsCountOutputType without action
+   */
+  export type FaqsCountOutputTypeCountDestination_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_faqsWhereInput
   }
 
 
@@ -58952,6 +59083,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: boolean | destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
+    destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["destinations"]>
 
@@ -59060,6 +59192,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: boolean | destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
+    destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type destinationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -59078,6 +59211,7 @@ export namespace Prisma {
       packages_packages_end_destination_idTodestinations: Prisma.$packagesPayload<ExtArgs>[]
       packages_packages_start_destination_idTodestinations: Prisma.$packagesPayload<ExtArgs>[]
       destination_assets: Prisma.$destination_assetsPayload<ExtArgs>[]
+      destination_faqs: Prisma.$destination_faqsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -59512,6 +59646,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations<T extends destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages_packages_start_destination_idTodestinations<T extends destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     destination_assets<T extends destinations$destination_assetsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    destination_faqs<T extends destinations$destination_faqsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -60194,6 +60329,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * destinations.destination_faqs
+   */
+  export type destinations$destination_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    where?: destination_faqsWhereInput
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    cursor?: destination_faqsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
   }
 
   /**
@@ -66263,6 +66422,8 @@ export namespace Prisma {
     updated_at?: boolean
     category_id?: boolean
     category?: boolean | faqs$categoryArgs<ExtArgs>
+    destination_faqs?: boolean | faqs$destination_faqsArgs<ExtArgs>
+    _count?: boolean | FaqsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["faqs"]>
 
   export type faqsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -66306,6 +66467,8 @@ export namespace Prisma {
   export type faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "tags" | "is_published" | "sort_order" | "created_at" | "updated_at" | "category_id", ExtArgs["result"]["faqs"]>
   export type faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | faqs$categoryArgs<ExtArgs>
+    destination_faqs?: boolean | faqs$destination_faqsArgs<ExtArgs>
+    _count?: boolean | FaqsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | faqs$categoryArgs<ExtArgs>
@@ -66318,6 +66481,7 @@ export namespace Prisma {
     name: "faqs"
     objects: {
       category: Prisma.$category_faqsPayload<ExtArgs> | null
+      destination_faqs: Prisma.$destination_faqsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -66724,6 +66888,7 @@ export namespace Prisma {
   export interface Prisma__faqsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends faqs$categoryArgs<ExtArgs> = {}>(args?: Subset<T, faqs$categoryArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    destination_faqs<T extends faqs$destination_faqsArgs<ExtArgs> = {}>(args?: Subset<T, faqs$destination_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -67174,6 +67339,30 @@ export namespace Prisma {
      */
     include?: category_faqsInclude<ExtArgs> | null
     where?: category_faqsWhereInput
+  }
+
+  /**
+   * faqs.destination_faqs
+   */
+  export type faqs$destination_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    where?: destination_faqsWhereInput
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    cursor?: destination_faqsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
   }
 
   /**
@@ -113420,6 +113609,1114 @@ export namespace Prisma {
 
 
   /**
+   * Model destination_faqs
+   */
+
+  export type AggregateDestination_faqs = {
+    _count: Destination_faqsCountAggregateOutputType | null
+    _avg: Destination_faqsAvgAggregateOutputType | null
+    _sum: Destination_faqsSumAggregateOutputType | null
+    _min: Destination_faqsMinAggregateOutputType | null
+    _max: Destination_faqsMaxAggregateOutputType | null
+  }
+
+  export type Destination_faqsAvgAggregateOutputType = {
+    id: number | null
+    destination_id: number | null
+    faq_id: number | null
+  }
+
+  export type Destination_faqsSumAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    faq_id: bigint | null
+  }
+
+  export type Destination_faqsMinAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    faq_id: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type Destination_faqsMaxAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    faq_id: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type Destination_faqsCountAggregateOutputType = {
+    id: number
+    destination_id: number
+    faq_id: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type Destination_faqsAvgAggregateInputType = {
+    id?: true
+    destination_id?: true
+    faq_id?: true
+  }
+
+  export type Destination_faqsSumAggregateInputType = {
+    id?: true
+    destination_id?: true
+    faq_id?: true
+  }
+
+  export type Destination_faqsMinAggregateInputType = {
+    id?: true
+    destination_id?: true
+    faq_id?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type Destination_faqsMaxAggregateInputType = {
+    id?: true
+    destination_id?: true
+    faq_id?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type Destination_faqsCountAggregateInputType = {
+    id?: true
+    destination_id?: true
+    faq_id?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type Destination_faqsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_faqs to aggregate.
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_faqs to fetch.
+     */
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: destination_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned destination_faqs
+    **/
+    _count?: true | Destination_faqsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Destination_faqsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Destination_faqsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Destination_faqsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Destination_faqsMaxAggregateInputType
+  }
+
+  export type GetDestination_faqsAggregateType<T extends Destination_faqsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDestination_faqs]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDestination_faqs[P]>
+      : GetScalarType<T[P], AggregateDestination_faqs[P]>
+  }
+
+
+
+
+  export type destination_faqsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_faqsWhereInput
+    orderBy?: destination_faqsOrderByWithAggregationInput | destination_faqsOrderByWithAggregationInput[]
+    by: Destination_faqsScalarFieldEnum[] | Destination_faqsScalarFieldEnum
+    having?: destination_faqsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Destination_faqsCountAggregateInputType | true
+    _avg?: Destination_faqsAvgAggregateInputType
+    _sum?: Destination_faqsSumAggregateInputType
+    _min?: Destination_faqsMinAggregateInputType
+    _max?: Destination_faqsMaxAggregateInputType
+  }
+
+  export type Destination_faqsGroupByOutputType = {
+    id: bigint
+    destination_id: bigint
+    faq_id: bigint
+    createdAt: Date
+    updatedAt: Date
+    _count: Destination_faqsCountAggregateOutputType | null
+    _avg: Destination_faqsAvgAggregateOutputType | null
+    _sum: Destination_faqsSumAggregateOutputType | null
+    _min: Destination_faqsMinAggregateOutputType | null
+    _max: Destination_faqsMaxAggregateOutputType | null
+  }
+
+  type GetDestination_faqsGroupByPayload<T extends destination_faqsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Destination_faqsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Destination_faqsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Destination_faqsGroupByOutputType[P]>
+            : GetScalarType<T[P], Destination_faqsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type destination_faqsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    faq_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_faqs"]>
+
+  export type destination_faqsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    faq_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_faqs"]>
+
+  export type destination_faqsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    faq_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_faqs"]>
+
+  export type destination_faqsSelectScalar = {
+    id?: boolean
+    destination_id?: boolean
+    faq_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type destination_faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "destination_id" | "faq_id" | "createdAt" | "updatedAt", ExtArgs["result"]["destination_faqs"]>
+  export type destination_faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+  export type destination_faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+  export type destination_faqsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+
+  export type $destination_faqsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "destination_faqs"
+    objects: {
+      destination: Prisma.$destinationsPayload<ExtArgs>
+      faq: Prisma.$faqsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      destination_id: bigint
+      faq_id: bigint
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["destination_faqs"]>
+    composites: {}
+  }
+
+  type destination_faqsGetPayload<S extends boolean | null | undefined | destination_faqsDefaultArgs> = $Result.GetResult<Prisma.$destination_faqsPayload, S>
+
+  type destination_faqsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<destination_faqsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Destination_faqsCountAggregateInputType | true
+    }
+
+  export interface destination_faqsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['destination_faqs'], meta: { name: 'destination_faqs' } }
+    /**
+     * Find zero or one Destination_faqs that matches the filter.
+     * @param {destination_faqsFindUniqueArgs} args - Arguments to find a Destination_faqs
+     * @example
+     * // Get one Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends destination_faqsFindUniqueArgs>(args: SelectSubset<T, destination_faqsFindUniqueArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Destination_faqs that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {destination_faqsFindUniqueOrThrowArgs} args - Arguments to find a Destination_faqs
+     * @example
+     * // Get one Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends destination_faqsFindUniqueOrThrowArgs>(args: SelectSubset<T, destination_faqsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsFindFirstArgs} args - Arguments to find a Destination_faqs
+     * @example
+     * // Get one Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends destination_faqsFindFirstArgs>(args?: SelectSubset<T, destination_faqsFindFirstArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_faqs that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsFindFirstOrThrowArgs} args - Arguments to find a Destination_faqs
+     * @example
+     * // Get one Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends destination_faqsFindFirstOrThrowArgs>(args?: SelectSubset<T, destination_faqsFindFirstOrThrowArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Destination_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findMany()
+     * 
+     * // Get first 10 Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const destination_faqsWithIdOnly = await prisma.destination_faqs.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends destination_faqsFindManyArgs>(args?: SelectSubset<T, destination_faqsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Destination_faqs.
+     * @param {destination_faqsCreateArgs} args - Arguments to create a Destination_faqs.
+     * @example
+     * // Create one Destination_faqs
+     * const Destination_faqs = await prisma.destination_faqs.create({
+     *   data: {
+     *     // ... data to create a Destination_faqs
+     *   }
+     * })
+     * 
+     */
+    create<T extends destination_faqsCreateArgs>(args: SelectSubset<T, destination_faqsCreateArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Destination_faqs.
+     * @param {destination_faqsCreateManyArgs} args - Arguments to create many Destination_faqs.
+     * @example
+     * // Create many Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends destination_faqsCreateManyArgs>(args?: SelectSubset<T, destination_faqsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Destination_faqs and returns the data saved in the database.
+     * @param {destination_faqsCreateManyAndReturnArgs} args - Arguments to create many Destination_faqs.
+     * @example
+     * // Create many Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Destination_faqs and only return the `id`
+     * const destination_faqsWithIdOnly = await prisma.destination_faqs.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends destination_faqsCreateManyAndReturnArgs>(args?: SelectSubset<T, destination_faqsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Destination_faqs.
+     * @param {destination_faqsDeleteArgs} args - Arguments to delete one Destination_faqs.
+     * @example
+     * // Delete one Destination_faqs
+     * const Destination_faqs = await prisma.destination_faqs.delete({
+     *   where: {
+     *     // ... filter to delete one Destination_faqs
+     *   }
+     * })
+     * 
+     */
+    delete<T extends destination_faqsDeleteArgs>(args: SelectSubset<T, destination_faqsDeleteArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Destination_faqs.
+     * @param {destination_faqsUpdateArgs} args - Arguments to update one Destination_faqs.
+     * @example
+     * // Update one Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends destination_faqsUpdateArgs>(args: SelectSubset<T, destination_faqsUpdateArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Destination_faqs.
+     * @param {destination_faqsDeleteManyArgs} args - Arguments to filter Destination_faqs to delete.
+     * @example
+     * // Delete a few Destination_faqs
+     * const { count } = await prisma.destination_faqs.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends destination_faqsDeleteManyArgs>(args?: SelectSubset<T, destination_faqsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends destination_faqsUpdateManyArgs>(args: SelectSubset<T, destination_faqsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_faqs and returns the data updated in the database.
+     * @param {destination_faqsUpdateManyAndReturnArgs} args - Arguments to update many Destination_faqs.
+     * @example
+     * // Update many Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Destination_faqs and only return the `id`
+     * const destination_faqsWithIdOnly = await prisma.destination_faqs.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends destination_faqsUpdateManyAndReturnArgs>(args: SelectSubset<T, destination_faqsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Destination_faqs.
+     * @param {destination_faqsUpsertArgs} args - Arguments to update or create a Destination_faqs.
+     * @example
+     * // Update or create a Destination_faqs
+     * const destination_faqs = await prisma.destination_faqs.upsert({
+     *   create: {
+     *     // ... data to create a Destination_faqs
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Destination_faqs we want to update
+     *   }
+     * })
+     */
+    upsert<T extends destination_faqsUpsertArgs>(args: SelectSubset<T, destination_faqsUpsertArgs<ExtArgs>>): Prisma__destination_faqsClient<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Destination_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsCountArgs} args - Arguments to filter Destination_faqs to count.
+     * @example
+     * // Count the number of Destination_faqs
+     * const count = await prisma.destination_faqs.count({
+     *   where: {
+     *     // ... the filter for the Destination_faqs we want to count
+     *   }
+     * })
+    **/
+    count<T extends destination_faqsCountArgs>(
+      args?: Subset<T, destination_faqsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Destination_faqsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Destination_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Destination_faqsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Destination_faqsAggregateArgs>(args: Subset<T, Destination_faqsAggregateArgs>): Prisma.PrismaPromise<GetDestination_faqsAggregateType<T>>
+
+    /**
+     * Group by Destination_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_faqsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends destination_faqsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: destination_faqsGroupByArgs['orderBy'] }
+        : { orderBy?: destination_faqsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, destination_faqsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDestination_faqsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the destination_faqs model
+   */
+  readonly fields: destination_faqsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for destination_faqs.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__destination_faqsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    destination<T extends destinationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, destinationsDefaultArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    faq<T extends faqsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, faqsDefaultArgs<ExtArgs>>): Prisma__faqsClient<$Result.GetResult<Prisma.$faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the destination_faqs model
+   */
+  interface destination_faqsFieldRefs {
+    readonly id: FieldRef<"destination_faqs", 'BigInt'>
+    readonly destination_id: FieldRef<"destination_faqs", 'BigInt'>
+    readonly faq_id: FieldRef<"destination_faqs", 'BigInt'>
+    readonly createdAt: FieldRef<"destination_faqs", 'DateTime'>
+    readonly updatedAt: FieldRef<"destination_faqs", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * destination_faqs findUnique
+   */
+  export type destination_faqsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_faqs to fetch.
+     */
+    where: destination_faqsWhereUniqueInput
+  }
+
+  /**
+   * destination_faqs findUniqueOrThrow
+   */
+  export type destination_faqsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_faqs to fetch.
+     */
+    where: destination_faqsWhereUniqueInput
+  }
+
+  /**
+   * destination_faqs findFirst
+   */
+  export type destination_faqsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_faqs to fetch.
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_faqs to fetch.
+     */
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_faqs.
+     */
+    cursor?: destination_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_faqs.
+     */
+    distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_faqs findFirstOrThrow
+   */
+  export type destination_faqsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_faqs to fetch.
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_faqs to fetch.
+     */
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_faqs.
+     */
+    cursor?: destination_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_faqs.
+     */
+    distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_faqs findMany
+   */
+  export type destination_faqsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_faqs to fetch.
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_faqs to fetch.
+     */
+    orderBy?: destination_faqsOrderByWithRelationInput | destination_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing destination_faqs.
+     */
+    cursor?: destination_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_faqs.
+     */
+    skip?: number
+    distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_faqs create
+   */
+  export type destination_faqsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a destination_faqs.
+     */
+    data: XOR<destination_faqsCreateInput, destination_faqsUncheckedCreateInput>
+  }
+
+  /**
+   * destination_faqs createMany
+   */
+  export type destination_faqsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many destination_faqs.
+     */
+    data: destination_faqsCreateManyInput | destination_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * destination_faqs createManyAndReturn
+   */
+  export type destination_faqsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to create many destination_faqs.
+     */
+    data: destination_faqsCreateManyInput | destination_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_faqs update
+   */
+  export type destination_faqsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a destination_faqs.
+     */
+    data: XOR<destination_faqsUpdateInput, destination_faqsUncheckedUpdateInput>
+    /**
+     * Choose, which destination_faqs to update.
+     */
+    where: destination_faqsWhereUniqueInput
+  }
+
+  /**
+   * destination_faqs updateMany
+   */
+  export type destination_faqsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update destination_faqs.
+     */
+    data: XOR<destination_faqsUpdateManyMutationInput, destination_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_faqs to update
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * Limit how many destination_faqs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_faqs updateManyAndReturn
+   */
+  export type destination_faqsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to update destination_faqs.
+     */
+    data: XOR<destination_faqsUpdateManyMutationInput, destination_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_faqs to update
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * Limit how many destination_faqs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_faqs upsert
+   */
+  export type destination_faqsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the destination_faqs to update in case it exists.
+     */
+    where: destination_faqsWhereUniqueInput
+    /**
+     * In case the destination_faqs found by the `where` argument doesn't exist, create a new destination_faqs with this data.
+     */
+    create: XOR<destination_faqsCreateInput, destination_faqsUncheckedCreateInput>
+    /**
+     * In case the destination_faqs was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<destination_faqsUpdateInput, destination_faqsUncheckedUpdateInput>
+  }
+
+  /**
+   * destination_faqs delete
+   */
+  export type destination_faqsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+    /**
+     * Filter which destination_faqs to delete.
+     */
+    where: destination_faqsWhereUniqueInput
+  }
+
+  /**
+   * destination_faqs deleteMany
+   */
+  export type destination_faqsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_faqs to delete
+     */
+    where?: destination_faqsWhereInput
+    /**
+     * Limit how many destination_faqs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_faqs without action
+   */
+  export type destination_faqsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_faqs
+     */
+    select?: destination_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_faqs
+     */
+    omit?: destination_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_faqsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -114778,6 +116075,17 @@ export namespace Prisma {
   };
 
   export type Destination_assetsScalarFieldEnum = (typeof Destination_assetsScalarFieldEnum)[keyof typeof Destination_assetsScalarFieldEnum]
+
+
+  export const Destination_faqsScalarFieldEnum: {
+    id: 'id',
+    destination_id: 'destination_id',
+    faq_id: 'faq_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type Destination_faqsScalarFieldEnum = (typeof Destination_faqsScalarFieldEnum)[keyof typeof Destination_faqsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -118582,6 +119890,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: PackagesListRelationFilter
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
     destination_assets?: Destination_assetsListRelationFilter
+    destination_faqs?: Destination_faqsListRelationFilter
   }
 
   export type destinationsOrderByWithRelationInput = {
@@ -118623,6 +119932,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesOrderByRelationAggregateInput
     packages_packages_start_destination_idTodestinations?: packagesOrderByRelationAggregateInput
     destination_assets?: destination_assetsOrderByRelationAggregateInput
+    destination_faqs?: destination_faqsOrderByRelationAggregateInput
   }
 
   export type destinationsWhereUniqueInput = Prisma.AtLeast<{
@@ -118667,6 +119977,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: PackagesListRelationFilter
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
     destination_assets?: Destination_assetsListRelationFilter
+    destination_faqs?: Destination_faqsListRelationFilter
   }, "id">
 
   export type destinationsOrderByWithAggregationInput = {
@@ -119131,6 +120442,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
     category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
     category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
+    destination_faqs?: Destination_faqsListRelationFilter
   }
 
   export type faqsOrderByWithRelationInput = {
@@ -119144,6 +120456,7 @@ export namespace Prisma {
     updated_at?: SortOrderInput | SortOrder
     category_id?: SortOrderInput | SortOrder
     category?: category_faqsOrderByWithRelationInput
+    destination_faqs?: destination_faqsOrderByRelationAggregateInput
   }
 
   export type faqsWhereUniqueInput = Prisma.AtLeast<{
@@ -119160,6 +120473,7 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"faqs"> | Date | string | null
     category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
     category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
+    destination_faqs?: Destination_faqsListRelationFilter
   }, "id">
 
   export type faqsOrderByWithAggregationInput = {
@@ -122281,6 +123595,67 @@ export namespace Prisma {
     type?: Enumdestination_asset_typeWithAggregatesFilter<"destination_assets"> | $Enums.destination_asset_type
     created_at?: DateTimeWithAggregatesFilter<"destination_assets"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"destination_assets"> | Date | string
+  }
+
+  export type destination_faqsWhereInput = {
+    AND?: destination_faqsWhereInput | destination_faqsWhereInput[]
+    OR?: destination_faqsWhereInput[]
+    NOT?: destination_faqsWhereInput | destination_faqsWhereInput[]
+    id?: BigIntFilter<"destination_faqs"> | bigint | number
+    destination_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    createdAt?: DateTimeFilter<"destination_faqs"> | Date | string
+    updatedAt?: DateTimeFilter<"destination_faqs"> | Date | string
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    faq?: XOR<FaqsScalarRelationFilter, faqsWhereInput>
+  }
+
+  export type destination_faqsOrderByWithRelationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    destination?: destinationsOrderByWithRelationInput
+    faq?: faqsOrderByWithRelationInput
+  }
+
+  export type destination_faqsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    destination_id_faq_id?: destination_faqsDestination_idFaq_idCompoundUniqueInput
+    AND?: destination_faqsWhereInput | destination_faqsWhereInput[]
+    OR?: destination_faqsWhereInput[]
+    NOT?: destination_faqsWhereInput | destination_faqsWhereInput[]
+    destination_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    createdAt?: DateTimeFilter<"destination_faqs"> | Date | string
+    updatedAt?: DateTimeFilter<"destination_faqs"> | Date | string
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    faq?: XOR<FaqsScalarRelationFilter, faqsWhereInput>
+  }, "id" | "destination_id_faq_id">
+
+  export type destination_faqsOrderByWithAggregationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: destination_faqsCountOrderByAggregateInput
+    _avg?: destination_faqsAvgOrderByAggregateInput
+    _max?: destination_faqsMaxOrderByAggregateInput
+    _min?: destination_faqsMinOrderByAggregateInput
+    _sum?: destination_faqsSumOrderByAggregateInput
+  }
+
+  export type destination_faqsScalarWhereWithAggregatesInput = {
+    AND?: destination_faqsScalarWhereWithAggregatesInput | destination_faqsScalarWhereWithAggregatesInput[]
+    OR?: destination_faqsScalarWhereWithAggregatesInput[]
+    NOT?: destination_faqsScalarWhereWithAggregatesInput | destination_faqsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"destination_faqs"> | bigint | number
+    destination_id?: BigIntWithAggregatesFilter<"destination_faqs"> | bigint | number
+    faq_id?: BigIntWithAggregatesFilter<"destination_faqs"> | bigint | number
+    createdAt?: DateTimeWithAggregatesFilter<"destination_faqs"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"destination_faqs"> | Date | string
   }
 
   export type activitiesCreateInput = {
@@ -126194,6 +127569,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateInput = {
@@ -126235,6 +127611,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUpdateInput = {
@@ -126276,6 +127653,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateInput = {
@@ -126317,6 +127695,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsCreateManyInput = {
@@ -126847,6 +128226,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     category?: category_faqsCreateNestedOneWithoutFaqsInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUncheckedCreateInput = {
@@ -126859,6 +128239,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     category_id?: bigint | number | null
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUpdateInput = {
@@ -126871,6 +128252,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: category_faqsUpdateOneWithoutFaqsNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateInput = {
@@ -126883,6 +128265,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsCreateManyInput = {
@@ -130240,6 +131623,60 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type destination_faqsCreateInput = {
+    id?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    destination: destinationsCreateNestedOneWithoutDestination_faqsInput
+    faq: faqsCreateNestedOneWithoutDestination_faqsInput
+  }
+
+  export type destination_faqsUncheckedCreateInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    faq_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type destination_faqsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    destination?: destinationsUpdateOneRequiredWithoutDestination_faqsNestedInput
+    faq?: faqsUpdateOneRequiredWithoutDestination_faqsNestedInput
+  }
+
+  export type destination_faqsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_faqsCreateManyInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    faq_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type destination_faqsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_faqsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -133205,6 +134642,12 @@ export namespace Prisma {
     none?: destination_assetsWhereInput
   }
 
+  export type Destination_faqsListRelationFilter = {
+    every?: destination_faqsWhereInput
+    some?: destination_faqsWhereInput
+    none?: destination_faqsWhereInput
+  }
+
   export type activity_endsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -133230,6 +134673,10 @@ export namespace Prisma {
   }
 
   export type destination_assetsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type destination_faqsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -135877,6 +137324,52 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
     _max?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
+  }
+
+  export type FaqsScalarRelationFilter = {
+    is?: faqsWhereInput
+    isNot?: faqsWhereInput
+  }
+
+  export type destination_faqsDestination_idFaq_idCompoundUniqueInput = {
+    destination_id: bigint | number
+    faq_id: bigint | number
+  }
+
+  export type destination_faqsCountOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type destination_faqsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+  }
+
+  export type destination_faqsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type destination_faqsMinOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type destination_faqsSumOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    faq_id?: SortOrder
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -138841,6 +140334,13 @@ export namespace Prisma {
     connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
   }
 
+  export type destination_faqsCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput> | destination_faqsCreateWithoutDestinationInput[] | destination_faqsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutDestinationInput | destination_faqsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_faqsCreateManyDestinationInputEnvelope
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+  }
+
   export type activitiesUncheckedCreateNestedManyWithoutDestinationsInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -138909,6 +140409,13 @@ export namespace Prisma {
     connectOrCreate?: destination_assetsCreateOrConnectWithoutDestinationInput | destination_assetsCreateOrConnectWithoutDestinationInput[]
     createMany?: destination_assetsCreateManyDestinationInputEnvelope
     connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+  }
+
+  export type destination_faqsUncheckedCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput> | destination_faqsCreateWithoutDestinationInput[] | destination_faqsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutDestinationInput | destination_faqsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_faqsCreateManyDestinationInputEnvelope
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -139059,6 +140566,20 @@ export namespace Prisma {
     deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
   }
 
+  export type destination_faqsUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput> | destination_faqsCreateWithoutDestinationInput[] | destination_faqsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutDestinationInput | destination_faqsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_faqsUpsertWithWhereUniqueWithoutDestinationInput | destination_faqsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_faqsCreateManyDestinationInputEnvelope
+    set?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    disconnect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    delete?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    update?: destination_faqsUpdateWithWhereUniqueWithoutDestinationInput | destination_faqsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_faqsUpdateManyWithWhereWithoutDestinationInput | destination_faqsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
+  }
+
   export type activitiesUncheckedUpdateManyWithoutDestinationsNestedInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -139197,6 +140718,20 @@ export namespace Prisma {
     update?: destination_assetsUpdateWithWhereUniqueWithoutDestinationInput | destination_assetsUpdateWithWhereUniqueWithoutDestinationInput[]
     updateMany?: destination_assetsUpdateManyWithWhereWithoutDestinationInput | destination_assetsUpdateManyWithWhereWithoutDestinationInput[]
     deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+  }
+
+  export type destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput> | destination_faqsCreateWithoutDestinationInput[] | destination_faqsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutDestinationInput | destination_faqsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_faqsUpsertWithWhereUniqueWithoutDestinationInput | destination_faqsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_faqsCreateManyDestinationInputEnvelope
+    set?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    disconnect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    delete?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    update?: destination_faqsUpdateWithWhereUniqueWithoutDestinationInput | destination_faqsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_faqsUpdateManyWithWhereWithoutDestinationInput | destination_faqsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
   }
 
   export type booking_payment_termsCreateNestedManyWithoutDiscountsInput = {
@@ -139452,6 +140987,20 @@ export namespace Prisma {
     connect?: category_faqsWhereUniqueInput
   }
 
+  export type destination_faqsCreateNestedManyWithoutFaqInput = {
+    create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
+    createMany?: destination_faqsCreateManyFaqInputEnvelope
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+  }
+
+  export type destination_faqsUncheckedCreateNestedManyWithoutFaqInput = {
+    create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
+    createMany?: destination_faqsCreateManyFaqInputEnvelope
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+  }
+
   export type faqsUpdatetagsInput = {
     set?: string[]
     push?: string | string[]
@@ -139465,6 +141014,34 @@ export namespace Prisma {
     delete?: category_faqsWhereInput | boolean
     connect?: category_faqsWhereUniqueInput
     update?: XOR<XOR<category_faqsUpdateToOneWithWhereWithoutFaqsInput, category_faqsUpdateWithoutFaqsInput>, category_faqsUncheckedUpdateWithoutFaqsInput>
+  }
+
+  export type destination_faqsUpdateManyWithoutFaqNestedInput = {
+    create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
+    upsert?: destination_faqsUpsertWithWhereUniqueWithoutFaqInput | destination_faqsUpsertWithWhereUniqueWithoutFaqInput[]
+    createMany?: destination_faqsCreateManyFaqInputEnvelope
+    set?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    disconnect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    delete?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    update?: destination_faqsUpdateWithWhereUniqueWithoutFaqInput | destination_faqsUpdateWithWhereUniqueWithoutFaqInput[]
+    updateMany?: destination_faqsUpdateManyWithWhereWithoutFaqInput | destination_faqsUpdateManyWithWhereWithoutFaqInput[]
+    deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
+  }
+
+  export type destination_faqsUncheckedUpdateManyWithoutFaqNestedInput = {
+    create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
+    upsert?: destination_faqsUpsertWithWhereUniqueWithoutFaqInput | destination_faqsUpsertWithWhereUniqueWithoutFaqInput[]
+    createMany?: destination_faqsCreateManyFaqInputEnvelope
+    set?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    disconnect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    delete?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+    update?: destination_faqsUpdateWithWhereUniqueWithoutFaqInput | destination_faqsUpdateWithWhereUniqueWithoutFaqInput[]
+    updateMany?: destination_faqsUpdateManyWithWhereWithoutFaqInput | destination_faqsUpdateManyWithWhereWithoutFaqInput[]
+    deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
   }
 
   export type Enumpolicy_document_typeFieldUpdateOperationsInput = {
@@ -142112,6 +143689,34 @@ export namespace Prisma {
     update?: XOR<XOR<assetsUpdateToOneWithWhereWithoutDestination_assetsInput, assetsUpdateWithoutDestination_assetsInput>, assetsUncheckedUpdateWithoutDestination_assetsInput>
   }
 
+  export type destinationsCreateNestedOneWithoutDestination_faqsInput = {
+    create?: XOR<destinationsCreateWithoutDestination_faqsInput, destinationsUncheckedCreateWithoutDestination_faqsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_faqsInput
+    connect?: destinationsWhereUniqueInput
+  }
+
+  export type faqsCreateNestedOneWithoutDestination_faqsInput = {
+    create?: XOR<faqsCreateWithoutDestination_faqsInput, faqsUncheckedCreateWithoutDestination_faqsInput>
+    connectOrCreate?: faqsCreateOrConnectWithoutDestination_faqsInput
+    connect?: faqsWhereUniqueInput
+  }
+
+  export type destinationsUpdateOneRequiredWithoutDestination_faqsNestedInput = {
+    create?: XOR<destinationsCreateWithoutDestination_faqsInput, destinationsUncheckedCreateWithoutDestination_faqsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_faqsInput
+    upsert?: destinationsUpsertWithoutDestination_faqsInput
+    connect?: destinationsWhereUniqueInput
+    update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutDestination_faqsInput, destinationsUpdateWithoutDestination_faqsInput>, destinationsUncheckedUpdateWithoutDestination_faqsInput>
+  }
+
+  export type faqsUpdateOneRequiredWithoutDestination_faqsNestedInput = {
+    create?: XOR<faqsCreateWithoutDestination_faqsInput, faqsUncheckedCreateWithoutDestination_faqsInput>
+    connectOrCreate?: faqsCreateOrConnectWithoutDestination_faqsInput
+    upsert?: faqsUpsertWithoutDestination_faqsInput
+    connect?: faqsWhereUniqueInput
+    update?: XOR<XOR<faqsUpdateToOneWithWhereWithoutDestination_faqsInput, faqsUpdateWithoutDestination_faqsInput>, faqsUncheckedUpdateWithoutDestination_faqsInput>
+  }
+
   export type NestedBigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -142623,6 +144228,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivitiesInput = {
@@ -142663,6 +144269,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivitiesInput = {
@@ -142784,6 +144391,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivitiesInput = {
@@ -142824,6 +144432,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutActivitiesInput = {
@@ -142965,6 +144574,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_endsInput = {
@@ -143005,6 +144615,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_endsInput = {
@@ -143151,6 +144762,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_endsInput = {
@@ -143191,6 +144803,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_endsInput = {
@@ -143303,6 +144916,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_startsInput = {
@@ -143343,6 +144957,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_startsInput = {
@@ -143489,6 +145104,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_startsInput = {
@@ -143529,6 +145145,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_startsInput = {
@@ -144751,6 +146368,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -144791,6 +146409,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -145005,6 +146624,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -145045,6 +146665,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_schedulesInput = {
@@ -153522,6 +155143,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_activitiesInput = {
@@ -153562,6 +155184,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_activitiesInput = {
@@ -153661,6 +155284,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_activitiesInput = {
@@ -153701,6 +155325,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type vendorsUpsertWithoutDestination_activitiesInput = {
@@ -154224,6 +155849,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type destination_faqsCreateWithoutDestinationInput = {
+    id?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    faq: faqsCreateNestedOneWithoutDestination_faqsInput
+  }
+
+  export type destination_faqsUncheckedCreateWithoutDestinationInput = {
+    id?: bigint | number
+    faq_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type destination_faqsCreateOrConnectWithoutDestinationInput = {
+    where: destination_faqsWhereUniqueInput
+    create: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_faqsCreateManyDestinationInputEnvelope = {
+    data: destination_faqsCreateManyDestinationInput | destination_faqsCreateManyDestinationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type activitiesUpsertWithWhereUniqueWithoutDestinationsInput = {
     where: activitiesWhereUniqueInput
     update: XOR<activitiesUpdateWithoutDestinationsInput, activitiesUncheckedUpdateWithoutDestinationsInput>
@@ -154517,6 +156166,33 @@ export namespace Prisma {
     type?: Enumdestination_asset_typeFilter<"destination_assets"> | $Enums.destination_asset_type
     created_at?: DateTimeFilter<"destination_assets"> | Date | string
     updated_at?: DateTimeFilter<"destination_assets"> | Date | string
+  }
+
+  export type destination_faqsUpsertWithWhereUniqueWithoutDestinationInput = {
+    where: destination_faqsWhereUniqueInput
+    update: XOR<destination_faqsUpdateWithoutDestinationInput, destination_faqsUncheckedUpdateWithoutDestinationInput>
+    create: XOR<destination_faqsCreateWithoutDestinationInput, destination_faqsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_faqsUpdateWithWhereUniqueWithoutDestinationInput = {
+    where: destination_faqsWhereUniqueInput
+    data: XOR<destination_faqsUpdateWithoutDestinationInput, destination_faqsUncheckedUpdateWithoutDestinationInput>
+  }
+
+  export type destination_faqsUpdateManyWithWhereWithoutDestinationInput = {
+    where: destination_faqsScalarWhereInput
+    data: XOR<destination_faqsUpdateManyMutationInput, destination_faqsUncheckedUpdateManyWithoutDestinationInput>
+  }
+
+  export type destination_faqsScalarWhereInput = {
+    AND?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
+    OR?: destination_faqsScalarWhereInput[]
+    NOT?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
+    id?: BigIntFilter<"destination_faqs"> | bigint | number
+    destination_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"destination_faqs"> | bigint | number
+    createdAt?: DateTimeFilter<"destination_faqs"> | Date | string
+    updatedAt?: DateTimeFilter<"destination_faqs"> | Date | string
   }
 
   export type booking_payment_termsCreateWithoutDiscountsInput = {
@@ -154940,6 +156616,7 @@ export namespace Prisma {
     sort_order?: number
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    destination_faqs?: destination_faqsCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUncheckedCreateWithoutCategoryInput = {
@@ -154951,6 +156628,7 @@ export namespace Prisma {
     sort_order?: number
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutFaqInput
   }
 
   export type faqsCreateOrConnectWithoutCategoryInput = {
@@ -155019,6 +156697,30 @@ export namespace Prisma {
     create: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
   }
 
+  export type destination_faqsCreateWithoutFaqInput = {
+    id?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    destination: destinationsCreateNestedOneWithoutDestination_faqsInput
+  }
+
+  export type destination_faqsUncheckedCreateWithoutFaqInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type destination_faqsCreateOrConnectWithoutFaqInput = {
+    where: destination_faqsWhereUniqueInput
+    create: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput>
+  }
+
+  export type destination_faqsCreateManyFaqInputEnvelope = {
+    data: destination_faqsCreateManyFaqInput | destination_faqsCreateManyFaqInput[]
+    skipDuplicates?: boolean
+  }
+
   export type category_faqsUpsertWithoutFaqsInput = {
     update: XOR<category_faqsUpdateWithoutFaqsInput, category_faqsUncheckedUpdateWithoutFaqsInput>
     create: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
@@ -155048,6 +156750,22 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_faqsUpsertWithWhereUniqueWithoutFaqInput = {
+    where: destination_faqsWhereUniqueInput
+    update: XOR<destination_faqsUpdateWithoutFaqInput, destination_faqsUncheckedUpdateWithoutFaqInput>
+    create: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput>
+  }
+
+  export type destination_faqsUpdateWithWhereUniqueWithoutFaqInput = {
+    where: destination_faqsWhereUniqueInput
+    data: XOR<destination_faqsUpdateWithoutFaqInput, destination_faqsUncheckedUpdateWithoutFaqInput>
+  }
+
+  export type destination_faqsUpdateManyWithWhereWithoutFaqInput = {
+    where: destination_faqsScalarWhereInput
+    data: XOR<destination_faqsUpdateManyMutationInput, destination_faqsUncheckedUpdateManyWithoutFaqInput>
   }
 
   export type bookingsCreateWithoutFeedbackInput = {
@@ -155424,6 +157142,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutHotelsInput = {
@@ -155464,6 +157183,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutHotelsInput = {
@@ -155708,6 +157428,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutHotelsInput = {
@@ -155748,6 +157469,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_hotel_optionsUpsertWithWhereUniqueWithoutHotelsInput = {
@@ -156860,6 +158582,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackage_destinationsInput = {
@@ -156900,6 +158623,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackage_destinationsInput = {
@@ -157037,6 +158761,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -157077,6 +158802,7 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type packagesUpsertWithoutPackage_destinationsInput = {
@@ -159561,6 +161287,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -159601,6 +161328,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -159704,6 +161432,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -159744,6 +161473,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -160025,6 +161755,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -160065,6 +161796,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type order_channelsUpsertWithoutPackagesInput = {
@@ -160186,6 +161918,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -160226,6 +161959,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_payment_termsCreateWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -162184,6 +163918,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_assetsInput = {
@@ -162224,6 +163959,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_assetsInput = {
@@ -162321,6 +164057,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_assetsInput = {
@@ -162361,6 +164098,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type assetsUpsertWithoutDestination_assetsInput = {
@@ -162408,6 +164146,250 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
+  }
+
+  export type destinationsCreateWithoutDestination_faqsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    thumbnail_url?: string | null
+    description?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    trail_details?: string | null
+    required_gear?: string | null
+    difficulty_level?: string | null
+    environmental_factors?: string | null
+    physical_requirements?: string | null
+    main_attractions?: string | null
+    best_time_to_visit?: string | null
+    tips_for_visitors?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    slug?: string | null
+    highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsUncheckedCreateWithoutDestination_faqsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    thumbnail_url?: string | null
+    description?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    trail_details?: string | null
+    required_gear?: string | null
+    difficulty_level?: string | null
+    environmental_factors?: string | null
+    physical_requirements?: string | null
+    main_attractions?: string | null
+    best_time_to_visit?: string | null
+    tips_for_visitors?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    slug?: string | null
+    highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsCreateOrConnectWithoutDestination_faqsInput = {
+    where: destinationsWhereUniqueInput
+    create: XOR<destinationsCreateWithoutDestination_faqsInput, destinationsUncheckedCreateWithoutDestination_faqsInput>
+  }
+
+  export type faqsCreateWithoutDestination_faqsInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    category?: category_faqsCreateNestedOneWithoutFaqsInput
+  }
+
+  export type faqsUncheckedCreateWithoutDestination_faqsInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    category_id?: bigint | number | null
+  }
+
+  export type faqsCreateOrConnectWithoutDestination_faqsInput = {
+    where: faqsWhereUniqueInput
+    create: XOR<faqsCreateWithoutDestination_faqsInput, faqsUncheckedCreateWithoutDestination_faqsInput>
+  }
+
+  export type destinationsUpsertWithoutDestination_faqsInput = {
+    update: XOR<destinationsUpdateWithoutDestination_faqsInput, destinationsUncheckedUpdateWithoutDestination_faqsInput>
+    create: XOR<destinationsCreateWithoutDestination_faqsInput, destinationsUncheckedCreateWithoutDestination_faqsInput>
+    where?: destinationsWhereInput
+  }
+
+  export type destinationsUpdateToOneWithWhereWithoutDestination_faqsInput = {
+    where?: destinationsWhereInput
+    data: XOR<destinationsUpdateWithoutDestination_faqsInput, destinationsUncheckedUpdateWithoutDestination_faqsInput>
+  }
+
+  export type destinationsUpdateWithoutDestination_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    environmental_factors?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+  }
+
+  export type destinationsUncheckedUpdateWithoutDestination_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    environmental_factors?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+  }
+
+  export type faqsUpsertWithoutDestination_faqsInput = {
+    update: XOR<faqsUpdateWithoutDestination_faqsInput, faqsUncheckedUpdateWithoutDestination_faqsInput>
+    create: XOR<faqsCreateWithoutDestination_faqsInput, faqsUncheckedCreateWithoutDestination_faqsInput>
+    where?: faqsWhereInput
+  }
+
+  export type faqsUpdateToOneWithWhereWithoutDestination_faqsInput = {
+    where?: faqsWhereInput
+    data: XOR<faqsUpdateWithoutDestination_faqsInput, faqsUncheckedUpdateWithoutDestination_faqsInput>
+  }
+
+  export type faqsUpdateWithoutDestination_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: category_faqsUpdateOneWithoutFaqsNestedInput
+  }
+
+  export type faqsUncheckedUpdateWithoutDestination_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type package_itinerary_day_detailsCreateManyActivitiesInput = {
@@ -165001,6 +166983,13 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
+  export type destination_faqsCreateManyDestinationInput = {
+    id?: bigint | number
+    faq_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type activitiesUpdateWithoutDestinationsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165550,6 +167539,27 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type destination_faqsUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    faq?: faqsUpdateOneRequiredWithoutDestination_faqsNestedInput
+  }
+
+  export type destination_faqsUncheckedUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_faqsUncheckedUpdateManyWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type booking_payment_termsCreateManyDiscountsInput = {
     id?: bigint | number
     booking_id?: bigint | number | null
@@ -165996,6 +168006,7 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    destination_faqs?: destination_faqsUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateWithoutCategoryInput = {
@@ -166007,6 +168018,7 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateManyWithoutCategoryInput = {
@@ -166018,6 +168030,34 @@ export namespace Prisma {
     sort_order?: IntFieldUpdateOperationsInput | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_faqsCreateManyFaqInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type destination_faqsUpdateWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    destination?: destinationsUpdateOneRequiredWithoutDestination_faqsNestedInput
+  }
+
+  export type destination_faqsUncheckedUpdateWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_faqsUncheckedUpdateManyWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type booking_destination_schedulesCreateManyHotelsInput = {
