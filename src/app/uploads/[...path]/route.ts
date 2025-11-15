@@ -6,11 +6,15 @@ import mime from "mime";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _req: NextRequest,
-  context: { params: { path: string[] } }
-) {
-  const relPath = context.params.path.join("/");
+export async function GET(req: NextRequest) {
+  // Ambil path dari URL: /uploads/1763....-rendi.png
+  const url = new URL(req.url);
+  const relPath = url.pathname.replace(/^\/uploads\//, "");
+
+  // Kalau tidak ada nama file → 404
+  if (!relPath || relPath === "/" || relPath.includes("..")) {
+    return new NextResponse("Not found", { status: 404 });
+  }
 
   const filePath = path.join(process.cwd(), "public", "uploads", relPath);
 
