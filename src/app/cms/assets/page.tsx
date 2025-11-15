@@ -1463,7 +1463,7 @@ function AssetsPageContent() {
         asset={detailAsset}
         folder={detailAssetFolder}
         tags={tags}
-        onClose={() => closeDetailAsset}
+        onClose={() => closeDetailAsset()}
         onToggleActive={handleToggleAssetActive}
         onDelete={handleDeleteAsset}
         onEdit={(id) => openEditAssetForm(id)}
@@ -2070,16 +2070,6 @@ function AssetDetailModal({
           <div className="mt-2 grid grid-cols-2 gap-2 text-[10px] text-slate-400">
             <div className="space-y-1">
               <div>Type: {asset.type}</div>
-              <div>
-                Size bytes: {asset.sizeBytes ?? "-"} (
-                {formatSize(asset.sizeBytes)})
-              </div>
-              <div>
-                Size MB:{" "}
-                {typeof asset.sizeMegabytes === "number"
-                  ? asset.sizeMegabytes.toFixed(2)
-                  : "-"}
-              </div>
               <div>Created: {asset.createdAt}</div>
               <div>Status: {asset.isActive ? "Active" : "Inactive"}</div>
             </div>
@@ -2095,10 +2085,22 @@ function AssetDetailModal({
                 </Link>
               </div>
               <div>Extension: {asset.fileExt ?? "-"}</div>
-              <div className="truncate">hash: {asset.sha256 ?? "-"}</div>
-              <div>last verified: {asset.lastVerified ?? "-"}</div>
+              <div>
+                Size bytes: {asset.sizeBytes ?? "-"} (
+                {formatSize(asset.sizeBytes)})
+              </div>
+              <div>
+                Size MB:{" "}
+                {typeof asset.sizeMegabytes === "number"
+                  ? asset.sizeMegabytes.toFixed(2)
+                  : "-"}
+              </div>
             </div>
           </div>
+        </div>
+        <div className="mt-2 space-y-1 text-slate-400">
+          <div className="text-[11px]">hash: {asset.sha256 ?? "-"}</div>
+          <div className="text-[11px]">last verified: {asset.lastVerified ?? "-"}</div>
         </div>
 
         {/* Tags */}
