@@ -2022,6 +2022,7 @@ function AssetDetailModal({
   onRemoveTag,
 }: AssetDetailModalProps) {
   const [tagInput, setTagInput] = useState("");
+  const [copied, setCopied] = useState(false);
 
   if (!open || !asset) return null;
 
@@ -2031,7 +2032,6 @@ function AssetDetailModal({
 
   const isImage = asset.type === "image";
   const isVideo = asset.type === "video";
-  const [copied, setCopied] = useState(false);
 
   function handleAddTags() {
     if (!asset) return;
