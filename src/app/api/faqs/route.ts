@@ -6,6 +6,14 @@ function serializeFaq(faq: any) {
   return {
     ...faq,
     id: Number(faq.id),
+    category_id: faq.category_id ? Number(faq.category_id) : null,
+    category: faq.category
+      ? {
+          id: Number(faq.category.id),
+          name: faq.category.name,
+          slug: faq.category.slug,
+        }
+      : null,
   };
 }
 
@@ -13,10 +21,10 @@ function serializeFaq(faq: any) {
 export async function GET() {
   try {
     const faqs = await prisma.faqs.findMany({
-      orderBy: [
-        { sort_order: "asc" },
-        { created_at: "desc" },
-      ],
+      orderBy: [{ sort_order: "asc" }, { created_at: "desc" }],
+      include: {
+        category: true,
+      },
     });
 
     return NextResponse.json(faqs.map(serializeFaq), { status: 200 });
@@ -44,6 +52,17 @@ export async function POST(req: NextRequest) {
         ? body.sort_order
         : 0;
 
+    const category_id_raw = body.category_id;
+    let category_id: bigint | null = null;
+
+    if (
+      typeof category_id_raw === "number" &&
+      Number.isInteger(category_id_raw) &&
+      category_id_raw > 0
+    ) {
+      category_id = BigInt(category_id_raw);
+    }
+
     if (!question || !answer) {
       return NextResponse.json(
         { message: "question & answer wajib diisi" },
@@ -51,15 +70,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const tags =
-      Array.isArray(tagsInput)
-        ? tagsInput.map((t: string) => t.trim()).filter(Boolean)
-        : typeof tagsInput === "string"
-        ? tagsInput
-            .split(",")
-            .map((t: string) => t.trim())
-            .filter(Boolean)
-        : [];
+    const tags = Array.isArray(tagsInput)
+      ? tagsInput.map((t: string) => t.trim()).filter(Boolean)
+      : typeof tagsInput === "string"
+      ? tagsInput
+          .split(",")
+          .map((t: string) => t.trim())
+          .filter(Boolean)
+      : [];
 
     const created = await prisma.faqs.create({
       data: {
@@ -68,6 +86,7 @@ export async function POST(req: NextRequest) {
         tags,
         is_published,
         sort_order,
+        category_id,
       },
     });
 

@@ -17,6 +17,14 @@ import {
   Search,
 } from "lucide-react";
 
+type CategoryFaq = {
+  id: number;
+  name: string;
+  slug: string;
+  sort_order: number;
+  is_active?: boolean;
+};
+
 type Faq = {
   id: number;
   question: string;
@@ -24,6 +32,8 @@ type Faq = {
   tags: string[];
   is_published: boolean;
   sort_order: number;
+  category_id?: number | null;
+  category?: CategoryFaq | null;
   created_at?: string | null;
   updated_at?: string | null;
 };
@@ -34,6 +44,7 @@ type FormState = {
   tags: string;
   is_published: boolean;
   sort_order: number | "";
+  category_id: number | null; // NEW
 };
 
 const emptyForm: FormState = {
@@ -42,6 +53,7 @@ const emptyForm: FormState = {
   tags: "",
   is_published: true,
   sort_order: "",
+  category_id: null,
 };
 
 export default function CmsFaqPage() {
@@ -55,6 +67,19 @@ export default function CmsFaqPage() {
   const [search, setSearch] = useState("");
 
   const [form, setForm] = useState<FormState>(emptyForm);
+
+  const [categories, setCategories] = useState<CategoryFaq[]>([]);
+  const [catLoading, setCatLoading] = useState(false);
+  const [catError, setCatError] = useState<string | null>(null);
+
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [categoryForm, setCategoryForm] = useState({
+    name: "",
+    slug: "",
+    sort_order: 0,
+    is_active: true,
+  });
+  const [savingCategory, setSavingCategory] = useState(false);
 
   const sortFaqs = (a: Faq, b: Faq) => {
     const sa = a.sort_order ?? 0;
@@ -72,6 +97,48 @@ export default function CmsFaqPage() {
       faq.tags.some((tag) => tag.toLowerCase().includes(q))
     );
   });
+  const loadCategories = async () => {
+    try {
+      setCatLoading(true);
+      setCatError(null);
+
+      const res = await fetch("/api/faq-categories", {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      const text = await res.text();
+
+      if (!res.ok) {
+        let msg = "Failed to fetch FAQ categories";
+        try {
+          const errorData = JSON.parse(text);
+          if (errorData?.message) msg = errorData.message;
+        } catch {
+          console.error(
+            "Non-JSON error response (categories):",
+            text.substring(0, 200)
+          );
+        }
+        throw new Error(msg);
+      }
+
+      const data: CategoryFaq[] = JSON.parse(text);
+      setCategories(
+        data.sort((a, b) => {
+          const sa = a.sort_order ?? 0;
+          const sb = b.sort_order ?? 0;
+          if (sa !== sb) return sa - sb;
+          return a.name.localeCompare(b.name);
+        })
+      );
+    } catch (err: any) {
+      console.error("loadCategories error:", err);
+      setCatError(err.message || "Failed to fetch FAQ categories");
+    } finally {
+      setCatLoading(false);
+    }
+  };
 
   const openCreateModal = () => {
     setEditingId(null);
@@ -88,6 +155,7 @@ export default function CmsFaqPage() {
       tags: faq.tags.join(", "),
       is_published: faq.is_published,
       sort_order: faq.sort_order ?? 0,
+      category_id: faq.category_id ?? null,
     });
     setIsModalOpen(true);
     setError(null);
@@ -145,6 +213,7 @@ export default function CmsFaqPage() {
 
   useEffect(() => {
     loadFaqs();
+    loadCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,8 +223,7 @@ export default function CmsFaqPage() {
 
     const question = form.question.trim();
     const answer = form.answer.trim();
-    const sortOrder =
-      form.sort_order === "" ? 0 : Number(form.sort_order) || 0;
+    const sortOrder = form.sort_order === "" ? 0 : Number(form.sort_order) || 0;
 
     if (!question || !answer) {
       setError("Question dan Answer wajib diisi.");
@@ -171,6 +239,7 @@ export default function CmsFaqPage() {
         tags: form.tags,
         is_published: form.is_published,
         sort_order: sortOrder,
+        category_id: form.category_id,
       };
 
       const url = editingId ? `/api/faqs/${editingId}` : "/api/faqs";
@@ -358,14 +427,12 @@ export default function CmsFaqPage() {
       <section className="bg-slate-950/40 border border-slate-800 rounded-xl p-4 md:p-5 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <h2 className="text-sm font-semibold text-slate-100">
-              Daftar FAQ
-            </h2>
+            <h2 className="text-sm font-semibold text-slate-100">Daftar FAQ</h2>
             <p className="text-xs text-slate-500 flex items-center gap-1">
               <MessageSquare className="w-3 h-3" />
               Klik <span className="font-semibold">Edit</span> untuk mengubah,
-              atau <span className="font-semibold">Hapus</span> jika sudah
-              tidak diperlukan.
+              atau <span className="font-semibold">Hapus</span> jika sudah tidak
+              diperlukan.
             </p>
           </div>
 
@@ -400,6 +467,10 @@ export default function CmsFaqPage() {
                     Question
                   </th>
                   <th className="text-left px-3 py-2 text-slate-400 font-medium">
+                    Category
+                  </th>
+
+                  <th className="text-left px-3 py-2 text-slate-400 font-medium">
                     Tags
                   </th>
                   <th className="text-left px-3 py-2 text-slate-400 font-medium">
@@ -429,6 +500,12 @@ export default function CmsFaqPage() {
                           : item.answer}
                       </div>
                     </td>
+                    <td className="px-3 py-2 align-top">
+                      <span className="text-[11px] text-slate-200">
+                        {item.category?.name || "-"}
+                      </span>
+                    </td>
+
                     <td className="px-3 py-2 align-top">
                       <div className="flex flex-wrap gap-1">
                         {item.tags?.length ? (
@@ -595,9 +672,7 @@ export default function CmsFaqPage() {
                       setForm((prev) => ({
                         ...prev,
                         sort_order:
-                          e.target.value === ""
-                            ? ""
-                            : Number(e.target.value),
+                          e.target.value === "" ? "" : Number(e.target.value),
                       }))
                     }
                     className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -606,6 +681,52 @@ export default function CmsFaqPage() {
                   <p className="text-[11px] text-slate-500">
                     Angka lebih kecil akan tampil lebih dulu
                   </p>
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-xs font-medium text-slate-300">
+                    Category
+                  </label>
+                  <div className="flex gap-2">
+                    <select
+                      value={form.category_id ?? ""}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          category_id:
+                            e.target.value === ""
+                              ? null
+                              : Number(e.target.value),
+                        }))
+                      }
+                      className="flex-1 rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    >
+                      <option value="">Tanpa category</option>
+                      {categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCategoryForm({
+                          name: "",
+                          slug: "",
+                          sort_order: 0,
+                          is_active: true,
+                        });
+                        setIsCategoryModalOpen(true);
+                      }}
+                      className="inline-flex items-center justify-center px-2 py-2 rounded-md border border-slate-700 bg-slate-900/60 hover:bg-slate-900 text-[11px] text-slate-200"
+                    >
+                      <Plus className="w-3 h-3 mr-1" />
+                      Category
+                    </button>
+                  </div>
+                  {catError && (
+                    <p className="text-[10px] text-rose-400">{catError}</p>
+                  )}
                 </div>
               </div>
 
@@ -663,6 +784,156 @@ export default function CmsFaqPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {isCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-xl border border-slate-800 bg-slate-950 shadow-2xl">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+              <h2 className="text-sm font-semibold text-slate-100">
+                Tambah FAQ Category
+              </h2>
+              <button
+                type="button"
+                onClick={() => setIsCategoryModalOpen(false)}
+                className="p-1 rounded-md hover:bg-slate-800 text-slate-400 hover:text-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="px-4 py-3 space-y-3 text-sm">
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Name <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={categoryForm.name}
+                  onChange={(e) =>
+                    setCategoryForm((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Misal: Booking, Payment, Safety"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Slug
+                </label>
+                <input
+                  type="text"
+                  value={categoryForm.slug}
+                  onChange={(e) =>
+                    setCategoryForm((prev) => ({
+                      ...prev,
+                      slug: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="booking, payment, safety"
+                />
+                <p className="text-[10px] text-slate-500">
+                  Biarkan kosong untuk auto-generate dari name.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Sort Order
+                </label>
+                <input
+                  type="number"
+                  value={categoryForm.sort_order}
+                  onChange={(e) =>
+                    setCategoryForm((prev) => ({
+                      ...prev,
+                      sort_order: Number(e.target.value || 0),
+                    }))
+                  }
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="0"
+                />
+              </div>
+
+              <div className="flex justify-between items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900/60 hover:bg-slate-900 text-slate-200 text-xs font-medium px-3 py-2 transition"
+                >
+                  <X className="w-4 h-4" />
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  disabled={savingCategory}
+                  onClick={async () => {
+                    setCatError(null);
+                    if (!categoryForm.name.trim()) {
+                      setCatError("Nama category wajib diisi");
+                      return;
+                    }
+                    setSavingCategory(true);
+                    try {
+                      const res = await fetch("/api/faq-categories", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(categoryForm),
+                      });
+                      const text = await res.text();
+                      if (!res.ok) {
+                        let msg = "Gagal membuat category";
+                        try {
+                          const data = JSON.parse(text);
+                          if (data?.message) msg = data.message;
+                        } catch {
+                          console.error(
+                            "Non-JSON error response (create category):",
+                            text.substring(0, 200)
+                          );
+                        }
+                        throw new Error(msg);
+                      }
+                      const newCat: CategoryFaq = JSON.parse(text);
+                      setCategories((prev) =>
+                        [...prev, newCat].sort((a, b) => {
+                          const sa = a.sort_order ?? 0;
+                          const sb = b.sort_order ?? 0;
+                          if (sa !== sb) return sa - sb;
+                          return a.name.localeCompare(b.name);
+                        })
+                      );
+                      // auto-select category baru di form FAQ
+                      setForm((prev) => ({
+                        ...prev,
+                        category_id: newCat.id,
+                      }));
+                      setIsCategoryModalOpen(false);
+                    } catch (err: any) {
+                      console.error("create category error:", err);
+                      setCatError(err.message || "Gagal membuat category");
+                    } finally {
+                      setSavingCategory(false);
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 rounded-md bg-blue-500 hover:bg-blue-400 text-slate-950 text-xs font-medium px-3 py-2 transition disabled:opacity-60"
+                >
+                  {savingCategory && (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  )}
+                  <Save className="w-4 h-4" />
+                  Simpan Category
+                </button>
+              </div>
+              {catError && (
+                <p className="text-[11px] text-rose-400 mt-1">{catError}</p>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -798,6 +798,21 @@ model durations {
   bookings   bookings[]
   packages   packages[]
 }
+model category_faqs {
+  id         BigInt   @id @default(autoincrement())
+  name       String   @db.Text
+  slug       String   @db.Text
+  sort_order Int      @default(0)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+
+  faqs       faqs[]
+
+  @@map("category_faqs")
+  @@unique([slug])
+}
+
 model faqs {
   id           BigInt    @id @default(autoincrement())
   question     String
@@ -807,6 +822,9 @@ model faqs {
   sort_order   Int       @default(0)
   created_at   DateTime? @default(now()) @db.Timestamp(6)
   updated_at   DateTime? @default(now()) @db.Timestamp(6)
+    category_id  BigInt?        @db.BigInt
+  category     category_faqs? @relation(fields: [category_id], references: [id])
+@@map("faqs")
 }
 
 enum policy_document_type {
