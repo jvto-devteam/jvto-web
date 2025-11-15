@@ -1343,6 +1343,22 @@ function AssetsPageContent() {
                             >
                               Open
                             </Link>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (navigator?.clipboard) {
+                                  navigator.clipboard
+                                    .writeText(asset.url)
+                                    .catch((err) => {
+                                      console.error("Failed to copy URL:", err);
+                                    });
+                                }
+                              }}
+                              className="text-emerald-400 hover:text-emerald-300 text-[11px] underline decoration-dotted"
+                            >
+                              Copy URL
+                            </button>
                           </div>
 
                           {assetTags.length > 0 && (
@@ -2083,6 +2099,19 @@ function AssetDetailModal({
                 >
                   {asset.url}
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (navigator?.clipboard) {
+                      navigator.clipboard.writeText(asset.url).catch((err) => {
+                        console.error("Failed to copy URL:", err);
+                      });
+                    }
+                  }}
+                  className="ml-2 inline-flex items-center px-2 py-0.5 rounded-md border border-slate-700 text-[10px] text-slate-200 hover:bg-slate-900"
+                >
+                  Copy URL
+                </button>
               </div>
               <div>Extension: {asset.fileExt ?? "-"}</div>
               <div>
@@ -2100,7 +2129,9 @@ function AssetDetailModal({
         </div>
         <div className="mt-2 space-y-1 text-slate-400">
           <div className="text-[11px]">hash: {asset.sha256 ?? "-"}</div>
-          <div className="text-[11px]">last verified: {asset.lastVerified ?? "-"}</div>
+          <div className="text-[11px]">
+            last verified: {asset.lastVerified ?? "-"}
+          </div>
         </div>
 
         {/* Tags */}
