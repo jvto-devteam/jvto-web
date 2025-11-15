@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import { useState, useEffect, useMemo, useRef, FormEvent } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
@@ -103,7 +103,7 @@ function detectAssetTypeFromFile(file: File): AssetType {
  * MAIN PAGE
  */
 
-export default function AssetsPage() {
+function AssetsPageContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -1473,7 +1473,19 @@ export default function AssetsPage() {
     </div>
   );
 }
-
+export default function AssetsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-12">
+          <div className="text-slate-400">Loading...</div>
+        </div>
+      }
+    >
+      <AssetsPageContent />
+    </Suspense>
+  );
+}
 /**
  * FOLDER TREE
  */
@@ -1980,7 +1992,7 @@ function AssetDetailModal({
   const isVideo = asset.type === "video";
 
   function handleAddTags() {
-     if (!asset) return
+    if (!asset) return;
     if (!tagInput.trim()) return;
     onAddTags(asset.id, tagInput);
     setTagInput("");
