@@ -66714,6 +66714,7 @@ export namespace Prisma {
     brand_name: string | null
     legal_entity_name: string | null
     official_website_url: string | null
+    google_business_profile_url: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -66723,6 +66724,7 @@ export namespace Prisma {
     brand_name: string | null
     legal_entity_name: string | null
     official_website_url: string | null
+    google_business_profile_url: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -66738,6 +66740,9 @@ export namespace Prisma {
     official_payment_accounts: number
     maps_listings: number
     association_memberships: number
+    office_address: number
+    google_business_profile_url: number
+    founder: number
     org_schema_json_ld: number
     created_at: number
     updated_at: number
@@ -66750,6 +66755,7 @@ export namespace Prisma {
     brand_name?: true
     legal_entity_name?: true
     official_website_url?: true
+    google_business_profile_url?: true
     created_at?: true
     updated_at?: true
   }
@@ -66759,6 +66765,7 @@ export namespace Prisma {
     brand_name?: true
     legal_entity_name?: true
     official_website_url?: true
+    google_business_profile_url?: true
     created_at?: true
     updated_at?: true
   }
@@ -66774,6 +66781,9 @@ export namespace Prisma {
     official_payment_accounts?: true
     maps_listings?: true
     association_memberships?: true
+    office_address?: true
+    google_business_profile_url?: true
+    founder?: true
     org_schema_json_ld?: true
     created_at?: true
     updated_at?: true
@@ -66863,6 +66873,9 @@ export namespace Prisma {
     official_payment_accounts: JsonValue
     maps_listings: JsonValue
     association_memberships: JsonValue
+    office_address: JsonValue | null
+    google_business_profile_url: string | null
+    founder: JsonValue | null
     org_schema_json_ld: JsonValue | null
     created_at: Date
     updated_at: Date
@@ -66896,6 +66909,9 @@ export namespace Prisma {
     official_payment_accounts?: boolean
     maps_listings?: boolean
     association_memberships?: boolean
+    office_address?: boolean
+    google_business_profile_url?: boolean
+    founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -66912,6 +66928,9 @@ export namespace Prisma {
     official_payment_accounts?: boolean
     maps_listings?: boolean
     association_memberships?: boolean
+    office_address?: boolean
+    google_business_profile_url?: boolean
+    founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -66928,6 +66947,9 @@ export namespace Prisma {
     official_payment_accounts?: boolean
     maps_listings?: boolean
     association_memberships?: boolean
+    office_address?: boolean
+    google_business_profile_url?: boolean
+    founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -66944,12 +66966,15 @@ export namespace Prisma {
     official_payment_accounts?: boolean
     maps_listings?: boolean
     association_memberships?: boolean
+    office_address?: boolean
+    google_business_profile_url?: boolean
+    founder?: boolean
     org_schema_json_ld?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type site_identityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand_name" | "legal_entity_name" | "official_website_url" | "official_emails" | "official_whatsapp_numbers" | "registration_ids" | "official_payment_accounts" | "maps_listings" | "association_memberships" | "org_schema_json_ld" | "created_at" | "updated_at", ExtArgs["result"]["site_identity"]>
+  export type site_identityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "brand_name" | "legal_entity_name" | "official_website_url" | "official_emails" | "official_whatsapp_numbers" | "registration_ids" | "official_payment_accounts" | "maps_listings" | "association_memberships" | "office_address" | "google_business_profile_url" | "founder" | "org_schema_json_ld" | "created_at" | "updated_at", ExtArgs["result"]["site_identity"]>
 
   export type $site_identityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "site_identity"
@@ -66965,6 +66990,9 @@ export namespace Prisma {
       official_payment_accounts: Prisma.JsonValue
       maps_listings: Prisma.JsonValue
       association_memberships: Prisma.JsonValue
+      office_address: Prisma.JsonValue | null
+      google_business_profile_url: string | null
+      founder: Prisma.JsonValue | null
       org_schema_json_ld: Prisma.JsonValue | null
       created_at: Date
       updated_at: Date
@@ -67401,6 +67429,9 @@ export namespace Prisma {
     readonly official_payment_accounts: FieldRef<"site_identity", 'Json'>
     readonly maps_listings: FieldRef<"site_identity", 'Json'>
     readonly association_memberships: FieldRef<"site_identity", 'Json'>
+    readonly office_address: FieldRef<"site_identity", 'Json'>
+    readonly google_business_profile_url: FieldRef<"site_identity", 'String'>
+    readonly founder: FieldRef<"site_identity", 'Json'>
     readonly org_schema_json_ld: FieldRef<"site_identity", 'Json'>
     readonly created_at: FieldRef<"site_identity", 'DateTime'>
     readonly updated_at: FieldRef<"site_identity", 'DateTime'>
@@ -111420,6 +111451,9 @@ export namespace Prisma {
     official_payment_accounts: 'official_payment_accounts',
     maps_listings: 'maps_listings',
     association_memberships: 'association_memberships',
+    office_address: 'office_address',
+    google_business_profile_url: 'google_business_profile_url',
+    founder: 'founder',
     org_schema_json_ld: 'org_schema_json_ld',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -116338,6 +116372,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonFilter<"site_identity">
     maps_listings?: JsonFilter<"site_identity">
     association_memberships?: JsonFilter<"site_identity">
+    office_address?: JsonNullableFilter<"site_identity">
+    google_business_profile_url?: StringNullableFilter<"site_identity"> | string | null
+    founder?: JsonNullableFilter<"site_identity">
     org_schema_json_ld?: JsonNullableFilter<"site_identity">
     created_at?: DateTimeFilter<"site_identity"> | Date | string
     updated_at?: DateTimeFilter<"site_identity"> | Date | string
@@ -116354,6 +116391,9 @@ export namespace Prisma {
     official_payment_accounts?: SortOrder
     maps_listings?: SortOrder
     association_memberships?: SortOrder
+    office_address?: SortOrderInput | SortOrder
+    google_business_profile_url?: SortOrderInput | SortOrder
+    founder?: SortOrderInput | SortOrder
     org_schema_json_ld?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -116373,6 +116413,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonFilter<"site_identity">
     maps_listings?: JsonFilter<"site_identity">
     association_memberships?: JsonFilter<"site_identity">
+    office_address?: JsonNullableFilter<"site_identity">
+    google_business_profile_url?: StringNullableFilter<"site_identity"> | string | null
+    founder?: JsonNullableFilter<"site_identity">
     org_schema_json_ld?: JsonNullableFilter<"site_identity">
     created_at?: DateTimeFilter<"site_identity"> | Date | string
     updated_at?: DateTimeFilter<"site_identity"> | Date | string
@@ -116389,6 +116432,9 @@ export namespace Prisma {
     official_payment_accounts?: SortOrder
     maps_listings?: SortOrder
     association_memberships?: SortOrder
+    office_address?: SortOrderInput | SortOrder
+    google_business_profile_url?: SortOrderInput | SortOrder
+    founder?: SortOrderInput | SortOrder
     org_schema_json_ld?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -116411,6 +116457,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonWithAggregatesFilter<"site_identity">
     maps_listings?: JsonWithAggregatesFilter<"site_identity">
     association_memberships?: JsonWithAggregatesFilter<"site_identity">
+    office_address?: JsonNullableWithAggregatesFilter<"site_identity">
+    google_business_profile_url?: StringNullableWithAggregatesFilter<"site_identity"> | string | null
+    founder?: JsonNullableWithAggregatesFilter<"site_identity">
     org_schema_json_ld?: JsonNullableWithAggregatesFilter<"site_identity">
     created_at?: DateTimeWithAggregatesFilter<"site_identity"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"site_identity"> | Date | string
@@ -123855,6 +123904,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -123871,6 +123923,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -123887,6 +123942,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -123903,6 +123961,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -123919,6 +123980,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -123935,6 +123999,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -123951,6 +124018,9 @@ export namespace Prisma {
     official_payment_accounts?: JsonNullValueInput | InputJsonValue
     maps_listings?: JsonNullValueInput | InputJsonValue
     association_memberships?: JsonNullValueInput | InputJsonValue
+    office_address?: NullableJsonNullValueInput | InputJsonValue
+    google_business_profile_url?: NullableStringFieldUpdateOperationsInput | string | null
+    founder?: NullableJsonNullValueInput | InputJsonValue
     org_schema_json_ld?: NullableJsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -130437,6 +130507,9 @@ export namespace Prisma {
     official_payment_accounts?: SortOrder
     maps_listings?: SortOrder
     association_memberships?: SortOrder
+    office_address?: SortOrder
+    google_business_profile_url?: SortOrder
+    founder?: SortOrder
     org_schema_json_ld?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -130447,6 +130520,7 @@ export namespace Prisma {
     brand_name?: SortOrder
     legal_entity_name?: SortOrder
     official_website_url?: SortOrder
+    google_business_profile_url?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -130456,6 +130530,7 @@ export namespace Prisma {
     brand_name?: SortOrder
     legal_entity_name?: SortOrder
     official_website_url?: SortOrder
+    google_business_profile_url?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }

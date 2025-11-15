@@ -865,6 +865,11 @@ model site_identity {
   maps_listings             Json     @default("[]") // string[]
   association_memberships   Json     @default("[]") // string[]
   
+  // NEW
+  office_address            Json?    @default("{}")    // {street, city, operating_hours?}
+  google_business_profile_url String? @db.Text
+  founder                   Json?    @default("{}")    // {name, known_as, ...}
+
   // Auto-generated Organization Schema
   org_schema_json_ld        Json?    // Generated JSON-LD for SEO
   
@@ -874,6 +879,7 @@ model site_identity {
   
   @@map("site_identity")
 }
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model feedback {
