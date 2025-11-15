@@ -2090,6 +2090,20 @@ function AssetDetailModal({
               <div>Status: {asset.isActive ? "Active" : "Inactive"}</div>
             </div>
             <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  if (navigator?.clipboard) {
+                    navigator.clipboard.writeText(asset.url).catch((err) => {
+                      console.error("Failed to copy URL:", err);
+                    });
+                  }
+                }}
+                className="ml-2 inline-flex items-center px-2 py-0.5 rounded-md border border-slate-700 text-[10px] text-slate-200 hover:bg-slate-900"
+              >
+                Copy URL
+              </button>
+
               <div className="truncate">
                 URL:{" "}
                 <Link
@@ -2099,19 +2113,6 @@ function AssetDetailModal({
                 >
                   {asset.url}
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (navigator?.clipboard) {
-                      navigator.clipboard.writeText(asset.url).catch((err) => {
-                        console.error("Failed to copy URL:", err);
-                      });
-                    }
-                  }}
-                  className="ml-2 inline-flex items-center px-2 py-0.5 rounded-md border border-slate-700 text-[10px] text-slate-200 hover:bg-slate-900"
-                >
-                  Copy URL
-                </button>
               </div>
               <div>Extension: {asset.fileExt ?? "-"}</div>
               <div>
