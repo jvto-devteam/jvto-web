@@ -8,8 +8,18 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const folderIdParam = searchParams.get("folderId");
-    const search = (searchParams.get("q") || "").trim();
+
+    // dukung q dan search
+    const search = (
+      searchParams.get("q") ||
+      searchParams.get("search") ||
+      ""
+    ).trim();
+
     const tagIdParam = searchParams.get("tagId");
+
+    // NEW: filter type (image | video | document)
+    const typeParam = (searchParams.get("type") || "").trim().toLowerCase();
 
     const where: any = {};
 
@@ -37,6 +47,11 @@ export async function GET(req: NextRequest) {
           },
         };
       }
+    }
+
+    // NEW: apply type filter kalau valid
+    if (["image", "video", "document"].includes(typeParam)) {
+      where.type = typeParam;
     }
 
     const rows = await prisma.assets.findMany({
@@ -82,7 +97,8 @@ export async function POST(req: NextRequest) {
     // NOTE:
     // Untuk sekarang, asumsinya file sudah di-upload ke storage terpisah
     // dan di sini kita hanya simpan metadata (url, ext, size, type).
-    const caption = typeof body.caption === "string" ? body.caption.trim() : null;
+    const caption =
+      typeof body.caption === "string" ? body.caption.trim() : null;
     const description =
       typeof body.description === "string" ? body.description.trim() : null;
 
@@ -129,11 +145,8 @@ export async function POST(req: NextRequest) {
         size_bytes,
         size_megabytes,
         sha256: body.sha256 ?? null,
-        last_verified: body.last_verified
-          ? new Date(body.last_verified)
-          : null,
-        is_active:
-          typeof body.is_active === "boolean" ? body.is_active : true,
+        last_verified: body.last_verified ? new Date(body.last_verified) : null,
+        is_active: typeof body.is_active === "boolean" ? body.is_active : true,
       },
       include: {
         tags: {

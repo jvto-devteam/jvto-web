@@ -82,7 +82,7 @@ const navItems: NavItem[] = [
       },
       // 2.2 destinations
       {
-        href: "/cms/collections/destinations",
+        href: "/cms/destinations",
         label: "Destinations",
         icon: MapPin,
       },

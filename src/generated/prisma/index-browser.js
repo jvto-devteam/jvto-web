@@ -676,7 +676,15 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   slug: 'slug',
-  highlight: 'highlight'
+  highlight: 'highlight',
+  types: 'types',
+  lat: 'lat',
+  long: 'long',
+  elevation_m: 'elevation_m',
+  key_highlights: 'key_highlights',
+  temperature_range: 'temperature_range',
+  terrain: 'terrain',
+  safety_advisory: 'safety_advisory'
 };
 
 exports.Prisma.DiscountsScalarFieldEnum = {
@@ -1195,17 +1203,26 @@ exports.Prisma.Asset_tagsScalarFieldEnum = {
   tag_id: 'tag_id'
 };
 
+exports.Prisma.Destination_assetsScalarFieldEnum = {
+  id: 'id',
+  destination_id: 'destination_id',
+  asset_id: 'asset_id',
+  type: 'type',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -1240,6 +1257,11 @@ exports.asset_type = exports.$Enums.asset_type = {
   image: 'image',
   video: 'video',
   document: 'document'
+};
+
+exports.destination_asset_type = exports.$Enums.destination_asset_type = {
+  primary: 'primary',
+  secondary: 'secondary'
 };
 
 exports.Prisma.ModelName = {
@@ -1326,7 +1348,8 @@ exports.Prisma.ModelName = {
   folders: 'folders',
   tags_assets: 'tags_assets',
   assets: 'assets',
-  asset_tags: 'asset_tags'
+  asset_tags: 'asset_tags',
+  destination_assets: 'destination_assets'
 };
 
 /**
