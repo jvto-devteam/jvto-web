@@ -1212,6 +1212,14 @@ exports.Prisma.Destination_assetsScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.Destination_faqsScalarFieldEnum = {
+  id: 'id',
+  destination_id: 'destination_id',
+  faq_id: 'faq_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1349,7 +1357,8 @@ exports.Prisma.ModelName = {
   tags_assets: 'tags_assets',
   assets: 'assets',
   asset_tags: 'asset_tags',
-  destination_assets: 'destination_assets'
+  destination_assets: 'destination_assets',
+  destination_faqs: 'destination_faqs'
 };
 
 /**
