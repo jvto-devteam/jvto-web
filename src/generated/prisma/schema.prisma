@@ -712,26 +712,37 @@ model destination_activities {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model destinations {
-  id                                                   BigInt                           @id @default(autoincrement())
-  code                                                 String?
-  name                                                 String
-  thumbnail_url                                        String?
-  description                                          String?
-  weather_by_season                                    String?
-  rainfall_intensity                                   String?
-  trail_details                                        String?
-  required_gear                                        String?
-  difficulty_level                                     String?
-  environmental_factors                                String?
-  physical_requirements                                String?
-  main_attractions                                     String?
-  best_time_to_visit                                   String?
-  tips_for_visitors                                    String?
-  created_at                                           DateTime?                        @db.Timestamp(6)
-  updated_at                                           DateTime?                        @db.Timestamp(6)
-  deleted_at                                           DateTime?                        @db.Timestamp(6)
-  slug                                                 String?                          @db.VarChar(255)
-  highlight                                            String?
+  id                    BigInt    @id @default(autoincrement())
+  code                  String?
+  name                  String
+  thumbnail_url         String?
+  description           String?
+  weather_by_season     String?
+  rainfall_intensity    String?
+  trail_details         String?
+  required_gear         String?
+  difficulty_level      String?
+  environmental_factors String?
+  physical_requirements String?
+  main_attractions      String?
+  best_time_to_visit    String?
+  tips_for_visitors     String?
+  created_at            DateTime? @db.Timestamp(6)
+  updated_at            DateTime? @db.Timestamp(6)
+  deleted_at            DateTime? @db.Timestamp(6)
+  slug                  String?   @db.VarChar(255)
+  highlight             String?
+
+  // NEW FIELDS
+  types             Json?   @default("[]") // string[]
+  lat               Float?
+  long              Float?
+  elevation_m       Int?
+  key_highlights    Json?   @default("[]") // string[]
+  temperature_range String?
+  terrain           String?
+  safety_advisory   Json?   @default("[]") // string[]
+
   activities                                           activities[]
   activity_ends                                        activity_ends[]
   activity_starts                                      activity_starts[]
@@ -741,6 +752,9 @@ model destinations {
   package_destinations                                 package_destinations[]
   packages_packages_end_destination_idTodestinations   packages[]                       @relation("packages_end_destination_idTodestinations")
   packages_packages_start_destination_idTodestinations packages[]                       @relation("packages_start_destination_idTodestinations")
+
+  // NEW RELATION
+  destination_assets destination_assets[]
 
   @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_destinations_name", type: Gin)
 }
@@ -1467,6 +1481,9 @@ model assets {
   folder folders      @relation(fields: [folder_id], references: [id])
   tags   asset_tags[]
 
+  // NEW RELATION
+  destination_assets destination_assets[]
+
   @@index([folder_id], name: "idx_assets_folder_id")
   @@index([is_active], name: "idx_assets_is_active")
   @@index([type], name: "idx_assets_type")
@@ -1485,4 +1502,26 @@ model asset_tags {
   @@id([asset_id, tag_id])
   @@index([tag_id], name: "idx_asset_tags_tag_id")
   @@index([asset_id], name: "idx_asset_tags_asset_id")
+}
+
+enum destination_asset_type {
+  primary
+  secondary
+}
+
+model destination_assets {
+  id             BigInt                 @id @default(autoincrement())
+  destination_id BigInt
+  asset_id       BigInt
+  type           destination_asset_type
+  created_at     DateTime               @default(now())
+  updated_at     DateTime               @default(now())
+
+  // RELATIONS
+  destination destinations @relation(fields: [destination_id], references: [id])
+  asset       assets       @relation(fields: [asset_id], references: [id])
+
+  @@index([destination_id], name: "idx_destination_assets_destination_id")
+  @@index([asset_id], name: "idx_destination_assets_asset_id")
+  @@map("destination_assets")
 }

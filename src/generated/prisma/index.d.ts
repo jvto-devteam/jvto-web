@@ -445,6 +445,11 @@ export type assets = $Result.DefaultSelection<Prisma.$assetsPayload>
  * 
  */
 export type asset_tags = $Result.DefaultSelection<Prisma.$asset_tagsPayload>
+/**
+ * Model destination_assets
+ * 
+ */
+export type destination_assets = $Result.DefaultSelection<Prisma.$destination_assetsPayload>
 
 /**
  * Enums
@@ -476,6 +481,14 @@ export const asset_type: {
 
 export type asset_type = (typeof asset_type)[keyof typeof asset_type]
 
+
+export const destination_asset_type: {
+  primary: 'primary',
+  secondary: 'secondary'
+};
+
+export type destination_asset_type = (typeof destination_asset_type)[keyof typeof destination_asset_type]
+
 }
 
 export type policy_document_type = $Enums.policy_document_type
@@ -489,6 +502,10 @@ export const source_enum: typeof $Enums.source_enum
 export type asset_type = $Enums.asset_type
 
 export const asset_type: typeof $Enums.asset_type
+
+export type destination_asset_type = $Enums.destination_asset_type
+
+export const destination_asset_type: typeof $Enums.destination_asset_type
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1447,6 +1464,16 @@ export class PrismaClient<
     * ```
     */
   get asset_tags(): Prisma.asset_tagsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.destination_assets`: Exposes CRUD operations for the **destination_assets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Destination_assets
+    * const destination_assets = await prisma.destination_assets.findMany()
+    * ```
+    */
+  get destination_assets(): Prisma.destination_assetsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1971,7 +1998,8 @@ export namespace Prisma {
     folders: 'folders',
     tags_assets: 'tags_assets',
     assets: 'assets',
-    asset_tags: 'asset_tags'
+    asset_tags: 'asset_tags',
+    destination_assets: 'destination_assets'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1990,7 +2018,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -8210,6 +8238,80 @@ export namespace Prisma {
           }
         }
       }
+      destination_assets: {
+        payload: Prisma.$destination_assetsPayload<ExtArgs>
+        fields: Prisma.destination_assetsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.destination_assetsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.destination_assetsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          findFirst: {
+            args: Prisma.destination_assetsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.destination_assetsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          findMany: {
+            args: Prisma.destination_assetsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>[]
+          }
+          create: {
+            args: Prisma.destination_assetsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          createMany: {
+            args: Prisma.destination_assetsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.destination_assetsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>[]
+          }
+          delete: {
+            args: Prisma.destination_assetsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          update: {
+            args: Prisma.destination_assetsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          deleteMany: {
+            args: Prisma.destination_assetsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.destination_assetsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.destination_assetsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>[]
+          }
+          upsert: {
+            args: Prisma.destination_assetsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_assetsPayload>
+          }
+          aggregate: {
+            args: Prisma.Destination_assetsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDestination_assets>
+          }
+          groupBy: {
+            args: Prisma.destination_assetsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Destination_assetsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.destination_assetsCountArgs<ExtArgs>
+            result: $Utils.Optional<Destination_assetsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -8390,6 +8492,7 @@ export namespace Prisma {
     tags_assets?: tags_assetsOmit
     assets?: assetsOmit
     asset_tags?: asset_tagsOmit
+    destination_assets?: destination_assetsOmit
   }
 
   /* Types for Logging */
@@ -9192,6 +9295,7 @@ export namespace Prisma {
     package_destinations: number
     packages_packages_end_destination_idTodestinations: number
     packages_packages_start_destination_idTodestinations: number
+    destination_assets: number
   }
 
   export type DestinationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9204,6 +9308,7 @@ export namespace Prisma {
     package_destinations?: boolean | DestinationsCountOutputTypeCountPackage_destinationsArgs
     packages_packages_end_destination_idTodestinations?: boolean | DestinationsCountOutputTypeCountPackages_packages_end_destination_idTodestinationsArgs
     packages_packages_start_destination_idTodestinations?: boolean | DestinationsCountOutputTypeCountPackages_packages_start_destination_idTodestinationsArgs
+    destination_assets?: boolean | DestinationsCountOutputTypeCountDestination_assetsArgs
   }
 
   // Custom InputTypes
@@ -9278,6 +9383,13 @@ export namespace Prisma {
    */
   export type DestinationsCountOutputTypeCountPackages_packages_start_destination_idTodestinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: packagesWhereInput
+  }
+
+  /**
+   * DestinationsCountOutputType without action
+   */
+  export type DestinationsCountOutputTypeCountDestination_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_assetsWhereInput
   }
 
 
@@ -10212,10 +10324,12 @@ export namespace Prisma {
 
   export type AssetsCountOutputType = {
     tags: number
+    destination_assets: number
   }
 
   export type AssetsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tags?: boolean | AssetsCountOutputTypeCountTagsArgs
+    destination_assets?: boolean | AssetsCountOutputTypeCountDestination_assetsArgs
   }
 
   // Custom InputTypes
@@ -10234,6 +10348,13 @@ export namespace Prisma {
    */
   export type AssetsCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: asset_tagsWhereInput
+  }
+
+  /**
+   * AssetsCountOutputType without action
+   */
+  export type AssetsCountOutputTypeCountDestination_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_assetsWhereInput
   }
 
 
@@ -58453,10 +58574,16 @@ export namespace Prisma {
 
   export type DestinationsAvgAggregateOutputType = {
     id: number | null
+    lat: number | null
+    long: number | null
+    elevation_m: number | null
   }
 
   export type DestinationsSumAggregateOutputType = {
     id: bigint | null
+    lat: number | null
+    long: number | null
+    elevation_m: number | null
   }
 
   export type DestinationsMinAggregateOutputType = {
@@ -58480,6 +58607,11 @@ export namespace Prisma {
     deleted_at: Date | null
     slug: string | null
     highlight: string | null
+    lat: number | null
+    long: number | null
+    elevation_m: number | null
+    temperature_range: string | null
+    terrain: string | null
   }
 
   export type DestinationsMaxAggregateOutputType = {
@@ -58503,6 +58635,11 @@ export namespace Prisma {
     deleted_at: Date | null
     slug: string | null
     highlight: string | null
+    lat: number | null
+    long: number | null
+    elevation_m: number | null
+    temperature_range: string | null
+    terrain: string | null
   }
 
   export type DestinationsCountAggregateOutputType = {
@@ -58526,16 +58663,30 @@ export namespace Prisma {
     deleted_at: number
     slug: number
     highlight: number
+    types: number
+    lat: number
+    long: number
+    elevation_m: number
+    key_highlights: number
+    temperature_range: number
+    terrain: number
+    safety_advisory: number
     _all: number
   }
 
 
   export type DestinationsAvgAggregateInputType = {
     id?: true
+    lat?: true
+    long?: true
+    elevation_m?: true
   }
 
   export type DestinationsSumAggregateInputType = {
     id?: true
+    lat?: true
+    long?: true
+    elevation_m?: true
   }
 
   export type DestinationsMinAggregateInputType = {
@@ -58559,6 +58710,11 @@ export namespace Prisma {
     deleted_at?: true
     slug?: true
     highlight?: true
+    lat?: true
+    long?: true
+    elevation_m?: true
+    temperature_range?: true
+    terrain?: true
   }
 
   export type DestinationsMaxAggregateInputType = {
@@ -58582,6 +58738,11 @@ export namespace Prisma {
     deleted_at?: true
     slug?: true
     highlight?: true
+    lat?: true
+    long?: true
+    elevation_m?: true
+    temperature_range?: true
+    terrain?: true
   }
 
   export type DestinationsCountAggregateInputType = {
@@ -58605,6 +58766,14 @@ export namespace Prisma {
     deleted_at?: true
     slug?: true
     highlight?: true
+    types?: true
+    lat?: true
+    long?: true
+    elevation_m?: true
+    key_highlights?: true
+    temperature_range?: true
+    terrain?: true
+    safety_advisory?: true
     _all?: true
   }
 
@@ -58715,6 +58884,14 @@ export namespace Prisma {
     deleted_at: Date | null
     slug: string | null
     highlight: string | null
+    types: JsonValue | null
+    lat: number | null
+    long: number | null
+    elevation_m: number | null
+    key_highlights: JsonValue | null
+    temperature_range: string | null
+    terrain: string | null
+    safety_advisory: JsonValue | null
     _count: DestinationsCountAggregateOutputType | null
     _avg: DestinationsAvgAggregateOutputType | null
     _sum: DestinationsSumAggregateOutputType | null
@@ -58757,6 +58934,14 @@ export namespace Prisma {
     deleted_at?: boolean
     slug?: boolean
     highlight?: boolean
+    types?: boolean
+    lat?: boolean
+    long?: boolean
+    elevation_m?: boolean
+    key_highlights?: boolean
+    temperature_range?: boolean
+    terrain?: boolean
+    safety_advisory?: boolean
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
     activity_starts?: boolean | destinations$activity_startsArgs<ExtArgs>
@@ -58766,6 +58951,7 @@ export namespace Prisma {
     package_destinations?: boolean | destinations$package_destinationsArgs<ExtArgs>
     packages_packages_end_destination_idTodestinations?: boolean | destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["destinations"]>
 
@@ -58790,6 +58976,14 @@ export namespace Prisma {
     deleted_at?: boolean
     slug?: boolean
     highlight?: boolean
+    types?: boolean
+    lat?: boolean
+    long?: boolean
+    elevation_m?: boolean
+    key_highlights?: boolean
+    temperature_range?: boolean
+    terrain?: boolean
+    safety_advisory?: boolean
   }, ExtArgs["result"]["destinations"]>
 
   export type destinationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -58813,6 +59007,14 @@ export namespace Prisma {
     deleted_at?: boolean
     slug?: boolean
     highlight?: boolean
+    types?: boolean
+    lat?: boolean
+    long?: boolean
+    elevation_m?: boolean
+    key_highlights?: boolean
+    temperature_range?: boolean
+    terrain?: boolean
+    safety_advisory?: boolean
   }, ExtArgs["result"]["destinations"]>
 
   export type destinationsSelectScalar = {
@@ -58836,9 +59038,17 @@ export namespace Prisma {
     deleted_at?: boolean
     slug?: boolean
     highlight?: boolean
+    types?: boolean
+    lat?: boolean
+    long?: boolean
+    elevation_m?: boolean
+    key_highlights?: boolean
+    temperature_range?: boolean
+    terrain?: boolean
+    safety_advisory?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "thumbnail_url" | "description" | "weather_by_season" | "rainfall_intensity" | "trail_details" | "required_gear" | "difficulty_level" | "environmental_factors" | "physical_requirements" | "main_attractions" | "best_time_to_visit" | "tips_for_visitors" | "created_at" | "updated_at" | "deleted_at" | "slug" | "highlight", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "thumbnail_url" | "description" | "weather_by_season" | "rainfall_intensity" | "trail_details" | "required_gear" | "difficulty_level" | "environmental_factors" | "physical_requirements" | "main_attractions" | "best_time_to_visit" | "tips_for_visitors" | "created_at" | "updated_at" | "deleted_at" | "slug" | "highlight" | "types" | "lat" | "long" | "elevation_m" | "key_highlights" | "temperature_range" | "terrain" | "safety_advisory", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -58849,6 +59059,7 @@ export namespace Prisma {
     package_destinations?: boolean | destinations$package_destinationsArgs<ExtArgs>
     packages_packages_end_destination_idTodestinations?: boolean | destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
+    destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type destinationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -58866,6 +59077,7 @@ export namespace Prisma {
       package_destinations: Prisma.$package_destinationsPayload<ExtArgs>[]
       packages_packages_end_destination_idTodestinations: Prisma.$packagesPayload<ExtArgs>[]
       packages_packages_start_destination_idTodestinations: Prisma.$packagesPayload<ExtArgs>[]
+      destination_assets: Prisma.$destination_assetsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -58888,6 +59100,14 @@ export namespace Prisma {
       deleted_at: Date | null
       slug: string | null
       highlight: string | null
+      types: Prisma.JsonValue | null
+      lat: number | null
+      long: number | null
+      elevation_m: number | null
+      key_highlights: Prisma.JsonValue | null
+      temperature_range: string | null
+      terrain: string | null
+      safety_advisory: Prisma.JsonValue | null
     }, ExtArgs["result"]["destinations"]>
     composites: {}
   }
@@ -59291,6 +59511,7 @@ export namespace Prisma {
     package_destinations<T extends destinations$package_destinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$package_destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages_packages_end_destination_idTodestinations<T extends destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$packages_packages_end_destination_idTodestinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     packages_packages_start_destination_idTodestinations<T extends destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    destination_assets<T extends destinations$destination_assetsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -59340,6 +59561,14 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"destinations", 'DateTime'>
     readonly slug: FieldRef<"destinations", 'String'>
     readonly highlight: FieldRef<"destinations", 'String'>
+    readonly types: FieldRef<"destinations", 'Json'>
+    readonly lat: FieldRef<"destinations", 'Float'>
+    readonly long: FieldRef<"destinations", 'Float'>
+    readonly elevation_m: FieldRef<"destinations", 'Int'>
+    readonly key_highlights: FieldRef<"destinations", 'Json'>
+    readonly temperature_range: FieldRef<"destinations", 'String'>
+    readonly terrain: FieldRef<"destinations", 'String'>
+    readonly safety_advisory: FieldRef<"destinations", 'Json'>
   }
     
 
@@ -59941,6 +60170,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PackagesScalarFieldEnum | PackagesScalarFieldEnum[]
+  }
+
+  /**
+   * destinations.destination_assets
+   */
+  export type destinations$destination_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    where?: destination_assetsWhereInput
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    cursor?: destination_assetsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
   }
 
   /**
@@ -109985,6 +110238,7 @@ export namespace Prisma {
     created_at?: boolean
     folder?: boolean | foldersDefaultArgs<ExtArgs>
     tags?: boolean | assets$tagsArgs<ExtArgs>
+    destination_assets?: boolean | assets$destination_assetsArgs<ExtArgs>
     _count?: boolean | AssetsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["assets"]>
 
@@ -110045,6 +110299,7 @@ export namespace Prisma {
   export type assetsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     folder?: boolean | foldersDefaultArgs<ExtArgs>
     tags?: boolean | assets$tagsArgs<ExtArgs>
+    destination_assets?: boolean | assets$destination_assetsArgs<ExtArgs>
     _count?: boolean | AssetsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type assetsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -110059,6 +110314,7 @@ export namespace Prisma {
     objects: {
       folder: Prisma.$foldersPayload<ExtArgs>
       tags: Prisma.$asset_tagsPayload<ExtArgs>[]
+      destination_assets: Prisma.$destination_assetsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -110471,6 +110727,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     folder<T extends foldersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, foldersDefaultArgs<ExtArgs>>): Prisma__foldersClient<$Result.GetResult<Prisma.$foldersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tags<T extends assets$tagsArgs<ExtArgs> = {}>(args?: Subset<T, assets$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$asset_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    destination_assets<T extends assets$destination_assetsArgs<ExtArgs> = {}>(args?: Subset<T, assets$destination_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -110931,6 +111188,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Asset_tagsScalarFieldEnum | Asset_tagsScalarFieldEnum[]
+  }
+
+  /**
+   * assets.destination_assets
+   */
+  export type assets$destination_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    where?: destination_assetsWhereInput
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    cursor?: destination_assetsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
   }
 
   /**
@@ -112018,6 +112299,1127 @@ export namespace Prisma {
 
 
   /**
+   * Model destination_assets
+   */
+
+  export type AggregateDestination_assets = {
+    _count: Destination_assetsCountAggregateOutputType | null
+    _avg: Destination_assetsAvgAggregateOutputType | null
+    _sum: Destination_assetsSumAggregateOutputType | null
+    _min: Destination_assetsMinAggregateOutputType | null
+    _max: Destination_assetsMaxAggregateOutputType | null
+  }
+
+  export type Destination_assetsAvgAggregateOutputType = {
+    id: number | null
+    destination_id: number | null
+    asset_id: number | null
+  }
+
+  export type Destination_assetsSumAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    asset_id: bigint | null
+  }
+
+  export type Destination_assetsMinAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    asset_id: bigint | null
+    type: $Enums.destination_asset_type | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Destination_assetsMaxAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    asset_id: bigint | null
+    type: $Enums.destination_asset_type | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Destination_assetsCountAggregateOutputType = {
+    id: number
+    destination_id: number
+    asset_id: number
+    type: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Destination_assetsAvgAggregateInputType = {
+    id?: true
+    destination_id?: true
+    asset_id?: true
+  }
+
+  export type Destination_assetsSumAggregateInputType = {
+    id?: true
+    destination_id?: true
+    asset_id?: true
+  }
+
+  export type Destination_assetsMinAggregateInputType = {
+    id?: true
+    destination_id?: true
+    asset_id?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Destination_assetsMaxAggregateInputType = {
+    id?: true
+    destination_id?: true
+    asset_id?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Destination_assetsCountAggregateInputType = {
+    id?: true
+    destination_id?: true
+    asset_id?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Destination_assetsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_assets to aggregate.
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_assets to fetch.
+     */
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: destination_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned destination_assets
+    **/
+    _count?: true | Destination_assetsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Destination_assetsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Destination_assetsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Destination_assetsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Destination_assetsMaxAggregateInputType
+  }
+
+  export type GetDestination_assetsAggregateType<T extends Destination_assetsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDestination_assets]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDestination_assets[P]>
+      : GetScalarType<T[P], AggregateDestination_assets[P]>
+  }
+
+
+
+
+  export type destination_assetsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_assetsWhereInput
+    orderBy?: destination_assetsOrderByWithAggregationInput | destination_assetsOrderByWithAggregationInput[]
+    by: Destination_assetsScalarFieldEnum[] | Destination_assetsScalarFieldEnum
+    having?: destination_assetsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Destination_assetsCountAggregateInputType | true
+    _avg?: Destination_assetsAvgAggregateInputType
+    _sum?: Destination_assetsSumAggregateInputType
+    _min?: Destination_assetsMinAggregateInputType
+    _max?: Destination_assetsMaxAggregateInputType
+  }
+
+  export type Destination_assetsGroupByOutputType = {
+    id: bigint
+    destination_id: bigint
+    asset_id: bigint
+    type: $Enums.destination_asset_type
+    created_at: Date
+    updated_at: Date
+    _count: Destination_assetsCountAggregateOutputType | null
+    _avg: Destination_assetsAvgAggregateOutputType | null
+    _sum: Destination_assetsSumAggregateOutputType | null
+    _min: Destination_assetsMinAggregateOutputType | null
+    _max: Destination_assetsMaxAggregateOutputType | null
+  }
+
+  type GetDestination_assetsGroupByPayload<T extends destination_assetsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Destination_assetsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Destination_assetsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Destination_assetsGroupByOutputType[P]>
+            : GetScalarType<T[P], Destination_assetsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type destination_assetsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    asset_id?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_assets"]>
+
+  export type destination_assetsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    asset_id?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_assets"]>
+
+  export type destination_assetsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    asset_id?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_assets"]>
+
+  export type destination_assetsSelectScalar = {
+    id?: boolean
+    destination_id?: boolean
+    asset_id?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type destination_assetsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "destination_id" | "asset_id" | "type" | "created_at" | "updated_at", ExtArgs["result"]["destination_assets"]>
+  export type destination_assetsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }
+  export type destination_assetsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }
+  export type destination_assetsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    asset?: boolean | assetsDefaultArgs<ExtArgs>
+  }
+
+  export type $destination_assetsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "destination_assets"
+    objects: {
+      destination: Prisma.$destinationsPayload<ExtArgs>
+      asset: Prisma.$assetsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      destination_id: bigint
+      asset_id: bigint
+      type: $Enums.destination_asset_type
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["destination_assets"]>
+    composites: {}
+  }
+
+  type destination_assetsGetPayload<S extends boolean | null | undefined | destination_assetsDefaultArgs> = $Result.GetResult<Prisma.$destination_assetsPayload, S>
+
+  type destination_assetsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<destination_assetsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Destination_assetsCountAggregateInputType | true
+    }
+
+  export interface destination_assetsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['destination_assets'], meta: { name: 'destination_assets' } }
+    /**
+     * Find zero or one Destination_assets that matches the filter.
+     * @param {destination_assetsFindUniqueArgs} args - Arguments to find a Destination_assets
+     * @example
+     * // Get one Destination_assets
+     * const destination_assets = await prisma.destination_assets.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends destination_assetsFindUniqueArgs>(args: SelectSubset<T, destination_assetsFindUniqueArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Destination_assets that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {destination_assetsFindUniqueOrThrowArgs} args - Arguments to find a Destination_assets
+     * @example
+     * // Get one Destination_assets
+     * const destination_assets = await prisma.destination_assets.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends destination_assetsFindUniqueOrThrowArgs>(args: SelectSubset<T, destination_assetsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsFindFirstArgs} args - Arguments to find a Destination_assets
+     * @example
+     * // Get one Destination_assets
+     * const destination_assets = await prisma.destination_assets.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends destination_assetsFindFirstArgs>(args?: SelectSubset<T, destination_assetsFindFirstArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_assets that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsFindFirstOrThrowArgs} args - Arguments to find a Destination_assets
+     * @example
+     * // Get one Destination_assets
+     * const destination_assets = await prisma.destination_assets.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends destination_assetsFindFirstOrThrowArgs>(args?: SelectSubset<T, destination_assetsFindFirstOrThrowArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Destination_assets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Destination_assets
+     * const destination_assets = await prisma.destination_assets.findMany()
+     * 
+     * // Get first 10 Destination_assets
+     * const destination_assets = await prisma.destination_assets.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const destination_assetsWithIdOnly = await prisma.destination_assets.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends destination_assetsFindManyArgs>(args?: SelectSubset<T, destination_assetsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Destination_assets.
+     * @param {destination_assetsCreateArgs} args - Arguments to create a Destination_assets.
+     * @example
+     * // Create one Destination_assets
+     * const Destination_assets = await prisma.destination_assets.create({
+     *   data: {
+     *     // ... data to create a Destination_assets
+     *   }
+     * })
+     * 
+     */
+    create<T extends destination_assetsCreateArgs>(args: SelectSubset<T, destination_assetsCreateArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Destination_assets.
+     * @param {destination_assetsCreateManyArgs} args - Arguments to create many Destination_assets.
+     * @example
+     * // Create many Destination_assets
+     * const destination_assets = await prisma.destination_assets.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends destination_assetsCreateManyArgs>(args?: SelectSubset<T, destination_assetsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Destination_assets and returns the data saved in the database.
+     * @param {destination_assetsCreateManyAndReturnArgs} args - Arguments to create many Destination_assets.
+     * @example
+     * // Create many Destination_assets
+     * const destination_assets = await prisma.destination_assets.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Destination_assets and only return the `id`
+     * const destination_assetsWithIdOnly = await prisma.destination_assets.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends destination_assetsCreateManyAndReturnArgs>(args?: SelectSubset<T, destination_assetsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Destination_assets.
+     * @param {destination_assetsDeleteArgs} args - Arguments to delete one Destination_assets.
+     * @example
+     * // Delete one Destination_assets
+     * const Destination_assets = await prisma.destination_assets.delete({
+     *   where: {
+     *     // ... filter to delete one Destination_assets
+     *   }
+     * })
+     * 
+     */
+    delete<T extends destination_assetsDeleteArgs>(args: SelectSubset<T, destination_assetsDeleteArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Destination_assets.
+     * @param {destination_assetsUpdateArgs} args - Arguments to update one Destination_assets.
+     * @example
+     * // Update one Destination_assets
+     * const destination_assets = await prisma.destination_assets.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends destination_assetsUpdateArgs>(args: SelectSubset<T, destination_assetsUpdateArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Destination_assets.
+     * @param {destination_assetsDeleteManyArgs} args - Arguments to filter Destination_assets to delete.
+     * @example
+     * // Delete a few Destination_assets
+     * const { count } = await prisma.destination_assets.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends destination_assetsDeleteManyArgs>(args?: SelectSubset<T, destination_assetsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Destination_assets
+     * const destination_assets = await prisma.destination_assets.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends destination_assetsUpdateManyArgs>(args: SelectSubset<T, destination_assetsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_assets and returns the data updated in the database.
+     * @param {destination_assetsUpdateManyAndReturnArgs} args - Arguments to update many Destination_assets.
+     * @example
+     * // Update many Destination_assets
+     * const destination_assets = await prisma.destination_assets.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Destination_assets and only return the `id`
+     * const destination_assetsWithIdOnly = await prisma.destination_assets.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends destination_assetsUpdateManyAndReturnArgs>(args: SelectSubset<T, destination_assetsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Destination_assets.
+     * @param {destination_assetsUpsertArgs} args - Arguments to update or create a Destination_assets.
+     * @example
+     * // Update or create a Destination_assets
+     * const destination_assets = await prisma.destination_assets.upsert({
+     *   create: {
+     *     // ... data to create a Destination_assets
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Destination_assets we want to update
+     *   }
+     * })
+     */
+    upsert<T extends destination_assetsUpsertArgs>(args: SelectSubset<T, destination_assetsUpsertArgs<ExtArgs>>): Prisma__destination_assetsClient<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Destination_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsCountArgs} args - Arguments to filter Destination_assets to count.
+     * @example
+     * // Count the number of Destination_assets
+     * const count = await prisma.destination_assets.count({
+     *   where: {
+     *     // ... the filter for the Destination_assets we want to count
+     *   }
+     * })
+    **/
+    count<T extends destination_assetsCountArgs>(
+      args?: Subset<T, destination_assetsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Destination_assetsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Destination_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Destination_assetsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Destination_assetsAggregateArgs>(args: Subset<T, Destination_assetsAggregateArgs>): Prisma.PrismaPromise<GetDestination_assetsAggregateType<T>>
+
+    /**
+     * Group by Destination_assets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_assetsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends destination_assetsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: destination_assetsGroupByArgs['orderBy'] }
+        : { orderBy?: destination_assetsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, destination_assetsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDestination_assetsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the destination_assets model
+   */
+  readonly fields: destination_assetsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for destination_assets.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__destination_assetsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    destination<T extends destinationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, destinationsDefaultArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    asset<T extends assetsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, assetsDefaultArgs<ExtArgs>>): Prisma__assetsClient<$Result.GetResult<Prisma.$assetsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the destination_assets model
+   */
+  interface destination_assetsFieldRefs {
+    readonly id: FieldRef<"destination_assets", 'BigInt'>
+    readonly destination_id: FieldRef<"destination_assets", 'BigInt'>
+    readonly asset_id: FieldRef<"destination_assets", 'BigInt'>
+    readonly type: FieldRef<"destination_assets", 'destination_asset_type'>
+    readonly created_at: FieldRef<"destination_assets", 'DateTime'>
+    readonly updated_at: FieldRef<"destination_assets", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * destination_assets findUnique
+   */
+  export type destination_assetsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_assets to fetch.
+     */
+    where: destination_assetsWhereUniqueInput
+  }
+
+  /**
+   * destination_assets findUniqueOrThrow
+   */
+  export type destination_assetsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_assets to fetch.
+     */
+    where: destination_assetsWhereUniqueInput
+  }
+
+  /**
+   * destination_assets findFirst
+   */
+  export type destination_assetsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_assets to fetch.
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_assets to fetch.
+     */
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_assets.
+     */
+    cursor?: destination_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_assets.
+     */
+    distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_assets findFirstOrThrow
+   */
+  export type destination_assetsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_assets to fetch.
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_assets to fetch.
+     */
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_assets.
+     */
+    cursor?: destination_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_assets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_assets.
+     */
+    distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_assets findMany
+   */
+  export type destination_assetsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_assets to fetch.
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_assets to fetch.
+     */
+    orderBy?: destination_assetsOrderByWithRelationInput | destination_assetsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing destination_assets.
+     */
+    cursor?: destination_assetsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_assets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_assets.
+     */
+    skip?: number
+    distinct?: Destination_assetsScalarFieldEnum | Destination_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_assets create
+   */
+  export type destination_assetsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a destination_assets.
+     */
+    data: XOR<destination_assetsCreateInput, destination_assetsUncheckedCreateInput>
+  }
+
+  /**
+   * destination_assets createMany
+   */
+  export type destination_assetsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many destination_assets.
+     */
+    data: destination_assetsCreateManyInput | destination_assetsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * destination_assets createManyAndReturn
+   */
+  export type destination_assetsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * The data used to create many destination_assets.
+     */
+    data: destination_assetsCreateManyInput | destination_assetsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_assets update
+   */
+  export type destination_assetsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a destination_assets.
+     */
+    data: XOR<destination_assetsUpdateInput, destination_assetsUncheckedUpdateInput>
+    /**
+     * Choose, which destination_assets to update.
+     */
+    where: destination_assetsWhereUniqueInput
+  }
+
+  /**
+   * destination_assets updateMany
+   */
+  export type destination_assetsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update destination_assets.
+     */
+    data: XOR<destination_assetsUpdateManyMutationInput, destination_assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_assets to update
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * Limit how many destination_assets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_assets updateManyAndReturn
+   */
+  export type destination_assetsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * The data used to update destination_assets.
+     */
+    data: XOR<destination_assetsUpdateManyMutationInput, destination_assetsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_assets to update
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * Limit how many destination_assets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_assets upsert
+   */
+  export type destination_assetsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the destination_assets to update in case it exists.
+     */
+    where: destination_assetsWhereUniqueInput
+    /**
+     * In case the destination_assets found by the `where` argument doesn't exist, create a new destination_assets with this data.
+     */
+    create: XOR<destination_assetsCreateInput, destination_assetsUncheckedCreateInput>
+    /**
+     * In case the destination_assets was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<destination_assetsUpdateInput, destination_assetsUncheckedUpdateInput>
+  }
+
+  /**
+   * destination_assets delete
+   */
+  export type destination_assetsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+    /**
+     * Filter which destination_assets to delete.
+     */
+    where: destination_assetsWhereUniqueInput
+  }
+
+  /**
+   * destination_assets deleteMany
+   */
+  export type destination_assetsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_assets to delete
+     */
+    where?: destination_assetsWhereInput
+    /**
+     * Limit how many destination_assets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_assets without action
+   */
+  export type destination_assetsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_assets
+     */
+    select?: destination_assetsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_assets
+     */
+    omit?: destination_assetsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_assetsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -112704,7 +114106,15 @@ export namespace Prisma {
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     slug: 'slug',
-    highlight: 'highlight'
+    highlight: 'highlight',
+    types: 'types',
+    lat: 'lat',
+    long: 'long',
+    elevation_m: 'elevation_m',
+    key_highlights: 'key_highlights',
+    temperature_range: 'temperature_range',
+    terrain: 'terrain',
+    safety_advisory: 'safety_advisory'
   };
 
   export type DestinationsScalarFieldEnum = (typeof DestinationsScalarFieldEnum)[keyof typeof DestinationsScalarFieldEnum]
@@ -113358,6 +114768,18 @@ export namespace Prisma {
   export type Asset_tagsScalarFieldEnum = (typeof Asset_tagsScalarFieldEnum)[keyof typeof Asset_tagsScalarFieldEnum]
 
 
+  export const Destination_assetsScalarFieldEnum: {
+    id: 'id',
+    destination_id: 'destination_id',
+    asset_id: 'asset_id',
+    type: 'type',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Destination_assetsScalarFieldEnum = (typeof Destination_assetsScalarFieldEnum)[keyof typeof Destination_assetsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -113366,19 +114788,19 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
   export const NullableJsonNullValueInput: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull
   };
 
   export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -113489,6 +114911,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -113531,20 +114967,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
    * Reference to a field of type 'asset_type'
    */
   export type Enumasset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'asset_type'>
@@ -113555,6 +114977,20 @@ export namespace Prisma {
    * Reference to a field of type 'asset_type[]'
    */
   export type ListEnumasset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'asset_type[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'destination_asset_type'
+   */
+  export type Enumdestination_asset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'destination_asset_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'destination_asset_type[]'
+   */
+  export type ListEnumdestination_asset_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'destination_asset_type[]'>
     
   /**
    * Deep Input Types
@@ -117128,6 +118564,14 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     slug?: StringNullableFilter<"destinations"> | string | null
     highlight?: StringNullableFilter<"destinations"> | string | null
+    types?: JsonNullableFilter<"destinations">
+    lat?: FloatNullableFilter<"destinations"> | number | null
+    long?: FloatNullableFilter<"destinations"> | number | null
+    elevation_m?: IntNullableFilter<"destinations"> | number | null
+    key_highlights?: JsonNullableFilter<"destinations">
+    temperature_range?: StringNullableFilter<"destinations"> | string | null
+    terrain?: StringNullableFilter<"destinations"> | string | null
+    safety_advisory?: JsonNullableFilter<"destinations">
     activities?: ActivitiesListRelationFilter
     activity_ends?: Activity_endsListRelationFilter
     activity_starts?: Activity_startsListRelationFilter
@@ -117137,6 +118581,7 @@ export namespace Prisma {
     package_destinations?: Package_destinationsListRelationFilter
     packages_packages_end_destination_idTodestinations?: PackagesListRelationFilter
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
+    destination_assets?: Destination_assetsListRelationFilter
   }
 
   export type destinationsOrderByWithRelationInput = {
@@ -117160,6 +118605,14 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
     highlight?: SortOrderInput | SortOrder
+    types?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    long?: SortOrderInput | SortOrder
+    elevation_m?: SortOrderInput | SortOrder
+    key_highlights?: SortOrderInput | SortOrder
+    temperature_range?: SortOrderInput | SortOrder
+    terrain?: SortOrderInput | SortOrder
+    safety_advisory?: SortOrderInput | SortOrder
     activities?: activitiesOrderByRelationAggregateInput
     activity_ends?: activity_endsOrderByRelationAggregateInput
     activity_starts?: activity_startsOrderByRelationAggregateInput
@@ -117169,6 +118622,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsOrderByRelationAggregateInput
     packages_packages_end_destination_idTodestinations?: packagesOrderByRelationAggregateInput
     packages_packages_start_destination_idTodestinations?: packagesOrderByRelationAggregateInput
+    destination_assets?: destination_assetsOrderByRelationAggregateInput
   }
 
   export type destinationsWhereUniqueInput = Prisma.AtLeast<{
@@ -117195,6 +118649,14 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     slug?: StringNullableFilter<"destinations"> | string | null
     highlight?: StringNullableFilter<"destinations"> | string | null
+    types?: JsonNullableFilter<"destinations">
+    lat?: FloatNullableFilter<"destinations"> | number | null
+    long?: FloatNullableFilter<"destinations"> | number | null
+    elevation_m?: IntNullableFilter<"destinations"> | number | null
+    key_highlights?: JsonNullableFilter<"destinations">
+    temperature_range?: StringNullableFilter<"destinations"> | string | null
+    terrain?: StringNullableFilter<"destinations"> | string | null
+    safety_advisory?: JsonNullableFilter<"destinations">
     activities?: ActivitiesListRelationFilter
     activity_ends?: Activity_endsListRelationFilter
     activity_starts?: Activity_startsListRelationFilter
@@ -117204,6 +118666,7 @@ export namespace Prisma {
     package_destinations?: Package_destinationsListRelationFilter
     packages_packages_end_destination_idTodestinations?: PackagesListRelationFilter
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
+    destination_assets?: Destination_assetsListRelationFilter
   }, "id">
 
   export type destinationsOrderByWithAggregationInput = {
@@ -117227,6 +118690,14 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
     highlight?: SortOrderInput | SortOrder
+    types?: SortOrderInput | SortOrder
+    lat?: SortOrderInput | SortOrder
+    long?: SortOrderInput | SortOrder
+    elevation_m?: SortOrderInput | SortOrder
+    key_highlights?: SortOrderInput | SortOrder
+    temperature_range?: SortOrderInput | SortOrder
+    terrain?: SortOrderInput | SortOrder
+    safety_advisory?: SortOrderInput | SortOrder
     _count?: destinationsCountOrderByAggregateInput
     _avg?: destinationsAvgOrderByAggregateInput
     _max?: destinationsMaxOrderByAggregateInput
@@ -117258,6 +118729,14 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
     slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     highlight?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    types?: JsonNullableWithAggregatesFilter<"destinations">
+    lat?: FloatNullableWithAggregatesFilter<"destinations"> | number | null
+    long?: FloatNullableWithAggregatesFilter<"destinations"> | number | null
+    elevation_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    key_highlights?: JsonNullableWithAggregatesFilter<"destinations">
+    temperature_range?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    terrain?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    safety_advisory?: JsonNullableWithAggregatesFilter<"destinations">
   }
 
   export type discountsWhereInput = {
@@ -120605,6 +122084,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"assets"> | Date | string
     folder?: XOR<FoldersScalarRelationFilter, foldersWhereInput>
     tags?: Asset_tagsListRelationFilter
+    destination_assets?: Destination_assetsListRelationFilter
   }
 
   export type assetsOrderByWithRelationInput = {
@@ -120624,6 +122104,7 @@ export namespace Prisma {
     created_at?: SortOrder
     folder?: foldersOrderByWithRelationInput
     tags?: asset_tagsOrderByRelationAggregateInput
+    destination_assets?: destination_assetsOrderByRelationAggregateInput
   }
 
   export type assetsWhereUniqueInput = Prisma.AtLeast<{
@@ -120646,6 +122127,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"assets"> | Date | string
     folder?: XOR<FoldersScalarRelationFilter, foldersWhereInput>
     tags?: Asset_tagsListRelationFilter
+    destination_assets?: Destination_assetsListRelationFilter
   }, "id">
 
   export type assetsOrderByWithAggregationInput = {
@@ -120734,6 +122216,71 @@ export namespace Prisma {
     NOT?: asset_tagsScalarWhereWithAggregatesInput | asset_tagsScalarWhereWithAggregatesInput[]
     asset_id?: BigIntWithAggregatesFilter<"asset_tags"> | bigint | number
     tag_id?: BigIntWithAggregatesFilter<"asset_tags"> | bigint | number
+  }
+
+  export type destination_assetsWhereInput = {
+    AND?: destination_assetsWhereInput | destination_assetsWhereInput[]
+    OR?: destination_assetsWhereInput[]
+    NOT?: destination_assetsWhereInput | destination_assetsWhereInput[]
+    id?: BigIntFilter<"destination_assets"> | bigint | number
+    destination_id?: BigIntFilter<"destination_assets"> | bigint | number
+    asset_id?: BigIntFilter<"destination_assets"> | bigint | number
+    type?: Enumdestination_asset_typeFilter<"destination_assets"> | $Enums.destination_asset_type
+    created_at?: DateTimeFilter<"destination_assets"> | Date | string
+    updated_at?: DateTimeFilter<"destination_assets"> | Date | string
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    asset?: XOR<AssetsScalarRelationFilter, assetsWhereInput>
+  }
+
+  export type destination_assetsOrderByWithRelationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    destination?: destinationsOrderByWithRelationInput
+    asset?: assetsOrderByWithRelationInput
+  }
+
+  export type destination_assetsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: destination_assetsWhereInput | destination_assetsWhereInput[]
+    OR?: destination_assetsWhereInput[]
+    NOT?: destination_assetsWhereInput | destination_assetsWhereInput[]
+    destination_id?: BigIntFilter<"destination_assets"> | bigint | number
+    asset_id?: BigIntFilter<"destination_assets"> | bigint | number
+    type?: Enumdestination_asset_typeFilter<"destination_assets"> | $Enums.destination_asset_type
+    created_at?: DateTimeFilter<"destination_assets"> | Date | string
+    updated_at?: DateTimeFilter<"destination_assets"> | Date | string
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    asset?: XOR<AssetsScalarRelationFilter, assetsWhereInput>
+  }, "id">
+
+  export type destination_assetsOrderByWithAggregationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: destination_assetsCountOrderByAggregateInput
+    _avg?: destination_assetsAvgOrderByAggregateInput
+    _max?: destination_assetsMaxOrderByAggregateInput
+    _min?: destination_assetsMinOrderByAggregateInput
+    _sum?: destination_assetsSumOrderByAggregateInput
+  }
+
+  export type destination_assetsScalarWhereWithAggregatesInput = {
+    AND?: destination_assetsScalarWhereWithAggregatesInput | destination_assetsScalarWhereWithAggregatesInput[]
+    OR?: destination_assetsScalarWhereWithAggregatesInput[]
+    NOT?: destination_assetsScalarWhereWithAggregatesInput | destination_assetsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"destination_assets"> | bigint | number
+    destination_id?: BigIntWithAggregatesFilter<"destination_assets"> | bigint | number
+    asset_id?: BigIntWithAggregatesFilter<"destination_assets"> | bigint | number
+    type?: Enumdestination_asset_typeWithAggregatesFilter<"destination_assets"> | $Enums.destination_asset_type
+    created_at?: DateTimeWithAggregatesFilter<"destination_assets"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"destination_assets"> | Date | string
   }
 
   export type activitiesCreateInput = {
@@ -124629,6 +126176,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -124638,6 +126193,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateInput = {
@@ -124661,6 +126217,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -124670,6 +126234,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUpdateInput = {
@@ -124693,6 +126258,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -124702,6 +126275,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateInput = {
@@ -124725,6 +126299,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -124734,6 +126316,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsCreateManyInput = {
@@ -124757,6 +126340,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type destinationsUpdateManyMutationInput = {
@@ -124780,6 +126371,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type destinationsUncheckedUpdateManyInput = {
@@ -124803,6 +126402,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type discountsCreateInput = {
@@ -128428,6 +130035,7 @@ export namespace Prisma {
     created_at?: Date | string
     folder: foldersCreateNestedOneWithoutAssetsInput
     tags?: asset_tagsCreateNestedManyWithoutAssetInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutAssetInput
   }
 
   export type assetsUncheckedCreateInput = {
@@ -128446,6 +130054,7 @@ export namespace Prisma {
     is_active?: boolean
     created_at?: Date | string
     tags?: asset_tagsUncheckedCreateNestedManyWithoutAssetInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type assetsUpdateInput = {
@@ -128464,6 +130073,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: foldersUpdateOneRequiredWithoutAssetsNestedInput
     tags?: asset_tagsUpdateManyWithoutAssetNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutAssetNestedInput
   }
 
   export type assetsUncheckedUpdateInput = {
@@ -128482,6 +130092,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type assetsCreateManyInput = {
@@ -128566,6 +130177,67 @@ export namespace Prisma {
   export type asset_tagsUncheckedUpdateManyInput = {
     asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
     tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type destination_assetsCreateInput = {
+    id?: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+    destination: destinationsCreateNestedOneWithoutDestination_assetsInput
+    asset: assetsCreateNestedOneWithoutDestination_assetsInput
+  }
+
+  export type destination_assetsUncheckedCreateInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    asset_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type destination_assetsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    destination?: destinationsUpdateOneRequiredWithoutDestination_assetsNestedInput
+    asset?: assetsUpdateOneRequiredWithoutDestination_assetsNestedInput
+  }
+
+  export type destination_assetsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_assetsCreateManyInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    asset_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type destination_assetsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_assetsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BigIntFilter<$PrismaModel = never> = {
@@ -131456,6 +133128,40 @@ export namespace Prisma {
     vendor_id?: SortOrder
     price?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
 
   export type Activity_endsListRelationFilter = {
     every?: activity_endsWhereInput
@@ -131493,6 +133199,12 @@ export namespace Prisma {
     none?: packagesWhereInput
   }
 
+  export type Destination_assetsListRelationFilter = {
+    every?: destination_assetsWhereInput
+    some?: destination_assetsWhereInput
+    none?: destination_assetsWhereInput
+  }
+
   export type activity_endsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -131517,6 +133229,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type destination_assetsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type destinationsCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -131538,10 +133254,21 @@ export namespace Prisma {
     deleted_at?: SortOrder
     slug?: SortOrder
     highlight?: SortOrder
+    types?: SortOrder
+    lat?: SortOrder
+    long?: SortOrder
+    elevation_m?: SortOrder
+    key_highlights?: SortOrder
+    temperature_range?: SortOrder
+    terrain?: SortOrder
+    safety_advisory?: SortOrder
   }
 
   export type destinationsAvgOrderByAggregateInput = {
     id?: SortOrder
+    lat?: SortOrder
+    long?: SortOrder
+    elevation_m?: SortOrder
   }
 
   export type destinationsMaxOrderByAggregateInput = {
@@ -131565,6 +133292,11 @@ export namespace Prisma {
     deleted_at?: SortOrder
     slug?: SortOrder
     highlight?: SortOrder
+    lat?: SortOrder
+    long?: SortOrder
+    elevation_m?: SortOrder
+    temperature_range?: SortOrder
+    terrain?: SortOrder
   }
 
   export type destinationsMinOrderByAggregateInput = {
@@ -131588,13 +133320,47 @@ export namespace Prisma {
     deleted_at?: SortOrder
     slug?: SortOrder
     highlight?: SortOrder
+    lat?: SortOrder
+    long?: SortOrder
+    elevation_m?: SortOrder
+    temperature_range?: SortOrder
+    terrain?: SortOrder
   }
 
   export type destinationsSumOrderByAggregateInput = {
     id?: SortOrder
+    lat?: SortOrder
+    long?: SortOrder
+    elevation_m?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -131602,7 +133368,12 @@ export namespace Prisma {
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type discountsCountOrderByAggregateInput = {
@@ -131668,22 +133439,6 @@ export namespace Prisma {
     amount?: SortOrder
     customer_id?: SortOrder
     booking_id?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type DocumentsListRelationFilter = {
@@ -132078,29 +133833,6 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type site_identityCountOrderByAggregateInput = {
     id?: SortOrder
@@ -132166,32 +133898,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type feedbackCountOrderByAggregateInput = {
@@ -134110,6 +135816,67 @@ export namespace Prisma {
   export type asset_tagsSumOrderByAggregateInput = {
     asset_id?: SortOrder
     tag_id?: SortOrder
+  }
+
+  export type Enumdestination_asset_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.destination_asset_type | Enumdestination_asset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumdestination_asset_typeFilter<$PrismaModel> | $Enums.destination_asset_type
+  }
+
+  export type DestinationsScalarRelationFilter = {
+    is?: destinationsWhereInput
+    isNot?: destinationsWhereInput
+  }
+
+  export type destination_assetsCountOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_assetsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+  }
+
+  export type destination_assetsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_assetsMinOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_assetsSumOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    asset_id?: SortOrder
+  }
+
+  export type Enumdestination_asset_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.destination_asset_type | Enumdestination_asset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumdestination_asset_typeWithAggregatesFilter<$PrismaModel> | $Enums.destination_asset_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
+    _max?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -137067,6 +138834,13 @@ export namespace Prisma {
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
   }
 
+  export type destination_assetsCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput> | destination_assetsCreateWithoutDestinationInput[] | destination_assetsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutDestinationInput | destination_assetsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_assetsCreateManyDestinationInputEnvelope
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+  }
+
   export type activitiesUncheckedCreateNestedManyWithoutDestinationsInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -137128,6 +138902,21 @@ export namespace Prisma {
     connectOrCreate?: packagesCreateOrConnectWithoutStart_destinationInput | packagesCreateOrConnectWithoutStart_destinationInput[]
     createMany?: packagesCreateManyStart_destinationInputEnvelope
     connect?: packagesWhereUniqueInput | packagesWhereUniqueInput[]
+  }
+
+  export type destination_assetsUncheckedCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput> | destination_assetsCreateWithoutDestinationInput[] | destination_assetsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutDestinationInput | destination_assetsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_assetsCreateManyDestinationInputEnvelope
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type activitiesUpdateManyWithoutDestinationsNestedInput = {
@@ -137256,6 +139045,20 @@ export namespace Prisma {
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
+  export type destination_assetsUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput> | destination_assetsCreateWithoutDestinationInput[] | destination_assetsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutDestinationInput | destination_assetsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_assetsUpsertWithWhereUniqueWithoutDestinationInput | destination_assetsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_assetsCreateManyDestinationInputEnvelope
+    set?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    disconnect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    delete?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    update?: destination_assetsUpdateWithWhereUniqueWithoutDestinationInput | destination_assetsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_assetsUpdateManyWithWhereWithoutDestinationInput | destination_assetsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+  }
+
   export type activitiesUncheckedUpdateManyWithoutDestinationsNestedInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -137382,6 +139185,20 @@ export namespace Prisma {
     deleteMany?: packagesScalarWhereInput | packagesScalarWhereInput[]
   }
 
+  export type destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput> | destination_assetsCreateWithoutDestinationInput[] | destination_assetsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutDestinationInput | destination_assetsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_assetsUpsertWithWhereUniqueWithoutDestinationInput | destination_assetsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_assetsCreateManyDestinationInputEnvelope
+    set?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    disconnect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    delete?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    update?: destination_assetsUpdateWithWhereUniqueWithoutDestinationInput | destination_assetsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_assetsUpdateManyWithWhereWithoutDestinationInput | destination_assetsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+  }
+
   export type booking_payment_termsCreateNestedManyWithoutDiscountsInput = {
     create?: XOR<booking_payment_termsCreateWithoutDiscountsInput, booking_payment_termsUncheckedCreateWithoutDiscountsInput> | booking_payment_termsCreateWithoutDiscountsInput[] | booking_payment_termsUncheckedCreateWithoutDiscountsInput[]
     connectOrCreate?: booking_payment_termsCreateOrConnectWithoutDiscountsInput | booking_payment_termsCreateOrConnectWithoutDiscountsInput[]
@@ -137394,14 +139211,6 @@ export namespace Prisma {
     connectOrCreate?: booking_payment_termsCreateOrConnectWithoutDiscountsInput | booking_payment_termsCreateOrConnectWithoutDiscountsInput[]
     createMany?: booking_payment_termsCreateManyDiscountsInputEnvelope
     connect?: booking_payment_termsWhereUniqueInput | booking_payment_termsWhereUniqueInput[]
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type booking_payment_termsUpdateManyWithoutDiscountsNestedInput = {
@@ -140154,11 +141963,25 @@ export namespace Prisma {
     connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
   }
 
+  export type destination_assetsCreateNestedManyWithoutAssetInput = {
+    create?: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput> | destination_assetsCreateWithoutAssetInput[] | destination_assetsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutAssetInput | destination_assetsCreateOrConnectWithoutAssetInput[]
+    createMany?: destination_assetsCreateManyAssetInputEnvelope
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+  }
+
   export type asset_tagsUncheckedCreateNestedManyWithoutAssetInput = {
     create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
     connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
     createMany?: asset_tagsCreateManyAssetInputEnvelope
     connect?: asset_tagsWhereUniqueInput | asset_tagsWhereUniqueInput[]
+  }
+
+  export type destination_assetsUncheckedCreateNestedManyWithoutAssetInput = {
+    create?: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput> | destination_assetsCreateWithoutAssetInput[] | destination_assetsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutAssetInput | destination_assetsCreateOrConnectWithoutAssetInput[]
+    createMany?: destination_assetsCreateManyAssetInputEnvelope
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
   }
 
   export type Enumasset_typeFieldUpdateOperationsInput = {
@@ -140187,6 +142010,20 @@ export namespace Prisma {
     deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
   }
 
+  export type destination_assetsUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput> | destination_assetsCreateWithoutAssetInput[] | destination_assetsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutAssetInput | destination_assetsCreateOrConnectWithoutAssetInput[]
+    upsert?: destination_assetsUpsertWithWhereUniqueWithoutAssetInput | destination_assetsUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: destination_assetsCreateManyAssetInputEnvelope
+    set?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    disconnect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    delete?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    update?: destination_assetsUpdateWithWhereUniqueWithoutAssetInput | destination_assetsUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: destination_assetsUpdateManyWithWhereWithoutAssetInput | destination_assetsUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+  }
+
   export type asset_tagsUncheckedUpdateManyWithoutAssetNestedInput = {
     create?: XOR<asset_tagsCreateWithoutAssetInput, asset_tagsUncheckedCreateWithoutAssetInput> | asset_tagsCreateWithoutAssetInput[] | asset_tagsUncheckedCreateWithoutAssetInput[]
     connectOrCreate?: asset_tagsCreateOrConnectWithoutAssetInput | asset_tagsCreateOrConnectWithoutAssetInput[]
@@ -140199,6 +142036,20 @@ export namespace Prisma {
     update?: asset_tagsUpdateWithWhereUniqueWithoutAssetInput | asset_tagsUpdateWithWhereUniqueWithoutAssetInput[]
     updateMany?: asset_tagsUpdateManyWithWhereWithoutAssetInput | asset_tagsUpdateManyWithWhereWithoutAssetInput[]
     deleteMany?: asset_tagsScalarWhereInput | asset_tagsScalarWhereInput[]
+  }
+
+  export type destination_assetsUncheckedUpdateManyWithoutAssetNestedInput = {
+    create?: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput> | destination_assetsCreateWithoutAssetInput[] | destination_assetsUncheckedCreateWithoutAssetInput[]
+    connectOrCreate?: destination_assetsCreateOrConnectWithoutAssetInput | destination_assetsCreateOrConnectWithoutAssetInput[]
+    upsert?: destination_assetsUpsertWithWhereUniqueWithoutAssetInput | destination_assetsUpsertWithWhereUniqueWithoutAssetInput[]
+    createMany?: destination_assetsCreateManyAssetInputEnvelope
+    set?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    disconnect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    delete?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    connect?: destination_assetsWhereUniqueInput | destination_assetsWhereUniqueInput[]
+    update?: destination_assetsUpdateWithWhereUniqueWithoutAssetInput | destination_assetsUpdateWithWhereUniqueWithoutAssetInput[]
+    updateMany?: destination_assetsUpdateManyWithWhereWithoutAssetInput | destination_assetsUpdateManyWithWhereWithoutAssetInput[]
+    deleteMany?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
   }
 
   export type assetsCreateNestedOneWithoutTagsInput = {
@@ -140227,6 +142078,38 @@ export namespace Prisma {
     upsert?: tags_assetsUpsertWithoutAssetsInput
     connect?: tags_assetsWhereUniqueInput
     update?: XOR<XOR<tags_assetsUpdateToOneWithWhereWithoutAssetsInput, tags_assetsUpdateWithoutAssetsInput>, tags_assetsUncheckedUpdateWithoutAssetsInput>
+  }
+
+  export type destinationsCreateNestedOneWithoutDestination_assetsInput = {
+    create?: XOR<destinationsCreateWithoutDestination_assetsInput, destinationsUncheckedCreateWithoutDestination_assetsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_assetsInput
+    connect?: destinationsWhereUniqueInput
+  }
+
+  export type assetsCreateNestedOneWithoutDestination_assetsInput = {
+    create?: XOR<assetsCreateWithoutDestination_assetsInput, assetsUncheckedCreateWithoutDestination_assetsInput>
+    connectOrCreate?: assetsCreateOrConnectWithoutDestination_assetsInput
+    connect?: assetsWhereUniqueInput
+  }
+
+  export type Enumdestination_asset_typeFieldUpdateOperationsInput = {
+    set?: $Enums.destination_asset_type
+  }
+
+  export type destinationsUpdateOneRequiredWithoutDestination_assetsNestedInput = {
+    create?: XOR<destinationsCreateWithoutDestination_assetsInput, destinationsUncheckedCreateWithoutDestination_assetsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_assetsInput
+    upsert?: destinationsUpsertWithoutDestination_assetsInput
+    connect?: destinationsWhereUniqueInput
+    update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutDestination_assetsInput, destinationsUpdateWithoutDestination_assetsInput>, destinationsUncheckedUpdateWithoutDestination_assetsInput>
+  }
+
+  export type assetsUpdateOneRequiredWithoutDestination_assetsNestedInput = {
+    create?: XOR<assetsCreateWithoutDestination_assetsInput, assetsUncheckedCreateWithoutDestination_assetsInput>
+    connectOrCreate?: assetsCreateOrConnectWithoutDestination_assetsInput
+    upsert?: assetsUpsertWithoutDestination_assetsInput
+    connect?: assetsWhereUniqueInput
+    update?: XOR<XOR<assetsUpdateToOneWithWhereWithoutDestination_assetsInput, assetsUpdateWithoutDestination_assetsInput>, assetsUncheckedUpdateWithoutDestination_assetsInput>
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {
@@ -140510,6 +142393,29 @@ export namespace Prisma {
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
@@ -140621,29 +142527,6 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedEnumasset_typeFilter<$PrismaModel = never> = {
     equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
@@ -140660,6 +142543,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumasset_typeFilter<$PrismaModel>
     _max?: NestedEnumasset_typeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumdestination_asset_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.destination_asset_type | Enumdestination_asset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumdestination_asset_typeFilter<$PrismaModel> | $Enums.destination_asset_type
+  }
+
+  export type NestedEnumdestination_asset_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.destination_asset_type | Enumdestination_asset_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.destination_asset_type[] | ListEnumdestination_asset_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnumdestination_asset_typeWithAggregatesFilter<$PrismaModel> | $Enums.destination_asset_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
+    _max?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
   }
 
   export type activity_categoriesCreateWithoutActivitiesInput = {
@@ -140706,6 +142606,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -140714,6 +142622,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivitiesInput = {
@@ -140737,6 +142646,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -140745,6 +142662,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivitiesInput = {
@@ -140849,6 +142767,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -140857,6 +142783,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivitiesInput = {
@@ -140880,6 +142807,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -140888,6 +142823,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutActivitiesInput = {
@@ -141012,6 +142948,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -141020,6 +142964,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_endsInput = {
@@ -141043,6 +142988,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -141051,6 +143004,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_endsInput = {
@@ -141180,6 +143134,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -141188,6 +143150,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_endsInput = {
@@ -141211,6 +143174,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -141219,6 +143190,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_endsInput = {
@@ -141314,6 +143286,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
@@ -141322,6 +143302,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_startsInput = {
@@ -141345,6 +143326,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
@@ -141353,6 +143342,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_startsInput = {
@@ -141482,6 +143472,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
@@ -141490,6 +143488,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_startsInput = {
@@ -141513,6 +143512,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -141521,6 +143528,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_startsInput = {
@@ -142726,6 +144734,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -142734,6 +144750,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -142757,6 +144774,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -142765,6 +144790,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -142962,6 +144988,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -142970,6 +145004,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -142993,6 +145028,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -143001,6 +145044,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_schedulesInput = {
@@ -151461,6 +153505,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -151469,6 +153521,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_activitiesInput = {
@@ -151492,6 +153545,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -151500,6 +153561,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_activitiesInput = {
@@ -151582,6 +153644,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -151590,6 +153660,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_activitiesInput = {
@@ -151613,6 +153684,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -151621,6 +153700,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type vendorsUpsertWithoutDestination_activitiesInput = {
@@ -152118,6 +154198,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type destination_assetsCreateWithoutDestinationInput = {
+    id?: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+    asset: assetsCreateNestedOneWithoutDestination_assetsInput
+  }
+
+  export type destination_assetsUncheckedCreateWithoutDestinationInput = {
+    id?: bigint | number
+    asset_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type destination_assetsCreateOrConnectWithoutDestinationInput = {
+    where: destination_assetsWhereUniqueInput
+    create: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_assetsCreateManyDestinationInputEnvelope = {
+    data: destination_assetsCreateManyDestinationInput | destination_assetsCreateManyDestinationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type activitiesUpsertWithWhereUniqueWithoutDestinationsInput = {
     where: activitiesWhereUniqueInput
     update: XOR<activitiesUpdateWithoutDestinationsInput, activitiesUncheckedUpdateWithoutDestinationsInput>
@@ -152383,6 +154489,34 @@ export namespace Prisma {
   export type packagesUpdateManyWithWhereWithoutStart_destinationInput = {
     where: packagesScalarWhereInput
     data: XOR<packagesUpdateManyMutationInput, packagesUncheckedUpdateManyWithoutStart_destinationInput>
+  }
+
+  export type destination_assetsUpsertWithWhereUniqueWithoutDestinationInput = {
+    where: destination_assetsWhereUniqueInput
+    update: XOR<destination_assetsUpdateWithoutDestinationInput, destination_assetsUncheckedUpdateWithoutDestinationInput>
+    create: XOR<destination_assetsCreateWithoutDestinationInput, destination_assetsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_assetsUpdateWithWhereUniqueWithoutDestinationInput = {
+    where: destination_assetsWhereUniqueInput
+    data: XOR<destination_assetsUpdateWithoutDestinationInput, destination_assetsUncheckedUpdateWithoutDestinationInput>
+  }
+
+  export type destination_assetsUpdateManyWithWhereWithoutDestinationInput = {
+    where: destination_assetsScalarWhereInput
+    data: XOR<destination_assetsUpdateManyMutationInput, destination_assetsUncheckedUpdateManyWithoutDestinationInput>
+  }
+
+  export type destination_assetsScalarWhereInput = {
+    AND?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+    OR?: destination_assetsScalarWhereInput[]
+    NOT?: destination_assetsScalarWhereInput | destination_assetsScalarWhereInput[]
+    id?: BigIntFilter<"destination_assets"> | bigint | number
+    destination_id?: BigIntFilter<"destination_assets"> | bigint | number
+    asset_id?: BigIntFilter<"destination_assets"> | bigint | number
+    type?: Enumdestination_asset_typeFilter<"destination_assets"> | $Enums.destination_asset_type
+    created_at?: DateTimeFilter<"destination_assets"> | Date | string
+    updated_at?: DateTimeFilter<"destination_assets"> | Date | string
   }
 
   export type booking_payment_termsCreateWithoutDiscountsInput = {
@@ -153273,6 +155407,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -153281,6 +155423,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutHotelsInput = {
@@ -153304,6 +155447,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -153312,6 +155463,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutHotelsInput = {
@@ -153539,6 +155691,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -153547,6 +155707,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutHotelsInput = {
@@ -153570,6 +155731,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -153578,6 +155747,7 @@ export namespace Prisma {
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_hotel_optionsUpsertWithWhereUniqueWithoutHotelsInput = {
@@ -154673,6 +156843,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -154681,6 +156859,7 @@ export namespace Prisma {
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackage_destinationsInput = {
@@ -154704,6 +156883,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -154712,6 +156899,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackage_destinationsInput = {
@@ -154832,6 +157020,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -154840,6 +157036,7 @@ export namespace Prisma {
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -154863,6 +157060,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -154871,6 +157076,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type packagesUpsertWithoutPackage_destinationsInput = {
@@ -157338,6 +159544,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -157346,6 +159560,7 @@ export namespace Prisma {
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -157369,6 +159584,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -157377,6 +159600,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -157463,6 +159687,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
@@ -157471,6 +159703,7 @@ export namespace Prisma {
     hotels?: hotelsCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -157494,6 +159727,14 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     slug?: string | null
     highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
     activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
     activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
@@ -157502,6 +159743,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -157766,6 +160008,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -157774,6 +160024,7 @@ export namespace Prisma {
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -157797,6 +160048,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -157805,6 +160064,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type order_channelsUpsertWithoutPackagesInput = {
@@ -157909,6 +160169,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
@@ -157917,6 +160185,7 @@ export namespace Prisma {
     hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -157940,6 +160209,14 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     slug?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
     activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
@@ -157948,6 +160225,7 @@ export namespace Prisma {
     hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_payment_termsCreateWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -159458,6 +161736,7 @@ export namespace Prisma {
     is_active?: boolean
     created_at?: Date | string
     tags?: asset_tagsCreateNestedManyWithoutAssetInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutAssetInput
   }
 
   export type assetsUncheckedCreateWithoutFolderInput = {
@@ -159475,6 +161754,7 @@ export namespace Prisma {
     is_active?: boolean
     created_at?: Date | string
     tags?: asset_tagsUncheckedCreateNestedManyWithoutAssetInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type assetsCreateOrConnectWithoutFolderInput = {
@@ -159657,6 +161937,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type destination_assetsCreateWithoutAssetInput = {
+    id?: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+    destination: destinationsCreateNestedOneWithoutDestination_assetsInput
+  }
+
+  export type destination_assetsUncheckedCreateWithoutAssetInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type destination_assetsCreateOrConnectWithoutAssetInput = {
+    where: destination_assetsWhereUniqueInput
+    create: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput>
+  }
+
+  export type destination_assetsCreateManyAssetInputEnvelope = {
+    data: destination_assetsCreateManyAssetInput | destination_assetsCreateManyAssetInput[]
+    skipDuplicates?: boolean
+  }
+
   export type foldersUpsertWithoutAssetsInput = {
     update: XOR<foldersUpdateWithoutAssetsInput, foldersUncheckedUpdateWithoutAssetsInput>
     create: XOR<foldersCreateWithoutAssetsInput, foldersUncheckedCreateWithoutAssetsInput>
@@ -159700,6 +162006,22 @@ export namespace Prisma {
     data: XOR<asset_tagsUpdateManyMutationInput, asset_tagsUncheckedUpdateManyWithoutAssetInput>
   }
 
+  export type destination_assetsUpsertWithWhereUniqueWithoutAssetInput = {
+    where: destination_assetsWhereUniqueInput
+    update: XOR<destination_assetsUpdateWithoutAssetInput, destination_assetsUncheckedUpdateWithoutAssetInput>
+    create: XOR<destination_assetsCreateWithoutAssetInput, destination_assetsUncheckedCreateWithoutAssetInput>
+  }
+
+  export type destination_assetsUpdateWithWhereUniqueWithoutAssetInput = {
+    where: destination_assetsWhereUniqueInput
+    data: XOR<destination_assetsUpdateWithoutAssetInput, destination_assetsUncheckedUpdateWithoutAssetInput>
+  }
+
+  export type destination_assetsUpdateManyWithWhereWithoutAssetInput = {
+    where: destination_assetsScalarWhereInput
+    data: XOR<destination_assetsUpdateManyMutationInput, destination_assetsUncheckedUpdateManyWithoutAssetInput>
+  }
+
   export type assetsCreateWithoutTagsInput = {
     id?: bigint | number
     name: string
@@ -159715,6 +162037,7 @@ export namespace Prisma {
     is_active?: boolean
     created_at?: Date | string
     folder: foldersCreateNestedOneWithoutAssetsInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutAssetInput
   }
 
   export type assetsUncheckedCreateWithoutTagsInput = {
@@ -159732,6 +162055,7 @@ export namespace Prisma {
     last_verified?: Date | string | null
     is_active?: boolean
     created_at?: Date | string
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutAssetInput
   }
 
   export type assetsCreateOrConnectWithoutTagsInput = {
@@ -159780,6 +162104,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: foldersUpdateOneRequiredWithoutAssetsNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutAssetNestedInput
   }
 
   export type assetsUncheckedUpdateWithoutTagsInput = {
@@ -159797,6 +162122,7 @@ export namespace Prisma {
     last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type tags_assetsUpsertWithoutAssetsInput = {
@@ -159818,6 +162144,270 @@ export namespace Prisma {
   export type tags_assetsUncheckedUpdateWithoutAssetsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type destinationsCreateWithoutDestination_assetsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    thumbnail_url?: string | null
+    description?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    trail_details?: string | null
+    required_gear?: string | null
+    difficulty_level?: string | null
+    environmental_factors?: string | null
+    physical_requirements?: string | null
+    main_attractions?: string | null
+    best_time_to_visit?: string | null
+    tips_for_visitors?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    slug?: string | null
+    highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+  }
+
+  export type destinationsUncheckedCreateWithoutDestination_assetsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    thumbnail_url?: string | null
+    description?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    trail_details?: string | null
+    required_gear?: string | null
+    difficulty_level?: string | null
+    environmental_factors?: string | null
+    physical_requirements?: string | null
+    main_attractions?: string | null
+    best_time_to_visit?: string | null
+    tips_for_visitors?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    slug?: string | null
+    highlight?: string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: number | null
+    long?: number | null
+    elevation_m?: number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: string | null
+    terrain?: string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+  }
+
+  export type destinationsCreateOrConnectWithoutDestination_assetsInput = {
+    where: destinationsWhereUniqueInput
+    create: XOR<destinationsCreateWithoutDestination_assetsInput, destinationsUncheckedCreateWithoutDestination_assetsInput>
+  }
+
+  export type assetsCreateWithoutDestination_assetsInput = {
+    id?: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    folder: foldersCreateNestedOneWithoutAssetsInput
+    tags?: asset_tagsCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsUncheckedCreateWithoutDestination_assetsInput = {
+    id?: bigint | number
+    folder_id: bigint | number
+    name: string
+    caption?: string | null
+    description?: string | null
+    type: $Enums.asset_type
+    url: string
+    file_ext?: string | null
+    size_bytes?: bigint | number | null
+    size_megabytes?: Decimal | DecimalJsLike | number | string | null
+    sha256?: string | null
+    last_verified?: Date | string | null
+    is_active?: boolean
+    created_at?: Date | string
+    tags?: asset_tagsUncheckedCreateNestedManyWithoutAssetInput
+  }
+
+  export type assetsCreateOrConnectWithoutDestination_assetsInput = {
+    where: assetsWhereUniqueInput
+    create: XOR<assetsCreateWithoutDestination_assetsInput, assetsUncheckedCreateWithoutDestination_assetsInput>
+  }
+
+  export type destinationsUpsertWithoutDestination_assetsInput = {
+    update: XOR<destinationsUpdateWithoutDestination_assetsInput, destinationsUncheckedUpdateWithoutDestination_assetsInput>
+    create: XOR<destinationsCreateWithoutDestination_assetsInput, destinationsUncheckedCreateWithoutDestination_assetsInput>
+    where?: destinationsWhereInput
+  }
+
+  export type destinationsUpdateToOneWithWhereWithoutDestination_assetsInput = {
+    where?: destinationsWhereInput
+    data: XOR<destinationsUpdateWithoutDestination_assetsInput, destinationsUncheckedUpdateWithoutDestination_assetsInput>
+  }
+
+  export type destinationsUpdateWithoutDestination_assetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    environmental_factors?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+  }
+
+  export type destinationsUncheckedUpdateWithoutDestination_assetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    environmental_factors?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    types?: NullableJsonNullValueInput | InputJsonValue
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    long?: NullableFloatFieldUpdateOperationsInput | number | null
+    elevation_m?: NullableIntFieldUpdateOperationsInput | number | null
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
+    activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+  }
+
+  export type assetsUpsertWithoutDestination_assetsInput = {
+    update: XOR<assetsUpdateWithoutDestination_assetsInput, assetsUncheckedUpdateWithoutDestination_assetsInput>
+    create: XOR<assetsCreateWithoutDestination_assetsInput, assetsUncheckedCreateWithoutDestination_assetsInput>
+    where?: assetsWhereInput
+  }
+
+  export type assetsUpdateToOneWithWhereWithoutDestination_assetsInput = {
+    where?: assetsWhereInput
+    data: XOR<assetsUpdateWithoutDestination_assetsInput, assetsUncheckedUpdateWithoutDestination_assetsInput>
+  }
+
+  export type assetsUpdateWithoutDestination_assetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: foldersUpdateOneRequiredWithoutAssetsNestedInput
+    tags?: asset_tagsUpdateManyWithoutAssetNestedInput
+  }
+
+  export type assetsUncheckedUpdateWithoutDestination_assetsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    folder_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: Enumasset_typeFieldUpdateOperationsInput | $Enums.asset_type
+    url?: StringFieldUpdateOperationsInput | string
+    file_ext?: NullableStringFieldUpdateOperationsInput | string | null
+    size_bytes?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    size_megabytes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    sha256?: NullableStringFieldUpdateOperationsInput | string | null
+    last_verified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type package_itinerary_day_detailsCreateManyActivitiesInput = {
@@ -162403,6 +164993,14 @@ export namespace Prisma {
     aggregate_rating_count?: number | null
   }
 
+  export type destination_assetsCreateManyDestinationInput = {
+    id?: bigint | number
+    asset_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
   export type activitiesUpdateWithoutDestinationsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162926,6 +165524,30 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type destination_assetsUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    asset?: assetsUpdateOneRequiredWithoutDestination_assetsNestedInput
+  }
+
+  export type destination_assetsUncheckedUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_assetsUncheckedUpdateManyWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type booking_payment_termsCreateManyDiscountsInput = {
@@ -165865,6 +168487,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: asset_tagsUpdateManyWithoutAssetNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutAssetNestedInput
   }
 
   export type assetsUncheckedUpdateWithoutFolderInput = {
@@ -165882,6 +168505,7 @@ export namespace Prisma {
     is_active?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: asset_tagsUncheckedUpdateManyWithoutAssetNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutAssetNestedInput
   }
 
   export type assetsUncheckedUpdateManyWithoutFolderInput = {
@@ -165920,6 +168544,14 @@ export namespace Prisma {
     tag_id: bigint | number
   }
 
+  export type destination_assetsCreateManyAssetInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    type: $Enums.destination_asset_type
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
   export type asset_tagsUpdateWithoutAssetInput = {
     tag?: tags_assetsUpdateOneRequiredWithoutAssetsNestedInput
   }
@@ -165930,6 +168562,30 @@ export namespace Prisma {
 
   export type asset_tagsUncheckedUpdateManyWithoutAssetInput = {
     tag_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type destination_assetsUpdateWithoutAssetInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    destination?: destinationsUpdateOneRequiredWithoutDestination_assetsNestedInput
+  }
+
+  export type destination_assetsUncheckedUpdateWithoutAssetInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type destination_assetsUncheckedUpdateManyWithoutAssetInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    type?: Enumdestination_asset_typeFieldUpdateOperationsInput | $Enums.destination_asset_type
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
