@@ -1797,16 +1797,25 @@ function AssetFormModal({
 
   const title = mode === "create" ? "Create Asset" : "Edit Asset";
 
-  function handleSelectFile(f: File) {
-    setFile(f);
-    const url = URL.createObjectURL(f);
-    setPreviewUrl(url);
-    const detected = detectAssetTypeFromFile(f);
-    setPreviewType(detected);
-    if (!name) {
-      setName(f.name);
+function handleSelectFile(f: File) {
+  setFile(f);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (typeof reader.result === "string") {
+      // data: URL → aman dengan img-src 'self' data: https:
+      setPreviewUrl(reader.result);
     }
+  };
+  reader.readAsDataURL(f);
+
+  const detected = detectAssetTypeFromFile(f);
+  setPreviewType(detected);
+
+  if (!name) {
+    setName(f.name);
   }
+}
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
