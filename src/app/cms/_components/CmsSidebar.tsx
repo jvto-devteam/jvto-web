@@ -76,7 +76,7 @@ const navItems: NavItem[] = [
     children: [
       // 2.1 tourPackages
       {
-        href: "/cms/collections/tour-packages",
+        href: "/cms/tour-packages",
         label: "Tour Packages",
         icon: Package,
       },
