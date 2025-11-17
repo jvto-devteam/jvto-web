@@ -897,6 +897,15 @@ exports.Prisma.Package_addonsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.Package_assetsScalarFieldEnum = {
+  id: 'id',
+  package_id: 'package_id',
+  asset_id: 'asset_id',
+  is_primary: 'is_primary',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.Package_categoriesScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1012,6 +1021,7 @@ exports.Prisma.PackagesScalarFieldEnum = {
   slug: 'slug',
   name: 'name',
   description: 'description',
+  short_label: 'short_label',
   duration_id: 'duration_id',
   order_channel_id: 'order_channel_id',
   package_category_id: 'package_category_id',
@@ -1330,6 +1340,7 @@ exports.Prisma.ModelName = {
   order_channels: 'order_channels',
   other_activities: 'other_activities',
   package_addons: 'package_addons',
+  package_assets: 'package_assets',
   package_categories: 'package_categories',
   package_destinations: 'package_destinations',
   package_excludes: 'package_excludes',
