@@ -8,7 +8,10 @@ import {
   Pencil,
   Trash2,
   Download,
+  Plus
 } from "lucide-react";
+import Link from "next/link";
+
 
 type DestinationLite = {
   id: number;
@@ -186,6 +189,14 @@ export default function CmsPackagesPage() {
             />
             Reload
           </button>
+          <Link
+          href="/cms/tour-packages/create"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-500 hover:bg-blue-400 text-slate-950 text-sm font-medium px-3 py-2 transition"
+          >
+            <Plus className="w-4 h-4" />
+            Tambah Tour Package Baru
+          </Link>
+
         </div>
       </div>
 

@@ -1054,6 +1054,22 @@ model package_addons {
   @@index([addon_id], map: "idx_package_addons_addon_id")
   @@index([package_id], map: "idx_package_addons_package_id")
 }
+model package_assets {
+  id         BigInt   @id @default(autoincrement())
+  package_id BigInt
+  asset_id   BigInt
+  is_primary Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // RELATIONS
+  package packages @relation(fields: [package_id], references: [id])
+  asset   assets   @relation(fields: [asset_id], references: [id])
+
+  @@index([package_id], name: "idx_package_assets_package_id")
+  @@index([asset_id],   name: "idx_package_assets_asset_id")
+  @@unique([package_id, asset_id], name: "uq_package_assets_package_asset")
+}
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model package_categories {
@@ -1210,6 +1226,7 @@ model packages {
   slug                                                     String?                    @unique
   name                                                     String
   description                                              String?
+  short_label                                              String?
   duration_id                                              BigInt?
   order_channel_id                                         BigInt?
   package_category_id                                      BigInt?
@@ -1245,7 +1262,7 @@ model packages {
   order_channels                                           order_channels?            @relation(fields: [order_channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_order_channel_id")
   package_categories                                       package_categories?        @relation(fields: [package_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_package_category_id")
   start_destination                                        destinations?              @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
-
+  package_assets package_assets[]
   @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_packages_name", type: Gin)
   @@index([slug(ops: raw("gin_trgm_ops"))], map: "trgm_packages_slug", type: Gin)
 }
@@ -1478,6 +1495,9 @@ model assets {
 
   // NEW RELATION
   destination_assets destination_assets[]
+
+  package_assets package_assets[]
+
 
   @@index([folder_id],  name: "idx_assets_folder_id")
   @@index([is_active],  name: "idx_assets_is_active")
