@@ -89,10 +89,7 @@ function serializePackageDetail(pkg: any) {
       .sort((a: any, b: any) => a.day_no - b.day_no)
       .map((d: any) => ({
         day_no: d.day_no,
-        activity_start_id: d.activity_start_id
-          ? Number(d.activity_start_id)
-          : null,
-        activity_end_id: d.activity_end_id ? Number(d.activity_end_id) : null,
+        route_id: d.route_id ? Number(d.route_id) : null,
         title: d.title,
         activity: d.activity,
         hotel_id: d.hotel_id ? Number(d.hotel_id) : null,
@@ -133,7 +130,10 @@ export async function GET(
     });
 
     if (!pkg) {
-      return NextResponse.json({ message: "Package not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Package not found" },
+        { status: 404 }
+      );
     }
 
     const payload = serializePackageDetail(pkg);

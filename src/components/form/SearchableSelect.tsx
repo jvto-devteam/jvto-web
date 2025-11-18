@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { ChevronDown, X, Search } from "lucide-react";
 
@@ -30,6 +31,7 @@ export function SearchableSelect<T>({
 }: SearchableSelectProps<T>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const selectedValueKey =
@@ -42,6 +44,34 @@ export function SearchableSelect<T>({
       getOptionLabel(opt).toLowerCase().includes(q)
     );
   }, [options, search, getOptionLabel]);
+
+  // Atur highlighted index saat dropdown dibuka atau list/filter berubah
+  useEffect(() => {
+    if (!open) {
+      setHighlightedIndex(-1);
+      return;
+    }
+
+    if (filteredOptions.length === 0) {
+      setHighlightedIndex(-1);
+      return;
+    }
+
+    // Coba highlight opsi yang saat ini terpilih
+    const selectedIndex =
+      selectedValueKey != null
+        ? filteredOptions.findIndex(
+            (opt) => String(getOptionValue(opt)) === selectedValueKey
+          )
+        : -1;
+
+    if (selectedIndex >= 0) {
+      setHighlightedIndex(selectedIndex);
+    } else {
+      // Kalau belum ada yang kepilih, highlight item pertama
+      setHighlightedIndex(0);
+    }
+  }, [open, filteredOptions, selectedValueKey, getOptionValue]);
 
   // Close on click outside
   useEffect(() => {
@@ -72,6 +102,52 @@ export function SearchableSelect<T>({
     setSearch("");
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open || disabled) return;
+
+    switch (e.key) {
+      case "ArrowDown": {
+        e.preventDefault();
+        if (filteredOptions.length === 0) return;
+
+        setHighlightedIndex((prev) => {
+          if (prev < 0) return 0;
+          const next =
+            prev + 1 < filteredOptions.length ? prev + 1 : 0; // wrap ke atas
+          return next;
+        });
+        break;
+      }
+      case "ArrowUp": {
+        e.preventDefault();
+        if (filteredOptions.length === 0) return;
+
+        setHighlightedIndex((prev) => {
+          if (prev < 0) return filteredOptions.length - 1;
+          const next =
+            prev - 1 >= 0 ? prev - 1 : filteredOptions.length - 1; // wrap ke bawah
+          return next;
+        });
+        break;
+      }
+      case "Enter": {
+        if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+          e.preventDefault();
+          const option = filteredOptions[highlightedIndex];
+          handleSelect(option);
+        }
+        break;
+      }
+      case "Escape": {
+        e.preventDefault();
+        setOpen(false);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
   return (
     <div
       ref={containerRef}
@@ -93,9 +169,11 @@ export function SearchableSelect<T>({
         ].join(" ")}
       >
         <span className="truncate text-xs">
-          {value
-            ? getOptionLabel(value)
-            : <span className="text-slate-500">{placeholder}</span>}
+          {value ? (
+            getOptionLabel(value)
+          ) : (
+            <span className="text-slate-500">{placeholder}</span>
+          )}
         </span>
         <span className="flex items-center gap-1">
           {clearable && value && !disabled && (
@@ -121,6 +199,7 @@ export function SearchableSelect<T>({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onClick={(e) => e.stopPropagation()}
+              onKeyDown={handleKeyDown}
             />
           </div>
 
@@ -132,20 +211,24 @@ export function SearchableSelect<T>({
               </div>
             )}
 
-            {filteredOptions.map((opt) => {
+            {filteredOptions.map((opt, idx) => {
               const key = String(getOptionValue(opt));
               const label = getOptionLabel(opt);
               const isSelected = selectedValueKey === key;
+              const isHighlighted = idx === highlightedIndex;
 
               return (
                 <div
                   key={key}
                   onClick={() => handleSelect(opt)}
+                  onMouseEnter={() => setHighlightedIndex(idx)}
                   className={[
                     "px-2 py-1.5 flex items-center justify-between",
-                    "hover:bg-slate-800/70",
+                    isHighlighted
+                      ? "bg-slate-700/80 text-slate-50"
+                      : "hover:bg-slate-800/70",
                     isSelected
-                      ? "bg-slate-800/80 text-emerald-300"
+                      ? "text-emerald-300"
                       : "text-slate-100",
                   ].join(" ")}
                 >

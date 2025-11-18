@@ -22,6 +22,34 @@ import {
 import { useRouter } from "next/navigation";
 import { AssetsSelectorField } from "@/components/assets/AssetsSelectorField";
 import { SearchableSelect } from "@/components/form/SearchableSelect";
+type RouteDestination = {
+  id: number;
+  destination_id: number;
+  name: string;
+  sequence: number;
+};
+
+type RouteDetail = {
+  id: number;
+  seq: number;
+  time_or_label: string | null;
+  activity: string;
+};
+
+type RouteOption = {
+  id: number;
+  code: string;
+  route: string;
+  itinerary_title: string;
+  main_activities: string | null;
+  customer_tips: string | null;
+  overview: string | null;
+  breakfast: boolean;
+  lunch: boolean;
+  dinner: boolean;
+  route_details: RouteDetail[];
+  destinations: RouteDestination[]; // 🔴 BARU
+};
 
 type AddonOption = {
   id: number;
@@ -83,8 +111,7 @@ type HotelOption = {
 
 type ItineraryDayForm = {
   day_no: number;
-  activity_start_id: number | "";
-  activity_end_id: number | "";
+  route_id: number | "";
   title: string;
   activity: string;
   hotel_id: number | "";
@@ -168,6 +195,8 @@ export default function CmsPackageCreatePage() {
   const [loadingMaster, setLoadingMaster] = useState(true);
   const [masterError, setMasterError] = useState<string | null>(null);
 
+  const [routes, setRoutes] = useState<RouteOption[]>([]);
+
   const [step, setStep] = useState<number>(1);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [hasEdited, setHasEdited] = useState(false);
@@ -188,6 +217,7 @@ export default function CmsPackageCreatePage() {
           actStartRes,
           actEndRes,
           hotelRes,
+          routeRes, // NEW
         ] = await Promise.all([
           fetch("/api/destinations", { cache: "no-store" }),
           fetch("/api/durations", { cache: "no-store" }),
@@ -198,6 +228,7 @@ export default function CmsPackageCreatePage() {
           fetch("/api/activity-starts", { cache: "no-store" }),
           fetch("/api/activity-ends", { cache: "no-store" }),
           fetch("/api/hotels", { cache: "no-store" }),
+          fetch("/api/routes", { cache: "no-store" }), // NEW
         ]);
 
         const destText = await destRes.text();
@@ -209,6 +240,7 @@ export default function CmsPackageCreatePage() {
         const actStartText = await actStartRes.text();
         const actEndText = await actEndRes.text();
         const hotelText = await hotelRes.text();
+        const routeText = await routeRes.text();
 
         if (!destRes.ok) {
           let msg = "Failed to load origin/end cities.";
@@ -345,6 +377,7 @@ export default function CmsPackageCreatePage() {
         const actStartData: any[] = JSON.parse(actStartText);
         const actEndData: any[] = JSON.parse(actEndText);
         const hotelData: any[] = JSON.parse(hotelText);
+        const routeData: any[] = JSON.parse(routeText);
 
         const filteredDest = destData
           .map((d) => ({
@@ -444,6 +477,33 @@ export default function CmsPackageCreatePage() {
             }))
             .sort((a, b) => a.name.localeCompare(b.name))
         );
+        setRoutes(
+          routeData.map((r) => ({
+            id: Number(r.id),
+            code: r.code,
+            route: r.route,
+            itinerary_title: r.itinerary_title,
+            main_activities: r.main_activities ?? null,
+            customer_tips: r.customer_tips ?? null,
+            overview: r.overview ?? null,
+            breakfast: !!r.breakfast,
+            lunch: !!r.lunch,
+            dinner: !!r.dinner,
+            route_details: (r.route_details || []).map((d: any) => ({
+              id: Number(d.id),
+              seq: d.seq,
+              time_or_label: d.time_or_label ?? null,
+              activity: d.activity,
+            })),
+            // 🔴 BARU: ambil dari payload /api/routes yang sudah diupdate
+            destinations: (r.destinations || []).map((d: any) => ({
+              id: Number(d.id),
+              destination_id: Number(d.destination_id),
+              name: String(d.name),
+              sequence: Number(d.sequence),
+            })),
+          }))
+        );
       } catch (err: any) {
         console.error("loadMasterData error:", err);
         setMasterError(err.message || "Failed to load master data.");
@@ -481,8 +541,7 @@ export default function CmsPackageCreatePage() {
         } else {
           next.push({
             day_no: i,
-            activity_start_id: "",
-            activity_end_id: "",
+            route_id: "",
             title: `Day ${i}`,
             activity: "",
             hotel_id: "",
@@ -529,21 +588,31 @@ export default function CmsPackageCreatePage() {
       prev.map((day) => {
         if (day.day_no !== day_no) return day;
 
-        const merged = { ...day, ...partial };
+        let merged: ItineraryDayForm = { ...day, ...partial };
 
-        const startAct =
-          typeof merged.activity_start_id === "number"
-            ? activityStarts.find((a) => a.id === merged.activity_start_id)
-            : null;
-        const endAct =
-          typeof merged.activity_end_id === "number"
-            ? activityEnds.find((a) => a.id === merged.activity_end_id)
-            : null;
+        // Kalau ganti route_id, ambil meals & judul dari route
+        if ("route_id" in partial) {
+          const routeIdNum =
+            typeof merged.route_id === "number"
+              ? merged.route_id
+              : merged.route_id === ""
+              ? null
+              : Number(merged.route_id);
 
-        if (startAct || endAct) {
-          const startName = startAct?.name ?? "";
-          const endName = endAct?.name ?? "";
-          merged.title = [startName, endName].filter(Boolean).join(" - ");
+          const selectedRoute = routeIdNum
+            ? routes.find((r) => r.id === routeIdNum)
+            : undefined;
+
+          if (selectedRoute) {
+            merged = {
+              ...merged,
+              title: selectedRoute.itinerary_title || selectedRoute.route,
+              activity: selectedRoute.overview || "",
+              meal_breakfast: selectedRoute.breakfast,
+              meal_lunch: selectedRoute.lunch,
+              meal_dinner: selectedRoute.dinner,
+            };
+          }
         }
 
         return merged;
@@ -710,19 +779,12 @@ export default function CmsPackageCreatePage() {
 
     const cleanItineraryDays = itineraryDays
       .map((day) => {
-        const activity_start_id =
-          typeof day.activity_start_id === "number"
-            ? day.activity_start_id
-            : day.activity_start_id === ""
+        const route_id =
+          typeof day.route_id === "number"
+            ? day.route_id
+            : day.route_id === ""
             ? null
-            : Number(day.activity_start_id);
-
-        const activity_end_id =
-          typeof day.activity_end_id === "number"
-            ? day.activity_end_id
-            : day.activity_end_id === ""
-            ? null
-            : Number(day.activity_end_id);
+            : Number(day.route_id);
 
         const hotel_id =
           typeof day.hotel_id === "number"
@@ -734,21 +796,13 @@ export default function CmsPackageCreatePage() {
         const title = day.title.trim() || `Day ${day.day_no}`;
         const activity = day.activity.trim() || null;
 
-        const hasContent =
-          activity_start_id ||
-          activity_end_id ||
-          activity ||
-          hotel_id ||
-          day.meal_breakfast ||
-          day.meal_lunch ||
-          day.meal_dinner;
+        const hasContent = route_id || hotel_id;
 
         if (!hasContent) return null;
 
         return {
           day_no: day.day_no,
-          activity_start_id,
-          activity_end_id,
+          route_id,
           title,
           activity,
           hotel_id,
@@ -1512,9 +1566,11 @@ export default function CmsPackageCreatePage() {
             Build a clear day-by-day itinerary.
           </div>
           <p className="text-slate-400">
-            The number of days follows the selected duration. Title is
-            automatically generated as:{" "}
-            <span className="italic">“Activity Start - Activity End”.</span>
+            For each day, select a predefined{" "}
+            <span className="font-semibold">route</span> and a{" "}
+            <span className="font-semibold">hotel</span>. Route details
+            (overview, main activities, meals, and timeline) will appear
+            automatically.
           </p>
         </div>
       </div>
@@ -1524,172 +1580,169 @@ export default function CmsPackageCreatePage() {
           Select a duration first to generate itinerary days.
         </p>
       ) : (
-        <div className="space-y-2">
-          {itineraryDays.map((day) => (
-            <div
-              key={day.day_no}
-              className="border border-slate-800 rounded-md bg-slate-950/60 p-3 space-y-2"
-            >
-              <div className="flex items-center justify-between">
-                <div className="text-xs font-semibold text-slate-100">
-                  Day {day.day_no}
-                </div>
-              </div>
+        <div className="space-y-3">
+          {itineraryDays.map((day) => {
+            const selectedRoute =
+              typeof day.route_id === "number"
+                ? routes.find((r) => r.id === day.route_id) ?? null
+                : null;
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Activity start
-                  </label>
-                  <SearchableSelect
-                    value={
-                      typeof day.activity_start_id === "number"
-                        ? activityStarts.find(
-                            (a) => a.id === day.activity_start_id
-                          ) ?? null
-                        : null
-                    }
-                    onChange={(opt) =>
-                      updateItineraryDay(day.day_no, {
-                        activity_start_id: opt ? opt.id : "",
-                      })
-                    }
-                    options={activityStarts}
-                    getOptionLabel={(a) => a.name}
-                    getOptionValue={(a) => a.id}
-                    placeholder="Select starting activity"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Activity end
-                  </label>
-                  <SearchableSelect
-                    value={
-                      typeof day.activity_end_id === "number"
-                        ? activityEnds.find(
-                            (a) => a.id === day.activity_end_id
-                          ) ?? null
-                        : null
-                    }
-                    onChange={(opt) =>
-                      updateItineraryDay(day.day_no, {
-                        activity_end_id: opt ? opt.id : "",
-                      })
-                    }
-                    options={activityEnds}
-                    getOptionLabel={(a) => a.name}
-                    getOptionValue={(a) => a.id}
-                    placeholder="Select ending activity"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    value={day.title}
-                    readOnly
-                    className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1.5 text-xs text-slate-50"
-                  />
-                  <p className="text-[10px] text-slate-500">
-                    Automatically generated from activity start and end.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Activity detail
-                  </label>
-                  <textarea
-                    value={day.activity}
-                    onChange={(e) =>
-                      updateItineraryDay(day.day_no, {
-                        activity: e.target.value,
-                      })
-                    }
-                    rows={3}
-                    className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1.5 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                    placeholder="Describe the plan for this day..."
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Hotel
-                  </label>
-                  <SearchableSelect
-                    value={
-                      typeof day.hotel_id === "number"
-                        ? hotels.find((h) => h.id === day.hotel_id) ?? null
-                        : null
-                    }
-                    onChange={(opt) =>
-                      updateItineraryDay(day.day_no, {
-                        hotel_id: opt ? opt.id : "",
-                      })
-                    }
-                    options={hotels}
-                    getOptionLabel={(h) => h.name}
-                    getOptionValue={(h) => h.id}
-                    placeholder="Select hotel (optional)"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="block text-[11px] text-slate-300">
-                    Meals
-                  </label>
-                  <div className="flex flex-col gap-1 text-[11px] text-slate-200">
-                    <label className="inline-flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="h-3 w-3 rounded border-slate-700 bg-slate-900"
-                        checked={day.meal_breakfast}
-                        onChange={(e) =>
-                          updateItineraryDay(day.day_no, {
-                            meal_breakfast: e.target.checked,
-                          })
-                        }
-                      />
-                      <span>Breakfast</span>
-                    </label>
-                    <label className="inline-flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="h-3 w-3 rounded border-slate-700 bg-slate-900"
-                        checked={day.meal_lunch}
-                        onChange={(e) =>
-                          updateItineraryDay(day.day_no, {
-                            meal_lunch: e.target.checked,
-                          })
-                        }
-                      />
-                      <span>Lunch</span>
-                    </label>
-                    <label className="inline-flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        className="h-3 w-3 rounded border-slate-700 bg-slate-900"
-                        checked={day.meal_dinner}
-                        onChange={(e) =>
-                          updateItineraryDay(day.day_no, {
-                            meal_dinner: e.target.checked,
-                          })
-                        }
-                      />
-                      <span>Dinner</span>
-                    </label>
+            return (
+              <div
+                key={day.day_no}
+                className="border border-slate-800 rounded-md bg-slate-950/60 p-3 space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-semibold text-slate-100">
+                    Day {day.day_no}
                   </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Select route */}
+                  <div className="space-y-1">
+                    <label className="block text-[11px] text-slate-300">
+                      Route
+                    </label>
+                    <SearchableSelect
+                      value={
+                        typeof day.route_id === "number"
+                          ? routes.find((r) => r.id === day.route_id) ?? null
+                          : null
+                      }
+                      onChange={(opt) =>
+                        updateItineraryDay(day.day_no, {
+                          route_id: opt ? opt.id : "",
+                        })
+                      }
+                      options={routes}
+                      getOptionLabel={(r) => `${r.code} – ${r.route}`}
+                      getOptionValue={(r) => r.id}
+                      placeholder="Select route"
+                    />
+                  </div>
+
+                  {/* Select hotel */}
+                  <div className="space-y-1">
+                    <label className="block text-[11px] text-slate-300">
+                      Hotel
+                    </label>
+                    <SearchableSelect
+                      value={
+                        typeof day.hotel_id === "number"
+                          ? hotels.find((h) => h.id === day.hotel_id) ?? null
+                          : null
+                      }
+                      onChange={(opt) =>
+                        updateItineraryDay(day.day_no, {
+                          hotel_id: opt ? opt.id : "",
+                        })
+                      }
+                      options={hotels}
+                      getOptionLabel={(h) => h.name}
+                      getOptionValue={(h) => h.id}
+                      placeholder="Select hotel (optional)"
+                    />
+                  </div>
+                </div>
+
+                {/* Route info preview */}
+                {selectedRoute ? (
+                  <div className="border border-slate-800 rounded-md bg-slate-900/60 p-3 space-y-2 text-[11px] text-slate-200">
+                    <div className="flex justify-between gap-2">
+                      <div>
+                        <div className="font-semibold">
+                          {selectedRoute.itinerary_title || selectedRoute.route}
+                        </div>
+                        <div className="text-slate-400">
+                          {selectedRoute.route}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <div className="inline-flex items-center gap-1">
+                          {selectedRoute.breakfast && (
+                            <span className="px-1.5 py-0.5 rounded-full border border-slate-700">
+                              Breakfast
+                            </span>
+                          )}
+                          {selectedRoute.lunch && (
+                            <span className="px-1.5 py-0.5 rounded-full border border-slate-700">
+                              Lunch
+                            </span>
+                          )}
+                          {selectedRoute.dinner && (
+                            <span className="px-1.5 py-0.5 rounded-full border border-slate-700">
+                              Dinner
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {selectedRoute.overview && (
+                      <p className="text-slate-400 whitespace-pre-line">
+                        {selectedRoute.overview}
+                      </p>
+                    )}
+
+                    {selectedRoute.main_activities && (
+                      <p className="text-slate-400">
+                        <span className="font-semibold">Main activities: </span>
+                        {selectedRoute.main_activities}
+                      </p>
+                    )}
+
+                    {selectedRoute.customer_tips && (
+                      <p className="text-slate-400">
+                        <span className="font-semibold">Tips: </span>
+                        {selectedRoute.customer_tips}
+                      </p>
+                    )}
+
+                    {selectedRoute.destinations &&
+                      selectedRoute.destinations.length > 0 && (
+                        <div className="mt-2 border-t border-slate-800 pt-2 space-y-1">
+                          <div className="text-[11px] font-semibold text-slate-100">
+                            Destinations on this route
+                          </div>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {selectedRoute.destinations.map((d) => (
+                              <span
+                                key={d.id}
+                                className="px-2 py-0.5 rounded-full border border-slate-700 text-[11px] text-slate-200"
+                              >
+                                {d.sequence}. {d.name}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                    {/* timeline from route_details */}
+                    {selectedRoute.route_details.length > 0 && (
+                      <div className="mt-2 border-t border-slate-800 pt-2 space-y-1">
+                        {selectedRoute.route_details.map((d) => (
+                          <div
+                            key={d.id}
+                            className="flex gap-3 text-[11px] text-slate-200"
+                          >
+                            <div className="w-20 text-slate-400">
+                              {d.time_or_label || "-"}
+                            </div>
+                            <div className="flex-1">{d.activity}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-slate-500">
+                    Select a route to see details and meals for this day.
+                  </p>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
@@ -1712,127 +1765,6 @@ export default function CmsPackageCreatePage() {
       default:
         return null;
     }
-  };
-
-  // Sidebar summary
-  const renderSummary = () => {
-    const totalDays = currentDuration?.day ?? null;
-    const totalNights = currentDuration?.night ?? null;
-
-    return (
-      <div></div>
-      // <aside className="bg-slate-950/70 border border-slate-800 rounded-xl p-3 md:p-4 text-xs text-slate-200 md:sticky md:top-4 h-fit">
-      //   <h2 className="text-xs font-semibold text-slate-100 mb-1.5 flex items-center gap-2">
-      //     <Info className="w-3.5 h-3.5 text-emerald-400" />
-      //     Package summary
-      //   </h2>
-      //   <p className="text-[11px] text-slate-500 mb-3">
-      //     Quick overview of what you have set so far.
-      //   </p>
-
-      //   <div className="space-y-3">
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80">
-      //       <div className="text-[11px] text-slate-400 mb-1">Name</div>
-      //       <div className="text-xs font-medium text-slate-100">
-      //         {form.name || <span className="text-slate-500">Not set yet</span>}
-      //       </div>
-      //       {form.short_label && (
-      //         <div className="mt-1 inline-flex items-center px-1.5 py-0.5 rounded-full border border-slate-700 text-[10px] text-slate-200">
-      //           {form.short_label}
-      //         </div>
-      //       )}
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="flex items-center justify-between text-[11px] text-slate-400">
-      //         <span>Route</span>
-      //       </div>
-      //       <div className="text-xs text-slate-100">
-      //         {form.start_destination_id
-      //           ? destinations.find(
-      //               (d) => d.id === form.start_destination_id
-      //             )?.name || "Departure city"
-      //           : "Departure city"}
-      //         {" "}
-      //         <span className="text-slate-500">→</span>{" "}
-      //         {form.end_destination_id
-      //           ? destinations.find(
-      //               (d) => d.id === form.end_destination_id
-      //             )?.name || "End city"
-      //           : "End city"}
-      //       </div>
-      //       <div className="text-[11px] text-slate-400 mt-1">
-      //         Duration:{" "}
-      //         {currentDuration
-      //           ? currentDuration.name ||
-      //             `${currentDuration.day ?? "?"}D${currentDuration.night ?? "?"}N`
-      //           : "Not selected"}
-      //       </div>
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="flex items-center justify-between text-[11px] text-slate-400">
-      //         <span>Pricing</span>
-      //       </div>
-      //       {priceSummary ? (
-      //         <>
-      //           <div className="text-xs text-slate-100">
-      //             From{" "}
-      //             <span className="font-semibold">
-      //               IDR {priceSummary.min.toLocaleString("id-ID")}
-      //             </span>
-      //             {priceSummary.max !== priceSummary.min && (
-      //               <>
-      //                 {" "}
-      //                 to{" "}
-      //                 <span className="font-semibold">
-      //                   IDR {priceSummary.max.toLocaleString("id-ID")}
-      //                 </span>
-      //               </>
-      //             )}
-      //           </div>
-      //           <div className="text-[11px] text-slate-400">
-      //             {cleanPriceTiers.length} tier
-      //             {cleanPriceTiers.length > 1 ? "s" : ""} configured.
-      //           </div>
-      //         </>
-      //       ) : (
-      //         <div className="text-[11px] text-slate-500">
-      //           No valid price tier yet.
-      //         </div>
-      //       )}
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="text-[11px] text-slate-400">Gallery</div>
-      //       <div className="text-xs text-slate-100 flex items-center gap-1">
-      //         <span>{form.asset_ids.length} image(s) selected</span>
-      //         {form.primary_asset_id != null && (
-      //           <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/50 text-[10px] text-emerald-200">
-      //             Cover set
-      //           </span>
-      //         )}
-      //       </div>
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="text-[11px] text-slate-400">Itinerary</div>
-      //       <div className="text-xs text-slate-100">
-      //         {totalDays != null ? (
-      //           <>
-      //             {filledItineraryDaysCount}/{totalDays} day(s) have content.
-      //           </>
-      //         ) : (
-      //           "Duration not set yet."
-      //         )}
-      //       </div>
-      //       <div className="text-[11px] text-slate-400">
-      //         Make sure at least the key days are filled for clarity.
-      //       </div>
-      //     </div>
-      //   </div>
-      // </aside>
-    );
   };
 
   const isLastStep = step === STEPS.length;
@@ -1911,11 +1843,6 @@ export default function CmsPackageCreatePage() {
               </div>
             </div>
           </div>
-
-          {/* Right: summary */}
-          <div className="hidden lg:block">{renderSummary()}</div>
-          {/* For small screens, show summary below on its own row */}
-          <div className="lg:hidden mt-4">{renderSummary()}</div>
         </form>
       </section>
     </div>

@@ -712,36 +712,59 @@ model destination_activities {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model destinations {
-  id                   BigInt   @id @default(autoincrement())
-  code                 String?
-  name                 String
-  thumbnail_url        String?
-  description          String?
-  weather_by_season    String?
-  rainfall_intensity   String?
-  trail_details        String?
-  required_gear        String?
-  difficulty_level     String?
-  environmental_factors String?
-  physical_requirements String?
-  main_attractions     String?
-  best_time_to_visit   String?
-  tips_for_visitors    String?
-  created_at           DateTime? @db.Timestamp(6)
-  updated_at           DateTime? @db.Timestamp(6)
-  deleted_at           DateTime? @db.Timestamp(6)
-  slug                 String?   @db.VarChar(255)
-  highlight            String?
-
-  // NEW FIELDS
-  types             Json?   @default("[]")      // string[]
-  lat               Float?
-  long              Float?
-  elevation_m       Int?
-  key_highlights    Json?   @default("[]")      // string[]
-  temperature_range String?
-  terrain           String?
-  safety_advisory   Json?   @default("[]")      // string[]
+  id                     BigInt      @id @default(autoincrement())
+  code                   String?     @db.Text
+  name                   String      @db.Text
+  category               String?     @db.VarChar(100)
+  region                 String?     @db.VarChar(100)
+  province               String?     @db.VarChar(100)
+  country                String?     @db.VarChar(100)
+  latitude               Decimal?    @db.Decimal(10, 6)
+  longitude              Decimal?    @db.Decimal(10, 6)
+  altitude               Int?
+  area_hectares          Decimal?    @db.Decimal(10, 2)
+  terrain                String?     @db.Text
+  best_time_to_visit     String?     @db.VarChar(100)
+  difficulty_level       String?     @db.VarChar(50)
+  duration               String?     @db.VarChar(100)
+  physical_demand        Int?
+  cultural_depth         Int?
+  photo_potential        Int?
+  weather_by_season      String?     @db.Text
+  rainfall_intensity     String?     @db.VarChar(100)
+  temperature_range      String?     @db.VarChar(100)
+  trail_details          String?     @db.Text
+  required_gear          Json?
+  summary                String?     @db.Text
+  description            String?     @db.Text
+  highlight              String?     @db.Text
+  main_attractions       Json?
+  key_highlights         Json?
+  permit_required        Boolean?    @default(false)
+  permit_details         String?     @db.Text
+  guide_required         Boolean?    @default(false)
+  facilities             Json?
+  safety_notes           Json?
+  risk_factors           Json?
+  environmental_factors  Json?
+  emergency_contacts     Json?
+  physical_requirements  String?     @db.Text
+  cultural_context       String?     @db.Text
+  local_tribes           String[]   @db.VarChar(200)
+  rituals_festivals      Json?
+  tips_for_visitors      String?     @db.Text
+  thumbnail_url          String?     @db.VarChar(500)
+  featured_image         String?     @db.VarChar(500)
+  published              Boolean?    @default(false)
+  featured               Boolean?    @default(false)
+  seo_title              String?     @db.VarChar(200)
+  seo_description        String?     @db.Text
+  tags                   String[]   @db.VarChar(100)
+  types                  Json?
+  slug                   String?     @db.VarChar(255)
+  created_at             DateTime?   @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime?   @default(now()) @db.Timestamptz(6)
+  deleted_at             DateTime?   @db.Timestamptz(6)
 
   activities                                           activities[]
   activity_ends                                        activity_ends[]
@@ -750,15 +773,15 @@ model destinations {
   destination_activities                               destination_activities[]
   hotels                                               hotels[]
   package_destinations                                 package_destinations[]
+
   packages_packages_end_destination_idTodestinations   packages[] @relation("packages_end_destination_idTodestinations")
   packages_packages_start_destination_idTodestinations packages[] @relation("packages_start_destination_idTodestinations")
 
-  // NEW RELATION
-  destination_assets destination_assets[]
-  destination_faqs destination_faqs[]
-
-  @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_destinations_name", type: Gin)
+  destination_assets           destination_assets[]
+  destination_faqs             destination_faqs[]
+  route_destinations           route_destinations[]
 }
+
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model discounts {
@@ -1190,14 +1213,17 @@ model package_itinerary_days {
   meal_breakfast                Boolean                         @default(false)
   meal_lunch                    Boolean                         @default(false)
   meal_dinner                   Boolean                         @default(false)
+  route_id                      BigInt?                         // FK ke routes.id
   created_at                    DateTime?                       @db.Timestamp(6)
   updated_at                    DateTime?                       @db.Timestamp(6)
   deleted_at                    DateTime?                       @db.Timestamp(6)
+
   package_itinerary_day_details package_itinerary_day_details[]
   activity_ends                 activity_ends?                  @relation(fields: [activity_end_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_package_itinerary_days_activity_end_id")
   activity_starts               activity_starts?                @relation(fields: [activity_start_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_package_itinerary_days_activity_start_id")
   hotels                        hotels?                         @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_package_itinerary_days_hotel_id")
   packages                      packages?                       @relation(fields: [package_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_package_itinerary_days_package_id")
+  routes                        routes?                         @relation(fields: [route_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_package_itinerary_days_route_id")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -1318,6 +1344,51 @@ model price_tiers {
   deleted_at     DateTime?        @db.Timestamp(6)
   package_prices package_prices[]
 }
+model routes {
+  id                   BigInt               @id @default(autoincrement())
+  code                 String               @db.VarChar(50)
+  route                String
+  itinerary_title      String
+  start_area           String               @db.VarChar(100)
+  end_area             String               @db.VarChar(100)
+  estimated_duration   String?
+  main_activities      String?
+  accommodation_status String?
+  customer_tips        String?
+  overview             String?
+  breakfast            Boolean?             @default(false)
+  lunch                Boolean?             @default(false)
+  dinner               Boolean?             @default(false)
+
+  // relations
+  route_details        route_details[]
+  package_itinerary_days package_itinerary_days[]
+  route_destinations     route_destinations[]
+}
+
+model route_details {
+  id           BigInt   @id @default(autoincrement())
+  route_id     BigInt
+  seq          Int
+  time_or_label String?
+  timezone     String?  @db.VarChar(10)
+  activity     String
+
+  // relation
+  routes       routes   @relation(fields: [route_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_route_details_route_id")
+}
+model route_destinations {
+  id             BigInt   @id @default(autoincrement())
+  route_id       BigInt
+  destination_id BigInt
+  sequence       Int
+  created_at     DateTime? @db.Timestamp(6)
+  updated_at     DateTime? @db.Timestamp(6)
+
+  route        routes       @relation(fields: [route_id], references: [id], onDelete: Cascade)
+  destination  destinations @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+}
+
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model room_configurations {
