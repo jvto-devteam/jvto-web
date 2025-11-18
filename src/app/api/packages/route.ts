@@ -237,13 +237,13 @@ export async function POST(req: NextRequest) {
     const itineraryDaysInput = rawItineraryDays
       .map((item: any) => {
         const day_no = Number(item.day_no);
-        const activity_start_id = item.activity_start_id;
-        const activity_end_id = item.activity_end_id;
         const hotel_id = item.hotel_id;
+        const route_id = item.route_id;
 
         const dayNoValid = Number.isInteger(day_no) && day_no > 0;
         if (!dayNoValid) return null;
 
+        // title & activity boleh tetap, tapi sekarang akan diisi otomatis dari route jika perlu
         const title =
           typeof item.title === "string" && item.title.trim()
             ? item.title.trim()
@@ -256,14 +256,7 @@ export async function POST(req: NextRequest) {
 
         return {
           day_no,
-          activity_start_id:
-            typeof activity_start_id === "number"
-              ? BigInt(activity_start_id)
-              : null,
-          activity_end_id:
-            typeof activity_end_id === "number"
-              ? BigInt(activity_end_id)
-              : null,
+          route_id: typeof route_id === "number" ? BigInt(route_id) : null,
           hotel_id: typeof hotel_id === "number" ? BigInt(hotel_id) : null,
           title,
           activity,
@@ -274,8 +267,7 @@ export async function POST(req: NextRequest) {
       })
       .filter(Boolean) as {
       day_no: number;
-      activity_start_id: bigint | null;
-      activity_end_id: bigint | null;
+      route_id: bigint | null;
       hotel_id: bigint | null;
       title: string;
       activity: string | null;
@@ -283,6 +275,45 @@ export async function POST(req: NextRequest) {
       meal_lunch: boolean;
       meal_dinner: boolean;
     }[];
+
+    // 🔴 NEW: derive package_destinations from used routes
+    const routeIdsUsed = Array.from(
+      new Set(
+        itineraryDaysInput
+          .map((d) => d.route_id)
+          .filter((id): id is bigint => id !== null)
+      )
+    );
+
+    const packageDestinationsInput: {
+      destination_id: bigint;
+      sort_order: number;
+    }[] = [];
+
+    if (routeIdsUsed.length > 0) {
+      const routeDests = await prisma.route_destinations.findMany({
+        where: {
+          route_id: {
+            in: routeIdsUsed,
+          },
+        },
+        orderBy: {
+          sequence: "asc",
+        },
+      });
+
+      const seen = new Set<string>();
+      for (const rd of routeDests) {
+        const key = rd.destination_id.toString();
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        packageDestinationsInput.push({
+          destination_id: rd.destination_id,
+          sort_order: packageDestinationsInput.length + 1,
+        });
+      }
+    }
 
     const created = await prisma.packages.create({
       data: {
@@ -330,14 +361,21 @@ export async function POST(req: NextRequest) {
         package_itinerary_days: {
           create: itineraryDaysInput.map((d) => ({
             day_no: d.day_no,
-            activity_start_id: d.activity_start_id,
-            activity_end_id: d.activity_end_id,
+            activity_start_id: null,
+            activity_end_id: null,
+            route_id: d.route_id,
             title: d.title,
             activity: d.activity,
             hotel_id: d.hotel_id,
             meal_breakfast: d.meal_breakfast,
             meal_lunch: d.meal_lunch,
             meal_dinner: d.meal_dinner,
+          })),
+        },
+        package_destinations: {
+          create: packageDestinationsInput.map((d) => ({
+            destination_id: d.destination_id,
+            sort_order: d.sort_order,
           })),
         },
       },
@@ -526,7 +564,6 @@ export async function PUT(
       );
     }
 
-    // itinerary days
     const rawItineraryDays = Array.isArray(body.itinerary_days)
       ? body.itinerary_days
       : [];
@@ -534,12 +571,13 @@ export async function PUT(
     const itineraryDaysInput = rawItineraryDays
       .map((item: any) => {
         const day_no = Number(item.day_no);
-        const activity_start_id = item.activity_start_id;
-        const activity_end_id = item.activity_end_id;
         const hotel_id = item.hotel_id;
+        const route_id = item.route_id;
 
-        if (!Number.isInteger(day_no) || day_no <= 0) return null;
+        const dayNoValid = Number.isInteger(day_no) && day_no > 0;
+        if (!dayNoValid) return null;
 
+        // title & activity boleh tetap, tapi sekarang akan diisi otomatis dari route jika perlu
         const title =
           typeof item.title === "string" && item.title.trim()
             ? item.title.trim()
@@ -552,14 +590,7 @@ export async function PUT(
 
         return {
           day_no,
-          activity_start_id:
-            typeof activity_start_id === "number"
-              ? BigInt(activity_start_id)
-              : null,
-          activity_end_id:
-            typeof activity_end_id === "number"
-              ? BigInt(activity_end_id)
-              : null,
+          route_id: typeof route_id === "number" ? BigInt(route_id) : null,
           hotel_id: typeof hotel_id === "number" ? BigInt(hotel_id) : null,
           title,
           activity,
@@ -570,8 +601,7 @@ export async function PUT(
       })
       .filter(Boolean) as {
       day_no: number;
-      activity_start_id: bigint | null;
-      activity_end_id: bigint | null;
+      route_id: bigint | null;
       hotel_id: bigint | null;
       title: string;
       activity: string | null;
@@ -579,6 +609,45 @@ export async function PUT(
       meal_lunch: boolean;
       meal_dinner: boolean;
     }[];
+
+    // 🔴 NEW: derive package_destinations from used routes (same logic as POST)
+    const routeIdsUsed = Array.from(
+      new Set(
+        itineraryDaysInput
+          .map((d) => d.route_id)
+          .filter((id): id is bigint => id !== null)
+      )
+    );
+
+    let packageDestinationsInput: {
+      destination_id: bigint;
+      sort_order: number;
+    }[] = [];
+
+    if (routeIdsUsed.length > 0) {
+      const routeDests = await prisma.route_destinations.findMany({
+        where: {
+          route_id: {
+            in: routeIdsUsed,
+          },
+        },
+        orderBy: {
+          sequence: "asc",
+        },
+      });
+
+      const seen = new Set<string>();
+      for (const rd of routeDests) {
+        const key = rd.destination_id.toString();
+        if (seen.has(key)) continue;
+        seen.add(key);
+
+        packageDestinationsInput.push({
+          destination_id: rd.destination_id,
+          sort_order: packageDestinationsInput.length + 1,
+        });
+      }
+    }
 
     const updated = await prisma.packages.update({
       where: { id: BigInt(idNum) },
@@ -631,14 +700,22 @@ export async function PUT(
           deleteMany: {},
           create: itineraryDaysInput.map((d) => ({
             day_no: d.day_no,
-            activity_start_id: d.activity_start_id,
-            activity_end_id: d.activity_end_id,
+            activity_start_id: null,
+            activity_end_id: null,
+            route_id: d.route_id,
             title: d.title,
             activity: d.activity,
             hotel_id: d.hotel_id,
             meal_breakfast: d.meal_breakfast,
             meal_lunch: d.meal_lunch,
             meal_dinner: d.meal_dinner,
+          })),
+        },
+        package_destinations: {
+          deleteMany: {},
+          create: packageDestinationsInput.map((d) => ({
+            destination_id: d.destination_id,
+            sort_order: d.sort_order,
           })),
         },
       },
@@ -660,9 +737,7 @@ export async function PUT(
         end_destination_id: updated.end_destination_id
           ? Number(updated.end_destination_id)
           : null,
-        duration_id: updated.duration_id
-          ? Number(updated.duration_id)
-          : null,
+        duration_id: updated.duration_id ? Number(updated.duration_id) : null,
         description: updated.description,
         physicality: updated.physicality,
         is_publish: updated.is_publish ?? true,
@@ -684,4 +759,3 @@ export async function PUT(
     );
   }
 }
-

@@ -660,31 +660,56 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   id: 'id',
   code: 'code',
   name: 'name',
-  thumbnail_url: 'thumbnail_url',
-  description: 'description',
+  category: 'category',
+  region: 'region',
+  province: 'province',
+  country: 'country',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  altitude: 'altitude',
+  area_hectares: 'area_hectares',
+  terrain: 'terrain',
+  best_time_to_visit: 'best_time_to_visit',
+  difficulty_level: 'difficulty_level',
+  duration: 'duration',
+  physical_demand: 'physical_demand',
+  cultural_depth: 'cultural_depth',
+  photo_potential: 'photo_potential',
   weather_by_season: 'weather_by_season',
   rainfall_intensity: 'rainfall_intensity',
+  temperature_range: 'temperature_range',
   trail_details: 'trail_details',
   required_gear: 'required_gear',
-  difficulty_level: 'difficulty_level',
-  environmental_factors: 'environmental_factors',
-  physical_requirements: 'physical_requirements',
+  summary: 'summary',
+  description: 'description',
+  highlight: 'highlight',
   main_attractions: 'main_attractions',
-  best_time_to_visit: 'best_time_to_visit',
+  key_highlights: 'key_highlights',
+  permit_required: 'permit_required',
+  permit_details: 'permit_details',
+  guide_required: 'guide_required',
+  facilities: 'facilities',
+  safety_notes: 'safety_notes',
+  risk_factors: 'risk_factors',
+  environmental_factors: 'environmental_factors',
+  emergency_contacts: 'emergency_contacts',
+  physical_requirements: 'physical_requirements',
+  cultural_context: 'cultural_context',
+  local_tribes: 'local_tribes',
+  rituals_festivals: 'rituals_festivals',
   tips_for_visitors: 'tips_for_visitors',
+  thumbnail_url: 'thumbnail_url',
+  featured_image: 'featured_image',
+  published: 'published',
+  featured: 'featured',
+  seo_title: 'seo_title',
+  seo_description: 'seo_description',
+  tags: 'tags',
+  types: 'types',
+  slug: 'slug',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at',
-  slug: 'slug',
-  highlight: 'highlight',
-  types: 'types',
-  lat: 'lat',
-  long: 'long',
-  elevation_m: 'elevation_m',
-  key_highlights: 'key_highlights',
-  temperature_range: 'temperature_range',
-  terrain: 'terrain',
-  safety_advisory: 'safety_advisory'
+  deleted_at: 'deleted_at'
 };
 
 exports.Prisma.DiscountsScalarFieldEnum = {
@@ -997,6 +1022,7 @@ exports.Prisma.Package_itinerary_daysScalarFieldEnum = {
   meal_breakfast: 'meal_breakfast',
   meal_lunch: 'meal_lunch',
   meal_dinner: 'meal_dinner',
+  route_id: 'route_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -1087,6 +1113,41 @@ exports.Prisma.Price_tiersScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
+};
+
+exports.Prisma.RoutesScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  route: 'route',
+  itinerary_title: 'itinerary_title',
+  start_area: 'start_area',
+  end_area: 'end_area',
+  estimated_duration: 'estimated_duration',
+  main_activities: 'main_activities',
+  accommodation_status: 'accommodation_status',
+  customer_tips: 'customer_tips',
+  overview: 'overview',
+  breakfast: 'breakfast',
+  lunch: 'lunch',
+  dinner: 'dinner'
+};
+
+exports.Prisma.Route_detailsScalarFieldEnum = {
+  id: 'id',
+  route_id: 'route_id',
+  seq: 'seq',
+  time_or_label: 'time_or_label',
+  timezone: 'timezone',
+  activity: 'activity'
+};
+
+exports.Prisma.Route_destinationsScalarFieldEnum = {
+  id: 'id',
+  route_id: 'route_id',
+  destination_id: 'destination_id',
+  sequence: 'sequence',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Room_configurationsScalarFieldEnum = {
@@ -1356,6 +1417,9 @@ exports.Prisma.ModelName = {
   payment_methods: 'payment_methods',
   policies: 'policies',
   price_tiers: 'price_tiers',
+  routes: 'routes',
+  route_details: 'route_details',
+  route_destinations: 'route_destinations',
   room_configurations: 'room_configurations',
   room_types: 'room_types',
   transport_crew_rules: 'transport_crew_rules',
