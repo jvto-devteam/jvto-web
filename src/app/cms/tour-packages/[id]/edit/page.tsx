@@ -110,6 +110,37 @@ type FormState = {
   primary_asset_id: number | null;
 };
 
+type PackageDetailResponse = {
+  id: number;
+  code: string | null;
+  slug: string | null;
+  name: string;
+  short_label: string | null;
+  start_destination_id: number | null;
+  end_destination_id: number | null;
+  duration_id: number | null;
+  description: string | null;
+  physicality: string | null;
+  is_publish: boolean;
+  price_tiers: { price_tier_id: number | null; price: number }[];
+  includes: number[];
+  excludes: number[];
+  addons: number[];
+  asset_ids: number[];
+  primary_asset_id: number | null;
+  itinerary_days: {
+    day_no: number;
+    activity_start_id: number | null;
+    activity_end_id: number | null;
+    title: string;
+    activity: string | null;
+    hotel_id: number | null;
+    meal_breakfast: boolean;
+    meal_lunch: boolean;
+    meal_dinner: boolean;
+  }[];
+};
+
 const emptyForm: FormState = {
   code: "",
   slug: "",
@@ -141,8 +172,13 @@ const STEPS = [
   { id: 6, label: "Itinerary" },
 ];
 
-export default function CmsPackageCreatePage() {
+export default function CmsPackageEditPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
+  const packageId = Number(params.id);
 
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -168,6 +204,9 @@ export default function CmsPackageCreatePage() {
   const [loadingMaster, setLoadingMaster] = useState(true);
   const [masterError, setMasterError] = useState<string | null>(null);
 
+  const [loadingPackage, setLoadingPackage] = useState(true);
+  const [packageError, setPackageError] = useState<string | null>(null);
+
   const [step, setStep] = useState<number>(1);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [hasEdited, setHasEdited] = useState(false);
@@ -178,6 +217,7 @@ export default function CmsPackageCreatePage() {
       try {
         setLoadingMaster(true);
         setMasterError(null);
+
         const [
           destRes,
           durRes,
@@ -455,6 +495,96 @@ export default function CmsPackageCreatePage() {
     loadMasterData();
   }, []);
 
+  // --- Load package detail for edit ---
+  useEffect(() => {
+    if (!Number.isInteger(packageId) || packageId <= 0) {
+      setPackageError("Invalid package id");
+      setLoadingPackage(false);
+      return;
+    }
+
+    const loadPackage = async () => {
+      try {
+        setLoadingPackage(true);
+        setPackageError(null);
+
+        const res = await fetch(`/api/packages/${packageId}`, {
+          cache: "no-store",
+        });
+        const text = await res.text();
+
+        if (!res.ok) {
+          let msg = "Failed to load package detail.";
+          try {
+            const data = JSON.parse(text);
+            if (data?.message) msg = data.message;
+          } catch {
+            console.error(
+              "Non-JSON error response (package detail):",
+              text.substring(0, 200)
+            );
+          }
+          throw new Error(msg);
+        }
+
+        const data: PackageDetailResponse = JSON.parse(text);
+
+        setForm({
+          code: data.code || "",
+          slug: data.slug || "",
+          name: data.name || "",
+          short_label: data.short_label || "",
+          start_destination_id: data.start_destination_id || "",
+          end_destination_id: data.end_destination_id || "",
+          duration_id: data.duration_id || "",
+          description: data.description || "",
+          physicality: data.physicality || "",
+          includes: data.includes || [],
+          excludes: data.excludes || [],
+          addons: data.addons || [],
+          asset_ids: data.asset_ids || [],
+          primary_asset_id: data.primary_asset_id,
+        });
+
+        if (data.price_tiers && data.price_tiers.length > 0) {
+          setPriceRows(
+            data.price_tiers.map((p) => ({
+              price_tier_id: p.price_tier_id ?? "",
+              price: p.price ?? "",
+            }))
+          );
+        } else {
+          setPriceRows([emptyPriceRow]);
+        }
+
+        if (data.itinerary_days && data.itinerary_days.length > 0) {
+          setItineraryDays(
+            data.itinerary_days.map((d) => ({
+              day_no: d.day_no,
+              activity_start_id: d.activity_start_id ?? "",
+              activity_end_id: d.activity_end_id ?? "",
+              title: d.title || `Day ${d.day_no}`,
+              activity: d.activity || "",
+              hotel_id: d.hotel_id ?? "",
+              meal_breakfast: d.meal_breakfast,
+              meal_lunch: d.meal_lunch,
+              meal_dinner: d.meal_dinner,
+            }))
+          );
+        } else {
+          setItineraryDays([]);
+        }
+      } catch (err: any) {
+        console.error("loadPackage error:", err);
+        setPackageError(err.message || "Failed to load package detail.");
+      } finally {
+        setLoadingPackage(false);
+      }
+    };
+
+    loadPackage();
+  }, [packageId]);
+
   // --- Auto-generate itinerary days when duration changes ---
   useEffect(() => {
     if (!form.duration_id) {
@@ -551,7 +681,6 @@ export default function CmsPackageCreatePage() {
     );
   };
 
-  // --- Price tiers cleaned (for summary & submission) ---
   const cleanPriceTiers = useMemo(() => {
     return priceRows
       .map((row) => ({
@@ -633,7 +762,6 @@ export default function CmsPackageCreatePage() {
     return durations.find((d) => d.id === id) ?? null;
   }, [form.duration_id, durations]);
 
-  // --- Step validation ---
   const validateStep = (targetStep: number): boolean => {
     setError(null);
 
@@ -690,7 +818,6 @@ export default function CmsPackageCreatePage() {
     router.back();
   };
 
-  // --- Submit handler ---
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -788,8 +915,8 @@ export default function CmsPackageCreatePage() {
         itinerary_days: cleanItineraryDays,
       };
 
-      const res = await fetch("/api/packages", {
-        method: "POST",
+      const res = await fetch(`/api/packages/${packageId}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -797,34 +924,28 @@ export default function CmsPackageCreatePage() {
       const text = await res.text();
 
       if (!res.ok) {
-        let msg = "Failed to create package.";
+        let msg = "Failed to update package.";
         try {
           const data = JSON.parse(text);
           if (data?.message) msg = data.message;
         } catch {
           console.error(
-            "Non-JSON error response (create package):",
+            "Non-JSON error response (update package):",
             text.substring(0, 200)
           );
         }
         throw new Error(msg);
       }
 
-      setSuccess("Package created successfully.");
-      setForm(emptyForm);
-      setPriceRows([emptyPriceRow]);
-      setItineraryDays([]);
+      setSuccess("Package updated successfully.");
       setHasEdited(false);
-      setStep(1);
     } catch (err: any) {
-      console.error("create package error:", err);
-      setError(err.message || "Failed to create package.");
+      console.error("update package error:", err);
+      setError(err.message || "Failed to update package.");
     } finally {
       setSaving(false);
     }
   };
-
-  // --- Render helpers ---
 
   const renderStepHeader = () => {
     return (
@@ -836,11 +957,11 @@ export default function CmsPackageCreatePage() {
             </div>
             <div>
               <h1 className="text-lg font-semibold text-slate-50">
-                Create Tour Package
+                Edit Tour Package
               </h1>
               <p className="text-sm text-slate-400">
-                Guide your customers through a complete tour experience: route,
-                pricing, inclusions, photos, and daily itinerary.
+                Update route, pricing, inclusions, photos, and daily itinerary
+                for this package.
               </p>
             </div>
           </div>
@@ -857,12 +978,11 @@ export default function CmsPackageCreatePage() {
           </div>
         </div>
 
-        {/* Stepper */}
         <div className="flex items-center gap-2 text-[11px] text-slate-300">
           {STEPS.map((s, idx) => {
             const isActive = s.id === step;
             const isCompleted = s.id < step;
-            const isClickable = s.id <= step + 0; // allow going back freely, forward validated
+            const isClickable = s.id <= step;
 
             return (
               <div key={s.id} className="flex items-center gap-2">
@@ -884,7 +1004,11 @@ export default function CmsPackageCreatePage() {
                   ].join(" ")}
                 >
                   <span className="h-4 w-4 rounded-full flex items-center justify-center text-[10px] border border-current">
-                    {isCompleted ? <CheckCircle2 className="h-3 w-3" /> : s.id}
+                    {isCompleted ? (
+                      <CheckCircle2 className="h-3 w-3" />
+                    ) : (
+                      s.id
+                    )}
                   </span>
                   <span>{s.label}</span>
                 </button>
@@ -925,7 +1049,6 @@ export default function CmsPackageCreatePage() {
               setForm((prev) => ({
                 ...prev,
                 name: value,
-                // auto-generate slug if slug is still empty
                 slug:
                   prev.slug.trim().length === 0
                     ? value
@@ -1010,7 +1133,6 @@ export default function CmsPackageCreatePage() {
         </div>
       </div>
 
-      {/* Advanced settings */}
       <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
         <button
           type="button"
@@ -1043,7 +1165,7 @@ export default function CmsPackageCreatePage() {
                 placeholder="Example: PKG-BROMO-001"
               />
               <p className="text-[11px] text-slate-500">
-                Can be left empty if you want the backend to auto-generate it.
+                Leave empty if you want the backend to handle code logic.
               </p>
             </div>
 
@@ -1093,9 +1215,8 @@ export default function CmsPackageCreatePage() {
           <SearchableSelect
             value={
               typeof form.start_destination_id === "number"
-                ? destinations.find(
-                    (d) => d.id === form.start_destination_id
-                  ) ?? null
+                ? destinations.find((d) => d.id === form.start_destination_id) ??
+                  null
                 : null
             }
             onChange={(opt) => {
@@ -1179,9 +1300,7 @@ export default function CmsPackageCreatePage() {
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <Info className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
-          <div className="font-semibold mb-0.5">
-            Set pricing per group size.
-          </div>
+          <div className="font-semibold mb-0.5">Set pricing per group size.</div>
           <p className="text-slate-400">
             Each price tier can represent a range of participants (for example:
             2–4 pax, 5–7 pax) with its own price.
@@ -1254,7 +1373,8 @@ export default function CmsPackageCreatePage() {
                 value={row.price}
                 onChange={(e) =>
                   updatePriceRow(index, {
-                    price: e.target.value === "" ? "" : Number(e.target.value),
+                    price:
+                      e.target.value === "" ? "" : Number(e.target.value),
                   })
                 }
                 className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1.5 text-xs text-slate-50 focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -1385,12 +1505,9 @@ export default function CmsPackageCreatePage() {
         </div>
       </div>
 
-      {/* Addons */}
       <div className="border-t border-slate-800 pt-4 mt-2 space-y-3">
         <div>
-          <h2 className="text-xs font-semibold text-slate-200">
-            Package Addons
-          </h2>
+          <h2 className="text-xs font-semibold text-slate-200">Package Addons</h2>
           <p className="text-[11px] text-slate-500">
             Optional extras customers can add during booking (for example
             upgraded transport, extra night, etc).
@@ -1714,124 +1831,14 @@ export default function CmsPackageCreatePage() {
     }
   };
 
-  // Sidebar summary
   const renderSummary = () => {
     const totalDays = currentDuration?.day ?? null;
-    const totalNights = currentDuration?.night ?? null;
 
     return (
       <div></div>
-      // <aside className="bg-slate-950/70 border border-slate-800 rounded-xl p-3 md:p-4 text-xs text-slate-200 md:sticky md:top-4 h-fit">
-      //   <h2 className="text-xs font-semibold text-slate-100 mb-1.5 flex items-center gap-2">
-      //     <Info className="w-3.5 h-3.5 text-emerald-400" />
-      //     Package summary
-      //   </h2>
-      //   <p className="text-[11px] text-slate-500 mb-3">
-      //     Quick overview of what you have set so far.
-      //   </p>
-
-      //   <div className="space-y-3">
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80">
-      //       <div className="text-[11px] text-slate-400 mb-1">Name</div>
-      //       <div className="text-xs font-medium text-slate-100">
-      //         {form.name || <span className="text-slate-500">Not set yet</span>}
-      //       </div>
-      //       {form.short_label && (
-      //         <div className="mt-1 inline-flex items-center px-1.5 py-0.5 rounded-full border border-slate-700 text-[10px] text-slate-200">
-      //           {form.short_label}
-      //         </div>
-      //       )}
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="flex items-center justify-between text-[11px] text-slate-400">
-      //         <span>Route</span>
-      //       </div>
-      //       <div className="text-xs text-slate-100">
-      //         {form.start_destination_id
-      //           ? destinations.find(
-      //               (d) => d.id === form.start_destination_id
-      //             )?.name || "Departure city"
-      //           : "Departure city"}
-      //         {" "}
-      //         <span className="text-slate-500">→</span>{" "}
-      //         {form.end_destination_id
-      //           ? destinations.find(
-      //               (d) => d.id === form.end_destination_id
-      //             )?.name || "End city"
-      //           : "End city"}
-      //       </div>
-      //       <div className="text-[11px] text-slate-400 mt-1">
-      //         Duration:{" "}
-      //         {currentDuration
-      //           ? currentDuration.name ||
-      //             `${currentDuration.day ?? "?"}D${currentDuration.night ?? "?"}N`
-      //           : "Not selected"}
-      //       </div>
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="flex items-center justify-between text-[11px] text-slate-400">
-      //         <span>Pricing</span>
-      //       </div>
-      //       {priceSummary ? (
-      //         <>
-      //           <div className="text-xs text-slate-100">
-      //             From{" "}
-      //             <span className="font-semibold">
-      //               IDR {priceSummary.min.toLocaleString("id-ID")}
-      //             </span>
-      //             {priceSummary.max !== priceSummary.min && (
-      //               <>
-      //                 {" "}
-      //                 to{" "}
-      //                 <span className="font-semibold">
-      //                   IDR {priceSummary.max.toLocaleString("id-ID")}
-      //                 </span>
-      //               </>
-      //             )}
-      //           </div>
-      //           <div className="text-[11px] text-slate-400">
-      //             {cleanPriceTiers.length} tier
-      //             {cleanPriceTiers.length > 1 ? "s" : ""} configured.
-      //           </div>
-      //         </>
-      //       ) : (
-      //         <div className="text-[11px] text-slate-500">
-      //           No valid price tier yet.
-      //         </div>
-      //       )}
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="text-[11px] text-slate-400">Gallery</div>
-      //       <div className="text-xs text-slate-100 flex items-center gap-1">
-      //         <span>{form.asset_ids.length} image(s) selected</span>
-      //         {form.primary_asset_id != null && (
-      //           <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/50 text-[10px] text-emerald-200">
-      //             Cover set
-      //           </span>
-      //         )}
-      //       </div>
-      //     </div>
-
-      //     <div className="border border-slate-800 rounded-md p-2 bg-slate-950/80 space-y-1">
-      //       <div className="text-[11px] text-slate-400">Itinerary</div>
-      //       <div className="text-xs text-slate-100">
-      //         {totalDays != null ? (
-      //           <>
-      //             {filledItineraryDaysCount}/{totalDays} day(s) have content.
-      //           </>
-      //         ) : (
-      //           "Duration not set yet."
-      //         )}
-      //       </div>
-      //       <div className="text-[11px] text-slate-400">
-      //         Make sure at least the key days are filled for clarity.
-      //       </div>
-      //     </div>
-      //   </div>
-      // </aside>
+      // Bisa diisi summary sama seperti di page create kalau kamu mau.
+      // Dikosongkan dulu supaya fokus ke fungsi edit.
+      // totalDays dan filledItineraryDaysCount sudah disiapkan kalau mau dipakai.
     );
   };
 
@@ -1845,6 +1852,20 @@ export default function CmsPackageCreatePage() {
         <div className="rounded-md border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-[11px] text-rose-100 flex items-center gap-2">
           <ShieldAlert className="w-3.5 h-3.5" />
           <span>{masterError}</span>
+        </div>
+      )}
+
+      {packageError && (
+        <div className="rounded-md border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-[11px] text-rose-100 flex items-center gap-2">
+          <ShieldAlert className="w-3.5 h-3.5" />
+          <span>{packageError}</span>
+        </div>
+      )}
+
+      {loadingPackage && (
+        <div className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-[11px] text-slate-200 flex items-center gap-2">
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <span>Loading package data...</span>
         </div>
       )}
 
@@ -1867,11 +1888,9 @@ export default function CmsPackageCreatePage() {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr),minmax(260px,1fr)] gap-4 lg:gap-6 text-sm"
         >
-          {/* Left: step content */}
           <div className="space-y-4 nice-scrollbar">
             {renderCurrentStep()}
 
-            {/* Step navigation */}
             <div className="pt-4 flex justify-between gap-3 border-t border-slate-800 mt-2">
               <div>
                 {step > 1 && (
@@ -1890,7 +1909,7 @@ export default function CmsPackageCreatePage() {
                   <button
                     type="button"
                     onClick={() => goToStep(step + 1)}
-                    disabled={loadingMaster}
+                    disabled={loadingMaster || loadingPackage}
                     className="inline-flex items-center gap-2 rounded-md bg-blue-500 hover:bg-blue-400 text-slate-950 text-xs font-medium px-3 py-2 transition disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     Next
@@ -1900,21 +1919,21 @@ export default function CmsPackageCreatePage() {
                 {isLastStep && (
                   <button
                     type="submit"
-                    disabled={saving || loadingMaster}
+                    disabled={saving || loadingMaster || loadingPackage}
                     className="inline-flex items-center gap-2 rounded-md bg-blue-500 hover:bg-blue-400 text-slate-950 text-xs font-medium px-3 py-2 transition disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                    {saving && (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    )}
                     <Save className="w-4 h-4" />
-                    Save package
+                    Update package
                   </button>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Right: summary */}
           <div className="hidden lg:block">{renderSummary()}</div>
-          {/* For small screens, show summary below on its own row */}
           <div className="lg:hidden mt-4">{renderSummary()}</div>
         </form>
       </section>
