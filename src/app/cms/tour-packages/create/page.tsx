@@ -22,6 +22,12 @@ import {
 import { useRouter } from "next/navigation";
 import { AssetsSelectorField } from "@/components/assets/AssetsSelectorField";
 import { SearchableSelect } from "@/components/form/SearchableSelect";
+type FaqOption = {
+  id: number;
+  question: string;
+  category_name: string | null;
+};
+
 type RouteDestination = {
   id: number;
   destination_id: number;
@@ -135,6 +141,11 @@ type FormState = {
   addons: number[];
   asset_ids: number[];
   primary_asset_id: number | null;
+  faqs: number[];
+  perfect_for: string;
+  highlights_bullets: string;
+  safety_positioning: string;
+  unique_selling_points: string;
 };
 
 const emptyForm: FormState = {
@@ -152,6 +163,11 @@ const emptyForm: FormState = {
   addons: [],
   asset_ids: [],
   primary_asset_id: null,
+  faqs: [],
+  perfect_for: "",
+  highlights_bullets: "",
+  safety_positioning: "",
+  unique_selling_points: "",
 };
 
 const emptyPriceRow: PriceTierInput = {
@@ -161,11 +177,12 @@ const emptyPriceRow: PriceTierInput = {
 
 const STEPS = [
   { id: 1, label: "Basic Info" },
-  { id: 2, label: "Route & Duration" },
-  { id: 3, label: "Pricing" },
-  { id: 4, label: "Inclusions & Addons" },
-  { id: 5, label: "Gallery" },
-  { id: 6, label: "Itinerary" },
+  { id: 2, label: "Marketing" },
+  { id: 3, label: "Route & Duration" },
+  { id: 4, label: "Pricing" },
+  { id: 5, label: "Inclusions & Addons" },
+  { id: 6, label: "Gallery" },
+  { id: 7, label: "Itinerary" },
 ];
 
 export default function CmsPackageCreatePage() {
@@ -189,6 +206,7 @@ export default function CmsPackageCreatePage() {
     []
   );
   const [activityEnds, setActivityEnds] = useState<ActivityEndOption[]>([]);
+  const [faqOptions, setFaqOptions] = useState<FaqOption[]>([]);
   const [hotels, setHotels] = useState<HotelOption[]>([]);
   const [itineraryDays, setItineraryDays] = useState<ItineraryDayForm[]>([]);
 
@@ -218,6 +236,7 @@ export default function CmsPackageCreatePage() {
           actEndRes,
           hotelRes,
           routeRes, // NEW
+          faqRes, // 🔴 NEW
         ] = await Promise.all([
           fetch("/api/destinations", { cache: "no-store" }),
           fetch("/api/durations", { cache: "no-store" }),
@@ -228,7 +247,8 @@ export default function CmsPackageCreatePage() {
           fetch("/api/activity-starts", { cache: "no-store" }),
           fetch("/api/activity-ends", { cache: "no-store" }),
           fetch("/api/hotels", { cache: "no-store" }),
-          fetch("/api/routes", { cache: "no-store" }), // NEW
+          fetch("/api/routes", { cache: "no-store" }),
+          fetch("/api/faqs", { cache: "no-store" }), // 🔴 NEW
         ]);
 
         const destText = await destRes.text();
@@ -241,6 +261,7 @@ export default function CmsPackageCreatePage() {
         const actEndText = await actEndRes.text();
         const hotelText = await hotelRes.text();
         const routeText = await routeRes.text();
+        const faqText = await faqRes.text();
 
         if (!destRes.ok) {
           let msg = "Failed to load origin/end cities.";
@@ -368,6 +389,20 @@ export default function CmsPackageCreatePage() {
           throw new Error(msg);
         }
 
+        if (!faqRes.ok) {
+          let msg = "Failed to load FAQs.";
+          try {
+            const data = JSON.parse(faqText);
+            if (data?.message) msg = data.message;
+          } catch {
+            console.error(
+              "Non-JSON error response (faqs):",
+              faqText.substring(0, 200)
+            );
+          }
+          throw new Error(msg);
+        }
+
         const destData: any[] = JSON.parse(destText);
         const durData: any[] = JSON.parse(durText);
         const tierData: any[] = JSON.parse(tierText);
@@ -378,6 +413,7 @@ export default function CmsPackageCreatePage() {
         const actEndData: any[] = JSON.parse(actEndText);
         const hotelData: any[] = JSON.parse(hotelText);
         const routeData: any[] = JSON.parse(routeText);
+        const faqData: any[] = JSON.parse(faqText);
 
         const filteredDest = destData
           .map((d) => ({
@@ -503,6 +539,15 @@ export default function CmsPackageCreatePage() {
               sequence: Number(d.sequence),
             })),
           }))
+        );
+        setFaqOptions(
+          faqData
+            .map((f) => ({
+              id: Number(f.id),
+              question: String(f.question),
+              category_name: f.category?.name ?? null,
+            }))
+            .sort((a, b) => a.id - b.id)
         );
       } catch (err: any) {
         console.error("loadMasterData error:", err);
@@ -812,6 +857,20 @@ export default function CmsPackageCreatePage() {
         };
       })
       .filter(Boolean) as any[];
+    const perfect_for = form.perfect_for
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const highlights_bullets = form.highlights_bullets
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const unique_selling_points = form.unique_selling_points
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
 
     try {
       const payload = {
@@ -833,6 +892,10 @@ export default function CmsPackageCreatePage() {
             : Number(form.duration_id),
         description: form.description.trim() || null,
         physicality: form.physicality.trim() || null,
+        perfect_for,
+        highlights_bullets,
+        safety_positioning: form.safety_positioning.trim() || null,
+        unique_selling_points,
         price_tiers: cleanPriceTiers,
         includes: form.includes,
         excludes: form.excludes,
@@ -840,6 +903,7 @@ export default function CmsPackageCreatePage() {
         asset_ids: form.asset_ids,
         primary_asset_id: form.primary_asset_id,
         itinerary_days: cleanItineraryDays,
+        faqs: form.faqs,
       };
 
       const res = await fetch("/api/packages", {
@@ -1126,7 +1190,114 @@ export default function CmsPackageCreatePage() {
   );
 
   const renderStep2 = () => (
-    <div className="space-y-4">
+            <div className="spaye-y-4">
+          {/* Marketing & Positioning */}
+          <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
+            <div className="flex items-center gap-2">
+              <Tag className="w-3.5 h-3.5 text-emerald-400" />
+              <div>
+                <div className="text-xs font-semibold text-slate-200">
+                  Marketing & Positioning (optional)
+                </div>
+                <p className="text-[11px] text-slate-500">
+                  These fields help you generate landing page copy and marketplace
+                  descriptions consistently.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Perfect for (one per line)
+                </label>
+                <textarea
+                  value={form.perfect_for}
+                  onChange={(e) => {
+                    markEdited();
+                    setForm((prev) => ({
+                      ...prev,
+                      perfect_for: e.target.value,
+                    }));
+                  }}
+                  rows={4}
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                  placeholder={
+                    "Active travelers\nFirst-time Java visitors\nNature photographers"
+                  }
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Key highlights (bullets, one per line)
+                </label>
+                <textarea
+                  value={form.highlights_bullets}
+                  onChange={(e) => {
+                    markEdited();
+                    setForm((prev) => ({
+                      ...prev,
+                      highlights_bullets: e.target.value,
+                    }));
+                  }}
+                  rows={4}
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                  placeholder={
+                    "Witness Ijen's electric-blue flames before sunrise\n4WD to panoramic Bromo viewpoint then crater walk\nBonus stop at hidden Madakaripura waterfall"
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Safety positioning (short paragraph)
+                </label>
+                <textarea
+                  value={form.safety_positioning}
+                  onChange={(e) => {
+                    markEdited();
+                    setForm((prev) => ({
+                      ...prev,
+                      safety_positioning: e.target.value,
+                    }));
+                  }}
+                  rows={4}
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                  placeholder="Professional guides, sanitized gas masks, health screening for Ijen, route decisions driven by safety."
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-medium text-slate-300">
+                  Unique selling points (one per line)
+                </label>
+                <textarea
+                  value={form.unique_selling_points}
+                  onChange={(e) => {
+                    markEdited();
+                    setForm((prev) => ({
+                      ...prev,
+                      unique_selling_points: e.target.value,
+                    }));
+                  }}
+                  rows={4}
+                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                  placeholder={
+                    "Tourist Police support\nPrivate 4WD experience\nHealth safety protocols"
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+  );
+
+  const renderStep3 = () => (
+        <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <MapPin className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1226,10 +1397,11 @@ export default function CmsPackageCreatePage() {
         </div>
       </div>
     </div>
+
   );
 
-  const renderStep3 = () => (
-    <div className="space-y-4">
+  const renderStep4 = () => (
+        <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <Info className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1334,10 +1506,11 @@ export default function CmsPackageCreatePage() {
         ))}
       </div>
     </div>
+
   );
 
-  const renderStep4 = () => (
-    <div className="space-y-4">
+  const renderStep5 = () => (
+        <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <ShieldAlert className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1500,11 +1673,63 @@ export default function CmsPackageCreatePage() {
           )}
         </div>
       </div>
+      <div className="border-t border-slate-800 pt-4 mt-2 space-y-3">
+        <div>
+          <h2 className="text-xs font-semibold text-slate-200">
+            FAQs for this package
+          </h2>
+          <p className="text-[11px] text-slate-500">
+            Select which FAQs will be shown on this tour detail page (for
+            example payment, reschedule, or safety information).
+          </p>
+        </div>
+
+        <div className="rounded-md border border-slate-800 bg-slate-950/60 max-h-72 overflow-auto nice-scrollbar px-3 py-2 space-y-1">
+          {faqOptions.length === 0 ? (
+            <p className="text-[11px] text-slate-500">
+              No FAQs are registered yet.
+            </p>
+          ) : (
+            faqOptions.map((opt) => {
+              const checked = form.faqs.includes(opt.id);
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => {
+                    markEdited();
+                    setForm((prev) => ({
+                      ...prev,
+                      faqs: checked
+                        ? prev.faqs.filter((id) => id !== opt.id)
+                        : [...prev.faqs, opt.id],
+                    }));
+                  }}
+                  className={[
+                    "w-full text-left text-[12px] px-2 py-1 rounded-md border transition flex flex-col items-start gap-0.5",
+                    checked
+                      ? "bg-emerald-500/10 border-emerald-500/60 text-emerald-100"
+                      : "bg-slate-950 border-slate-800 text-slate-200 hover:bg-slate-900",
+                  ].join(" ")}
+                >
+                  <span className="font-medium">{opt.question}</span>
+                  {opt.category_name && (
+                    <span className="text-[10px] text-slate-400">
+                      {opt.category_name}
+                    </span>
+                  )}
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
     </div>
+
   );
 
-  const renderStep5 = () => (
-    <div className="space-y-4">
+  const renderStep6 = () => (
+        <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <ImageIcon className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1555,9 +1780,9 @@ export default function CmsPackageCreatePage() {
         </p>
       </div>
     </div>
-  );
 
-  const renderStep6 = () => (
+  );
+  const renderStep7 = () => (
     <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <FileText className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
@@ -1746,7 +1971,7 @@ export default function CmsPackageCreatePage() {
         </div>
       )}
     </div>
-  );
+  )
 
   const renderCurrentStep = () => {
     switch (step) {
@@ -1762,6 +1987,8 @@ export default function CmsPackageCreatePage() {
         return renderStep5();
       case 6:
         return renderStep6();
+      case 7:
+        return renderStep7();
       default:
         return null;
     }

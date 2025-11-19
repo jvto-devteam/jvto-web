@@ -330,6 +330,11 @@ export type package_destinations = $Result.DefaultSelection<Prisma.$package_dest
  */
 export type package_excludes = $Result.DefaultSelection<Prisma.$package_excludesPayload>
 /**
+ * Model package_faqs
+ * 
+ */
+export type package_faqs = $Result.DefaultSelection<Prisma.$package_faqsPayload>
+/**
  * Model package_hotel_options
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -1261,6 +1266,16 @@ export class PrismaClient<
   get package_excludes(): Prisma.package_excludesDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.package_faqs`: Exposes CRUD operations for the **package_faqs** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Package_faqs
+    * const package_faqs = await prisma.package_faqs.findMany()
+    * ```
+    */
+  get package_faqs(): Prisma.package_faqsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.package_hotel_options`: Exposes CRUD operations for the **package_hotel_options** model.
     * Example usage:
     * ```ts
@@ -2051,6 +2066,7 @@ export namespace Prisma {
     package_categories: 'package_categories',
     package_destinations: 'package_destinations',
     package_excludes: 'package_excludes',
+    package_faqs: 'package_faqs',
     package_hotel_options: 'package_hotel_options',
     package_images: 'package_images',
     package_includes: 'package_includes',
@@ -2098,7 +2114,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6616,6 +6632,80 @@ export namespace Prisma {
           }
         }
       }
+      package_faqs: {
+        payload: Prisma.$package_faqsPayload<ExtArgs>
+        fields: Prisma.package_faqsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.package_faqsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.package_faqsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          findFirst: {
+            args: Prisma.package_faqsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.package_faqsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          findMany: {
+            args: Prisma.package_faqsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>[]
+          }
+          create: {
+            args: Prisma.package_faqsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          createMany: {
+            args: Prisma.package_faqsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.package_faqsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>[]
+          }
+          delete: {
+            args: Prisma.package_faqsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          update: {
+            args: Prisma.package_faqsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          deleteMany: {
+            args: Prisma.package_faqsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.package_faqsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.package_faqsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>[]
+          }
+          upsert: {
+            args: Prisma.package_faqsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$package_faqsPayload>
+          }
+          aggregate: {
+            args: Prisma.Package_faqsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePackage_faqs>
+          }
+          groupBy: {
+            args: Prisma.package_faqsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Package_faqsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.package_faqsCountArgs<ExtArgs>
+            result: $Utils.Optional<Package_faqsCountAggregateOutputType> | number
+          }
+        }
+      }
       package_hotel_options: {
         payload: Prisma.$package_hotel_optionsPayload<ExtArgs>
         fields: Prisma.package_hotel_optionsFieldRefs
@@ -8919,6 +9009,7 @@ export namespace Prisma {
     package_categories?: package_categoriesOmit
     package_destinations?: package_destinationsOmit
     package_excludes?: package_excludesOmit
+    package_faqs?: package_faqsOmit
     package_hotel_options?: package_hotel_optionsOmit
     package_images?: package_imagesOmit
     package_includes?: package_includesOmit
@@ -10005,10 +10096,12 @@ export namespace Prisma {
 
   export type FaqsCountOutputType = {
     destination_faqs: number
+    package_faqs: number
   }
 
   export type FaqsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     destination_faqs?: boolean | FaqsCountOutputTypeCountDestination_faqsArgs
+    package_faqs?: boolean | FaqsCountOutputTypeCountPackage_faqsArgs
   }
 
   // Custom InputTypes
@@ -10027,6 +10120,13 @@ export namespace Prisma {
    */
   export type FaqsCountOutputTypeCountDestination_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: destination_faqsWhereInput
+  }
+
+  /**
+   * FaqsCountOutputType without action
+   */
+  export type FaqsCountOutputTypeCountPackage_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: package_faqsWhereInput
   }
 
 
@@ -10393,6 +10493,7 @@ export namespace Prisma {
     package_itinerary_days: number
     package_prices: number
     package_assets: number
+    package_faqs: number
   }
 
   export type PackagesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10407,6 +10508,7 @@ export namespace Prisma {
     package_itinerary_days?: boolean | PackagesCountOutputTypeCountPackage_itinerary_daysArgs
     package_prices?: boolean | PackagesCountOutputTypeCountPackage_pricesArgs
     package_assets?: boolean | PackagesCountOutputTypeCountPackage_assetsArgs
+    package_faqs?: boolean | PackagesCountOutputTypeCountPackage_faqsArgs
   }
 
   // Custom InputTypes
@@ -10495,6 +10597,13 @@ export namespace Prisma {
    */
   export type PackagesCountOutputTypeCountPackage_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_assetsWhereInput
+  }
+
+  /**
+   * PackagesCountOutputType without action
+   */
+  export type PackagesCountOutputTypeCountPackage_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: package_faqsWhereInput
   }
 
 
@@ -67196,6 +67305,7 @@ export namespace Prisma {
     category_id?: boolean
     category?: boolean | faqs$categoryArgs<ExtArgs>
     destination_faqs?: boolean | faqs$destination_faqsArgs<ExtArgs>
+    package_faqs?: boolean | faqs$package_faqsArgs<ExtArgs>
     _count?: boolean | FaqsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["faqs"]>
 
@@ -67241,6 +67351,7 @@ export namespace Prisma {
   export type faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | faqs$categoryArgs<ExtArgs>
     destination_faqs?: boolean | faqs$destination_faqsArgs<ExtArgs>
+    package_faqs?: boolean | faqs$package_faqsArgs<ExtArgs>
     _count?: boolean | FaqsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -67255,6 +67366,7 @@ export namespace Prisma {
     objects: {
       category: Prisma.$category_faqsPayload<ExtArgs> | null
       destination_faqs: Prisma.$destination_faqsPayload<ExtArgs>[]
+      package_faqs: Prisma.$package_faqsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -67662,6 +67774,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends faqs$categoryArgs<ExtArgs> = {}>(args?: Subset<T, faqs$categoryArgs<ExtArgs>>): Prisma__category_faqsClient<$Result.GetResult<Prisma.$category_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     destination_faqs<T extends faqs$destination_faqsArgs<ExtArgs> = {}>(args?: Subset<T, faqs$destination_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    package_faqs<T extends faqs$package_faqsArgs<ExtArgs> = {}>(args?: Subset<T, faqs$package_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -68136,6 +68249,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Destination_faqsScalarFieldEnum | Destination_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * faqs.package_faqs
+   */
+  export type faqs$package_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    where?: package_faqsWhereInput
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    cursor?: package_faqsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
   }
 
   /**
@@ -85535,6 +85672,1114 @@ export namespace Prisma {
 
 
   /**
+   * Model package_faqs
+   */
+
+  export type AggregatePackage_faqs = {
+    _count: Package_faqsCountAggregateOutputType | null
+    _avg: Package_faqsAvgAggregateOutputType | null
+    _sum: Package_faqsSumAggregateOutputType | null
+    _min: Package_faqsMinAggregateOutputType | null
+    _max: Package_faqsMaxAggregateOutputType | null
+  }
+
+  export type Package_faqsAvgAggregateOutputType = {
+    id: number | null
+    package_id: number | null
+    faq_id: number | null
+  }
+
+  export type Package_faqsSumAggregateOutputType = {
+    id: bigint | null
+    package_id: bigint | null
+    faq_id: bigint | null
+  }
+
+  export type Package_faqsMinAggregateOutputType = {
+    id: bigint | null
+    package_id: bigint | null
+    faq_id: bigint | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Package_faqsMaxAggregateOutputType = {
+    id: bigint | null
+    package_id: bigint | null
+    faq_id: bigint | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Package_faqsCountAggregateOutputType = {
+    id: number
+    package_id: number
+    faq_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Package_faqsAvgAggregateInputType = {
+    id?: true
+    package_id?: true
+    faq_id?: true
+  }
+
+  export type Package_faqsSumAggregateInputType = {
+    id?: true
+    package_id?: true
+    faq_id?: true
+  }
+
+  export type Package_faqsMinAggregateInputType = {
+    id?: true
+    package_id?: true
+    faq_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Package_faqsMaxAggregateInputType = {
+    id?: true
+    package_id?: true
+    faq_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Package_faqsCountAggregateInputType = {
+    id?: true
+    package_id?: true
+    faq_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Package_faqsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which package_faqs to aggregate.
+     */
+    where?: package_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of package_faqs to fetch.
+     */
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: package_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` package_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` package_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned package_faqs
+    **/
+    _count?: true | Package_faqsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Package_faqsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Package_faqsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Package_faqsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Package_faqsMaxAggregateInputType
+  }
+
+  export type GetPackage_faqsAggregateType<T extends Package_faqsAggregateArgs> = {
+        [P in keyof T & keyof AggregatePackage_faqs]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePackage_faqs[P]>
+      : GetScalarType<T[P], AggregatePackage_faqs[P]>
+  }
+
+
+
+
+  export type package_faqsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: package_faqsWhereInput
+    orderBy?: package_faqsOrderByWithAggregationInput | package_faqsOrderByWithAggregationInput[]
+    by: Package_faqsScalarFieldEnum[] | Package_faqsScalarFieldEnum
+    having?: package_faqsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Package_faqsCountAggregateInputType | true
+    _avg?: Package_faqsAvgAggregateInputType
+    _sum?: Package_faqsSumAggregateInputType
+    _min?: Package_faqsMinAggregateInputType
+    _max?: Package_faqsMaxAggregateInputType
+  }
+
+  export type Package_faqsGroupByOutputType = {
+    id: bigint
+    package_id: bigint
+    faq_id: bigint
+    created_at: Date
+    updated_at: Date
+    _count: Package_faqsCountAggregateOutputType | null
+    _avg: Package_faqsAvgAggregateOutputType | null
+    _sum: Package_faqsSumAggregateOutputType | null
+    _min: Package_faqsMinAggregateOutputType | null
+    _max: Package_faqsMaxAggregateOutputType | null
+  }
+
+  type GetPackage_faqsGroupByPayload<T extends package_faqsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Package_faqsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Package_faqsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Package_faqsGroupByOutputType[P]>
+            : GetScalarType<T[P], Package_faqsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type package_faqsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    package_id?: boolean
+    faq_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package_faqs"]>
+
+  export type package_faqsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    package_id?: boolean
+    faq_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package_faqs"]>
+
+  export type package_faqsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    package_id?: boolean
+    faq_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["package_faqs"]>
+
+  export type package_faqsSelectScalar = {
+    id?: boolean
+    package_id?: boolean
+    faq_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type package_faqsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "package_id" | "faq_id" | "created_at" | "updated_at", ExtArgs["result"]["package_faqs"]>
+  export type package_faqsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+  export type package_faqsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+  export type package_faqsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | packagesDefaultArgs<ExtArgs>
+    faq?: boolean | faqsDefaultArgs<ExtArgs>
+  }
+
+  export type $package_faqsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "package_faqs"
+    objects: {
+      package: Prisma.$packagesPayload<ExtArgs>
+      faq: Prisma.$faqsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      package_id: bigint
+      faq_id: bigint
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["package_faqs"]>
+    composites: {}
+  }
+
+  type package_faqsGetPayload<S extends boolean | null | undefined | package_faqsDefaultArgs> = $Result.GetResult<Prisma.$package_faqsPayload, S>
+
+  type package_faqsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<package_faqsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Package_faqsCountAggregateInputType | true
+    }
+
+  export interface package_faqsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['package_faqs'], meta: { name: 'package_faqs' } }
+    /**
+     * Find zero or one Package_faqs that matches the filter.
+     * @param {package_faqsFindUniqueArgs} args - Arguments to find a Package_faqs
+     * @example
+     * // Get one Package_faqs
+     * const package_faqs = await prisma.package_faqs.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends package_faqsFindUniqueArgs>(args: SelectSubset<T, package_faqsFindUniqueArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Package_faqs that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {package_faqsFindUniqueOrThrowArgs} args - Arguments to find a Package_faqs
+     * @example
+     * // Get one Package_faqs
+     * const package_faqs = await prisma.package_faqs.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends package_faqsFindUniqueOrThrowArgs>(args: SelectSubset<T, package_faqsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Package_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsFindFirstArgs} args - Arguments to find a Package_faqs
+     * @example
+     * // Get one Package_faqs
+     * const package_faqs = await prisma.package_faqs.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends package_faqsFindFirstArgs>(args?: SelectSubset<T, package_faqsFindFirstArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Package_faqs that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsFindFirstOrThrowArgs} args - Arguments to find a Package_faqs
+     * @example
+     * // Get one Package_faqs
+     * const package_faqs = await prisma.package_faqs.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends package_faqsFindFirstOrThrowArgs>(args?: SelectSubset<T, package_faqsFindFirstOrThrowArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Package_faqs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Package_faqs
+     * const package_faqs = await prisma.package_faqs.findMany()
+     * 
+     * // Get first 10 Package_faqs
+     * const package_faqs = await prisma.package_faqs.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const package_faqsWithIdOnly = await prisma.package_faqs.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends package_faqsFindManyArgs>(args?: SelectSubset<T, package_faqsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Package_faqs.
+     * @param {package_faqsCreateArgs} args - Arguments to create a Package_faqs.
+     * @example
+     * // Create one Package_faqs
+     * const Package_faqs = await prisma.package_faqs.create({
+     *   data: {
+     *     // ... data to create a Package_faqs
+     *   }
+     * })
+     * 
+     */
+    create<T extends package_faqsCreateArgs>(args: SelectSubset<T, package_faqsCreateArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Package_faqs.
+     * @param {package_faqsCreateManyArgs} args - Arguments to create many Package_faqs.
+     * @example
+     * // Create many Package_faqs
+     * const package_faqs = await prisma.package_faqs.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends package_faqsCreateManyArgs>(args?: SelectSubset<T, package_faqsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Package_faqs and returns the data saved in the database.
+     * @param {package_faqsCreateManyAndReturnArgs} args - Arguments to create many Package_faqs.
+     * @example
+     * // Create many Package_faqs
+     * const package_faqs = await prisma.package_faqs.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Package_faqs and only return the `id`
+     * const package_faqsWithIdOnly = await prisma.package_faqs.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends package_faqsCreateManyAndReturnArgs>(args?: SelectSubset<T, package_faqsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Package_faqs.
+     * @param {package_faqsDeleteArgs} args - Arguments to delete one Package_faqs.
+     * @example
+     * // Delete one Package_faqs
+     * const Package_faqs = await prisma.package_faqs.delete({
+     *   where: {
+     *     // ... filter to delete one Package_faqs
+     *   }
+     * })
+     * 
+     */
+    delete<T extends package_faqsDeleteArgs>(args: SelectSubset<T, package_faqsDeleteArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Package_faqs.
+     * @param {package_faqsUpdateArgs} args - Arguments to update one Package_faqs.
+     * @example
+     * // Update one Package_faqs
+     * const package_faqs = await prisma.package_faqs.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends package_faqsUpdateArgs>(args: SelectSubset<T, package_faqsUpdateArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Package_faqs.
+     * @param {package_faqsDeleteManyArgs} args - Arguments to filter Package_faqs to delete.
+     * @example
+     * // Delete a few Package_faqs
+     * const { count } = await prisma.package_faqs.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends package_faqsDeleteManyArgs>(args?: SelectSubset<T, package_faqsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Package_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Package_faqs
+     * const package_faqs = await prisma.package_faqs.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends package_faqsUpdateManyArgs>(args: SelectSubset<T, package_faqsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Package_faqs and returns the data updated in the database.
+     * @param {package_faqsUpdateManyAndReturnArgs} args - Arguments to update many Package_faqs.
+     * @example
+     * // Update many Package_faqs
+     * const package_faqs = await prisma.package_faqs.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Package_faqs and only return the `id`
+     * const package_faqsWithIdOnly = await prisma.package_faqs.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends package_faqsUpdateManyAndReturnArgs>(args: SelectSubset<T, package_faqsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Package_faqs.
+     * @param {package_faqsUpsertArgs} args - Arguments to update or create a Package_faqs.
+     * @example
+     * // Update or create a Package_faqs
+     * const package_faqs = await prisma.package_faqs.upsert({
+     *   create: {
+     *     // ... data to create a Package_faqs
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Package_faqs we want to update
+     *   }
+     * })
+     */
+    upsert<T extends package_faqsUpsertArgs>(args: SelectSubset<T, package_faqsUpsertArgs<ExtArgs>>): Prisma__package_faqsClient<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Package_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsCountArgs} args - Arguments to filter Package_faqs to count.
+     * @example
+     * // Count the number of Package_faqs
+     * const count = await prisma.package_faqs.count({
+     *   where: {
+     *     // ... the filter for the Package_faqs we want to count
+     *   }
+     * })
+    **/
+    count<T extends package_faqsCountArgs>(
+      args?: Subset<T, package_faqsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Package_faqsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Package_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Package_faqsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Package_faqsAggregateArgs>(args: Subset<T, Package_faqsAggregateArgs>): Prisma.PrismaPromise<GetPackage_faqsAggregateType<T>>
+
+    /**
+     * Group by Package_faqs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {package_faqsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends package_faqsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: package_faqsGroupByArgs['orderBy'] }
+        : { orderBy?: package_faqsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, package_faqsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPackage_faqsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the package_faqs model
+   */
+  readonly fields: package_faqsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for package_faqs.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__package_faqsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    package<T extends packagesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, packagesDefaultArgs<ExtArgs>>): Prisma__packagesClient<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    faq<T extends faqsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, faqsDefaultArgs<ExtArgs>>): Prisma__faqsClient<$Result.GetResult<Prisma.$faqsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the package_faqs model
+   */
+  interface package_faqsFieldRefs {
+    readonly id: FieldRef<"package_faqs", 'BigInt'>
+    readonly package_id: FieldRef<"package_faqs", 'BigInt'>
+    readonly faq_id: FieldRef<"package_faqs", 'BigInt'>
+    readonly created_at: FieldRef<"package_faqs", 'DateTime'>
+    readonly updated_at: FieldRef<"package_faqs", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * package_faqs findUnique
+   */
+  export type package_faqsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which package_faqs to fetch.
+     */
+    where: package_faqsWhereUniqueInput
+  }
+
+  /**
+   * package_faqs findUniqueOrThrow
+   */
+  export type package_faqsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which package_faqs to fetch.
+     */
+    where: package_faqsWhereUniqueInput
+  }
+
+  /**
+   * package_faqs findFirst
+   */
+  export type package_faqsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which package_faqs to fetch.
+     */
+    where?: package_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of package_faqs to fetch.
+     */
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for package_faqs.
+     */
+    cursor?: package_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` package_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` package_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of package_faqs.
+     */
+    distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * package_faqs findFirstOrThrow
+   */
+  export type package_faqsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which package_faqs to fetch.
+     */
+    where?: package_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of package_faqs to fetch.
+     */
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for package_faqs.
+     */
+    cursor?: package_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` package_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` package_faqs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of package_faqs.
+     */
+    distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * package_faqs findMany
+   */
+  export type package_faqsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter, which package_faqs to fetch.
+     */
+    where?: package_faqsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of package_faqs to fetch.
+     */
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing package_faqs.
+     */
+    cursor?: package_faqsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` package_faqs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` package_faqs.
+     */
+    skip?: number
+    distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * package_faqs create
+   */
+  export type package_faqsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a package_faqs.
+     */
+    data: XOR<package_faqsCreateInput, package_faqsUncheckedCreateInput>
+  }
+
+  /**
+   * package_faqs createMany
+   */
+  export type package_faqsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many package_faqs.
+     */
+    data: package_faqsCreateManyInput | package_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * package_faqs createManyAndReturn
+   */
+  export type package_faqsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to create many package_faqs.
+     */
+    data: package_faqsCreateManyInput | package_faqsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * package_faqs update
+   */
+  export type package_faqsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a package_faqs.
+     */
+    data: XOR<package_faqsUpdateInput, package_faqsUncheckedUpdateInput>
+    /**
+     * Choose, which package_faqs to update.
+     */
+    where: package_faqsWhereUniqueInput
+  }
+
+  /**
+   * package_faqs updateMany
+   */
+  export type package_faqsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update package_faqs.
+     */
+    data: XOR<package_faqsUpdateManyMutationInput, package_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which package_faqs to update
+     */
+    where?: package_faqsWhereInput
+    /**
+     * Limit how many package_faqs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * package_faqs updateManyAndReturn
+   */
+  export type package_faqsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * The data used to update package_faqs.
+     */
+    data: XOR<package_faqsUpdateManyMutationInput, package_faqsUncheckedUpdateManyInput>
+    /**
+     * Filter which package_faqs to update
+     */
+    where?: package_faqsWhereInput
+    /**
+     * Limit how many package_faqs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * package_faqs upsert
+   */
+  export type package_faqsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the package_faqs to update in case it exists.
+     */
+    where: package_faqsWhereUniqueInput
+    /**
+     * In case the package_faqs found by the `where` argument doesn't exist, create a new package_faqs with this data.
+     */
+    create: XOR<package_faqsCreateInput, package_faqsUncheckedCreateInput>
+    /**
+     * In case the package_faqs was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<package_faqsUpdateInput, package_faqsUncheckedUpdateInput>
+  }
+
+  /**
+   * package_faqs delete
+   */
+  export type package_faqsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    /**
+     * Filter which package_faqs to delete.
+     */
+    where: package_faqsWhereUniqueInput
+  }
+
+  /**
+   * package_faqs deleteMany
+   */
+  export type package_faqsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which package_faqs to delete
+     */
+    where?: package_faqsWhereInput
+    /**
+     * Limit how many package_faqs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * package_faqs without action
+   */
+  export type package_faqsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model package_hotel_options
    */
 
@@ -94125,6 +95370,7 @@ export namespace Prisma {
     total_dinner: number | null
     google_merchant_product_id: string | null
     meta_catalogue_id: string | null
+    safety_positioning: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -94155,6 +95401,7 @@ export namespace Prisma {
     total_dinner: number | null
     google_merchant_product_id: string | null
     meta_catalogue_id: string | null
+    safety_positioning: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -94185,6 +95432,10 @@ export namespace Prisma {
     total_dinner: number
     google_merchant_product_id: number
     meta_catalogue_id: number
+    perfect_for: number
+    highlights_bullets: number
+    safety_positioning: number
+    unique_selling_points: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -94245,6 +95496,7 @@ export namespace Prisma {
     total_dinner?: true
     google_merchant_product_id?: true
     meta_catalogue_id?: true
+    safety_positioning?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -94275,6 +95527,7 @@ export namespace Prisma {
     total_dinner?: true
     google_merchant_product_id?: true
     meta_catalogue_id?: true
+    safety_positioning?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -94305,6 +95558,10 @@ export namespace Prisma {
     total_dinner?: true
     google_merchant_product_id?: true
     meta_catalogue_id?: true
+    perfect_for?: true
+    highlights_bullets?: true
+    safety_positioning?: true
+    unique_selling_points?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -94422,6 +95679,10 @@ export namespace Prisma {
     total_dinner: number | null
     google_merchant_product_id: string | null
     meta_catalogue_id: string | null
+    perfect_for: string[]
+    highlights_bullets: string[]
+    safety_positioning: string | null
+    unique_selling_points: string[]
     created_at: Date
     updated_at: Date | null
     deleted_at: Date | null
@@ -94471,6 +95732,10 @@ export namespace Prisma {
     total_dinner?: boolean
     google_merchant_product_id?: boolean
     meta_catalogue_id?: boolean
+    perfect_for?: boolean
+    highlights_bullets?: boolean
+    safety_positioning?: boolean
+    unique_selling_points?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -94492,6 +95757,7 @@ export namespace Prisma {
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
     start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     package_assets?: boolean | packages$package_assetsArgs<ExtArgs>
+    package_faqs?: boolean | packages$package_faqsArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["packages"]>
 
@@ -94518,6 +95784,10 @@ export namespace Prisma {
     total_dinner?: boolean
     google_merchant_product_id?: boolean
     meta_catalogue_id?: boolean
+    perfect_for?: boolean
+    highlights_bullets?: boolean
+    safety_positioning?: boolean
+    unique_selling_points?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -94553,6 +95823,10 @@ export namespace Prisma {
     total_dinner?: boolean
     google_merchant_product_id?: boolean
     meta_catalogue_id?: boolean
+    perfect_for?: boolean
+    highlights_bullets?: boolean
+    safety_positioning?: boolean
+    unique_selling_points?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -94588,6 +95862,10 @@ export namespace Prisma {
     total_dinner?: boolean
     google_merchant_product_id?: boolean
     meta_catalogue_id?: boolean
+    perfect_for?: boolean
+    highlights_bullets?: boolean
+    safety_positioning?: boolean
+    unique_selling_points?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -94595,7 +95873,7 @@ export namespace Prisma {
     aggregate_rating_count?: boolean
   }
 
-  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count", ExtArgs["result"]["packages"]>
+  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count", ExtArgs["result"]["packages"]>
   export type packagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
     combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
@@ -94613,6 +95891,7 @@ export namespace Prisma {
     package_categories?: boolean | packages$package_categoriesArgs<ExtArgs>
     start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     package_assets?: boolean | packages$package_assetsArgs<ExtArgs>
+    package_faqs?: boolean | packages$package_faqsArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type packagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -94649,6 +95928,7 @@ export namespace Prisma {
       package_categories: Prisma.$package_categoriesPayload<ExtArgs> | null
       start_destination: Prisma.$destinationsPayload<ExtArgs> | null
       package_assets: Prisma.$package_assetsPayload<ExtArgs>[]
+      package_faqs: Prisma.$package_faqsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -94673,6 +95953,10 @@ export namespace Prisma {
       total_dinner: number | null
       google_merchant_product_id: string | null
       meta_catalogue_id: string | null
+      perfect_for: string[]
+      highlights_bullets: string[]
+      safety_positioning: string | null
+      unique_selling_points: string[]
       created_at: Date
       updated_at: Date | null
       deleted_at: Date | null
@@ -95088,6 +96372,7 @@ export namespace Prisma {
     package_categories<T extends packages$package_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_categoriesArgs<ExtArgs>>): Prisma__package_categoriesClient<$Result.GetResult<Prisma.$package_categoriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     start_destination<T extends packages$start_destinationArgs<ExtArgs> = {}>(args?: Subset<T, packages$start_destinationArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     package_assets<T extends packages$package_assetsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    package_faqs<T extends packages$package_faqsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -95139,6 +96424,10 @@ export namespace Prisma {
     readonly total_dinner: FieldRef<"packages", 'Int'>
     readonly google_merchant_product_id: FieldRef<"packages", 'String'>
     readonly meta_catalogue_id: FieldRef<"packages", 'String'>
+    readonly perfect_for: FieldRef<"packages", 'String[]'>
+    readonly highlights_bullets: FieldRef<"packages", 'String[]'>
+    readonly safety_positioning: FieldRef<"packages", 'String'>
+    readonly unique_selling_points: FieldRef<"packages", 'String[]'>
     readonly created_at: FieldRef<"packages", 'DateTime'>
     readonly updated_at: FieldRef<"packages", 'DateTime'>
     readonly deleted_at: FieldRef<"packages", 'DateTime'>
@@ -95896,6 +97185,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Package_assetsScalarFieldEnum | Package_assetsScalarFieldEnum[]
+  }
+
+  /**
+   * packages.package_faqs
+   */
+  export type packages$package_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the package_faqs
+     */
+    select?: package_faqsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the package_faqs
+     */
+    omit?: package_faqsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: package_faqsInclude<ExtArgs> | null
+    where?: package_faqsWhereInput
+    orderBy?: package_faqsOrderByWithRelationInput | package_faqsOrderByWithRelationInput[]
+    cursor?: package_faqsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
   }
 
   /**
@@ -121273,6 +122586,17 @@ export namespace Prisma {
   export type Package_excludesScalarFieldEnum = (typeof Package_excludesScalarFieldEnum)[keyof typeof Package_excludesScalarFieldEnum]
 
 
+  export const Package_faqsScalarFieldEnum: {
+    id: 'id',
+    package_id: 'package_id',
+    faq_id: 'faq_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Package_faqsScalarFieldEnum = (typeof Package_faqsScalarFieldEnum)[keyof typeof Package_faqsScalarFieldEnum]
+
+
   export const Package_hotel_optionsScalarFieldEnum: {
     id: 'id',
     package_id: 'package_id',
@@ -121399,6 +122723,10 @@ export namespace Prisma {
     total_dinner: 'total_dinner',
     google_merchant_product_id: 'google_merchant_product_id',
     meta_catalogue_id: 'meta_catalogue_id',
+    perfect_for: 'perfect_for',
+    highlights_bullets: 'highlights_bullets',
+    safety_positioning: 'safety_positioning',
+    unique_selling_points: 'unique_selling_points',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
@@ -126176,6 +127504,7 @@ export namespace Prisma {
     category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
     category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
     destination_faqs?: Destination_faqsListRelationFilter
+    package_faqs?: Package_faqsListRelationFilter
   }
 
   export type faqsOrderByWithRelationInput = {
@@ -126190,6 +127519,7 @@ export namespace Prisma {
     category_id?: SortOrderInput | SortOrder
     category?: category_faqsOrderByWithRelationInput
     destination_faqs?: destination_faqsOrderByRelationAggregateInput
+    package_faqs?: package_faqsOrderByRelationAggregateInput
   }
 
   export type faqsWhereUniqueInput = Prisma.AtLeast<{
@@ -126207,6 +127537,7 @@ export namespace Prisma {
     category_id?: BigIntNullableFilter<"faqs"> | bigint | number | null
     category?: XOR<Category_faqsNullableScalarRelationFilter, category_faqsWhereInput> | null
     destination_faqs?: Destination_faqsListRelationFilter
+    package_faqs?: Package_faqsListRelationFilter
   }, "id">
 
   export type faqsOrderByWithAggregationInput = {
@@ -127409,6 +128740,67 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"package_excludes"> | Date | string | null
   }
 
+  export type package_faqsWhereInput = {
+    AND?: package_faqsWhereInput | package_faqsWhereInput[]
+    OR?: package_faqsWhereInput[]
+    NOT?: package_faqsWhereInput | package_faqsWhereInput[]
+    id?: BigIntFilter<"package_faqs"> | bigint | number
+    package_id?: BigIntFilter<"package_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"package_faqs"> | bigint | number
+    created_at?: DateTimeFilter<"package_faqs"> | Date | string
+    updated_at?: DateTimeFilter<"package_faqs"> | Date | string
+    package?: XOR<PackagesScalarRelationFilter, packagesWhereInput>
+    faq?: XOR<FaqsScalarRelationFilter, faqsWhereInput>
+  }
+
+  export type package_faqsOrderByWithRelationInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    package?: packagesOrderByWithRelationInput
+    faq?: faqsOrderByWithRelationInput
+  }
+
+  export type package_faqsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    package_id_faq_id?: package_faqsPackage_idFaq_idCompoundUniqueInput
+    AND?: package_faqsWhereInput | package_faqsWhereInput[]
+    OR?: package_faqsWhereInput[]
+    NOT?: package_faqsWhereInput | package_faqsWhereInput[]
+    package_id?: BigIntFilter<"package_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"package_faqs"> | bigint | number
+    created_at?: DateTimeFilter<"package_faqs"> | Date | string
+    updated_at?: DateTimeFilter<"package_faqs"> | Date | string
+    package?: XOR<PackagesScalarRelationFilter, packagesWhereInput>
+    faq?: XOR<FaqsScalarRelationFilter, faqsWhereInput>
+  }, "id" | "package_id_faq_id">
+
+  export type package_faqsOrderByWithAggregationInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: package_faqsCountOrderByAggregateInput
+    _avg?: package_faqsAvgOrderByAggregateInput
+    _max?: package_faqsMaxOrderByAggregateInput
+    _min?: package_faqsMinOrderByAggregateInput
+    _sum?: package_faqsSumOrderByAggregateInput
+  }
+
+  export type package_faqsScalarWhereWithAggregatesInput = {
+    AND?: package_faqsScalarWhereWithAggregatesInput | package_faqsScalarWhereWithAggregatesInput[]
+    OR?: package_faqsScalarWhereWithAggregatesInput[]
+    NOT?: package_faqsScalarWhereWithAggregatesInput | package_faqsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"package_faqs"> | bigint | number
+    package_id?: BigIntWithAggregatesFilter<"package_faqs"> | bigint | number
+    faq_id?: BigIntWithAggregatesFilter<"package_faqs"> | bigint | number
+    created_at?: DateTimeWithAggregatesFilter<"package_faqs"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"package_faqs"> | Date | string
+  }
+
   export type package_hotel_optionsWhereInput = {
     AND?: package_hotel_optionsWhereInput | package_hotel_optionsWhereInput[]
     OR?: package_hotel_optionsWhereInput[]
@@ -128001,6 +129393,10 @@ export namespace Prisma {
     total_dinner?: IntNullableFilter<"packages"> | number | null
     google_merchant_product_id?: StringNullableFilter<"packages"> | string | null
     meta_catalogue_id?: StringNullableFilter<"packages"> | string | null
+    perfect_for?: StringNullableListFilter<"packages">
+    highlights_bullets?: StringNullableListFilter<"packages">
+    safety_positioning?: StringNullableFilter<"packages"> | string | null
+    unique_selling_points?: StringNullableListFilter<"packages">
     created_at?: DateTimeFilter<"packages"> | Date | string
     updated_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
@@ -128022,6 +129418,7 @@ export namespace Prisma {
     package_categories?: XOR<Package_categoriesNullableScalarRelationFilter, package_categoriesWhereInput> | null
     start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     package_assets?: Package_assetsListRelationFilter
+    package_faqs?: Package_faqsListRelationFilter
   }
 
   export type packagesOrderByWithRelationInput = {
@@ -128047,6 +129444,10 @@ export namespace Prisma {
     total_dinner?: SortOrderInput | SortOrder
     google_merchant_product_id?: SortOrderInput | SortOrder
     meta_catalogue_id?: SortOrderInput | SortOrder
+    perfect_for?: SortOrder
+    highlights_bullets?: SortOrder
+    safety_positioning?: SortOrderInput | SortOrder
+    unique_selling_points?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -128068,6 +129469,7 @@ export namespace Prisma {
     package_categories?: package_categoriesOrderByWithRelationInput
     start_destination?: destinationsOrderByWithRelationInput
     package_assets?: package_assetsOrderByRelationAggregateInput
+    package_faqs?: package_faqsOrderByRelationAggregateInput
   }
 
   export type packagesWhereUniqueInput = Prisma.AtLeast<{
@@ -128096,6 +129498,10 @@ export namespace Prisma {
     total_dinner?: IntNullableFilter<"packages"> | number | null
     google_merchant_product_id?: StringNullableFilter<"packages"> | string | null
     meta_catalogue_id?: StringNullableFilter<"packages"> | string | null
+    perfect_for?: StringNullableListFilter<"packages">
+    highlights_bullets?: StringNullableListFilter<"packages">
+    safety_positioning?: StringNullableFilter<"packages"> | string | null
+    unique_selling_points?: StringNullableListFilter<"packages">
     created_at?: DateTimeFilter<"packages"> | Date | string
     updated_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
@@ -128117,6 +129523,7 @@ export namespace Prisma {
     package_categories?: XOR<Package_categoriesNullableScalarRelationFilter, package_categoriesWhereInput> | null
     start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     package_assets?: Package_assetsListRelationFilter
+    package_faqs?: Package_faqsListRelationFilter
   }, "id" | "code" | "slug">
 
   export type packagesOrderByWithAggregationInput = {
@@ -128142,6 +129549,10 @@ export namespace Prisma {
     total_dinner?: SortOrderInput | SortOrder
     google_merchant_product_id?: SortOrderInput | SortOrder
     meta_catalogue_id?: SortOrderInput | SortOrder
+    perfect_for?: SortOrder
+    highlights_bullets?: SortOrder
+    safety_positioning?: SortOrderInput | SortOrder
+    unique_selling_points?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -128180,6 +129591,10 @@ export namespace Prisma {
     total_dinner?: IntNullableWithAggregatesFilter<"packages"> | number | null
     google_merchant_product_id?: StringNullableWithAggregatesFilter<"packages"> | string | null
     meta_catalogue_id?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    perfect_for?: StringNullableListFilter<"packages">
+    highlights_bullets?: StringNullableListFilter<"packages">
+    safety_positioning?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    unique_selling_points?: StringNullableListFilter<"packages">
     created_at?: DateTimeWithAggregatesFilter<"packages"> | Date | string
     updated_at?: DateTimeNullableWithAggregatesFilter<"packages"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"packages"> | Date | string | null
@@ -134459,6 +135874,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     category?: category_faqsCreateNestedOneWithoutFaqsInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutFaqInput
+    package_faqs?: package_faqsCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUncheckedCreateInput = {
@@ -134472,6 +135888,7 @@ export namespace Prisma {
     updated_at?: Date | string | null
     category_id?: bigint | number | null
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutFaqInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUpdateInput = {
@@ -134485,6 +135902,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: category_faqsUpdateOneWithoutFaqsNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutFaqNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateInput = {
@@ -134498,6 +135916,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutFaqNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsCreateManyInput = {
@@ -135817,6 +137236,60 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type package_faqsCreateInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    package: packagesCreateNestedOneWithoutPackage_faqsInput
+    faq: faqsCreateNestedOneWithoutPackage_faqsInput
+  }
+
+  export type package_faqsUncheckedCreateInput = {
+    id?: bigint | number
+    package_id: bigint | number
+    faq_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type package_faqsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    package?: packagesUpdateOneRequiredWithoutPackage_faqsNestedInput
+    faq?: faqsUpdateOneRequiredWithoutPackage_faqsNestedInput
+  }
+
+  export type package_faqsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    package_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsCreateManyInput = {
+    id?: bigint | number
+    package_id: bigint | number
+    faq_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type package_faqsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    package_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type package_hotel_optionsCreateInput = {
     id?: bigint | number
     day_no: number
@@ -136402,6 +137875,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -136423,6 +137900,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateInput = {
@@ -136448,6 +137926,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -136464,6 +137946,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUpdateInput = {
@@ -136484,6 +137967,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136505,6 +137992,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateInput = {
@@ -136530,6 +138018,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136546,6 +138038,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateManyInput = {
@@ -136571,6 +138064,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -136596,6 +138093,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -136626,6 +138127,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141760,6 +143265,16 @@ export namespace Prisma {
     isNot?: category_faqsWhereInput | null
   }
 
+  export type Package_faqsListRelationFilter = {
+    every?: package_faqsWhereInput
+    some?: package_faqsWhereInput
+    none?: package_faqsWhereInput
+  }
+
+  export type package_faqsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type faqsCountOrderByAggregateInput = {
     id?: SortOrder
     question?: SortOrder
@@ -142639,6 +144154,52 @@ export namespace Prisma {
     item_exclude_id?: SortOrder
   }
 
+  export type FaqsScalarRelationFilter = {
+    is?: faqsWhereInput
+    isNot?: faqsWhereInput
+  }
+
+  export type package_faqsPackage_idFaq_idCompoundUniqueInput = {
+    package_id: bigint | number
+    faq_id: bigint | number
+  }
+
+  export type package_faqsCountOrderByAggregateInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type package_faqsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+  }
+
+  export type package_faqsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type package_faqsMinOrderByAggregateInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type package_faqsSumOrderByAggregateInput = {
+    id?: SortOrder
+    package_id?: SortOrder
+    faq_id?: SortOrder
+  }
+
   export type package_hotel_optionsCountOrderByAggregateInput = {
     id?: SortOrder
     package_id?: SortOrder
@@ -143080,6 +144641,10 @@ export namespace Prisma {
     total_dinner?: SortOrder
     google_merchant_product_id?: SortOrder
     meta_catalogue_id?: SortOrder
+    perfect_for?: SortOrder
+    highlights_bullets?: SortOrder
+    safety_positioning?: SortOrder
+    unique_selling_points?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -143124,6 +144689,7 @@ export namespace Prisma {
     total_dinner?: SortOrder
     google_merchant_product_id?: SortOrder
     meta_catalogue_id?: SortOrder
+    safety_positioning?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -143154,6 +144720,7 @@ export namespace Prisma {
     total_dinner?: SortOrder
     google_merchant_product_id?: SortOrder
     meta_catalogue_id?: SortOrder
+    safety_positioning?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -144193,11 +145760,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
     _max?: NestedEnumdestination_asset_typeFilter<$PrismaModel>
-  }
-
-  export type FaqsScalarRelationFilter = {
-    is?: faqsWhereInput
-    isNot?: faqsWhereInput
   }
 
   export type destination_faqsDestination_idFaq_idCompoundUniqueInput = {
@@ -147923,11 +149485,25 @@ export namespace Prisma {
     connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
   }
 
+  export type package_faqsCreateNestedManyWithoutFaqInput = {
+    create?: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput> | package_faqsCreateWithoutFaqInput[] | package_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutFaqInput | package_faqsCreateOrConnectWithoutFaqInput[]
+    createMany?: package_faqsCreateManyFaqInputEnvelope
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+  }
+
   export type destination_faqsUncheckedCreateNestedManyWithoutFaqInput = {
     create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
     connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
     createMany?: destination_faqsCreateManyFaqInputEnvelope
     connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
+  }
+
+  export type package_faqsUncheckedCreateNestedManyWithoutFaqInput = {
+    create?: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput> | package_faqsCreateWithoutFaqInput[] | package_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutFaqInput | package_faqsCreateOrConnectWithoutFaqInput[]
+    createMany?: package_faqsCreateManyFaqInputEnvelope
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
   }
 
   export type faqsUpdatetagsInput = {
@@ -147959,6 +149535,20 @@ export namespace Prisma {
     deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
   }
 
+  export type package_faqsUpdateManyWithoutFaqNestedInput = {
+    create?: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput> | package_faqsCreateWithoutFaqInput[] | package_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutFaqInput | package_faqsCreateOrConnectWithoutFaqInput[]
+    upsert?: package_faqsUpsertWithWhereUniqueWithoutFaqInput | package_faqsUpsertWithWhereUniqueWithoutFaqInput[]
+    createMany?: package_faqsCreateManyFaqInputEnvelope
+    set?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    disconnect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    delete?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    update?: package_faqsUpdateWithWhereUniqueWithoutFaqInput | package_faqsUpdateWithWhereUniqueWithoutFaqInput[]
+    updateMany?: package_faqsUpdateManyWithWhereWithoutFaqInput | package_faqsUpdateManyWithWhereWithoutFaqInput[]
+    deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
+  }
+
   export type destination_faqsUncheckedUpdateManyWithoutFaqNestedInput = {
     create?: XOR<destination_faqsCreateWithoutFaqInput, destination_faqsUncheckedCreateWithoutFaqInput> | destination_faqsCreateWithoutFaqInput[] | destination_faqsUncheckedCreateWithoutFaqInput[]
     connectOrCreate?: destination_faqsCreateOrConnectWithoutFaqInput | destination_faqsCreateOrConnectWithoutFaqInput[]
@@ -147971,6 +149561,20 @@ export namespace Prisma {
     update?: destination_faqsUpdateWithWhereUniqueWithoutFaqInput | destination_faqsUpdateWithWhereUniqueWithoutFaqInput[]
     updateMany?: destination_faqsUpdateManyWithWhereWithoutFaqInput | destination_faqsUpdateManyWithWhereWithoutFaqInput[]
     deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
+  }
+
+  export type package_faqsUncheckedUpdateManyWithoutFaqNestedInput = {
+    create?: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput> | package_faqsCreateWithoutFaqInput[] | package_faqsUncheckedCreateWithoutFaqInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutFaqInput | package_faqsCreateOrConnectWithoutFaqInput[]
+    upsert?: package_faqsUpsertWithWhereUniqueWithoutFaqInput | package_faqsUpsertWithWhereUniqueWithoutFaqInput[]
+    createMany?: package_faqsCreateManyFaqInputEnvelope
+    set?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    disconnect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    delete?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    update?: package_faqsUpdateWithWhereUniqueWithoutFaqInput | package_faqsUpdateWithWhereUniqueWithoutFaqInput[]
+    updateMany?: package_faqsUpdateManyWithWhereWithoutFaqInput | package_faqsUpdateManyWithWhereWithoutFaqInput[]
+    deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
   }
 
   export type Enumpolicy_document_typeFieldUpdateOperationsInput = {
@@ -148830,6 +150434,34 @@ export namespace Prisma {
     update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutPackage_excludesInput, packagesUpdateWithoutPackage_excludesInput>, packagesUncheckedUpdateWithoutPackage_excludesInput>
   }
 
+  export type packagesCreateNestedOneWithoutPackage_faqsInput = {
+    create?: XOR<packagesCreateWithoutPackage_faqsInput, packagesUncheckedCreateWithoutPackage_faqsInput>
+    connectOrCreate?: packagesCreateOrConnectWithoutPackage_faqsInput
+    connect?: packagesWhereUniqueInput
+  }
+
+  export type faqsCreateNestedOneWithoutPackage_faqsInput = {
+    create?: XOR<faqsCreateWithoutPackage_faqsInput, faqsUncheckedCreateWithoutPackage_faqsInput>
+    connectOrCreate?: faqsCreateOrConnectWithoutPackage_faqsInput
+    connect?: faqsWhereUniqueInput
+  }
+
+  export type packagesUpdateOneRequiredWithoutPackage_faqsNestedInput = {
+    create?: XOR<packagesCreateWithoutPackage_faqsInput, packagesUncheckedCreateWithoutPackage_faqsInput>
+    connectOrCreate?: packagesCreateOrConnectWithoutPackage_faqsInput
+    upsert?: packagesUpsertWithoutPackage_faqsInput
+    connect?: packagesWhereUniqueInput
+    update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutPackage_faqsInput, packagesUpdateWithoutPackage_faqsInput>, packagesUncheckedUpdateWithoutPackage_faqsInput>
+  }
+
+  export type faqsUpdateOneRequiredWithoutPackage_faqsNestedInput = {
+    create?: XOR<faqsCreateWithoutPackage_faqsInput, faqsUncheckedCreateWithoutPackage_faqsInput>
+    connectOrCreate?: faqsCreateOrConnectWithoutPackage_faqsInput
+    upsert?: faqsUpsertWithoutPackage_faqsInput
+    connect?: faqsWhereUniqueInput
+    update?: XOR<XOR<faqsUpdateToOneWithWhereWithoutPackage_faqsInput, faqsUpdateWithoutPackage_faqsInput>, faqsUncheckedUpdateWithoutPackage_faqsInput>
+  }
+
   export type hotelsCreateNestedOneWithoutPackage_hotel_optionsInput = {
     create?: XOR<hotelsCreateWithoutPackage_hotel_optionsInput, hotelsUncheckedCreateWithoutPackage_hotel_optionsInput>
     connectOrCreate?: hotelsCreateOrConnectWithoutPackage_hotel_optionsInput
@@ -149212,6 +150844,18 @@ export namespace Prisma {
     update?: XOR<XOR<price_tiersUpdateToOneWithWhereWithoutPackage_pricesInput, price_tiersUpdateWithoutPackage_pricesInput>, price_tiersUncheckedUpdateWithoutPackage_pricesInput>
   }
 
+  export type packagesCreateperfect_forInput = {
+    set: string[]
+  }
+
+  export type packagesCreatehighlights_bulletsInput = {
+    set: string[]
+  }
+
+  export type packagesCreateunique_selling_pointsInput = {
+    set: string[]
+  }
+
   export type bookingsCreateNestedManyWithoutPackagesInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -149319,6 +150963,13 @@ export namespace Prisma {
     connect?: package_assetsWhereUniqueInput | package_assetsWhereUniqueInput[]
   }
 
+  export type package_faqsCreateNestedManyWithoutPackageInput = {
+    create?: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput> | package_faqsCreateWithoutPackageInput[] | package_faqsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutPackageInput | package_faqsCreateOrConnectWithoutPackageInput[]
+    createMany?: package_faqsCreateManyPackageInputEnvelope
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+  }
+
   export type bookingsUncheckedCreateNestedManyWithoutPackagesInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -149394,6 +151045,28 @@ export namespace Prisma {
     connectOrCreate?: package_assetsCreateOrConnectWithoutPackageInput | package_assetsCreateOrConnectWithoutPackageInput[]
     createMany?: package_assetsCreateManyPackageInputEnvelope
     connect?: package_assetsWhereUniqueInput | package_assetsWhereUniqueInput[]
+  }
+
+  export type package_faqsUncheckedCreateNestedManyWithoutPackageInput = {
+    create?: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput> | package_faqsCreateWithoutPackageInput[] | package_faqsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutPackageInput | package_faqsCreateOrConnectWithoutPackageInput[]
+    createMany?: package_faqsCreateManyPackageInputEnvelope
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+  }
+
+  export type packagesUpdateperfect_forInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatehighlights_bulletsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdateunique_selling_pointsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type bookingsUpdateManyWithoutPackagesNestedInput = {
@@ -149600,6 +151273,20 @@ export namespace Prisma {
     deleteMany?: package_assetsScalarWhereInput | package_assetsScalarWhereInput[]
   }
 
+  export type package_faqsUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput> | package_faqsCreateWithoutPackageInput[] | package_faqsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutPackageInput | package_faqsCreateOrConnectWithoutPackageInput[]
+    upsert?: package_faqsUpsertWithWhereUniqueWithoutPackageInput | package_faqsUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: package_faqsCreateManyPackageInputEnvelope
+    set?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    disconnect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    delete?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    update?: package_faqsUpdateWithWhereUniqueWithoutPackageInput | package_faqsUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: package_faqsUpdateManyWithWhereWithoutPackageInput | package_faqsUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
+  }
+
   export type bookingsUncheckedUpdateManyWithoutPackagesNestedInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -149752,6 +151439,20 @@ export namespace Prisma {
     update?: package_assetsUpdateWithWhereUniqueWithoutPackageInput | package_assetsUpdateWithWhereUniqueWithoutPackageInput[]
     updateMany?: package_assetsUpdateManyWithWhereWithoutPackageInput | package_assetsUpdateManyWithWhereWithoutPackageInput[]
     deleteMany?: package_assetsScalarWhereInput | package_assetsScalarWhereInput[]
+  }
+
+  export type package_faqsUncheckedUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput> | package_faqsCreateWithoutPackageInput[] | package_faqsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: package_faqsCreateOrConnectWithoutPackageInput | package_faqsCreateOrConnectWithoutPackageInput[]
+    upsert?: package_faqsUpsertWithWhereUniqueWithoutPackageInput | package_faqsUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: package_faqsCreateManyPackageInputEnvelope
+    set?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    disconnect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    delete?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+    update?: package_faqsUpdateWithWhereUniqueWithoutPackageInput | package_faqsUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: package_faqsUpdateManyWithWhereWithoutPackageInput | package_faqsUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
   }
 
   export type booking_payment_termsCreateNestedManyWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -160210,6 +161911,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -160230,6 +161935,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutBookingsInput = {
@@ -160255,6 +161961,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -160270,6 +161980,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutBookingsInput = {
@@ -161025,6 +162736,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -161045,6 +162760,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutBookingsInput = {
@@ -161070,6 +162786,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -161085,6 +162805,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type crew_member_reviewsUpsertWithWhereUniqueWithoutBookingsInput = {
@@ -161270,6 +162991,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -161290,6 +163015,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutCombined_package_detailsInput = {
@@ -161315,6 +163041,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -161330,6 +163060,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutCombined_package_detailsInput = {
@@ -161399,6 +163130,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -161419,6 +163154,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutCombined_package_detailsInput = {
@@ -161444,6 +163180,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -161459,6 +163199,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type combined_package_detailsCreateWithoutCombined_packagesInput = {
@@ -163435,6 +165176,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -163455,6 +165200,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutEnd_destinationInput = {
@@ -163479,6 +165225,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -163495,6 +165245,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutEnd_destinationInput = {
@@ -163525,6 +165276,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -163545,6 +165300,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutStart_destinationInput = {
@@ -163569,6 +165325,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -163585,6 +165345,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutStart_destinationInput = {
@@ -163918,6 +165679,10 @@ export namespace Prisma {
     total_dinner?: IntNullableFilter<"packages"> | number | null
     google_merchant_product_id?: StringNullableFilter<"packages"> | string | null
     meta_catalogue_id?: StringNullableFilter<"packages"> | string | null
+    perfect_for?: StringNullableListFilter<"packages">
+    highlights_bullets?: StringNullableListFilter<"packages">
+    safety_positioning?: StringNullableFilter<"packages"> | string | null
+    unique_selling_points?: StringNullableListFilter<"packages">
     created_at?: DateTimeFilter<"packages"> | Date | string
     updated_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
@@ -164336,6 +166101,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -164356,6 +166125,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutDurationsInput = {
@@ -164380,6 +166150,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -164396,6 +166170,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutDurationsInput = {
@@ -164450,6 +166225,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     destination_faqs?: destination_faqsCreateNestedManyWithoutFaqInput
+    package_faqs?: package_faqsCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUncheckedCreateWithoutCategoryInput = {
@@ -164462,6 +166238,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutFaqInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutFaqInput
   }
 
   export type faqsCreateOrConnectWithoutCategoryInput = {
@@ -164554,6 +166331,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type package_faqsCreateWithoutFaqInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    package: packagesCreateNestedOneWithoutPackage_faqsInput
+  }
+
+  export type package_faqsUncheckedCreateWithoutFaqInput = {
+    id?: bigint | number
+    package_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type package_faqsCreateOrConnectWithoutFaqInput = {
+    where: package_faqsWhereUniqueInput
+    create: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput>
+  }
+
+  export type package_faqsCreateManyFaqInputEnvelope = {
+    data: package_faqsCreateManyFaqInput | package_faqsCreateManyFaqInput[]
+    skipDuplicates?: boolean
+  }
+
   export type category_faqsUpsertWithoutFaqsInput = {
     update: XOR<category_faqsUpdateWithoutFaqsInput, category_faqsUncheckedUpdateWithoutFaqsInput>
     create: XOR<category_faqsCreateWithoutFaqsInput, category_faqsUncheckedCreateWithoutFaqsInput>
@@ -164599,6 +166400,33 @@ export namespace Prisma {
   export type destination_faqsUpdateManyWithWhereWithoutFaqInput = {
     where: destination_faqsScalarWhereInput
     data: XOR<destination_faqsUpdateManyMutationInput, destination_faqsUncheckedUpdateManyWithoutFaqInput>
+  }
+
+  export type package_faqsUpsertWithWhereUniqueWithoutFaqInput = {
+    where: package_faqsWhereUniqueInput
+    update: XOR<package_faqsUpdateWithoutFaqInput, package_faqsUncheckedUpdateWithoutFaqInput>
+    create: XOR<package_faqsCreateWithoutFaqInput, package_faqsUncheckedCreateWithoutFaqInput>
+  }
+
+  export type package_faqsUpdateWithWhereUniqueWithoutFaqInput = {
+    where: package_faqsWhereUniqueInput
+    data: XOR<package_faqsUpdateWithoutFaqInput, package_faqsUncheckedUpdateWithoutFaqInput>
+  }
+
+  export type package_faqsUpdateManyWithWhereWithoutFaqInput = {
+    where: package_faqsScalarWhereInput
+    data: XOR<package_faqsUpdateManyMutationInput, package_faqsUncheckedUpdateManyWithoutFaqInput>
+  }
+
+  export type package_faqsScalarWhereInput = {
+    AND?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
+    OR?: package_faqsScalarWhereInput[]
+    NOT?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
+    id?: BigIntFilter<"package_faqs"> | bigint | number
+    package_id?: BigIntFilter<"package_faqs"> | bigint | number
+    faq_id?: BigIntFilter<"package_faqs"> | bigint | number
+    created_at?: DateTimeFilter<"package_faqs"> | Date | string
+    updated_at?: DateTimeFilter<"package_faqs"> | Date | string
   }
 
   export type bookingsCreateWithoutFeedbackInput = {
@@ -165822,6 +167650,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -165842,6 +167674,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutOrder_channelsInput = {
@@ -165866,6 +167699,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -165882,6 +167719,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutOrder_channelsInput = {
@@ -166196,6 +168034,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166216,6 +168058,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_addonsInput = {
@@ -166241,6 +168084,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166256,6 +168103,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_addonsInput = {
@@ -166331,6 +168179,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166351,6 +168203,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_addonsInput = {
@@ -166376,6 +168229,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166391,6 +168248,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateWithoutPackage_assetsInput = {
@@ -166411,6 +168269,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166431,6 +168293,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_assetsInput = {
@@ -166456,6 +168319,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166471,6 +168338,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_assetsInput = {
@@ -166550,6 +168418,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166570,6 +168442,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_assetsInput = {
@@ -166595,6 +168468,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -166610,6 +168487,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type assetsUpsertWithoutPackage_assetsInput = {
@@ -166679,6 +168557,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166699,6 +168581,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_categoriesInput = {
@@ -166723,6 +168606,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166739,6 +168626,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_categoriesInput = {
@@ -166924,6 +168812,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166944,6 +168836,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_destinationsInput = {
@@ -166969,6 +168862,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -166984,6 +168881,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_destinationsInput = {
@@ -167165,6 +169063,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167185,6 +169087,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -167210,6 +169113,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167225,6 +169132,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type item_excludesCreateWithoutPackage_excludesInput = {
@@ -167266,6 +169174,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167286,6 +169198,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_excludesInput = {
@@ -167311,6 +169224,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167326,6 +169243,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_excludesInput = {
@@ -167389,6 +169307,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167409,6 +169331,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_excludesInput = {
@@ -167434,6 +169357,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167449,6 +169376,271 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type packagesCreateWithoutPackage_faqsInput = {
+    id?: bigint | number
+    uuid?: string | null
+    code?: string | null
+    slug?: string | null
+    name: string
+    description?: string | null
+    short_label?: string | null
+    key_highlights?: string | null
+    ideal_arrival?: string | null
+    physicality?: string | null
+    suitable_for?: string | null
+    is_publish?: boolean | null
+    total_breakfast?: number | null
+    total_lunch?: number | null
+    total_dinner?: number | null
+    google_merchant_product_id?: string | null
+    meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: number | null
+    bookings?: bookingsCreateNestedManyWithoutPackagesInput
+    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
+    package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
+    package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
+    package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
+    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
+    package_includes?: package_includesCreateNestedManyWithoutPackagesInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
+    package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
+    durations?: durationsCreateNestedOneWithoutPackagesInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
+    package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+  }
+
+  export type packagesUncheckedCreateWithoutPackage_faqsInput = {
+    id?: bigint | number
+    uuid?: string | null
+    code?: string | null
+    slug?: string | null
+    name: string
+    description?: string | null
+    short_label?: string | null
+    duration_id?: bigint | number | null
+    order_channel_id?: bigint | number | null
+    package_category_id?: bigint | number | null
+    start_destination_id?: bigint | number | null
+    end_destination_id?: bigint | number | null
+    key_highlights?: string | null
+    ideal_arrival?: string | null
+    physicality?: string | null
+    suitable_for?: string | null
+    is_publish?: boolean | null
+    total_breakfast?: number | null
+    total_lunch?: number | null
+    total_dinner?: number | null
+    google_merchant_product_id?: string | null
+    meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: number | null
+    bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
+    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
+    package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
+    package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
+    package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
+    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
+    package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
+    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
+    package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
+    package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type packagesCreateOrConnectWithoutPackage_faqsInput = {
+    where: packagesWhereUniqueInput
+    create: XOR<packagesCreateWithoutPackage_faqsInput, packagesUncheckedCreateWithoutPackage_faqsInput>
+  }
+
+  export type faqsCreateWithoutPackage_faqsInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    category?: category_faqsCreateNestedOneWithoutFaqsInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutFaqInput
+  }
+
+  export type faqsUncheckedCreateWithoutPackage_faqsInput = {
+    id?: bigint | number
+    question: string
+    answer: string
+    tags?: faqsCreatetagsInput | string[]
+    is_published?: boolean
+    sort_order?: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    category_id?: bigint | number | null
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutFaqInput
+  }
+
+  export type faqsCreateOrConnectWithoutPackage_faqsInput = {
+    where: faqsWhereUniqueInput
+    create: XOR<faqsCreateWithoutPackage_faqsInput, faqsUncheckedCreateWithoutPackage_faqsInput>
+  }
+
+  export type packagesUpsertWithoutPackage_faqsInput = {
+    update: XOR<packagesUpdateWithoutPackage_faqsInput, packagesUncheckedUpdateWithoutPackage_faqsInput>
+    create: XOR<packagesCreateWithoutPackage_faqsInput, packagesUncheckedCreateWithoutPackage_faqsInput>
+    where?: packagesWhereInput
+  }
+
+  export type packagesUpdateToOneWithWhereWithoutPackage_faqsInput = {
+    where?: packagesWhereInput
+    data: XOR<packagesUpdateWithoutPackage_faqsInput, packagesUncheckedUpdateWithoutPackage_faqsInput>
+  }
+
+  export type packagesUpdateWithoutPackage_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    uuid?: NullableStringFieldUpdateOperationsInput | string | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    short_label?: NullableStringFieldUpdateOperationsInput | string | null
+    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
+    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
+    physicality?: NullableStringFieldUpdateOperationsInput | string | null
+    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
+    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
+    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
+    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
+    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
+    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    bookings?: bookingsUpdateManyWithoutPackagesNestedInput
+    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
+    package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
+    package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
+    package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
+    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
+    package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
+    package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
+    durations?: durationsUpdateOneWithoutPackagesNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
+    package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+  }
+
+  export type packagesUncheckedUpdateWithoutPackage_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    uuid?: NullableStringFieldUpdateOperationsInput | string | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    short_label?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    order_channel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    start_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    end_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
+    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
+    physicality?: NullableStringFieldUpdateOperationsInput | string | null
+    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
+    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
+    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
+    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
+    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
+    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
+    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
+    package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type faqsUpsertWithoutPackage_faqsInput = {
+    update: XOR<faqsUpdateWithoutPackage_faqsInput, faqsUncheckedUpdateWithoutPackage_faqsInput>
+    create: XOR<faqsCreateWithoutPackage_faqsInput, faqsUncheckedCreateWithoutPackage_faqsInput>
+    where?: faqsWhereInput
+  }
+
+  export type faqsUpdateToOneWithWhereWithoutPackage_faqsInput = {
+    where?: faqsWhereInput
+    data: XOR<faqsUpdateWithoutPackage_faqsInput, faqsUncheckedUpdateWithoutPackage_faqsInput>
+  }
+
+  export type faqsUpdateWithoutPackage_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: category_faqsUpdateOneWithoutFaqsNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutFaqNestedInput
+  }
+
+  export type faqsUncheckedUpdateWithoutPackage_faqsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    tags?: faqsUpdatetagsInput | string[]
+    is_published?: BoolFieldUpdateOperationsInput | boolean
+    sort_order?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type hotelsCreateWithoutPackage_hotel_optionsInput = {
@@ -167530,6 +169722,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167550,6 +169746,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_hotel_optionsInput = {
@@ -167575,6 +169772,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167590,6 +169791,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_hotel_optionsInput = {
@@ -167693,6 +169895,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167713,6 +169919,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_hotel_optionsInput = {
@@ -167738,6 +169945,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167753,6 +169964,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateWithoutPackage_imagesInput = {
@@ -167773,6 +169985,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167793,6 +170009,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_imagesInput = {
@@ -167818,6 +170035,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167833,6 +170054,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_imagesInput = {
@@ -167869,6 +170091,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167889,6 +170115,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_imagesInput = {
@@ -167914,6 +170141,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167929,6 +170160,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type item_includesCreateWithoutPackage_includesInput = {
@@ -167970,6 +170202,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167990,6 +170226,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_includesInput = {
@@ -168015,6 +170252,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -168030,6 +170271,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_includesInput = {
@@ -168093,6 +170335,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -168113,6 +170359,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_includesInput = {
@@ -168138,6 +170385,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -168153,6 +170404,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type package_itinerary_day_detailsCreateWithoutLocations_fromInput = {
@@ -168672,6 +170924,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -168692,6 +170948,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_itinerary_daysInput = {
@@ -168717,6 +170974,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -168732,6 +170993,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_itinerary_daysInput = {
@@ -168972,6 +171234,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -168992,6 +171258,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_itinerary_daysInput = {
@@ -169017,6 +171284,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -169032,6 +171303,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type routesUpsertWithoutPackage_itinerary_daysInput = {
@@ -169101,6 +171373,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -169121,6 +171397,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_pricesInput = {
@@ -169146,6 +171423,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -169161,6 +171442,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_pricesInput = {
@@ -169224,6 +171506,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -169244,6 +171530,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_pricesInput = {
@@ -169269,6 +171556,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -169284,6 +171575,7 @@ export namespace Prisma {
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type price_tiersUpsertWithoutPackage_pricesInput = {
@@ -170092,6 +172384,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type package_faqsCreateWithoutPackageInput = {
+    id?: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+    faq: faqsCreateNestedOneWithoutPackage_faqsInput
+  }
+
+  export type package_faqsUncheckedCreateWithoutPackageInput = {
+    id?: bigint | number
+    faq_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type package_faqsCreateOrConnectWithoutPackageInput = {
+    where: package_faqsWhereUniqueInput
+    create: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput>
+  }
+
+  export type package_faqsCreateManyPackageInputEnvelope = {
+    data: package_faqsCreateManyPackageInput | package_faqsCreateManyPackageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type bookingsUpsertWithWhereUniqueWithoutPackagesInput = {
     where: bookingsWhereUniqueInput
     update: XOR<bookingsUpdateWithoutPackagesInput, bookingsUncheckedUpdateWithoutPackagesInput>
@@ -170703,6 +173019,22 @@ export namespace Prisma {
     is_primary?: BoolFilter<"package_assets"> | boolean
     created_at?: DateTimeFilter<"package_assets"> | Date | string
     updated_at?: DateTimeFilter<"package_assets"> | Date | string
+  }
+
+  export type package_faqsUpsertWithWhereUniqueWithoutPackageInput = {
+    where: package_faqsWhereUniqueInput
+    update: XOR<package_faqsUpdateWithoutPackageInput, package_faqsUncheckedUpdateWithoutPackageInput>
+    create: XOR<package_faqsCreateWithoutPackageInput, package_faqsUncheckedCreateWithoutPackageInput>
+  }
+
+  export type package_faqsUpdateWithWhereUniqueWithoutPackageInput = {
+    where: package_faqsWhereUniqueInput
+    data: XOR<package_faqsUpdateWithoutPackageInput, package_faqsUncheckedUpdateWithoutPackageInput>
+  }
+
+  export type package_faqsUpdateManyWithWhereWithoutPackageInput = {
+    where: package_faqsScalarWhereInput
+    data: XOR<package_faqsUpdateManyMutationInput, package_faqsUncheckedUpdateManyWithoutPackageInput>
   }
 
   export type booking_payment_termsCreateWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -173822,6 +176154,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     category?: category_faqsCreateNestedOneWithoutFaqsInput
+    package_faqs?: package_faqsCreateNestedManyWithoutFaqInput
   }
 
   export type faqsUncheckedCreateWithoutDestination_faqsInput = {
@@ -173834,6 +176167,7 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     category_id?: bigint | number | null
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutFaqInput
   }
 
   export type faqsCreateOrConnectWithoutDestination_faqsInput = {
@@ -174007,6 +176341,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category?: category_faqsUpdateOneWithoutFaqsNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateWithoutDestination_faqsInput = {
@@ -174019,6 +176354,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type package_itinerary_day_detailsCreateManyActivitiesInput = {
@@ -176578,6 +178914,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176607,6 +178947,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176972,6 +179316,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176992,6 +179340,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutEnd_destinationInput = {
@@ -177016,6 +179365,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177032,6 +179385,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutEnd_destinationInput = {
@@ -177056,6 +179410,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177081,6 +179439,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177101,6 +179463,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutStart_destinationInput = {
@@ -177125,6 +179488,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177141,6 +179508,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutStart_destinationInput = {
@@ -177165,6 +179533,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177428,6 +179800,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -177582,6 +179958,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177602,6 +179982,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutDurationsInput = {
@@ -177626,6 +180007,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177642,6 +180027,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutDurationsInput = {
@@ -177666,6 +180052,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177694,6 +180084,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     destination_faqs?: destination_faqsUpdateManyWithoutFaqNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateWithoutCategoryInput = {
@@ -177706,6 +180097,7 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutFaqNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
   export type faqsUncheckedUpdateManyWithoutCategoryInput = {
@@ -177724,6 +180116,13 @@ export namespace Prisma {
     destination_id: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type package_faqsCreateManyFaqInput = {
+    id?: bigint | number
+    package_id: bigint | number
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type destination_faqsUpdateWithoutFaqInput = {
@@ -177745,6 +180144,27 @@ export namespace Prisma {
     destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsUpdateWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    package?: packagesUpdateOneRequiredWithoutPackage_faqsNestedInput
+  }
+
+  export type package_faqsUncheckedUpdateWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    package_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsUncheckedUpdateManyWithoutFaqInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    package_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type booking_destination_schedulesCreateManyHotelsInput = {
@@ -178257,6 +180677,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178490,6 +180914,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178510,6 +180938,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutOrder_channelsInput = {
@@ -178534,6 +180963,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178550,6 +180983,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutOrder_channelsInput = {
@@ -178574,6 +181008,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178685,6 +181123,10 @@ export namespace Prisma {
     total_dinner?: number | null
     google_merchant_product_id?: string | null
     meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
     created_at?: Date | string
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178710,6 +181152,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178730,6 +181176,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_categoriesInput = {
@@ -178754,6 +181201,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178770,6 +181221,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutPackage_categoriesInput = {
@@ -178794,6 +181246,10 @@ export namespace Prisma {
     total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
     google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
     meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179081,6 +181537,13 @@ export namespace Prisma {
     id?: bigint | number
     asset_id: bigint | number
     is_primary?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type package_faqsCreateManyPackageInput = {
+    id?: bigint | number
+    faq_id: bigint | number
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -179509,6 +181972,27 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     asset_id?: BigIntFieldUpdateOperationsInput | bigint | number
     is_primary?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsUpdateWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    faq?: faqsUpdateOneRequiredWithoutPackage_faqsNestedInput
+  }
+
+  export type package_faqsUncheckedUpdateWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type package_faqsUncheckedUpdateManyWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
