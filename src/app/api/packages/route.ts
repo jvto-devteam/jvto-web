@@ -133,6 +133,31 @@ export async function POST(req: NextRequest) {
         ? body.physicality.trim()
         : null;
 
+    // --- NEW: marketing fields ---
+    const perfect_for: string[] = Array.isArray(body.perfect_for)
+      ? body.perfect_for.map((v: any) => String(v).trim()).filter(Boolean)
+      : [];
+
+    const highlights_bullets: string[] = Array.isArray(body.highlights_bullets)
+      ? body.highlights_bullets
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
+    const safety_positioning: string | null =
+      typeof body.safety_positioning === "string" &&
+      body.safety_positioning.trim()
+        ? body.safety_positioning.trim()
+        : null;
+
+    const unique_selling_points: string[] = Array.isArray(
+      body.unique_selling_points
+    )
+      ? body.unique_selling_points
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
     const includesRaw = Array.isArray(body.includes) ? body.includes : [];
     const excludesRaw = Array.isArray(body.excludes) ? body.excludes : [];
 
@@ -149,6 +174,13 @@ export async function POST(req: NextRequest) {
     const addonsRaw = Array.isArray(body.addons) ? body.addons : [];
 
     const addonIds = addonsRaw
+      .map((v: any) => Number(v))
+      .filter((id) => Number.isInteger(id) && id > 0)
+      .map((id) => BigInt(id));
+
+    const faqsRaw = Array.isArray(body.faqs) ? body.faqs : [];
+
+    const faqIds = faqsRaw
       .map((v: any) => Number(v))
       .filter((id) => Number.isInteger(id) && id > 0)
       .map((id) => BigInt(id));
@@ -327,7 +359,10 @@ export async function POST(req: NextRequest) {
         description,
         physicality,
         is_publish: true,
-
+        perfect_for,
+        highlights_bullets,
+        safety_positioning,
+        unique_selling_points,
         // Nested create ke package_prices
         package_prices: {
           create: priceTiersInput.map((pt) => ({
@@ -378,6 +413,11 @@ export async function POST(req: NextRequest) {
             sort_order: d.sort_order,
           })),
         },
+        package_faqs: {
+          create: faqIds.map((faqId) => ({
+            faq_id: faqId,
+          })),
+        },
       },
       include: {
         package_prices: true,
@@ -401,6 +441,10 @@ export async function POST(req: NextRequest) {
         description: created.description,
         physicality: created.physicality,
         is_publish: created.is_publish ?? true,
+        perfect_for: created.perfect_for ?? [],
+        highlights_bullets: created.highlights_bullets ?? [],
+        safety_positioning: created.safety_positioning,
+        unique_selling_points: created.unique_selling_points ?? [],
         created_at: created.created_at,
         updated_at: created.updated_at,
         package_prices: created.package_prices.map((p) => ({
@@ -466,6 +510,31 @@ export async function PUT(
         ? body.physicality.trim()
         : null;
 
+    // --- NEW: marketing fields ---
+    const perfect_for: string[] = Array.isArray(body.perfect_for)
+      ? body.perfect_for.map((v: any) => String(v).trim()).filter(Boolean)
+      : [];
+
+    const highlights_bullets: string[] = Array.isArray(body.highlights_bullets)
+      ? body.highlights_bullets
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
+    const safety_positioning: string | null =
+      typeof body.safety_positioning === "string" &&
+      body.safety_positioning.trim()
+        ? body.safety_positioning.trim()
+        : null;
+
+    const unique_selling_points: string[] = Array.isArray(
+      body.unique_selling_points
+    )
+      ? body.unique_selling_points
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
     const includesRaw = Array.isArray(body.includes) ? body.includes : [];
     const excludesRaw = Array.isArray(body.excludes) ? body.excludes : [];
 
@@ -482,6 +551,12 @@ export async function PUT(
     const addonsRaw = Array.isArray(body.addons) ? body.addons : [];
 
     const addonIds = addonsRaw
+      .map((v: any) => Number(v))
+      .filter((id) => Number.isInteger(id) && id > 0)
+      .map((id) => BigInt(id));
+    const faqsRaw = Array.isArray(body.faqs) ? body.faqs : [];
+
+    const faqIds = faqsRaw
       .map((v: any) => Number(v))
       .filter((id) => Number.isInteger(id) && id > 0)
       .map((id) => BigInt(id));
@@ -663,6 +738,10 @@ export async function PUT(
         physicality,
         // [Inference] kalau mau tetap auto publish:
         is_publish: body.is_publish === false ? false : true,
+        perfect_for,
+        highlights_bullets,
+        safety_positioning,
+        unique_selling_points,
 
         package_prices: {
           deleteMany: {},
@@ -718,6 +797,12 @@ export async function PUT(
             sort_order: d.sort_order,
           })),
         },
+        package_faqs: {
+          deleteMany: {},
+          create: faqIds.map((faqId) => ({
+            faq_id: faqId,
+          })),
+        },
       },
       include: {
         package_prices: true,
@@ -740,6 +825,10 @@ export async function PUT(
         duration_id: updated.duration_id ? Number(updated.duration_id) : null,
         description: updated.description,
         physicality: updated.physicality,
+        perfect_for: updated.perfect_for ?? [],
+        highlights_bullets: updated.highlights_bullets ?? [],
+        safety_positioning: updated.safety_positioning,
+        unique_selling_points: updated.unique_selling_points ?? [],
         is_publish: updated.is_publish ?? true,
         created_at: updated.created_at,
         updated_at: updated.updated_at,

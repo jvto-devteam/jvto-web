@@ -958,6 +958,14 @@ exports.Prisma.Package_excludesScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.Package_faqsScalarFieldEnum = {
+  id: 'id',
+  package_id: 'package_id',
+  faq_id: 'faq_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.Package_hotel_optionsScalarFieldEnum = {
   id: 'id',
   package_id: 'package_id',
@@ -1063,6 +1071,10 @@ exports.Prisma.PackagesScalarFieldEnum = {
   total_dinner: 'total_dinner',
   google_merchant_product_id: 'google_merchant_product_id',
   meta_catalogue_id: 'meta_catalogue_id',
+  perfect_for: 'perfect_for',
+  highlights_bullets: 'highlights_bullets',
+  safety_positioning: 'safety_positioning',
+  unique_selling_points: 'unique_selling_points',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -1405,6 +1417,7 @@ exports.Prisma.ModelName = {
   package_categories: 'package_categories',
   package_destinations: 'package_destinations',
   package_excludes: 'package_excludes',
+  package_faqs: 'package_faqs',
   package_hotel_options: 'package_hotel_options',
   package_images: 'package_images',
   package_includes: 'package_includes',

@@ -11,6 +11,7 @@ import {
   Plus
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 
 type DestinationLite = {
@@ -38,6 +39,7 @@ type PackageRow = {
 type TabKey = "surabaya" | "bali";
 
 export default function CmsPackagesPage() {
+  const router = useRouter()
   const [packages, setPackages] = useState<PackageRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -102,8 +104,7 @@ export default function CmsPackagesPage() {
   };
 
   const handleEdit = (id: number) => {
-    console.log("edit package", id);
-    // router.push(`/cms/packages/${id}/edit`);
+    router.push(`/cms/tour-packages/${id}/edit`);
   };
 
   const handleDelete = async (id: number) => {
