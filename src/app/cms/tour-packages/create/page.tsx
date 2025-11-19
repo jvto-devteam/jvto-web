@@ -761,25 +761,25 @@ export default function CmsPackageCreatePage() {
       }
     }
 
-    if (targetStep >= 3) {
+    if (targetStep >= 4) {
       if (!form.start_destination_id || !form.end_destination_id) {
         setError("Please select both departure and end city.");
-        setStep(2);
+        setStep(3);
         return false;
       }
       if (!form.duration_id) {
         setError("Please select duration.");
-        setStep(2);
+        setStep(3);
         return false;
       }
     }
 
-    if (targetStep >= 4) {
+    if (targetStep >= 5) {
       if (cleanPriceTiers.length === 0) {
         setError(
           "At least one price tier with price > 0 is required before continuing."
         );
-        setStep(3);
+        setStep(4);
         return false;
       }
     }

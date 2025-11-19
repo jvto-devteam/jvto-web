@@ -1148,7 +1148,7 @@ function AssetsPageContent() {
       <div className="grid grid-cols-[260px,minmax(0,1fr)] gap-4">
         {/* LEFT: Folder Tree */}
         <div className="border border-slate-800/80 bg-slate-950/80 rounded-xl p-3 flex flex-col gap-2">
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center justify-between">
             <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
               Folder Structure
             </div>
@@ -1162,7 +1162,7 @@ function AssetsPageContent() {
           </div>
 
           <div className="text-[10px] text-slate-500 mb-1">
-            Klik folder untuk melihat aset. Tours &amp; Legal cukup jadi folder.
+            Klik folder untuk melihat aset.
           </div>
 
           {loadingFolders ? (
@@ -1548,7 +1548,7 @@ function FolderTree({
   const rootFolders = folders.filter((f) => f.parentId === null);
 
   return (
-    <div className="text-[11px] text-slate-300 space-y-1">
+    <div className="text-[11px] text-slate-300 space-y-1 max-h-[400px] overflow-y-auto">
       {rootFolders.map((folder) => (
         <FolderNode
           key={folder.id}

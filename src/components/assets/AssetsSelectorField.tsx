@@ -661,7 +661,7 @@ function AssetsPickerInternal({
                 Belum ada folder.
               </div>
             ) : (
-              <div className="mt-1 overflow-auto text-[11px] text-slate-300">
+              <div className="mt-1 overflow-y-auto max-h-[300px] text-[11px] text-slate-300">
                 {folders
                   .filter((f) => f.parentId === null)
                   .map((folder) => (
