@@ -362,7 +362,7 @@ export async function PUT(
       )
     );
 
-    let packageDestinationsInput: {
+    const packageDestinationsInput: {
       destination_id: bigint;
       sort_order: number;
     }[] = [];
