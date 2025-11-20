@@ -121,7 +121,7 @@ function serializePackageDetail(pkg: any) {
 // GET /api/packages/[id]
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const idNum = Number(params.id);
@@ -166,7 +166,7 @@ export async function GET(
 // PUT /api/packages/[id]
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const idNum = Number(params.id);
