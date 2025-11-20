@@ -2,6 +2,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// src/app/api/destinations/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
+
 type DestinationPayload = {
   code?: string | null;
   name: string;
@@ -10,24 +15,33 @@ type DestinationPayload = {
   weather_by_season?: string | null;
   rainfall_intensity?: string | null;
   trail_details?: string | null;
-  required_gear?: string | null;
+
+  // JSON FIELDS – TIDAK NULL
+  required_gear?: Prisma.InputJsonValue;
+  main_attractions?: Prisma.InputJsonValue;
+  environmental_factors?: Prisma.InputJsonValue;
+  facilities?: Prisma.InputJsonValue;
+  safety_notes?: Prisma.InputJsonValue;
+  risk_factors?: Prisma.InputJsonValue;
+  emergency_contacts?: Prisma.InputJsonValue;
+  rituals_festivals?: Prisma.InputJsonValue;
+  types?: Prisma.InputJsonValue; // kamu isi string[] → valid JsonArray
+  key_highlights?: Prisma.InputJsonValue; // string[] → JsonArray
+  safety_advisory?: Prisma.InputJsonValue; // string[] → JsonArray
+
   difficulty_level?: string | null;
-  environmental_factors?: string | null;
   physical_requirements?: string | null;
-  main_attractions?: string | null;
+  main_attractions?: Prisma.InputJsonValue;
   best_time_to_visit?: string | null;
   tips_for_visitors?: string | null;
   slug?: string | null;
   highlight?: string | null;
 
-  types?: string[]; // normalized
   lat?: number | null;
   long?: number | null;
   elevation_m?: number | null;
-  key_highlights?: string[];
   temperature_range?: string | null;
   terrain?: string | null;
-  safety_advisory?: string[];
 };
 
 function slugify(input: string) {
@@ -40,9 +54,7 @@ function slugify(input: string) {
 
 function normalizeStringArray(input: unknown): string[] {
   if (Array.isArray(input)) {
-    return input
-      .map((v) => String(v).trim())
-      .filter((v) => v.length > 0);
+    return input.map((v) => String(v).trim()).filter((v) => v.length > 0);
   }
   if (typeof input === "string") {
     return input
@@ -57,8 +69,14 @@ function serializeDestination(d: any) {
   return {
     ...d,
     id: Number(d.id),
-    lat: typeof d.lat === "number" ? d.lat : d.lat == null ? null : Number(d.lat),
-    long: typeof d.long === "number" ? d.long : d.long == null ? null : Number(d.long),
+    lat:
+      typeof d.lat === "number" ? d.lat : d.lat == null ? null : Number(d.lat),
+    long:
+      typeof d.long === "number"
+        ? d.long
+        : d.long == null
+        ? null
+        : Number(d.long),
     elevation_m:
       typeof d.elevation_m === "number"
         ? d.elevation_m
@@ -97,16 +115,12 @@ export async function GET(req: NextRequest) {
 
     const destinations = await prisma.destinations.findMany({
       where,
-      orderBy: [
-        { name: "asc" },
-        { id: "asc" },
-      ],
+      orderBy: [{ name: "asc" }, { id: "asc" }],
     });
 
-    return NextResponse.json(
-      destinations.map(serializeDestination),
-      { status: 200 }
-    );
+    return NextResponse.json(destinations.map(serializeDestination), {
+      status: 200,
+    });
   } catch (error) {
     console.error("GET /api/destinations error:", error);
     return NextResponse.json(
@@ -148,7 +162,8 @@ export async function POST(req: NextRequest) {
       code,
       name,
       thumbnail_url,
-      description: typeof body.description === "string" ? body.description : null,
+      description:
+        typeof body.description === "string" ? body.description : null,
       weather_by_season:
         typeof body.weather_by_season === "string"
           ? body.weather_by_season
@@ -159,39 +174,49 @@ export async function POST(req: NextRequest) {
           : null,
       trail_details:
         typeof body.trail_details === "string" ? body.trail_details : null,
+
+      // JSON – pakai undefined, bukan null
       required_gear:
-        typeof body.required_gear === "string" ? body.required_gear : null,
+        typeof body.required_gear === "string" ? body.required_gear : undefined,
+
+      environmental_factors:
+        typeof body.environmental_factors === "string"
+          ? body.environmental_factors
+          : undefined,
+
+      main_attractions:
+        typeof body.main_attractions === "string"
+          ? body.main_attractions
+          : undefined,
+
       difficulty_level:
         typeof body.difficulty_level === "string"
           ? body.difficulty_level
           : null,
-      environmental_factors:
-        typeof body.environmental_factors === "string"
-          ? body.environmental_factors
-          : null,
+
       physical_requirements:
         typeof body.physical_requirements === "string"
           ? body.physical_requirements
           : null,
-      main_attractions:
-        typeof body.main_attractions === "string"
-          ? body.main_attractions
-          : null,
+
       best_time_to_visit:
         typeof body.best_time_to_visit === "string"
           ? body.best_time_to_visit
           : null,
+
       tips_for_visitors:
         typeof body.tips_for_visitors === "string"
           ? body.tips_for_visitors
           : null,
-      slug: slugInput,
-      highlight:
-        typeof body.highlight === "string" ? body.highlight : null,
 
+      slug: slugInput,
+      highlight: typeof body.highlight === "string" ? body.highlight : null,
+
+      // ini JSON juga tapi kamu mau normalize ke array string → aman
       types: normalizeStringArray(body.types),
       key_highlights: normalizeStringArray(body.key_highlights),
       safety_advisory: normalizeStringArray(body.safety_advisory),
+
       temperature_range:
         typeof body.temperature_range === "string"
           ? body.temperature_range
