@@ -112,8 +112,8 @@ const navItems: NavItem[] = [
       },
       // 2.7 insightPosts
       {
-        href: "/cms/collections/insights",
-        label: "Insights (Blog)",
+        href: "/cms/blog",
+        label: "Blog / Insight Posts",
         icon: Newspaper,
       },
       // 2.8 isicOfferings / studentDeals

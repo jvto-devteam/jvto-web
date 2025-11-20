@@ -554,7 +554,7 @@ export default function PolicyDocumentsPage() {
                           {p.title}
                         </div>
                         <div className="text-[11px] text-slate-500 truncate max-w-xs">
-                          /policy/{p.slug}
+                          /{p.slug}
                         </div>
                       </td>
                       <td className="px-3 py-2 align-top text-slate-300">
@@ -746,7 +746,7 @@ export default function PolicyDocumentsPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 text-xs text-slate-200">
                   <input
                     type="checkbox"
@@ -928,7 +928,7 @@ export default function PolicyDocumentsPage() {
                     benar-benar ter-upload dan punya URL permanen.
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               <div className="pt-3 flex justify-between items-center gap-3">
                 <button
