@@ -11,28 +11,28 @@ function serializePackageDetail(pkg: any) {
     .map((pi: any) =>
       pi.item_include_id != null ? Number(pi.item_include_id) : null
     )
-    .filter((id: number | null) => id != null);
+    .filter((id: number | null): id is number => id != null);
 
   const excludeIds = (pkg.package_excludes || [])
     .map((pe: any) =>
       pe.item_exclude_id != null ? Number(pe.item_exclude_id) : null
     )
-    .filter((id: number | null) => id != null);
+    .filter((id: number | null): id is number => id != null);
 
   const addonIds = (pkg.package_addons || [])
     .map((pa: any) => (pa.addon_id != null ? Number(pa.addon_id) : null))
-    .filter((id: number | null) => id != null);
+    .filter((id: number | null): id is number => id != null);
 
   const assetIds = (pkg.package_assets || [])
     .map((pa: any) => (pa.asset_id != null ? Number(pa.asset_id) : null))
-    .filter((id: number | null) => id != null);
+    .filter((id: number | null): id is number => id != null);
 
   const primaryAsset =
     (pkg.package_assets || []).find((pa: any) => pa.is_primary) || null;
 
   const faqIds = (pkg.package_faqs || [])
     .map((pf: any) => (pf.faq_id != null ? Number(pf.faq_id) : null))
-    .filter((id: number | null) => id != null);
+    .filter((id: number | null): id is number => id != null);
 
   return {
     id: Number(pkg.id),
@@ -73,6 +73,8 @@ function serializePackageDetail(pkg: any) {
     description: pkg.description,
     physicality: pkg.physicality,
     is_publish: pkg.is_publish ?? true,
+
+    // marketing fields
     perfect_for: Array.isArray(pkg.perfect_for) ? pkg.perfect_for : [],
     highlights_bullets: Array.isArray(pkg.highlights_bullets)
       ? pkg.highlights_bullets
@@ -97,7 +99,7 @@ function serializePackageDetail(pkg: any) {
       ? Number(primaryAsset.asset_id)
       : null,
 
-    // 🔴 untuk edit FAQ
+    // untuk edit FAQ
     faqs: faqIds,
 
     itinerary_days: (pkg.package_itinerary_days || [])
@@ -124,7 +126,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const idNum = Number(params.id);
+    const { id } = await params;
+    const idNum = Number(id);
+
     if (!Number.isInteger(idNum) || idNum <= 0) {
       return NextResponse.json({ message: "Invalid id" }, { status: 400 });
     }
@@ -141,7 +145,7 @@ export async function GET(
         package_addons: true,
         package_assets: true,
         package_itinerary_days: true,
-        package_faqs: true, // 🔴 penting untuk edit
+        package_faqs: true,
       },
     });
 
@@ -169,7 +173,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const idNum = Number(params.id);
+    const { id } = await params;
+    const idNum = Number(id);
+
     if (!Number.isInteger(idNum) || idNum <= 0) {
       return NextResponse.json({ message: "Invalid id" }, { status: 400 });
     }
@@ -210,34 +216,42 @@ export async function PUT(
         ? body.physicality.trim()
         : null;
 
+    // includes / excludes
     const includesRaw = Array.isArray(body.includes) ? body.includes : [];
     const excludesRaw = Array.isArray(body.excludes) ? body.excludes : [];
 
     const includeIds = includesRaw
       .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
     const excludeIds = excludesRaw
       .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
+    // addons
     const addonsRaw = Array.isArray(body.addons) ? body.addons : [];
-
     const addonIds = addonsRaw
       .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
-    // ASSET GALLERY
+    // assets
     const assetsRaw = Array.isArray(body.asset_ids) ? body.asset_ids : [];
-
     const assetIds = assetsRaw
       .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
+    // faqs
+    const faqsRaw = Array.isArray(body.faqs) ? body.faqs : [];
+    const faqIds = faqsRaw
+      .map((v: any) => Number(v))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
+
+    // primary asset
     let primaryAssetId: bigint | null = null;
     if (typeof body.primary_asset_id === "number") {
       const num = body.primary_asset_id;
@@ -308,6 +322,7 @@ export async function PUT(
       );
     }
 
+    // itinerary days
     const rawItineraryDays = Array.isArray(body.itinerary_days)
       ? body.itinerary_days
       : [];
@@ -392,13 +407,6 @@ export async function PUT(
       }
     }
 
-    // 🔴 NEW: faqs
-    const faqsRaw = Array.isArray(body.faqs) ? body.faqs : [];
-    const faqIds = faqsRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
-
     const updated = await prisma.packages.update({
       where: { id: BigInt(idNum) },
       data: {
@@ -415,61 +423,76 @@ export async function PUT(
 
         package_prices: {
           deleteMany: {},
-          create: priceTiersInput.map((pt) => ({
-            price_tier_id: pt.price_tier_id,
-            price: pt.price,
-          })),
+          create: priceTiersInput.map(
+            (pt: { price_tier_id: bigint; price: number }) => ({
+              price_tier_id: pt.price_tier_id,
+              price: pt.price,
+            })
+          ),
         },
         package_includes: {
           deleteMany: {},
-          create: includeIds.map((itemId) => ({
+          create: includeIds.map((itemId: bigint) => ({
             item_include_id: itemId,
           })),
         },
         package_excludes: {
           deleteMany: {},
-          create: excludeIds.map((itemId) => ({
+          create: excludeIds.map((itemId: bigint) => ({
             item_exclude_id: itemId,
           })),
         },
         package_addons: {
           deleteMany: {},
-          create: addonIds.map((addonId) => ({
+          create: addonIds.map((addonId: bigint) => ({
             addon_id: addonId,
           })),
         },
         package_assets: {
           deleteMany: {},
-          create: assetIds.map((assetId) => ({
+          create: assetIds.map((assetId: bigint) => ({
             asset_id: assetId,
             is_primary: primaryAssetId != null && assetId === primaryAssetId,
           })),
         },
         package_itinerary_days: {
           deleteMany: {},
-          create: itineraryDaysInput.map((d) => ({
-            day_no: d.day_no,
-            activity_start_id: null,
-            activity_end_id: null,
-            route_id: d.route_id,
-            title: d.title,
-            activity: d.activity,
-            hotel_id: d.hotel_id,
-            meal_breakfast: d.meal_breakfast,
-            meal_lunch: d.meal_lunch,
-            meal_dinner: d.meal_dinner,
-          })),
+          create: itineraryDaysInput.map(
+            (d: {
+              day_no: number;
+              route_id: bigint | null;
+              hotel_id: bigint | null;
+              title: string;
+              activity: string | null;
+              meal_breakfast: boolean;
+              meal_lunch: boolean;
+              meal_dinner: boolean;
+            }) => ({
+              day_no: d.day_no,
+              activity_start_id: null,
+              activity_end_id: null,
+              route_id: d.route_id,
+              title: d.title,
+              activity: d.activity,
+              hotel_id: d.hotel_id,
+              meal_breakfast: d.meal_breakfast,
+              meal_lunch: d.meal_lunch,
+              meal_dinner: d.meal_dinner,
+            })
+          ),
         },
         package_destinations: {
           deleteMany: {},
-          create: packageDestinationsInput.map((d) => ({
-            destination_id: d.destination_id,
-            sort_order: d.sort_order,
-          })),
+          create: packageDestinationsInput.map(
+            (d: { destination_id: bigint; sort_order: number }) => ({
+              destination_id: d.destination_id,
+              sort_order: d.sort_order,
+            })
+          ),
         },
         package_faqs: {
           deleteMany: {},
-          create: faqIds.map((faqId) => ({
+          create: faqIds.map((faqId: bigint) => ({
             faq_id: faqId,
           })),
         },

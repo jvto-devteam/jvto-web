@@ -711,62 +711,74 @@ model destination_activities {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model destinations {
-  id                     BigInt      @id @default(autoincrement())
-  code                   String?     @db.Text
-  name                   String      @db.Text
-  category               String?     @db.VarChar(100)
-  region                 String?     @db.VarChar(100)
-  province               String?     @db.VarChar(100)
-  country                String?     @db.VarChar(100)
-  latitude               Decimal?    @db.Decimal(10, 6)
-  longitude              Decimal?    @db.Decimal(10, 6)
-  altitude               Int?
-  area_hectares          Decimal?    @db.Decimal(10, 2)
-  terrain                String?     @db.Text
-  best_time_to_visit     String?     @db.VarChar(100)
-  difficulty_level       String?     @db.VarChar(50)
-  duration               String?     @db.VarChar(100)
-  physical_demand        Int?
-  cultural_depth         Int?
-  photo_potential        Int?
-  weather_by_season      String?     @db.Text
-  rainfall_intensity     String?     @db.VarChar(100)
-  temperature_range      String?     @db.VarChar(100)
-  trail_details          String?     @db.Text
-  required_gear          Json?
-  summary                String?     @db.Text
-  description            String?     @db.Text
-  highlight              String?     @db.Text
-  main_attractions       Json?
-  safety_advisory       Json?
-  key_highlights         Json?
-  permit_required        Boolean?    @default(false)
-  permit_details         String?     @db.Text
-  guide_required         Boolean?    @default(false)
-  facilities             Json?
-  safety_notes           Json?
-  risk_factors           Json?
-  environmental_factors  Json?
-  emergency_contacts     Json?
-  physical_requirements  String?     @db.Text
-  cultural_context       String?     @db.Text
-  local_tribes           String[]   @db.VarChar(200)
-  rituals_festivals      Json?
-  tips_for_visitors      String?     @db.Text
-  thumbnail_url          String?     @db.VarChar(500)
-  featured_image         String?     @db.VarChar(500)
-  published              Boolean?    @default(false)
-  featured               Boolean?    @default(false)
-  seo_title              String?     @db.VarChar(200)
-  seo_description        String?     @db.Text
-  tags                   String[]   @db.VarChar(100)
-  types                  Json?
-  slug                   String?     @db.VarChar(255)
-  created_at             DateTime?   @default(now()) @db.Timestamptz(6)
-  updated_at             DateTime?   @default(now()) @db.Timestamptz(6)
-  deleted_at             DateTime?   @db.Timestamptz(6)
 
+model destinations {
+  id                BigInt   @id @default(autoincrement())
+  code              String?  @db.Text
+  name              String   @db.Text
+
+  category          String?  @db.VarChar(100)
+  region            String?  @db.VarChar(100)
+  province          String?  @db.VarChar(100)
+  country           String?  @db.VarChar(100)
+
+  latitude          Decimal? @db.Decimal(10, 6)
+  longitude         Decimal? @db.Decimal(10, 6)
+  altitude          Int?
+  area_hectares     Decimal? @db.Decimal(10, 2)
+
+  terrain           String?  @db.Text
+  best_time_to_visit String? @db.VarChar(100)
+  difficulty_level  String?  @db.VarChar(50)
+  duration          String?  @db.VarChar(100)
+  physical_demand   Int?
+  cultural_depth    Int?
+  photo_potential   Int?
+  weather_by_season String?  @db.Text
+  rainfall_intensity String? @db.VarChar(100)
+  temperature_range String?  @db.VarChar(100)
+  trail_details     String?  @db.Text
+
+  required_gear     Json?
+  summary           String?  @db.Text
+  description       String?  @db.Text
+  highlight         String?  @db.Text
+  main_attractions  Json?
+  key_highlights    Json?
+
+  permit_required   Boolean? @default(false)
+  permit_details    String?  @db.Text
+  guide_required    Boolean? @default(false)
+
+  facilities        Json?
+  safety_notes      Json?
+  risk_factors      Json?
+  environmental_factors Json?
+  emergency_contacts Json?
+
+  physical_requirements String? @db.Text
+  cultural_context  String? @db.Text
+
+  local_tribes      String[] @db.VarChar(200)
+  rituals_festivals Json?
+  tips_for_visitors String?  @db.Text
+
+  thumbnail_url     String?  @db.VarChar(500)
+  featured_image    String?  @db.VarChar(500)
+  published         Boolean? @default(false)
+  featured          Boolean? @default(false)
+  seo_title         String?  @db.VarChar(200)
+  seo_description   String?  @db.Text
+
+  tags              String[] @db.VarChar(100)
+  types             Json?
+  slug              String?  @db.VarChar(255)
+
+  created_at        DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime? @default(now()) @db.Timestamptz(6)
+  deleted_at        DateTime? @db.Timestamptz(6)
+
+  // relations yang sudah ada, jangan diubah
   activities                                           activities[]
   activity_ends                                        activity_ends[]
   activity_starts                                      activity_starts[]
@@ -774,13 +786,11 @@ model destinations {
   destination_activities                               destination_activities[]
   hotels                                               hotels[]
   package_destinations                                 package_destinations[]
-
   packages_packages_end_destination_idTodestinations   packages[] @relation("packages_end_destination_idTodestinations")
   packages_packages_start_destination_idTodestinations packages[] @relation("packages_start_destination_idTodestinations")
-
-  destination_assets           destination_assets[]
-  destination_faqs             destination_faqs[]
-  route_destinations           route_destinations[]
+  destination_assets                                   destination_assets[]
+  destination_faqs                                     destination_faqs[]
+  route_destinations                                   route_destinations[]
 }
 
 

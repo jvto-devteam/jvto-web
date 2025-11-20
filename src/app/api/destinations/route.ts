@@ -2,46 +2,68 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// src/app/api/destinations/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@prisma/client";
+type JsonField = any;
 
 type DestinationPayload = {
   code?: string | null;
   name: string;
-  thumbnail_url?: string | null;
-  description?: string | null;
+
+  category?: string | null;
+  region?: string | null;
+  province?: string | null;
+  country?: string | null;
+
+  latitude?: number | null;
+  longitude?: number | null;
+  altitude?: number | null;
+  area_hectares?: number | null;
+
+  terrain?: string | null;
+  best_time_to_visit?: string | null;
+  difficulty_level?: string | null;
+  duration?: string | null;
+  physical_demand?: number | null;
+  cultural_depth?: number | null;
+  photo_potential?: number | null;
   weather_by_season?: string | null;
   rainfall_intensity?: string | null;
+  temperature_range?: string | null;
   trail_details?: string | null;
 
-  // JSON FIELDS – TIDAK NULL
-  required_gear?: Prisma.InputJsonValue;
-  main_attractions?: Prisma.InputJsonValue;
-  environmental_factors?: Prisma.InputJsonValue;
-  facilities?: Prisma.InputJsonValue;
-  safety_notes?: Prisma.InputJsonValue;
-  risk_factors?: Prisma.InputJsonValue;
-  emergency_contacts?: Prisma.InputJsonValue;
-  rituals_festivals?: Prisma.InputJsonValue;
-  types?: Prisma.InputJsonValue; // kamu isi string[] → valid JsonArray
-  key_highlights?: Prisma.InputJsonValue; // string[] → JsonArray
-  safety_advisory?: Prisma.InputJsonValue; // string[] → JsonArray
-
-  difficulty_level?: string | null;
-  physical_requirements?: string | null;
-  main_attractions?: Prisma.InputJsonValue;
-  best_time_to_visit?: string | null;
-  tips_for_visitors?: string | null;
-  slug?: string | null;
+  required_gear?: JsonField;
+  summary?: string | null;
+  description?: string | null;
   highlight?: string | null;
+  main_attractions?: JsonField;
+  key_highlights?: JsonField;
 
-  lat?: number | null;
-  long?: number | null;
-  elevation_m?: number | null;
-  temperature_range?: string | null;
-  terrain?: string | null;
+  permit_required?: boolean;
+  permit_details?: string | null;
+  guide_required?: boolean;
+
+  facilities?: JsonField;
+  safety_notes?: JsonField;
+  risk_factors?: JsonField;
+  environmental_factors?: JsonField;
+  emergency_contacts?: JsonField;
+
+  physical_requirements?: string | null;
+  cultural_context?: string | null;
+
+  local_tribes?: string[];
+  rituals_festivals?: JsonField;
+  tips_for_visitors?: string | null;
+
+  thumbnail_url?: string | null;
+  featured_image?: string | null;
+  published?: boolean;
+  featured?: boolean;
+  seo_title?: string | null;
+  seo_description?: string | null;
+
+  tags?: string[];
+  types?: JsonField;
+  slug?: string | null;
 };
 
 function slugify(input: string) {
@@ -69,24 +91,22 @@ function serializeDestination(d: any) {
   return {
     ...d,
     id: Number(d.id),
-    lat:
-      typeof d.lat === "number" ? d.lat : d.lat == null ? null : Number(d.lat),
-    long:
-      typeof d.long === "number"
-        ? d.long
-        : d.long == null
-        ? null
-        : Number(d.long),
-    elevation_m:
-      typeof d.elevation_m === "number"
-        ? d.elevation_m
-        : d.elevation_m == null
-        ? null
-        : Number(d.elevation_m),
+
+    latitude: d.latitude == null ? null : Number(d.latitude),
+    longitude: d.longitude == null ? null : Number(d.longitude),
+    altitude: d.altitude == null ? null : Number(d.altitude),
+    area_hectares: d.area_hectares == null ? null : Number(d.area_hectares),
+
+    physical_demand:
+      d.physical_demand == null ? null : Number(d.physical_demand),
+    cultural_depth: d.cultural_depth == null ? null : Number(d.cultural_depth),
+    photo_potential:
+      d.photo_potential == null ? null : Number(d.photo_potential),
 
     types: Array.isArray(d.types) ? d.types : [],
     key_highlights: Array.isArray(d.key_highlights) ? d.key_highlights : [],
-    safety_advisory: Array.isArray(d.safety_advisory) ? d.safety_advisory : [],
+    tags: Array.isArray(d.tags) ? d.tags : [],
+    local_tribes: Array.isArray(d.local_tribes) ? d.local_tribes : [],
 
     created_at: d.created_at ? d.created_at.toISOString() : null,
     updated_at: d.updated_at ? d.updated_at.toISOString() : null,
@@ -148,22 +168,48 @@ export async function POST(req: NextRequest) {
         ? body.code.trim()
         : null;
 
-    const thumbnail_url =
-      typeof body.thumbnail_url === "string" && body.thumbnail_url.trim()
-        ? body.thumbnail_url.trim()
-        : null;
-
     const slugInput =
       typeof body.slug === "string" && body.slug.trim()
         ? body.slug.trim()
         : slugify(name);
 
+    const thumbnail_url =
+      typeof body.thumbnail_url === "string" && body.thumbnail_url.trim()
+        ? body.thumbnail_url.trim()
+        : null;
+
+    const featured_image =
+      typeof body.featured_image === "string" && body.featured_image.trim()
+        ? body.featured_image.trim()
+        : null;
+
     const payload: DestinationPayload = {
       code,
       name,
-      thumbnail_url,
-      description:
-        typeof body.description === "string" ? body.description : null,
+
+      category:
+        typeof body.category === "string" ? body.category.trim() || null : null,
+      region:
+        typeof body.region === "string" ? body.region.trim() || null : null,
+      province:
+        typeof body.province === "string" ? body.province.trim() || null : null,
+      country:
+        typeof body.country === "string" ? body.country.trim() || null : null,
+
+      terrain:
+        typeof body.terrain === "string" ? body.terrain.trim() || null : null,
+      best_time_to_visit:
+        typeof body.best_time_to_visit === "string"
+          ? body.best_time_to_visit.trim() || null
+          : null,
+      difficulty_level:
+        typeof body.difficulty_level === "string"
+          ? body.difficulty_level.trim() || null
+          : null,
+      duration:
+        typeof body.duration === "string"
+          ? body.duration.trim() || null
+          : null,
       weather_by_season:
         typeof body.weather_by_season === "string"
           ? body.weather_by_season
@@ -172,84 +218,121 @@ export async function POST(req: NextRequest) {
         typeof body.rainfall_intensity === "string"
           ? body.rainfall_intensity
           : null,
+      temperature_range:
+        typeof body.temperature_range === "string"
+          ? body.temperature_range
+          : null,
       trail_details:
         typeof body.trail_details === "string" ? body.trail_details : null,
 
-      // JSON – pakai undefined, bukan null
-      required_gear:
-        typeof body.required_gear === "string" ? body.required_gear : undefined,
+      summary: typeof body.summary === "string" ? body.summary : null,
+      description:
+        typeof body.description === "string" ? body.description : null,
+      highlight: typeof body.highlight === "string" ? body.highlight : null,
 
+      // JSON – pakai apa adanya kalau dikirim
+      required_gear:
+        body.required_gear !== undefined ? body.required_gear : undefined,
+      main_attractions:
+        body.main_attractions !== undefined ? body.main_attractions : undefined,
+      key_highlights:
+        body.key_highlights !== undefined
+          ? normalizeStringArray(body.key_highlights)
+          : undefined,
+      facilities:
+        body.facilities !== undefined ? body.facilities : undefined,
+      safety_notes:
+        body.safety_notes !== undefined ? body.safety_notes : undefined,
+      risk_factors:
+        body.risk_factors !== undefined ? body.risk_factors : undefined,
       environmental_factors:
-        typeof body.environmental_factors === "string"
+        body.environmental_factors !== undefined
           ? body.environmental_factors
           : undefined,
-
-      main_attractions:
-        typeof body.main_attractions === "string"
-          ? body.main_attractions
+      emergency_contacts:
+        body.emergency_contacts !== undefined
+          ? body.emergency_contacts
           : undefined,
-
-      difficulty_level:
-        typeof body.difficulty_level === "string"
-          ? body.difficulty_level
-          : null,
+      rituals_festivals:
+        body.rituals_festivals !== undefined
+          ? body.rituals_festivals
+          : undefined,
 
       physical_requirements:
         typeof body.physical_requirements === "string"
           ? body.physical_requirements
           : null,
-
-      best_time_to_visit:
-        typeof body.best_time_to_visit === "string"
-          ? body.best_time_to_visit
+      cultural_context:
+        typeof body.cultural_context === "string"
+          ? body.cultural_context
           : null,
+
+      // array-of-string
+      local_tribes: normalizeStringArray(body.local_tribes),
+      tags: normalizeStringArray(body.tags),
+      types: normalizeStringArray(body.types),
 
       tips_for_visitors:
         typeof body.tips_for_visitors === "string"
           ? body.tips_for_visitors
           : null,
 
-      slug: slugInput,
-      highlight: typeof body.highlight === "string" ? body.highlight : null,
+      thumbnail_url,
+      featured_image,
 
-      // ini JSON juga tapi kamu mau normalize ke array string → aman
-      types: normalizeStringArray(body.types),
-      key_highlights: normalizeStringArray(body.key_highlights),
-      safety_advisory: normalizeStringArray(body.safety_advisory),
-
-      temperature_range:
-        typeof body.temperature_range === "string"
-          ? body.temperature_range
+      permit_required:
+        typeof body.permit_required === "boolean"
+          ? body.permit_required
+          : undefined,
+      guide_required:
+        typeof body.guide_required === "boolean"
+          ? body.guide_required
+          : undefined,
+      permit_details:
+        typeof body.permit_details === "string"
+          ? body.permit_details
           : null,
-      terrain: typeof body.terrain === "string" ? body.terrain : null,
+
+      published:
+        typeof body.published === "boolean" ? body.published : undefined,
+      featured:
+        typeof body.featured === "boolean" ? body.featured : undefined,
+
+      seo_title:
+        typeof body.seo_title === "string" ? body.seo_title.trim() || null : null,
+      seo_description:
+        typeof body.seo_description === "string"
+          ? body.seo_description
+          : null,
+
+      slug: slugInput,
     };
 
-    // numeric fields
-    if (body.lat !== undefined && body.lat !== null && body.lat !== "") {
-      const n = Number(body.lat);
-      if (!Number.isNaN(n)) payload.lat = n;
-    }
+    // helper numeric (support nama baru + nama lama untuk backward compatibility)
+    const numberFrom = (primary: unknown, fallback?: unknown): number | null => {
+      const v = primary !== undefined ? primary : fallback;
+      if (v === undefined || v === null || v === "") return null;
+      const n = Number(v);
+      return Number.isNaN(n) ? null : n;
+    };
 
-    if (body.long !== undefined && body.long !== null && body.long !== "") {
-      const n = Number(body.long);
-      if (!Number.isNaN(n)) payload.long = n;
-    }
-
-    if (
-      body.elevation_m !== undefined &&
-      body.elevation_m !== null &&
-      body.elevation_m !== ""
-    ) {
-      const n = Number(body.elevation_m);
-      if (!Number.isNaN(n)) payload.elevation_m = n;
-    }
+    // koordinat & angka
+    payload.latitude = numberFrom(body.latitude, body.lat);
+    payload.longitude = numberFrom(body.longitude, body.long);
+    payload.altitude = numberFrom(body.altitude, body.elevation_m);
+    payload.area_hectares = numberFrom(body.area_hectares);
+    payload.physical_demand = numberFrom(body.physical_demand);
+    payload.cultural_depth = numberFrom(body.cultural_depth);
+    payload.photo_potential = numberFrom(body.photo_potential);
 
     const created = await prisma.destinations.create({
       data: {
         ...payload,
-        types: payload.types ?? [],
+        // default array kalau undefined
         key_highlights: payload.key_highlights ?? [],
-        safety_advisory: payload.safety_advisory ?? [],
+        tags: payload.tags ?? [],
+        local_tribes: payload.local_tribes ?? [],
+        types: payload.types ?? [],
         created_at: new Date(),
         updated_at: new Date(),
       },
@@ -266,3 +349,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+

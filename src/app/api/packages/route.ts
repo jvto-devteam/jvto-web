@@ -1,3 +1,4 @@
+// app/api/packages/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -65,7 +66,6 @@ export async function GET(_req: NextRequest) {
         },
       },
       orderBy: [
-        // order by duration (day) asc
         {
           durations: {
             day: "asc",
@@ -95,6 +95,7 @@ export async function GET(_req: NextRequest) {
   }
 }
 
+// POST /api/packages
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -133,12 +134,14 @@ export async function POST(req: NextRequest) {
         ? body.physicality.trim()
         : null;
 
-    // --- NEW: marketing fields ---
+    // --- marketing fields ---
     const perfect_for: string[] = Array.isArray(body.perfect_for)
       ? body.perfect_for.map((v: any) => String(v).trim()).filter(Boolean)
       : [];
 
-    const highlights_bullets: string[] = Array.isArray(body.highlights_bullets)
+    const highlights_bullets: string[] = Array.isArray(
+      body.highlights_bullets
+    )
       ? body.highlights_bullets
           .map((v: any) => String(v).trim())
           .filter(Boolean)
@@ -158,45 +161,57 @@ export async function POST(req: NextRequest) {
           .filter(Boolean)
       : [];
 
-    const includesRaw = Array.isArray(body.includes) ? body.includes : [];
-    const excludesRaw = Array.isArray(body.excludes) ? body.excludes : [];
+    // includes / excludes
+    const includesRaw: unknown[] = Array.isArray(body.includes)
+      ? body.includes
+      : [];
+    const excludesRaw: unknown[] = Array.isArray(body.excludes)
+      ? body.excludes
+      : [];
 
-    const includeIds = includesRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+    const includeIds: bigint[] = includesRaw
+      .map((v: unknown) => Number(v as any))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
-    const excludeIds = excludesRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+    const excludeIds: bigint[] = excludesRaw
+      .map((v: unknown) => Number(v as any))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
-    const addonsRaw = Array.isArray(body.addons) ? body.addons : [];
+    // addons
+    const addonsRaw: unknown[] = Array.isArray(body.addons)
+      ? body.addons
+      : [];
 
-    const addonIds = addonsRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+    const addonIds: bigint[] = addonsRaw
+      .map((v: unknown) => Number(v as any))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
 
-    const faqsRaw = Array.isArray(body.faqs) ? body.faqs : [];
+    // faqs
+    const faqsRaw: unknown[] = Array.isArray(body.faqs) ? body.faqs : [];
 
-    const faqIds = faqsRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+    const faqIds: bigint[] = faqsRaw
+      .map((v: unknown) => Number(v as any))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
+
     // ASSET GALLERY
-    const assetsRaw = Array.isArray(body.asset_ids) ? body.asset_ids : [];
+    const assetsRaw: unknown[] = Array.isArray(body.asset_ids)
+      ? body.asset_ids
+      : [];
 
-    const assetIds = assetsRaw
-      .map((v: any) => Number(v))
-      .filter((id) => Number.isInteger(id) && id > 0)
-      .map((id) => BigInt(id));
+    const assetIds: bigint[] = assetsRaw
+      .map((v: unknown) => Number(v as any))
+      .filter((id: number) => Number.isInteger(id) && id > 0)
+      .map((id: number) => BigInt(id));
+
     let primaryAssetId: bigint | null = null;
     if (typeof body.primary_asset_id === "number") {
       const num = body.primary_asset_id;
       if (Number.isInteger(num) && num > 0) {
         const big = BigInt(num);
-        // optional: pastikan dia ada di assetIds
         if (assetIds.includes(big)) {
           primaryAssetId = big;
         }
@@ -226,8 +241,8 @@ export async function POST(req: NextRequest) {
     const end_destination_id = BigInt(end_destination_id_raw);
     const duration_id = BigInt(duration_id_raw);
 
-    // ---- NEW: price_tiers array → package_prices nested create ----
-    const rawPriceTiers = Array.isArray(body.price_tiers)
+    // price_tiers → package_prices
+    const rawPriceTiers: unknown[] = Array.isArray(body.price_tiers)
       ? body.price_tiers
       : [];
 
@@ -262,7 +277,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const rawItineraryDays = Array.isArray(body.itinerary_days)
+    // itinerary days
+    const rawItineraryDays: unknown[] = Array.isArray(body.itinerary_days)
       ? body.itinerary_days
       : [];
 
@@ -275,7 +291,6 @@ export async function POST(req: NextRequest) {
         const dayNoValid = Number.isInteger(day_no) && day_no > 0;
         if (!dayNoValid) return null;
 
-        // title & activity boleh tetap, tapi sekarang akan diisi otomatis dari route jika perlu
         const title =
           typeof item.title === "string" && item.title.trim()
             ? item.title.trim()
@@ -308,7 +323,7 @@ export async function POST(req: NextRequest) {
       meal_dinner: boolean;
     }[];
 
-    // 🔴 NEW: derive package_destinations from used routes
+    // derive package_destinations from used routes
     const routeIdsUsed = Array.from(
       new Set(
         itineraryDaysInput
@@ -363,58 +378,70 @@ export async function POST(req: NextRequest) {
         highlights_bullets,
         safety_positioning,
         unique_selling_points,
-        // Nested create ke package_prices
         package_prices: {
-          create: priceTiersInput.map((pt) => ({
-            price_tier_id: pt.price_tier_id,
-            price: pt.price,
-            // optional: set created_at/updated_at kalau mau
-          })),
+          create: priceTiersInput.map(
+            (pt: { price_tier_id: bigint; price: number }) => ({
+              price_tier_id: pt.price_tier_id,
+              price: pt.price,
+            })
+          ),
         },
         package_includes: {
-          create: includeIds.map((itemId) => ({
+          create: includeIds.map((itemId: bigint) => ({
             item_include_id: itemId,
           })),
         },
-
         package_excludes: {
-          create: excludeIds.map((itemId) => ({
+          create: excludeIds.map((itemId: bigint) => ({
             item_exclude_id: itemId,
           })),
         },
         package_addons: {
-          create: addonIds.map((addonId) => ({
+          create: addonIds.map((addonId: bigint) => ({
             addon_id: addonId,
           })),
         },
         package_assets: {
-          create: assetIds.map((assetId) => ({
+          create: assetIds.map((assetId: bigint) => ({
             asset_id: assetId,
             is_primary: primaryAssetId != null && assetId === primaryAssetId,
           })),
         },
         package_itinerary_days: {
-          create: itineraryDaysInput.map((d) => ({
-            day_no: d.day_no,
-            activity_start_id: null,
-            activity_end_id: null,
-            route_id: d.route_id,
-            title: d.title,
-            activity: d.activity,
-            hotel_id: d.hotel_id,
-            meal_breakfast: d.meal_breakfast,
-            meal_lunch: d.meal_lunch,
-            meal_dinner: d.meal_dinner,
-          })),
+          create: itineraryDaysInput.map(
+            (d: {
+              day_no: number;
+              route_id: bigint | null;
+              hotel_id: bigint | null;
+              title: string;
+              activity: string | null;
+              meal_breakfast: boolean;
+              meal_lunch: boolean;
+              meal_dinner: boolean;
+            }) => ({
+              day_no: d.day_no,
+              activity_start_id: null,
+              activity_end_id: null,
+              route_id: d.route_id,
+              title: d.title,
+              activity: d.activity,
+              hotel_id: d.hotel_id,
+              meal_breakfast: d.meal_breakfast,
+              meal_lunch: d.meal_lunch,
+              meal_dinner: d.meal_dinner,
+            })
+          ),
         },
         package_destinations: {
-          create: packageDestinationsInput.map((d) => ({
-            destination_id: d.destination_id,
-            sort_order: d.sort_order,
-          })),
+          create: packageDestinationsInput.map(
+            (d: { destination_id: bigint; sort_order: number }) => ({
+              destination_id: d.destination_id,
+              sort_order: d.sort_order,
+            })
+          ),
         },
         package_faqs: {
-          create: faqIds.map((faqId) => ({
+          create: faqIds.map((faqId: bigint) => ({
             faq_id: faqId,
           })),
         },
@@ -463,5 +490,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-// PUT /api/packages/[id]
-

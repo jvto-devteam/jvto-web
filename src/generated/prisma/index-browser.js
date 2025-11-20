@@ -684,7 +684,6 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   description: 'description',
   highlight: 'highlight',
   main_attractions: 'main_attractions',
-  safety_advisory: 'safety_advisory',
   key_highlights: 'key_highlights',
   permit_required: 'permit_required',
   permit_details: 'permit_details',
