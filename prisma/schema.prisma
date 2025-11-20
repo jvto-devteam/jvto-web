@@ -739,6 +739,7 @@ model destinations {
   description            String?     @db.Text
   highlight              String?     @db.Text
   main_attractions       Json?
+  safety_advisory       Json?
   key_highlights         Json?
   permit_required        Boolean?    @default(false)
   permit_details         String?     @db.Text
