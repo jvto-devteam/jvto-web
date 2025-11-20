@@ -1,6 +1,13 @@
 "use client";
 import { Suspense } from "react";
-import { useState, useEffect, useMemo, useRef, FormEvent } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  FormEvent,
+  useCallback,
+} from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   Folder as FolderIcon,
@@ -152,23 +159,25 @@ function AssetsPageContent() {
 
   const [detailAssetId, setDetailAssetId] = useState<number | null>(null);
 
-  function setFolderInUrl(id: number | null) {
-    const params = new URLSearchParams(searchParams.toString());
+  const setFolderInUrl = useCallback(
+    (id: number | null) => {
+      const params = new URLSearchParams(searchParams.toString());
 
-    if (id) {
-      params.set("folderId", String(id));
-    } else {
-      params.delete("folderId");
-    }
+      if (id) {
+        params.set("folderId", String(id));
+      } else {
+        params.delete("folderId");
+      }
 
-    // ⬇️ penting: kalau ganti folder, assetId dibersihkan
-    params.delete("assetId");
+      params.delete("assetId");
 
-    const queryString = params.toString();
-    const href = queryString ? `${pathname}?${queryString}` : pathname;
+      const queryString = params.toString();
+      const href = queryString ? `${pathname}?${queryString}` : pathname;
 
-    router.push(href, { scroll: false });
-  }
+      router.push(href, { scroll: false });
+    },
+    [router, pathname, searchParams]
+  );
 
   function setAssetInUrl(assetId: number | null) {
     const params = new URLSearchParams(searchParams.toString());
@@ -371,7 +380,7 @@ function AssetsPageContent() {
         setFolderInUrl(fallbackId); // sekalian tulis ke URL
       }
     }
-  }, [searchParams, folders, currentFolderId]);
+  }, [searchParams, folders, currentFolderId,setFolderInUrl]);
 
   useEffect(() => {
     if (currentFolderId != null) {
