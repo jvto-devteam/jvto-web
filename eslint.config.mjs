@@ -10,7 +10,17 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    // ⬅️ bagian penting untuk skip warning "Unused eslint-disable directive"
+    linterOptions: {
+      // "off" = tidak pernah lapor komentar eslint-disable yang tidak terpakai
+      // kalau mau masih kelihatan sebagai warning, pakai "warn"
+      reportUnusedDisableDirectives: "off",
+    },
+  },
+
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
   {
     ignores: [
       "node_modules/**",
@@ -18,12 +28,12 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
-      "src/generated/**",  // Add this line
+      "src/generated/**",
     ],
-  },  
+  },
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 ];
