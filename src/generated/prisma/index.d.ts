@@ -220,7 +220,7 @@ export type customers = $Result.DefaultSelection<Prisma.$customersPayload>
 export type destination_activities = $Result.DefaultSelection<Prisma.$destination_activitiesPayload>
 /**
  * Model destinations
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+ * 
  */
 export type destinations = $Result.DefaultSelection<Prisma.$destinationsPayload>
 /**
@@ -59390,7 +59390,6 @@ export namespace Prisma {
     description: number
     highlight: number
     main_attractions: number
-    safety_advisory: number
     key_highlights: number
     permit_required: number
     permit_details: number
@@ -59559,7 +59558,6 @@ export namespace Prisma {
     description?: true
     highlight?: true
     main_attractions?: true
-    safety_advisory?: true
     key_highlights?: true
     permit_required?: true
     permit_details?: true
@@ -59703,7 +59701,6 @@ export namespace Prisma {
     description: string | null
     highlight: string | null
     main_attractions: JsonValue | null
-    safety_advisory: JsonValue | null
     key_highlights: JsonValue | null
     permit_required: boolean | null
     permit_details: string | null
@@ -59779,7 +59776,6 @@ export namespace Prisma {
     description?: boolean
     highlight?: boolean
     main_attractions?: boolean
-    safety_advisory?: boolean
     key_highlights?: boolean
     permit_required?: boolean
     permit_details?: boolean
@@ -59849,7 +59845,6 @@ export namespace Prisma {
     description?: boolean
     highlight?: boolean
     main_attractions?: boolean
-    safety_advisory?: boolean
     key_highlights?: boolean
     permit_required?: boolean
     permit_details?: boolean
@@ -59906,7 +59901,6 @@ export namespace Prisma {
     description?: boolean
     highlight?: boolean
     main_attractions?: boolean
-    safety_advisory?: boolean
     key_highlights?: boolean
     permit_required?: boolean
     permit_details?: boolean
@@ -59963,7 +59957,6 @@ export namespace Prisma {
     description?: boolean
     highlight?: boolean
     main_attractions?: boolean
-    safety_advisory?: boolean
     key_highlights?: boolean
     permit_required?: boolean
     permit_details?: boolean
@@ -59992,7 +59985,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "safety_advisory" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "tags" | "types" | "slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "tags" | "types" | "slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -60055,7 +60048,6 @@ export namespace Prisma {
       description: string | null
       highlight: string | null
       main_attractions: Prisma.JsonValue | null
-      safety_advisory: Prisma.JsonValue | null
       key_highlights: Prisma.JsonValue | null
       permit_required: boolean | null
       permit_details: string | null
@@ -60544,7 +60536,6 @@ export namespace Prisma {
     readonly description: FieldRef<"destinations", 'String'>
     readonly highlight: FieldRef<"destinations", 'String'>
     readonly main_attractions: FieldRef<"destinations", 'Json'>
-    readonly safety_advisory: FieldRef<"destinations", 'Json'>
     readonly key_highlights: FieldRef<"destinations", 'Json'>
     readonly permit_required: FieldRef<"destinations", 'Boolean'>
     readonly permit_details: FieldRef<"destinations", 'String'>
@@ -122255,7 +122246,6 @@ export namespace Prisma {
     description: 'description',
     highlight: 'highlight',
     main_attractions: 'main_attractions',
-    safety_advisory: 'safety_advisory',
     key_highlights: 'key_highlights',
     permit_required: 'permit_required',
     permit_details: 'permit_details',
@@ -126822,7 +126812,6 @@ export namespace Prisma {
     description?: StringNullableFilter<"destinations"> | string | null
     highlight?: StringNullableFilter<"destinations"> | string | null
     main_attractions?: JsonNullableFilter<"destinations">
-    safety_advisory?: JsonNullableFilter<"destinations">
     key_highlights?: JsonNullableFilter<"destinations">
     permit_required?: BoolNullableFilter<"destinations"> | boolean | null
     permit_details?: StringNullableFilter<"destinations"> | string | null
@@ -126891,7 +126880,6 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     highlight?: SortOrderInput | SortOrder
     main_attractions?: SortOrderInput | SortOrder
-    safety_advisory?: SortOrderInput | SortOrder
     key_highlights?: SortOrderInput | SortOrder
     permit_required?: SortOrderInput | SortOrder
     permit_details?: SortOrderInput | SortOrder
@@ -126963,7 +126951,6 @@ export namespace Prisma {
     description?: StringNullableFilter<"destinations"> | string | null
     highlight?: StringNullableFilter<"destinations"> | string | null
     main_attractions?: JsonNullableFilter<"destinations">
-    safety_advisory?: JsonNullableFilter<"destinations">
     key_highlights?: JsonNullableFilter<"destinations">
     permit_required?: BoolNullableFilter<"destinations"> | boolean | null
     permit_details?: StringNullableFilter<"destinations"> | string | null
@@ -127032,7 +127019,6 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     highlight?: SortOrderInput | SortOrder
     main_attractions?: SortOrderInput | SortOrder
-    safety_advisory?: SortOrderInput | SortOrder
     key_highlights?: SortOrderInput | SortOrder
     permit_required?: SortOrderInput | SortOrder
     permit_details?: SortOrderInput | SortOrder
@@ -127097,7 +127083,6 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     highlight?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     main_attractions?: JsonNullableWithAggregatesFilter<"destinations">
-    safety_advisory?: JsonNullableWithAggregatesFilter<"destinations">
     key_highlights?: JsonNullableWithAggregatesFilter<"destinations">
     permit_required?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
     permit_details?: StringNullableWithAggregatesFilter<"destinations"> | string | null
@@ -135041,7 +135026,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -135110,7 +135094,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -135179,7 +135162,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135248,7 +135230,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135317,7 +135298,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -135374,7 +135354,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -135431,7 +135410,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142810,7 +142788,6 @@ export namespace Prisma {
     description?: SortOrder
     highlight?: SortOrder
     main_attractions?: SortOrder
-    safety_advisory?: SortOrder
     key_highlights?: SortOrder
     permit_required?: SortOrder
     permit_details?: SortOrder
@@ -153167,7 +153144,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -153235,7 +153211,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -153384,7 +153359,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153452,7 +153426,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153621,7 +153594,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -153689,7 +153661,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -153865,7 +153836,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153933,7 +153903,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154074,7 +154043,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -154142,7 +154110,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -154318,7 +154285,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154386,7 +154352,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155636,7 +155601,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -155704,7 +155668,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -155946,7 +155909,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156014,7 +155976,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164575,7 +164536,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -164643,7 +164603,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -164770,7 +164729,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164838,7 +164796,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166836,7 +166793,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -166904,7 +166860,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -167178,7 +167133,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167246,7 +167200,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168730,7 +168683,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -168798,7 +168750,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -168977,7 +168928,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169045,7 +168995,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172101,7 +172050,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -172169,7 +172117,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -172300,7 +172247,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -172368,7 +172314,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -172727,7 +172672,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172795,7 +172739,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172944,7 +172887,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173012,7 +172954,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173605,7 +173546,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -173673,7 +173613,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -173806,7 +173745,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173874,7 +173812,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175720,7 +175657,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -175788,7 +175724,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -175915,7 +175850,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175983,7 +175917,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176100,7 +176033,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -176168,7 +176100,6 @@ export namespace Prisma {
     description?: string | null
     highlight?: string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: boolean | null
     permit_details?: string | null
@@ -176283,7 +176214,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176351,7 +176281,6 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     highlight?: NullableStringFieldUpdateOperationsInput | string | null
     main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    safety_advisory?: NullableJsonNullValueInput | InputJsonValue
     key_highlights?: NullableJsonNullValueInput | InputJsonValue
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
