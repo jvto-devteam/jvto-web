@@ -515,6 +515,26 @@ exports.Prisma.BookingsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.Blog_categoriesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.BlogsScalarFieldEnum = {
+  id: 'id',
+  category_id: 'category_id',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  cover_image: 'cover_image',
+  status: 'status',
+  tags: 'tags',
+  created_at: 'created_at',
+  update_at: 'update_at'
+};
+
 exports.Prisma.Channel_unavailable_rangesScalarFieldEnum = {
   id: 'id',
   order_channel_id: 'order_channel_id',
@@ -1383,6 +1403,8 @@ exports.Prisma.ModelName = {
   booking_vehicle_units: 'booking_vehicle_units',
   booking_whatsapp_logs: 'booking_whatsapp_logs',
   bookings: 'bookings',
+  blog_categories: 'blog_categories',
+  blogs: 'blogs',
   channel_unavailable_ranges: 'channel_unavailable_ranges',
   combined_package_details: 'combined_package_details',
   combined_packages: 'combined_packages',

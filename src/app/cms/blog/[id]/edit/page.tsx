@@ -1,4 +1,4 @@
-// src/app/cms/blogs/create/page.tsx
+// src/app/cms/blogs/[id]/edit/page.tsx
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
@@ -9,6 +9,17 @@ import { Loader2, Save, X } from "lucide-react";
 type BlogCategory = {
   id: number;
   name: string;
+};
+
+type Blog = {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  cover_image: string | null;
+  status: "draft" | "published" | string;
+  tags: string[];
+  category_id: number | null;
 };
 
 type FormState = {
@@ -31,20 +42,26 @@ const emptyForm: FormState = {
   content: "",
 };
 
-export default function CmsBlogCreatePage() {
+export default function CmsBlogEditPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(emptyForm);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
+  const [loading, setLoading] = useState(true);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+const [coverPreview, setCoverPreview] = useState<string | null>(null);
+
+
+  const blogId = Number(params.id);
 
   const loadCategories = async () => {
     try {
       setLoadingCategories(true);
-      setError(null);
-
       const res = await fetch("/api/blog-categories", {
         method: "GET",
         cache: "no-store",
@@ -57,7 +74,10 @@ export default function CmsBlogCreatePage() {
           const data = JSON.parse(text);
           if (data?.message) msg = data.message;
         } catch {
-          console.error("Non-JSON error (categories):", text.slice(0, 200));
+          console.error(
+            "Non-JSON error response (categories):",
+            text.slice(0, 200)
+          );
         }
         throw new Error(msg);
       }
@@ -72,9 +92,61 @@ export default function CmsBlogCreatePage() {
     }
   };
 
+  const loadBlog = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await fetch(`/api/blogs/${blogId}`, {
+        method: "GET",
+        cache: "no-store",
+      });
+
+      const text = await res.text();
+
+      if (!res.ok) {
+        let msg = "Failed to fetch blog";
+        try {
+          const data = JSON.parse(text);
+          if (data?.message) msg = data.message;
+        } catch {
+          console.error("Non-JSON error response (blog):", text.slice(0, 200));
+        }
+        throw new Error(msg);
+      }
+
+      const blog: Blog = JSON.parse(text);
+
+      setForm({
+        title: blog.title,
+        slug: blog.slug,
+        cover_image: blog.cover_image || "",
+        status:
+          blog.status === "published" || blog.status === "draft"
+            ? (blog.status as "draft" | "published")
+            : "draft",
+        tags: Array.isArray(blog.tags) ? blog.tags.join(", ") : "",
+        category_id: blog.category_id ?? null,
+        content: blog.content || "",
+      });
+    } catch (err: any) {
+      console.error("loadBlog error:", err);
+      setError(err.message || "Failed to fetch blog");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    if (!blogId || Number.isNaN(blogId)) {
+      setError("Invalid blog id");
+      setLoading(false);
+      return;
+    }
     loadCategories();
-  }, []);
+    loadBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blogId]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,7 +174,6 @@ export default function CmsBlogCreatePage() {
         fd.set("category_id", String(form.category_id));
       }
 
-      // ambil file langsung dari form
       const fileInput =
         (e.currentTarget.elements.namedItem(
           "cover_image"
@@ -112,20 +183,20 @@ export default function CmsBlogCreatePage() {
         fd.set("cover_image", file);
       }
 
-      const res = await fetch("/api/blogs", {
-        method: "POST",
+      const res = await fetch(`/api/blogs/${blogId}`, {
+        method: "PATCH",
         body: fd,
       });
 
       const text = await res.text();
 
       if (!res.ok) {
-        let msg = "Gagal menyimpan blog";
+        let msg = "Gagal menyimpan perubahan blog";
         try {
           const data = JSON.parse(text);
           if (data?.message) msg = data.message;
         } catch {
-          console.error("Non-JSON error (create blog):", text.slice(0, 200));
+          console.error("Non-JSON error (update blog):", text.slice(0, 200));
         }
         throw new Error(msg);
       }
@@ -144,10 +215,10 @@ export default function CmsBlogCreatePage() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h1 className="text-lg font-semibold text-slate-50">
-            Tambah Blog Baru
+            Edit Blog #{blogId}
           </h1>
           <p className="text-sm text-slate-400">
-            Isi data blog lalu simpan untuk menambah artikel baru.
+            Ubah data artikel kemudian simpan untuk memperbarui blog.
           </p>
         </div>
       </div>
@@ -201,31 +272,33 @@ export default function CmsBlogCreatePage() {
           </label>
           <input
             type="file"
+            name="cover_image"
             accept="image/*"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) {
-                // simpan filenya di FormData, bukan di state string
                 setForm((prev) => ({
                   ...prev,
-                  cover_image: file.name, // optional, cuma buat info
+                  cover_image: file.name,
                 }));
                 setCoverPreview(URL.createObjectURL(file));
-              } else {
-                setCoverPreview(null);
               }
             }}
             className="w-full text-xs text-slate-300 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-blue-500 file:text-slate-950 file:text-xs file:font-medium bg-slate-900/60 border border-slate-800 rounded-md"
           />
-          {coverPreview && (
-            <div className="mt-2">
-              <img
-                src={coverPreview}
-                alt="Cover preview"
-                className="max-h-40 rounded-md border border-slate-800"
-              />
-            </div>
-          )}
+          {coverPreview ? (
+            <img
+              src={coverPreview}
+              className="mt-2 max-h-40 rounded-md border border-slate-800"
+              alt="Cover preview"
+            />
+          ) : form.cover_image ? (
+            <img
+              src={form.cover_image} // ini path dari DB, misal /uploads/blogs/xxxx.jpg
+              className="mt-2 max-h-40 rounded-md border border-slate-800"
+              alt="Cover"
+            />
+          ) : null}
         </div>
 
         <div className="space-y-2">
@@ -321,7 +394,7 @@ export default function CmsBlogCreatePage() {
           >
             {saving && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
             <Save className="w-4 h-4" />
-            Simpan Blog
+            Simpan Perubahan
           </button>
         </div>
       </form>
