@@ -692,61 +692,6 @@ export default function CmsPackageCreatePage() {
       );
   }, [priceRows]);
 
-  const priceSummary = useMemo(() => {
-    if (cleanPriceTiers.length === 0) return null;
-    const prices = cleanPriceTiers.map((p) => p.price as number);
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    return { min, max };
-  }, [cleanPriceTiers]);
-
-  const filledItineraryDaysCount = useMemo(() => {
-    return itineraryDays.filter((day) => {
-      const activity_start_id =
-        typeof day.activity_start_id === "number"
-          ? day.activity_start_id
-          : day.activity_start_id === ""
-          ? null
-          : Number(day.activity_start_id);
-
-      const activity_end_id =
-        typeof day.activity_end_id === "number"
-          ? day.activity_end_id
-          : day.activity_end_id === ""
-          ? null
-          : Number(day.activity_end_id);
-
-      const hotel_id =
-        typeof day.hotel_id === "number"
-          ? day.hotel_id
-          : day.hotel_id === ""
-          ? null
-          : Number(day.hotel_id);
-
-      const activity = day.activity.trim() || null;
-
-      const hasContent =
-        activity_start_id ||
-        activity_end_id ||
-        activity ||
-        hotel_id ||
-        day.meal_breakfast ||
-        day.meal_lunch ||
-        day.meal_dinner;
-
-      return !!hasContent;
-    }).length;
-  }, [itineraryDays]);
-
-  const currentDuration = useMemo(() => {
-    if (!form.duration_id) return null;
-    const id =
-      typeof form.duration_id === "number"
-        ? form.duration_id
-        : Number(form.duration_id);
-    return durations.find((d) => d.id === id) ?? null;
-  }, [form.duration_id, durations]);
-
   // --- Step validation ---
   const validateStep = (targetStep: number): boolean => {
     setError(null);
