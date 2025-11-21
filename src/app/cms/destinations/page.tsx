@@ -54,28 +54,29 @@ type Destination = {
   temperature_range: string | null;
   trail_details: string | null;
 
-  required_gear: string | null; // UI pakai text → backend parse JSON kalau mau
+  // Json di DB → pakai any di FE
+  required_gear: any;
   summary: string | null;
   description: string | null;
   highlight: string | null;
-  main_attractions: string | null; // sama: text → JSON
-  key_highlights: string[];
+  main_attractions: any;
+  key_highlights: string[]; // kita perlakukan sebagai array of string
 
   permit_required: boolean | null;
   permit_details: string | null;
   guide_required: boolean | null;
 
-  facilities: string | null;
-  safety_notes: string | null;
-  risk_factors: string | null;
-  environmental_factors: string | null;
-  emergency_contacts: string | null;
+  facilities: any;
+  safety_notes: any;
+  risk_factors: any;
+  environmental_factors: any;
+  emergency_contacts: any;
 
   physical_requirements: string | null;
   cultural_context: string | null;
 
   local_tribes: string[];
-  rituals_festivals: string | null;
+  rituals_festivals: any;
   tips_for_visitors: string | null;
 
   thumbnail_url: string | null;
@@ -86,11 +87,12 @@ type Destination = {
   seo_description: string | null;
 
   tags: string[];
-  types: string[];
+  types: any; // Json
   slug: string | null;
 
   created_at?: string | null;
   updated_at?: string | null;
+  deleted_at?: string | null;
 };
 
 type FormState = {
@@ -323,57 +325,8 @@ export default function CmsDestinationsPage() {
         throw new Error(msg);
       }
 
-      const data: any[] = JSON.parse(text);
-      const normalized: Destination[] = data.map((d) => ({
-        id: Number(d.id),
-        code: d.code ?? null,
-        name: d.name,
-        slug: d.slug ?? null,
-        thumbnail_url: d.thumbnail_url ?? null,
-        description: d.description ?? null,
-        weather_by_season: d.weather_by_season ?? null,
-        rainfall_intensity: d.rainfall_intensity ?? null,
-        trail_details: d.trail_details ?? null,
-        required_gear: d.required_gear ?? null,
-        difficulty_level: d.difficulty_level ?? null,
-        environmental_factors: d.environmental_factors ?? null,
-        physical_requirements: d.physical_requirements ?? null,
-        main_attractions: d.main_attractions ?? null,
-        best_time_to_visit: d.best_time_to_visit ?? null,
-        tips_for_visitors: d.tips_for_visitors ?? null,
-        highlight: d.highlight ?? null,
-
-        types: Array.isArray(d.types) ? d.types : [],
-        lat:
-          typeof d.lat === "number"
-            ? d.lat
-            : d.lat != null
-            ? Number(d.lat)
-            : null,
-        long:
-          typeof d.long === "number"
-            ? d.long
-            : d.long != null
-            ? Number(d.long)
-            : null,
-        elevation_m:
-          typeof d.elevation_m === "number"
-            ? d.elevation_m
-            : d.elevation_m != null
-            ? Number(d.elevation_m)
-            : null,
-        key_highlights: Array.isArray(d.key_highlights) ? d.key_highlights : [],
-        temperature_range: d.temperature_range ?? null,
-        terrain: d.terrain ?? null,
-        safety_advisory: Array.isArray(d.safety_advisory)
-          ? d.safety_advisory
-          : [],
-
-        created_at: d.created_at ?? null,
-        updated_at: d.updated_at ?? null,
-      }));
-
-      setDestinations(normalized);
+      const data = JSON.parse(text) as Destination[];
+      setDestinations(data);
     } catch (err: any) {
       console.error("loadDestinations error:", err);
       setError(err.message || "Failed to fetch destinations");
@@ -800,57 +753,7 @@ export default function CmsDestinationsPage() {
         throw new Error(msg);
       }
 
-      const data: any = JSON.parse(text);
-      const savedDest: Destination = {
-        id: Number(data.id),
-        code: data.code ?? null,
-        name: data.name,
-        slug: data.slug ?? null,
-        thumbnail_url: data.thumbnail_url ?? null,
-        description: data.description ?? null,
-        weather_by_season: data.weather_by_season ?? null,
-        rainfall_intensity: data.rainfall_intensity ?? null,
-        trail_details: data.trail_details ?? null,
-        required_gear: data.required_gear ?? null,
-        difficulty_level: data.difficulty_level ?? null,
-        environmental_factors: data.environmental_factors ?? null,
-        physical_requirements: data.physical_requirements ?? null,
-        main_attractions: data.main_attractions ?? null,
-        best_time_to_visit: data.best_time_to_visit ?? null,
-        tips_for_visitors: data.tips_for_visitors ?? null,
-        highlight: data.highlight ?? null,
-
-        types: Array.isArray(data.types) ? data.types : [],
-        lat:
-          typeof data.lat === "number"
-            ? data.lat
-            : data.lat != null
-            ? Number(data.lat)
-            : null,
-        long:
-          typeof data.long === "number"
-            ? data.long
-            : data.long != null
-            ? Number(data.long)
-            : null,
-        elevation_m:
-          typeof data.elevation_m === "number"
-            ? data.elevation_m
-            : data.elevation_m != null
-            ? Number(data.elevation_m)
-            : null,
-        key_highlights: Array.isArray(data.key_highlights)
-          ? data.key_highlights
-          : [],
-        temperature_range: data.temperature_range ?? null,
-        terrain: data.terrain ?? null,
-        safety_advisory: Array.isArray(data.safety_advisory)
-          ? data.safety_advisory
-          : [],
-
-        created_at: data.created_at ?? null,
-        updated_at: data.updated_at ?? null,
-      };
+      const savedDest = JSON.parse(text) as Destination;
 
       // kalau CREATE baru → kirim pendingAssets ke destination-assets
       if (!editingId && pendingAssets.length > 0) {
@@ -1101,8 +1004,8 @@ export default function CmsDestinationsPage() {
                     </td>
                     <td className="px-3 py-2 align-top">
                       <div className="flex flex-wrap gap-1">
-                        {d.types?.length ? (
-                          d.types.map((t) => (
+                        {Array.isArray(d.types) && d.types.length ? (
+                          d.types.map((t: string) => (
                             <span
                               key={t}
                               className="inline-flex px-1.5 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-[9px] text-slate-300"
@@ -1117,15 +1020,15 @@ export default function CmsDestinationsPage() {
                     </td>
                     <td className="px-3 py-2 align-top text-slate-300">
                       <div className="text-[11px]">
-                        {d.elevation_m != null ? `${d.elevation_m} m` : "-"}
+                        {d.altitude != null ? `${d.altitude} m` : "-"}
                       </div>
-                      {(d.lat != null || d.long != null) && (
+                      {(d.latitude != null || d.longitude != null) && (
                         <div className="text-[10px] text-slate-500">
-                          {d.lat != null && d.long != null
-                            ? `${d.lat}, ${d.long}`
-                            : d.lat != null
-                            ? d.lat
-                            : d.long}
+                          {d.latitude != null && d.longitude != null
+                            ? `${d.latitude}, ${d.longitude}`
+                            : d.latitude != null
+                            ? d.latitude
+                            : d.longitude}
                         </div>
                       )}
                     </td>
