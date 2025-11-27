@@ -60,7 +60,6 @@ export async function GET(_req: NextRequest) {
       where: {
         deleted_at: null,
         is_publish: true,
-        // From Surabaya (4) + From Bali (3)
         start_destination_id: {
           in: [BigInt(3), BigInt(4)],
         },
