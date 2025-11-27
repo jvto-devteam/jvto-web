@@ -727,9 +727,19 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   tags: 'tags',
   types: 'types',
   slug: 'slug',
+  short_slug: 'short_slug',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
+};
+
+exports.Prisma.Destination_gearsScalarFieldEnum = {
+  id: 'id',
+  destination_id: 'destination_id',
+  gear: 'gear',
+  type: 'type',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.DiscountsScalarFieldEnum = {
@@ -855,6 +865,7 @@ exports.Prisma.HotelsScalarFieldEnum = {
   destination_id: 'destination_id',
   description: 'description',
   facilities: 'facilities',
+  area: 'area',
   address: 'address',
   phone: 'phone',
   banner: 'banner',
@@ -1099,7 +1110,17 @@ exports.Prisma.PackagesScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   aggregate_rating_value: 'aggregate_rating_value',
-  aggregate_rating_count: 'aggregate_rating_count'
+  aggregate_rating_count: 'aggregate_rating_count',
+  traveler_requirements: 'traveler_requirements',
+  tags: 'tags',
+  operational_complexity_note: 'operational_complexity_note',
+  first_day_last_pickup_guidance: 'first_day_last_pickup_guidance',
+  last_day_safe_flight_note: 'last_day_safe_flight_note',
+  health_requirements: 'health_requirements',
+  environmental_risks: 'environmental_risks',
+  safety_mitigation: 'safety_mitigation',
+  handover_notes: 'handover_notes',
+  emergency_protocols: 'emergency_protocols'
 };
 
 exports.Prisma.Page_contentsScalarFieldEnum = {
@@ -1161,7 +1182,8 @@ exports.Prisma.RoutesScalarFieldEnum = {
   overview: 'overview',
   breakfast: 'breakfast',
   lunch: 'lunch',
-  dinner: 'dinner'
+  dinner: 'dinner',
+  meals_notes: 'meals_notes'
 };
 
 exports.Prisma.Route_detailsScalarFieldEnum = {
@@ -1170,7 +1192,12 @@ exports.Prisma.Route_detailsScalarFieldEnum = {
   seq: 'seq',
   time_or_label: 'time_or_label',
   timezone: 'timezone',
-  activity: 'activity'
+  activity: 'activity',
+  type: 'type',
+  location: 'location',
+  from_location: 'from_location',
+  to_location: 'to_location',
+  duration_minutes: 'duration_minutes'
 };
 
 exports.Prisma.Route_destinationsScalarFieldEnum = {
@@ -1418,6 +1445,7 @@ exports.Prisma.ModelName = {
   customers: 'customers',
   destination_activities: 'destination_activities',
   destinations: 'destinations',
+  destination_gears: 'destination_gears',
   discounts: 'discounts',
   document_categories: 'document_categories',
   documents: 'documents',

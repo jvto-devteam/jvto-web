@@ -340,14 +340,6 @@ export default function CmsPackagesPage() {
                           <Trash2 className="w-3 h-3" />
                           Delete
                         </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDownload(pkg.id)}
-                          className="inline-flex items-center gap-1 rounded-md border border-slate-700 bg-slate-900/60 hover:bg-slate-900 text-[11px] text-slate-200 px-2 py-1"
-                        >
-                          <Download className="w-3 h-3" />
-                          Download
-                        </button>
                       </div>
                     </td>
                   </tr>

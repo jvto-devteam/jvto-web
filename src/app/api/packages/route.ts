@@ -133,15 +133,73 @@ export async function POST(req: NextRequest) {
       typeof body.physicality === "string" && body.physicality.trim()
         ? body.physicality.trim()
         : null;
+    // --- operational & safety fields ---
+    const traveler_requirements =
+      typeof body.traveler_requirements === "string" &&
+      body.traveler_requirements.trim()
+        ? body.traveler_requirements.trim()
+        : null;
+
+    const tags: string[] = Array.isArray(body.tags)
+      ? body.tags.map((v: any) => String(v).trim()).filter(Boolean)
+      : [];
+
+    const operational_complexity_note =
+      typeof body.operational_complexity_note === "string" &&
+      body.operational_complexity_note.trim()
+        ? body.operational_complexity_note.trim()
+        : null;
+
+    const first_day_last_pickup_guidance =
+      typeof body.first_day_last_pickup_guidance === "string" &&
+      body.first_day_last_pickup_guidance.trim()
+        ? body.first_day_last_pickup_guidance.trim()
+        : null;
+
+    const last_day_safe_flight_note =
+      typeof body.last_day_safe_flight_note === "string" &&
+      body.last_day_safe_flight_note.trim()
+        ? body.last_day_safe_flight_note.trim()
+        : null;
+
+    const health_requirements: string[] = Array.isArray(
+      body.health_requirements
+    )
+      ? body.health_requirements
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
+    const environmental_risks: string[] = Array.isArray(
+      body.environmental_risks
+    )
+      ? body.environmental_risks
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
+
+    const safety_mitigation: string[] = Array.isArray(body.safety_mitigation)
+      ? body.safety_mitigation.map((v: any) => String(v).trim()).filter(Boolean)
+      : [];
+
+    const handover_notes: string[] = Array.isArray(body.handover_notes)
+      ? body.handover_notes.map((v: any) => String(v).trim()).filter(Boolean)
+      : [];
+
+    const emergency_protocols: string[] = Array.isArray(
+      body.emergency_protocols
+    )
+      ? body.emergency_protocols
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
 
     // --- marketing fields ---
     const perfect_for: string[] = Array.isArray(body.perfect_for)
       ? body.perfect_for.map((v: any) => String(v).trim()).filter(Boolean)
       : [];
 
-    const highlights_bullets: string[] = Array.isArray(
-      body.highlights_bullets
-    )
+    const highlights_bullets: string[] = Array.isArray(body.highlights_bullets)
       ? body.highlights_bullets
           .map((v: any) => String(v).trim())
           .filter(Boolean)
@@ -180,9 +238,7 @@ export async function POST(req: NextRequest) {
       .map((id: number) => BigInt(id));
 
     // addons
-    const addonsRaw: unknown[] = Array.isArray(body.addons)
-      ? body.addons
-      : [];
+    const addonsRaw: unknown[] = Array.isArray(body.addons) ? body.addons : [];
 
     const addonIds: bigint[] = addonsRaw
       .map((v: unknown) => Number(v as any))
@@ -378,6 +434,16 @@ export async function POST(req: NextRequest) {
         highlights_bullets,
         safety_positioning,
         unique_selling_points,
+        traveler_requirements,
+        tags,
+        operational_complexity_note,
+        first_day_last_pickup_guidance,
+        last_day_safe_flight_note,
+        health_requirements,
+        environmental_risks,
+        safety_mitigation,
+        handover_notes,
+        emergency_protocols,
         package_prices: {
           create: priceTiersInput.map(
             (pt: { price_tier_id: bigint; price: number }) => ({
@@ -472,8 +538,21 @@ export async function POST(req: NextRequest) {
         highlights_bullets: created.highlights_bullets ?? [],
         safety_positioning: created.safety_positioning,
         unique_selling_points: created.unique_selling_points ?? [],
+
+        traveler_requirements: created.traveler_requirements,
+        tags: created.tags ?? [],
+        operational_complexity_note: created.operational_complexity_note,
+        first_day_last_pickup_guidance: created.first_day_last_pickup_guidance,
+        last_day_safe_flight_note: created.last_day_safe_flight_note,
+        health_requirements: created.health_requirements ?? [],
+        environmental_risks: created.environmental_risks ?? [],
+        safety_mitigation: created.safety_mitigation ?? [],
+        handover_notes: created.handover_notes ?? [],
+        emergency_protocols: created.emergency_protocols ?? [],
+
         created_at: created.created_at,
         updated_at: created.updated_at,
+
         package_prices: created.package_prices.map((p) => ({
           id: Number(p.id),
           price: p.price,
