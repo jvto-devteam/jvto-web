@@ -2,14 +2,14 @@
 import type { MetadataRoute } from "next";
 import { now } from "@/lib/site";
 
-import { sitemapRoot } from "./(root)/sitemap.data";
-import { sitemapBlog } from "./blog/sitemap.data";
-import { sitemapWhyJvto } from "./why-jvto/sitemap.data";
-import { sitemapTravelGuide } from "./travel-guide/sitemap.data";
-import { sitemapDestinations } from "./destinations/sitemap.data";
-import { sitemapToursIndex } from "./tours/sitemap.data";
-import { sitemapToursFromSurabaya } from "./tours/from-surabaya/sitemap.data";
-import { sitemapToursFromBali } from "./tours/from-bali/sitemap.data";
+import { sitemapRoot } from "./sitemap.data";
+import { sitemapBlog } from "./(website)/blog/sitemap.data";
+import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
+import { sitemapTravelGuide } from "./(website)/travel-guide/sitemap.data";
+import { sitemapDestinations } from "./(website)/destinations/sitemap.data";
+import { sitemapToursIndex } from "./(website)/tours/sitemap.data";
+import { sitemapToursFromSurabaya } from "./(website)/tours/from-surabaya/sitemap.data";
+import { sitemapToursFromBali } from "./(website)/tours/from-bali/sitemap.data";
 
 // Prisma butuh Node runtime
 export const runtime = "nodejs";

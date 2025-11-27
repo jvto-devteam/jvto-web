@@ -3,22 +3,26 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const url = req.nextUrl
+  const url = req.nextUrl;
+  const { pathname } = url;
+
   const rawHost = req.headers.get("host") || "";
   const host = rawHost.split(":")[0];
   const domain = "java-tour";
 
-  
-  if (host === `my.${domain}.local` || host === `my.${domain}.com`) {
-    if (url.pathname === '/') {
-      url.pathname = '/customer'
-      return NextResponse.rewrite(url)
-    }
-    return NextResponse.next()
+  const isCustomerHost = host === `my.${domain}.local` || host === `my.${domain}.com`;
+
+  if (!isCustomerHost && pathname.startsWith("/customer")) {
+    return new NextResponse("404 Not Found", { status: 404 });
   }
 
-
+  if (isCustomerHost) {
+    if (pathname === "/") {
+      url.pathname = "/customer";
+      return NextResponse.rewrite(url);
+    }
+    return NextResponse.next();
+  }
 
   // daftar exact URL delete permanent
   const goneUrls = [
