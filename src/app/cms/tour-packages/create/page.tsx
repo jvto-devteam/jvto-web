@@ -146,6 +146,16 @@ type FormState = {
   highlights_bullets: string;
   safety_positioning: string;
   unique_selling_points: string;
+  traveler_requirements: string;
+  tags: string;
+  operational_complexity_note: string;
+  first_day_last_pickup_guidance: string;
+  last_day_safe_flight_note: string;
+  health_requirements: string;
+  environmental_risks: string;
+  safety_mitigation: string;
+  handover_notes: string;
+  emergency_protocols: string;
 };
 
 const emptyForm: FormState = {
@@ -168,6 +178,17 @@ const emptyForm: FormState = {
   highlights_bullets: "",
   safety_positioning: "",
   unique_selling_points: "",
+
+  traveler_requirements: "",
+  tags: "",
+  operational_complexity_note: "",
+  first_day_last_pickup_guidance: "",
+  last_day_safe_flight_note: "",
+  health_requirements: "",
+  environmental_risks: "",
+  safety_mitigation: "",
+  handover_notes: "",
+  emergency_protocols: "",
 };
 
 const emptyPriceRow: PriceTierInput = {
@@ -817,6 +838,36 @@ export default function CmsPackageCreatePage() {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const tags = form.tags
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const health_requirements = form.health_requirements
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const environmental_risks = form.environmental_risks
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const safety_mitigation = form.safety_mitigation
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const handover_notes = form.handover_notes
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const emergency_protocols = form.emergency_protocols
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     try {
       const payload = {
         code: form.code.trim() || null,
@@ -837,10 +888,26 @@ export default function CmsPackageCreatePage() {
             : Number(form.duration_id),
         description: form.description.trim() || null,
         physicality: form.physicality.trim() || null,
+
         perfect_for,
         highlights_bullets,
         safety_positioning: form.safety_positioning.trim() || null,
         unique_selling_points,
+
+        traveler_requirements: form.traveler_requirements.trim() || null,
+        tags,
+        operational_complexity_note:
+          form.operational_complexity_note.trim() || null,
+        first_day_last_pickup_guidance:
+          form.first_day_last_pickup_guidance.trim() || null,
+        last_day_safe_flight_note:
+          form.last_day_safe_flight_note.trim() || null,
+        health_requirements,
+        environmental_risks,
+        safety_mitigation,
+        handover_notes,
+        emergency_protocols,
+
         price_tiers: cleanPriceTiers,
         includes: form.includes,
         excludes: form.excludes,
@@ -1135,114 +1202,353 @@ export default function CmsPackageCreatePage() {
   );
 
   const renderStep2 = () => (
-            <div className="spaye-y-4">
-          {/* Marketing & Positioning */}
-          <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
-            <div className="flex items-center gap-2">
-              <Tag className="w-3.5 h-3.5 text-emerald-400" />
-              <div>
-                <div className="text-xs font-semibold text-slate-200">
-                  Marketing & Positioning (optional)
-                </div>
-                <p className="text-[11px] text-slate-500">
-                  These fields help you generate landing page copy and marketplace
-                  descriptions consistently.
-                </p>
-              </div>
+    <div className="spaye-y-4">
+      {/* Marketing & Positioning */}
+      <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
+        <div className="flex items-center gap-2">
+          <Tag className="w-3.5 h-3.5 text-emerald-400" />
+          <div>
+            <div className="text-xs font-semibold text-slate-200">
+              Marketing & Positioning (optional)
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-slate-300">
-                  Perfect for (one per line)
-                </label>
-                <textarea
-                  value={form.perfect_for}
-                  onChange={(e) => {
-                    markEdited();
-                    setForm((prev) => ({
-                      ...prev,
-                      perfect_for: e.target.value,
-                    }));
-                  }}
-                  rows={4}
-                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                  placeholder={
-                    "Active travelers\nFirst-time Java visitors\nNature photographers"
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-slate-300">
-                  Key highlights (bullets, one per line)
-                </label>
-                <textarea
-                  value={form.highlights_bullets}
-                  onChange={(e) => {
-                    markEdited();
-                    setForm((prev) => ({
-                      ...prev,
-                      highlights_bullets: e.target.value,
-                    }));
-                  }}
-                  rows={4}
-                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                  placeholder={
-                    "Witness Ijen's electric-blue flames before sunrise\n4WD to panoramic Bromo viewpoint then crater walk\nBonus stop at hidden Madakaripura waterfall"
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-slate-300">
-                  Safety positioning (short paragraph)
-                </label>
-                <textarea
-                  value={form.safety_positioning}
-                  onChange={(e) => {
-                    markEdited();
-                    setForm((prev) => ({
-                      ...prev,
-                      safety_positioning: e.target.value,
-                    }));
-                  }}
-                  rows={4}
-                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                  placeholder="Professional guides, sanitized gas masks, health screening for Ijen, route decisions driven by safety."
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-medium text-slate-300">
-                  Unique selling points (one per line)
-                </label>
-                <textarea
-                  value={form.unique_selling_points}
-                  onChange={(e) => {
-                    markEdited();
-                    setForm((prev) => ({
-                      ...prev,
-                      unique_selling_points: e.target.value,
-                    }));
-                  }}
-                  rows={4}
-                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                  placeholder={
-                    "Tourist Police support\nPrivate 4WD experience\nHealth safety protocols"
-                  }
-                />
-              </div>
-            </div>
+            <p className="text-[11px] text-slate-500">
+              These fields help you generate landing page copy and marketplace
+              descriptions consistently.
+            </p>
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Perfect for (one per line)
+            </label>
+            <textarea
+              value={form.perfect_for}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  perfect_for: e.target.value,
+                }));
+              }}
+              rows={4}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder={
+                "Active travelers\nFirst-time Java visitors\nNature photographers"
+              }
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Key highlights (bullets, one per line)
+            </label>
+            <textarea
+              value={form.highlights_bullets}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  highlights_bullets: e.target.value,
+                }));
+              }}
+              rows={4}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder={
+                "Witness Ijen's electric-blue flames before sunrise\n4WD to panoramic Bromo viewpoint then crater walk\nBonus stop at hidden Madakaripura waterfall"
+              }
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Safety positioning (short paragraph)
+            </label>
+            <textarea
+              value={form.safety_positioning}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  safety_positioning: e.target.value,
+                }));
+              }}
+              rows={4}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder="Professional guides, sanitized gas masks, health screening for Ijen, route decisions driven by safety."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Unique selling points (one per line)
+            </label>
+            <textarea
+              value={form.unique_selling_points}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  unique_selling_points: e.target.value,
+                }));
+              }}
+              rows={4}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder={
+                "Tourist Police support\nPrivate 4WD experience\nHealth safety protocols"
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* Traveler requirements & health */}
+      <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
+        <div className="flex items-center gap-2">
+          <FileText className="w-3.5 h-3.5 text-emerald-400" />
+          <div>
+            <div className="text-xs font-semibold text-slate-200">
+              Traveler requirements & health (internal)
+            </div>
+            <p className="text-[11px] text-slate-500">
+              Catatan eligibility dan risiko untuk sinkron antara sales, ops,
+              dan safety.
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Traveler requirements (free text)
+            </label>
+            <textarea
+              value={form.traveler_requirements}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  traveler_requirements: e.target.value,
+                }));
+              }}
+              rows={3}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder="Example: Not recommended for guests with serious heart or lung conditions."
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                Health requirements (one per line)
+              </label>
+              <textarea
+                value={form.health_requirements}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    health_requirements: e.target.value,
+                  }));
+                }}
+                rows={4}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder={
+                  "Able to walk 3–4 km on uneven terrain\nComfortable with early-morning starts (1–3 AM)"
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                Environmental risks (one per line)
+              </label>
+              <textarea
+                value={form.environmental_risks}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    environmental_risks: e.target.value,
+                  }));
+                }}
+                rows={4}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder={
+                  "Volcanic gases at Ijen\nSlippery paths during rainy season"
+                }
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                Safety mitigation (one per line)
+              </label>
+              <textarea
+                value={form.safety_mitigation}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    safety_mitigation: e.target.value,
+                  }));
+                }}
+                rows={4}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder={
+                  "Gas masks provided at Ijen\nRoute adjusted based on weather & guest condition"
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                Emergency protocols (one per line)
+              </label>
+              <textarea
+                value={form.emergency_protocols}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    emergency_protocols: e.target.value,
+                  }));
+                }}
+                rows={4}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder={
+                  "Emergency evacuation route for Ijen\nNearest hospital & contact numbers"
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Operational notes, tags & handover */}
+      <div className="border border-slate-800 rounded-lg p-3 bg-slate-950/50 space-y-3">
+        <div className="flex items-center gap-2">
+          <Clock className="w-3.5 h-3.5 text-emerald-400" />
+          <div>
+            <div className="text-xs font-semibold text-slate-200">
+              Operational notes, tags & handover
+            </div>
+            <p className="text-[11px] text-slate-500">
+              Catatan untuk scheduling, crew briefing, dan filter produk.
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Tags (one per line)
+            </label>
+            <textarea
+              value={form.tags}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  tags: e.target.value,
+                }));
+              }}
+              rows={3}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder={"family-friendly\nphotography\nmidnight-start"}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Operational complexity note
+            </label>
+            <textarea
+              value={form.operational_complexity_note}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  operational_complexity_note: e.target.value,
+                }));
+              }}
+              rows={3}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder="Example: Requires 4WD allocation + backup driver during peak season."
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                First day – latest safe pickup guidance
+              </label>
+              <textarea
+                value={form.first_day_last_pickup_guidance}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    first_day_last_pickup_guidance: e.target.value,
+                  }));
+                }}
+                rows={3}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder="Example: Last safe pickup from Surabaya airport 21:00 for same-day Ijen departure."
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-medium text-slate-300">
+                Last day – safe flight / train note
+              </label>
+              <textarea
+                value={form.last_day_safe_flight_note}
+                onChange={(e) => {
+                  markEdited();
+                  setForm((prev) => ({
+                    ...prev,
+                    last_day_safe_flight_note: e.target.value,
+                  }));
+                }}
+                rows={3}
+                className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+                placeholder="Example: Recommended to book flights from Surabaya after 15:00 on last day."
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-300">
+              Handover notes for crew (one per line)
+            </label>
+            <textarea
+              value={form.handover_notes}
+              onChange={(e) => {
+                markEdited();
+                setForm((prev) => ({
+                  ...prev,
+                  handover_notes: e.target.value,
+                }));
+              }}
+              rows={4}
+              className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
+              placeholder={
+                "Remind guests about warm layers before Bromo\nDouble-check gas masks before Ijen hike"
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 
   const renderStep3 = () => (
-        <div className="space-y-4">
+    <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <MapPin className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1342,11 +1648,10 @@ export default function CmsPackageCreatePage() {
         </div>
       </div>
     </div>
-
   );
 
   const renderStep4 = () => (
-        <div className="space-y-4">
+    <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <Info className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1451,11 +1756,10 @@ export default function CmsPackageCreatePage() {
         ))}
       </div>
     </div>
-
   );
 
   const renderStep5 = () => (
-        <div className="space-y-4">
+    <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <ShieldAlert className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1670,11 +1974,10 @@ export default function CmsPackageCreatePage() {
         </div>
       </div>
     </div>
-
   );
 
   const renderStep6 = () => (
-        <div className="space-y-4">
+    <div className="space-y-4">
       <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-3 flex items-start gap-2 text-[12px] text-slate-200">
         <ImageIcon className="w-4 h-4 mt-0.5 text-emerald-400 flex-shrink-0" />
         <div>
@@ -1725,7 +2028,6 @@ export default function CmsPackageCreatePage() {
         </p>
       </div>
     </div>
-
   );
   const renderStep7 = () => (
     <div className="space-y-4">
@@ -1916,7 +2218,7 @@ export default function CmsPackageCreatePage() {
         </div>
       )}
     </div>
-  )
+  );
 
   const renderCurrentStep = () => {
     switch (step) {

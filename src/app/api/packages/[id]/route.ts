@@ -84,6 +84,26 @@ function serializePackageDetail(pkg: any) {
       ? pkg.unique_selling_points
       : [],
 
+    traveler_requirements: pkg.traveler_requirements ?? null,
+    tags: Array.isArray(pkg.tags) ? pkg.tags : [],
+    operational_complexity_note: pkg.operational_complexity_note ?? null,
+    first_day_last_pickup_guidance: pkg.first_day_last_pickup_guidance ?? null,
+    last_day_safe_flight_note: pkg.last_day_safe_flight_note ?? null,
+
+    health_requirements: Array.isArray(pkg.health_requirements)
+      ? pkg.health_requirements
+      : [],
+    environmental_risks: Array.isArray(pkg.environmental_risks)
+      ? pkg.environmental_risks
+      : [],
+    safety_mitigation: Array.isArray(pkg.safety_mitigation)
+      ? pkg.safety_mitigation
+      : [],
+    handover_notes: Array.isArray(pkg.handover_notes) ? pkg.handover_notes : [],
+    emergency_protocols: Array.isArray(pkg.emergency_protocols)
+      ? pkg.emergency_protocols
+      : [],
+
     // price tiers untuk form
     price_tiers: prices.map((p: any) => ({
       price_tier_id: p.price_tier_id ? Number(p.price_tier_id) : null,
@@ -215,6 +235,89 @@ export async function PUT(
       typeof body.physicality === "string" && body.physicality.trim()
         ? body.physicality.trim()
         : null;
+    const traveler_requirements =
+      typeof body.traveler_requirements === "string" &&
+      body.traveler_requirements.trim()
+        ? body.traveler_requirements.trim()
+        : null;
+
+    const tags = Array.isArray(body.tags)
+      ? body.tags
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const operational_complexity_note =
+      typeof body.operational_complexity_note === "string" &&
+      body.operational_complexity_note.trim()
+        ? body.operational_complexity_note.trim()
+        : null;
+
+    const first_day_last_pickup_guidance =
+      typeof body.first_day_last_pickup_guidance === "string" &&
+      body.first_day_last_pickup_guidance.trim()
+        ? body.first_day_last_pickup_guidance.trim()
+        : null;
+
+    const last_day_safe_flight_note =
+      typeof body.last_day_safe_flight_note === "string" &&
+      body.last_day_safe_flight_note.trim()
+        ? body.last_day_safe_flight_note.trim()
+        : null;
+
+    const health_requirements = Array.isArray(body.health_requirements)
+      ? body.health_requirements
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const environmental_risks = Array.isArray(body.environmental_risks)
+      ? body.environmental_risks
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const safety_mitigation = Array.isArray(body.safety_mitigation)
+      ? body.safety_mitigation
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const handover_notes = Array.isArray(body.handover_notes)
+      ? body.handover_notes
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const emergency_protocols = Array.isArray(body.emergency_protocols)
+      ? body.emergency_protocols
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const perfect_for = Array.isArray(body.perfect_for)
+      ? body.perfect_for
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const highlights_bullets = Array.isArray(body.highlights_bullets)
+      ? body.highlights_bullets
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
+
+    const safety_positioning =
+      typeof body.safety_positioning === "string" &&
+      body.safety_positioning.trim()
+        ? body.safety_positioning.trim()
+        : null;
+
+    const unique_selling_points = Array.isArray(body.unique_selling_points)
+      ? body.unique_selling_points
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
 
     // includes / excludes
     const includesRaw = Array.isArray(body.includes) ? body.includes : [];
@@ -420,7 +523,21 @@ export async function PUT(
         description,
         physicality,
         is_publish: body.is_publish === false ? false : true,
+        perfect_for,
+        highlights_bullets,
+        safety_positioning,
+        unique_selling_points,
 
+        traveler_requirements,
+        tags,
+        operational_complexity_note,
+        first_day_last_pickup_guidance,
+        last_day_safe_flight_note,
+        health_requirements,
+        environmental_risks,
+        safety_mitigation,
+        handover_notes,
+        emergency_protocols,
         package_prices: {
           deleteMany: {},
           create: priceTiersInput.map(

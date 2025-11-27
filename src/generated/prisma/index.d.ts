@@ -234,6 +234,11 @@ export type destination_activities = $Result.DefaultSelection<Prisma.$destinatio
  */
 export type destinations = $Result.DefaultSelection<Prisma.$destinationsPayload>
 /**
+ * Model destination_gears
+ * 
+ */
+export type destination_gears = $Result.DefaultSelection<Prisma.$destination_gearsPayload>
+/**
  * Model discounts
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -1084,6 +1089,16 @@ export class PrismaClient<
     * ```
     */
   get destinations(): Prisma.destinationsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.destination_gears`: Exposes CRUD operations for the **destination_gears** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Destination_gears
+    * const destination_gears = await prisma.destination_gears.findMany()
+    * ```
+    */
+  get destination_gears(): Prisma.destination_gearsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.discounts`: Exposes CRUD operations for the **discounts** model.
@@ -2077,6 +2092,7 @@ export namespace Prisma {
     customers: 'customers',
     destination_activities: 'destination_activities',
     destinations: 'destinations',
+    destination_gears: 'destination_gears',
     discounts: 'discounts',
     document_categories: 'document_categories',
     documents: 'documents',
@@ -2146,7 +2162,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "customers" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5255,6 +5271,80 @@ export namespace Prisma {
           count: {
             args: Prisma.destinationsCountArgs<ExtArgs>
             result: $Utils.Optional<DestinationsCountAggregateOutputType> | number
+          }
+        }
+      }
+      destination_gears: {
+        payload: Prisma.$destination_gearsPayload<ExtArgs>
+        fields: Prisma.destination_gearsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.destination_gearsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.destination_gearsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          findFirst: {
+            args: Prisma.destination_gearsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.destination_gearsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          findMany: {
+            args: Prisma.destination_gearsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>[]
+          }
+          create: {
+            args: Prisma.destination_gearsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          createMany: {
+            args: Prisma.destination_gearsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.destination_gearsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>[]
+          }
+          delete: {
+            args: Prisma.destination_gearsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          update: {
+            args: Prisma.destination_gearsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          deleteMany: {
+            args: Prisma.destination_gearsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.destination_gearsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.destination_gearsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>[]
+          }
+          upsert: {
+            args: Prisma.destination_gearsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$destination_gearsPayload>
+          }
+          aggregate: {
+            args: Prisma.Destination_gearsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDestination_gears>
+          }
+          groupBy: {
+            args: Prisma.destination_gearsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Destination_gearsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.destination_gearsCountArgs<ExtArgs>
+            result: $Utils.Optional<Destination_gearsCountAggregateOutputType> | number
           }
         }
       }
@@ -9170,6 +9260,7 @@ export namespace Prisma {
     customers?: customersOmit
     destination_activities?: destination_activitiesOmit
     destinations?: destinationsOmit
+    destination_gears?: destination_gearsOmit
     discounts?: discountsOmit
     document_categories?: document_categoriesOmit
     documents?: documentsOmit
@@ -10057,6 +10148,7 @@ export namespace Prisma {
     destination_assets: number
     destination_faqs: number
     route_destinations: number
+    destination_gears: number
   }
 
   export type DestinationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10072,6 +10164,7 @@ export namespace Prisma {
     destination_assets?: boolean | DestinationsCountOutputTypeCountDestination_assetsArgs
     destination_faqs?: boolean | DestinationsCountOutputTypeCountDestination_faqsArgs
     route_destinations?: boolean | DestinationsCountOutputTypeCountRoute_destinationsArgs
+    destination_gears?: boolean | DestinationsCountOutputTypeCountDestination_gearsArgs
   }
 
   // Custom InputTypes
@@ -10167,6 +10260,13 @@ export namespace Prisma {
    */
   export type DestinationsCountOutputTypeCountRoute_destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: route_destinationsWhereInput
+  }
+
+  /**
+   * DestinationsCountOutputType without action
+   */
+  export type DestinationsCountOutputTypeCountDestination_gearsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_gearsWhereInput
   }
 
 
@@ -61774,6 +61874,7 @@ export namespace Prisma {
     seo_title: string | null
     seo_description: string | null
     slug: string | null
+    short_slug: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -61818,6 +61919,7 @@ export namespace Prisma {
     seo_title: string | null
     seo_description: string | null
     slug: string | null
+    short_slug: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -61874,6 +61976,7 @@ export namespace Prisma {
     tags: number
     types: number
     slug: number
+    short_slug: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -61942,6 +62045,7 @@ export namespace Prisma {
     seo_title?: true
     seo_description?: true
     slug?: true
+    short_slug?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -61986,6 +62090,7 @@ export namespace Prisma {
     seo_title?: true
     seo_description?: true
     slug?: true
+    short_slug?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -62042,6 +62147,7 @@ export namespace Prisma {
     tags?: true
     types?: true
     slug?: true
+    short_slug?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -62185,6 +62291,7 @@ export namespace Prisma {
     tags: string[]
     types: JsonValue | null
     slug: string | null
+    short_slug: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -62260,6 +62367,7 @@ export namespace Prisma {
     tags?: boolean
     types?: boolean
     slug?: boolean
+    short_slug?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -62275,6 +62383,7 @@ export namespace Prisma {
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
     route_destinations?: boolean | destinations$route_destinationsArgs<ExtArgs>
+    destination_gears?: boolean | destinations$destination_gearsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["destinations"]>
 
@@ -62329,6 +62438,7 @@ export namespace Prisma {
     tags?: boolean
     types?: boolean
     slug?: boolean
+    short_slug?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -62385,6 +62495,7 @@ export namespace Prisma {
     tags?: boolean
     types?: boolean
     slug?: boolean
+    short_slug?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -62441,12 +62552,13 @@ export namespace Prisma {
     tags?: boolean
     types?: boolean
     slug?: boolean
+    short_slug?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "tags" | "types" | "slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "tags" | "types" | "slug" | "short_slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -62460,6 +62572,7 @@ export namespace Prisma {
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
     route_destinations?: boolean | destinations$route_destinationsArgs<ExtArgs>
+    destination_gears?: boolean | destinations$destination_gearsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type destinationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -62480,6 +62593,7 @@ export namespace Prisma {
       destination_assets: Prisma.$destination_assetsPayload<ExtArgs>[]
       destination_faqs: Prisma.$destination_faqsPayload<ExtArgs>[]
       route_destinations: Prisma.$route_destinationsPayload<ExtArgs>[]
+      destination_gears: Prisma.$destination_gearsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -62532,6 +62646,7 @@ export namespace Prisma {
       tags: string[]
       types: Prisma.JsonValue | null
       slug: string | null
+      short_slug: string | null
       created_at: Date | null
       updated_at: Date | null
       deleted_at: Date | null
@@ -62941,6 +63056,7 @@ export namespace Prisma {
     destination_assets<T extends destinations$destination_assetsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     destination_faqs<T extends destinations$destination_faqsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     route_destinations<T extends destinations$route_destinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$route_destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    destination_gears<T extends destinations$destination_gearsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_gearsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -63020,6 +63136,7 @@ export namespace Prisma {
     readonly tags: FieldRef<"destinations", 'String[]'>
     readonly types: FieldRef<"destinations", 'Json'>
     readonly slug: FieldRef<"destinations", 'String'>
+    readonly short_slug: FieldRef<"destinations", 'String'>
     readonly created_at: FieldRef<"destinations", 'DateTime'>
     readonly updated_at: FieldRef<"destinations", 'DateTime'>
     readonly deleted_at: FieldRef<"destinations", 'DateTime'>
@@ -63699,6 +63816,30 @@ export namespace Prisma {
   }
 
   /**
+   * destinations.destination_gears
+   */
+  export type destinations$destination_gearsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    where?: destination_gearsWhereInput
+    orderBy?: destination_gearsOrderByWithRelationInput | destination_gearsOrderByWithRelationInput[]
+    cursor?: destination_gearsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Destination_gearsScalarFieldEnum | Destination_gearsScalarFieldEnum[]
+  }
+
+  /**
    * destinations without action
    */
   export type destinationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -63714,6 +63855,1115 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: destinationsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model destination_gears
+   */
+
+  export type AggregateDestination_gears = {
+    _count: Destination_gearsCountAggregateOutputType | null
+    _avg: Destination_gearsAvgAggregateOutputType | null
+    _sum: Destination_gearsSumAggregateOutputType | null
+    _min: Destination_gearsMinAggregateOutputType | null
+    _max: Destination_gearsMaxAggregateOutputType | null
+  }
+
+  export type Destination_gearsAvgAggregateOutputType = {
+    id: number | null
+    destination_id: number | null
+  }
+
+  export type Destination_gearsSumAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+  }
+
+  export type Destination_gearsMinAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    gear: string | null
+    type: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Destination_gearsMaxAggregateOutputType = {
+    id: bigint | null
+    destination_id: bigint | null
+    gear: string | null
+    type: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Destination_gearsCountAggregateOutputType = {
+    id: number
+    destination_id: number
+    gear: number
+    type: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Destination_gearsAvgAggregateInputType = {
+    id?: true
+    destination_id?: true
+  }
+
+  export type Destination_gearsSumAggregateInputType = {
+    id?: true
+    destination_id?: true
+  }
+
+  export type Destination_gearsMinAggregateInputType = {
+    id?: true
+    destination_id?: true
+    gear?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Destination_gearsMaxAggregateInputType = {
+    id?: true
+    destination_id?: true
+    gear?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Destination_gearsCountAggregateInputType = {
+    id?: true
+    destination_id?: true
+    gear?: true
+    type?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Destination_gearsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_gears to aggregate.
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_gears to fetch.
+     */
+    orderBy?: destination_gearsOrderByWithRelationInput | destination_gearsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: destination_gearsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_gears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_gears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned destination_gears
+    **/
+    _count?: true | Destination_gearsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Destination_gearsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Destination_gearsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Destination_gearsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Destination_gearsMaxAggregateInputType
+  }
+
+  export type GetDestination_gearsAggregateType<T extends Destination_gearsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDestination_gears]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDestination_gears[P]>
+      : GetScalarType<T[P], AggregateDestination_gears[P]>
+  }
+
+
+
+
+  export type destination_gearsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_gearsWhereInput
+    orderBy?: destination_gearsOrderByWithAggregationInput | destination_gearsOrderByWithAggregationInput[]
+    by: Destination_gearsScalarFieldEnum[] | Destination_gearsScalarFieldEnum
+    having?: destination_gearsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Destination_gearsCountAggregateInputType | true
+    _avg?: Destination_gearsAvgAggregateInputType
+    _sum?: Destination_gearsSumAggregateInputType
+    _min?: Destination_gearsMinAggregateInputType
+    _max?: Destination_gearsMaxAggregateInputType
+  }
+
+  export type Destination_gearsGroupByOutputType = {
+    id: bigint
+    destination_id: bigint
+    gear: string
+    type: string
+    created_at: Date | null
+    updated_at: Date | null
+    _count: Destination_gearsCountAggregateOutputType | null
+    _avg: Destination_gearsAvgAggregateOutputType | null
+    _sum: Destination_gearsSumAggregateOutputType | null
+    _min: Destination_gearsMinAggregateOutputType | null
+    _max: Destination_gearsMaxAggregateOutputType | null
+  }
+
+  type GetDestination_gearsGroupByPayload<T extends destination_gearsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Destination_gearsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Destination_gearsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Destination_gearsGroupByOutputType[P]>
+            : GetScalarType<T[P], Destination_gearsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type destination_gearsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    gear?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_gears"]>
+
+  export type destination_gearsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    gear?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_gears"]>
+
+  export type destination_gearsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    destination_id?: boolean
+    gear?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["destination_gears"]>
+
+  export type destination_gearsSelectScalar = {
+    id?: boolean
+    destination_id?: boolean
+    gear?: boolean
+    type?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type destination_gearsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "destination_id" | "gear" | "type" | "created_at" | "updated_at", ExtArgs["result"]["destination_gears"]>
+  export type destination_gearsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }
+  export type destination_gearsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }
+  export type destination_gearsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+  }
+
+  export type $destination_gearsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "destination_gears"
+    objects: {
+      destination: Prisma.$destinationsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      destination_id: bigint
+      gear: string
+      type: string
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["destination_gears"]>
+    composites: {}
+  }
+
+  type destination_gearsGetPayload<S extends boolean | null | undefined | destination_gearsDefaultArgs> = $Result.GetResult<Prisma.$destination_gearsPayload, S>
+
+  type destination_gearsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<destination_gearsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Destination_gearsCountAggregateInputType | true
+    }
+
+  export interface destination_gearsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['destination_gears'], meta: { name: 'destination_gears' } }
+    /**
+     * Find zero or one Destination_gears that matches the filter.
+     * @param {destination_gearsFindUniqueArgs} args - Arguments to find a Destination_gears
+     * @example
+     * // Get one Destination_gears
+     * const destination_gears = await prisma.destination_gears.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends destination_gearsFindUniqueArgs>(args: SelectSubset<T, destination_gearsFindUniqueArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Destination_gears that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {destination_gearsFindUniqueOrThrowArgs} args - Arguments to find a Destination_gears
+     * @example
+     * // Get one Destination_gears
+     * const destination_gears = await prisma.destination_gears.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends destination_gearsFindUniqueOrThrowArgs>(args: SelectSubset<T, destination_gearsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_gears that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsFindFirstArgs} args - Arguments to find a Destination_gears
+     * @example
+     * // Get one Destination_gears
+     * const destination_gears = await prisma.destination_gears.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends destination_gearsFindFirstArgs>(args?: SelectSubset<T, destination_gearsFindFirstArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Destination_gears that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsFindFirstOrThrowArgs} args - Arguments to find a Destination_gears
+     * @example
+     * // Get one Destination_gears
+     * const destination_gears = await prisma.destination_gears.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends destination_gearsFindFirstOrThrowArgs>(args?: SelectSubset<T, destination_gearsFindFirstOrThrowArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Destination_gears that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Destination_gears
+     * const destination_gears = await prisma.destination_gears.findMany()
+     * 
+     * // Get first 10 Destination_gears
+     * const destination_gears = await prisma.destination_gears.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const destination_gearsWithIdOnly = await prisma.destination_gears.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends destination_gearsFindManyArgs>(args?: SelectSubset<T, destination_gearsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Destination_gears.
+     * @param {destination_gearsCreateArgs} args - Arguments to create a Destination_gears.
+     * @example
+     * // Create one Destination_gears
+     * const Destination_gears = await prisma.destination_gears.create({
+     *   data: {
+     *     // ... data to create a Destination_gears
+     *   }
+     * })
+     * 
+     */
+    create<T extends destination_gearsCreateArgs>(args: SelectSubset<T, destination_gearsCreateArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Destination_gears.
+     * @param {destination_gearsCreateManyArgs} args - Arguments to create many Destination_gears.
+     * @example
+     * // Create many Destination_gears
+     * const destination_gears = await prisma.destination_gears.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends destination_gearsCreateManyArgs>(args?: SelectSubset<T, destination_gearsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Destination_gears and returns the data saved in the database.
+     * @param {destination_gearsCreateManyAndReturnArgs} args - Arguments to create many Destination_gears.
+     * @example
+     * // Create many Destination_gears
+     * const destination_gears = await prisma.destination_gears.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Destination_gears and only return the `id`
+     * const destination_gearsWithIdOnly = await prisma.destination_gears.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends destination_gearsCreateManyAndReturnArgs>(args?: SelectSubset<T, destination_gearsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Destination_gears.
+     * @param {destination_gearsDeleteArgs} args - Arguments to delete one Destination_gears.
+     * @example
+     * // Delete one Destination_gears
+     * const Destination_gears = await prisma.destination_gears.delete({
+     *   where: {
+     *     // ... filter to delete one Destination_gears
+     *   }
+     * })
+     * 
+     */
+    delete<T extends destination_gearsDeleteArgs>(args: SelectSubset<T, destination_gearsDeleteArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Destination_gears.
+     * @param {destination_gearsUpdateArgs} args - Arguments to update one Destination_gears.
+     * @example
+     * // Update one Destination_gears
+     * const destination_gears = await prisma.destination_gears.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends destination_gearsUpdateArgs>(args: SelectSubset<T, destination_gearsUpdateArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Destination_gears.
+     * @param {destination_gearsDeleteManyArgs} args - Arguments to filter Destination_gears to delete.
+     * @example
+     * // Delete a few Destination_gears
+     * const { count } = await prisma.destination_gears.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends destination_gearsDeleteManyArgs>(args?: SelectSubset<T, destination_gearsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_gears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Destination_gears
+     * const destination_gears = await prisma.destination_gears.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends destination_gearsUpdateManyArgs>(args: SelectSubset<T, destination_gearsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Destination_gears and returns the data updated in the database.
+     * @param {destination_gearsUpdateManyAndReturnArgs} args - Arguments to update many Destination_gears.
+     * @example
+     * // Update many Destination_gears
+     * const destination_gears = await prisma.destination_gears.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Destination_gears and only return the `id`
+     * const destination_gearsWithIdOnly = await prisma.destination_gears.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends destination_gearsUpdateManyAndReturnArgs>(args: SelectSubset<T, destination_gearsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Destination_gears.
+     * @param {destination_gearsUpsertArgs} args - Arguments to update or create a Destination_gears.
+     * @example
+     * // Update or create a Destination_gears
+     * const destination_gears = await prisma.destination_gears.upsert({
+     *   create: {
+     *     // ... data to create a Destination_gears
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Destination_gears we want to update
+     *   }
+     * })
+     */
+    upsert<T extends destination_gearsUpsertArgs>(args: SelectSubset<T, destination_gearsUpsertArgs<ExtArgs>>): Prisma__destination_gearsClient<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Destination_gears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsCountArgs} args - Arguments to filter Destination_gears to count.
+     * @example
+     * // Count the number of Destination_gears
+     * const count = await prisma.destination_gears.count({
+     *   where: {
+     *     // ... the filter for the Destination_gears we want to count
+     *   }
+     * })
+    **/
+    count<T extends destination_gearsCountArgs>(
+      args?: Subset<T, destination_gearsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Destination_gearsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Destination_gears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Destination_gearsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Destination_gearsAggregateArgs>(args: Subset<T, Destination_gearsAggregateArgs>): Prisma.PrismaPromise<GetDestination_gearsAggregateType<T>>
+
+    /**
+     * Group by Destination_gears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {destination_gearsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends destination_gearsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: destination_gearsGroupByArgs['orderBy'] }
+        : { orderBy?: destination_gearsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, destination_gearsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDestination_gearsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the destination_gears model
+   */
+  readonly fields: destination_gearsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for destination_gears.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__destination_gearsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    destination<T extends destinationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, destinationsDefaultArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the destination_gears model
+   */
+  interface destination_gearsFieldRefs {
+    readonly id: FieldRef<"destination_gears", 'BigInt'>
+    readonly destination_id: FieldRef<"destination_gears", 'BigInt'>
+    readonly gear: FieldRef<"destination_gears", 'String'>
+    readonly type: FieldRef<"destination_gears", 'String'>
+    readonly created_at: FieldRef<"destination_gears", 'DateTime'>
+    readonly updated_at: FieldRef<"destination_gears", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * destination_gears findUnique
+   */
+  export type destination_gearsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_gears to fetch.
+     */
+    where: destination_gearsWhereUniqueInput
+  }
+
+  /**
+   * destination_gears findUniqueOrThrow
+   */
+  export type destination_gearsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_gears to fetch.
+     */
+    where: destination_gearsWhereUniqueInput
+  }
+
+  /**
+   * destination_gears findFirst
+   */
+  export type destination_gearsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_gears to fetch.
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_gears to fetch.
+     */
+    orderBy?: destination_gearsOrderByWithRelationInput | destination_gearsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_gears.
+     */
+    cursor?: destination_gearsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_gears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_gears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_gears.
+     */
+    distinct?: Destination_gearsScalarFieldEnum | Destination_gearsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_gears findFirstOrThrow
+   */
+  export type destination_gearsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_gears to fetch.
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_gears to fetch.
+     */
+    orderBy?: destination_gearsOrderByWithRelationInput | destination_gearsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for destination_gears.
+     */
+    cursor?: destination_gearsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_gears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_gears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of destination_gears.
+     */
+    distinct?: Destination_gearsScalarFieldEnum | Destination_gearsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_gears findMany
+   */
+  export type destination_gearsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter, which destination_gears to fetch.
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of destination_gears to fetch.
+     */
+    orderBy?: destination_gearsOrderByWithRelationInput | destination_gearsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing destination_gears.
+     */
+    cursor?: destination_gearsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` destination_gears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` destination_gears.
+     */
+    skip?: number
+    distinct?: Destination_gearsScalarFieldEnum | Destination_gearsScalarFieldEnum[]
+  }
+
+  /**
+   * destination_gears create
+   */
+  export type destination_gearsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a destination_gears.
+     */
+    data: XOR<destination_gearsCreateInput, destination_gearsUncheckedCreateInput>
+  }
+
+  /**
+   * destination_gears createMany
+   */
+  export type destination_gearsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many destination_gears.
+     */
+    data: destination_gearsCreateManyInput | destination_gearsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * destination_gears createManyAndReturn
+   */
+  export type destination_gearsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * The data used to create many destination_gears.
+     */
+    data: destination_gearsCreateManyInput | destination_gearsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_gears update
+   */
+  export type destination_gearsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a destination_gears.
+     */
+    data: XOR<destination_gearsUpdateInput, destination_gearsUncheckedUpdateInput>
+    /**
+     * Choose, which destination_gears to update.
+     */
+    where: destination_gearsWhereUniqueInput
+  }
+
+  /**
+   * destination_gears updateMany
+   */
+  export type destination_gearsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update destination_gears.
+     */
+    data: XOR<destination_gearsUpdateManyMutationInput, destination_gearsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_gears to update
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * Limit how many destination_gears to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_gears updateManyAndReturn
+   */
+  export type destination_gearsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * The data used to update destination_gears.
+     */
+    data: XOR<destination_gearsUpdateManyMutationInput, destination_gearsUncheckedUpdateManyInput>
+    /**
+     * Filter which destination_gears to update
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * Limit how many destination_gears to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * destination_gears upsert
+   */
+  export type destination_gearsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the destination_gears to update in case it exists.
+     */
+    where: destination_gearsWhereUniqueInput
+    /**
+     * In case the destination_gears found by the `where` argument doesn't exist, create a new destination_gears with this data.
+     */
+    create: XOR<destination_gearsCreateInput, destination_gearsUncheckedCreateInput>
+    /**
+     * In case the destination_gears was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<destination_gearsUpdateInput, destination_gearsUncheckedUpdateInput>
+  }
+
+  /**
+   * destination_gears delete
+   */
+  export type destination_gearsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
+    /**
+     * Filter which destination_gears to delete.
+     */
+    where: destination_gearsWhereUniqueInput
+  }
+
+  /**
+   * destination_gears deleteMany
+   */
+  export type destination_gearsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which destination_gears to delete
+     */
+    where?: destination_gearsWhereInput
+    /**
+     * Limit how many destination_gears to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * destination_gears without action
+   */
+  export type destination_gearsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destination_gears
+     */
+    select?: destination_gearsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destination_gears
+     */
+    omit?: destination_gearsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destination_gearsInclude<ExtArgs> | null
   }
 
 
@@ -74147,6 +75397,7 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
+    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -74169,6 +75420,7 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
+    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -74191,6 +75443,7 @@ export namespace Prisma {
     destination_id: number
     description: number
     facilities: number
+    area: number
     address: number
     phone: number
     banner: number
@@ -74229,6 +75482,7 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
+    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -74251,6 +75505,7 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
+    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -74273,6 +75528,7 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
+    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -74382,6 +75638,7 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
+    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -74423,6 +75680,7 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
+    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -74454,6 +75712,7 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
+    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -74477,6 +75736,7 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
+    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -74500,6 +75760,7 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
+    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -74515,7 +75776,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type hotelsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "destination_id" | "description" | "facilities" | "address" | "phone" | "banner" | "slug" | "group_wa_id" | "map_url" | "website_url" | "lunch_rate" | "dinner_rate" | "is_publish" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["hotels"]>
+  export type hotelsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "destination_id" | "description" | "facilities" | "area" | "address" | "phone" | "banner" | "slug" | "group_wa_id" | "map_url" | "website_url" | "lunch_rate" | "dinner_rate" | "is_publish" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["hotels"]>
   export type hotelsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking_destination_schedules?: boolean | hotels$booking_destination_schedulesArgs<ExtArgs>
     booking_hotel_meals?: boolean | hotels$booking_hotel_mealsArgs<ExtArgs>
@@ -74553,6 +75814,7 @@ export namespace Prisma {
       destination_id: bigint | null
       description: string | null
       facilities: string | null
+      area: string | null
       address: string | null
       phone: string | null
       banner: string | null
@@ -75003,6 +76265,7 @@ export namespace Prisma {
     readonly destination_id: FieldRef<"hotels", 'BigInt'>
     readonly description: FieldRef<"hotels", 'String'>
     readonly facilities: FieldRef<"hotels", 'String'>
+    readonly area: FieldRef<"hotels", 'String'>
     readonly address: FieldRef<"hotels", 'String'>
     readonly phone: FieldRef<"hotels", 'String'>
     readonly banner: FieldRef<"hotels", 'String'>
@@ -97837,6 +99100,10 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
+    traveler_requirements: string | null
+    operational_complexity_note: string | null
+    first_day_last_pickup_guidance: string | null
+    last_day_safe_flight_note: string | null
   }
 
   export type PackagesMaxAggregateOutputType = {
@@ -97868,6 +99135,10 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
+    traveler_requirements: string | null
+    operational_complexity_note: string | null
+    first_day_last_pickup_guidance: string | null
+    last_day_safe_flight_note: string | null
   }
 
   export type PackagesCountAggregateOutputType = {
@@ -97902,6 +99173,16 @@ export namespace Prisma {
     deleted_at: number
     aggregate_rating_value: number
     aggregate_rating_count: number
+    traveler_requirements: number
+    tags: number
+    operational_complexity_note: number
+    first_day_last_pickup_guidance: number
+    last_day_safe_flight_note: number
+    health_requirements: number
+    environmental_risks: number
+    safety_mitigation: number
+    handover_notes: number
+    emergency_protocols: number
     _all: number
   }
 
@@ -97963,6 +99244,10 @@ export namespace Prisma {
     deleted_at?: true
     aggregate_rating_value?: true
     aggregate_rating_count?: true
+    traveler_requirements?: true
+    operational_complexity_note?: true
+    first_day_last_pickup_guidance?: true
+    last_day_safe_flight_note?: true
   }
 
   export type PackagesMaxAggregateInputType = {
@@ -97994,6 +99279,10 @@ export namespace Prisma {
     deleted_at?: true
     aggregate_rating_value?: true
     aggregate_rating_count?: true
+    traveler_requirements?: true
+    operational_complexity_note?: true
+    first_day_last_pickup_guidance?: true
+    last_day_safe_flight_note?: true
   }
 
   export type PackagesCountAggregateInputType = {
@@ -98028,6 +99317,16 @@ export namespace Prisma {
     deleted_at?: true
     aggregate_rating_value?: true
     aggregate_rating_count?: true
+    traveler_requirements?: true
+    tags?: true
+    operational_complexity_note?: true
+    first_day_last_pickup_guidance?: true
+    last_day_safe_flight_note?: true
+    health_requirements?: true
+    environmental_risks?: true
+    safety_mitigation?: true
+    handover_notes?: true
+    emergency_protocols?: true
     _all?: true
   }
 
@@ -98149,6 +99448,16 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
+    traveler_requirements: string | null
+    tags: string[]
+    operational_complexity_note: string | null
+    first_day_last_pickup_guidance: string | null
+    last_day_safe_flight_note: string | null
+    health_requirements: string[]
+    environmental_risks: string[]
+    safety_mitigation: string[]
+    handover_notes: string[]
+    emergency_protocols: string[]
     _count: PackagesCountAggregateOutputType | null
     _avg: PackagesAvgAggregateOutputType | null
     _sum: PackagesSumAggregateOutputType | null
@@ -98202,6 +99511,16 @@ export namespace Prisma {
     deleted_at?: boolean
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
+    traveler_requirements?: boolean
+    tags?: boolean
+    operational_complexity_note?: boolean
+    first_day_last_pickup_guidance?: boolean
+    last_day_safe_flight_note?: boolean
+    health_requirements?: boolean
+    environmental_risks?: boolean
+    safety_mitigation?: boolean
+    handover_notes?: boolean
+    emergency_protocols?: boolean
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
     combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
     package_addons?: boolean | packages$package_addonsArgs<ExtArgs>
@@ -98254,6 +99573,16 @@ export namespace Prisma {
     deleted_at?: boolean
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
+    traveler_requirements?: boolean
+    tags?: boolean
+    operational_complexity_note?: boolean
+    first_day_last_pickup_guidance?: boolean
+    last_day_safe_flight_note?: boolean
+    health_requirements?: boolean
+    environmental_risks?: boolean
+    safety_mitigation?: boolean
+    handover_notes?: boolean
+    emergency_protocols?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
     end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
@@ -98293,6 +99622,16 @@ export namespace Prisma {
     deleted_at?: boolean
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
+    traveler_requirements?: boolean
+    tags?: boolean
+    operational_complexity_note?: boolean
+    first_day_last_pickup_guidance?: boolean
+    last_day_safe_flight_note?: boolean
+    health_requirements?: boolean
+    environmental_risks?: boolean
+    safety_mitigation?: boolean
+    handover_notes?: boolean
+    emergency_protocols?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
     end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
@@ -98332,9 +99671,19 @@ export namespace Prisma {
     deleted_at?: boolean
     aggregate_rating_value?: boolean
     aggregate_rating_count?: boolean
+    traveler_requirements?: boolean
+    tags?: boolean
+    operational_complexity_note?: boolean
+    first_day_last_pickup_guidance?: boolean
+    last_day_safe_flight_note?: boolean
+    health_requirements?: boolean
+    environmental_risks?: boolean
+    safety_mitigation?: boolean
+    handover_notes?: boolean
+    emergency_protocols?: boolean
   }
 
-  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count", ExtArgs["result"]["packages"]>
+  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count" | "traveler_requirements" | "tags" | "operational_complexity_note" | "first_day_last_pickup_guidance" | "last_day_safe_flight_note" | "health_requirements" | "environmental_risks" | "safety_mitigation" | "handover_notes" | "emergency_protocols", ExtArgs["result"]["packages"]>
   export type packagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
     combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
@@ -98423,6 +99772,16 @@ export namespace Prisma {
       deleted_at: Date | null
       aggregate_rating_value: Prisma.Decimal | null
       aggregate_rating_count: number | null
+      traveler_requirements: string | null
+      tags: string[]
+      operational_complexity_note: string | null
+      first_day_last_pickup_guidance: string | null
+      last_day_safe_flight_note: string | null
+      health_requirements: string[]
+      environmental_risks: string[]
+      safety_mitigation: string[]
+      handover_notes: string[]
+      emergency_protocols: string[]
     }, ExtArgs["result"]["packages"]>
     composites: {}
   }
@@ -98894,6 +100253,16 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"packages", 'DateTime'>
     readonly aggregate_rating_value: FieldRef<"packages", 'Decimal'>
     readonly aggregate_rating_count: FieldRef<"packages", 'Int'>
+    readonly traveler_requirements: FieldRef<"packages", 'String'>
+    readonly tags: FieldRef<"packages", 'String[]'>
+    readonly operational_complexity_note: FieldRef<"packages", 'String'>
+    readonly first_day_last_pickup_guidance: FieldRef<"packages", 'String'>
+    readonly last_day_safe_flight_note: FieldRef<"packages", 'String'>
+    readonly health_requirements: FieldRef<"packages", 'String[]'>
+    readonly environmental_risks: FieldRef<"packages", 'String[]'>
+    readonly safety_mitigation: FieldRef<"packages", 'String[]'>
+    readonly handover_notes: FieldRef<"packages", 'String[]'>
+    readonly emergency_protocols: FieldRef<"packages", 'String[]'>
   }
     
 
@@ -104217,6 +105586,7 @@ export namespace Prisma {
     breakfast: boolean | null
     lunch: boolean | null
     dinner: boolean | null
+    meals_notes: string | null
   }
 
   export type RoutesMaxAggregateOutputType = {
@@ -104234,6 +105604,7 @@ export namespace Prisma {
     breakfast: boolean | null
     lunch: boolean | null
     dinner: boolean | null
+    meals_notes: string | null
   }
 
   export type RoutesCountAggregateOutputType = {
@@ -104251,6 +105622,7 @@ export namespace Prisma {
     breakfast: number
     lunch: number
     dinner: number
+    meals_notes: number
     _all: number
   }
 
@@ -104278,6 +105650,7 @@ export namespace Prisma {
     breakfast?: true
     lunch?: true
     dinner?: true
+    meals_notes?: true
   }
 
   export type RoutesMaxAggregateInputType = {
@@ -104295,6 +105668,7 @@ export namespace Prisma {
     breakfast?: true
     lunch?: true
     dinner?: true
+    meals_notes?: true
   }
 
   export type RoutesCountAggregateInputType = {
@@ -104312,6 +105686,7 @@ export namespace Prisma {
     breakfast?: true
     lunch?: true
     dinner?: true
+    meals_notes?: true
     _all?: true
   }
 
@@ -104416,6 +105791,7 @@ export namespace Prisma {
     breakfast: boolean | null
     lunch: boolean | null
     dinner: boolean | null
+    meals_notes: string | null
     _count: RoutesCountAggregateOutputType | null
     _avg: RoutesAvgAggregateOutputType | null
     _sum: RoutesSumAggregateOutputType | null
@@ -104452,6 +105828,7 @@ export namespace Prisma {
     breakfast?: boolean
     lunch?: boolean
     dinner?: boolean
+    meals_notes?: boolean
     route_details?: boolean | routes$route_detailsArgs<ExtArgs>
     package_itinerary_days?: boolean | routes$package_itinerary_daysArgs<ExtArgs>
     route_destinations?: boolean | routes$route_destinationsArgs<ExtArgs>
@@ -104473,6 +105850,7 @@ export namespace Prisma {
     breakfast?: boolean
     lunch?: boolean
     dinner?: boolean
+    meals_notes?: boolean
   }, ExtArgs["result"]["routes"]>
 
   export type routesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -104490,6 +105868,7 @@ export namespace Prisma {
     breakfast?: boolean
     lunch?: boolean
     dinner?: boolean
+    meals_notes?: boolean
   }, ExtArgs["result"]["routes"]>
 
   export type routesSelectScalar = {
@@ -104507,9 +105886,10 @@ export namespace Prisma {
     breakfast?: boolean
     lunch?: boolean
     dinner?: boolean
+    meals_notes?: boolean
   }
 
-  export type routesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "route" | "itinerary_title" | "start_area" | "end_area" | "estimated_duration" | "main_activities" | "accommodation_status" | "customer_tips" | "overview" | "breakfast" | "lunch" | "dinner", ExtArgs["result"]["routes"]>
+  export type routesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "route" | "itinerary_title" | "start_area" | "end_area" | "estimated_duration" | "main_activities" | "accommodation_status" | "customer_tips" | "overview" | "breakfast" | "lunch" | "dinner" | "meals_notes", ExtArgs["result"]["routes"]>
   export type routesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     route_details?: boolean | routes$route_detailsArgs<ExtArgs>
     package_itinerary_days?: boolean | routes$package_itinerary_daysArgs<ExtArgs>
@@ -104541,6 +105921,7 @@ export namespace Prisma {
       breakfast: boolean | null
       lunch: boolean | null
       dinner: boolean | null
+      meals_notes: string | null
     }, ExtArgs["result"]["routes"]>
     composites: {}
   }
@@ -104981,6 +106362,7 @@ export namespace Prisma {
     readonly breakfast: FieldRef<"routes", 'Boolean'>
     readonly lunch: FieldRef<"routes", 'Boolean'>
     readonly dinner: FieldRef<"routes", 'Boolean'>
+    readonly meals_notes: FieldRef<"routes", 'String'>
   }
     
 
@@ -105475,12 +106857,14 @@ export namespace Prisma {
     id: number | null
     route_id: number | null
     seq: number | null
+    duration_minutes: number | null
   }
 
   export type Route_detailsSumAggregateOutputType = {
     id: bigint | null
     route_id: bigint | null
     seq: number | null
+    duration_minutes: number | null
   }
 
   export type Route_detailsMinAggregateOutputType = {
@@ -105490,6 +106874,11 @@ export namespace Prisma {
     time_or_label: string | null
     timezone: string | null
     activity: string | null
+    type: string | null
+    location: string | null
+    from_location: string | null
+    to_location: string | null
+    duration_minutes: number | null
   }
 
   export type Route_detailsMaxAggregateOutputType = {
@@ -105499,6 +106888,11 @@ export namespace Prisma {
     time_or_label: string | null
     timezone: string | null
     activity: string | null
+    type: string | null
+    location: string | null
+    from_location: string | null
+    to_location: string | null
+    duration_minutes: number | null
   }
 
   export type Route_detailsCountAggregateOutputType = {
@@ -105508,6 +106902,11 @@ export namespace Prisma {
     time_or_label: number
     timezone: number
     activity: number
+    type: number
+    location: number
+    from_location: number
+    to_location: number
+    duration_minutes: number
     _all: number
   }
 
@@ -105516,12 +106915,14 @@ export namespace Prisma {
     id?: true
     route_id?: true
     seq?: true
+    duration_minutes?: true
   }
 
   export type Route_detailsSumAggregateInputType = {
     id?: true
     route_id?: true
     seq?: true
+    duration_minutes?: true
   }
 
   export type Route_detailsMinAggregateInputType = {
@@ -105531,6 +106932,11 @@ export namespace Prisma {
     time_or_label?: true
     timezone?: true
     activity?: true
+    type?: true
+    location?: true
+    from_location?: true
+    to_location?: true
+    duration_minutes?: true
   }
 
   export type Route_detailsMaxAggregateInputType = {
@@ -105540,6 +106946,11 @@ export namespace Prisma {
     time_or_label?: true
     timezone?: true
     activity?: true
+    type?: true
+    location?: true
+    from_location?: true
+    to_location?: true
+    duration_minutes?: true
   }
 
   export type Route_detailsCountAggregateInputType = {
@@ -105549,6 +106960,11 @@ export namespace Prisma {
     time_or_label?: true
     timezone?: true
     activity?: true
+    type?: true
+    location?: true
+    from_location?: true
+    to_location?: true
+    duration_minutes?: true
     _all?: true
   }
 
@@ -105645,6 +107061,11 @@ export namespace Prisma {
     time_or_label: string | null
     timezone: string | null
     activity: string
+    type: string | null
+    location: string | null
+    from_location: string | null
+    to_location: string | null
+    duration_minutes: number | null
     _count: Route_detailsCountAggregateOutputType | null
     _avg: Route_detailsAvgAggregateOutputType | null
     _sum: Route_detailsSumAggregateOutputType | null
@@ -105673,6 +107094,11 @@ export namespace Prisma {
     time_or_label?: boolean
     timezone?: boolean
     activity?: boolean
+    type?: boolean
+    location?: boolean
+    from_location?: boolean
+    to_location?: boolean
+    duration_minutes?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
@@ -105683,6 +107109,11 @@ export namespace Prisma {
     time_or_label?: boolean
     timezone?: boolean
     activity?: boolean
+    type?: boolean
+    location?: boolean
+    from_location?: boolean
+    to_location?: boolean
+    duration_minutes?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
@@ -105693,6 +107124,11 @@ export namespace Prisma {
     time_or_label?: boolean
     timezone?: boolean
     activity?: boolean
+    type?: boolean
+    location?: boolean
+    from_location?: boolean
+    to_location?: boolean
+    duration_minutes?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
@@ -105703,9 +107139,14 @@ export namespace Prisma {
     time_or_label?: boolean
     timezone?: boolean
     activity?: boolean
+    type?: boolean
+    location?: boolean
+    from_location?: boolean
+    to_location?: boolean
+    duration_minutes?: boolean
   }
 
-  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "timezone" | "activity", ExtArgs["result"]["route_details"]>
+  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "timezone" | "activity" | "type" | "location" | "from_location" | "to_location" | "duration_minutes", ExtArgs["result"]["route_details"]>
   export type route_detailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     routes?: boolean | routesDefaultArgs<ExtArgs>
   }
@@ -105728,6 +107169,11 @@ export namespace Prisma {
       time_or_label: string | null
       timezone: string | null
       activity: string
+      type: string | null
+      location: string | null
+      from_location: string | null
+      to_location: string | null
+      duration_minutes: number | null
     }, ExtArgs["result"]["route_details"]>
     composites: {}
   }
@@ -106158,6 +107604,11 @@ export namespace Prisma {
     readonly time_or_label: FieldRef<"route_details", 'String'>
     readonly timezone: FieldRef<"route_details", 'String'>
     readonly activity: FieldRef<"route_details", 'String'>
+    readonly type: FieldRef<"route_details", 'String'>
+    readonly location: FieldRef<"route_details", 'String'>
+    readonly from_location: FieldRef<"route_details", 'String'>
+    readonly to_location: FieldRef<"route_details", 'String'>
+    readonly duration_minutes: FieldRef<"route_details", 'Int'>
   }
     
 
@@ -124756,12 +126207,25 @@ export namespace Prisma {
     tags: 'tags',
     types: 'types',
     slug: 'slug',
+    short_slug: 'short_slug',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at'
   };
 
   export type DestinationsScalarFieldEnum = (typeof DestinationsScalarFieldEnum)[keyof typeof DestinationsScalarFieldEnum]
+
+
+  export const Destination_gearsScalarFieldEnum: {
+    id: 'id',
+    destination_id: 'destination_id',
+    gear: 'gear',
+    type: 'type',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Destination_gearsScalarFieldEnum = (typeof Destination_gearsScalarFieldEnum)[keyof typeof Destination_gearsScalarFieldEnum]
 
 
   export const DiscountsScalarFieldEnum: {
@@ -124914,6 +126378,7 @@ export namespace Prisma {
     destination_id: 'destination_id',
     description: 'description',
     facilities: 'facilities',
+    area: 'area',
     address: 'address',
     phone: 'phone',
     banner: 'banner',
@@ -125218,7 +126683,17 @@ export namespace Prisma {
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     aggregate_rating_value: 'aggregate_rating_value',
-    aggregate_rating_count: 'aggregate_rating_count'
+    aggregate_rating_count: 'aggregate_rating_count',
+    traveler_requirements: 'traveler_requirements',
+    tags: 'tags',
+    operational_complexity_note: 'operational_complexity_note',
+    first_day_last_pickup_guidance: 'first_day_last_pickup_guidance',
+    last_day_safe_flight_note: 'last_day_safe_flight_note',
+    health_requirements: 'health_requirements',
+    environmental_risks: 'environmental_risks',
+    safety_mitigation: 'safety_mitigation',
+    handover_notes: 'handover_notes',
+    emergency_protocols: 'emergency_protocols'
   };
 
   export type PackagesScalarFieldEnum = (typeof PackagesScalarFieldEnum)[keyof typeof PackagesScalarFieldEnum]
@@ -125295,7 +126770,8 @@ export namespace Prisma {
     overview: 'overview',
     breakfast: 'breakfast',
     lunch: 'lunch',
-    dinner: 'dinner'
+    dinner: 'dinner',
+    meals_notes: 'meals_notes'
   };
 
   export type RoutesScalarFieldEnum = (typeof RoutesScalarFieldEnum)[keyof typeof RoutesScalarFieldEnum]
@@ -125307,7 +126783,12 @@ export namespace Prisma {
     seq: 'seq',
     time_or_label: 'time_or_label',
     timezone: 'timezone',
-    activity: 'activity'
+    activity: 'activity',
+    type: 'type',
+    location: 'location',
+    from_location: 'from_location',
+    to_location: 'to_location',
+    duration_minutes: 'duration_minutes'
   };
 
   export type Route_detailsScalarFieldEnum = (typeof Route_detailsScalarFieldEnum)[keyof typeof Route_detailsScalarFieldEnum]
@@ -129456,6 +130937,7 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     slug?: StringNullableFilter<"destinations"> | string | null
+    short_slug?: StringNullableFilter<"destinations"> | string | null
     created_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
@@ -129471,6 +130953,7 @@ export namespace Prisma {
     destination_assets?: Destination_assetsListRelationFilter
     destination_faqs?: Destination_faqsListRelationFilter
     route_destinations?: Route_destinationsListRelationFilter
+    destination_gears?: Destination_gearsListRelationFilter
   }
 
   export type destinationsOrderByWithRelationInput = {
@@ -129524,6 +131007,7 @@ export namespace Prisma {
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
+    short_slug?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -129539,6 +131023,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsOrderByRelationAggregateInput
     destination_faqs?: destination_faqsOrderByRelationAggregateInput
     route_destinations?: route_destinationsOrderByRelationAggregateInput
+    destination_gears?: destination_gearsOrderByRelationAggregateInput
   }
 
   export type destinationsWhereUniqueInput = Prisma.AtLeast<{
@@ -129595,6 +131080,7 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     slug?: StringNullableFilter<"destinations"> | string | null
+    short_slug?: StringNullableFilter<"destinations"> | string | null
     created_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
@@ -129610,6 +131096,7 @@ export namespace Prisma {
     destination_assets?: Destination_assetsListRelationFilter
     destination_faqs?: Destination_faqsListRelationFilter
     route_destinations?: Route_destinationsListRelationFilter
+    destination_gears?: Destination_gearsListRelationFilter
   }, "id">
 
   export type destinationsOrderByWithAggregationInput = {
@@ -129663,6 +131150,7 @@ export namespace Prisma {
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
+    short_slug?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -129727,9 +131215,72 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableWithAggregatesFilter<"destinations">
     slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    short_slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"destinations"> | Date | string | null
+  }
+
+  export type destination_gearsWhereInput = {
+    AND?: destination_gearsWhereInput | destination_gearsWhereInput[]
+    OR?: destination_gearsWhereInput[]
+    NOT?: destination_gearsWhereInput | destination_gearsWhereInput[]
+    id?: BigIntFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    gear?: StringFilter<"destination_gears"> | string
+    type?: StringFilter<"destination_gears"> | string
+    created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+  }
+
+  export type destination_gearsOrderByWithRelationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    gear?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    destination?: destinationsOrderByWithRelationInput
+  }
+
+  export type destination_gearsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: destination_gearsWhereInput | destination_gearsWhereInput[]
+    OR?: destination_gearsWhereInput[]
+    NOT?: destination_gearsWhereInput | destination_gearsWhereInput[]
+    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    gear?: StringFilter<"destination_gears"> | string
+    type?: StringFilter<"destination_gears"> | string
+    created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+  }, "id">
+
+  export type destination_gearsOrderByWithAggregationInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    gear?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: destination_gearsCountOrderByAggregateInput
+    _avg?: destination_gearsAvgOrderByAggregateInput
+    _max?: destination_gearsMaxOrderByAggregateInput
+    _min?: destination_gearsMinOrderByAggregateInput
+    _sum?: destination_gearsSumOrderByAggregateInput
+  }
+
+  export type destination_gearsScalarWhereWithAggregatesInput = {
+    AND?: destination_gearsScalarWhereWithAggregatesInput | destination_gearsScalarWhereWithAggregatesInput[]
+    OR?: destination_gearsScalarWhereWithAggregatesInput[]
+    NOT?: destination_gearsScalarWhereWithAggregatesInput | destination_gearsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntWithAggregatesFilter<"destination_gears"> | bigint | number
+    gear?: StringWithAggregatesFilter<"destination_gears"> | string
+    type?: StringWithAggregatesFilter<"destination_gears"> | string
+    created_at?: DateTimeNullableWithAggregatesFilter<"destination_gears"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"destination_gears"> | Date | string | null
   }
 
   export type discountsWhereInput = {
@@ -130474,6 +132025,7 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
+    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -130504,6 +132056,7 @@ export namespace Prisma {
     destination_id?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     facilities?: SortOrderInput | SortOrder
+    area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     banner?: SortOrderInput | SortOrder
@@ -130538,6 +132091,7 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
+    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -130567,6 +132121,7 @@ export namespace Prisma {
     destination_id?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     facilities?: SortOrderInput | SortOrder
+    area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     banner?: SortOrderInput | SortOrder
@@ -130597,6 +132152,7 @@ export namespace Prisma {
     destination_id?: BigIntNullableWithAggregatesFilter<"hotels"> | bigint | number | null
     description?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     facilities?: StringNullableWithAggregatesFilter<"hotels"> | string | null
+    area?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     address?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     phone?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     banner?: StringNullableWithAggregatesFilter<"hotels"> | string | null
@@ -132023,6 +133579,16 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
+    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    tags?: StringNullableListFilter<"packages">
+    operational_complexity_note?: StringNullableFilter<"packages"> | string | null
+    first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
+    last_day_safe_flight_note?: StringNullableFilter<"packages"> | string | null
+    health_requirements?: StringNullableListFilter<"packages">
+    environmental_risks?: StringNullableListFilter<"packages">
+    safety_mitigation?: StringNullableListFilter<"packages">
+    handover_notes?: StringNullableListFilter<"packages">
+    emergency_protocols?: StringNullableListFilter<"packages">
     bookings?: BookingsListRelationFilter
     combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
@@ -132074,6 +133640,16 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     aggregate_rating_value?: SortOrderInput | SortOrder
     aggregate_rating_count?: SortOrderInput | SortOrder
+    traveler_requirements?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    operational_complexity_note?: SortOrderInput | SortOrder
+    first_day_last_pickup_guidance?: SortOrderInput | SortOrder
+    last_day_safe_flight_note?: SortOrderInput | SortOrder
+    health_requirements?: SortOrder
+    environmental_risks?: SortOrder
+    safety_mitigation?: SortOrder
+    handover_notes?: SortOrder
+    emergency_protocols?: SortOrder
     bookings?: bookingsOrderByRelationAggregateInput
     combined_package_details?: combined_package_detailsOrderByRelationAggregateInput
     package_addons?: package_addonsOrderByRelationAggregateInput
@@ -132128,6 +133704,16 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
+    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    tags?: StringNullableListFilter<"packages">
+    operational_complexity_note?: StringNullableFilter<"packages"> | string | null
+    first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
+    last_day_safe_flight_note?: StringNullableFilter<"packages"> | string | null
+    health_requirements?: StringNullableListFilter<"packages">
+    environmental_risks?: StringNullableListFilter<"packages">
+    safety_mitigation?: StringNullableListFilter<"packages">
+    handover_notes?: StringNullableListFilter<"packages">
+    emergency_protocols?: StringNullableListFilter<"packages">
     bookings?: BookingsListRelationFilter
     combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
@@ -132179,6 +133765,16 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     aggregate_rating_value?: SortOrderInput | SortOrder
     aggregate_rating_count?: SortOrderInput | SortOrder
+    traveler_requirements?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    operational_complexity_note?: SortOrderInput | SortOrder
+    first_day_last_pickup_guidance?: SortOrderInput | SortOrder
+    last_day_safe_flight_note?: SortOrderInput | SortOrder
+    health_requirements?: SortOrder
+    environmental_risks?: SortOrder
+    safety_mitigation?: SortOrder
+    handover_notes?: SortOrder
+    emergency_protocols?: SortOrder
     _count?: packagesCountOrderByAggregateInput
     _avg?: packagesAvgOrderByAggregateInput
     _max?: packagesMaxOrderByAggregateInput
@@ -132221,6 +133817,16 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableWithAggregatesFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableWithAggregatesFilter<"packages"> | number | null
+    traveler_requirements?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    tags?: StringNullableListFilter<"packages">
+    operational_complexity_note?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    first_day_last_pickup_guidance?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    last_day_safe_flight_note?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    health_requirements?: StringNullableListFilter<"packages">
+    environmental_risks?: StringNullableListFilter<"packages">
+    safety_mitigation?: StringNullableListFilter<"packages">
+    handover_notes?: StringNullableListFilter<"packages">
+    emergency_protocols?: StringNullableListFilter<"packages">
   }
 
   export type page_contentsWhereInput = {
@@ -132531,6 +134137,7 @@ export namespace Prisma {
     breakfast?: BoolNullableFilter<"routes"> | boolean | null
     lunch?: BoolNullableFilter<"routes"> | boolean | null
     dinner?: BoolNullableFilter<"routes"> | boolean | null
+    meals_notes?: StringNullableFilter<"routes"> | string | null
     route_details?: Route_detailsListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     route_destinations?: Route_destinationsListRelationFilter
@@ -132551,6 +134158,7 @@ export namespace Prisma {
     breakfast?: SortOrderInput | SortOrder
     lunch?: SortOrderInput | SortOrder
     dinner?: SortOrderInput | SortOrder
+    meals_notes?: SortOrderInput | SortOrder
     route_details?: route_detailsOrderByRelationAggregateInput
     package_itinerary_days?: package_itinerary_daysOrderByRelationAggregateInput
     route_destinations?: route_destinationsOrderByRelationAggregateInput
@@ -132574,6 +134182,7 @@ export namespace Prisma {
     breakfast?: BoolNullableFilter<"routes"> | boolean | null
     lunch?: BoolNullableFilter<"routes"> | boolean | null
     dinner?: BoolNullableFilter<"routes"> | boolean | null
+    meals_notes?: StringNullableFilter<"routes"> | string | null
     route_details?: Route_detailsListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     route_destinations?: Route_destinationsListRelationFilter
@@ -132594,6 +134203,7 @@ export namespace Prisma {
     breakfast?: SortOrderInput | SortOrder
     lunch?: SortOrderInput | SortOrder
     dinner?: SortOrderInput | SortOrder
+    meals_notes?: SortOrderInput | SortOrder
     _count?: routesCountOrderByAggregateInput
     _avg?: routesAvgOrderByAggregateInput
     _max?: routesMaxOrderByAggregateInput
@@ -132619,6 +134229,7 @@ export namespace Prisma {
     breakfast?: BoolNullableWithAggregatesFilter<"routes"> | boolean | null
     lunch?: BoolNullableWithAggregatesFilter<"routes"> | boolean | null
     dinner?: BoolNullableWithAggregatesFilter<"routes"> | boolean | null
+    meals_notes?: StringNullableWithAggregatesFilter<"routes"> | string | null
   }
 
   export type route_detailsWhereInput = {
@@ -132631,6 +134242,11 @@ export namespace Prisma {
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
+    type?: StringNullableFilter<"route_details"> | string | null
+    location?: StringNullableFilter<"route_details"> | string | null
+    from_location?: StringNullableFilter<"route_details"> | string | null
+    to_location?: StringNullableFilter<"route_details"> | string | null
+    duration_minutes?: IntNullableFilter<"route_details"> | number | null
     routes?: XOR<RoutesScalarRelationFilter, routesWhereInput>
   }
 
@@ -132641,6 +134257,11 @@ export namespace Prisma {
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     activity?: SortOrder
+    type?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    from_location?: SortOrderInput | SortOrder
+    to_location?: SortOrderInput | SortOrder
+    duration_minutes?: SortOrderInput | SortOrder
     routes?: routesOrderByWithRelationInput
   }
 
@@ -132654,6 +134275,11 @@ export namespace Prisma {
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
+    type?: StringNullableFilter<"route_details"> | string | null
+    location?: StringNullableFilter<"route_details"> | string | null
+    from_location?: StringNullableFilter<"route_details"> | string | null
+    to_location?: StringNullableFilter<"route_details"> | string | null
+    duration_minutes?: IntNullableFilter<"route_details"> | number | null
     routes?: XOR<RoutesScalarRelationFilter, routesWhereInput>
   }, "id">
 
@@ -132664,6 +134290,11 @@ export namespace Prisma {
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
     activity?: SortOrder
+    type?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    from_location?: SortOrderInput | SortOrder
+    to_location?: SortOrderInput | SortOrder
+    duration_minutes?: SortOrderInput | SortOrder
     _count?: route_detailsCountOrderByAggregateInput
     _avg?: route_detailsAvgOrderByAggregateInput
     _max?: route_detailsMaxOrderByAggregateInput
@@ -132681,6 +134312,11 @@ export namespace Prisma {
     time_or_label?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     timezone?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     activity?: StringWithAggregatesFilter<"route_details"> | string
+    type?: StringNullableWithAggregatesFilter<"route_details"> | string | null
+    location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
+    from_location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
+    to_location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
+    duration_minutes?: IntNullableWithAggregatesFilter<"route_details"> | number | null
   }
 
   export type route_destinationsWhereInput = {
@@ -137813,6 +139449,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -137828,6 +139465,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateInput = {
@@ -137881,6 +139519,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -137896,6 +139535,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUpdateInput = {
@@ -137949,6 +139589,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -137964,6 +139605,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateInput = {
@@ -138017,6 +139659,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138032,6 +139675,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsCreateManyInput = {
@@ -138085,6 +139729,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -138141,6 +139786,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -138197,9 +139843,72 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsCreateInput = {
+    id?: bigint | number
+    gear: string
+    type: string
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    destination: destinationsCreateNestedOneWithoutDestination_gearsInput
+  }
+
+  export type destination_gearsUncheckedCreateInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    gear: string
+    type: string
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type destination_gearsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    destination?: destinationsUpdateOneRequiredWithoutDestination_gearsNestedInput
+  }
+
+  export type destination_gearsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsCreateManyInput = {
+    id?: bigint | number
+    destination_id: bigint | number
+    gear: string
+    type: string
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type destination_gearsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type discountsCreateInput = {
@@ -139045,6 +140754,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -139075,6 +140785,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -139103,6 +140814,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -139133,6 +140845,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -139162,6 +140875,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -139183,6 +140897,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -139205,6 +140920,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -140648,6 +142364,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -140699,6 +142425,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -140740,6 +142476,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -140791,6 +142537,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -140837,6 +142593,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type packagesUpdateManyMutationInput = {
@@ -140866,6 +142632,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type packagesUncheckedUpdateManyInput = {
@@ -140900,6 +142676,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type page_contentsCreateInput = {
@@ -141244,6 +143030,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
@@ -141264,6 +143051,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
@@ -141284,6 +143072,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
@@ -141304,6 +143093,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
@@ -141324,6 +143114,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
   }
 
   export type routesUpdateManyMutationInput = {
@@ -141341,6 +143132,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type routesUncheckedUpdateManyInput = {
@@ -141358,6 +143150,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type route_detailsCreateInput = {
@@ -141366,6 +143159,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
     routes: routesCreateNestedOneWithoutRoute_detailsInput
   }
 
@@ -141376,6 +143174,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
   }
 
   export type route_detailsUpdateInput = {
@@ -141384,6 +143187,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
     routes?: routesUpdateOneRequiredWithoutRoute_detailsNestedInput
   }
 
@@ -141394,6 +143202,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsCreateManyInput = {
@@ -141403,6 +143216,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
   }
 
   export type route_detailsUpdateManyMutationInput = {
@@ -141411,6 +143229,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsUncheckedUpdateManyInput = {
@@ -141420,6 +143243,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_destinationsCreateInput = {
@@ -145579,6 +147407,12 @@ export namespace Prisma {
     none?: route_destinationsWhereInput
   }
 
+  export type Destination_gearsListRelationFilter = {
+    every?: destination_gearsWhereInput
+    some?: destination_gearsWhereInput
+    none?: destination_gearsWhereInput
+  }
+
   export type activity_endsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -145612,6 +147446,10 @@ export namespace Prisma {
   }
 
   export type route_destinationsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type destination_gearsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -145666,6 +147504,7 @@ export namespace Prisma {
     tags?: SortOrder
     types?: SortOrder
     slug?: SortOrder
+    short_slug?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -145721,6 +147560,7 @@ export namespace Prisma {
     seo_title?: SortOrder
     seo_description?: SortOrder
     slug?: SortOrder
+    short_slug?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -145765,6 +147605,7 @@ export namespace Prisma {
     seo_title?: SortOrder
     seo_description?: SortOrder
     slug?: SortOrder
+    short_slug?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -145805,6 +147646,48 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
+  export type DestinationsScalarRelationFilter = {
+    is?: destinationsWhereInput
+    isNot?: destinationsWhereInput
+  }
+
+  export type destination_gearsCountOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    gear?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_gearsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+  }
+
+  export type destination_gearsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    gear?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_gearsMinOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
+    gear?: SortOrder
+    type?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type destination_gearsSumOrderByAggregateInput = {
+    id?: SortOrder
+    destination_id?: SortOrder
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -146438,6 +148321,7 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
+    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -146467,6 +148351,7 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
+    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -146489,6 +148374,7 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
+    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -147505,6 +149391,16 @@ export namespace Prisma {
     deleted_at?: SortOrder
     aggregate_rating_value?: SortOrder
     aggregate_rating_count?: SortOrder
+    traveler_requirements?: SortOrder
+    tags?: SortOrder
+    operational_complexity_note?: SortOrder
+    first_day_last_pickup_guidance?: SortOrder
+    last_day_safe_flight_note?: SortOrder
+    health_requirements?: SortOrder
+    environmental_risks?: SortOrder
+    safety_mitigation?: SortOrder
+    handover_notes?: SortOrder
+    emergency_protocols?: SortOrder
   }
 
   export type packagesAvgOrderByAggregateInput = {
@@ -147550,6 +149446,10 @@ export namespace Prisma {
     deleted_at?: SortOrder
     aggregate_rating_value?: SortOrder
     aggregate_rating_count?: SortOrder
+    traveler_requirements?: SortOrder
+    operational_complexity_note?: SortOrder
+    first_day_last_pickup_guidance?: SortOrder
+    last_day_safe_flight_note?: SortOrder
   }
 
   export type packagesMinOrderByAggregateInput = {
@@ -147581,6 +149481,10 @@ export namespace Prisma {
     deleted_at?: SortOrder
     aggregate_rating_value?: SortOrder
     aggregate_rating_count?: SortOrder
+    traveler_requirements?: SortOrder
+    operational_complexity_note?: SortOrder
+    first_day_last_pickup_guidance?: SortOrder
+    last_day_safe_flight_note?: SortOrder
   }
 
   export type packagesSumOrderByAggregateInput = {
@@ -147803,6 +149707,7 @@ export namespace Prisma {
     breakfast?: SortOrder
     lunch?: SortOrder
     dinner?: SortOrder
+    meals_notes?: SortOrder
   }
 
   export type routesAvgOrderByAggregateInput = {
@@ -147824,6 +149729,7 @@ export namespace Prisma {
     breakfast?: SortOrder
     lunch?: SortOrder
     dinner?: SortOrder
+    meals_notes?: SortOrder
   }
 
   export type routesMinOrderByAggregateInput = {
@@ -147841,6 +149747,7 @@ export namespace Prisma {
     breakfast?: SortOrder
     lunch?: SortOrder
     dinner?: SortOrder
+    meals_notes?: SortOrder
   }
 
   export type routesSumOrderByAggregateInput = {
@@ -147859,12 +149766,18 @@ export namespace Prisma {
     time_or_label?: SortOrder
     timezone?: SortOrder
     activity?: SortOrder
+    type?: SortOrder
+    location?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
+    duration_minutes?: SortOrder
   }
 
   export type route_detailsAvgOrderByAggregateInput = {
     id?: SortOrder
     route_id?: SortOrder
     seq?: SortOrder
+    duration_minutes?: SortOrder
   }
 
   export type route_detailsMaxOrderByAggregateInput = {
@@ -147874,6 +149787,11 @@ export namespace Prisma {
     time_or_label?: SortOrder
     timezone?: SortOrder
     activity?: SortOrder
+    type?: SortOrder
+    location?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
+    duration_minutes?: SortOrder
   }
 
   export type route_detailsMinOrderByAggregateInput = {
@@ -147883,17 +149801,18 @@ export namespace Prisma {
     time_or_label?: SortOrder
     timezone?: SortOrder
     activity?: SortOrder
+    type?: SortOrder
+    location?: SortOrder
+    from_location?: SortOrder
+    to_location?: SortOrder
+    duration_minutes?: SortOrder
   }
 
   export type route_detailsSumOrderByAggregateInput = {
     id?: SortOrder
     route_id?: SortOrder
     seq?: SortOrder
-  }
-
-  export type DestinationsScalarRelationFilter = {
-    is?: destinationsWhereInput
-    isNot?: destinationsWhereInput
+    duration_minutes?: SortOrder
   }
 
   export type route_destinationsCountOrderByAggregateInput = {
@@ -151707,6 +153626,13 @@ export namespace Prisma {
     connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
   }
 
+  export type destination_gearsCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_gearsCreateManyDestinationInputEnvelope
+    connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+  }
+
   export type activitiesUncheckedCreateNestedManyWithoutDestinationsInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -151789,6 +153715,13 @@ export namespace Prisma {
     connectOrCreate?: route_destinationsCreateOrConnectWithoutDestinationInput | route_destinationsCreateOrConnectWithoutDestinationInput[]
     createMany?: route_destinationsCreateManyDestinationInputEnvelope
     connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
+  }
+
+  export type destination_gearsUncheckedCreateNestedManyWithoutDestinationInput = {
+    create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
+    createMany?: destination_gearsCreateManyDestinationInputEnvelope
+    connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
   }
 
   export type destinationsUpdatelocal_tribesInput = {
@@ -151969,6 +153902,20 @@ export namespace Prisma {
     deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
   }
 
+  export type destination_gearsUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_gearsUpsertWithWhereUniqueWithoutDestinationInput | destination_gearsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_gearsCreateManyDestinationInputEnvelope
+    set?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    disconnect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    delete?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    update?: destination_gearsUpdateWithWhereUniqueWithoutDestinationInput | destination_gearsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_gearsUpdateManyWithWhereWithoutDestinationInput | destination_gearsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+  }
+
   export type activitiesUncheckedUpdateManyWithoutDestinationsNestedInput = {
     create?: XOR<activitiesCreateWithoutDestinationsInput, activitiesUncheckedCreateWithoutDestinationsInput> | activitiesCreateWithoutDestinationsInput[] | activitiesUncheckedCreateWithoutDestinationsInput[]
     connectOrCreate?: activitiesCreateOrConnectWithoutDestinationsInput | activitiesCreateOrConnectWithoutDestinationsInput[]
@@ -152135,6 +154082,34 @@ export namespace Prisma {
     update?: route_destinationsUpdateWithWhereUniqueWithoutDestinationInput | route_destinationsUpdateWithWhereUniqueWithoutDestinationInput[]
     updateMany?: route_destinationsUpdateManyWithWhereWithoutDestinationInput | route_destinationsUpdateManyWithWhereWithoutDestinationInput[]
     deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
+  }
+
+  export type destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput = {
+    create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
+    connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
+    upsert?: destination_gearsUpsertWithWhereUniqueWithoutDestinationInput | destination_gearsUpsertWithWhereUniqueWithoutDestinationInput[]
+    createMany?: destination_gearsCreateManyDestinationInputEnvelope
+    set?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    disconnect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    delete?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+    update?: destination_gearsUpdateWithWhereUniqueWithoutDestinationInput | destination_gearsUpdateWithWhereUniqueWithoutDestinationInput[]
+    updateMany?: destination_gearsUpdateManyWithWhereWithoutDestinationInput | destination_gearsUpdateManyWithWhereWithoutDestinationInput[]
+    deleteMany?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+  }
+
+  export type destinationsCreateNestedOneWithoutDestination_gearsInput = {
+    create?: XOR<destinationsCreateWithoutDestination_gearsInput, destinationsUncheckedCreateWithoutDestination_gearsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_gearsInput
+    connect?: destinationsWhereUniqueInput
+  }
+
+  export type destinationsUpdateOneRequiredWithoutDestination_gearsNestedInput = {
+    create?: XOR<destinationsCreateWithoutDestination_gearsInput, destinationsUncheckedCreateWithoutDestination_gearsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutDestination_gearsInput
+    upsert?: destinationsUpsertWithoutDestination_gearsInput
+    connect?: destinationsWhereUniqueInput
+    update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutDestination_gearsInput, destinationsUpdateWithoutDestination_gearsInput>, destinationsUncheckedUpdateWithoutDestination_gearsInput>
   }
 
   export type booking_payment_termsCreateNestedManyWithoutDiscountsInput = {
@@ -153776,6 +155751,30 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type packagesCreatetagsInput = {
+    set: string[]
+  }
+
+  export type packagesCreatehealth_requirementsInput = {
+    set: string[]
+  }
+
+  export type packagesCreateenvironmental_risksInput = {
+    set: string[]
+  }
+
+  export type packagesCreatesafety_mitigationInput = {
+    set: string[]
+  }
+
+  export type packagesCreatehandover_notesInput = {
+    set: string[]
+  }
+
+  export type packagesCreateemergency_protocolsInput = {
+    set: string[]
+  }
+
   export type bookingsCreateNestedManyWithoutPackagesInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -153985,6 +155984,36 @@ export namespace Prisma {
   }
 
   export type packagesUpdateunique_selling_pointsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatehealth_requirementsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdateenvironmental_risksInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatesafety_mitigationInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatehandover_notesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdateemergency_protocolsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -156087,6 +158116,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -156101,6 +158131,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivitiesInput = {
@@ -156154,6 +158185,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -156168,6 +158200,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivitiesInput = {
@@ -156302,6 +158335,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156316,6 +158350,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivitiesInput = {
@@ -156369,6 +158404,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156383,6 +158419,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutActivitiesInput = {
@@ -156537,6 +158574,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -156551,6 +158589,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_endsInput = {
@@ -156604,6 +158643,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -156618,6 +158658,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_endsInput = {
@@ -156779,6 +158820,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156793,6 +158835,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_endsInput = {
@@ -156846,6 +158889,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -156860,6 +158904,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_endsInput = {
@@ -156986,6 +159031,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -157000,6 +159046,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_startsInput = {
@@ -157053,6 +159100,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -157067,6 +159115,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_startsInput = {
@@ -157228,6 +159277,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -157242,6 +159292,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_startsInput = {
@@ -157295,6 +159346,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -157309,6 +159361,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_startsInput = {
@@ -158544,6 +160597,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -158558,6 +160612,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -158611,6 +160666,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -158625,6 +160681,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -158852,6 +160909,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -158866,6 +160924,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -158919,6 +160978,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -158933,6 +160993,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_schedulesInput = {
@@ -159046,6 +161107,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -159075,6 +161137,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -159229,6 +161292,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159258,6 +161322,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159653,6 +161718,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -159682,6 +161748,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -159889,6 +161956,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159918,6 +161986,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -160639,6 +162708,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -160668,6 +162738,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -160935,6 +163006,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -160964,6 +163036,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164840,6 +166913,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -164890,6 +166973,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -165665,6 +167758,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -165715,6 +167818,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -166030,6 +168143,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -166080,6 +168203,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -166169,6 +168302,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -166219,6 +168362,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -167589,6 +169742,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167603,6 +169757,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_activitiesInput = {
@@ -167656,6 +169811,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -167670,6 +169826,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_activitiesInput = {
@@ -167782,6 +169939,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167796,6 +169954,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_activitiesInput = {
@@ -167849,6 +170008,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -167863,6 +170023,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type vendorsUpsertWithoutDestination_activitiesInput = {
@@ -168100,6 +170261,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -168128,6 +170290,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -168215,6 +170378,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -168264,6 +170437,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -168315,6 +170498,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -168364,6 +170557,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -168461,6 +170664,32 @@ export namespace Prisma {
 
   export type route_destinationsCreateManyDestinationInputEnvelope = {
     data: route_destinationsCreateManyDestinationInput | route_destinationsCreateManyDestinationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type destination_gearsCreateWithoutDestinationInput = {
+    id?: bigint | number
+    gear: string
+    type: string
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type destination_gearsUncheckedCreateWithoutDestinationInput = {
+    id?: bigint | number
+    gear: string
+    type: string
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type destination_gearsCreateOrConnectWithoutDestinationInput = {
+    where: destination_gearsWhereUniqueInput
+    create: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_gearsCreateManyDestinationInputEnvelope = {
+    data: destination_gearsCreateManyDestinationInput | destination_gearsCreateManyDestinationInput[]
     skipDuplicates?: boolean
   }
 
@@ -168623,6 +170852,7 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
+    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -168718,6 +170948,16 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
+    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    tags?: StringNullableListFilter<"packages">
+    operational_complexity_note?: StringNullableFilter<"packages"> | string | null
+    first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
+    last_day_safe_flight_note?: StringNullableFilter<"packages"> | string | null
+    health_requirements?: StringNullableListFilter<"packages">
+    environmental_risks?: StringNullableListFilter<"packages">
+    safety_mitigation?: StringNullableListFilter<"packages">
+    handover_notes?: StringNullableListFilter<"packages">
+    emergency_protocols?: StringNullableListFilter<"packages">
   }
 
   export type packagesUpsertWithWhereUniqueWithoutStart_destinationInput = {
@@ -168817,6 +171057,326 @@ export namespace Prisma {
     sequence?: IntFilter<"route_destinations"> | number
     created_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
+  }
+
+  export type destination_gearsUpsertWithWhereUniqueWithoutDestinationInput = {
+    where: destination_gearsWhereUniqueInput
+    update: XOR<destination_gearsUpdateWithoutDestinationInput, destination_gearsUncheckedUpdateWithoutDestinationInput>
+    create: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput>
+  }
+
+  export type destination_gearsUpdateWithWhereUniqueWithoutDestinationInput = {
+    where: destination_gearsWhereUniqueInput
+    data: XOR<destination_gearsUpdateWithoutDestinationInput, destination_gearsUncheckedUpdateWithoutDestinationInput>
+  }
+
+  export type destination_gearsUpdateManyWithWhereWithoutDestinationInput = {
+    where: destination_gearsScalarWhereInput
+    data: XOR<destination_gearsUpdateManyMutationInput, destination_gearsUncheckedUpdateManyWithoutDestinationInput>
+  }
+
+  export type destination_gearsScalarWhereInput = {
+    AND?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+    OR?: destination_gearsScalarWhereInput[]
+    NOT?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+    id?: BigIntFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    gear?: StringFilter<"destination_gears"> | string
+    type?: StringFilter<"destination_gears"> | string
+    created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
+  }
+
+  export type destinationsCreateWithoutDestination_gearsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    category?: string | null
+    region?: string | null
+    province?: string | null
+    country?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    altitude?: number | null
+    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    terrain?: string | null
+    best_time_to_visit?: string | null
+    difficulty_level?: string | null
+    duration?: string | null
+    physical_demand?: number | null
+    cultural_depth?: number | null
+    photo_potential?: number | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    temperature_range?: string | null
+    trail_details?: string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: string | null
+    description?: string | null
+    highlight?: string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: boolean | null
+    permit_details?: string | null
+    guide_required?: boolean | null
+    facilities?: NullableJsonNullValueInput | InputJsonValue
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: string | null
+    cultural_context?: string | null
+    local_tribes?: destinationsCreatelocal_tribesInput | string[]
+    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
+    tips_for_visitors?: string | null
+    thumbnail_url?: string | null
+    featured_image?: string | null
+    published?: boolean | null
+    featured?: boolean | null
+    seo_title?: string | null
+    seo_description?: string | null
+    tags?: destinationsCreatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: string | null
+    short_slug?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
+    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsUncheckedCreateWithoutDestination_gearsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    category?: string | null
+    region?: string | null
+    province?: string | null
+    country?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    altitude?: number | null
+    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    terrain?: string | null
+    best_time_to_visit?: string | null
+    difficulty_level?: string | null
+    duration?: string | null
+    physical_demand?: number | null
+    cultural_depth?: number | null
+    photo_potential?: number | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    temperature_range?: string | null
+    trail_details?: string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: string | null
+    description?: string | null
+    highlight?: string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: boolean | null
+    permit_details?: string | null
+    guide_required?: boolean | null
+    facilities?: NullableJsonNullValueInput | InputJsonValue
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: string | null
+    cultural_context?: string | null
+    local_tribes?: destinationsCreatelocal_tribesInput | string[]
+    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
+    tips_for_visitors?: string | null
+    thumbnail_url?: string | null
+    featured_image?: string | null
+    published?: boolean | null
+    featured?: boolean | null
+    seo_title?: string | null
+    seo_description?: string | null
+    tags?: destinationsCreatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: string | null
+    short_slug?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
+    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsCreateOrConnectWithoutDestination_gearsInput = {
+    where: destinationsWhereUniqueInput
+    create: XOR<destinationsCreateWithoutDestination_gearsInput, destinationsUncheckedCreateWithoutDestination_gearsInput>
+  }
+
+  export type destinationsUpsertWithoutDestination_gearsInput = {
+    update: XOR<destinationsUpdateWithoutDestination_gearsInput, destinationsUncheckedUpdateWithoutDestination_gearsInput>
+    create: XOR<destinationsCreateWithoutDestination_gearsInput, destinationsUncheckedCreateWithoutDestination_gearsInput>
+    where?: destinationsWhereInput
+  }
+
+  export type destinationsUpdateToOneWithWhereWithoutDestination_gearsInput = {
+    where?: destinationsWhereInput
+    data: XOR<destinationsUpdateWithoutDestination_gearsInput, destinationsUncheckedUpdateWithoutDestination_gearsInput>
+  }
+
+  export type destinationsUpdateWithoutDestination_gearsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    altitude?: NullableIntFieldUpdateOperationsInput | number | null
+    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
+    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
+    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    facilities?: NullableJsonNullValueInput | InputJsonValue
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
+    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
+    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: destinationsUpdatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
+    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+  }
+
+  export type destinationsUncheckedUpdateWithoutDestination_gearsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    altitude?: NullableIntFieldUpdateOperationsInput | number | null
+    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
+    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
+    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    facilities?: NullableJsonNullValueInput | InputJsonValue
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
+    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
+    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
+    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: destinationsUpdatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
+    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type booking_payment_termsCreateWithoutDiscountsInput = {
@@ -169140,6 +171700,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -169189,6 +171759,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -169846,6 +172426,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -169860,6 +172441,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutHotelsInput = {
@@ -169913,6 +172495,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -169927,6 +172510,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutHotelsInput = {
@@ -170186,6 +172770,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -170200,6 +172785,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutHotelsInput = {
@@ -170253,6 +172839,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -170267,6 +172854,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_hotel_optionsUpsertWithWhereUniqueWithoutHotelsInput = {
@@ -170689,6 +173277,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -170738,6 +173336,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -171073,6 +173681,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -171123,6 +173741,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -171218,6 +173846,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -171268,6 +173906,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -171308,6 +173956,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -171358,6 +174016,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -171457,6 +174125,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -171507,6 +174185,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -171596,6 +174284,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -171645,6 +174343,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -171736,6 +174444,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -171750,6 +174459,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackage_destinationsInput = {
@@ -171803,6 +174513,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -171817,6 +174528,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackage_destinationsInput = {
@@ -171851,6 +174563,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -171901,6 +174623,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -171981,6 +174713,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -171995,6 +174728,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -172048,6 +174782,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -172062,6 +174797,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type packagesUpsertWithoutPackage_destinationsInput = {
@@ -172102,6 +174838,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -172152,6 +174898,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -172213,6 +174969,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -172263,6 +175029,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -172346,6 +175122,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -172396,6 +175182,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -172436,6 +175232,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -172486,6 +175292,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -172573,6 +175389,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -172623,6 +175449,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -172679,6 +175515,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -172708,6 +175545,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -172761,6 +175599,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -172811,6 +175659,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -172846,6 +175704,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172875,6 +175734,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172934,6 +175794,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -172984,6 +175854,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -173024,6 +175904,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -173074,6 +175964,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -173130,6 +176030,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -173180,6 +176090,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -173241,6 +176161,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -173291,6 +176221,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -173374,6 +176314,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -173424,6 +176374,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -173881,6 +176841,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -173910,6 +176871,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -173963,6 +176925,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -174013,6 +176985,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -174046,6 +177028,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
   }
@@ -174065,6 +177048,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
   }
@@ -174185,6 +177169,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174214,6 +177199,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174273,6 +177259,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -174323,6 +177319,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -174362,6 +177368,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
   }
@@ -174381,6 +177388,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
   }
@@ -174412,6 +177420,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -174462,6 +177480,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -174545,6 +177573,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -174595,6 +177633,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -175103,6 +178151,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -175117,6 +178166,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -175170,6 +178220,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -175184,6 +178235,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -175300,6 +178352,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -175314,6 +178367,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -175367,6 +178421,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -175381,6 +178436,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -175725,6 +178781,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -175739,6 +178796,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -175792,6 +178850,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -175806,6 +178865,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type order_channelsUpsertWithoutPackagesInput = {
@@ -175940,6 +179000,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -175954,6 +179015,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -176007,6 +179069,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176021,6 +179084,7 @@ export namespace Prisma {
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type package_assetsUpsertWithWhereUniqueWithoutPackageInput = {
@@ -176261,6 +179325,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
   }
 
   export type route_detailsUncheckedCreateWithoutRoutesInput = {
@@ -176269,6 +179338,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
   }
 
   export type route_detailsCreateOrConnectWithoutRoutesInput = {
@@ -176379,6 +179453,11 @@ export namespace Prisma {
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
+    type?: StringNullableFilter<"route_details"> | string | null
+    location?: StringNullableFilter<"route_details"> | string | null
+    from_location?: StringNullableFilter<"route_details"> | string | null
+    to_location?: StringNullableFilter<"route_details"> | string | null
+    duration_minutes?: IntNullableFilter<"route_details"> | number | null
   }
 
   export type package_itinerary_daysUpsertWithWhereUniqueWithoutRoutesInput = {
@@ -176428,6 +179507,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
   }
@@ -176447,6 +179527,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
   }
@@ -176482,6 +179563,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
   }
@@ -176501,6 +179583,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
   }
@@ -176520,6 +179603,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
   }
@@ -176539,6 +179623,7 @@ export namespace Prisma {
     breakfast?: boolean | null
     lunch?: boolean | null
     dinner?: boolean | null
+    meals_notes?: string | null
     route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
   }
@@ -176599,6 +179684,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176613,6 +179699,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutRoute_destinationsInput = {
@@ -176666,6 +179753,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176680,6 +179768,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutRoute_destinationsInput = {
@@ -176713,6 +179802,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
   }
@@ -176732,6 +179822,7 @@ export namespace Prisma {
     breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
   }
@@ -176798,6 +179889,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176812,6 +179904,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutRoute_destinationsInput = {
@@ -176865,6 +179958,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176879,6 +179973,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type hotelsCreateWithoutRoom_configurationsInput = {
@@ -176887,6 +179982,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -176916,6 +180012,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -176992,6 +180089,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177021,6 +180119,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177153,6 +180252,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -177182,6 +180282,7 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -177257,6 +180358,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177286,6 +180388,7 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178710,6 +181813,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178724,6 +181828,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_assetsInput = {
@@ -178777,6 +181882,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178791,6 +181897,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_assetsInput = {
@@ -178903,6 +182010,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178917,6 +182025,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_assetsInput = {
@@ -178970,6 +182079,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178984,6 +182094,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type assetsUpsertWithoutDestination_assetsInput = {
@@ -179086,6 +182197,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -179100,6 +182212,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_faqsInput = {
@@ -179153,6 +182266,7 @@ export namespace Prisma {
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
+    short_slug?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -179167,6 +182281,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_faqsInput = {
@@ -179267,6 +182382,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179281,6 +182397,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_faqsInput = {
@@ -179334,6 +182451,7 @@ export namespace Prisma {
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179348,6 +182466,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type faqsUpsertWithoutDestination_faqsInput = {
@@ -181946,6 +185065,7 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
+    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -182001,6 +185121,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type packagesCreateManyStart_destinationInput = {
@@ -182034,6 +185164,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type destination_assetsCreateManyDestinationInput = {
@@ -182055,6 +185195,14 @@ export namespace Prisma {
     id?: bigint | number
     route_id: bigint | number
     sequence: number
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type destination_gearsCreateManyDestinationInput = {
+    id?: bigint | number
+    gear: string
+    type: string
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -182278,6 +185426,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182306,6 +185455,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182334,6 +185484,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182403,6 +185554,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -182452,6 +185613,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -182497,6 +185668,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type packagesUpdateWithoutStart_destinationInput = {
@@ -182526,6 +185707,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -182575,6 +185766,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -182620,6 +185821,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type destination_assetsUpdateWithoutDestinationInput = {
@@ -182687,6 +185898,30 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     route_id?: BigIntFieldUpdateOperationsInput | bigint | number
     sequence?: IntFieldUpdateOperationsInput | number
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsUncheckedUpdateWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type destination_gearsUncheckedUpdateManyWithoutDestinationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    gear?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -182887,6 +186122,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type bookingsUpdateWithoutDurationsInput = {
@@ -183045,6 +186290,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -183094,6 +186349,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -183139,6 +186404,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type faqsCreateManyCategoryInput = {
@@ -183764,6 +187039,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type transport_crew_rulesCreateManyOrder_channelsInput = {
@@ -184001,6 +187286,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -184050,6 +187345,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -184095,6 +187400,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type transport_crew_rulesUpdateWithoutOrder_channelsInput = {
@@ -184210,6 +187525,16 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
+    traveler_requirements?: string | null
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
   }
 
   export type packagesUpdateWithoutPackage_categoriesInput = {
@@ -184239,6 +187564,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -184288,6 +187623,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -184333,6 +187678,16 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
   }
 
   export type package_itinerary_day_detailsCreateManyLocations_fromInput = {
@@ -185301,6 +188656,11 @@ export namespace Prisma {
     time_or_label?: string | null
     timezone?: string | null
     activity: string
+    type?: string | null
+    location?: string | null
+    from_location?: string | null
+    to_location?: string | null
+    duration_minutes?: number | null
   }
 
   export type package_itinerary_daysCreateManyRoutesInput = {
@@ -185334,6 +188694,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsUncheckedUpdateWithoutRoutesInput = {
@@ -185342,6 +188707,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsUncheckedUpdateManyWithoutRoutesInput = {
@@ -185350,6 +188720,11 @@ export namespace Prisma {
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    from_location?: NullableStringFieldUpdateOperationsInput | string | null
+    to_location?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type package_itinerary_daysUpdateWithoutRoutesInput = {

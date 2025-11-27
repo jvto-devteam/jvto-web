@@ -794,9 +794,10 @@ model destinations {
   seo_title       String?  @db.VarChar(200)
   seo_description String?  @db.Text
 
-  tags  String[] @db.VarChar(100)
-  types Json?
-  slug  String?  @db.VarChar(255)
+  tags       String[] @db.VarChar(100)
+  types      Json?
+  slug       String?  @db.VarChar(255)
+  short_slug String?  @db.VarChar(100)
 
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @default(now()) @db.Timestamptz(6)
@@ -815,6 +816,20 @@ model destinations {
   destination_assets                                   destination_assets[]
   destination_faqs                                     destination_faqs[]
   route_destinations                                   route_destinations[]
+  destination_gears                                    destination_gears[]
+}
+
+model destination_gears {
+  id             BigInt    @id @default(autoincrement())
+  destination_id BigInt
+  gear           String    @db.Text
+  type           String    @db.VarChar(50)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @default(now()) @db.Timestamptz(6)
+
+  destination destinations @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+
+  @@index([destination_id])
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -998,6 +1013,7 @@ model hotels {
   destination_id                BigInt?
   description                   String?
   facilities                    String?
+  area                          String?                         @db.VarChar(200)
   address                       String?
   phone                         String?
   banner                        String?
@@ -1304,54 +1320,64 @@ model package_prices {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model packages {
-  id                         BigInt                     @id @default(autoincrement())
-  uuid                       String?
-  code                       String?                    @unique
-  slug                       String?                    @unique
-  name                       String
-  description                String?
-  short_label                String?
-  duration_id                BigInt?
-  order_channel_id           BigInt?
-  package_category_id        BigInt?
-  start_destination_id       BigInt?
-  end_destination_id         BigInt?
-  key_highlights             String?
-  ideal_arrival              String?
-  physicality                String?
-  suitable_for               String?
-  is_publish                 Boolean?
-  total_breakfast            Int?
-  total_lunch                Int?
-  total_dinner               Int?
-  google_merchant_product_id String?
-  meta_catalogue_id          String?
-  perfect_for                String[] // maps to text[]
-  highlights_bullets         String[] // maps to text[]
-  safety_positioning         String? // single text
-  unique_selling_points      String[] // maps to text[]
-  created_at                 DateTime                   @default(now()) @db.Timestamp(6)
-  updated_at                 DateTime?                  @db.Timestamp(6)
-  deleted_at                 DateTime?                  @db.Timestamp(6)
-  aggregate_rating_value     Decimal?                   @default(0) @db.Decimal(3, 2)
-  aggregate_rating_count     Int?                       @default(0)
-  bookings                   bookings[]
-  combined_package_details   combined_package_details[]
-  package_addons             package_addons[]
-  package_destinations       package_destinations[]
-  package_excludes           package_excludes[]
-  package_hotel_options      package_hotel_options[]
-  package_images             package_images[]
-  package_includes           package_includes[]
-  package_itinerary_days     package_itinerary_days[]
-  package_prices             package_prices[]
-  durations                  durations?                 @relation(fields: [duration_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_duration_id")
-  end_destination            destinations?              @relation("packages_end_destination_idTodestinations", fields: [end_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_end_destination_id")
-  order_channels             order_channels?            @relation(fields: [order_channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_order_channel_id")
-  package_categories         package_categories?        @relation(fields: [package_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_package_category_id")
-  start_destination          destinations?              @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
-  package_assets             package_assets[]
-  package_faqs               package_faqs[]
+  id                             BigInt                     @id @default(autoincrement())
+  uuid                           String?
+  code                           String?                    @unique
+  slug                           String?                    @unique
+  name                           String
+  description                    String?
+  short_label                    String?
+  duration_id                    BigInt?
+  order_channel_id               BigInt?
+  package_category_id            BigInt?
+  start_destination_id           BigInt?
+  end_destination_id             BigInt?
+  key_highlights                 String?
+  ideal_arrival                  String?
+  physicality                    String?
+  suitable_for                   String?
+  is_publish                     Boolean?
+  total_breakfast                Int?
+  total_lunch                    Int?
+  total_dinner                   Int?
+  google_merchant_product_id     String?
+  meta_catalogue_id              String?
+  perfect_for                    String[] // maps to text[]
+  highlights_bullets             String[] // maps to text[]
+  safety_positioning             String? // single text
+  unique_selling_points          String[] // maps to text[]
+  created_at                     DateTime                   @default(now()) @db.Timestamp(6)
+  updated_at                     DateTime?                  @db.Timestamp(6)
+  deleted_at                     DateTime?                  @db.Timestamp(6)
+  aggregate_rating_value         Decimal?                   @default(0) @db.Decimal(3, 2)
+  aggregate_rating_count         Int?                       @default(0)
+  traveler_requirements          String?                    @db.Text
+  tags                           String[]                   @db.Text
+  operational_complexity_note    String?                    @db.Text
+  first_day_last_pickup_guidance String?                    @db.Text
+  last_day_safe_flight_note      String?                    @db.Text
+  health_requirements            String[]                   @db.Text
+  environmental_risks            String[]                   @db.Text
+  safety_mitigation              String[]                   @db.Text
+  handover_notes                 String[]                   @db.Text
+  emergency_protocols            String[]                   @db.Text
+  bookings                       bookings[]
+  combined_package_details       combined_package_details[]
+  package_addons                 package_addons[]
+  package_destinations           package_destinations[]
+  package_excludes               package_excludes[]
+  package_hotel_options          package_hotel_options[]
+  package_images                 package_images[]
+  package_includes               package_includes[]
+  package_itinerary_days         package_itinerary_days[]
+  package_prices                 package_prices[]
+  durations                      durations?                 @relation(fields: [duration_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_duration_id")
+  end_destination                destinations?              @relation("packages_end_destination_idTodestinations", fields: [end_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_end_destination_id")
+  order_channels                 order_channels?            @relation(fields: [order_channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_order_channel_id")
+  package_categories             package_categories?        @relation(fields: [package_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_package_category_id")
+  start_destination              destinations?              @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
+  package_assets                 package_assets[]
+  package_faqs                   package_faqs[]
 
   @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_packages_name", type: Gin)
   @@index([slug(ops: raw("gin_trgm_ops"))], map: "trgm_packages_slug", type: Gin)
@@ -1424,6 +1450,7 @@ model routes {
   breakfast            Boolean? @default(false)
   lunch                Boolean? @default(false)
   dinner               Boolean? @default(false)
+  meals_notes          String?  @db.Text
 
   // relations
   route_details          route_details[]
@@ -1432,12 +1459,17 @@ model routes {
 }
 
 model route_details {
-  id            BigInt  @id @default(autoincrement())
-  route_id      BigInt
-  seq           Int
-  time_or_label String?
-  timezone      String? @db.VarChar(10)
-  activity      String
+  id               BigInt  @id @default(autoincrement())
+  route_id         BigInt
+  seq              Int
+  time_or_label    String?
+  timezone         String? @db.VarChar(10)
+  activity         String
+  type             String? @db.VarChar(100)
+  location         String? @db.Text
+  from_location    String? @db.Text
+  to_location      String? @db.Text
+  duration_minutes Int?
 
   // relation
   routes routes @relation(fields: [route_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_route_details_route_id")

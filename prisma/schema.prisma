@@ -796,6 +796,7 @@ model destinations {
   tags              String[] @db.VarChar(100)
   types             Json?
   slug              String?  @db.VarChar(255)
+  short_slug        String?  @db.VarChar(100)
 
   created_at        DateTime? @default(now()) @db.Timestamptz(6)
   updated_at        DateTime? @default(now()) @db.Timestamptz(6)
@@ -814,6 +815,19 @@ model destinations {
   destination_assets                                   destination_assets[]
   destination_faqs                                     destination_faqs[]
   route_destinations                                   route_destinations[]
+  destination_gears destination_gears[]
+}
+model destination_gears {
+  id             BigInt   @id @default(autoincrement())
+  destination_id BigInt
+  gear           String    @db.Text
+  type           String    @db.VarChar(50)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime? @default(now()) @db.Timestamptz(6)
+
+  destination destinations @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+
+  @@index([destination_id])
 }
 
 
@@ -996,6 +1010,7 @@ model hotels {
   destination_id                BigInt?
   description                   String?
   facilities                    String?
+  area                          String?                         @db.VarChar(200)
   address                       String?
   phone                         String?
   banner                        String?
@@ -1320,7 +1335,7 @@ model packages {
   total_dinner                                             Int?
   google_merchant_product_id                               String?
   meta_catalogue_id                                        String?
-    perfect_for           String[]          // maps to text[]
+  perfect_for           String[]          // maps to text[]
   highlights_bullets    String[]          // maps to text[]
   safety_positioning    String?           // single text
   unique_selling_points String[]          // maps to text[]
@@ -1329,6 +1344,16 @@ model packages {
   deleted_at                                               DateTime?                  @db.Timestamp(6)
   aggregate_rating_value                                   Decimal?                   @default(0) @db.Decimal(3, 2)
   aggregate_rating_count                                   Int?                       @default(0)
+  traveler_requirements           String?  @db.Text
+  tags                            String[] @db.Text
+  operational_complexity_note     String?  @db.Text
+  first_day_last_pickup_guidance  String?  @db.Text
+  last_day_safe_flight_note       String?  @db.Text
+  health_requirements             String[] @db.Text
+  environmental_risks             String[] @db.Text
+  safety_mitigation               String[] @db.Text
+  handover_notes                  String[] @db.Text
+  emergency_protocols             String[] @db.Text
   bookings                                                 bookings[]
   combined_package_details                                 combined_package_details[]
   package_addons                                           package_addons[]
@@ -1417,6 +1442,8 @@ model routes {
   breakfast            Boolean?             @default(false)
   lunch                Boolean?             @default(false)
   dinner               Boolean?             @default(false)
+  meals_notes          String?              @db.Text
+
 
   // relations
   route_details        route_details[]
@@ -1431,6 +1458,12 @@ model route_details {
   time_or_label String?
   timezone     String?  @db.VarChar(10)
   activity     String
+  type             String?  @db.VarChar(100)
+  location         String?  @db.Text
+  from_location    String?  @db.Text
+  to_location      String?  @db.Text
+  duration_minutes Int?
+
 
   // relation
   routes       routes   @relation(fields: [route_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_route_details_route_id")
