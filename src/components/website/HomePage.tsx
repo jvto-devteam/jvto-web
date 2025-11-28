@@ -2,27 +2,26 @@
 import React, { useCallback } from 'react';
 
 // Components
-import Hero from '@/components/website/Hero';
-import SEO from '@/components/website/SEO';
-import StructuredData from '@/components/website/StructuredData';
-import SocialProof from '@/components/website/SocialProof';
-import ProofBelt from '@/components/website/ProofBelt';
-import PillarsOfTrust from '@/components/website/PillarsOfTrust';
-import StartingPointSection from '@/components/website/StartingPointSection';
-import FAQSection from '@/components/website/FAQSection';
-import EnhancedTourSection from '@/components/website/EnhancedTourSection';
-import VideoSection from '@/components/website/VideoSection';
-import IjenHealthScreeningSection from '@/components/website/IjenHealthScreeningSection';
-import GroupsAndEscortsSection from '@/components/website/GroupsAndEscortsSection';
-import PlannerCtaSection from '@/components/website/PlannerCtaSection';
-import TravelGuideTeaser from '@/components/website/TravelGuideTeaser';
-import CommunityPartnerships from '@/components/website/CommunityPartnerships';
+import Hero from './Hero';
+import SEO from './SEO';
+import StructuredData from './StructuredData';
+import SocialProof from './SocialProof';
+import ProofBelt from './ProofBelt';
+import PillarsOfTrust from './PillarsOfTrust';
+import StartingPointSection from './StartingPointSection';
+import FAQSection from './FAQSection';
+import EnhancedTourSection from './EnhancedTourSection';
+import VideoSection from './VideoSection';
+import IjenHealthScreeningSection from './IjenHealthScreeningSection';
+import GroupsAndEscortsSection from './GroupsAndEscortsSection';
+import PlannerCtaSection from './PlannerCtaSection';
+import TravelGuideTeaser from './TravelGuideTeaser';
+import CommunityPartnerships from './CommunityPartnerships';
 
 
 // Data
 import { heroCopy, contactInfo, miniFaqs, faqsCopy, toursSectionCopy } from '@/constants';
 import { tourPackages } from '@/data';
-
 
 const travelAgencySchema = {
     "@context":"https://schema.org",

@@ -1,0 +1,157 @@
+/* Tailwind v4 base */
+@import "tailwindcss";
+
+/* Google Material Symbols */
+@import "material-symbols/outlined.css";
+
+/* ========================================================================= */
+/*  THEME (Konversi dari tailwind.config dalam <script>)                    */
+/* ========================================================================= */
+@theme {
+  /* Colors */
+  --color-primary: #FF6A3D;
+
+  --color-ink-primary: #1e293b;
+  --color-ink-accentA: #0FB5B5;
+  --color-ink-accentC: #C9E265;
+
+  --color-ink-neutral-900: #0f172a;
+  --color-ink-neutral-800: #1e293b;
+  --color-ink-neutral-700: #334155;
+  --color-ink-neutral-600: #475569;
+  --color-ink-neutral-500: #64748b;
+  --color-ink-neutral-400: #94a3b8;
+  --color-ink-neutral-300: #cbd5e1;
+  --color-ink-neutral-200: #e2e8f0;
+  --color-ink-neutral-100: #f1f5f9;
+  --color-ink-neutral-50: #f8fafc;
+
+  --color-background-light: #ffffff;
+  --color-background-dark: #0f172a;
+
+  --color-emerald-100: #d1fae5;
+  --color-emerald-500: #10b981;
+  --color-emerald-800: #065f46;
+  --color-emerald-900\/50: rgba(6, 78, 59, 0.5);
+  --color-emerald-300: #6ee7b7;
+
+  /* Fonts */
+  --font-display: "Poppins", sans-serif;
+
+  /* Radius */
+  --radius: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px 0 rgb(15 23 42 / 0.05);
+  --shadow: 0 4px 8px 0 rgb(15 23 42 / 0.06), 0 1px 3px 0 rgb(15 23 42 / 0.08);
+  --shadow-md: 0 6px 12px 0 rgb(15 23 42 / 0.07), 0 2px 6px -1px rgb(15 23 42 / 0.08);
+  --shadow-lg: 0 10px 20px -3px rgb(15 23 42 / 0.07), 0 4px 8px -4px rgb(15 23 42 / 0.08);
+  --shadow-xl: 0 20px 30px -5px rgb(15 23 42 / 0.08), 0 8px 12px -6px rgb(15 23 42 / 0.08);
+  --shadow-2xl: 0 25px 50px -12px rgb(15 23 42 / 0.15);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 4px 16px 0 rgba(15, 23, 42, 0.08);
+  --shadow-cardHover: 0 8px 24px 0 rgba(15, 23, 42, 0.12);
+
+  /* Background images */
+  --bg-scribble-green: url("data:image/svg+xml,%3csvg width='400' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cfilter id='scribble' x='0' y='0' width='100%25' height='100%25'%3e%3cfeTurbulence type='fractalNoise' baseFrequency='0.09 0.15' numOctaves='1' result='warp'/%3e%3cfeDisplacementMap xChannelSelector='R' yChannelSelector='G' scale='15' in='SourceGraphic' in2='warp'/%3e%3c/filter%3e%3c/defs%3e%3crect x='0' y='25' width='400' height='50' fill='%23c9e265' style='filter: url(%23scribble);' /%3e%3c/svg%3e");
+
+  /* Keyframes */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @keyframes slide-in-up {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes bounce-slow {
+    0%,100% {
+      transform: translateY(-2%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%,100% { opacity: 1; }
+    50% { opacity: .9; }
+  }
+
+  /* Animation classes */
+  --animate-spin-slow: spin 10s linear infinite;
+  --animate-spin-once: spin 2s ease-out forwards;
+  --animate-slide-in-up: slide-in-up 0.5s ease-out forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-bounce-slow: bounce-slow 3s infinite;
+  --animate-pulse-slow: pulse-slow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ========================================================================= */
+/*  BASE (Konversi dari <style type="text/tailwindcss">)                    */
+/* ========================================================================= */
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-base;
+  }
+
+  h1, .h1 {
+    @apply text-4xl font-extrabold tracking-tighter md:text-5xl lg:text-6xl leading-tight;
+  }
+
+  h2, .h2 {
+    @apply text-3xl font-bold tracking-tight md:text-4xl leading-snug;
+  }
+
+  h3, .h3 {
+    @apply text-xl font-semibold md:text-2xl leading-snug;
+  }
+
+  p, .p {
+    @apply leading-relaxed;
+  }
+
+  textarea {
+    @apply resize-none;
+  }
+}
+
+/* ========================================================================= */
+/*  UTILITIES                                                                */
+/* ========================================================================= */
+.scroll-snap-x { scroll-snap-type: x mandatory; }
+.snap-start { scroll-snap-align: start; }
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
