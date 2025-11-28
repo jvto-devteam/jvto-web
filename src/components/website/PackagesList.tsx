@@ -66,7 +66,7 @@ const PackagesList: React.FC<PackagesListProps> = ({ tours, viewMode }) => {
                     <p className="font-bold text-lg text-primary">{getDisplayPrice(tour)}</p>
                </div>
                <Link 
-                 to={tour.slug} 
+                 href={tour.slug} 
                  className="block w-full text-center px-4 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors"
                >
                  View Details & Book
