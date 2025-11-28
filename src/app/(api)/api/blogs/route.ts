@@ -11,7 +11,9 @@ async function saveCoverFile(file: File): Promise<string> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const safeName = file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9.\-_]/g, "");
+  const safeName = file.name
+    .replace(/\s+/g, "-")
+    .replace(/[^a-zA-Z0-9.\-_]/g, "");
   const timestamp = Date.now();
   const fileName = `${timestamp}-${safeName || "cover"}`;
   const filePath = path.join(uploadDir, fileName);
@@ -21,7 +23,6 @@ async function saveCoverFile(file: File): Promise<string> {
   // path yang disimpan ke DB → bisa di-serve langsung oleh Next dari /public
   return `/uploads/blogs/${fileName}`;
 }
-
 
 function serializeBlog(blog: any) {
   return {
@@ -37,7 +38,6 @@ function serializeBlog(blog: any) {
       : null,
   };
 }
-
 
 // GET /api/blogs
 export async function GET() {
@@ -100,16 +100,21 @@ export async function POST(req: NextRequest) {
       cover_image = await saveCoverFile(coverFile);
     }
 
+    const data: any = {
+      title,
+      slug,
+      content,
+      status,
+      tags,
+      cover_image,
+    };
+
+    if (category_id !== null) {
+      data.category_id = category_id;
+    }
+
     const created = await prisma.blogs.create({
-      data: {
-        title,
-        slug,
-        content,
-        status,
-        tags,
-        category_id,
-        cover_image,
-      },
+      data,
       include: { category: true },
     });
 
