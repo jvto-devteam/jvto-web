@@ -4,8 +4,11 @@ import { pillarsOfTrust } from '@/constants';
 
 const pillars = pillarsOfTrust;
 
+interface PillarCardProps {
+  pillar: typeof pillars[0];
+}
 
-const PillarCard = ({ pillar }) => {
+const PillarCard: React.FC<PillarCardProps> = ({ pillar }) => {
   return (
     <div className="group flex flex-col items-center text-center p-6 rounded-2xl bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover transition-all duration-300 transform hover:-translate-y-1 h-full">
         <div className="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
@@ -23,7 +26,7 @@ const PillarCard = ({ pillar }) => {
   );
 };
 
-const PillarsOfTrust = () => {
+const PillarsOfTrust: React.FC<PillarsOfTrustProps> = () => {
   return (
     <section className="py-16 md:py-28 bg-background-light dark:bg-ink-primary">
       <div className="container mx-auto px-4">
