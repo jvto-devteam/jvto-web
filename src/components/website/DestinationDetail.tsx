@@ -13,7 +13,9 @@ import { DestinationProperty, FAQ, RiskLevel, RiskProfile } from "@/types";
 import DestinationFAQ from "./DestinationFAQ";
 import ElevationChart from "./ElevationChart";
 import GpxMap from "./GpxMap";
-
+interface Props {
+  slug?: string; // optional because it can also come from useParams
+}
 const PropertyDisplay: React.FC<{ property: DestinationProperty }> = ({
   property,
 }) => (
@@ -145,9 +147,11 @@ const RiskMatrix: React.FC<{ risks: RiskProfile }> = ({ risks }) => {
   );
 };
 
-const DestinationDetail: React.FC = () => {
-  const { destinationSlug } = useParams<{ destinationSlug: string }>();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const DestinationDetail: React.FC<Props> = ({ slug }) => {
+  const params = useParams<{ destinationSlug: string }>();
+  const destinationSlug = slug ?? params?.destinationSlug;
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    
 
   const destination = destinationsData.find((d) => d.slug === destinationSlug);
 

@@ -22,6 +22,9 @@ import Modal from "./Modal";
 import AccordionItem from "./AccordionItem";
 import RouteMap from "./RouteMap";
 import { miniFaqs } from "@/constants";
+interface Props {
+  slug?: string; // optional because it can also come from useParams
+}
 
 const getTourBySlug = (slug: string) => {
   return tourPackages.find((t) => t.slug === slug) || null;
@@ -181,8 +184,9 @@ const parseBounds = (
   ];
 };
 
-const TourDetail: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+const TourDetail: React.FC<Props> = ({ slug }) => {
+  const params = useParams<{ slug: string }>();
+  const tourSlug = slug ?? params?.tourSlug;
 
   // ALL HOOKS at the top — never conditional
   const [isIjenFaqOpen, setIsIjenFaqOpen] = React.useState(false);
@@ -191,7 +195,7 @@ const TourDetail: React.FC = () => {
   const [openExpectation, setOpenExpectation] = useState<string | null>("fitness");
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
-  const tour = React.useMemo(() => getTourBySlug(slug), [slug]);
+  const tour = React.useMemo(() => getTourBySlug(tourSlug), [tourSlug]);
 
   // Safe useMemo — handles tour === null gracefully
   const images = React.useMemo(() => {

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client";
 
-// Assuming Recharts is loaded globally via a script tag.
-// We access its components from the window object.
+import React, { useState, useEffect } from "react";
 
 interface ElevationPoint {
   distance: number;
@@ -13,14 +12,33 @@ interface ElevationChartProps {
 }
 
 const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
-  const [isClient, setIsClient] = useState(false);
+  const [Recharts, setRecharts] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsClient(true);
+    const waitForRecharts = () => {
+      if ((window as any)?.Recharts) {
+        setRecharts((window as any).Recharts);
+        setIsLoading(false);
+      } else {
+        // Coba lagi setiap 50ms sampai Recharts muncul
+        setTimeout(waitForRecharts, 50);
+      }
+    };
+
+    waitForRecharts();
   }, []);
 
-  // Access components from the window object inside the render function to get the latest state.
-  const Recharts = (window as any).Recharts;
+  if (isLoading || !Recharts) {
+    return (
+      <div className="flex items-center justify-center h-48 w-full rounded-lg bg-ink-neutral-100 dark:bg-ink-neutral-800">
+        <p className="text-sm text-ink-neutral-500 animate-pulse">
+          Loading elevation chart...
+        </p>
+      </div>
+    );
+  }
+
   const {
     AreaChart,
     Area,
@@ -29,28 +47,18 @@ const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
-  } = Recharts || {};
-
-  // Gracefully handle the case where the Recharts library hasn't loaded yet,
-  // or we are in the initial server render / first client render pass.
-  if (!isClient || !Recharts) {
-    return (
-      <div className="flex items-center justify-center h-48 w-full bg-ink-neutral-100 dark:bg-ink-neutral-800 rounded-lg">
-        <p className="text-sm text-ink-neutral-500">Loading chart...</p>
-      </div>
-    );
-  }
+  } = Recharts;
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="p-2 bg-white/80 dark:bg-black/80 backdrop-blur-sm rounded-lg shadow-md border border-ink-neutral-200 dark:border-ink-neutral-700">
-          <p className="text-sm font-semibold">{`Distance: ${label.toFixed(
-            1
-          )} km`}</p>
-          <p className="text-sm text-primary">{`Elevation: ${payload[0].value.toFixed(
-            0
-          )} m`}</p>
+        <div className="p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md rounded-lg shadow-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+          <p className="text-sm font-semibold">
+            Distance: <span className="text-ink-neutral-700 dark:text-ink-neutral-300">{label.toFixed(1)} km</span>
+          </p>
+          <p className="text-sm font-bold text-orange-600 dark:text-orange-400">
+            Elevation: {payload[0].value.toFixed(0)} m
+          </p>
         </div>
       );
     }
@@ -58,54 +66,63 @@ const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
   };
 
   return (
-    <div className="h-48 w-full text-ink-neutral-500 dark:text-ink-neutral-400">
+    <div className="h-48 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
-          data={data}
-          margin={{ top: 5, right: 20, left: -15, bottom: 5 }}
-        >
+        <AreaChart data={data} margin={{ top: 10, right: 30, left: -20, bottom: 5 }}>
+          {/* Gradient */}
           <defs>
             <linearGradient id="elevationGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#FF6A3D" stopOpacity={0.4} />
+              <stop offset="5%" stopColor="#FF6A3D" stopOpacity={0.5} />
               <stop offset="95%" stopColor="#FF6A3D" stopOpacity={0} />
             </linearGradient>
           </defs>
+
           <CartesianGrid
-            strokeDasharray="3 3"
+            strokeDasharray="4 4"
             stroke="currentColor"
-            strokeOpacity={0.2}
+            strokeOpacity={0.15}
           />
+
           <XAxis
             dataKey="distance"
             type="number"
             domain={["dataMin", "dataMax"]}
-            tickFormatter={(value: number) => `${value.toFixed(1)}km`}
-            tick={{ fontSize: 10, fill: "currentColor" }}
+            tickFormatter={(value: number) => `${value.toFixed(1)}`}
+            tick={{ fontSize: 11, fill: "currentColor" }}
             stroke="currentColor"
+            label={{ value: "km", position: "insideBottomRight", offset: -8 }}
           />
 
           <YAxis
-            domain={["dataMin - 20", "dataMax + 20"]}
-            tickFormatter={(value: number) => `${value.toFixed(0)}m`}
-            tick={{ fontSize: 10, fill: "currentColor" }}
+            domain={[
+              (dataMin: number) => Math.floor(dataMin - 30),
+              (dataMax: number) => Math.ceil(dataMax + 30),
+            ]}
+            tickFormatter={(value: number) => `${value}`}
+            tick={{ fontSize: 11, fill: "currentColor" }}
             stroke="currentColor"
+            label={{ value: "m", angle: -90, position: "insideLeft" }}
           />
 
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{
-              stroke: "currentColor",
-              strokeWidth: 1,
-              strokeDasharray: "3 3",
-            }}
+            cursor={{ stroke: "#FF6A3D", strokeWidth: 2, strokeDasharray: "5 5" }}
           />
+
           <Area
             type="monotone"
             dataKey="elevation"
             stroke="#FF6A3D"
-            strokeWidth={2}
+            strokeWidth={3}
             fillOpacity={1}
             fill="url(#elevationGradient)"
+            dot={false}
+            activeDot={{
+              r: 6,
+              stroke: "#FF6A3D",
+              strokeWidth: 2,
+              fill: "#ffffff",
+            }}
           />
         </AreaChart>
       </ResponsiveContainer>

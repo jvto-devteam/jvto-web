@@ -1,7 +1,7 @@
 import DestinationDetail from "@/components/website/DestinationDetail";
 import StructuredData from "@/components/website/StructuredData";
 
-export default function Reviews() {
+export default function Detail({ params }: { params: { slug: string } }) {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -25,10 +25,12 @@ export default function Reviews() {
     ],
   };
 
+  if (!params.slug) notFound();
+
   return (
     <>
       <StructuredData data={schema} />
-      <DestinationDetail />;
+      <DestinationDetail slug={params.slug} />
     </>
   );
 }
