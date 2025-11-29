@@ -1,11 +1,11 @@
-import ToursPage from "@/components/website/ToursPage";
+import VerifyJVTOPage from "@/components/website/VerifyJVTOPage";
 import StructuredData from "@/components/website/StructuredData";
 export const metadata: Metadata = {
-  title: "All Private Tours in East Java | JVTO Tours",
-  description: "Browse our complete collection of private, all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect adventure.",
+  title: "Verify JVTO: Licenses, Police Leadership & Office | Official Proof",
+  description: "Verify our PT license (NIB/TDUP), see our physical office in Bondowoso, and confirm our Tourist Police leadership. Transparent proof for your safety.",
 };
 
-export default function Tours() {
+export default function Insights() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -21,9 +21,9 @@ export default function Tours() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Tours",
-            item: "https://javavolcano-touroperator.com/tours/",
-          },
+            name: "Verify JVTO",
+            item: "https://javavolcano-touroperator.com/verify-jvto/",
+          }
         ],
       },
     ],
@@ -32,7 +32,7 @@ export default function Tours() {
   return (
     <>
       <StructuredData data={schema} />
-      <ToursPage />;
+      <VerifyJVTOPage />;
     </>
   );
 }

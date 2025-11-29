@@ -1,11 +1,7 @@
-import ToursPage from "@/components/website/ToursPage";
+import TourDetail from "@/components/website/TourDetail";
 import StructuredData from "@/components/website/StructuredData";
-export const metadata: Metadata = {
-  title: "All Private Tours in East Java | JVTO Tours",
-  description: "Browse our complete collection of private, all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect adventure.",
-};
 
-export default function Tours() {
+export default function Detail({ params }: { params: { slug: string } }) {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -29,10 +25,12 @@ export default function Tours() {
     ],
   };
 
+  if (!params.slug) notFound();
+
   return (
     <>
       <StructuredData data={schema} />
-      <ToursPage />;
+      <TourDetail slug={params.slug} />
     </>
   );
 }

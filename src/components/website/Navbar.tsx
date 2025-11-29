@@ -49,10 +49,10 @@ const MegaMenuSeeAllLink: React.FC<{
       onClick={onClick}
       className="inline-flex items-center gap-1 font-semibold text-primary mt-2"
     >
-      <span className="hover:underline">
-        {children}
+      <span className="hover:underline">{children}</span>
+      <span className="material-symbols-outlined text-sm no-underline">
+        arrow_forward
       </span>
-      <span className="material-symbols-outlined text-sm no-underline">arrow_forward</span>
     </Link>
   </li>
 );
@@ -425,7 +425,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const alwaysScrolledPaths = [
+  const exactScrolledPaths = [
     "/why-jvto/our-story",
     "/why-jvto/the-jvto-difference",
     "/why-jvto/reviews",
@@ -439,8 +439,20 @@ const Navbar: React.FC = () => {
     "/travel-guide/packing-and-fitness",
     "/travel-guide/weather-and-closures",
     "/travel-guide/police-escort-for-groups",
+    "/tours",
+    "/verify-jvto",
   ];
-  const forceScrolled = alwaysScrolledPaths.includes(pathname);
+  const prefixScrolledPaths = [
+    "/destinations/", // <-- ini yang kamu butuhkan
+    "/tours/", // opsional, kalau mau semua sub-page tours juga selalu scrolled
+  ];
+
+  // 3. Cek apakah current path termasuk exact ATAU dimulai dengan salah satu prefix
+  const isForceScrolled =
+    exactScrolledPaths.includes(pathname) ||
+    prefixScrolledPaths.some((prefix) => pathname.startsWith(prefix));
+
+  const forceScrolled = isForceScrolled;
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       // Default to light mode unless 'dark' is explicitly set in localStorage.
