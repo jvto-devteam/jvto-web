@@ -8,12 +8,6 @@ const logos = [
   { name: 'Trustpilot', src: 'https://cdn.trustpilot.net/brand-assets/4.3.0/logo-wordmark/light-bg/logo-black.svg', alt: 'Trustpilot Logo', href: proofLinks.trustpilot },
 ];
 
-declare global {
-    interface Window {
-        gtag?: (type: string, event: string, params: object) => void;
-    }
-}
-
 const SocialProof: React.FC = () => {
 
   return (

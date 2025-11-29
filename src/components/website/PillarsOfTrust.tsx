@@ -26,7 +26,7 @@ const PillarCard: React.FC<PillarCardProps> = ({ pillar }) => {
   );
 };
 
-const PillarsOfTrust: React.FC<PillarsOfTrustProps> = () => {
+const PillarsOfTrust = () => {
   return (
     <section className="py-16 md:py-28 bg-background-light dark:bg-ink-primary">
       <div className="container mx-auto px-4">

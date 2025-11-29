@@ -183,27 +183,30 @@ const parseBounds = (
 
 const TourDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
+
+  // ALL HOOKS at the top — never conditional
   const [isIjenFaqOpen, setIsIjenFaqOpen] = React.useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [openExpectation, setOpenExpectation] = useState<string | null>(
-    "fitness"
-  );
+  const [openExpectation, setOpenExpectation] = useState<string | null>("fitness");
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const tour = getTourBySlug(slug);
-  const metaDescription = React.useMemo(
-    () =>
-      `Book the ${tour.label}: A ${tour.durationDays}-day/${
-        tour.durationNights
-      }-night private, all-inclusive tour. Key experiences include: ${tour.keyExperiences.join(
-        ", "
-      )}. Secure your adventure with a licensed operator.`,
-    [tour]
-  );
+
+  const tour = React.useMemo(() => getTourBySlug(slug), [slug]);
+
+  // Safe useMemo — handles tour === null gracefully
+  const images = React.useMemo(() => {
+    if (!tour) return [];
+    return [tour.imageUrl, ...(tour.gallery || [])].filter(Boolean);
+  }, [tour]);
+
+  const metaDescription = React.useMemo(() => {
+    if (!tour) return "Loading tour...";
+    return `Book the ${tour.label}: A ${tour.durationDays}-day/${tour.durationNights}-night private, all-inclusive tour. Key experiences include: ${tour.keyExperiences.join(", ")}. Secure your adventure with a licensed operator.`;
+  }, [tour]);
 
   const destinationsWithGpx = React.useMemo(() => {
     if (!tour) return [];
-
+    // ... your existing logic (safe now)
     const uniqueDestinations = (tour.itineraryDays || tour.itinerary)
       .flatMap((day) => day.activities)
       .map((activity) => activity.destinationName)
@@ -217,13 +220,8 @@ const TourDetail: React.FC = () => {
             (normalizedName.includes("bromo") && dest.id === "bromo")
         );
       })
-      .filter(
-        (dest): dest is NonNullable<typeof dest> =>
-          !!dest && !!dest.gpxTrack && !!dest.gpxElevationProfile
-      )
-      .filter(
-        (dest, index, self) => self.findIndex((d) => d.id === dest.id) === index
-      );
+      .filter((dest): dest is NonNullable<typeof dest> => !!dest && !!dest.gpxTrack && !!dest.gpxElevationProfile)
+      .filter((dest, index, self) => self.findIndex((d) => d.id === dest.id) === index);
 
     return uniqueDestinations;
   }, [tour]);
@@ -233,9 +231,7 @@ const TourDetail: React.FC = () => {
     return tour.route
       .map((routeName) => {
         const dest = destinationsData.find((d) =>
-          d.name
-            .toLowerCase()
-            .includes(routeName.toLowerCase().replace("mount-", ""))
+          d.name.toLowerCase().includes(routeName.toLowerCase().replace("mount-", ""))
         );
         if (dest) {
           return {
@@ -245,47 +241,35 @@ const TourDetail: React.FC = () => {
         }
         return null;
       })
-      .filter(
-        (stop): stop is { name: string; coords: [number, number] } =>
-          stop !== null
-      );
+      .filter((stop): stop is { name: string; coords: [number, number] } => stop !== null);
   }, [tour]);
 
-  const images = React.useMemo(
-    () => [tour.imageUrl, ...(tour.gallery || [])].filter(Boolean),
-    [tour]
-  );
-
+  // EARLY RETURNS — now safe (after all hooks)
   if (!slug) {
     return <div>Loading tour...</div>;
   }
+
   if (!tour) {
     return (
       <div className="container mx-auto px-4 py-36 text-center">
         <h1 className="text-4xl font-bold">Tour Not Found</h1>
-        <p className="mt-4 text-lg">
-          We {`couldn't`} find the tour you were looking for.
-        </p>
-        <Link
-          href="/tours"
-          className="mt-8 inline-block px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-opacity-90"
-        >
+        <p className="mt-4 text-lg">We ${`couldn't`} find the tour you were looking for.</p>
+        <Link href="/tours" className="mt-8 inline-block px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-opacity-90">
           Back to All Tours
         </Link>
       </div>
     );
   }
 
+  // From here on: tour is GUARANTEED to exist → TypeScript happy
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
     setIsLightboxOpen(true);
   };
 
   const closeLightbox = () => setIsLightboxOpen(false);
-  const nextImage = () =>
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  const prevImage = () =>
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
 
   const origin = tour.originCity;
   const fullTourSlug = `/tours/${slug}`;
@@ -834,7 +818,7 @@ const TourDetail: React.FC = () => {
                   </div>
                 )}
                 <Link
-                  to={`${fullTourSlug}/book`}
+                  href={`${fullTourSlug}/book`}
                   className="block w-full text-center mt-6 px-5 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors"
                 >
                   Book This Tour
