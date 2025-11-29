@@ -38,19 +38,26 @@ interface TourCardProps {
 }
 
 const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
+// All hooks at the top — always called in the same order
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const images = React.useMemo(() => [tour.imageUrl, ...(tour.gallery || [])].filter(Boolean), [tour.imageUrl, tour.gallery]);
+  // Safe to compute even if tour is undefined — we'll guard inside
+  const images = React.useMemo(() => {
+    if (!tour) return [];
+    return [tour.imageUrl, ...(tour.gallery || [])].filter(Boolean);
+  }, [tour?.imageUrl, tour?.gallery]);
+
+  // Early return AFTER all hooks
   if (isLoading || !tour) {
     return <TourCardSkeleton />;
   }
 
-
+  // Now safe to use `tour` — we know it's defined
   const handlePrev = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
+    e.stopPropagation();
+    e.preventDefault();
+    setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
