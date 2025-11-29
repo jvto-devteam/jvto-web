@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useState } from 'react';
 import { SectionCopy, FAQ } from '@/types';
 import StructuredData from './StructuredData';

@@ -1,5 +1,4 @@
 import React from 'react';
-import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import MeetYourGuides from './MeetYourGuides';
 import { guides } from '@/constants';
@@ -13,10 +12,6 @@ const OurTeamPage = () => {
 
   return (
     <>
-      <SEO
-        title="Our Team | Local Guides & Experts | JVTO"
-        description="Meet the professional, local guides and drivers who make your JVTO tour of Bromo and Ijen safe and unforgettable. Learn about our commitment to local employment."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
           <div className="container mx-auto px-4">

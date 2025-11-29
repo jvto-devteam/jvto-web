@@ -1,5 +1,3 @@
-import React from 'react';
-import SEO from './SEO';
 import StructuredData from './StructuredData';
 import Breadcrumbs from './Breadcrumbs';
 import ProofLedger from './ProofLedger';
@@ -101,26 +99,9 @@ const JVTODifferencePage = () => {
     { name: 'The JVTO Difference', path: '/why-jvto/the-jvto-difference' },
   ];
   
-  const pageSchema = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "name": "The JVTO Difference",
-    "url": "https://javavolcano-touroperator.com/why-jvto/the-jvto-difference",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "Java Volcano Tour Operator",
-      "legalName": "PT Java Volcano Rendezvous",
-      "identifier": "1102230032918"
-    }
-  };
 
   return (
     <>
-      <SEO
-        title="The JVTO Difference | Verified, Private, Responsible"
-        description="Our 7 pillars of operation: Police-led safety, licensed and traceable, private-only all-inclusive packages, Ijen screening leadership, local teams, student fairness, and verifiable reviews."
-      />
-      <StructuredData data={pageSchema} />
        <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
             <div className="container mx-auto px-4">

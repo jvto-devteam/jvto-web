@@ -1,6 +1,3 @@
-
-import React from 'react';
-import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 
 const SafetyOnToursPage = () => {
@@ -12,10 +9,7 @@ const SafetyOnToursPage = () => {
 
   return (
     <>
-      <SEO
-        title="Safety on Tours | JVTO's Protocols & Standards"
-        description="Our police-led safety culture in practice. Learn about our vehicle standards, guide training, Ijen safety protocols, and emergency procedures."
-      />
+
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
           <div className="container mx-auto px-4">

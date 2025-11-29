@@ -1,7 +1,35 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async headers() {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'javavolcano-touroperator.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
+  async headers() {
     return [
       {
         source: "/(.*)",
@@ -16,7 +44,9 @@ const nextConfig = {
               connect-src 'self' https:;
               font-src 'self' https: data:;
               frame-src 'self' https:;
-            `.replace(/\s{2,}/g, " ").trim(),
+            `
+              .replace(/\s{2,}/g, " ")
+              .trim(),
           },
         ],
       },
@@ -125,7 +155,9 @@ const nextConfig = {
       },
       {
         source: "/packages",
-        has: [{ type: "query", key: "destinations", value: "taman-safari-prigen" }],
+        has: [
+          { type: "query", key: "destinations", value: "taman-safari-prigen" },
+        ],
         destination: "/tours/destination/taman-safari-prigen",
         permanent: true,
       },
@@ -231,17 +263,20 @@ const nextConfig = {
       },
       {
         source: "/packages/surabaya/3d2n/1",
-        destination: "/tours/3-day-bromo-and-madakaripura-waterfall-and-ijen-overland-from-surabaya-to-bali",
+        destination:
+          "/tours/3-day-bromo-and-madakaripura-waterfall-and-ijen-overland-from-surabaya-to-bali",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/2",
-        destination: "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
+        destination:
+          "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/4",
-        destination: "/tours/3-day-bromo-and-madakaripura-waterfall-getaway-from-surabaya",
+        destination:
+          "/tours/3-day-bromo-and-madakaripura-waterfall-getaway-from-surabaya",
         permanent: true,
       },
       {
@@ -251,49 +286,58 @@ const nextConfig = {
       },
       {
         source: "/packages/surabaya/3d2n/6",
-        destination: "/tours/3-day-tumpak-sewu-waterfall-and-bromo-explorer-from-surabaya",
+        destination:
+          "/tours/3-day-tumpak-sewu-waterfall-and-bromo-explorer-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/7",
-        destination: "/tours/3-day-taman-safari-prigen-and-bromo-and-madakaripura-waterfall-family-adventure-from-surabaya",
+        destination:
+          "/tours/3-day-taman-safari-prigen-and-bromo-and-madakaripura-waterfall-family-adventure-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/1",
-        destination: "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
+        destination:
+          "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/2",
-        destination: "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
+        destination:
+          "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/3",
-        destination: "/tours/4-day-tumpak-sewu-waterfall-and-bromo-and-ijen-adventure-from-surabaya-to-bali",
+        destination:
+          "/tours/4-day-tumpak-sewu-waterfall-and-bromo-and-ijen-adventure-from-surabaya-to-bali",
         permanent: true,
       },
       {
         source: "/packages/surabaya/5d4n/5",
-        destination: "/tours/5-day-ijen-and-bromo-and-madakaripura-waterfall-and-malang-city-adventure-from-surabaya",
+        destination:
+          "/tours/5-day-ijen-and-bromo-and-madakaripura-waterfall-and-malang-city-adventure-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/5d4n/8",
-        destination: "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
+        destination:
+          "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
         permanent: true,
       },
       {
         source: "/packages/surabaya/6d5n/1",
-        destination: "/tours/6-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-and-malang-city-discovery-from-surabaya",
+        destination:
+          "/tours/6-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-and-malang-city-discovery-from-surabaya",
         permanent: true,
       },
 
       // Bali Detailed Packages
       {
         source: "/packages/bali/3d2n/1",
-        destination: "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-bali-to-surabaya",
+        destination:
+          "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-bali-to-surabaya",
         permanent: true,
       },
       {
@@ -303,12 +347,14 @@ const nextConfig = {
       },
       {
         source: "/packages/bali/4d3n/2",
-        destination: "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
+        destination:
+          "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
         permanent: true,
       },
       {
         source: "/packages/bali/5d4n/2",
-        destination: "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
+        destination:
+          "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
         permanent: true,
       },
 

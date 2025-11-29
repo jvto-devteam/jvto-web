@@ -1,6 +1,4 @@
 import React from 'react';
-import SEO from './SEO';
-import StructuredData from './StructuredData';
 import Breadcrumbs from './Breadcrumbs';
 import Link from "next/link";
 
@@ -17,33 +15,9 @@ const IjenHealthScreeningPage: React.FC = () => {
     { name: 'Ijen Health Screening', path: '/travel-guide/ijen-health-screening' },
   ];
 
-  const pageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Ijen Health Screening — Real Checks, Digital Proof | JVTO",
-    "url": "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
-    "description": "Learn how JVTO includes real health screening for Ijen hikes and supports digital, QR-verified clearance for all travelers.",
-    "mainEntity": {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": faqs.map(faq => ({
-            "@type": "Question",
-            "name": faq.question,
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": faq.answer
-            }
-        }))
-    }
-  };
 
   return (
     <>
-      <SEO
-        title="Ijen Health Screening — Real Checks, Digital Proof | JVTO"
-        description="Learn how JVTO includes real health screening for Ijen hikes and supports digital, QR-verified clearance for all travelers."
-      />
-      <StructuredData data={pageSchema} />
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
             <div className="container mx-auto px-4">

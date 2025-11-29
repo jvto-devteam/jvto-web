@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { contactInfo } from "@/constants";
 import { usePathname } from "next/navigation";
 
@@ -46,10 +47,12 @@ const MegaMenuSeeAllLink: React.FC<{
     <Link
       href={to}
       onClick={onClick}
-      className="inline-flex items-center gap-1 font-semibold text-primary hover:underline mt-2"
+      className="inline-flex items-center gap-1 font-semibold text-primary mt-2"
     >
-      {children}
-      <span className="material-symbols-outlined text-sm">arrow_forward</span>
+      <span className="hover:underline">
+        {children}
+      </span>
+      <span className="material-symbols-outlined text-sm no-underline">arrow_forward</span>
     </Link>
   </li>
 );
@@ -58,20 +61,12 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleClose = () => {
-    setIsDropdownOpen(false);
-  };
-
+  const handleClose = () => setIsDropdownOpen(false);
   const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 200);
+    timeoutRef.current = setTimeout(() => setIsDropdownOpen(false), 200);
   };
-
   const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsDropdownOpen(true);
   };
 
@@ -97,6 +92,7 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
           expand_more
         </span>
       </button>
+
       <div
         className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 transition-all duration-300 transform ${
           isDropdownOpen
@@ -105,14 +101,10 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
         }`}
         style={{ perspective: "1000px" }}
       >
-        <div
-          className="bg-white dark:bg-background-dark rounded-xl shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700 w-[800px] max-w-[90vw] overflow-hidden"
-          style={{ transformOrigin: "top center" }}
-        >
+        <div className="bg-white dark:bg-background-dark rounded-xl shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700 w-[800px] max-w-[90vw] overflow-hidden">
           <div className="flex">
-            {/* Left side: Links */}
+            {/* Left: Links */}
             <div className="flex-1 p-8 grid grid-cols-2 gap-8">
-              {/* Column 1: Popular Packages */}
               <div>
                 <h4 className="font-bold text-ink-primary dark:text-white mb-3">
                   Popular Packages
@@ -141,7 +133,6 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
                   </MegaMenuSeeAllLink>
                 </ul>
               </div>
-              {/* Column 2: By Duration */}
               <div>
                 <h4 className="font-bold text-ink-primary dark:text-white mb-3">
                   Tours by Duration
@@ -165,17 +156,21 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
                 </ul>
               </div>
             </div>
-            {/* Right side: Image Links */}
+
+            {/* Right: Gambar dengan Next/Image */}
             <div className="w-[320px] bg-gray-50 dark:bg-ink-primary p-6 space-y-4">
               <Link
                 href="/tours/from/surabaya"
                 onClick={handleClose}
                 className="group block relative rounded-lg overflow-hidden h-36 text-white"
               >
-                <img
+                <Image
                   src="https://javavolcano-touroperator.com/assets/img/destinations/new4.jpg"
                   alt="Mount Bromo"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="320px"
+                  quality={85}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="relative h-full flex flex-col justify-end p-4">
@@ -185,15 +180,19 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
                   </p>
                 </div>
               </Link>
+
               <Link
                 href="/tours/from/bali"
                 onClick={handleClose}
                 className="group block relative rounded-lg overflow-hidden h-36 text-white"
               >
-                <img
+                <Image
                   src="https://javavolcano-touroperator.com/assets/img/destinations/new6.jpg"
                   alt="Ijen Crater"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="320px"
+                  quality={85}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                 <div className="relative h-full flex flex-col justify-end p-4">
@@ -210,7 +209,6 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
     </div>
   );
 };
-
 const WhyJVTODropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -411,9 +409,11 @@ const TravelGuideDropdown: React.FC<{ isScrolled: boolean }> = ({
             </div>
           </div>
           <div className="pt-4 mt-4 border-t border-ink-neutral-200 dark:border-ink-neutral-700">
-            <MegaMenuSeeAllLink to="/travel-guide" onClick={handleClose}>
-              Travel Guide Home
-            </MegaMenuSeeAllLink>
+            <ul className="list-none">
+              <MegaMenuSeeAllLink to="/travel-guide" onClick={handleClose}>
+                Travel Guide Home
+              </MegaMenuSeeAllLink>
+            </ul>
           </div>
         </div>
       </div>
@@ -425,7 +425,21 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const alwaysScrolledPaths = ["/"];
+  const alwaysScrolledPaths = [
+    "/why-jvto/our-story",
+    "/why-jvto/the-jvto-difference",
+    "/why-jvto/reviews",
+    "/why-jvto/community-standards",
+    "/why-jvto/our-team",
+    "/why-jvto",
+    "/travel-guide/faq",
+    "/travel-guide/booking-information",
+    "/travel-guide/booking-information",
+    "/travel-guide/safety-on-tours",
+    "/travel-guide/packing-and-fitness",
+    "/travel-guide/weather-and-closures",
+    "/travel-guide/police-escort-for-groups",
+  ];
   const forceScrolled = alwaysScrolledPaths.includes(pathname);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
@@ -485,15 +499,17 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16 md:h-20">
           <Link href="/" className="p-2 -ml-2 rounded-lg">
-            <img
+            <Image
               src="https://javavolcano-touroperator.com/assets/img/jvto-color.png?1702429896"
               alt="JVTO Tours Logo"
-              className={`h-10 w-auto ${`transition-all duration-300 ${
+              width={160}
+              height={40}
+              className={`h-10 w-auto transition-all duration-300 ${
                 isScrolled ? "" : "filter brightness-0 invert"
-              }`}`}
+              }`}
+              priority // karena logo selalu di atas fold
             />
           </Link>
-
           <div className="hidden md:flex items-center space-x-8">
             <ToursDropdown isScrolled={isScrolled} />
             {navLinks.map((link) => {
@@ -517,7 +533,6 @@ const Navbar: React.FC = () => {
               );
             })}
           </div>
-
           <div className="hidden md:flex items-center space-x-2">
             <a
               href={contactInfo.whatsappLink}
@@ -557,7 +572,6 @@ const Navbar: React.FC = () => {
               Plan My Trip
             </Link>
           </div>
-
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}

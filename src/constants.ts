@@ -286,7 +286,8 @@ export const badges: Badge[] = [
 ];
 
 export const contactInfo: ContactInfo = {
-  email: 'info@javavolcano-touroperator.com',
+  website: 'https://javavolcano-touroperator.com',
+  email: 'hello@javavolcano-touroperator.com',
   whatsapp: '+62 822 4478 8833',
   whatsappLink: 'https://wa.me/6282244788833',
   officeAddress: 'Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68217, Indonesia',

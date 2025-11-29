@@ -4,7 +4,6 @@ import Reviews from './Reviews';
 import { reviewsCopy } from '@/constants';
 import Breadcrumbs from './Breadcrumbs';
 import SocialProof from './SocialProof';
-import SEO from './SEO';
 
 const ReviewsPage: React.FC = () => {
   const breadcrumbCrumbs = [
@@ -15,10 +14,6 @@ const ReviewsPage: React.FC = () => {
 
   return (
     <>
-      <SEO
-          title="Reviews & Testimonials | JVTO Tours"
-          description="Read reviews from travelers who have experienced East Java with us. See why we have 5-star ratings on Google, TripAdvisor, and other platforms."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
           <header className="py-12 bg-white dark:bg-ink-primary">
               <div className="container mx-auto px-4 text-center">

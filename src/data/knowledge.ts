@@ -20,7 +20,7 @@ export const knowledgeBase: KnowledgeChunk[] = [
     content: `To protect you from fraud, JVTO recognizes **only** the following channels for bookings, payments, and official communication:
 * **Website & Secure Checkout:** https://javavolcano-touroperator.com
 * **WhatsApp:** +62 822-4478-8833
-* **Email:** info@javavolcano-touroperator.com
+* **Email:** hello@javavolcano-touroperator.com
 Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java.`,
     tags: ['office', 'address', 'location', 'contact', 'email', 'whatsapp', 'phone number', 'google maps', 'official channel']
   },

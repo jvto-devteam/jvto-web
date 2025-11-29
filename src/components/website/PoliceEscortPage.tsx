@@ -1,6 +1,3 @@
-
-import React from 'react';
-import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import Link from "next/link";
 
@@ -13,10 +10,6 @@ const PoliceEscortPage = () => {
 
   return (
     <>
-      <SEO
-        title="Police Escort for Tourist Groups in East Java | JVTO"
-        description="Learn how JVTO coordinates official traffic police escorts for large groups (18+ guests) on specific travel segments, based on formal orders and Indonesian law."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
           <div className="container mx-auto px-4">
