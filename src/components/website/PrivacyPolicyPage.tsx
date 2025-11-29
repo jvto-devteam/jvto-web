@@ -56,7 +56,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <li><strong>Tourism License (TDUP):</strong> 1102230032918 (issued 11 February 2023)</li>
                 <li><strong>Registered Office:</strong> Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia.</li>
                 <li><strong>Primary WhatsApp:</strong> +62 822-4478-8833</li>
-                <li><strong>Email:</strong> info@javavolcano-touroperator.com</li>
+                <li><strong>Email:</strong> hello@javavolcano-touroperator.com</li>
               </ul>
               <p>JVTO is an all-inclusive private tour operator. We do not run open/join-in group tours. We control transport, guides, accommodation, and safety protocols directly or via vetted local partners.</p>
             </section>
@@ -287,7 +287,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     <p className="font-semibold">PT Java Volcano Rendezvous (JVTO)</p>
                     <p>Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia.</p>
                     <p><strong>WhatsApp:</strong> +62 822-4478-8833</p>
-                    <p><strong>Email:</strong> info@javavolcano-touroperator.com</p>
+                    <p><strong>Email:</strong> hello@javavolcano-touroperator.com</p>
                     <p><strong>Operational Hours:</strong> 08:00 – 22:00 WIB (GMT+7).</p>
                 </div>
                 <p>We will review and respond within a reasonable timeframe and may ask for additional information to verify your identity before sharing or modifying personal data.</p>

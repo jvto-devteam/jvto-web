@@ -1,40 +1,12 @@
-import React from 'react';
 import BookingForm from './BookingForm'; // Re-using this as a contact form
-import StructuredData from './StructuredData';
-import SEO from './SEO';
-// FIX: Import 'proofLinks' to resolve the "Cannot find name" error.
 import { contactInfo, proofLinks } from '@/constants';
 
 const ContactPage = () => {
-  const baseUrl = 'https://jvto.example.com';
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: `${baseUrl}/#/`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Contact',
-        item: `${baseUrl}/#/contact`,
-      },
-    ],
-  };
 
   return (
     <>
-      <SEO
-        title="Contact JVTO Tours | Plan Your East Java Adventure"
-        description="Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7."
-      />
-      <div className="bg-background-light dark:bg-ink-primary pt-20">
-        <StructuredData data={breadcrumbSchema} />
-        <header className="relative py-20 md:py-32 bg-ink-primary text-white text-center">
+      <div className="bg-background-light dark:bg-ink-primary">
+        <header className="relative py-28 md:py-48 bg-ink-primary text-white text-center">
           <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{backgroundImage: `url('https://images.unsplash.com/photo-1534536281715-e28d76689b4d?q=80&w=1200&auto-format=fit=crop')`}}></div>
           <div className="relative container mx-auto px-4">
             <h1 className="text-4xl md:text-6xl font-bold">Contact Us</h1>

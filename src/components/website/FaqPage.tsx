@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from "next/link";
 import SEO from './SEO';
 import FAQSection from './FAQSection';
@@ -13,10 +12,6 @@ const FaqPage: React.FC = () => {
     ];
   return (
     <>
-      <SEO
-        title="FAQ | Travel Guide | JVTO"
-        description="Answers to common questions about booking, payments, safety, and logistics for Bromo & Ijen tours."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
          <header className="py-12 bg-white dark:bg-ink-primary">
             <div className="container mx-auto px-4">

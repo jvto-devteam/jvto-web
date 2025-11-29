@@ -7,11 +7,6 @@ import { parseNL } from '@/utils/nl-parser';
 import { tourPackages } from '@/data';
 import { TourPackage } from '@/types';
 
-declare global {
-    interface Window {
-        gtag?: (type: string, event: string, params: object) => void;
-    }
-}
 
 const ToursPage: React.FC = () => {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -59,13 +54,6 @@ const ToursPage: React.FC = () => {
             physicality: parsed.physicality,
         };
         setFilters(newFilters);
-
-        if (typeof window.gtag === 'function') {
-            window.gtag('event', 'ai_search_query', { 
-                query: searchQuery, 
-                parsed_filters: JSON.stringify(parsed) 
-            });
-        }
     };
     
     const filteredTours = useMemo(() => {

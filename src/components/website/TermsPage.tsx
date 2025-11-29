@@ -179,7 +179,7 @@ const TermsPage: React.FC = () => {
                 <p>To protect you against fraud and miscommunication, JVTO recognizes only the following channels for booking questions, payment confirmation, pickup detail updates, reschedule requests, and cancellation notices:</p>
                 <ul>
                     <li><strong>WhatsApp:</strong> +62 822-4478-8833</li>
-                    <li><strong>Email:</strong> info@javavolcano-touroperator.com</li>
+                    <li><strong>Email:</strong> hello@javavolcano-touroperator.com</li>
                 </ul>
             </section>
 

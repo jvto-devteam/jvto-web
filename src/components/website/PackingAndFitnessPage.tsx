@@ -1,6 +1,3 @@
-
-import React from 'react';
-import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 
 const PackingAndFitnessPage = () => {
@@ -12,10 +9,6 @@ const PackingAndFitnessPage = () => {
 
   return (
     <>
-      <SEO
-        title="Packing & Fitness Guide for Bromo & Ijen | JVTO"
-        description="A practical guide on what to pack and the fitness levels required for your private tour in East Java. Prepare for volcano treks and waterfalls."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
           <div className="container mx-auto px-4">

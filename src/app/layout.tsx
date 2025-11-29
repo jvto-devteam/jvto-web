@@ -8,6 +8,7 @@ const poppins = Poppins({
   display: "optional",
 });
 
+
 export default function RootLayout({
   children,
 }: {
@@ -15,9 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.className} antialiased`}>
-        {children}
-      </body>
+      <head>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+        </head>
+      <body className={`${poppins.className} antialiased`}>{children}</body>
     </html>
   );
 }

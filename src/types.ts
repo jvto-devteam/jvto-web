@@ -55,6 +55,7 @@ export interface Badge {
 }
 
 export interface ContactInfo {
+  website: string;
   email: string;
   whatsapp: string;
   whatsappLink: string;
@@ -91,7 +92,7 @@ export interface DetailedItineraryDay {
         dinner: string;
     };
     mealsNotes: string;
-    overnight: string;
+    overnight: string | null;
     summary?: string;
 }
 

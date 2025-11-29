@@ -1,6 +1,3 @@
-
-import React from 'react';
-import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import Link from "next/link";
 
@@ -13,10 +10,6 @@ const WeatherClosuresPage = () => {
 
   return (
     <>
-      <SEO
-        title="Weather, Volcanic Alerts & Closures | JVTO"
-        description="How we handle itinerary changes due to weather, volcanic activity, or other unforeseen closures. Your safety is our priority."
-      />
       <div className="bg-background-light dark:bg-background-dark pt-20">
         <header className="py-12 bg-white dark:bg-ink-primary">
           <div className="container mx-auto px-4">
