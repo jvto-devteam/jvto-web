@@ -1,5 +1,6 @@
 import DestinationsPage from "@/components/website/DestinationsPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
   description: "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",

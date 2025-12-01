@@ -1,5 +1,6 @@
 import BookingInformationPage from "@/components/website/BookingInformationPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Booking Information | Payments, Changes & Inclusions | JVTO",
   description: "How JVTO tours work: booking steps, payments, cancellations, logistics, inclusions, safety, and support. Ijen health certificate is included.",

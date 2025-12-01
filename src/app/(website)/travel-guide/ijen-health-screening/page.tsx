@@ -1,5 +1,6 @@
 import IjenHealthScreeningPage from "@/components/website/IjenHealthScreeningPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Ijen Health Screening — Real Checks, Digital Proof | JVTO",
   description: "Learn how JVTO includes real health screening for Ijen hikes and supports digital, QR-verified clearance for all travelers..",

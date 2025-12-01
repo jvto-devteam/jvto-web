@@ -1192,6 +1192,7 @@ exports.Prisma.Route_detailsScalarFieldEnum = {
   seq: 'seq',
   time_or_label: 'time_or_label',
   timezone: 'timezone',
+  name: 'name',
   activity: 'activity',
   type: 'type',
   location: 'location',

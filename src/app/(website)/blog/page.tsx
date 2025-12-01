@@ -1,5 +1,6 @@
 import InsightsPage from "@/components/website/InsightsPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Insights | JVTO's Blog on Safety, Planning & Community",
   description: "Explore our articles on choosing a legal operator, understanding Ijen health screening, and maximizing your East Java trip. Expert advice from a police-led team.",

@@ -1,5 +1,6 @@
 import PackingAndFitnessPage from "@/components/website/PackingAndFitnessPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Packing & Fitness Guide for Bromo & Ijen | JVTO",
   description: "A practical guide on what to pack and the fitness levels required for your private tour in East Java. Prepare for volcano treks and waterfalls..",

@@ -99100,7 +99100,6 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
-    traveler_requirements: string | null
     operational_complexity_note: string | null
     first_day_last_pickup_guidance: string | null
     last_day_safe_flight_note: string | null
@@ -99135,7 +99134,6 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
-    traveler_requirements: string | null
     operational_complexity_note: string | null
     first_day_last_pickup_guidance: string | null
     last_day_safe_flight_note: string | null
@@ -99244,7 +99242,6 @@ export namespace Prisma {
     deleted_at?: true
     aggregate_rating_value?: true
     aggregate_rating_count?: true
-    traveler_requirements?: true
     operational_complexity_note?: true
     first_day_last_pickup_guidance?: true
     last_day_safe_flight_note?: true
@@ -99279,7 +99276,6 @@ export namespace Prisma {
     deleted_at?: true
     aggregate_rating_value?: true
     aggregate_rating_count?: true
-    traveler_requirements?: true
     operational_complexity_note?: true
     first_day_last_pickup_guidance?: true
     last_day_safe_flight_note?: true
@@ -99448,7 +99444,7 @@ export namespace Prisma {
     deleted_at: Date | null
     aggregate_rating_value: Decimal | null
     aggregate_rating_count: number | null
-    traveler_requirements: string | null
+    traveler_requirements: string[]
     tags: string[]
     operational_complexity_note: string | null
     first_day_last_pickup_guidance: string | null
@@ -99772,7 +99768,7 @@ export namespace Prisma {
       deleted_at: Date | null
       aggregate_rating_value: Prisma.Decimal | null
       aggregate_rating_count: number | null
-      traveler_requirements: string | null
+      traveler_requirements: string[]
       tags: string[]
       operational_complexity_note: string | null
       first_day_last_pickup_guidance: string | null
@@ -100253,7 +100249,7 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"packages", 'DateTime'>
     readonly aggregate_rating_value: FieldRef<"packages", 'Decimal'>
     readonly aggregate_rating_count: FieldRef<"packages", 'Int'>
-    readonly traveler_requirements: FieldRef<"packages", 'String'>
+    readonly traveler_requirements: FieldRef<"packages", 'String[]'>
     readonly tags: FieldRef<"packages", 'String[]'>
     readonly operational_complexity_note: FieldRef<"packages", 'String'>
     readonly first_day_last_pickup_guidance: FieldRef<"packages", 'String'>
@@ -106873,6 +106869,7 @@ export namespace Prisma {
     seq: number | null
     time_or_label: string | null
     timezone: string | null
+    name: string | null
     activity: string | null
     type: string | null
     location: string | null
@@ -106887,6 +106884,7 @@ export namespace Prisma {
     seq: number | null
     time_or_label: string | null
     timezone: string | null
+    name: string | null
     activity: string | null
     type: string | null
     location: string | null
@@ -106901,6 +106899,7 @@ export namespace Prisma {
     seq: number
     time_or_label: number
     timezone: number
+    name: number
     activity: number
     type: number
     location: number
@@ -106931,6 +106930,7 @@ export namespace Prisma {
     seq?: true
     time_or_label?: true
     timezone?: true
+    name?: true
     activity?: true
     type?: true
     location?: true
@@ -106945,6 +106945,7 @@ export namespace Prisma {
     seq?: true
     time_or_label?: true
     timezone?: true
+    name?: true
     activity?: true
     type?: true
     location?: true
@@ -106959,6 +106960,7 @@ export namespace Prisma {
     seq?: true
     time_or_label?: true
     timezone?: true
+    name?: true
     activity?: true
     type?: true
     location?: true
@@ -107060,6 +107062,7 @@ export namespace Prisma {
     seq: number
     time_or_label: string | null
     timezone: string | null
+    name: string
     activity: string
     type: string | null
     location: string | null
@@ -107093,6 +107096,7 @@ export namespace Prisma {
     seq?: boolean
     time_or_label?: boolean
     timezone?: boolean
+    name?: boolean
     activity?: boolean
     type?: boolean
     location?: boolean
@@ -107108,6 +107112,7 @@ export namespace Prisma {
     seq?: boolean
     time_or_label?: boolean
     timezone?: boolean
+    name?: boolean
     activity?: boolean
     type?: boolean
     location?: boolean
@@ -107123,6 +107128,7 @@ export namespace Prisma {
     seq?: boolean
     time_or_label?: boolean
     timezone?: boolean
+    name?: boolean
     activity?: boolean
     type?: boolean
     location?: boolean
@@ -107138,6 +107144,7 @@ export namespace Prisma {
     seq?: boolean
     time_or_label?: boolean
     timezone?: boolean
+    name?: boolean
     activity?: boolean
     type?: boolean
     location?: boolean
@@ -107146,7 +107153,7 @@ export namespace Prisma {
     duration_minutes?: boolean
   }
 
-  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "timezone" | "activity" | "type" | "location" | "from_location" | "to_location" | "duration_minutes", ExtArgs["result"]["route_details"]>
+  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "timezone" | "name" | "activity" | "type" | "location" | "from_location" | "to_location" | "duration_minutes", ExtArgs["result"]["route_details"]>
   export type route_detailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     routes?: boolean | routesDefaultArgs<ExtArgs>
   }
@@ -107168,6 +107175,7 @@ export namespace Prisma {
       seq: number
       time_or_label: string | null
       timezone: string | null
+      name: string
       activity: string
       type: string | null
       location: string | null
@@ -107603,6 +107611,7 @@ export namespace Prisma {
     readonly seq: FieldRef<"route_details", 'Int'>
     readonly time_or_label: FieldRef<"route_details", 'String'>
     readonly timezone: FieldRef<"route_details", 'String'>
+    readonly name: FieldRef<"route_details", 'String'>
     readonly activity: FieldRef<"route_details", 'String'>
     readonly type: FieldRef<"route_details", 'String'>
     readonly location: FieldRef<"route_details", 'String'>
@@ -126783,6 +126792,7 @@ export namespace Prisma {
     seq: 'seq',
     time_or_label: 'time_or_label',
     timezone: 'timezone',
+    name: 'name',
     activity: 'activity',
     type: 'type',
     location: 'location',
@@ -133579,7 +133589,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
-    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    traveler_requirements?: StringNullableListFilter<"packages">
     tags?: StringNullableListFilter<"packages">
     operational_complexity_note?: StringNullableFilter<"packages"> | string | null
     first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
@@ -133640,7 +133650,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     aggregate_rating_value?: SortOrderInput | SortOrder
     aggregate_rating_count?: SortOrderInput | SortOrder
-    traveler_requirements?: SortOrderInput | SortOrder
+    traveler_requirements?: SortOrder
     tags?: SortOrder
     operational_complexity_note?: SortOrderInput | SortOrder
     first_day_last_pickup_guidance?: SortOrderInput | SortOrder
@@ -133704,7 +133714,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
-    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    traveler_requirements?: StringNullableListFilter<"packages">
     tags?: StringNullableListFilter<"packages">
     operational_complexity_note?: StringNullableFilter<"packages"> | string | null
     first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
@@ -133765,7 +133775,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     aggregate_rating_value?: SortOrderInput | SortOrder
     aggregate_rating_count?: SortOrderInput | SortOrder
-    traveler_requirements?: SortOrderInput | SortOrder
+    traveler_requirements?: SortOrder
     tags?: SortOrder
     operational_complexity_note?: SortOrderInput | SortOrder
     first_day_last_pickup_guidance?: SortOrderInput | SortOrder
@@ -133817,7 +133827,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableWithAggregatesFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableWithAggregatesFilter<"packages"> | number | null
-    traveler_requirements?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    traveler_requirements?: StringNullableListFilter<"packages">
     tags?: StringNullableListFilter<"packages">
     operational_complexity_note?: StringNullableWithAggregatesFilter<"packages"> | string | null
     first_day_last_pickup_guidance?: StringNullableWithAggregatesFilter<"packages"> | string | null
@@ -134241,6 +134251,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
+    name?: StringFilter<"route_details"> | string
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -134256,6 +134267,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
+    name?: SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -134274,6 +134286,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
+    name?: StringFilter<"route_details"> | string
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -134289,6 +134302,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
+    name?: SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -134311,6 +134325,7 @@ export namespace Prisma {
     seq?: IntWithAggregatesFilter<"route_details"> | number
     time_or_label?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     timezone?: StringNullableWithAggregatesFilter<"route_details"> | string | null
+    name?: StringWithAggregatesFilter<"route_details"> | string
     activity?: StringWithAggregatesFilter<"route_details"> | string
     type?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
@@ -142364,7 +142379,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -142425,7 +142440,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -142476,7 +142491,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142537,7 +142552,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142593,7 +142608,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -142632,7 +142647,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142676,7 +142691,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143158,6 +143173,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -143173,6 +143189,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -143186,6 +143203,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143201,6 +143219,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143215,6 +143234,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -143228,6 +143248,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143242,6 +143263,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149446,7 +149468,6 @@ export namespace Prisma {
     deleted_at?: SortOrder
     aggregate_rating_value?: SortOrder
     aggregate_rating_count?: SortOrder
-    traveler_requirements?: SortOrder
     operational_complexity_note?: SortOrder
     first_day_last_pickup_guidance?: SortOrder
     last_day_safe_flight_note?: SortOrder
@@ -149481,7 +149502,6 @@ export namespace Prisma {
     deleted_at?: SortOrder
     aggregate_rating_value?: SortOrder
     aggregate_rating_count?: SortOrder
-    traveler_requirements?: SortOrder
     operational_complexity_note?: SortOrder
     first_day_last_pickup_guidance?: SortOrder
     last_day_safe_flight_note?: SortOrder
@@ -149765,6 +149785,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrder
     timezone?: SortOrder
+    name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
     location?: SortOrder
@@ -149786,6 +149807,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrder
     timezone?: SortOrder
+    name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
     location?: SortOrder
@@ -149800,6 +149822,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrder
     timezone?: SortOrder
+    name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
     location?: SortOrder
@@ -155751,6 +155774,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type packagesCreatetraveler_requirementsInput = {
+    set: string[]
+  }
+
   export type packagesCreatetagsInput = {
     set: string[]
   }
@@ -155984,6 +156011,11 @@ export namespace Prisma {
   }
 
   export type packagesUpdateunique_selling_pointsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type packagesUpdatetraveler_requirementsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -166913,7 +166945,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -166973,7 +167005,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -167758,7 +167790,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167818,7 +167850,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168143,7 +168175,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -168203,7 +168235,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -168302,7 +168334,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168362,7 +168394,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170378,7 +170410,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -170437,7 +170469,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -170498,7 +170530,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -170557,7 +170589,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -170948,7 +170980,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"packages"> | Date | string | null
     aggregate_rating_value?: DecimalNullableFilter<"packages"> | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: IntNullableFilter<"packages"> | number | null
-    traveler_requirements?: StringNullableFilter<"packages"> | string | null
+    traveler_requirements?: StringNullableListFilter<"packages">
     tags?: StringNullableListFilter<"packages">
     operational_complexity_note?: StringNullableFilter<"packages"> | string | null
     first_day_last_pickup_guidance?: StringNullableFilter<"packages"> | string | null
@@ -171700,7 +171732,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -171759,7 +171791,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -173277,7 +173309,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -173336,7 +173368,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -173681,7 +173713,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -173741,7 +173773,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -173846,7 +173878,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173906,7 +173938,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173956,7 +173988,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174016,7 +174048,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174125,7 +174157,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174185,7 +174217,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174284,7 +174316,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174343,7 +174375,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174563,7 +174595,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174623,7 +174655,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -174838,7 +174870,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174898,7 +174930,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174969,7 +175001,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175029,7 +175061,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175122,7 +175154,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175182,7 +175214,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175232,7 +175264,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175292,7 +175324,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175389,7 +175421,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175449,7 +175481,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175599,7 +175631,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175659,7 +175691,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175794,7 +175826,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175854,7 +175886,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175904,7 +175936,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -175964,7 +175996,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -176030,7 +176062,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176090,7 +176122,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176161,7 +176193,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -176221,7 +176253,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -176314,7 +176346,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176374,7 +176406,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176925,7 +176957,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -176985,7 +177017,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -177259,7 +177291,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177319,7 +177351,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177420,7 +177452,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -177480,7 +177512,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -177573,7 +177605,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177633,7 +177665,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179324,6 +179356,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -179337,6 +179370,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -179452,6 +179486,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
+    name?: StringFilter<"route_details"> | string
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -185121,7 +185156,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -185164,7 +185199,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -185554,7 +185589,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185613,7 +185648,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185668,7 +185703,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185707,7 +185742,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185766,7 +185801,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185821,7 +185856,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186122,7 +186157,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -186290,7 +186325,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186349,7 +186384,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186404,7 +186439,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187039,7 +187074,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -187286,7 +187321,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187345,7 +187380,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187400,7 +187435,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187525,7 +187560,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: number | null
-    traveler_requirements?: string | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
     tags?: packagesCreatetagsInput | string[]
     operational_complexity_note?: string | null
     first_day_last_pickup_guidance?: string | null
@@ -187564,7 +187599,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187623,7 +187658,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187678,7 +187713,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
     tags?: packagesUpdatetagsInput | string[]
     operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
     first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188655,6 +188690,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
+    name: string
     activity: string
     type?: string | null
     location?: string | null
@@ -188693,6 +188729,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188706,6 +188743,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188719,6 +188757,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null

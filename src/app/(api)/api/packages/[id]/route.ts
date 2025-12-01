@@ -84,7 +84,7 @@ function serializePackageDetail(pkg: any) {
       ? pkg.unique_selling_points
       : [],
 
-    traveler_requirements: pkg.traveler_requirements ?? null,
+    traveler_requirements: Array.isArray(pkg.traveler_requirements) ? pkg.traveler_requirements : [],
     tags: Array.isArray(pkg.tags) ? pkg.tags : [],
     operational_complexity_note: pkg.operational_complexity_note ?? null,
     first_day_last_pickup_guidance: pkg.first_day_last_pickup_guidance ?? null,
@@ -235,11 +235,12 @@ export async function PUT(
       typeof body.physicality === "string" && body.physicality.trim()
         ? body.physicality.trim()
         : null;
-    const traveler_requirements =
-      typeof body.traveler_requirements === "string" &&
-      body.traveler_requirements.trim()
-        ? body.traveler_requirements.trim()
-        : null;
+
+    const traveler_requirements = Array.isArray(body.traveler_requirements)
+      ? body.traveler_requirements
+          .map((v: any) => String(v).trim())
+          .filter((v: string) => v.length > 0)
+      : [];
 
     const tags = Array.isArray(body.tags)
       ? body.tags

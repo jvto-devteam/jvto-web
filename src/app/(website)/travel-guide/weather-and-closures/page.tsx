@@ -1,5 +1,6 @@
 import WeatherClosuresPage from "@/components/website/WeatherClosuresPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Weather, Volcanic Alerts & Closures | JVTO",
   description: "How we handle itinerary changes due to weather, volcanic activity, or other unforeseen closures. Your safety is our priority.",

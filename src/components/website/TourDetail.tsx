@@ -185,7 +185,7 @@ const parseBounds = (
 };
 
 const TourDetail: React.FC<Props> = ({ slug }) => {
-  const params = useParams<{ slug: string }>();
+  const params = useParams<{ tourSlug: string }>();
   const tourSlug = slug ?? params?.tourSlug;
 
   // ALL HOOKS at the top — never conditional

@@ -1,5 +1,6 @@
 import PoliceEscortPage from "@/components/website/PoliceEscortPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Police Escort for Tourist Groups in East Java | JVTO",
   description: "Learn how JVTO coordinates official traffic police escorts for large groups (18+ guests) on specific travel segments, based on formal orders and Indonesian law.",

@@ -1,5 +1,6 @@
 import SafetyOnToursPage from "@/components/website/SafetyOnToursPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Safety on Tours | JVTO's Protocols & Standards",
   description: "Our police-led safety culture in practice. Learn about our vehicle standards, guide training, Ijen safety protocols, and emergency procedures.",
