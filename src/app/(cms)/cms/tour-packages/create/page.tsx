@@ -843,6 +843,11 @@ export default function CmsPackageCreatePage() {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const traveler_requirements = form.traveler_requirements
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const health_requirements = form.health_requirements
       .split("\n")
       .map((s) => s.trim())
@@ -894,7 +899,7 @@ export default function CmsPackageCreatePage() {
         safety_positioning: form.safety_positioning.trim() || null,
         unique_selling_points,
 
-        traveler_requirements: form.traveler_requirements.trim() || null,
+        traveler_requirements,
         tags,
         operational_complexity_note:
           form.operational_complexity_note.trim() || null,
@@ -1322,7 +1327,7 @@ export default function CmsPackageCreatePage() {
         <div className="space-y-3">
           <div className="space-y-2">
             <label className="block text-xs font-medium text-slate-300">
-              Traveler requirements (free text)
+              Traveler requirements (one per line)
             </label>
             <textarea
               value={form.traveler_requirements}

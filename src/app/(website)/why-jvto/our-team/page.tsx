@@ -1,5 +1,6 @@
 import OurTeamPage from "@/components/website/OurTeamPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Our Team | Local Guides & Experts | JVTO",
   description: "Meet the professional, local guides and drivers who make your JVTO tour of Bromo and Ijen safe and unforgettable. Learn about our commitment to local employment.",

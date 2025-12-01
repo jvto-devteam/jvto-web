@@ -1,5 +1,6 @@
 import VerifyJVTOPage from "@/components/website/VerifyJVTOPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Verify JVTO: Licenses, Police Leadership & Office | Official Proof",
   description: "Verify our PT license (NIB/TDUP), see our physical office in Bondowoso, and confirm our Tourist Police leadership. Transparent proof for your safety.",

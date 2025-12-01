@@ -1,5 +1,6 @@
 import TravelGuidePage from "@/components/website/TravelGuidePage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Travel Guide & FAQ | JVTO",
   description: "Your hub for essential travel information. Find FAQs, booking policies, and details on the Ijen health screening.",

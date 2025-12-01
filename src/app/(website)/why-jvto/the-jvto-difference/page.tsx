@@ -1,5 +1,6 @@
 import JVTODifferencePage from "@/components/website/JVTODifferencePage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "The JVTO Difference | Verified, Private, Responsible",
   description: "Our 7 pillars of operation: Police-led safety, licensed and traceable, private-only all-inclusive packages, Ijen screening leadership, local teams, student fairness, and verifiable reviews.",

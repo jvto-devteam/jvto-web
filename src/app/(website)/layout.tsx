@@ -5,7 +5,7 @@ import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
 import {contactInfo} from "@/constants";
 import "./website.css";
-
+import type { Metadata } from 'next'
 export const metadata = {
   title: {
     default: "JVTO Tours | Private East Java Adventures",

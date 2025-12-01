@@ -132,12 +132,14 @@ export async function POST(req: NextRequest) {
       typeof body.physicality === "string" && body.physicality.trim()
         ? body.physicality.trim()
         : null;
-    // --- operational & safety fields ---
-    const traveler_requirements =
-      typeof body.traveler_requirements === "string" &&
-      body.traveler_requirements.trim()
-        ? body.traveler_requirements.trim()
-        : null;
+
+    const traveler_requirements: string[] = Array.isArray(
+      body.traveler_requirements
+    )
+      ? body.traveler_requirements
+          .map((v: any) => String(v).trim())
+          .filter(Boolean)
+      : [];
 
     const tags: string[] = Array.isArray(body.tags)
       ? body.tags.map((v: any) => String(v).trim()).filter(Boolean)

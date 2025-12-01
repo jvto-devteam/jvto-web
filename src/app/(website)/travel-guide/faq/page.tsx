@@ -1,5 +1,6 @@
 import FaqPage from "@/components/website/FaqPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "FAQ | Travel Guide | JVTO",
   description: "Answers to common questions about booking, payments, safety, and logistics for Bromo & Ijen tours.",

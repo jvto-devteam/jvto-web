@@ -1,5 +1,6 @@
 import ContactPage from "@/components/website/ContactPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Contact JVTO Tours | Plan Your East Java Adventure",
   description:

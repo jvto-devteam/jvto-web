@@ -1,5 +1,6 @@
 import ReviewsPage from "@/components/website/ReviewsPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Reviews & Testimonials | JVTO Tours",
   description: "Read reviews from travelers who have experienced East Java with us. See why we have 5-star ratings on Google, TripAdvisor, and other platforms.",

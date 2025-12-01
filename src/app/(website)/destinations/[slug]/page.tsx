@@ -25,8 +25,6 @@ export default function Detail({ params }: { params: { slug: string } }) {
     ],
   };
 
-  if (!params.slug) notFound();
-
   return (
     <>
       <StructuredData data={schema} />

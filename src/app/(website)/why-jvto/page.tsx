@@ -1,5 +1,6 @@
 import WhyJVTOPage from "@/components/website/WhyJVTOPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Why Choose JVTO: A Framework of Verifiable Trust",
   description: "The only East Java operator founded by an active Tourist Police officer, with verifiable legal compliance (TDUP, AHU) and a public record of excellence on TripAdvisor and Google.",

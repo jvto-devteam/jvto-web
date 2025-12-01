@@ -533,7 +533,7 @@ export default function CmsPackageEditPage() {
           unique_selling_points: Array.isArray(data.unique_selling_points)
             ? data.unique_selling_points.join("\n")
             : "",
-          traveler_requirements: data.traveler_requirements ?? "",
+          traveler_requirements: Array.isArray(data.traveler_requirements) ? data.traveler_requirements.join("\n") : "",
           tags: Array.isArray(data.tags) ? data.tags.join("\n") : "",
           operational_complexity_note: data.operational_complexity_note ?? "",
           first_day_last_pickup_guidance:
@@ -841,6 +841,11 @@ export default function CmsPackageEditPage() {
       .map((s) => s.trim())
       .filter(Boolean);
 
+    const traveler_requirements = form.traveler_requirements
+      .split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
     const health_requirements = form.health_requirements
       .split("\n")
       .map((s) => s.trim())
@@ -891,7 +896,7 @@ export default function CmsPackageEditPage() {
         safety_positioning: form.safety_positioning.trim() || null,
         unique_selling_points,
 
-        traveler_requirements: form.traveler_requirements.trim() || null,
+        traveler_requirements,
         tags,
         operational_complexity_note:
           form.operational_complexity_note.trim() || null,
@@ -1305,7 +1310,7 @@ export default function CmsPackageEditPage() {
         <div className="space-y-3">
           <div className="space-y-2">
             <label className="block text-xs font-medium text-slate-300">
-              Traveler requirements (free text)
+              Traveler requirements (one per line)
             </label>
             <textarea
               value={form.traveler_requirements}

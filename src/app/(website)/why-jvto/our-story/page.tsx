@@ -1,5 +1,6 @@
 import OurStoryPage from "@/components/website/OurStoryPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Our Story: A Commitment to Safer Java Travel | JVTO",
   description: "Founded by an active East Java Tourist Police officer, JVTO exists to deliver safe, authentic, all-inclusive volcano tours to Bromo & Ijen, while empowering local communities.",

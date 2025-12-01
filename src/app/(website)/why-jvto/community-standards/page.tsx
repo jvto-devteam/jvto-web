@@ -1,5 +1,6 @@
 import CommunityStandardsPage from "@/components/website/CommunityStandardsPage";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: "Community & Sustainability Standards | JVTO",
   description: "Our commitment to local hiring, training, Indecon alignment, and ethical operations. See how your tour supports communities in East Java.",

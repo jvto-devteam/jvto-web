@@ -1351,7 +1351,7 @@ model packages {
   deleted_at                     DateTime?                  @db.Timestamp(6)
   aggregate_rating_value         Decimal?                   @default(0) @db.Decimal(3, 2)
   aggregate_rating_count         Int?                       @default(0)
-  traveler_requirements          String?                    @db.Text
+  traveler_requirements          String[]                   @db.Text
   tags                           String[]                   @db.Text
   operational_complexity_note    String?                    @db.Text
   first_day_last_pickup_guidance String?                    @db.Text
@@ -1464,6 +1464,7 @@ model route_details {
   seq              Int
   time_or_label    String?
   timezone         String? @db.VarChar(10)
+  name             String
   activity         String
   type             String? @db.VarChar(100)
   location         String? @db.Text
