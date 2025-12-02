@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Our commitment to local hiring, training, Indecon alignment, and ethical operations. See how your tour supports communities in East Java.",
 };
 
-export default function Reviews() {
+export default function CommunityStandarts() {
   const communityStandardsSchema = {
     "@context": "https://schema.org",
     "@graph": [

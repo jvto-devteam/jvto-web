@@ -1,37 +1,65 @@
 import React from 'react';
-import Link from "next/link";
+import Link from 'next/link';
 
-const proofs = [
-  { label: "Licence No.", value: "1102230032918" },
-  { label: "Office", value: "Bondowoso, ID" },
-  { label: "Network", value: "Indecon Member" },
-  { label: "Reviews", value: "5-Star Average" },
-];
+const trustItems = [
+  { icon: 'badge',       text: 'Registered Indonesian travel company' },
+  { icon: 'security',    text: 'Tourist Police-led safety culture' },
+  { icon: 'group_off',   text: 'Private tours only, no shared groups' },
+  { icon: 'location_on', text: 'Office in Bondowoso, East Java' },
+  { icon: 'paid',        text: 'All-inclusive, no hidden fees' },
+] as const;
 
 const ProofBelt: React.FC = () => {
-    return (
-        <div className="bg-background-light dark:bg-background-dark -mt-12 md:-mt-16 relative z-10">
-            <div className="container mx-auto px-4 py-6">
-                <div className="bg-white dark:bg-background-dark rounded-2xl shadow-card hover:shadow-cardHover transition-shadow p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-2 text-center sm:text-left flex-grow">
-                        {proofs.map((proof) => (
-                            <div key={proof.label}>
-                                <p className="text-xs font-semibold uppercase text-ink-neutral-500">{proof.label}</p>
-                                <p className="text-sm font-bold text-ink-primary dark:text-white">{proof.value}</p>
-                            </div>
-                        ))}
-                    </div>
-                        <Link
-                        href="/verify-jvto"
-                        className="flex-shrink-0 w-full sm:w-auto mt-4 sm:mt-0 px-6 py-3 rounded-xl bg-ink-accentA text-white text-center font-semibold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-200 flex items-center justify-center gap-2"
-                    >
-                            <span className="material-symbols-outlined text-xl">verified_user</span>
-                            Verify JVTO
-                    </Link>
-                </div>
-            </div>
+  return (
+    <div className="relative md:-mt-24 z-10 py-8">
+      <div className="container mx-auto px-5">
+
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md border border-gray-100 dark:border-gray-800 p-6 md:p-8">
+
+          {/* 5 ikon – khusus di mobile: card terakhir di tengah */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-7">
+            {trustItems.map((item, i) => (
+              <div
+                key={i}
+                className={`flex flex-col items-center text-center justify-center ${
+                  i === 4 ? 'sm:col-span-1 col-span-2' : ''
+                }`}
+              >
+                <span
+                  className="material-symbols-outlined text-emerald-600 dark:text-emerald-400 mb-2"
+                  style={{ fontSize: '45px' }}
+                >
+                  {item.icon}
+                </span>
+                <p className="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 leading-tight">
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Garis halus */}
+          <div className="h-px bg-gray-200 dark:bg-gray-800 mb-6" />
+
+          {/* Teks + Tombol */}
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:justify-between sm:items-center">
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 text-center sm:text-left">
+              You can verify who we are, where we operate and which licences we hold.
+            </p>
+
+            <Link
+              href="/why-jvto/the-jvto-difference#verification"
+              className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-full transition-all duration-200 hover:scale-105 whitespace-nowrap"
+            >
+              <span className="material-symbols-outlined text-lg">verified_user</span>
+              Verify JVTO
+            </Link>
+          </div>
+
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default ProofBelt;

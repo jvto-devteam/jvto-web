@@ -97,7 +97,7 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
                         </div>
                         {/* Right side: Image Links */}
                         <div className="w-[320px] bg-gray-50 dark:bg-ink-primary p-6 space-y-4">
-                            <Link href="/tours/from/surabaya" onClick={handleClose} className="group block relative rounded-lg overflow-hidden h-36 text-white">
+                            <Link href="/tours/from-surabaya" onClick={handleClose} className="group block relative rounded-lg overflow-hidden h-36 text-white">
                                 <img src="https://javavolcano-touroperator.com/assets/img/destinations/new4.jpg" alt="Mount Bromo" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                 <div className="relative h-full flex flex-col justify-end p-4">
@@ -105,7 +105,7 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
                                     <p className="text-xs opacity-90 mt-1">Explore Bromo, Ijen & more.</p>
                                 </div>
                             </Link>
-                             <Link href="/tours/from/bali" onClick={handleClose} className="group block relative rounded-lg overflow-hidden h-36 text-white">
+                             <Link href="/tours/from-bali" onClick={handleClose} className="group block relative rounded-lg overflow-hidden h-36 text-white">
                                 <img src="https://javavolcano-touroperator.com/assets/img/destinations/new6.jpg" alt="Ijen Crater" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                                 <div className="relative h-full flex flex-col justify-end p-4">

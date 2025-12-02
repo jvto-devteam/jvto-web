@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Our police-led safety culture in practice. Learn about our vehicle standards, guide training, Ijen safety protocols, and emergency procedures.",
 };
 
-export default function Reviews() {
+export default function SafetyOnTours() {
   const safetyOnToursSchema = {
     "@context": "https://schema.org",
     "@graph": [

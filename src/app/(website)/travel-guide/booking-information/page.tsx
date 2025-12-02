@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "How JVTO tours work: booking steps, payments, cancellations, logistics, inclusions, safety, and support. Ijen health certificate is included.",
 };
 
-export default function Reviews() {
+export default function BookingInformation() {
   const bookingInformationSchema = {
     "@context": "https://schema.org",
     "@graph": [

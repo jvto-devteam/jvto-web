@@ -15,8 +15,8 @@ const mainSections = [
 ];
 
 const tourCategories = [
-    { name: 'Tours from Surabaya', href: '/tours/from/surabaya' },
-    { name: 'Tours from Bali', href: '/tours/from/bali' },
+    { name: 'Tours from Surabaya', href: '/tours/from-surabaya' },
+    { name: 'Tours from Bali', href: '/tours/from-bali' },
     { name: 'Short Trips (1-2 Days)', href: '/tours/duration/short' },
 ];
 

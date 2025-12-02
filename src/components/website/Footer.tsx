@@ -5,10 +5,10 @@ import Logo from './Logo';
 
 const exploreLinks = [
     { name: 'All Tours', href: '/tours' },
-    { name: 'Tours from Surabaya', href: '/tours/from/surabaya' },
-    { name: 'Tours from Bali', href: '/tours/from/bali' },
+    { name: 'Tours from Surabaya', href: '/tours/from-surabaya' },
+    { name: 'Tours from Bali', href: '/tours/from-bali' },
     { name: 'All Destinations', href: '/destinations' },
-    { name: 'Sitemap', href: '/sitemap' },
+    // { name: 'Sitemap', href: '/sitemap' },
 ];
 
 const aboutLinks = [
@@ -18,7 +18,7 @@ const aboutLinks = [
     { name: 'Our Team', href: '/why-jvto/our-team' },
     { name: 'Community Standards', href: '/why-jvto/community-standards' },
     { name: 'Reviews', href: '/why-jvto/reviews' },
-    { name: 'Insights (Blog)', href: '/insights' },
+    { name: 'Verify JVTO', href: '/verify-jvto' },
 ];
 
 const supportLinks = [

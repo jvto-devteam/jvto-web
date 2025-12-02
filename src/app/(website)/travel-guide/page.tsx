@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Your hub for essential travel information. Find FAQs, booking policies, and details on the Ijen health screening.",
 };
 
-export default function Reviews() {
+export default function TravelGuide() {
   const travelGudideSchema = {
     "@context": "https://schema.org",
     "@graph": [

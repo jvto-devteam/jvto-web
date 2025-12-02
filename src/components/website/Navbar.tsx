@@ -160,7 +160,7 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
             {/* Right: Gambar dengan Next/Image */}
             <div className="w-[320px] bg-gray-50 dark:bg-ink-primary p-6 space-y-4">
               <Link
-                href="/tours/from/surabaya"
+                href="/tours/from-surabaya"
                 onClick={handleClose}
                 className="group block relative rounded-lg overflow-hidden h-36 text-white"
               >
@@ -182,7 +182,7 @@ const ToursDropdown: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
               </Link>
 
               <Link
-                href="/tours/from/bali"
+                href="/tours/from-bali"
                 onClick={handleClose}
                 className="group block relative rounded-lg overflow-hidden h-36 text-white"
               >
@@ -512,7 +512,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16 md:h-20">
           <Link href="/" className="p-2 -ml-2 rounded-lg">
             <Image
-              src="https://javavolcano-touroperator.com/assets/img/jvto-color.png?1702429896"
+              src="/assets/img/jvto-color.png"
               alt="JVTO Tours Logo"
               width={160}
               height={40}
@@ -551,18 +551,14 @@ const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Contact JVTO on WhatsApp"
-              className={`flex items-center gap-1.5 text-sm transition-colors p-2 rounded-lg ${textColorClass} ${
-                isScrolled
-                  ? "hover:text-primary dark:hover:text-primary"
-                  : "hover:text-white/80"
-              }`}
+              className="px-5 flex gap-2 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors duration-200"
             >
               <span className="material-symbols-outlined text-base">
                 chat_bubble
               </span>
               <span className="hidden lg:inline">WhatsApp Us</span>
             </a>
-            <button
+            {/* <button
               onClick={toggleTheme}
               aria-label={
                 isDarkMode ? "Switch to light mode" : "Switch to dark mode"
@@ -576,13 +572,13 @@ const Navbar: React.FC = () => {
               <span className="material-symbols-outlined">
                 {isDarkMode ? "light_mode" : "dark_mode"}
               </span>
-            </button>
-            <Link
+            </button> */}
+            {/* <Link
               href="/plan-my-trip"
               className="px-5 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors duration-200"
             >
               Plan My Trip
-            </Link>
+            </Link> */}
           </div>
           <div className="md:hidden flex items-center">
             <button

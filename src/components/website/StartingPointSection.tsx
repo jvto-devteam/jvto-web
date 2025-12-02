@@ -32,13 +32,13 @@ const StartingPointSection: React.FC = () => {
                     <StartingPointCard 
                         title="From Surabaya"
                         description="Ideal for short, efficient volcano routes and easy airport or city pickups."
-                        to="/tours/from/surabaya"
+                        to="/tours/from-surabaya"
                         imageUrl="https://images.unsplash.com/photo-1588704406399-6548540435b6?q=80&w=800&auto-format=fit=crop"
                     />
                     <StartingPointCard 
                         title="From Bali"
                         description="Seamless overland links to Ijen and Bromo with managed ferry crossings."
-                        to="/tours/from/bali"
+                        to="/tours/from-bali"
                         imageUrl="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=800&auto-format=fit=crop"
                     />
                 </div>
