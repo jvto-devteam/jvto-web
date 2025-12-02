@@ -6,13 +6,12 @@ import TourCarouselClient from "./TourCarouselClient"; // yang interaktif saja
 
 // Fungsi untuk fetch data (bisa dipanggil paralel)
 async function getTours(from: number): Promise<TourPackage[]> {
-  const res = await fetch(
-    `http://localhost:3000/api/packages/web?from=${from}`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  const res = await fetch(`${siteUrl}/api/packages/web?from=${from}`, {
+    method: "GET",
+    cache: "no-store",
+  });
 
   if (!res.ok) throw new Error("Failed to fetch tours");
   return res.json();
