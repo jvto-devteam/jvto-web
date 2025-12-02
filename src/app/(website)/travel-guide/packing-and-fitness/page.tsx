@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "A practical guide on what to pack and the fitness levels required for your private tour in East Java. Prepare for volcano treks and waterfalls..",
 };
 
-export default function Reviews() {
+export default function PackingAndFitness() {
   const packingAndFitnessSchema = {
     "@context": "https://schema.org",
     "@graph": [

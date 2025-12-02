@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Meet the professional, local guides and drivers who make your JVTO tour of Bromo and Ijen safe and unforgettable. Learn about our commitment to local employment.",
 };
 
-export default function Reviews() {
+export default function OurTeam() {
   const ourTeamSchema = {
     "@context": "https://schema.org",
     "@graph": [

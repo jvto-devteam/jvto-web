@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Answers to common questions about booking, payments, safety, and logistics for Bromo & Ijen tours.",
 };
 
-export default function Reviews() {
+export default function FAQ() {
   const faqSchema = {
     "@context": "https://schema.org",
     "@graph": [

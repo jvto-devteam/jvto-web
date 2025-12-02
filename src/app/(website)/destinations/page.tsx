@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
 };
 
-export default function Reviews() {
+export default function Destinations() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

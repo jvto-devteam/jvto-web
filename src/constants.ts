@@ -19,11 +19,11 @@ export const proofLinks = {
 
 
 export const heroCopy: HeroCopy = {
-  overline: 'Safe Volcano Tours in East Java',
-  title: 'Tourist Police–Led Private East Java Volcano Tours',
-  subhead: 'Founded and led by an active-duty Tourist Police officer. Transparent pricing, physical office, and local guides deliver authentic experiences across East Java.',
-  ctaPrimary: 'Plan My Trip',
-  ctaSecondary: 'Browse Tours',
+  kicker: 'Private, all-inclusive Bromo, Ijen & Tumpak Sewu routes',
+  title: 'Tourist Police-Led Private Volcano Tours in East Java',
+  subhead: 'Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.',
+  ctaPrimary: 'Browse Private Tours ',
+  ctaSecondary: 'Plan My Tour',
 };
 
 export const foundersMissionCopy: FoundersMissionCopy = {

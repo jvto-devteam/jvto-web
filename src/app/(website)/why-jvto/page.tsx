@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "The only East Java operator founded by an active Tourist Police officer, with verifiable legal compliance (TDUP, AHU) and a public record of excellence on TripAdvisor and Google.",
 };
 
-export default function Reviews() {
+export default function WhyJVTO() {
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [

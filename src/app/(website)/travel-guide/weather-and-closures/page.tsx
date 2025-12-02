@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "How we handle itinerary changes due to weather, volcanic activity, or other unforeseen closures. Your safety is our priority.",
 };
 
-export default function Reviews() {
+export default function WeatherClosures() {
   const weatherClosuresSchema = {
     "@context": "https://schema.org",
     "@graph": [

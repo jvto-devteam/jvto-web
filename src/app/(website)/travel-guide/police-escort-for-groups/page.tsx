@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Learn how JVTO coordinates official traffic police escorts for large groups (18+ guests) on specific travel segments, based on formal orders and Indonesian law.",
 };
 
-export default function Reviews() {
+export default function PoliceEscort() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

@@ -1,6 +1,6 @@
 // FIX: Removed circular self-import and constant definitions. This file should only contain type declarations.
 export interface HeroCopy {
-  overline: string;
+  kicker: string;
   title: string;
   subhead: string;
   ctaPrimary: string;

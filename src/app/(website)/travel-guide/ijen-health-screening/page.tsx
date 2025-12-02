@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Learn how JVTO includes real health screening for Ijen hikes and supports digital, QR-verified clearance for all travelers..",
 };
 
-export default function Reviews() {
+export default function IjenHealthScreening() {
   const ijenHealthScreeningSchema = {
     "@context": "https://schema.org",
     "@graph": [
