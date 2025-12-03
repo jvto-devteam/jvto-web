@@ -107062,7 +107062,7 @@ export namespace Prisma {
     seq: number
     time_or_label: string | null
     timezone: string | null
-    name: string
+    name: string | null
     activity: string
     type: string | null
     location: string | null
@@ -107175,7 +107175,7 @@ export namespace Prisma {
       seq: number
       time_or_label: string | null
       timezone: string | null
-      name: string
+      name: string | null
       activity: string
       type: string | null
       location: string | null
@@ -134251,7 +134251,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
-    name?: StringFilter<"route_details"> | string
+    name?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -134267,7 +134267,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
-    name?: SortOrder
+    name?: SortOrderInput | SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -134286,7 +134286,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
-    name?: StringFilter<"route_details"> | string
+    name?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -134302,7 +134302,7 @@ export namespace Prisma {
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
     timezone?: SortOrderInput | SortOrder
-    name?: SortOrder
+    name?: SortOrderInput | SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -134325,7 +134325,7 @@ export namespace Prisma {
     seq?: IntWithAggregatesFilter<"route_details"> | number
     time_or_label?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     timezone?: StringNullableWithAggregatesFilter<"route_details"> | string | null
-    name?: StringWithAggregatesFilter<"route_details"> | string
+    name?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     activity?: StringWithAggregatesFilter<"route_details"> | string
     type?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
@@ -143173,7 +143173,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -143189,7 +143189,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -143203,7 +143203,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143219,7 +143219,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143234,7 +143234,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -143248,7 +143248,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143263,7 +143263,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179356,7 +179356,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -179370,7 +179370,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -179486,7 +179486,7 @@ export namespace Prisma {
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
     timezone?: StringNullableFilter<"route_details"> | string | null
-    name?: StringFilter<"route_details"> | string
+    name?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
     location?: StringNullableFilter<"route_details"> | string | null
@@ -188690,7 +188690,7 @@ export namespace Prisma {
     seq: number
     time_or_label?: string | null
     timezone?: string | null
-    name: string
+    name?: string | null
     activity: string
     type?: string | null
     location?: string | null
@@ -188729,7 +188729,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188743,7 +188743,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188757,7 +188757,7 @@ export namespace Prisma {
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
     timezone?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
