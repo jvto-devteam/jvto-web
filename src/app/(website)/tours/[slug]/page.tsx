@@ -1,33 +1,31 @@
+// app/(website)/tours/[slug]/page.tsx
 import TourDetail from "@/components/website/TourDetail";
 import StructuredData from "@/components/website/StructuredData";
+import { notFound } from "next/navigation";
 
-export default function Detail({ params }: { params: { slug: string } }) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://javavolcano-touroperator.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Tours",
-            item: "https://javavolcano-touroperator.com/tours/",
-          },
-        ],
-      },
-    ],
-  };
+export const dynamic = 'force-dynamic';
+// or export const revalidate = 60; if you can cache
+
+interface Props {
+  params: { slug: string };
+}
+
+export default async function Page({ params }: Props) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const res = await fetch(`${siteUrl}/api/packages/web/${params.slug}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) notFound();
+
+  const tour: TourPackageDetail = await res.json();
+
+  const schema = {  };
+  
   return (
     <>
       <StructuredData data={schema} />
-      <TourDetail slug={params.slug} />
+      <TourDetail initialData={tour} />
     </>
   );
 }

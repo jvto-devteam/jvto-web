@@ -1464,7 +1464,7 @@ model route_details {
   seq              Int
   time_or_label    String?
   timezone         String? @db.VarChar(10)
-  name             String
+  name             String?
   activity         String
   type             String? @db.VarChar(100)
   location         String? @db.Text

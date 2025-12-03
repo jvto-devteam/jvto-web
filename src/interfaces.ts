@@ -1,0 +1,195 @@
+export interface TourPackageDetail {
+  id: string;
+  type: string;
+  version: string;
+  meta: _Meta;
+  product: _Product;
+}
+
+interface _Meta {
+  createdFrom: {
+    productFile: string;
+    tripFile: string;
+  };
+}
+
+interface _Product {
+  id: string;
+  slug: string;
+  name: string;
+  shortLabel: string;
+  originCity: string;
+  endCity: string;
+  durationDays: number;
+  durationNights: number;
+  marketedDurationLabel: string;
+  route: string[];
+  tripRef: string;
+  description: string;
+  keyExperiences: string[];
+  physicalDifficulty: string;
+
+  offers: _Offers;
+
+  inclusions: string[];
+  exclusions: string[];
+  travelerRequirements: string[];
+
+  addOns: _AddOn[];
+  accommodationPlan: _AccommodationPlan[];
+
+  gear: _Gear;
+
+  itineraryDays: _ItineraryDay[];
+
+  gallery: string[];
+  imageUrl: string;
+  tags: string[];
+
+  aggregateRating: {
+    ratingValue: number;
+    reviewCount: number;
+  };
+
+  marketing: _Marketing;
+
+  operationalComplexityNote: string;
+
+  provider: _Provider;
+
+  compliance: _Compliance;
+
+  channelMetadata: _ChannelMetadata;
+
+  _cms: _CMS;
+}
+
+interface _Offers {
+  currency: string;
+  aggregateOffer: {
+    lowPrice: number;
+    highPrice: number;
+  };
+  tiers: _PriceTier[];
+}
+
+interface _PriceTier {
+  sku: string;
+  paxMin: number;
+  paxMax: number;
+  pricePerPerson: number;
+}
+
+interface _AddOn {
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface _AccommodationPlan {
+  night: number;
+  area: string;
+  hotel: string;
+}
+
+interface _Gear {
+  provided: string[];
+  recommended: string[];
+}
+
+interface _ItineraryDay {
+  day: number;
+  title: string;
+  summary: string;
+  activities: _Activity[];
+  mealsPlan: {
+    breakfast: string;
+    lunch: string;
+    dinner: string;
+  };
+  mealsNotes: string;
+  overnight: string | null;
+}
+
+interface _ActivityBase {
+  type: string | null;
+  name: string | null;
+  description: string;
+  timeWindow: string | null;
+  durationMinutes: number | null;
+}
+
+interface _Activity extends _ActivityBase {
+  location?: string | null;
+  fromLocation?: string | null;
+  toLocation?: string | null;
+  destination?: string | null;
+}
+
+interface _Marketing {
+  perfectFor: string[];
+  highlightsBullets: string[];
+  safetyPositioning: string;
+  uniqueSellingPoints: string[];
+}
+
+interface _Provider {
+  brand: string;
+  legalEntity: string;
+  nib: string;
+  tdup: string;
+  official: {
+    website: string;
+    whatsapp: string;
+    email: string;
+  };
+  policyRef: {
+    booking: string;
+    inclusions: string;
+  };
+  policyVersion: string;
+}
+
+interface _Compliance {
+  destinationsWhitelist: boolean;
+  itineraryTablesGenerated: boolean;
+  healthScreeningIncluded: boolean;
+  touristPoliceSupport: boolean;
+}
+
+interface _ChannelMetadata {
+  internalPackageId: string;
+  orderChannelEnabled: {
+    JVTO: boolean;
+    KLOOK: boolean;
+    TRAVELOKA: boolean;
+    TIKETCOM: boolean;
+    OTHERS: boolean;
+  };
+  externalPackageIds: {
+    klook: string;
+    traveloka: string;
+    tiketcom: string;
+  };
+  isFreesale: boolean;
+  requiresAvailabilityCheck: boolean;
+  supportedPickupCities: string[];
+  supportedDropoffCities: string[];
+  languageOffered: string[];
+  status: string;
+  minLeadTimeHours: number;
+  maxPaxRecommended: number;
+  minPaxOperational: number;
+}
+
+interface _CMS {
+  contentType: string;
+  version: string;
+  created: string;
+  lastModified: string;
+  status: string;
+  owner: string;
+  i18nReady: boolean;
+  seoOptimized: boolean;
+  schemaType: string;
+}

@@ -1,899 +1,1225 @@
+// PackageDetailPage.tsx
 "use client";
 
-import * as React from "react";
-import { useState } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import SEO from "./SEO";
-import StructuredData from "./StructuredData";
-import Breadcrumbs from "./Breadcrumbs";
-import { tourPackages } from "@/data";
-import { destinationsData } from "@/data/destinations";
-import { formatIDR } from "@/utils/formatting";
-import IjenHealthCertFAQ from "./IjenHealthCertFAQ";
-import {
-  DestinationProperty,
-  TourPackage as TourPackageType,
-  PriceTier,
-} from "@/types";
-import GpxMap from "./GpxMap";
-import ElevationChart from "./ElevationChart";
-import Modal from "./Modal";
-import AccordionItem from "./AccordionItem";
-import RouteMap from "./RouteMap";
-import { miniFaqs } from "@/constants";
+import { useMemo, useState } from "react";
+import { TourPackageDetail } from "@/interfaces";
+import { useRouter } from "next/navigation";
+// export const initialData = {
+//   id: "SUB-3D2N-002",
+//   type: "package",
+//   version: "1.0.0",
+//   meta: {
+//     createdFrom: {
+//       productFile:
+//         "Product 3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya.json",
+//       tripFile:
+//         "Trip 3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya.json",
+//     },
+//   },
+//   product: {
+//     id: "SUB-3D2N-002",
+//     slug: "3d2n-ijen-bromo-madakaripura-surabaya-surabaya",
+//     name: "3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya",
+//     shortLabel:
+//       "3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya",
+//     originCity: "Surabaya",
+//     endCity: "Surabaya",
+//     durationDays: 3,
+//     durationNights: 2,
+//     marketedDurationLabel: "3D2N",
+//     route: ["Ijen Crater", "Mount Bromo", "Madakaripura Waterfall"],
+//     tripRef: "/trips/trip-SUB-3D2N-002.json",
+//     description:
+//       "Embark on an exciting 3-day journey to explore two of Indonesia's most renowned volcanoes: Mount Bromo and Ijen Crater. This adventure is perfect for young explorers who love nature and want to witness breathtaking landscapes. The tour begins with a visit to Mount Ijen, where you'll trek to see the rare blue flames and the stunning turquoise crater lake at sunrise. Next, we head to Mount Bromo to experience the mesmerizing sunrise illuminating the vast caldera and surrounding peaks. The journey continues to the hidden gem of Madakaripura Waterfall, nestled within lush green cliffs, offering a refreshing and serene experience. Throughout the tour, you'll enjoy comfortable accommodations, private transportation, and the guidance of experienced English-speaking guides. This expedition is designed to provide a seamless and enriching exploration of Java's natural wonders, ensuring an unforgettable experience for all participants.",
+//     keyExperiences: [
+//       "Ijen Crater Hike",
+//       "Bromo Sunrise Tour",
+//       "Madakaripura Waterfall Tour",
+//     ],
+//     physicalDifficulty: "Moderate",
+//     offers: {
+//       currency: "IDR",
+//       aggregateOffer: {
+//         lowPrice: 2450000,
+//         highPrice: 6300000,
+//       },
+//       tiers: [
+//         {
+//           sku: "SUB-3D2N-002-1",
+//           paxMin: 11,
+//           paxMax: 0,
+//           pricePerPerson: 2450000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-2",
+//           paxMin: 8,
+//           paxMax: 10,
+//           pricePerPerson: 2550000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-3",
+//           paxMin: 6,
+//           paxMax: 7,
+//           pricePerPerson: 2850000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-4",
+//           paxMin: 4,
+//           paxMax: 5,
+//           pricePerPerson: 3050000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-5",
+//           paxMin: 3,
+//           paxMax: 3,
+//           pricePerPerson: 3275000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-6",
+//           paxMin: 2,
+//           paxMax: 2,
+//           pricePerPerson: 3570000,
+//         },
+//         {
+//           sku: "SUB-3D2N-002-7",
+//           paxMin: 1,
+//           paxMax: 1,
+//           pricePerPerson: 6300000,
+//         },
+//       ],
+//     },
+//     inclusions: [
+//       "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
+//       "Tour Guides: Experienced English-speaking guides. For 2-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
+//       "Mineral Water: Daily supply.",
+//       "Complimentary Travel T-Shirt: One custom travel T-shirt per participant, with customizable designs/logos.",
+//       "Full Assistance: From your arrival to your final drop-off.",
+//       "Quality Hotel Accommodation: including daily breakfast.",
+//       "All Entrance Fees & Permits: to attractions",
+//       "Meals: As mention in the itinerary",
+//       "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
+//       "Medical Check-up: Ijen authorities require a doctor's health certificate. This check-up will be conveniently arranged at your hotel in Bondowoso the evening before your trek. You only need your passport",
+//       "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike, and headlamps for the Ijen night hike. Helmets for Madakaripura Waterfall are provided by local management.",
+//       "Ferry Tickets: From Ketapang Harbour to Bali (public ferry with air-conditioned cabins).",
+//     ],
+//     exclusions: [
+//       "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
+//       "Indonesian VISA: (If applicable).",
+//       "Travel Insurance: Optional but highly recommended for peace of mind, covering trip interruptions, medical emergencies, and lost luggage.",
+//       "Meals Not Stated in Itinerary: Specific lunches and additional dinners are at your own expense.",
+//       "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
+//       "Tips: For drivers and guides (at your discretion).",
+//     ],
+//     travelerRequirements: [
+//       "Moderate fitness for night trek",
+//       "Printed passport copy for Ijen permit",
+//       "Warm clothing (5–15°C)",
+//       "Sturdy hiking shoes and water shoes",
+//       "Small daypack for essentials",
+//       "Pre-hike health screening for Ijen trekking",
+//     ],
+//     addOns: [
+//       {
+//         name: "Horse Riding Fee",
+//         description: "",
+//         price: 200000,
+//       },
+//     ],
+//     accommodationPlan: [
+//       {
+//         night: 1,
+//         area: "Ijen Crater",
+//         hotel: "Riverside Homestay",
+//       },
+//       {
+//         night: 2,
+//         area: "Mount Bromo",
+//         hotel: "Joglo Kecombrang Bromo",
+//       },
+//     ],
+//     gear: {
+//       provided: ["Gas masks (Ijen)", "Headlamps", "Trekking poles", "Helmet"],
+//       recommended: [
+//         "Warm layers (5–15°C)",
+//         "Sturdy hiking shoes & water shoes",
+//         "Waterproof bag",
+//         "Rain jacket",
+//         "Beachwear",
+//         "Sunscreen",
+//         "Personal medications",
+//       ],
+//     },
+//     itineraryDays: [
+//       {
+//         day: 1,
+//         title:
+//           "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
+//         summary:
+//           "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+//         activities: [
+//           {
+//             type: null,
+//             name: null,
+//             description:
+//               "Pickup by our team at your location in Surabaya.",
+//             location: null,
+//             timeWindow: "11:00 AM",
+//             durationMinutes: null,
+//           },
+//           {
+//             type: null,
+//             name: null,
+//             description:
+//               "Stop at a local restaurant for lunch (cost not included).",
+//             location: null,
+//             timeWindow: "1:30 PM",
+//             durationMinutes: null,
+//           },
+//           {
+//             type: null,
+//             name: null,
+//             description:
+//               "Arrive in Bondowoso and check-in process at your hotel.",
+//             location: null,
+//             timeWindow: "5:00 PM",
+//             durationMinutes: null,
+//           },
+//           {
+//             type: null,
+//             name: null,
+//             description:
+//               "A health check (MCU) will be conducted by medical personnel directly at your hotel. This is a quick procedure to check vital signs as a prerequisite for climbing Ijen.",
+//             location: null,
+//             timeWindow: "5:30 PM",
+//             durationMinutes: null,
+//           },
+//           {
+//             type: null,
+//             name: null,
+//             description:
+//               "Dinner is served at the accommodation or a nearby restaurant (included).",
+//             location: null,
+//             timeWindow: "7:00 PM",
+//             durationMinutes: null,
+//           },
+//         ],
+//         mealsPlan: {
+//           breakfast: "own expense",
+//           lunch: "own expense",
+//           dinner: "included",
+//         },
+//         mealsNotes: "",
+//         overnight: "Bondowoso (Ijen Area)",
+//       },
+//       {
+//         day: 2,
+//         title: "From Two Peaks: Ijen Adventure Continues to Mount Bromo",
+//         summary:
+//           "After conquering Ijen, your adventure continues west. Enjoy our prepared lunch to refuel before embarking on the long overland journey to the majestic volcanic landscape of Bromo.",
+//         activities: [
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Ijen Tour Experience",
+//             description: "Follow the entire Ijen tour series.",
+//             location: "Ijen Crater",
+//             timeWindow: "12:00 AM - 09:00 AM",
+//             durationMinutes: 540,
+//           },
+//           {
+//             type: "CheckOutAction",
+//             name: "Ijen Hotel Check-out",
+//             description: "Check-out from the Ijen area hotel.",
+//             location: "Bondowoso City",
+//             timeWindow: "11:00 AM",
+//             durationMinutes: 10,
+//           },
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Lunch at Restaurant",
+//             description: "Enjoy lunch at a local restaurant (included).",
+//             location: "Local Restaurant",
+//             timeWindow: "11:30 AM",
+//             durationMinutes: 60,
+//           },
+//           {
+//             type: "TravelAction",
+//             name: "Journey to Bromo",
+//             description:
+//               "Start the journey to the Bromo area (about 5-6 hours).",
+//             fromLocation: "Bondowoso City",
+//             toLocation: "Bromo Area",
+//             destination: "",
+//             timeWindow: "12:30 PM",
+//             durationMinutes: 210,
+//           },
+//           {
+//             type: "CheckInAction",
+//             name: "Bromo Hotel Check-in",
+//             description: "Arrive in Bromo area, check-in hotel.",
+//             location: "Hotel in Bromo Area",
+//             timeWindow: "6:00 PM",
+//             durationMinutes: 10,
+//           },
+//         ],
+//         mealsPlan: {
+//           breakfast: "included",
+//           lunch: "included",
+//           dinner: "own expense",
+//         },
+//         mealsNotes: "",
+//         overnight: "Bromo Area",
+//       },
+//       {
+//         day: 3,
+//         title: "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
+//         summary:
+//           "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+//         activities: [
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Bromo Jeep Tour Experience",
+//             description: "Starting the Bromo Jeep tour.",
+//             location: "Mount Bromo",
+//             timeWindow: "2:30 AM",
+//             durationMinutes: 390,
+//           },
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Hotel Breakfast",
+//             description: "Back to the hotel for breakfast.",
+//             location: "Bromo Hotel",
+//             timeWindow: "9:00 AM",
+//             durationMinutes: 30,
+//           },
+//           {
+//             type: "CheckOutAction",
+//             name: "Bromo Hotel Check-out",
+//             description: "Check-out, travel to Madakaripura.",
+//             location: "Bromo Hotel",
+//             timeWindow: "10:30 AM",
+//             durationMinutes: 10,
+//           },
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Madakaripura Trekking",
+//             description: "Arrive at Madakaripura and start trekking.",
+//             location: "Madakaripura Waterfall",
+//             timeWindow: "11:30 AM",
+//             durationMinutes: 180,
+//           },
+//           {
+//             type: "TouristAttractionVisit",
+//             name: "Lunch After Trek (Own Expense)",
+//             description: "After trekking, have lunch (fees not included).",
+//             location: "Madakaripura Area",
+//             timeWindow: "1:30 PM",
+//             durationMinutes: 60,
+//           },
+//           {
+//             type: "TravelAction",
+//             name: "Transfer to Surabaya",
+//             description: "Journey to Surabaya.",
+//             fromLocation: "Madakaripura",
+//             toLocation: "Surabaya",
+//             destination: "",
+//             timeWindow: "2:30 PM",
+//             durationMinutes: 120,
+//           },
+//           {
+//             type: "TravelAction",
+//             name: "Arrival in Surabaya",
+//             description: "Arrived in Surabaya.",
+//             fromLocation: "",
+//             toLocation: "",
+//             destination: "Surabaya",
+//             timeWindow: "6:00 PM",
+//             durationMinutes: 0,
+//           },
+//         ],
+//         mealsPlan: {
+//           breakfast: "included",
+//           lunch: "own expense",
+//           dinner: "own expense",
+//         },
+//         mealsNotes: "",
+//         overnight: null,
+//       },
+//     ],
+//     gallery: [
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_0.jpg",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_1.webp",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_2.webp",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_3.webp",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_4.webp",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_5.webp",
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_6.jpg",
+//     ],
+//     imageUrl:
+//       "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_0.jpg",
+//     tags: [
+//       "3d2n",
+//       "surabaya",
+//       "ijen",
+//       "bromo",
+//       "madakaripura",
+//       "east-java",
+//       "volcano-tour",
+//     ],
+//     aggregateRating: {
+//       ratingValue: 0,
+//       reviewCount: 0,
+//     },
+//     marketing: {
+//       perfectFor: [
+//         "Active travelers",
+//         "First-time Java visitors",
+//         "Nature photographers",
+//         "Adventure seekers",
+//       ],
+//       highlightsBullets: [
+//         "Witness Ijen's electric-blue flames before sunrise",
+//         "4WD to panoramic Bromo viewpoint then crater walk",
+//         "Bonus stop at hidden Madakaripura waterfall",
+//         "Private transportation and expert local guides",
+//       ],
+//       safetyPositioning:
+//         "sanitized gas masks, health screening for Ijen, route decisions driven by safety, strong safety track record with professional guides and strict protocols",
+//       uniqueSellingPoints: [
+//         "Tourist Police support",
+//         "Private 4WD experience",
+//         "Health safety protocols",
+//         "All-inclusive package",
+//       ],
+//     },
+//     operationalComplexityNote:
+//       "Midnight hikes for Ijen and Bromo (fatigue risk). Ensure Pre-hike health screening for Ijen; pre-book Bromo Jeep; manage long transfers (4-6 hours). Weather-dependent activities requiring contingency plans.",
+//     provider: {
+//       brand: "Java Volcano Tour Operator (JVTO)",
+//       legalEntity: "PT Java Volcano Rendezvous",
+//       nib: "1102230032918",
+//       tdup: "1102230032918",
+//       official: {
+//         website: "https://javavolcano-touroperator.com",
+//         whatsapp: "+62 822-4478-8833",
+//         email: "info@javavolcano-touroperator.com",
+//       },
+//       policyRef: {
+//         booking: "/policy/booking.json",
+//         inclusions: "/policy/inclusions_exclusions.json",
+//       },
+//       policyVersion: "2025-11-09",
+//     },
+//     compliance: {
+//       destinationsWhitelist: true,
+//       itineraryTablesGenerated: true,
+//       healthScreeningIncluded: true,
+//       touristPoliceSupport: true,
+//     },
+//     channelMetadata: {
+//       internalPackageId: "SUB-3D2N-002",
+//       orderChannelEnabled: {
+//         JVTO: true,
+//         KLOOK: false,
+//         TRAVELOKA: false,
+//         TIKETCOM: false,
+//         OTHERS: false,
+//       },
+//       externalPackageIds: {
+//         klook: "",
+//         traveloka: "",
+//         tiketcom: "",
+//       },
+//       isFreesale: true,
+//       requiresAvailabilityCheck: false,
+//       supportedPickupCities: ["Surabaya"],
+//       supportedDropoffCities: ["Surabaya"],
+//       languageOffered: ["en"],
+//       status: "active",
+//       minLeadTimeHours: 24,
+//       maxPaxRecommended: 11,
+//       minPaxOperational: 2,
+//     },
+//     _cms: {
+//       contentType: "tour-package",
+//       version: "2.0",
+//       created: "2025-01-15T00:00:00Z",
+//       lastModified: "2025-01-15T00:00:00Z",
+//       status: "published",
+//       owner: "content-team",
+//       i18nReady: true,
+//       seoOptimized: true,
+//       schemaType: "TouristTrip",
+//     },
+//   },
+// };
 interface Props {
-  slug?: string; // optional because it can also come from useParams
+  initialData: TourPackageDetail;
 }
 
-const getTourBySlug = (slug: string) => {
-  return tourPackages.find((t) => t.slug === slug) || null;
-};
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
 
-function buildTourJsonLd(tour: TourPackageType) {
-  const SITE_ORIGIN = "https://javavolcano-touroperator.com";
-  const fullTourSlug = `/tours/${tour.slug}`;
-  const AGENCY_ID = `${SITE_ORIGIN}/#travelagency`;
+function getPriceForPax(pax: number, tiers: any[]) {
+  if (!tiers || !tiers.length) return null;
+  const tier = tiers.find((t) => {
+    const minOk = pax >= t.paxMin;
+    const maxOk = t.paxMax === 0 ? true : pax <= t.paxMax;
+    return minOk && maxOk;
+  });
+  return tier ? tier.pricePerPerson : null;
+}
 
-  const offers =
-    tour.priceTiers?.map((tier) => ({
-      "@type": "Offer",
-      sku: `${tour.id}-${tier.pax}pax`,
-      price: tier.pricePerPerson,
-      priceCurrency: "IDR",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        unitText: "person",
-        price: tier.pricePerPerson,
-        priceCurrency: "IDR",
-        eligibleQuantity: {
-          "@type": "QuantitativeValue",
-          value: tier.pax,
-        },
-      },
-      availability: "https://schema.org/InStock",
-      url: `${SITE_ORIGIN}/#${fullTourSlug}`,
-      hasMerchantReturnPolicy: {
-        "@type": "MerchantReturnPolicy",
-        returnPolicyCategory: "https://schema.org/Refundable",
-        merchantReturnDays: 2,
-        additionalProperty: [
-          {
-            "@type": "PropertyValue",
-            name: "lateRescheduleFee",
-            value: "50% may apply if rescheduling within the late window.",
-          },
-          {
-            "@type": "PropertyValue",
-            name: "voucherOption",
-            value:
-              "Voucher/reschedule paths may be offered when refunds are not possible.",
-          },
-        ],
-      },
-      validFrom: new Date().toISOString().split("T")[0],
-    })) || [];
+export default function PackageDetailPage({ initialData }: Props) {
+  const router = useRouter();
 
-  return {
-    "@context": "https://schema.org",
-    "@type": ["Product", "TouristTrip"],
-    name: tour.label,
-    description: tour.description,
-    image: [tour.imageUrl, ...(tour.gallery || [])],
-    sku: tour.id,
-    provider: {
-      "@type": "TravelAgency",
-      "@id": AGENCY_ID,
-      name: "Java Volcano Tour Operator",
+  const pkg = initialData.product;
+  const [selectedImage, setSelectedImage] = useState(
+    pkg.imageUrl || pkg.gallery[0]
+  );
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "itinerary" | "details"
+  >("overview");
+  const [openDay, setOpenDay] = useState<number | null>(1);
+  const [startDate, setStartDate] = useState("");
+  const [pax, setPax] = useState(2);
+
+  const pricePerPerson = useMemo(
+    () => getPriceForPax(pax, pkg.offers.tiers),
+    [pax]
+  );
+
+  const total = pricePerPerson ? pricePerPerson * pax : 0;
+
+  const [showAddOnModal, setShowAddOnModal] = useState(false);
+  const [pendingBasePayload, setPendingBasePayload] = useState<any | null>(
+    null
+  );
+  const [addOnSelections, setAddOnSelections] = useState(
+    pkg.addOns?.map((a: any) => ({
+      addOnId: a.name, // ganti ke ID asli jika nanti ada di data
+      label: a.name,
+      price: a.price,
+      selected: false,
+    })) ?? []
+  );
+
+  const todayISO = useMemo(() => new Date().toISOString().split("T")[0], []);
+
+  const finalizeBooking = (
+    basePayload: {
+      packageId: string;
+      date: string;
+      pax: number;
+      pricePerPerson: number | null;
+      packageTotal: number;
     },
-    tripOrigin: tour.originCity,
-    aggregateRating: tour.aggregateRating
-      ? {
-          "@type": "AggregateRating",
-          ratingValue: tour.aggregateRating.ratingValue,
-          reviewCount: tour.aggregateRating.reviewCount,
-        }
-      : undefined,
-    offers: offers,
-    additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "ijenHealthCertificateIncluded",
-        value: "true",
-        description:
-          "Ijen health certificate is included and arranged by JVTO nurse at the hotel. No local cash payment required.",
-      },
-      {
-        "@type": "PropertyValue",
-        name: "tourModel",
-        value: "Private, all-inclusive (no transport-only service).",
-      },
-    ],
-  } as const;
-}
+    addons: { addOnId: string; qty: number; price: number; subtotal: number }[]
+  ) => {
+    const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
+    const discount = 0;
+    const discountLabel = null;
+    const grandTotal = basePayload.packageTotal + addOnTotal - discount;
 
-const IconPill: React.FC<{ icon: string; text: string }> = ({ icon, text }) => (
-  <div className="flex items-center gap-2 p-3 bg-background-light dark:bg-ink-primary rounded-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
-    <span className="material-symbols-outlined text-primary text-xl">
-      {icon}
-    </span>
-    <span className="text-sm font-medium text-ink-primary dark:text-white">
-      {text}
-    </span>
-  </div>
-);
+    const payload = {
+      ...basePayload,
+      addon: addons,
+      addOnTotal,
+      discount,
+      discountLabel,
+      grandTotal,
+    };
+    localStorage.setItem("checkoutPayload", JSON.stringify(payload));
 
-const Section: React.FC<{
-  title: string;
-  children: React.ReactNode;
-  className?: string;
-}> = ({ title, children, className = "" }) => (
-  <section className={`py-8 ${className}`}>
-    <h2 className="h3 text-ink-primary dark:text-white mb-4">{title}</h2>
-    <div className="prose dark:prose-invert max-w-none text-ink-neutral-700 dark:text-ink-neutral-300">
-      {children}
-    </div>
-  </section>
-);
-
-const formatGpxMetric = (
-  prop: DestinationProperty
-): { label: string; value: string } | null => {
-  if (typeof prop.value !== "number") return null;
-
-  // Round to integer, except for distance which gets one decimal place.
-  const roundedValue = Math.round(prop.value);
-
-  switch (prop.propertyID) {
-    case "gpxTotalDistanceKm":
-      return { label: "Distance", value: `${prop.value.toFixed(1)} km` };
-    case "gpxElevationGainM":
-      return { label: "Elevation Gain", value: `${roundedValue} m` };
-    case "gpxElevationLossM":
-      return { label: "Elevation Loss", value: `${roundedValue} m` };
-    case "gpxMinElevationM":
-      return { label: "Min Elevation", value: `${roundedValue} m` };
-    case "gpxMaxElevationM":
-      return { label: "Max Elevation", value: `${roundedValue} m` };
-    default:
-      return null;
-  }
-};
-
-const gpxMetricOrder = [
-  "gpxTotalDistanceKm",
-  "gpxElevationGainM",
-  "gpxElevationLossM",
-  "gpxMinElevationM",
-  "gpxMaxElevationM",
-];
-
-const parseBounds = (
-  boundsStr: string
-): [[number, number], [number, number]] | null => {
-  const parts = boundsStr.split(" ");
-  if (parts.length !== 2) return null;
-  const [minCoords, maxCoords] = parts;
-  const [lat_min, lon_min] = minCoords.split(",").map(Number);
-  const [lat_max, lon_max] = maxCoords.split(",").map(Number);
-  if ([lat_min, lon_min, lat_max, lon_max].some(isNaN)) return null;
-  // Leaflet bounds are [[lat_min, lon_min], [lat_max, lon_max]]
-  return [
-    [lat_min, lon_min],
-    [lat_max, lon_max],
-  ];
-};
-
-const TourDetail: React.FC<Props> = ({ slug }) => {
-  const params = useParams<{ tourSlug: string }>();
-  const tourSlug = slug ?? params?.tourSlug;
-
-  // ALL HOOKS at the top — never conditional
-  const [isIjenFaqOpen, setIsIjenFaqOpen] = React.useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [openExpectation, setOpenExpectation] = useState<string | null>("fitness");
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-
-  const tour = React.useMemo(() => getTourBySlug(tourSlug), [tourSlug]);
-
-  // Safe useMemo — handles tour === null gracefully
-  const images = React.useMemo(() => {
-    if (!tour) return [];
-    return [tour.imageUrl, ...(tour.gallery || [])].filter(Boolean);
-  }, [tour]);
-
-  const metaDescription = React.useMemo(() => {
-    if (!tour) return "Loading tour...";
-    return `Book the ${tour.label}: A ${tour.durationDays}-day/${tour.durationNights}-night private, all-inclusive tour. Key experiences include: ${tour.keyExperiences.join(", ")}. Secure your adventure with a licensed operator.`;
-  }, [tour]);
-
-  const destinationsWithGpx = React.useMemo(() => {
-    if (!tour) return [];
-    // ... your existing logic (safe now)
-    const uniqueDestinations = (tour.itineraryDays || tour.itinerary)
-      .flatMap((day) => day.activities)
-      .map((activity) => activity.destinationName)
-      .filter((name): name is string => !!name)
-      .map((name) => {
-        const normalizedName = name.toLowerCase();
-        return destinationsData.find(
-          (dest) =>
-            dest.name.toLowerCase() === normalizedName ||
-            (normalizedName === "mount ijen" && dest.id === "ijen") ||
-            (normalizedName.includes("bromo") && dest.id === "bromo")
-        );
-      })
-      .filter((dest): dest is NonNullable<typeof dest> => !!dest && !!dest.gpxTrack && !!dest.gpxElevationProfile)
-      .filter((dest, index, self) => self.findIndex((d) => d.id === dest.id) === index);
-
-    return uniqueDestinations;
-  }, [tour]);
-
-  const routeStops = React.useMemo(() => {
-    if (!tour) return [];
-    return tour.route
-      .map((routeName) => {
-        const dest = destinationsData.find((d) =>
-          d.name.toLowerCase().includes(routeName.toLowerCase().replace("mount-", ""))
-        );
-        if (dest) {
-          return {
-            name: dest.name,
-            coords: [dest.geo.latitude, dest.geo.longitude] as [number, number],
-          };
-        }
-        return null;
-      })
-      .filter((stop): stop is { name: string; coords: [number, number] } => stop !== null);
-  }, [tour]);
-
-  // EARLY RETURNS — now safe (after all hooks)
-  if (!slug) {
-    return <div>Loading tour...</div>;
-  }
-
-  if (!tour) {
-    return (
-      <div className="container mx-auto px-4 py-36 text-center">
-        <h1 className="text-4xl font-bold">Tour Not Found</h1>
-        <p className="mt-4 text-lg">We ${`couldn't`} find the tour you were looking for.</p>
-        <Link href="/tours" className="mt-8 inline-block px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-opacity-90">
-          Back to All Tours
-        </Link>
-      </div>
-    );
-  }
-
-  // From here on: tour is GUARANTEED to exist → TypeScript happy
-  const openLightbox = (index: number) => {
-    setCurrentImageIndex(index);
-    setIsLightboxOpen(true);
+    // Redirect menggunakan Next.js router
+    router.push("/checkout");
   };
 
-  const closeLightbox = () => setIsLightboxOpen(false);
-  const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!startDate || !pax || pax < pkg.channelMetadata.minPaxOperational) {
+      alert("Please select a valid date and number of guests.");
+      return;
+    }
 
-  const origin = tour.originCity;
-  const fullTourSlug = `/tours/${slug}`;
-  const jsonLd = buildTourJsonLd(tour);
-  const breadcrumbCrumbs = [
-    { name: "Home", path: "/" },
-    { name: "Tours", path: "/tours" },
-    {
-      name: `From ${origin.charAt(0).toUpperCase() + origin.slice(1)}`,
-      path: `/tours/from/${origin}`,
-    },
-    { name: tour.label, path: fullTourSlug },
-  ];
+    const packageTotal = pricePerPerson ? pricePerPerson * pax : 0;
 
-  const basePrice =
-    tour.priceTiers && tour.priceTiers.length > 0
-      ? Math.min(...tour.priceTiers.map((p) => p.pricePerPerson))
-      : 0;
+    const basePayload = {
+      packageId: pkg.id,
+      date: startDate,
+      pax,
+      pricePerPerson,
+      packageTotal,
+    };
 
-  const itineraryData = tour.itineraryDays || tour.itinerary;
+    // Jika ada add-on, munculkan popup dulu
+    if (pkg.addOns && pkg.addOns.length > 0) {
+      setPendingBasePayload(basePayload);
+      setShowAddOnModal(true);
+      return;
+    }
+
+    // Jika tidak ada add-on, langsung kirim
+    finalizeBooking(basePayload, []);
+  };
+
+  const handleConfirmAddOns = () => {
+    if (!pendingBasePayload) return;
+
+    const selectedAddOns = addOnSelections
+      .filter((a) => a.selected)
+      .map((a) => ({
+        addOnId: a.addOnId,
+        qty: pax, // qty otomatis = jumlah pax
+        price: a.price,
+        subtotal: pax * a.price,
+      }));
+
+    finalizeBooking(pendingBasePayload, selectedAddOns);
+    setShowAddOnModal(false);
+    setPendingBasePayload(null);
+  };
 
   return (
-    <>
-      <SEO title={`${tour.label} | JVTO Tours`} description={metaDescription} />
-      <StructuredData data={jsonLd} />
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-20">
+      <div className="mx-auto container px-4 pb-12 pt-6 lg:pt-10">
+        {/* Breadcrumb + top meta */}
+        <div className="mb-4 flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500">
+          <span className="rounded-full bg-slate-100 px-3 py-1">
+            {pkg.originCity} → {pkg.endCity}
+          </span>
+          <span className="h-1 w-1 rounded-full bg-slate-300" />
+          <span className="rounded-full bg-blue-50 px-3 py-1 text-blue-700">
+            {pkg.marketedDurationLabel} • {pkg.route.join(" • ")}
+          </span>
+          <span className="h-1 w-1 rounded-full bg-slate-300" />
+          <span className="rounded-full bg-orange-50 px-3 py-1 text-orange-600">
+            Private Volcano Tour
+          </span>
+        </div>
 
-      <main className="bg-background-light dark:bg-background-dark pt-20">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
-              <header>
-                <Breadcrumbs crumbs={breadcrumbCrumbs} />
-                <h1 className="mt-4 h2 text-ink-primary dark:text-white">
-                  {tour.label}
-                </h1>
-                <p className="mt-3 text-lg text-ink-neutral-700 dark:text-ink-neutral-300">
-                  {tour.description}
-                </p>
-                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <IconPill
-                    icon="schedule"
-                    text={`${tour.durationDays}D/${tour.durationNights}N`}
-                  />
-                  <IconPill icon="tour" text="Private Tour" />
-                  <IconPill icon="fitness_center" text={tour.physicality} />
-                  {tour.aggregateRating && (
-                    <IconPill
-                      icon="star"
-                      text={`${tour.aggregateRating.ratingValue}/5 (${tour.aggregateRating.reviewCount} reviews)`}
+        {/* Title + rating + hero price */}
+        <header className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="space-y-2">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+              {pkg.name}
+            </h1>
+            <p className="max-w-2xl text-sm text-slate-600">
+              Explore Ijen, Bromo and Madakaripura in one seamless, private
+              adventure starting and ending in Surabaya.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 text-xs">
+              <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                <span className="text-lg">🟧</span>
+                <span>Physical: {pkg.physicalDifficulty}</span>
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                <span className="text-lg">🛡️</span>
+                <span>Tourist Police Supported</span>
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+                <span className="text-lg">👥</span>
+                <span>
+                  Best for 2–{pkg.channelMetadata.maxPaxRecommended} guests
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-gradient-to-br from-blue-600 via-blue-500 to-orange-400 p-[1px] shadow-lg">
+            <div className="flex flex-col gap-2 rounded-2xl bg-white px-5 py-4 sm:px-6 sm:py-5">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                From
+              </span>
+              <div className="flex items-end gap-2">
+                <span className="text-2xl font-semibold text-blue-700 sm:text-3xl">
+                  {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
+                </span>
+                <span className="pb-1 text-xs text-slate-500">per person</span>
+              </div>
+              <span className="text-[11px] text-slate-500">
+                Based on larger groups. Final price updates with your group
+                size.
+              </span>
+            </div>
+          </div>
+        </header>
+
+        {/* Main layout */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)] lg:gap-8">
+          {/* Left: content */}
+          <main className="space-y-6">
+            {/* Gallery */}
+            <section className="space-y-3">
+              <div className="overflow-hidden rounded-3xl bg-slate-200 shadow-md">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selectedImage}
+                  alt={pkg.name}
+                  className="h-64 w-full object-cover sm:h-80 lg:h-96"
+                />
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {pkg.gallery.map((img) => (
+                  <button
+                    key={img}
+                    type="button"
+                    onClick={() => setSelectedImage(img)}
+                    className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-2xl border transition hover:opacity-90 sm:h-20 sm:w-32 ${
+                      selectedImage === img
+                        ? "border-blue-500 ring-2 ring-blue-300"
+                        : "border-slate-200"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img}
+                      alt=""
+                      className="h-full w-full object-cover"
                     />
-                  )}
-                </div>
-              </header>
-
-              <div className="space-y-4">
-                <div
-                  className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl shadow-lg group cursor-pointer"
-                  onClick={() => openLightbox(currentImageIndex)}
-                >
-                  <img
-                    src={images[currentImageIndex]}
-                    alt={`Main view of the ${tour.label} tour.`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-symbols-outlined text-white text-6xl">
-                      zoom_in
-                    </span>
-                  </div>
-                </div>
-                {images.length > 1 && (
-                  <div className="grid grid-cols-5 md:grid-cols-8 gap-2">
-                    {images.map((img, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`aspect-square w-full rounded-lg overflow-hidden focus:outline-none focus:ring-2 ring-offset-2 ring-offset-background-light dark:ring-offset-background-dark ${
-                          currentImageIndex === index
-                            ? "ring-2 ring-primary"
-                            : "opacity-70 hover:opacity-100"
-                        }`}
-                      >
-                        <img
-                          src={img}
-                          alt={`Thumbnail ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
+                  </button>
+                ))}
               </div>
+            </section>
 
-              <div className="p-6 bg-white dark:bg-ink-primary rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700">
-                <h3 className="text-xl font-bold text-ink-primary dark:text-white mb-2">
-                  Why Book This Tour with JVTO?
-                </h3>
-                <p className="text-ink-neutral-700 dark:text-ink-neutral-300">
-                  As a government-licensed tour operator with a physical office
-                  and a team founded by a Tourist Police officer, we guarantee
-                  accountability and safety. Our all-inclusive pricing means no
-                  surprise costs.{" "}
-                  <Link
-                    href="/why-jvto/the-jvto-difference"
-                    className="text-primary font-semibold hover:underline"
-                  >
-                    Learn more about the JVTO Difference.
-                  </Link>
-                </p>
-              </div>
-
-              {tour.recommendedFor && tour.recommendedFor.length > 0 && (
-                <Section title="Recommended For" className="!pt-0">
-                  <div className="flex flex-wrap gap-2">
-                    {tour.recommendedFor.map((travelerType) => (
-                      <span
-                        key={travelerType}
-                        className="text-sm font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 px-3 py-1.5 rounded-full"
-                      >
-                        {travelerType}
-                      </span>
-                    ))}
-                  </div>
-                </Section>
-              )}
-
-              <Section title="Day-by-Day Itinerary">
-                <div className="space-y-6">
-                  {itineraryData.map((day) => (
-                    <div
-                      key={day.day}
-                      className="p-4 border-l-4 border-primary bg-background-light dark:bg-ink-primary rounded-r-lg"
-                    >
-                      <h3 className="font-bold text-lg text-ink-primary dark:text-white">
-                        Day {day.day}: {day.title}
-                      </h3>
-                      {"summary" in day && day.summary && (
-                        <p className="mt-1">{day.summary}</p>
-                      )}
-                      {"details" in day && day.details && (
-                        <p className="mt-1">{day.details}</p>
-                      )}
-
-                      {"mealsPlan" in day && (
-                        <div className="flex items-center gap-4 mt-3 text-sm">
-                          <span className="flex items-center gap-1.5">
-                            <span className="material-symbols-outlined text-base">
-                              drive_eta
-                            </span>{" "}
-                            {day.drivingTime || "N/A"}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <span className="material-symbols-outlined text-base">
-                              bed
-                            </span>{" "}
-                            {day.overnight || "N/A"}
-                          </span>
-                        </div>
-                      )}
-
-                      <ul className="mt-3 space-y-2 text-sm">
-                        {day.activities.map((activity) => (
-                          <li
-                            key={activity.name}
-                            className="flex items-start gap-3"
-                          >
-                            <span className="material-symbols-outlined text-primary text-base mt-0.5">
-                              route
-                            </span>
-                            <span>
-                              <strong>
-                                {activity.name}
-                                {activity.destinationName
-                                  ? ` (${activity.destinationName})`
-                                  : ""}
-                                :
-                              </strong>{" "}
-                              {activity.description || activity.notes}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </Section>
-
-              {routeStops.length > 0 && (
-                <Section title="Tour Route Overview">
-                  <p className="mb-4 text-sm not-prose">
-                    This map shows the general overland route for your tour. The
-                    actual path and timings may vary based on road conditions.
-                  </p>
-                  <RouteMap stops={routeStops} />
-                </Section>
-              )}
-
-              <Section title="Inclusions & Exclusions" className="!pt-0">
-                <p className="text-center font-semibold text-ink-primary dark:text-white bg-green-100 dark:bg-green-900/50 py-2 px-4 rounded-lg">
-                  No Hidden Costs. The Price You See is The Price You Pay.
-                </p>
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="text-xl font-semibold flex items-center gap-2 text-green-700 dark:text-green-400">
-                      <span className="material-symbols-outlined">
-                        check_circle
-                      </span>{" "}
-                      {`What's`} Included
-                    </h3>
-                    <ul className="mt-2 space-y-1 list-none">
-                      {tour.inclusions.map((item) => {
-                        const isIjenCert = item
-                          .toLowerCase()
-                          .includes("ijen health");
-                        return (
-                          <li
-                            key={item}
-                            className={`flex items-start gap-2 ${
-                              isIjenCert
-                                ? "font-semibold text-green-800 dark:text-green-300"
-                                : ""
-                            }`}
-                          >
-                            <span
-                              className={`material-symbols-outlined text-green-500 text-sm mt-1`}
-                            >
-                              {isIjenCert ? "health_and_safety" : "check"}
-                            </span>
-                            <span>{item}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold flex items-center gap-2 text-red-600 dark:text-red-400">
-                      <span className="material-symbols-outlined">cancel</span>{" "}
-                      {`What's`} Not Included
-                    </h3>
-                    <ul className="mt-2 space-y-1 list-disc list-inside">
-                      {tour.exclusions.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </Section>
-
-              <Section title="What to Expect on Your Tour" className="!pt-0">
-                <div className="space-y-2 not-prose">
-                  <AccordionItem
-                    title="Physicality & Fitness"
-                    isOpen={openExpectation === "fitness"}
+            {/* Tabs */}
+            <section className="rounded-3xl border border-slate-100 bg-white/80 shadow-sm backdrop-blur">
+              <div className="flex gap-2 border-b border-slate-100 px-4 pt-3 sm:px-6">
+                {[
+                  { id: "overview", label: "Overview" },
+                  { id: "itinerary", label: "Itinerary" },
+                  { id: "details", label: "Inclusions & Gear" },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
                     onClick={() =>
-                      setOpenExpectation(
-                        openExpectation === "fitness" ? null : "fitness"
+                      setActiveTab(
+                        tab.id as "overview" | "itinerary" | "details"
                       )
                     }
+                    className={`relative rounded-t-xl px-3 py-2 text-xs font-medium transition sm:px-4 ${
+                      activeTab === tab.id
+                        ? "text-blue-700"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
                   >
-                    <p>
-                      This tour is rated as <strong>{tour.physicality}</strong>.
+                    {tab.label}
+                    {activeTab === tab.id && (
+                      <span className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-gradient-to-r from-blue-600 to-orange-400" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <div className="space-y-5 px-4 py-4 sm:px-6 sm:py-5">
+                {activeTab === "overview" && (
+                  <>
+                    <p className="text-sm leading-relaxed text-slate-700">
+                      {pkg.description}
                     </p>
-                    {tour.travelerRequirements &&
-                      tour.travelerRequirements.length > 0 && (
-                        <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg border border-yellow-200 dark:border-yellow-700">
-                          <div className="flex items-start gap-3">
-                            <span className="material-symbols-outlined text-yellow-600 dark:text-yellow-400 mt-1">
-                              info
-                            </span>
-                            <div>
-                              <h4 className="font-semibold text-ink-primary dark:text-white">
-                                Important Traveler Requirements
-                              </h4>
-                              <ul className="mt-2 list-disc list-inside space-y-1 text-sm text-yellow-800 dark:text-yellow-200">
-                                {tour.travelerRequirements.map((req, index) => (
-                                  <li key={index}>{req}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                  </AccordionItem>
-                  <AccordionItem
-                    title="Packing List"
-                    isOpen={openExpectation === "packing"}
-                    onClick={() =>
-                      setOpenExpectation(
-                        openExpectation === "packing" ? null : "packing"
-                      )
-                    }
-                  >
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="font-bold text-ink-primary dark:text-white">
-                          Gear We Provide
-                        </h4>
-                        {tour.gearProvided && tour.gearProvided.length > 0 ? (
-                          <ul className="list-disc list-inside text-sm">
-                            {tour.gearProvided.map((item) => (
-                              <li key={item.item}>{item.item}</li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <p className="text-sm">
-                            Standard safety equipment provided as needed.
-                          </p>
-                        )}
+
+                    {/* Highlights */}
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-2xl bg-blue-50/70 p-4">
+                        <h3 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                          <span className="text-lg">✨</span>
+                          Highlights
+                        </h3>
+                        <ul className="space-y-1.5 text-xs text-blue-900">
+                          {pkg.marketing.highlightsBullets.map((h) => (
+                            <li key={h} className="flex gap-2">
+                              <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                              <span>{h}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <div>
-                        <h4 className="font-bold text-ink-primary dark:text-white">
-                          What We Recommend You Bring
-                        </h4>
-                        {tour.gearRecommended &&
-                        tour.gearRecommended.length > 0 ? (
-                          <div className="space-y-3">
-                            {tour.gearRecommended.map((cat) => (
-                              <div key={cat.category}>
-                                <h5 className="font-semibold text-sm">
-                                  {cat.category}
-                                </h5>
-                                <ul className="list-disc list-inside text-sm">
-                                  {cat.items.map((item) => (
-                                    <li key={item}>{item}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-sm">
-                            Comfortable clothing and sturdy shoes are always
-                            recommended.
-                          </p>
-                        )}
+
+                      <div className="rounded-2xl bg-orange-50/80 p-4">
+                        <h3 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-orange-700">
+                          <span className="text-lg">🎯</span>
+                          Perfect For
+                        </h3>
+                        <ul className="space-y-1.5 text-xs text-orange-900">
+                          {pkg.marketing.perfectFor.map((p) => (
+                            <li key={p} className="flex gap-2">
+                              <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-500" />
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-                  </AccordionItem>
-                  <AccordionItem
-                    title="Safety & Important Notes"
-                    isOpen={openExpectation === "safety"}
-                    onClick={() =>
-                      setOpenExpectation(
-                        openExpectation === "safety" ? null : "safety"
-                      )
-                    }
-                  >
-                    <div className="space-y-4 text-sm">
-                      <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
-                        <p>
-                          <strong>Ijen Blue Fire Disclosure:</strong> The famous{" "}
-                          {`"blue fire"`} is a natural phenomenon.{" "}
-                          <strong>Its visibility is not guaranteed</strong> and
-                          depends entirely on volcanic activity, weather, and
-                          wind conditions on the day of your trek. Our guides
-                          will ensure you have the best possible chance to
-                          witness it safely.
+
+                    {/* Safety */}
+                    <div className="flex flex-col gap-3 rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:flex-row sm:items-start">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white shadow-sm">
+                        <span className="text-xl">🛡️</span>
+                      </div>
+                      <div>
+                        <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                          Safety First
+                        </h3>
+                        <p className="text-xs text-blue-900">
+                          {pkg.marketing.safetyPositioning}.
+                        </p>
+                        <p className="mt-2 text-[11px] text-blue-900/70">
+                          Operated by {pkg.provider.brand} (
+                          {pkg.provider.legalEntity}). Tourist Police support
+                          and pre-hike health screening for Ijen.
                         </p>
                       </div>
-                      <p>
-                        <strong>Gas Mask Hygiene:</strong> All provided gas
-                        masks are professionally cleaned and inspected before
-                        each use.
-                      </p>
-                      <div>
-                        <button
-                          onClick={() => setIsIjenFaqOpen((prev) => !prev)}
-                          className="flex justify-between items-center w-full p-4 mt-2 text-left font-semibold text-ink-primary dark:text-white bg-white dark:bg-ink-primary rounded-lg border border-ink-neutral-200 dark:border-ink-neutral-700 hover:bg-ink-neutral-50 dark:hover:bg-ink-neutral-900/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                          aria-expanded={isIjenFaqOpen}
-                          aria-controls="ijen-faq-content"
-                        >
-                          <span>
-                            More on: Ijen Health Certificate & Trek Details
-                          </span>
-                          <span
-                            className={`material-symbols-outlined transition-transform duration-300 ${
-                              isIjenFaqOpen ? "rotate-180" : ""
-                            }`}
-                          >
-                            expand_more
-                          </span>
-                        </button>
-                        {isIjenFaqOpen && <IjenHealthCertFAQ />}
-                      </div>
                     </div>
-                  </AccordionItem>
-                </div>
-              </Section>
 
-              <Section title="Frequently Asked Questions" className="!pt-0">
-                <div className="space-y-2 not-prose">
-                  {miniFaqs.map((faq, index) => (
-                    <AccordionItem
-                      key={index}
-                      title={faq.question}
-                      isOpen={openFaqIndex === index}
-                      onClick={() =>
-                        setOpenFaqIndex(openFaqIndex === index ? null : index)
-                      }
-                    >
-                      <p>{faq.answer}</p>
-                    </AccordionItem>
-                  ))}
-                </div>
-              </Section>
+                    {/* Route tags */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {pkg.route.map((r) => (
+                        <span
+                          key={r}
+                          className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-medium text-slate-700"
+                        >
+                          <span className="h-1.5 w-1.5 rounded-full bg-orange-400" />
+                          {r}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                )}
 
-              {destinationsWithGpx.length > 0 && (
-                <Section title="Trekking & Route Analytics" className="!pt-0">
-                  <div className="space-y-6">
-                    {destinationsWithGpx.map((dest) => {
-                      if (!dest) return null;
-                      const gpxProps = dest.properties
-                        .filter((p) => gpxMetricOrder.includes(p.propertyID))
-                        .sort(
-                          (a, b) =>
-                            gpxMetricOrder.indexOf(a.propertyID) -
-                            gpxMetricOrder.indexOf(b.propertyID)
-                        );
-
-                      const boundsProp = dest.properties.find(
-                        (p) => p.propertyID === "gpxBoundingBox"
-                      );
-                      const track = dest.gpxTrack;
-                      let bounds: [[number, number], [number, number]] | null =
-                        null;
-                      if (boundsProp && typeof boundsProp.value === "string") {
-                        bounds = parseBounds(boundsProp.value);
-                      }
-
-                      if (gpxProps.length === 0) return null;
-
+                {activeTab === "itinerary" && (
+                  <div className="space-y-3">
+                    {pkg.itineraryDays.map((day) => {
+                      const isOpen = openDay === day.day;
                       return (
                         <div
-                          key={dest.id}
-                          className="p-4 bg-background-light dark:bg-ink-primary rounded-lg border border-ink-neutral-200 dark:border-ink-neutral-700"
+                          key={day.day}
+                          className="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/70"
                         >
-                          <h4 className="font-bold text-lg text-ink-primary dark:text-white">
-                            {dest.name}
-                          </h4>
-                          <p className="text-sm text-ink-neutral-500 mb-4">
-                            GPX-derived metrics for the primary trail.
-                          </p>
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                              {gpxProps.map((prop) => {
-                                const formatted = formatGpxMetric(prop);
-                                if (!formatted) return null;
-                                return (
-                                  <div
-                                    key={prop.propertyID}
-                                    className="p-3 bg-white dark:bg-ink-neutral-900/50 rounded-lg border border-ink-neutral-200 dark:border-ink-neutral-700"
-                                  >
-                                    <p className="text-xs font-semibold uppercase text-ink-neutral-500">
-                                      {formatted.label}
-                                    </p>
-                                    <p className="text-lg font-bold text-primary">
-                                      {formatted.value}
-                                    </p>
-                                  </div>
-                                );
-                              })}
+                          <button
+                            type="button"
+                            onClick={() => setOpenDay(isOpen ? null : day.day)}
+                            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left sm:px-5"
+                          >
+                            <div>
+                              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                                <span className="inline-flex h-6 items-center rounded-full bg-blue-600/10 px-2 text-[11px] text-blue-700">
+                                  Day {day.day}
+                                </span>
+                                <span className="hidden text-slate-400 sm:inline">
+                                  •
+                                </span>
+                                <span className="hidden text-[11px] text-slate-500 sm:inline">
+                                  {day.overnight || "Same-day"}
+                                </span>
+                              </div>
+                              <p className="mt-1 text-xs font-medium text-slate-800 sm:text-sm">
+                                {day.title}
+                              </p>
                             </div>
-                            {dest.gpxElevationProfile &&
-                              dest.gpxElevationProfile.length > 0 && (
-                                <div className="p-4 bg-white dark:bg-ink-neutral-900/50 rounded-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
-                                  <h5 className="font-semibold text-ink-neutral-500 dark:text-ink-neutral-400 text-sm mb-2">
-                                    Elevation Profile
-                                  </h5>
-                                  <ElevationChart
-                                    data={dest.gpxElevationProfile}
-                                  />
-                                </div>
-                              )}
-                          </div>
-                          {track && bounds && (
-                            <div className="mt-4">
-                              <h5 className="font-semibold text-ink-neutral-500 dark:text-ink-neutral-400 text-sm mb-2">
-                                Route Map
-                              </h5>
-                              <GpxMap track={track} bounds={bounds} />
+                            <span className="text-lg text-slate-400">
+                              {isOpen ? "−" : "+"}
+                            </span>
+                          </button>
+                          {isOpen && (
+                            <div className="space-y-3 border-t border-slate-100 bg-white px-4 py-4 text-xs text-slate-700 sm:px-5">
+                              <p className="text-[13px] leading-relaxed">
+                                {day.summary}
+                              </p>
+                              <div className="space-y-2">
+                                {day.activities.map((act: any, idx: number) => (
+                                  <div
+                                    key={`${day.day}-${idx}`}
+                                    className="flex gap-3 rounded-xl bg-slate-50 p-2.5"
+                                  >
+                                    <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[11px] font-semibold text-blue-700">
+                                      {act.timeWindow?.split(" ")[0] || "•"}
+                                    </div>
+                                    <div className="space-y-0.5">
+                                      <p className="text-[13px] font-medium text-slate-800">
+                                        {act.name || act.description}
+                                      </p>
+                                      {act.location && (
+                                        <p className="text-[11px] text-slate-500">
+                                          📍 {act.location}
+                                        </p>
+                                      )}
+                                      {act.description && act.name && (
+                                        <p className="text-[11px] text-slate-600">
+                                          {act.description}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-slate-500">
+                                <span className="rounded-full bg-slate-50 px-2.5 py-1">
+                                  Breakfast: {day.mealsPlan.breakfast}
+                                </span>
+                                <span className="rounded-full bg-slate-50 px-2.5 py-1">
+                                  Lunch: {day.mealsPlan.lunch}
+                                </span>
+                                <span className="rounded-full bg-slate-50 px-2.5 py-1">
+                                  Dinner: {day.mealsPlan.dinner}
+                                </span>
+                              </div>
                             </div>
                           )}
                         </div>
                       );
                     })}
                   </div>
-                </Section>
-              )}
+                )}
 
-              {tour.featuredReviews && tour.featuredReviews.length > 0 && (
-                <Section title="What Our Travelers Say" className="!pt-0">
-                  {tour.featuredReviews.map((review, index) => (
-                    <blockquote
-                      key={index}
-                      className="p-4 bg-background-light dark:bg-ink-primary rounded-lg border-l-4 border-primary mb-4"
-                    >
-                      <p className="italic">{`"${review.text}"`}</p>
-                      <footer className="text-right mt-2 font-semibold">
-                        - {review.author}, via {review.source}
-                      </footer>
-                    </blockquote>
-                  ))}
-                  <Link
-                    href="/why-jvto/reviews"
-                    className="text-primary font-semibold hover:underline"
-                  >
-                    Read All Reviews →
-                  </Link>
-                </Section>
-              )}
-            </div>
+                {activeTab === "details" && (
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {/* Inclusions / Exclusions */}
+                    <div className="space-y-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+                        What's Included
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.inclusions.map((item) => (
+                          <li key={item} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-orange-700">
+                        What's Not Included
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.exclusions.map((item) => (
+                          <li key={item} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-500" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-            {/* Sticky Sidebar */}
-            <aside className="lg:col-span-1 lg:sticky top-24">
-              <div className="bg-white dark:bg-ink-primary p-6 rounded-2xl shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
-                <h3 className="text-xl font-bold text-center mb-4 text-ink-primary dark:text-white">
-                  Pricing per Person
-                </h3>
-                {tour.priceTiers && tour.priceTiers.length > 0 ? (
-                  <div className="space-y-2">
-                    {tour.priceTiers
-                      .sort((a, b) => a.pax - b.pax)
-                      .map((tier: PriceTier) => (
-                        <div
-                          key={tier.pax}
-                          className="flex justify-between items-center text-sm p-3 rounded-lg even:bg-background-light dark:even:bg-ink-neutral-900/50"
-                        >
-                          <span className="text-ink-neutral-700 dark:text-ink-neutral-300">
-                            {tier.pax} traveler{tier.pax > 1 ? "s" : ""}
-                          </span>
-                          <span className="font-semibold text-primary text-base">
-                            {formatIDR(tier.pricePerPerson)}
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-4">
-                    <p className="text-lg font-bold text-primary">
-                      Price on Request
-                    </p>
-                    <p className="text-sm text-ink-neutral-500 mt-1">
-                      Please contact us for a custom quote.
-                    </p>
+                    {/* Gear & Requirements */}
+                    <div className="space-y-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+                        Gear We Provide
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.gear.provided.map((g: string) => (
+                          <li key={g} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                            <span>{g}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <h3 className="mt-4 text-xs font-semibold uppercase tracking-wide text-blue-700">
+                        Recommended to Bring
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.gear.recommended.map((g: string) => (
+                          <li key={g} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                            <span>{g}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-orange-700">
+                        Traveler Requirements
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.travelerRequirements.map((r: string) => (
+                          <li key={r} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-orange-500" />
+                            <span>{r}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <h3 className="mt-4 text-xs font-semibold uppercase tracking-wide text-slate-700">
+                        Accommodation Plan
+                      </h3>
+                      <ul className="space-y-1.5 text-xs text-slate-700">
+                        {pkg.accommodationPlan.map((acc: any) => (
+                          <li key={acc.night} className="flex gap-2">
+                            <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-400" />
+                            <span>
+                              Night {acc.night}: {acc.hotel} – {acc.area}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 )}
-                <Link
-                  href={`${fullTourSlug}/book`}
-                  className="block w-full text-center mt-6 px-5 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors"
+              </div>
+            </section>
+          </main>
+
+          {/* Right: booking card */}
+          <aside className="lg:sticky lg:top-6">
+            <div className="rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-orange-400 p-[1px] shadow-xl">
+              <div className="flex h-full flex-col gap-4 rounded-3xl bg-white px-4 py-4 sm:px-5 sm:py-5">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                      Private 3D2N Package
+                    </p>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Tailored for your group size
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-blue-50 px-3 py-2 text-right">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-blue-600">
+                      From
+                    </p>
+                    <p className="text-sm font-semibold text-blue-700">
+                      {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
+                    </p>
+                    <p className="text-[10px] text-slate-500">per person</p>
+                  </div>
+                </div>
+
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  {/* Date */}
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="startDate"
+                      className="flex items-center justify-between text-[11px] font-medium text-slate-700"
+                    >
+                      Start date from Surabaya
+                      <span className="text-[10px] text-slate-400">
+                        Min. {pkg.channelMetadata.minLeadTimeHours}h lead time
+                      </span>
+                    </label>
+                    <input
+                      id="startDate"
+                      type="date"
+                      min={todayISO}
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 outline-none ring-0 transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                      required
+                    />
+                  </div>
+
+                  {/* Pax */}
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="pax"
+                      className="flex items-center justify-between text-[11px] font-medium text-slate-700"
+                    >
+                      Number of travelers
+                      <span className="text-[10px] text-slate-400">
+                        Min {pkg.channelMetadata.minPaxOperational} • Max{" "}
+                        {pkg.channelMetadata.maxPaxRecommended} (recommended)
+                      </span>
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        id="pax"
+                        type="number"
+                        min={pkg.channelMetadata.minPaxOperational}
+                        max={pkg.channelMetadata.maxPaxRecommended}
+                        value={pax}
+                        onChange={(e) =>
+                          setPax(
+                            Math.max(
+                              pkg.channelMetadata.minPaxOperational,
+                              Math.min(
+                                pkg.channelMetadata.maxPaxRecommended,
+                                Number(e.target.value || 0)
+                              )
+                            )
+                          )
+                        }
+                        className="w-24 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none ring-0 transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                        required
+                      />
+                      <p className="text-[11px] text-slate-500">
+                        Private vehicle & crew included.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Price summary */}
+                  <div className="space-y-2 rounded-2xl bg-slate-50/80 p-3 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-600">Price per person</span>
+                      <span className="font-semibold text-slate-900">
+                        {pricePerPerson
+                          ? formatCurrency(pricePerPerson)
+                          : "Will be confirmed"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-600">Travelers x {pax}</span>
+                      <span className="font-semibold text-slate-900">
+                        {pricePerPerson ? formatCurrency(total) : "—"}
+                      </span>
+                    </div>
+                    {pkg.addOns?.length ? (
+                      <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <span>Optional add-ons</span>
+                        <span>
+                          from {formatCurrency(pkg.addOns[0].price)} (e.g.{" "}
+                          {pkg.addOns[0].name})
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    type="submit"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-orange-400 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-blue-200 active:scale-[0.99]"
+                  >
+                    Request this private trip
+                    <span className="text-lg">→</span>
+                  </button>
+
+                  <p className="text-[10px] leading-relaxed text-slate-500">
+                    No instant payment here yet. Submit your dates and group
+                    size to receive a tailored quote and availability from{" "}
+                    {pkg.provider.brand}. You can then confirm and pay securely.
+                  </p>
+                </form>
+
+                {/* Small reassurance row */}
+                <div className="mt-1 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1 text-[10px] text-slate-600">
+                    <span className="text-xs">🔒</span> Secure & private booking
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-2.5 py-1 text-[10px] text-slate-600">
+                    <span className="text-xs">✅</span> Licensed Indonesian
+                    operator
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact shortcuts */}
+            <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+              <a
+                href={`https://wa.me/${pkg.provider.official.whatsapp.replace(
+                  /[^0-9]/g,
+                  ""
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex flex-1 items-center justify-center gap-1 rounded-2xl border border-green-200 bg-green-50 px-3 py-2 font-medium text-green-700 transition hover:bg-green-100"
+              >
+                💬 Chat on WhatsApp
+              </a>
+              <a
+                href={`mailto:${pkg.provider.official.email}`}
+                className="inline-flex flex-1 items-center justify-center gap-1 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 font-medium text-slate-700 transition hover:bg-slate-100"
+              >
+                ✉️ Email itinerary
+              </a>
+            </div>
+          </aside>
+        </div>
+      </div>
+      {showAddOnModal && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/50 p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl">
+            <h2 className="text-sm font-semibold text-slate-900">
+              Optional Add-ons
+            </h2>
+            <p className="mt-1 text-[11px] text-slate-500">
+              Choose extra services for this trip. You can skip this step if you
+              do not need any add-ons.
+            </p>
+
+            <div className="mt-4 space-y-3 max-h-72 overflow-y-auto">
+              {addOnSelections.map((item, idx) => (
+                <div
+                  key={item.addOnId}
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2.5"
                 >
-                  Book This Tour
-                </Link>
-                <p className="text-xs text-center mt-2 text-ink-neutral-500">
-                  You {`won't`} be charged yet
+                  <div className="space-y-0.5 text-xs">
+                    <p className="font-medium text-slate-900">
+                      {item.label}
+                    </p>
+                    <p className="text-[11px] text-slate-500">
+                      {formatCurrency(item.price)} per person
+                    </p>
+                    <p className="text-[11px] text-slate-400">
+                      Qty will match your group size ({pax} travelers)
+                    </p>
+                  </div>
+                  <label className="inline-flex items-center gap-2 text-[11px] text-slate-700">
+                    <input
+                      type="checkbox"
+                      checked={item.selected}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setAddOnSelections((prev) =>
+                          prev.map((p, i) =>
+                            i === idx ? { ...p, selected: checked } : p
+                          )
+                        );
+                      }}
+                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span>Include</span>
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 flex items-center justify-between text-xs">
+              <div className="text-slate-600">
+                <p className="font-medium">Add-on total</p>
+                <p className="text-[11px] text-slate-500">
+                  Based on selected add-ons × {pax} travelers
                 </p>
               </div>
-            </aside>
-          </div>
-        </div>
-
-        {/* Lightbox Modal */}
-        <Modal
-          isOpen={isLightboxOpen}
-          onClose={closeLightbox}
-          title={`${tour.label} - Image Gallery`}
-        >
-          <div className="relative">
-            <img
-              src={images[currentImageIndex]}
-              alt={`Enlarged view of ${tour.label} tour, image ${
-                currentImageIndex + 1
-              }`}
-              className="w-full h-auto object-contain rounded-lg max-h-[75vh]"
-            />
-            {images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
-                  aria-label="Previous image"
-                  className="absolute top-1/2 left-0 sm:-left-4 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
-                >
-                  <span className="material-symbols-outlined">
-                    arrow_back_ios_new
-                  </span>
-                </button>
-                <button
-                  onClick={nextImage}
-                  aria-label="Next image"
-                  className="absolute top-1/2 right-0 sm:-right-4 -translate-y-1/2 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
-                >
-                  <span className="material-symbols-outlined">
-                    arrow_forward_ios
-                  </span>
-                </button>
-              </>
-            )}
-          </div>
-        </Modal>
-
-        {/* Sticky Footer for Mobile */}
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-ink-neutral-200 dark:border-ink-neutral-700 p-3">
-          <div className="container mx-auto flex items-center justify-between">
-            <div>
-              <p className="text-xs text-ink-neutral-500">From</p>
-              <p className="font-bold text-ink-primary dark:text-white">
-                {basePrice > 0 ? formatIDR(basePrice) : "On Request"}
+              <p className="text-sm font-semibold text-slate-900">
+                {formatCurrency(
+                  addOnSelections.reduce(
+                    (sum, a) =>
+                      a.selected ? sum + pax * a.price : sum,
+                    0
+                  )
+                )}
               </p>
             </div>
-            <Link
-              href={`${fullTourSlug}/book`}
-              className="px-6 py-4 rounded-lg bg-primary text-white font-semibold"
-            >
-              Book Now
-            </Link>
+
+
+            <div className="mt-4 flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAddOnModal(false);
+                  setPendingBasePayload(null);
+                }}
+                className="flex-1 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
+              >
+                Skip add-ons
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmAddOns}
+                className="flex-1 rounded-2xl bg-gradient-to-r from-blue-600 to-orange-400 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:brightness-105"
+              >
+                Continue with selection
+              </button>
+            </div>
           </div>
         </div>
-      </main>
-    </>
+      )}
+    </div>
   );
-};
-
-export default TourDetail;
+}
