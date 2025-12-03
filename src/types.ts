@@ -215,6 +215,26 @@ export interface EmergencyProtocols {
     [key: string]: any;
 }
 
+export interface ListTourPackage {
+  id: number;
+  name: string;
+  slug: string;
+  startDestination: string | null;
+  endDestination: string | null;
+  duration: {
+    day: number;
+    night: number;
+  };
+  banner: {
+    url: string;
+    alt: string;
+  };
+  images: { url: string; alt: string }[];
+  keyExperiences: string[];
+  startFrom: number;
+  physicality: string;
+}
+
 export interface TourPackage {
     id: string;
     label: string;

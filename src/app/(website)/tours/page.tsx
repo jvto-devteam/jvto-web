@@ -1,5 +1,5 @@
 import { TourPackage } from "@/types";
-import ToursPageClient from "./ToursPageClient"; // yang interaktif saja
+import ToursPageClient from "@/components/website/ToursPageClient"; // yang interaktif saja
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
@@ -49,7 +49,7 @@ export default async function ToursPage() {
   return (
     <>
       <StructuredData data={schema} />
-      <ToursPageClient initialTours={initialTours} />
+      <ToursPageClient isFilter={true} initialTours={initialTours} />
     </>
   );
 }

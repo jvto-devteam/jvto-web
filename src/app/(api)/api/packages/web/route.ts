@@ -2,9 +2,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Tambahkan interface untuk tipe data yang lebih aman (opsional tapi sangat disarankan)
+interface ImageAsset {
+  url: string;
+  alt: string;
+  isPrimary: boolean;
+}
+
 function serializePackage(pkg: any) {
   // Ambil semua asset gambar
-  const imageAssets = (pkg.package_assets ?? [])
+  const imageAssets: ImageAsset[] = (pkg.package_assets ?? [])
     .filter((pa: any) => pa.asset?.type === "image")
     .map((pa: any) => ({
       url: pa.asset?.url || "",
@@ -14,34 +21,45 @@ function serializePackage(pkg: any) {
 
   // Banner = gambar primary, atau gambar pertama, atau fallback
   const primaryImage =
-    imageAssets.find((img) => img.isPrimary) || imageAssets[0];
+    imageAssets.find((img: ImageAsset) => img.isPrimary) || imageAssets[0];
 
   // Harga termurah
-  const validPrices = (pkg.package_prices ?? [])
+  const validPrices: number[] = (pkg.package_prices ?? [])
     .map((p: any) => p.price)
     .filter(
       (price: any): price is number => typeof price === "number" && price > 0
     );
 
   const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+
   const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
+
   return {
     id: Number(pkg.id),
     name: pkg.name,
-    startDestination: pkg.start_destination?.name,
-    endDestination: pkg.end_destination?.name,
+    startDestination: pkg.start_destination?.name ?? null,
+    endDestination: pkg.end_destination?.name ?? null,
     duration: {
       day: Number(pkg.durations?.day) || 0,
       night: Number(pkg.durations?.night) || 0,
     },
     banner: {
-      url: primaryImage?.url || "", // fallback image!
-      alt: primaryImage?.alt || "",
+      url: primaryImage?.url || "/fallback-banner.jpg", // saran: beri fallback nyata
+      alt: primaryImage?.alt || pkg.name || "Package banner",
     },
     keyExperiences: (pkg.package_destinations ?? [])
-      .filter((pd) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id)))
-      .map((dest) => dest.destinations?.activities?.[0]?.activity_name ?? ""),
-    images: imageAssets.map((img) => ({ url: img.url, alt: img.alt })),
+      .filter(
+        (pd: any) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id))
+      )
+      .map(
+        (dest: any) => dest.destinations?.activities?.[0]?.activity_name ?? ""
+      )
+      .filter(Boolean), // hilangkan string kosong
+
+    images: imageAssets.map((img: ImageAsset) => ({
+      url: img.url,
+      alt: img.alt,
+    })),
     startFrom,
     slug: pkg.slug || "",
     physicality: pkg.physicality || "",
@@ -51,14 +69,23 @@ function serializePackage(pkg: any) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
+    const fromIdParam = searchParams.get("from")?.trim() || undefined;
+    const durationIdParam = searchParams.get("duration")?.trim() || undefined;
 
-    const fromId = searchParams.get("from")?.trim() || undefined;
-    const durationId = searchParams.get("duration")?.trim() || undefined;
-    const pkg = await prisma.packages.findMany({
+    const fromId =
+      fromIdParam && !isNaN(Number(fromIdParam))
+        ? Number(fromIdParam)
+        : undefined;
+    const durationId =
+      durationIdParam && !isNaN(Number(durationIdParam))
+        ? Number(durationIdParam)
+        : undefined;
+
+    const pkgs = await prisma.packages.findMany({
       where: {
         is_publish: true,
-        ...(fromId && { start_destination_id: fromId }),
-        ...(durationId && { duration_id: durationId }),
+        ...(fromId !== undefined && { start_destination_id: fromId }),
+        ...(durationId !== undefined && { duration_id: durationId }),
       },
       include: {
         start_destination: true,
@@ -81,17 +108,18 @@ export async function GET(request: NextRequest) {
       orderBy: { id: "asc" },
     });
 
-    if (!pkg) {
+    // Jika tidak ada paket
+    if (!pkgs || pkgs.length === 0) {
       return NextResponse.json(
         { message: "Paket tidak ditemukan atau belum dipublikasikan" },
         { status: 404 }
       );
     }
-    const payload = pkg.map(serializePackage);
 
+    const payload = pkgs.map(serializePackage);
     return NextResponse.json(payload, { status: 200 });
   } catch (error) {
-    console.error("GET /api/packages/details error:", error);
+    console.error("GET /api/packages/web error:", error);
     return NextResponse.json(
       { message: "Gagal mengambil paket" },
       { status: 500 }
