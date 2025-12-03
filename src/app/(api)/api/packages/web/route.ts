@@ -13,19 +13,23 @@ function serializePackage(pkg: any) {
     }));
 
   // Banner = gambar primary, atau gambar pertama, atau fallback
-  const primaryImage = imageAssets.find((img) => img.isPrimary) || imageAssets[0];
+  const primaryImage =
+    imageAssets.find((img) => img.isPrimary) || imageAssets[0];
 
   // Harga termurah
   const validPrices = (pkg.package_prices ?? [])
     .map((p: any) => p.price)
-    .filter((price: any): price is number => typeof price === "number" && price > 0);
+    .filter(
+      (price: any): price is number => typeof price === "number" && price > 0
+    );
 
   const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
-
+  const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
   return {
     id: Number(pkg.id),
     name: pkg.name,
     startDestination: pkg.start_destination?.name,
+    endDestination: pkg.end_destination?.name,
     duration: {
       day: Number(pkg.durations?.day) || 0,
       night: Number(pkg.durations?.night) || 0,
@@ -34,10 +38,13 @@ function serializePackage(pkg: any) {
       url: primaryImage?.url || "", // fallback image!
       alt: primaryImage?.alt || "",
     },
-    // BARU: semua gambar (bisa dipakai di gallery, carousel, dll)
-    images: imageAssets.map(img => ({ url: img.url, alt: img.alt })),
+    keyExperiences: (pkg.package_destinations ?? [])
+      .filter((pd) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id)))
+      .map((dest) => dest.destinations?.activities?.[0]?.activity_name ?? ""),
+    images: imageAssets.map((img) => ({ url: img.url, alt: img.alt })),
     startFrom,
     slug: pkg.slug || "",
+    physicality: pkg.physicality || "",
   };
 }
 
