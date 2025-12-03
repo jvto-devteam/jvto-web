@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';           // ← PAKAI NEXT/IMAGE
 import Link from 'next/link';
-import { TourPackage } from '@/types';
+import { ListTourPackage } from '@/types';
 import { formatIDR } from '@/utils/formatting';
 import Modal from './Modal';
 
 // Skeleton tetap sama
-const TourCardSkeleton: React.FC = () => { /* ... sama seperti sebelumnya ... */ };
+// const TourCardSkeleton: React.FC = () => { /* ... sama seperti sebelumnya ... */ };
 
 interface TourCardProps {
-  tour?: TourPackage;
+  tour?: ListTourPackage;
   isLoading?: boolean;
 }
 
@@ -26,7 +26,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
       ? [{ url: tour.banner.url, alt: tour.banner.alt || tour.name }]
       : [{ url: '/images/fallback-banner.jpg', alt: tour?.name || 'Tour package' }];
 
-  if (isLoading || !tour) return <TourCardSkeleton />;
+  // if (isLoading || !tour) return <TourCardSkeleton />;
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();

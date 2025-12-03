@@ -12,9 +12,10 @@ import { TourPackage } from "@/types";
 
 type Props = {
   initialTours: TourPackage[];
+  isFilter: boolean;
 };
 
-const ToursPageClient: React.FC<Props> = ({ initialTours }) => {
+const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<AdvancedFilters>({
     maxDuration: 7,
@@ -162,17 +163,20 @@ const ToursPageClient: React.FC<Props> = ({ initialTours }) => {
       </div>
 
       <ToursSection
+        isFilter={isFilter}
         copy={toursSectionCopy}
         tours={filteredTours}
         onFindTourClick={() => setIsFilterModalOpen(true)}
       />
-      <AdvancedTourFilterModal
-        isOpen={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-        initialFilters={filters}
-        tours={initialTours} // Pass initialTours ke modal untuk compute options dan count
-      />
+      {isFilter && (
+          <AdvancedTourFilterModal
+            isOpen={isFilterModalOpen}
+            onClose={() => setIsFilterModalOpen(false)}
+            onApplyFilters={handleApplyFilters}
+            initialFilters={filters}
+            tours={initialTours} // Pass initialTours ke modal untuk compute options dan count
+          />
+      )}
     </main>
   );
 };

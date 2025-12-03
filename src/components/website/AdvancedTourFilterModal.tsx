@@ -1,6 +1,6 @@
 // components/AdvancedTourFilterModal.tsx
 import React, { useState, useEffect, useMemo } from "react";
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 
 export interface AdvancedFilters {
   maxDuration: number;
@@ -15,7 +15,7 @@ interface AdvancedTourFilterModalProps {
   onClose: () => void;
   onApplyFilters: (filters: AdvancedFilters) => void;
   initialFilters: AdvancedFilters;
-  tours: TourPackage[]; // Tambah props ini untuk ganti tourPackages statis
+  tours: ListTourPackage[]; // Tambah props ini untuk ganti tourPackages statis
 }
 
 const CustomCheckbox: React.FC<{
@@ -69,31 +69,26 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
   );
 
   const filterOptions = useMemo(() => {
-    if (!tours || tours.length === 0) {
-      return { cities: [], keyExperiences: [] };
-    }
+    if (!tours?.length) return { cities: [], keyExperiences: [] };
 
-    const allStartCities = [...new Set(tours.map((t) => t.startDestination))];
-    const allEndCities = [...new Set(tours.map((t) => t.endDestination))];
-    const allKeyExperiences = [
-      ...new Set(tours.flatMap((t) => t.keyExperiences || [])),
+    const capitalize = (s: string) =>
+      s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+    // Ambil semua kota yang valid (bukan null/undefined)
+    const validCities = tours
+      .flatMap((t) => [t.startDestination, t.endDestination])
+      .filter((city): city is string => !!city); // type guard: hanya string non-null
+
+    const uniqueCities = [...new Set(validCities)].map(capitalize).sort();
+
+    const keyExperiences = [
+      ...new Set(
+        tours.flatMap((t) => t.keyExperiences.filter(Boolean)) // hilangkan falsy
+      ),
     ].sort();
 
-    const capitalize = (s: string) => {
-      if (!s) return "";
-      return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-    };
-
-    const uniqueCities = [...new Set([...allStartCities, ...allEndCities])]
-      .map(capitalize)
-      .sort();
-
-    return {
-      cities: uniqueCities,
-      keyExperiences: allKeyExperiences,
-    };
+    return { cities: uniqueCities, keyExperiences };
   }, [tours]);
-
   useEffect(() => {
     if (isOpen) {
       setMaxDuration(initialFilters.maxDuration);
@@ -102,31 +97,39 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
       setExperiences(initialFilters.experiences);
     }
   }, [isOpen, initialFilters]);
-const matchingTourCount = useMemo(() => {
-  if (!tours || tours.length === 0) return 0;
+  const matchingTourCount = useMemo(() => {
+    if (!tours?.length) return 0;
 
-  return tours.filter((tour) => {
-    if (tour.duration.day > maxDuration) return false;
-    if (startCities.length > 0 && !startCities.some(c => 
-      tour.startDestination.toLowerCase() === c.toLowerCase()
-    )) return false;
-    if (endCities.length > 0 && !endCities.some(c => 
-      tour.endDestination.toLowerCase() === c.toLowerCase()
-    )) return false;
-    if (experiences.length > 0 && !experiences.every(exp => 
-      tour.keyExperiences.includes(exp)
-    )) return false;
+    return tours.filter((tour) => {
+      if (tour.duration.day > maxDuration) return false;
 
-    // PERBAIKAN DI SINI: gunakan initialFilters, bukan filters
-    if (
-      initialFilters.physicality && 
-      tour.physicality.toLowerCase() !== initialFilters.physicality.toLowerCase()
-    ) return false;
+      if (
+        startCities.length > 0 &&
+        (!tour.startDestination ||
+          !startCities.some(
+            (c) => tour.startDestination!.toLowerCase() === c.toLowerCase()
+          ))
+      )
+        return false;
 
-    return true;
-  }).length;
-}, [tours, maxDuration, startCities, endCities, experiences, initialFilters]); // tambahkan initialFilters ke dependency
+      if (
+        endCities.length > 0 &&
+        (!tour.endDestination ||
+          !endCities.some(
+            (c) => tour.endDestination!.toLowerCase() === c.toLowerCase()
+          ))
+      )
+        return false;
 
+      if (
+        experiences.length > 0 &&
+        !experiences.some((exp) => tour.keyExperiences.includes(exp))
+      )
+        return false;
+
+      return true;
+    }).length;
+  }, [tours, maxDuration, startCities, endCities, experiences]);
   const handleCheckboxChange = (
     setter: React.Dispatch<React.SetStateAction<string[]>>,
     item: string,

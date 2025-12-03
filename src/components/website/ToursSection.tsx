@@ -5,12 +5,13 @@ import TourCard from './TourCard';
 
 interface ToursSectionProps {
   copy: SectionCopy;
+  isFilter: boolean;
   tours: TourPackage[];
   onFindTourClick: () => void;
   onCtaClick?: (ctaId: string, ctaText: string, section: string) => void;
 }
 
-const ToursSection: React.FC<ToursSectionProps> = ({ copy, tours, onFindTourClick, onCtaClick }) => {
+const ToursSection: React.FC<ToursSectionProps> = ({ copy, isFilter, tours, onFindTourClick, onCtaClick }) => {
   const handleFindClick = () => {
     onFindTourClick();
     if (onCtaClick) {
@@ -27,7 +28,7 @@ const ToursSection: React.FC<ToursSectionProps> = ({ copy, tours, onFindTourClic
           <h2 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white mt-2">{copy.title}</h2>
           <p className="mt-4 text-ink-neutral-500 dark:text-ink-neutral-300 text-lg max-w-2xl mx-auto">{copy.subhead}</p>
         </div>
-
+        {isFilter && (
         <div className="flex justify-center flex-wrap gap-3 mb-12">
           <button
               onClick={handleFindClick}
@@ -37,6 +38,7 @@ const ToursSection: React.FC<ToursSectionProps> = ({ copy, tours, onFindTourClic
               Find Your Perfect Tour
           </button>
         </div>
+        )}
           
         {tours.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -53,11 +55,11 @@ const ToursSection: React.FC<ToursSectionProps> = ({ copy, tours, onFindTourClic
         )}
 
 
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
             <a href="#" className="px-8 py-3 rounded-xl border-2 border-primary text-primary text-center font-semibold hover:bg-primary hover:text-white transition-colors duration-300">
                 View All Tours
             </a>
-        </div>
+        </div> */}
 
       </div>
     </section>
