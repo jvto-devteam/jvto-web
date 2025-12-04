@@ -1,14 +1,13 @@
-// app/api/packages/web/[slug]/route.ts
+// app/api/packages/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(req: NextRequest) {
   try {
-    const { slug } = await params;
-
+    const slug = req.nextUrl.searchParams.get("slug");
+    if (slug == null) {
+      return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    }
     const pkg = await prisma.packages.findUnique({
       where: { slug: slug },
       include: {
@@ -72,7 +71,7 @@ export async function GET(
 
     if (!pkg) {
       return NextResponse.json(
-        { message: "Paket tidak ditemukan atau belum dipublikasikan" },
+        { message: "Paket tidak ditemukan atau belum dipublikasikan " + slug },
         { status: 404 }
       );
     }
@@ -97,16 +96,20 @@ export async function GET(
       });
     }
 
-    // return NextResponse.json(
-    //   JSON.parse(
-    //     JSON.stringify(pkg, (_, v) => (typeof v === "bigint" ? Number(v) : v))
-    //   )
-    // ); // app/api/packages/details/[slug]/route.ts
+    function replaceBigInt(obj: any): any {
+      return JSON.parse(
+        JSON.stringify(obj, (_, value) =>
+          typeof value === "bigint" ? value.toString() : value
+        )
+      );
+    }
+
     const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
 
     return NextResponse.json(
-      {
-        id: pkg.code,
+      replaceBigInt({
+        id: Number(pkg.id),
+        packageId: pkg.code,
         type: "package",
         version: "1.0.0",
         meta: {
@@ -116,12 +119,14 @@ export async function GET(
           },
         },
         product: {
-          id: pkg.code,
+          id: Number(pkg.id),
+          packageId: pkg.code,
           slug: pkg.slug,
           name: pkg.name,
           shortLabel: pkg.short_label,
           originCity: pkg.start_destination?.name ?? "",
           endCity: pkg.end_destination?.name ?? "",
+          durationId: pkg.durations?.id ?? null,
           durationDays: pkg.durations?.day ?? 0,
           durationNights: pkg.durations?.night ?? 0,
           marketedDurationLabel: `${pkg.durations?.day ?? 0}D${
@@ -177,6 +182,7 @@ export async function GET(
                 .filter((s) => s && s.length > 0)
             : [],
           addOns: (pkg.package_addons ?? []).map((addon: any) => ({
+            id: addon.addons?.id,
             name: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")}`
               : addon.addons?.name || "",
@@ -402,7 +408,7 @@ export async function GET(
         //     guestFatigue: "",
         //   },
         // },
-      },
+      }),
       {
         status: 200,
         headers: {
@@ -412,7 +418,7 @@ export async function GET(
       }
     );
   } catch (error) {
-    console.error("GET /api/packages/details/[slug] error:", error);
+    console.error("GET /api/packages/details error:", error);
     return NextResponse.json(
       { message: "Gagal mengambil detail paket" },
       { status: 500 }

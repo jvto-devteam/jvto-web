@@ -20,6 +20,12 @@ function serializeDestination(dest: any) {
       (da: any) => da.asset?.type === "image" && da.type === "primary"
     )?.asset.description ?? "",
     },
+    description: dest.description,
+    keyInfo:{
+      difficulty_level: dest.difficulty_level,
+      temperature_range: dest.temperature_range,
+      best_time_to_visit: dest.best_time_to_visit,
+    }
   };
 }
 
@@ -35,6 +41,10 @@ export async function GET(request: NextRequest) {
         id: true,
         name: true,
         slug: true,
+        description: true,
+        difficulty_level: true,
+        temperature_range: true,
+        best_time_to_visit: true,
         destination_assets: {
           where: { asset: { type: "image" } },
           include: { asset: true },

@@ -1,5 +1,22 @@
+export interface Destination {
+  id: number;
+  name: string;
+  description: string;
+  slug: string;
+  banner: {
+    url: string;
+    alt: string;
+  };
+  keyInfo: {
+    difficulty_level: string;
+    temperature_range: string;
+    best_time_to_visit: string;
+  };
+}
+
 export interface TourPackageDetail {
   id: string;
+  packageId: string;
   type: string;
   version: string;
   meta: _Meta;
@@ -15,11 +32,13 @@ interface _Meta {
 
 interface _Product {
   id: string;
+  packageId: string;
   slug: string;
   name: string;
   shortLabel: string;
   originCity: string;
   endCity: string;
+  durationId: number;
   durationDays: number;
   durationNights: number;
   marketedDurationLabel: string;
@@ -81,6 +100,7 @@ interface _PriceTier {
 }
 
 interface _AddOn {
+  id: string;
   name: string;
   description: string;
   price: number;

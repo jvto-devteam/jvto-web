@@ -1,7 +1,6 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Destination } from "@/types";
+import type { Destination } from "@/interfaces";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -14,8 +13,8 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => (
   >
     <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
       <Image
-        src={destination.images[0]}
-        alt={destination.name}
+        src={destination.banner.url}
+        alt={destination.banner.alt}
         fill
         className="object-cover transition-transform duration-300 group-hover:scale-105"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -36,19 +35,19 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => (
           <span className="material-symbols-outlined text-sm text-primary">
             hiking
           </span>
-          {destination.keyInfo.difficulty}
+          {destination.keyInfo.difficulty_level}
         </span>
         <span className="flex items-center gap-1 capitalize">
           <span className="material-symbols-outlined text-sm text-primary">
             landscape
           </span>
-          {destination.keyInfo.elevation}
+          {destination.keyInfo.temperature_range}
         </span>
         <span className="flex items-center gap-1 capitalize">
           <span className="material-symbols-outlined text-sm text-primary">
             calendar_month
           </span>
-          {destination.keyInfo.bestSeason}
+          {destination.keyInfo.best_time_to_visit}
         </span>
       </div>
 
