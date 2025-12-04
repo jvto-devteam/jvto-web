@@ -441,6 +441,7 @@ const Navbar: React.FC = () => {
     "/travel-guide/police-escort-for-groups",
     "/tours",
     "/verify-jvto",
+    "/checkout",
   ];
   const prefixScrolledPaths = [
     "/destinations/", // <-- ini yang kamu butuhkan

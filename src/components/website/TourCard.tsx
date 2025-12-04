@@ -56,7 +56,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const originCityDisplay = tour.startDestination;
-  const fullTourSlug = `/tours/${tour.slug}`;
+  const fullTourSlug = tour.slug;
   const displayPrice = `From ${formatIDR(tour.startFrom)}`;
 
   return (
