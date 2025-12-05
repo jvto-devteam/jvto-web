@@ -1,17 +1,224 @@
-import SafetyOnToursPage from "@/components/website/SafetyOnToursPage";
+import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
-import type { Metadata } from 'next'
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { stripHtml } from "@/utils/stripHtml";
+
 export const metadata: Metadata = {
   title: "Safety on Tours | JVTO's Protocols & Standards",
-  description: "Our police-led safety culture in practice. Learn about our vehicle standards, guide training, Ijen safety protocols, and emergency procedures.",
+  description:
+    "Our police-led safety culture in practice. Learn about our vehicle standards, guide training, Ijen safety protocols, and emergency procedures.",
 };
 
-export default function SafetyOnTours() {
-  const safetyOnToursSchema = {
+// Konstanta slug untuk halaman ini
+const PAGE_SLUG = "travel-guide/safety-on-tours";
+
+// Helper function untuk mengambil data (digunakan di Page dan Metadata)
+async function getPolicyData() {
+  const policy = await prisma.policy_documents.findUnique({
+    where: {
+      slug: PAGE_SLUG,
+    },
+  });
+
+  return policy;
+}
+
+export default async function SafetyOnTours() {
+  // 2. Ambil data dari database
+  const policy = await getPolicyData();
+
+  // 3. Jika data tidak ditemukan di DB, return 404
+  if (!policy) {
+    notFound();
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  // 4. Siapkan Schema.org Data secara dinamis
+  const pageSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "TravelAgency",
+        "@id": "https://javavolcano-touroperator.com/#organization",
+        name: "Java Volcano Tour Operator (JVTO)",
+        alternateName: "JVTO",
+        url: "https://javavolcano-touroperator.com",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        image: [
+          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/hero/home.webp",
+        ],
+        email: "hello@javavolcano-touroperator.com",
+        telephone: "+62 822-4478-8833",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress:
+            "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
+          postalCode: "68214",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
+        },
+        areaServed: [
+          {
+            "@type": "AdministrativeArea",
+            name: "East Java",
+          },
+          {
+            "@type": "Country",
+            name: "Indonesia",
+          },
+          {
+            "@type": "City",
+            name: "Surabaya",
+          },
+          {
+            "@type": "Place",
+            name: "Bali",
+          },
+        ],
+        identifier: [
+          {
+            "@type": "PropertyValue",
+            name: "Business and tourism licence number",
+            value: "1102230032918",
+          },
+        ],
+        sameAs: [
+          "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
+          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
+        ],
+        founder: {
+          "@type": "Person",
+          name: "Agung Sambuko",
+          alternateName: "Mr. Sam",
+          jobTitle: "Founder & CEO",
+          knowsAbout: [
+            "TouristSafety",
+            "EastJavaTourism",
+            "VolcanoTrekking",
+            "LogisticsManagement",
+          ],
+          description:
+            "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
+        },
+        priceRange: "IDR 1.000.000 - IDR 9.050.000",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "07:30",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Sunday",
+            opens: "08:00",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Monday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Tuesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Wednesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Thursday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Friday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -7.9161788,
+          longitude: 113.8085868,
+        },
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+62 822-4478-8833",
+            email: "hello@javavolcano-touroperator.com",
+            contactType: "customer support",
+          },
+        ],
+        foundingDate: "2016-01-01",
+        currenciesAccepted: "IDR",
+        paymentAccepted: "Credit Card, Bank Transfer",
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://javavolcano-touroperator.com/#website",
+        url: "https://javavolcano-touroperator.com",
+        name: "Java Volcano Tour Operator",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        inLanguage: "en",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+      },
+      {
+        "@type": "WebPage",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#webpage",
+        url: "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+        name: "Safety on Tours — How JVTO Plans and Manages Risk",
+        description:
+          "Understand how safety is built into JVTO\u2019s private tours, what you can expect from us, and what we expect from you as a guest.",
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/#website",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: siteUrl + "/assets/img/hero/home.webp",
+        },
+        breadcrumb: {
+          "@id":
+            "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#breadcrumb",
+        },
+        mainEntity: {
+          "@id":
+            "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#article",
+        },
+        image: {
+          "@type": "ImageObject",
+          url: siteUrl + "/assets/img/hero/home.webp",
+        },
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+      },
+      {
         "@type": "BreadcrumbList",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#breadcrumb",
         itemListElement: [
           {
             "@type": "ListItem",
@@ -24,22 +231,123 @@ export default function SafetyOnTours() {
             position: 2,
             name: "Travel Guide",
             item: "https://javavolcano-touroperator.com/travel-guide/",
-          },        
+          },
           {
             "@type": "ListItem",
             position: 3,
             name: "Safety on Tours",
-            item: "https://javavolcano-touroperator.com/travel-guide/safety-on-tours/",
-          },        
+            item: "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+          },
+        ],
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#article",
+        headline: "Safety on Tours — How JVTO Plans and Manages Risk",
+        description:
+          "Understand how safety is built into JVTO\u2019s private tours, what you can expect from us, and what we expect from you as a guest.",
+        inLanguage: "en",
+        url: "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+        isPartOf: {
+          "@id":
+            "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#webpage",
+        },
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id":
+            "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#webpage",
+        },
+        articleSection: [
+          "Our Safety Approach in One Look",
+          "Before Your Trip: Information & Fitness",
+          "During Your Tour: Crew, Vehicles & On-Site Decisions",
+          "Volcanoes, Weather & Closures",
+          "What You Can Expect from JVTO",
+          "What JVTO Expects from You",
+          "Related Safety Pages",
+        ],
+        articleBody: stripHtml(policy.content),
+        image: {
+          "@type": "ImageObject",
+          url: siteUrl + "/assets/img/hero/home.webp",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+        mentions: [
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
+            name: "Ijen Health Screening",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups",
+            name: "Police Escort for Groups",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
+            name: "Packing & Fitness",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide/weather-and-closures",
+            name: "Weather & Closures",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide/booking-information",
+            name: "Booking Information",
+          },
         ],
       },
     ],
   };
 
   return (
-    <>
-      <StructuredData data={safetyOnToursSchema} />
-      <SafetyOnToursPage />;
-    </>
+    <div className="flex flex-col min-h-screen bg-background py-20">
+      {/* Inject JSON-LD Schema */}
+      <StructuredData data={pageSchema} />
+
+      <main className="flex-grow">
+        <section className="py-12 md:py-16">
+          <div className="container mx-auto px-4 max-w-4xl">
+            {/* Header Section: Mengambil Title & Intro dari DB */}
+            <div className="text-center mb-12">
+              <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
+                {policy.title}
+              </h1>
+
+              {/* Optional: Menggunakan meta description sebagai intro text jika ada */}
+              <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+                Our police-led safety culture in practice. Learn about our
+                vehicle standards, guide training, Ijen safety protocols, and
+                emergency procedures
+              </p>
+            </div>
+
+            {/* Content Section: Render HTML dari Database */}
+            <div
+              className="prose prose-lg max-w-none mx-auto text-muted-foreground prose-headings:font-headline prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline"
+              dangerouslySetInnerHTML={{ __html: policy.content }}
+            />
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

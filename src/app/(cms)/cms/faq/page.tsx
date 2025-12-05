@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
+// 1. IMPORT TIPTAP & ICON TAMBAHAN
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import {
   Plus,
   Pencil,
@@ -15,6 +18,11 @@ import {
   X,
   Save,
   Search,
+  // Icon untuk Toolbar Editor
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
 } from "lucide-react";
 
 type CategoryFaq = {
@@ -44,7 +52,7 @@ type FormState = {
   tags: string;
   is_published: boolean;
   sort_order: number | "";
-  category_id: number | null; // NEW
+  category_id: number | null;
 };
 
 const emptyForm: FormState = {
@@ -54,6 +62,89 @@ const emptyForm: FormState = {
   is_published: true,
   sort_order: "",
   category_id: null,
+};
+
+// ==========================================
+// 2. KOMPONEN TIPTAP EDITOR BARU
+// ==========================================
+const TiptapEditor = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (val: string) => void;
+}) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: value,
+    editorProps: {
+      attributes: {
+        class:
+          "faq-content prose prose-sm prose-invert max-w-none focus:outline-none min-h-[150px] px-3 py-2 text-slate-50 text-sm",
+      },
+    },
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
+    immediatelyRender: false,
+  });
+
+  // Pastikan editor tidak null sebelum render toolbar
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className="w-full rounded-md border border-slate-800 bg-slate-900/60 overflow-hidden focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+      {/* Toolbar */}
+      <div className="flex items-center gap-1 border-b border-slate-800 bg-slate-900/80 p-2">
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`p-1.5 rounded hover:bg-slate-800 transition ${
+            editor.isActive("bold") ? "bg-slate-700 text-blue-400" : "text-slate-400"
+          }`}
+          title="Bold"
+        >
+          <Bold className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={`p-1.5 rounded hover:bg-slate-800 transition ${
+            editor.isActive("italic") ? "bg-slate-700 text-blue-400" : "text-slate-400"
+          }`}
+          title="Italic"
+        >
+          <Italic className="w-4 h-4" />
+        </button>
+        <div className="w-px h-4 bg-slate-700 mx-1" />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={`p-1.5 rounded hover:bg-slate-800 transition ${
+            editor.isActive("bulletList") ? "bg-slate-700 text-blue-400" : "text-slate-400"
+          }`}
+          title="Bullet List"
+        >
+          <List className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={`p-1.5 rounded hover:bg-slate-800 transition ${
+            editor.isActive("orderedList") ? "bg-slate-700 text-blue-400" : "text-slate-400"
+          }`}
+          title="Ordered List"
+        >
+          <ListOrdered className="w-4 h-4" />
+        </button>
+      </div>
+      
+      {/* Area Ketik */}
+      <EditorContent editor={editor} />
+    </div>
+  );
 };
 
 export default function CmsFaqPage() {
@@ -91,12 +182,15 @@ export default function CmsFaqPage() {
   const filteredFaqs = faqs.filter((faq) => {
     if (!search.trim()) return true;
     const q = search.toLowerCase();
+    // Kita harus hati-hati dengan html tags di answer jika mencari text mentah, 
+    // tapi untuk sederhana include saja string html-nya.
     return (
       faq.question.toLowerCase().includes(q) ||
       faq.answer.toLowerCase().includes(q) ||
       faq.tags.some((tag) => tag.toLowerCase().includes(q))
     );
   });
+
   const loadCategories = async () => {
     try {
       setCatLoading(true);
@@ -222,10 +316,12 @@ export default function CmsFaqPage() {
     setError(null);
 
     const question = form.question.trim();
-    const answer = form.answer.trim();
+    // Answer sekarang berupa HTML string dari Tiptap
+    const answer = form.answer.trim(); 
     const sortOrder = form.sort_order === "" ? 0 : Number(form.sort_order) || 0;
 
-    if (!question || !answer) {
+    // Cek apakah answer kosong (atau hanya tag p kosong dari tiptap)
+    if (!question || !answer || answer === '<p></p>') {
       setError("Question dan Answer wajib diisi.");
       return;
     }
@@ -494,11 +590,12 @@ export default function CmsFaqPage() {
                       <div className="font-medium text-slate-100 max-w-md">
                         {item.question}
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-1 max-w-md line-clamp-2">
-                        {item.answer.length > 100
-                          ? item.answer.slice(0, 100) + "..."
-                          : item.answer}
-                      </div>
+                      {/* Karena answer sekarang HTML, kita strip tag untuk preview atau gunakan dangerouslySetInnerHTML dengan hati-hati */}
+                      <div 
+                        className="text-[11px] text-slate-500 mt-1 max-w-md line-clamp-2"
+                        // Opsional: Render HTML di preview table
+                        dangerouslySetInnerHTML={{ __html: item.answer }}
+                      />
                     </td>
                     <td className="px-3 py-2 align-top">
                       <span className="text-[11px] text-slate-200">
@@ -624,20 +721,17 @@ export default function CmsFaqPage() {
                 />
               </div>
 
+              {/* 3. GANTI TEXTAREA DENGAN TIPTAP EDITOR */}
               <div className="space-y-2">
                 <label className="block text-xs font-medium text-slate-300">
                   Answer <span className="text-red-400">*</span>
                 </label>
-                <textarea
-                  value={form.answer}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, answer: e.target.value }))
-                  }
-                  rows={5}
-                  className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 nice-scrollbar"
-                  placeholder="Jawaban lengkap yang akan tampil di halaman FAQ."
-                  required
+                
+                <TiptapEditor 
+                    value={form.answer}
+                    onChange={(html) => setForm(prev => ({...prev, answer: html}))}
                 />
+                <p className="text-[10px] text-slate-500">Gunakan toolbar untuk menebalkan atau membuat list.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

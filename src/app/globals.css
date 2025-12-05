@@ -1,6 +1,8 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "../styles/_variables.scss";
 @import "../styles/_keyframe-animations.scss";
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -30,4 +32,21 @@ body {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+.faq-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem; /* Indent bullets */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.faq-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.faq-content li {
+  margin-bottom: 0.35rem; /* spacing antar item */
 }
