@@ -657,12 +657,6 @@ export default function PolicyDocumentsPage() {
                     className="w-full rounded-md border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     placeholder="kebijakan-pembayaran-pembatalan"
                   />
-                  <p className="text-[11px] text-slate-500">
-                    URL final contoh:{" "}
-                    <span className="text-slate-300">
-                      /policy/{form.slug || "slug-otomatis"}
-                    </span>
-                  </p>
                 </div>
               </div>
 
