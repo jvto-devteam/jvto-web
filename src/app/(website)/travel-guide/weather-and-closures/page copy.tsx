@@ -1,14 +1,38 @@
-import Link from "next/link";
-import { type Metadata } from "next";
+import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { stripHtml } from "@/utils/stripHtml";
 
 export const metadata: Metadata = {
-    title: 'Weather, Volcanic Activity & Closures | JVTO Travel Guide',
-    description: 'How weather and volcanic activity affect East Java tours, how we monitor conditions, and what happens to your booking when plans must change.',
+  title: "Weather, Volcanic Alerts & Closures | JVTO",
+  description:
+    "How we handle itinerary changes due to weather, volcanic activity, or other unforeseen closures. Your safety is our priority.",
 };
 
+// Konstanta slug untuk halaman ini
+const PAGE_SLUG = "travel-guide/weather-and-closures";
 
-export default function WeatherAndClosuresPage() {
+// Helper function untuk mengambil data (digunakan di Page dan Metadata)
+async function getPolicyData() {
+  const policy = await prisma.policy_documents.findUnique({
+    where: {
+      slug: PAGE_SLUG,
+    },
+  });
+
+  return policy;
+}
+
+export default async function WeatherAndClosures() {
+  // 2. Ambil data dari database
+  const policy = await getPolicyData();
+
+  // 3. Jika data tidak ditemukan di DB, return 404
+  if (!policy) {
+    notFound();
+  }
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   // 4. Siapkan Schema.org Data secara dinamis
@@ -265,31 +289,7 @@ export default function WeatherAndClosuresPage() {
             url: "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
           },
         ],
-        articleBody: `
-Weather, Volcanic Activity & Closures
-
-East Java’s volcano and waterfall routes are dynamic. Weather and volcanic activity can change quickly, and local authorities may issue temporary restrictions or closures. This page explains how we monitor conditions and what happens to your tour when plans must change.
-
-Weather Patterns on Our Routes
-
-For Bromo and Ijen, main activities usually happen between late night and early morning. In many seasons, heavier rain occurs later in the day. At higher viewpoints, conditions may be dry or lightly drizzling while lower areas experience heavier rain. Weather is not fully predictable, but we plan schedules to maximise the chance of safe and enjoyable conditions.
-
-Volcanic Activity & Official Alerts
-
-Our destinations are part of the Ring of Fire. For safety, we refer to official Indonesian volcanic alert updates, follow restrictions issued by authorities, and adjust activities when alert levels or regulations change. If authorities restrict access or close specific areas, we will not bypass any rules.
-
-Types of Changes You Might Experience
-
-Depending on conditions, we may adjust timing (depart earlier or later), change viewpoints, modify walking routes, or replace certain activities with safer alternatives if a site is fully closed. Our crew will explain what is happening and why changes are necessary.
-
-If a Key Activity Cannot Run
-
-When a core activity is fully closed or unsafe, we first look for suitable alternatives. If no meaningful alternative is available, we apply our Travel Credit policy as described in the Booking Information page. We will always explain clearly which parts of the tour are affected.
-
-Communication During Disruptions
-
-If conditions change, your driver or guide will inform you. Our office remains reachable through official contact channels for further clarification. We encourage you to ask questions. Our priority is to keep you informed and safe.        
-        `,
+        articleBody: stripHtml(policy.content),
       },
 
       {
@@ -352,43 +352,33 @@ If conditions change, your driver or guide will inform you. Our office remains r
       },
     ],
   };
-
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background py-20">
+      {/* Inject JSON-LD Schema */}
       <StructuredData data={pageSchema} />
-      <main className="flex-grow pt-24">
+
+      <main className="flex-grow">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
-                <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>
-                <span className="mx-2">›</span>
-                <span className="text-foreground font-medium">Weather & Closures</span>
-            </nav>
+            {/* Header Section: Mengambil Title & Intro dari DB */}
             <div className="text-center mb-12">
-              <h1 className="font-black uppercase text-4xl md:text-5xl tracking-tight">
-                Weather, Volcanic Activity & Closures
+              <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
+                {policy.title}
               </h1>
+
+              {/* Optional: Menggunakan meta description sebagai intro text jika ada */}
               <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                East Java’s volcano and waterfall routes are dynamic. Weather and volcanic activity can change quickly, and local authorities may issue temporary restrictions or closures. This page explains how we monitor conditions and what happens to your tour when plans must change.
+                How we handle itinerary changes due to weather, volcanic
+                activity, or other unforeseen closures. Your safety is our
+                priority.{" "}
               </p>
             </div>
 
-            <div className="prose prose-lg max-w-none mx-auto text-muted-foreground">
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Weather Patterns on Our Routes</h2>
-                <p>For Bromo & Ijen, main activities typically happen between late night and early morning. In many seasons, heavier rain is more common later in the day. At higher viewpoints, conditions may be dry or lightly drizzling while lower areas have heavier rain. Weather is never fully predictable, but we plan schedules to maximise the chance of safe and enjoyable conditions.</p>
-
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Volcanic Activity & Official Alerts</h2>
-                <p>Our destinations are part of the Ring of Fire. For safety, we refer to official Indonesian sources for volcanic alert information, follow restrictions and recommendations issued by the relevant authorities, and adjust activities when alert levels or local regulations change. If authorities restrict access or close specific areas, we will not attempt to bypass those rules.</p>
-                
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Types of Changes You Might Experience</h2>
-                <p>Depending on conditions, we might need to adjust timing (leave earlier/later), change viewpoints, modify walking routes, or replace certain activities with safer alternatives if a site is fully closed. Our crew will explain what is happening and why adjustments are necessary.</p>
-
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">If a Key Activity Cannot Run</h2>
-                <p>Sometimes, a core activity may be fully closed or unsafe. In those cases, we first look for reasonable alternatives. If no meaningful alternative is possible, we apply our Travel Credit policy as described in our <Link href="/travel-guide/booking-information">Booking Information</Link> page. We will always explain clearly which parts of the tour are affected.</p>
-                
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Communication During Disruptions</h2>
-                <p>When conditions change, your driver/guide will update you. Our office remains reachable via official contact channels for further clarification. We encourage you to ask questions. Our priority is to keep you informed and safe.</p>
-            </div>
+            {/* Content Section: Render HTML dari Database */}
+            <div
+              className="prose prose-lg max-w-none mx-auto text-muted-foreground prose-headings:font-headline prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline"
+              dangerouslySetInnerHTML={{ __html: policy.content }}
+            />
           </div>
         </section>
       </main>

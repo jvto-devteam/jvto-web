@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { generateFaqSchema } from "@/lib/generateFaqSchema";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions (FAQ) - Java Wolcano",
@@ -88,6 +89,12 @@ export default async function FaqPage() {
       <main className="flex-grow">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
+             <nav className="mb-8 text-sm text-muted-foreground">
+                <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>
+                <span className="mx-2">›</span>
+                <span className="text-foreground font-medium">FAQ</span>
+            </nav>
+
             <div className="text-center mb-12">
               <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
                 Frequently Asked Questions
