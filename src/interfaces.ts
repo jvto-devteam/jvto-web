@@ -21,12 +21,32 @@ export interface TourPackageDetail {
   version: string;
   meta: _Meta;
   product: _Product;
+  trip: _Trip;
 }
 
 interface _Meta {
   createdFrom: {
     productFile: string;
     tripFile: string;
+  };
+}
+
+interface _Trip {
+  vehiclePlan: {
+    primary: {
+      type: string;
+      model: string;
+      banner: string;
+      maxPax: number;
+      baggageCapacity: string;
+      features: string[];
+    }[];
+    jeepRequiredAt: string[];
+    jeepSpecs: {
+      type: string;
+      capacity: string;
+      inclusions: string[];
+    };
   };
 }
 
@@ -45,7 +65,10 @@ interface _Product {
   route: string[];
   tripRef: string;
   description: string;
-  keyExperiences: string[];
+  keyExperiences: {
+    name: string;
+    highlight: string;
+  }[];
   physicalDifficulty: string;
 
   offers: _Offers;
@@ -108,8 +131,10 @@ interface _AddOn {
 
 interface _AccommodationPlan {
   night: number;
+  name: string;
   area: string;
   hotel: string;
+  image: string;
 }
 
 interface _Gear {

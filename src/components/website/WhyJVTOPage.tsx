@@ -37,13 +37,6 @@ const hubLinks = [
     link: "/why-jvto/community-standards",
     icon: "eco",
   },
-  {
-    title: "Ijen Health Screening",
-    description:
-      "How we ensure guest safety with real, digitally-verifiable health checks.",
-    link: "/travel-guide/ijen-health-screening",
-    icon: "health_and_safety",
-  },
 ];
 
 const HubCard: React.FC<(typeof hubLinks)[0]> = ({

@@ -144,7 +144,13 @@ export async function GET(req: NextRequest) {
               (pd) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id))
             )
             .map(
-              (dest) => dest.destinations?.activities?.[0]?.activity_name ?? ""
+              (dest) => {
+                return {
+                  name: dest.destinations?.name ?? "",
+                  highlight: dest.destinations?.highlight ?? "",
+                };
+              }
+              // dest.destinations?.activities?.[0]?.activity_name ?? ""
             ),
           physicalDifficulty: pkg.physicality ?? "",
           offers: {
@@ -202,8 +208,13 @@ export async function GET(req: NextRequest) {
           accommodationPlan:
             (pkg.package_hotel_options ?? []).map((h: any) => ({
               night: h.day_no ?? 0,
+              name: h.hotels?.name ?? "",
               area: h.hotels?.destinations?.name ?? "",
               hotel: h.hotels?.name ?? "",
+              hotel: h.hotels
+                ? "https://javavolcano-touroperator.com/assets/img/hotels/" +
+                  h.hotels.banner
+                : "",
             })) ?? [],
           gear: {
             provided: [
@@ -363,51 +374,75 @@ export async function GET(req: NextRequest) {
             schemaType: "TouristTrip",
           },
         },
-        // trip: {
-        //   id: "",
-        //   name: "",
-        //   packageRef: "",
-        //   start: {
-        //     city: "",
-        //     pickupOptions: {
-        //       airport: { required: [], meetingPoint: "" },
-        //       hotel: { required: [], notes: "" },
-        //       train: { required: [], meetingPoint: "" },
-        //     },
-        //     latestPickupGuidance: "",
-        //     orientationTime: "",
-        //   },
-        //   end: {
-        //     city: "",
-        //     dropoffOptions: [],
-        //     safeFlightNote: "",
-        //     estimatedArrival: "",
-        //   },
-        //   route: [],
-        //   accommodationPlan: [],
-        //   gearProvided: [],
-        //   gearRecommended: [],
-        //   itineraryDays: [],
-        //   crewRolesNeeded: [],
-        //   vehiclePlan: {
-        //     primary: [],
-        //     jeepRequiredAt: [],
-        //     jeepSpecs: {},
-        //   },
-        //   operationalNotes: {
-        //     healthRequirements: [],
-        //     environmentalRisks: [],
-        //     safetyMitigation: [],
-        //   },
-        //   handoverNotes: [],
-        //   emergencyProtocols: {
-        //     medicalEmergency: "",
-        //     weatherDisruption: "",
-        //     vehicleBreakdown: "",
-        //     beachSafety: "",
-        //     guestFatigue: "",
-        //   },
-        // },
+        trip: {
+          // id: "",
+          // name: "",
+          // packageRef: "",
+          // start: {
+          //   city: "",
+          //   pickupOptions: {
+          //     airport: { required: [], meetingPoint: "" },
+          //     hotel: { required: [], notes: "" },
+          //     train: { required: [], meetingPoint: "" },
+          //   },
+          //   latestPickupGuidance: "",
+          //   orientationTime: "",
+          // },
+          // end: {
+          //   city: "",
+          //   dropoffOptions: [],
+          //   safeFlightNote: "",
+          //   estimatedArrival: "",
+          // },
+          // route: [],
+          // accommodationPlan: [],
+          // gearProvided: [],
+          // gearRecommended: [],
+          // itineraryDays: [],
+          // crewRolesNeeded: [],
+          vehiclePlan: {
+            primary: [
+              {
+                type: "MPV",
+                model: "Toyota Avanza/Innova",
+                banner: "https://javavolcano-touroperator.com/assets/img/cars/avanza.png",
+                maxPax: 3,
+                baggageCapacity: "3 medium bags",
+                features: ["AC", "Charging ports"],
+              },
+              {
+                type: "Hiace",
+                model: "Toyota Hiace",
+                banner: "https://javavolcano-touroperator.com/assets/img/cars/hiace.png",
+                maxPax: 11,
+                baggageCapacity: "11 medium bags",
+                features: ["AC", "Spacious legroom"],
+              },
+            ],
+            jeepRequiredAt: ["mount-bromo"],
+            jeepSpecs: {
+              type: "4WD Jeep",
+              capacity: "4-6 pax",
+              inclusions: [
+                "Experienced driver",
+                "Kingkong Hill access",
+                "Vintage Jeep experience",
+              ],
+            },
+          }, // operationalNotes: {
+          //   healthRequirements: [],
+          //   environmentalRisks: [],
+          //   safetyMitigation: [],
+          // },
+          // handoverNotes: [],
+          // emergencyProtocols: {
+          //   medicalEmergency: "",
+          //   weatherDisruption: "",
+          //   vehicleBreakdown: "",
+          //   beachSafety: "",
+          //   guestFatigue: "",
+          // },
+        },
       }),
       {
         status: 200,
