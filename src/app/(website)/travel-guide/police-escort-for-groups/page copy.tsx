@@ -1,14 +1,38 @@
-import Link from "next/link";
-import { type Metadata } from "next";
+import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { stripHtml } from "@/utils/stripHtml";
 
 export const metadata: Metadata = {
-  title: "Police Escort for Tourist Groups in East Java | JVTO Travel Guide",
+  title: "Police Escort for Tourist Groups in East Java | JVTO",
   description:
-    "When and how official traffic police escort can be arranged for large groups, and why it is always done through formal channels.",
+    "Learn how JVTO coordinates official traffic police escorts for large groups (18+ guests) on specific travel segments, based on formal orders and Indonesian law.",
 };
 
-export default function PoliceEscortForGroupsPage() {
+// Konstanta slug untuk halaman ini
+const PAGE_SLUG = "travel-guide/police-escort-for-groups";
+
+// Helper function untuk mengambil data (digunakan di Page dan Metadata)
+async function getPolicyData() {
+  const policy = await prisma.policy_documents.findUnique({
+    where: {
+      slug: PAGE_SLUG,
+    },
+  });
+
+  return policy;
+}
+
+export default async function PoliceEscortForGroups() {
+  // 2. Ambil data dari database
+  const policy = await getPolicyData();
+
+  // 3. Jika data tidak ditemukan di DB, return 404
+  if (!policy) {
+    notFound();
+  }
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   // 4. Siapkan Schema.org Data secara dinamis
@@ -365,93 +389,33 @@ export default function PoliceEscortForGroupsPage() {
       },
     ],
   };
-
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background py-20">
+      {/* Inject JSON-LD Schema */}
       <StructuredData data={pageSchema} />
 
-      <main className="flex-grow pt-24">
+      <main className="flex-grow">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
-              <Link href="/travel-guide" className="hover:text-primary">
-                Travel Guide
-              </Link>
-              <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">
-                Police Escort for Groups
-              </span>
-            </nav>
+            {/* Header Section: Mengambil Title & Intro dari DB */}
             <div className="text-center mb-12">
-              <h1 className="font-black uppercase text-4xl md:text-5xl tracking-tight">
-                Police Escort for Tourist Groups in East Java
+              <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
+                {policy.title}
               </h1>
+
+              {/* Optional: Menggunakan meta description sebagai intro text jika ada */}
               <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                In some situations, large tourist groups may benefit from
-                official traffic police escort. This page explains when and how
-                JVTO can help coordinate legal, documented escort services.
+                Learn how JVTO coordinates official traffic police escorts for
+                large groups (18+ guests) on specific travel segments, based on
+                formal orders and Indonesian law.{" "}
               </p>
             </div>
 
-            <div className="prose prose-lg max-w-none mx-auto text-muted-foreground">
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
-                When Escort May Be Considered
-              </h2>
-              <p>
-                Official traffic police escort may be relevant for school or
-                university groups, incentive or corporate groups, or other large
-                groups traveling in multiple vehicles. Typical segments include
-                connections from major road exits or meeting points to partner
-                accommodations, and specific routes agreed in advance with the
-                traffic police.
-              </p>
-
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
-                How Escort Is Arranged
-              </h2>
-              <p>
-                JVTO does not provide escort vehicles ourselves. Instead, we
-                submit a formal request to the competent Traffic Police unit.
-                Escort is approved or declined according to regulations,
-                availability, and clear route definitions. When approved, the
-                escort is carried out by uniformed traffic police in official
-                vehicles, based on written orders. All arrangements are done
-                transparently and in line with Indonesian law.
-              </p>
-
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
-                What Escort Is Not
-              </h2>
-              <p>
-                Police escort is not automatic for all tours, is not a guarantee
-                of special treatment everywhere, and is not a tool to ignore
-                speed limits or basic road rules. Its purpose is safe and
-                orderly convoy movement for qualifying groups, not to bypass
-                public safety.
-              </p>
-
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
-                Costs & Confirmation
-              </h2>
-              <p>
-                If your group is eligible and escort is approved, any related
-                costs will be clearly listed in your program and invoice. No
-                unofficial payments are requested from guests on the road. If
-                escort is not available or not approved, we will inform you and
-                operate the tour using standard safe convoy procedures.
-              </p>
-
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
-                How to Request Escort Consideration
-              </h2>
-              <p>
-                If you are planning a large group program and wish to explore
-                the possibility of official escort, inform us of your group
-                size, vehicle count, and route. We will advise whether escort is
-                realistic and what information we need to submit a request. The
-                final decision always rests with the relevant authorities.
-              </p>
-            </div>
+            {/* Content Section: Render HTML dari Database */}
+            <div
+              className="prose prose-lg max-w-none mx-auto text-muted-foreground prose-headings:font-headline prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary hover:prose-a:underline"
+              dangerouslySetInnerHTML={{ __html: policy.content }}
+            />
           </div>
         </section>
       </main>
