@@ -41,7 +41,8 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           {
-value: `
+            key: "Content-Security-Policy",
+            value: `
   default-src 'self';
   img-src 'self' data: https: blob:;
   script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
@@ -50,9 +51,8 @@ value: `
   connect-src 'self' https:;
   frame-src 'self' https:;
 `
-  .replace(/\s{2,}/g, ' ')
-  .trim()
-
+              .replace(/\s{2,}/g, " ")
+              .trim(),
           },
         ],
       },
