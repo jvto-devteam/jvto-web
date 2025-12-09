@@ -273,7 +273,31 @@ export default function PoliceEscortForGroupsPage() {
           "Cancellation, Changes & Force Majeure",
           "Quick FAQ",
         ],
-        articleBody: stripHtml(policy.content),
+        articleBody: `
+Police Escort for Tourist Groups in East Java
+
+In some situations, large tourist groups may benefit from official traffic police escort. This page explains when and how JVTO can help coordinate legal, documented escort services.
+
+When Escort May Be Considered
+
+Official traffic police escort may be relevant for school or university groups, incentive or corporate groups, or other large groups traveling in multiple vehicles. Typical segments include routes from major road exits or meeting points to partner accommodations, and other predefined routes coordinated with the traffic police.
+
+How Escort Is Arranged
+
+JVTO does not provide escort vehicles directly. Instead, we submit a formal request to the appropriate Traffic Police unit. Escort approval depends on regulations, availability, and clear route details. When approved, escort is handled by uniformed traffic police using official vehicles under written orders. All arrangements are transparent and follow Indonesian law.
+
+What Escort Is Not
+
+Police escort is not automatically granted for all tours, does not guarantee special treatment everywhere, and cannot be used to bypass speed limits or standard road rules. Its purpose is to ensure safe and orderly convoy movement for qualifying groups—not to override public safety.
+
+Costs & Confirmation
+
+If your group qualifies and escort is approved, any associated costs will be clearly shown in your program and invoice. No unofficial payments will ever be requested from guests during the journey. If escort is not approved or not available, we will inform you and operate the program using standard safe convoy procedures.
+
+How to Request Escort Consideration
+
+If you are planning a large group and would like to explore the possibility of official escort, please provide your group size, number of vehicles, and planned route. We will advise whether escort is feasible and what information is required for submitting a request. Final approval always rests with the relevant authorities.        
+        `,
         mentions: [
           {
             "@type": "WebPage",
