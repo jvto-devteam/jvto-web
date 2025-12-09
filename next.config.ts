@@ -2,36 +2,36 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
+      ignoreDuringBuilds: true,
+    },
+    typescript: {
+      ignoreBuildErrors: true,
+    },
+    images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "javavolcano-touroperator.com",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'javavolcano-touroperator.com',
+        port: '',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "i.pravatar.cc",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        port: '',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "storage.googleapis.com",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
@@ -43,14 +43,14 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: `
-  default-src 'self';
-  img-src 'self' data: https: blob:;
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' data: https://fonts.gstatic.com;
-  connect-src 'self' https:;
-  frame-src 'self' https:;
-`
+              default-src 'self';
+              img-src 'self' data: https: blob:;
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+              style-src 'self' 'unsafe-inline' https:;
+              connect-src 'self' https:;
+              font-src 'self' https: data:;
+              frame-src 'self' https:;
+            `
               .replace(/\s{2,}/g, " ")
               .trim(),
           },
