@@ -41,28 +41,18 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: `
+value: `
   default-src 'self';
-
-  img-src 'self' data: blob: https:;
-
-  script-src 'self' 'unsafe-inline' 'unsafe-eval'
-    https://www.googletagmanager.com
-    https://static.cloudflareinsights.com
-    https:;
-
-  style-src 'self' 'unsafe-inline' https: https://fonts.googleapis.com;
-  style-src-elem 'self' 'unsafe-inline' https: https://fonts.googleapis.com;
-
-  font-src 'self' data: https: https://fonts.gstatic.com;
-  font-src-elem 'self' data: https: https://fonts.gstatic.com;
-
+  img-src 'self' data: https: blob:;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' data: https://fonts.gstatic.com;
   connect-src 'self' https:;
   frame-src 'self' https:;
 `
-              .replace(/\s{2,}/g, " ")
-              .trim(),
+  .replace(/\s{2,}/g, ' ')
+  .trim()
+
           },
         ],
       },
