@@ -123,7 +123,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
 
           {/* Button */}
           <Button
-            to={`${tour.slug}`}
+            to={`/${tour.slug}`}
             variant="outline"
             size="sm"
             className="w-full group-hover:bg-jvto-dark group-hover:text-white group-hover:border-jvto-dark transition-all"

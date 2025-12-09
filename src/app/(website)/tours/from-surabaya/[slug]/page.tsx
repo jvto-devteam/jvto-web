@@ -9,14 +9,13 @@ export const dynamic = 'force-dynamic';
 // or export const revalidate = 60; if you can cache
 
 interface Props {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>; 
 }
-
 export default async function Page({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
+  const { slug } = await params;
   // gabungkan kembali slug multi-segmen
-  const fullSlug = `tours/from-surabaya/${params.slug}`
+  const fullSlug = `tours/from-surabaya/${slug}`
 
   const res = await fetch(
     `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
