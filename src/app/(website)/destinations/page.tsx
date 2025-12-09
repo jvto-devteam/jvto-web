@@ -1,10 +1,13 @@
-import DestinationsPage from "@/components/website/DestinationsPage";
+import Link from "next/link";
 import StructuredData from "@/components/website/StructuredData";
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 import type { Destination } from "@/interfaces";
+import DestinationCard from "@/components/website/DestinationCard";
+
 export const metadata: Metadata = {
   title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
-  description: "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+  description:
+    "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
 };
 async function getAllDestinations(): Promise<Destination[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -41,11 +44,31 @@ export default async function Destinations() {
       },
     ],
   };
- const destinations = await getAllDestinations();
+  const destinations = await getAllDestinations();
   return (
     <>
       <StructuredData data={schema} />
-      <DestinationsPage destinations={destinations} />;
+      <section className="md:py-40 py-26 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">
+                Destinations
+              </h2>
+              <p className="text-gray-600 max-w-xl">
+                From the fires of Ijen to the waters of Tumpak Sewu. Discover
+                the elemental landscapes of East Java.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {destinations.map((dest, idx) => (
+              <DestinationCard key={idx} destination={dest} />
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

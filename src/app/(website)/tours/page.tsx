@@ -1,5 +1,4 @@
-import { TourPackage } from "@/types";
-import ToursPageClient from "@/components/website/ToursPageClient"; // yang interaktif saja
+import LevelSelector from "@/components/website/Home/LevelSelector";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
@@ -8,22 +7,7 @@ export const metadata: Metadata = {
     "Browse our complete collection of private, all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect adventure.",
 };
 
-// Fungsi untuk fetch semua data tours (bisa dipanggil di server)
-async function getAllTours(): Promise<TourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  const res = await fetch(`${siteUrl}/api/packages/web`, {
-    // Tanpa ?from untuk fetch semua tours
-    method: "GET",
-    cache: "no-store",
-  });
-
-  if (!res.ok) throw new Error("Failed to fetch all tours");
-  return res.json();
-}
-
 export default async function ToursPage() {
-  const initialTours = await getAllTours();
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -49,7 +33,9 @@ export default async function ToursPage() {
   return (
     <>
       <StructuredData data={schema} />
-      <ToursPageClient isFilter={true} initialTours={initialTours} />
+      <LevelSelector />
+
+      {/* <ToursPageClient isFilter={true} initialTours={initialTours} /> */}
     </>
   );
 }

@@ -386,7 +386,7 @@ export default function PackageDetailPage({ initialData }: Props) {
           <div className="flex flex-col lg:flex-row gap-12">
             <div className="flex-1">
               <h3 className="text-lg font-black uppercase tracking-widest mb-8 text-white">
-                What's Included?
+                {`What's Included?`}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
                 {pkg.inclusions.slice(0, 6).map((inc, idx) => {
@@ -436,7 +436,7 @@ export default function PackageDetailPage({ initialData }: Props) {
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center mb-6 pt-8 border-t border-slate-800">
             <h3 className="text-lg font-black uppercase tracking-widest text-white">
-              What's It Like?
+              {`What's It Like?`}
             </h3>
             <button
               onClick={() => openLightbox(0)}
@@ -956,10 +956,10 @@ export default function PackageDetailPage({ initialData }: Props) {
                         <div className="group h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md flex flex-col">
                           {/* Image Container */}
                           <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
-                            {acc.hotel && acc.hotel.includes("http") ? (
+                            {acc.image && acc.image.includes("http") ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
-                                src={acc.hotel}
+                                src={acc.image}
                                 alt={`Accommodation in ${acc.area}`}
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                               />
@@ -1147,7 +1147,6 @@ export default function PackageDetailPage({ initialData }: Props) {
 
               {/* Part 1: What's Covered & Not Covered */}
               <div className="mb-12 relative">
-
                 {/* Collapsible Container */}
                 <div
                   className={`transition-all duration-700 ease-in-out overflow-hidden ${

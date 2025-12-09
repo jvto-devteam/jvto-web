@@ -8,14 +8,14 @@ import AdvancedTourFilterModal, {
 } from "./AdvancedTourFilterModal";
 import Breadcrumbs from "./Breadcrumbs";
 import { parseNL } from "@/utils/nl-parser";
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 
 type Props = {
-  initialTours: TourPackage[];
+  initialTours: ListTourPackage[];
   isFilter: boolean;
 };
 
-const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
+const ToursPageClient: React.FC<Props> = ({ initialTours, isFilter }) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState<AdvancedFilters>({
     maxDuration: 7,
@@ -73,7 +73,7 @@ const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
 
   // Ganti bagian filteredTours useMemo
   const filteredTours = useMemo(() => {
-    return initialTours.filter((tour: TourPackage) => {
+    return initialTours.filter((tour: ListTourPackage) => {
       // Duration: gunakan tour.duration.day
       if (tour.duration.day > filters.maxDuration) return false;
 
@@ -81,7 +81,8 @@ const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
       if (
         filters.startCities.length > 0 &&
         !filters.startCities.some(
-          (city) => tour.startDestination.toLowerCase() === city.toLowerCase()
+          (city) =>
+            (tour.startDestination ?? "").toLowerCase() === city.toLowerCase()
         )
       )
         return false;
@@ -90,7 +91,8 @@ const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
       if (
         filters.endCities.length > 0 &&
         !filters.endCities.some(
-          (city) => tour.endDestination.toLowerCase() === city.toLowerCase()
+          (city) =>
+            (tour.endDestination ?? "").toLowerCase() === city.toLowerCase()
         )
       )
         return false;
@@ -169,13 +171,13 @@ const ToursPageClient: React.FC<Props> = ({ initialTours,isFilter }) => {
         onFindTourClick={() => setIsFilterModalOpen(true)}
       />
       {isFilter && (
-          <AdvancedTourFilterModal
-            isOpen={isFilterModalOpen}
-            onClose={() => setIsFilterModalOpen(false)}
-            onApplyFilters={handleApplyFilters}
-            initialFilters={filters}
-            tours={initialTours} // Pass initialTours ke modal untuk compute options dan count
-          />
+        <AdvancedTourFilterModal
+          isOpen={isFilterModalOpen}
+          onClose={() => setIsFilterModalOpen(false)}
+          onApplyFilters={handleApplyFilters}
+          initialFilters={filters}
+          tours={initialTours} // Pass initialTours ke modal untuk compute options dan count
+        />
       )}
     </main>
   );

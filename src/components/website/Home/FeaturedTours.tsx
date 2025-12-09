@@ -1,8 +1,13 @@
 import React from 'react';
 import TourCard from '../Tours/TourCard';
 import { FEATURED_TOURS } from '@/services/mockData';
+import { ListTourPackage } from "@/types";
 
-const FeaturedTours: React.FC = () => {
+interface FeaturedToursProps {
+  tours: ListTourPackage[];
+}
+
+const FeaturedTours = ({tours}:FeaturedToursProps) => {
   return (
     <section className="py-24 bg-gray-50">
       <div className="container mx-auto px-6">
@@ -18,7 +23,7 @@ const FeaturedTours: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {FEATURED_TOURS.map((tour) => (
+          {tours.slice(0,6).map((tour) => (
             <div key={tour.id} className="h-[500px]">
               <TourCard tour={tour} />
             </div>

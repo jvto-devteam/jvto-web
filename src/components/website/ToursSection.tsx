@@ -1,12 +1,12 @@
 import React from 'react';
-// FIX: The type 'Tour' was not exported from '@/types'. Replaced with 'TourPackage' which is the correct type for tour data.
-import { SectionCopy, TourPackage } from '@/types';
+// FIX: The type 'Tour' was not exported from '@/types'. Replaced with 'ListTourPackage' which is the correct type for tour data.
+import { SectionCopy, ListTourPackage } from '@/types';
 import TourCard from './TourCard';
 
 interface ToursSectionProps {
   copy: SectionCopy;
   isFilter: boolean;
-  tours: TourPackage[];
+  tours: ListTourPackage[];
   onFindTourClick: () => void;
   onCtaClick?: (ctaId: string, ctaText: string, section: string) => void;
 }

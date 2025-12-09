@@ -1,4 +1,4 @@
-import DestinationDetail from "@/components/website/DestinationDetail";
+// import DestinationDetail from "@/components/website/DestinationDetail";
 import StructuredData from "@/components/website/StructuredData";
 
 export default function Detail({ params }: { params: { slug: string } }) {
@@ -28,7 +28,7 @@ export default function Detail({ params }: { params: { slug: string } }) {
   return (
     <>
       <StructuredData data={schema} />
-      <DestinationDetail slug={params.slug} />
+      {/* <DestinationDetail slug={params.slug} /> */}
     </>
   );
 }

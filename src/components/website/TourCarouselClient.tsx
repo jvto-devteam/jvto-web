@@ -3,12 +3,12 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 import TourCarouselRow from "./TourCarouselRow";
 
 type Props = {
-  initialSurabayaTours: TourPackage[];
-  initialBaliTours: TourPackage[];
+  initialSurabayaTours: ListTourPackage[];
+  initialBaliTours: ListTourPackage[];
 };
 
 export default function TourCarouselClient({
@@ -28,7 +28,7 @@ export default function TourCarouselClient({
 
   // === DURATION CHIPS + FILTERING ===
   const allTours = [...initialSurabayaTours, ...initialBaliTours];
-  const durationMap = new Map<string, TourPackage[]>();
+  const durationMap = new Map<string, ListTourPackage[]>();
 
   allTours.forEach((tour) => {
     const label = tour.duration.day >= 5 ? "5D+" : `${tour.duration.day}D${tour.duration.night}N`;
@@ -42,7 +42,7 @@ export default function TourCarouselClient({
     return aNum - bNum;
   });
 
-  const getFilteredTours = (tours: TourPackage[]) => {
+  const getFilteredTours = (tours: ListTourPackage[]) => {
     if (!selectedDuration) return tours;
     return tours.filter((tour) => {
       const label = tour.duration.day >= 5 ? "5D+" : `${tour.duration.day}D${tour.duration.night}N`;

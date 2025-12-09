@@ -2,12 +2,12 @@
 "use client";
 
 import React, { useRef } from "react";
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 import TourCard from "./TourCard";
 
 const TourCarouselRow = React.forwardRef<
   HTMLElement,
-  { title: string;subtitle: string; tours: TourPackage[] }
+  { title: string;subtitle: string; tours: ListTourPackage[] }
 >(({ title,subtitle, tours }, ref) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 

@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
              </p>
              <p className="text-sm text-gray-400 mb-6">
                WhatsApp: +62 822-4478-8833<br/>
-               Email: info@javavolcano-touroperator.com
+               Email: hello@javavolcano-touroperator.com
              </p>
              <Link href="/contact" className="inline-block bg-jvto-green text-jvto-dark font-bold uppercase px-6 py-2 text-xs rounded-sm">Contact Us</Link>
           </div>

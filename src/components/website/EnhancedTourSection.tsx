@@ -1,11 +1,11 @@
 // app/tours/page.tsx   atau   app/components/EnhancedTourSection.tsx
 // ← TIDAK PERLU "use client" di file ini!
 
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 import TourCarouselClient from "./TourCarouselClient"; // yang interaktif saja
 
 // Fungsi untuk fetch data (bisa dipanggil paralel)
-async function getTours(from: number): Promise<TourPackage[]> {
+async function getTours(from: number): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const res = await fetch(`${siteUrl}/api/packages/web?from=${from}`, {
