@@ -1,6 +1,8 @@
-import { TourPackage } from "@/types";
+import { ListTourPackage } from "@/types";
 import ToursPageClient from "@/components/website/ToursPageClient"; // yang interaktif saja
 import StructuredData from "@/components/website/StructuredData";
+import TourCard from "@/components/website/Tours/TourCard";
+
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All Private Tours in East Java | JVTO Tours",
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 // Fungsi untuk fetch semua data tours (bisa dipanggil di server)
-async function getAllTours(): Promise<TourPackage[]> {
+async function getAllTours(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const res = await fetch(`${siteUrl}/api/packages/web?from=3`, {
@@ -49,7 +51,29 @@ export default async function ToursPage() {
   return (
     <>
       <StructuredData data={schema} />
-      <ToursPageClient isFilter={false} initialTours={initialTours} />
+      <section className="md:py-40 py-26  bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
+              Tours From Bali
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Browse our complete collection of private, all-inclusive tours from Bali to
+              Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect
+              adventure.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {initialTours.map((tour) => (
+              <div key={tour.id} className="h-[500px]">
+                <TourCard tour={tour} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* <ToursPageClient isFilter={false} initialTours={initialTours} /> */}
     </>
   );
 }

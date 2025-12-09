@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { ListTourPackage } from '@/types';
 import { formatIDR } from '@/utils/formatting';
 import Modal from './Modal';
+import { notFound } from "next/navigation";
+
 
 // Skeleton tetap sama
 // const TourCardSkeleton: React.FC = () => { /* ... sama seperti sebelumnya ... */ };
@@ -18,6 +20,7 @@ interface TourCardProps {
 const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  if (!tour) return notFound();
 
   // PASTIKAN images selalu array yang valid + fallback
   const images = tour?.images && Array.isArray(tour.images) && tour.images.length > 0
@@ -154,7 +157,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
               id={`tour-title-${tour.id}`}
               className="text-lg font-bold text-ink-primary dark:text-white leading-tight group-hover/title:text-primary transition-colors line-clamp-3"
             >
-              {tour.label || tour.name}
+              {tour.name}
             </h3>
           </Link>
 
@@ -185,7 +188,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
       </div>
 
       {/* MODAL – JUGA PAKAI NEXT/IMAGE */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={tour.label || tour.name}>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={tour.name}>
         <div className="relative w-full h-[60vh] md:h-[80vh] bg-black rounded-lg overflow-hidden flex items-center justify-center">
           <Image
             src={currentImg.url}

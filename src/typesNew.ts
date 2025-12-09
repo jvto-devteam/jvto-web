@@ -1,9 +1,9 @@
 
 export enum Difficulty {
-  EASY = 'Easy',
-  MODERATE = 'Moderate',
-  CHALLENGING = 'Challenging',
-  HARD = 'Hard'
+  EASY = 'easy',
+  MODERATE = 'moderate',
+  CHALLENGING = 'challenging',
+  HARD = 'hard'
 }
 
 export interface ItineraryDay {

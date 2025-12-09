@@ -233,6 +233,8 @@ export interface ListTourPackage {
   keyExperiences: string[];
   startFrom: number;
   physicality: string;
+  tags: string[];
+  highlights: string[];
 }
 
 export interface TourPackage {

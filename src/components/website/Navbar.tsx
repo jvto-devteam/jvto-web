@@ -94,11 +94,8 @@ const Navbar: React.FC = () => {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-4">
-          <button className="p-2 hover:opacity-70 transition-opacity">
-            <Search size={20} />
-          </button>
           <Link href="/contact" className={`hidden md:inline-flex px-4 py-2 text-xs font-bold uppercase rounded-sm border-2 ${isHome && !isScrolled ? 'border-white hover:bg-white hover:text-black' : 'border-black hover:bg-black hover:text-white'} transition-all`}>
-            Book Now
+            Contact
           </Link>
         </div>
       </div>
@@ -117,7 +114,7 @@ const Navbar: React.FC = () => {
           <div className="mt-auto mb-10 pt-8 border-t border-gray-100 text-sm text-gray-500">
              <p className="font-bold mb-2 text-jvto-dark uppercase tracking-wider">Official Contact</p>
              <p className="mb-1">WhatsApp: +62 822-4478-8833</p>
-             <p>Email: info@javavolcano-touroperator.com</p>
+             <p>Email: hello@javavolcano-touroperator.com</p>
              
              <div className="mt-6 flex items-center gap-2 text-xs bg-gray-50 p-3 rounded-sm border border-gray-200">
                <ShieldCheck size={16} className="text-jvto-green" />

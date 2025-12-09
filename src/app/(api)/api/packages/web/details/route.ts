@@ -210,8 +210,7 @@ export async function GET(req: NextRequest) {
               night: h.day_no ?? 0,
               name: h.hotels?.name ?? "",
               area: h.hotels?.destinations?.name ?? "",
-              hotel: h.hotels?.name ?? "",
-              hotel: h.hotels
+              image: h.hotels
                 ? "https://javavolcano-touroperator.com/assets/img/hotels/" +
                   h.hotels.banner
                 : "",
@@ -318,7 +317,7 @@ export async function GET(req: NextRequest) {
             official: {
               website: "https://javavolcano-touroperator.com",
               whatsapp: "+62 822-4478-8833",
-              email: "info@javavolcano-touroperator.com",
+              email: "hello@javavolcano-touroperator.com",
             },
             policyRef: {
               booking: "/policy/booking.json",

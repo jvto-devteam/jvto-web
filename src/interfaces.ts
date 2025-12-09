@@ -133,7 +133,6 @@ interface _AccommodationPlan {
   night: number;
   name: string;
   area: string;
-  hotel: string;
   image: string;
 }
 

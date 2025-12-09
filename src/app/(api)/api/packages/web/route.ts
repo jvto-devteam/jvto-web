@@ -63,6 +63,14 @@ function serializePackage(pkg: any) {
     startFrom,
     slug: pkg.slug || "",
     physicality: pkg.physicality || "",
+    tags: Array.isArray(pkg.tags)
+      ? pkg.tags.map((s : any) => s?.trim()).filter((s : any) => s && s.length > 0)
+      : [],
+    highlights: Array.isArray(pkg.highlights_bullets)
+      ? pkg.highlights_bullets
+          .map((s : any) => s?.trim())
+          .filter((s : any) => s && s.length > 0)
+      : [],
   };
 }
 

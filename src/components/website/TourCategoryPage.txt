@@ -4,14 +4,14 @@ import Link from "next/link";
 import TourCard from './TourCard';
 import Breadcrumbs from './Breadcrumbs';
 import { tourPackages } from '@/data';
-import { TourPackage } from '@/types';
+import { ListTourPackage } from '@/types';
 import SEO from './SEO';
 
 const TourCategoryPage: React.FC = () => {
     const { city, type } = useParams<{ city?: string; type?: string }>();
 
     const { filteredTours, title, description, intro, toursByDuration } = useMemo(() => {
-        let filtered: TourPackage[] = [];
+        let filtered: ListTourPackage[] = [];
         let pageTitle = 'All Tours';
         let pageDescription = 'Browse our hand-picked selection of tours.';
         let introText = 'Start your private East Java journey with a licensed Indonesian company, clear inclusions, and support from trained local guides. No shared buses, no surprise add-ons at midnight.';
@@ -87,7 +87,7 @@ const TourCategoryPage: React.FC = () => {
                 {Object.entries(toursByDuration).map(([key, tours]) => {
                     // FIX: The `tours` variable was inferred as `unknown` because `Object.entries` can have a weak return type.
                     // Explicitly casting `tours` to `TourPackage[]` resolves the type error and allows safe access to `.length` and `.map`.
-                    const tourList = tours as TourPackage[];
+                    const tourList = tours as ListTourPackage[];
                     if (tourList.length === 0) return null;
                     return (
                         <section key={key} id={key} className="mb-16 scroll-mt-24">
