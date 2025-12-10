@@ -38,7 +38,7 @@ const BookingForm: React.FC = () => {
     } else {
         const today = new Date();
         const selectedDate = new Date(travelDate);
-        today.setHours(0, 0, 0, 0); // Reset time to compare dates only
+        today.setHours(0, 0, 0, 0); 
         if (selectedDate < today) {
             newErrors.travelDate = 'Travel date cannot be in the past.';
         }
@@ -49,7 +49,7 @@ const BookingForm: React.FC = () => {
   };
 
   const handleTravelersChange = (amount: number) => {
-    setTravelers(prev => Math.max(1, prev + amount)); // Ensure travelers is at least 1
+    setTravelers(prev => Math.max(1, prev + amount)); 
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -62,8 +62,8 @@ const BookingForm: React.FC = () => {
         travelDate,
         travelers,
       });
-      alert('Booking request sent! (Check console for data)');
-      // Reset form on successful submission if desired
+      alert('Booking request sent!');
+      // Reset form
       setFullName('');
       setEmail('');
       setPhone('');
@@ -73,14 +73,19 @@ const BookingForm: React.FC = () => {
     }
   };
 
-  const inputStyles = "w-full px-4 py-3 bg-background-light dark:bg-ink-primary border border-ink-neutral-200 dark:border-ink-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors text-base";
-  const labelStyles = "block text-sm font-semibold mb-1 text-ink-neutral-700 dark:text-ink-neutral-200";
-  const tooltipStyles = "absolute bottom-full mb-2 w-max max-w-xs p-2 text-xs text-white bg-ink-neutral-900 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible transition-all duration-200 z-10 pointer-events-none";
+  // Styles Updated: Removed Dark Mode, cleaner gray borders, better focus states
+  const inputStyles = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-transparent transition-all text-gray-800 placeholder-gray-400";
+  const labelStyles = "block text-sm font-bold mb-2 text-gray-700";
+  const tooltipStyles = "absolute bottom-full mb-2 left-0 w-max max-w-xs p-2 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible transition-all duration-200 z-10 pointer-events-none";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-       <h3 className="text-xl font-bold text-ink-primary dark:text-white text-center">Book Your Adventure</h3>
+    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+       <div className="text-center mb-6">
+         <h3 className="text-2xl font-bold text-gray-900">Book Your Adventure</h3>
+         <p className="text-sm text-gray-500 mt-1">Fill out the form below to start planning.</p>
+       </div>
       
+      {/* Full Name */}
       <div className="relative group">
         <label htmlFor="fullName" className={labelStyles}>
           Full Name
@@ -90,16 +95,15 @@ const BookingForm: React.FC = () => {
           id="fullName"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          className={`${inputStyles} ${errors.fullName ? 'border-red-500' : ''}`}
+          className={`${inputStyles} ${errors.fullName ? 'border-red-500 focus:ring-red-500 bg-red-50' : ''}`}
           placeholder="e.g. John Doe"
           required
-          aria-invalid={!!errors.fullName}
-          aria-describedby={errors.fullName ? "fullName-error fullName-tooltip" : "fullName-tooltip"}
         />
-        <span id="fullName-tooltip" role="tooltip" className={tooltipStyles}>Please enter your full name as it appears on your ID.</span>
-        {errors.fullName && <p id="fullName-error" className="text-red-500 text-xs mt-1" role="alert">{errors.fullName}</p>}
+        <span className={tooltipStyles}>Enter your full name as on ID.</span>
+        {errors.fullName && <p className="text-red-500 text-xs mt-1 font-medium">{errors.fullName}</p>}
       </div>
 
+      {/* Email */}
       <div className="relative group">
         <label htmlFor="email" className={labelStyles}>
           Email Address
@@ -109,16 +113,15 @@ const BookingForm: React.FC = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={`${inputStyles} ${errors.email ? 'border-red-500' : ''}`}
+          className={`${inputStyles} ${errors.email ? 'border-red-500 focus:ring-red-500 bg-red-50' : ''}`}
           placeholder="you@example.com"
           required
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "email-error email-tooltip" : "email-tooltip"}
         />
-        <span id="email-tooltip" role="tooltip" className={tooltipStyles}>{`We'll`} send your booking confirmation here.</span>
-        {errors.email && <p id="email-error" className="text-red-500 text-xs mt-1" role="alert">{errors.email}</p>}
+        <span className={tooltipStyles}>Booking confirmation will be sent here.</span>
+        {errors.email && <p className="text-red-500 text-xs mt-1 font-medium">{errors.email}</p>}
       </div>
 
+       {/* Phone */}
        <div className="relative group">
         <label htmlFor="phone" className={labelStyles}>
           Phone Number
@@ -128,16 +131,15 @@ const BookingForm: React.FC = () => {
           id="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className={`${inputStyles} ${errors.phone ? 'border-red-500' : ''}`}
-          placeholder="(Optional)"
-          aria-invalid={!!errors.phone}
-          aria-describedby={errors.phone ? "phone-error phone-tooltip" : "phone-tooltip"}
+          className={`${inputStyles} ${errors.phone ? 'border-red-500 focus:ring-red-500 bg-red-50' : ''}`}
+          placeholder="+62..."
         />
-        <span id="phone-tooltip" role="tooltip" className={tooltipStyles}>Include country code for international numbers.</span>
-        {errors.phone && <p id="phone-error" className="text-red-500 text-xs mt-1" role="alert">{errors.phone}</p>}
+        <span className={tooltipStyles}>Include country code for international numbers.</span>
+        {errors.phone && <p className="text-red-500 text-xs mt-1 font-medium">{errors.phone}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-5">
+        {/* Date */}
         <div className="relative group">
             <label htmlFor="travelDate" className={labelStyles}>
             Travel Date
@@ -147,48 +149,58 @@ const BookingForm: React.FC = () => {
               id="travelDate"
               value={travelDate}
               onChange={(e) => setTravelDate(e.target.value)}
-              className={`${inputStyles} ${errors.travelDate ? 'border-red-500' : ''}`}
+              className={`${inputStyles} ${errors.travelDate ? 'border-red-500 focus:ring-red-500 bg-red-50' : ''}`}
               required
-              aria-invalid={!!errors.travelDate}
-              aria-describedby={errors.travelDate ? "date-error date-tooltip" : "date-tooltip"}
             />
-            <span id="date-tooltip" role="tooltip" className={tooltipStyles}>Select your desired start date for the tour.</span>
-            {errors.travelDate && <p id="date-error" className="text-red-500 text-xs mt-1" role="alert">{errors.travelDate}</p>}
+            {errors.travelDate && <p className="text-red-500 text-xs mt-1 font-medium">{errors.travelDate}</p>}
         </div>
+
+        {/* Travelers Counter */}
         <div className="relative group">
             <label htmlFor="travelers" className={labelStyles}>
             Travelers
             </label>
-            <div className="flex items-center h-12">
-            <button type="button" onClick={() => handleTravelersChange(-1)} className="w-12 h-full flex items-center justify-center bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-l-lg font-bold text-xl hover:bg-ink-neutral-300 dark:hover:bg-ink-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary">-</button>
-            <input
-                type="text"
-                id="travelers"
-                value={travelers}
-                readOnly
-                className="w-full h-full text-center px-2 bg-background-light dark:bg-ink-primary border-t border-b border-ink-neutral-200 dark:border-ink-neutral-700 focus:outline-none text-base"
-                aria-describedby="travelers-tooltip"
-            />
-            <button type="button" onClick={() => handleTravelersChange(1)} className="w-12 h-full flex items-center justify-center bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-r-lg font-bold text-xl hover:bg-ink-neutral-300 dark:hover:bg-ink-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary">+</button>
+            <div className="flex items-center h-[50px] border border-gray-200 rounded-lg overflow-hidden">
+                <button 
+                    type="button" 
+                    onClick={() => handleTravelersChange(-1)} 
+                    className="w-12 h-full flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <span className="font-bold text-xl">-</span>
+                </button>
+                <input
+                    type="text"
+                    id="travelers"
+                    value={travelers}
+                    readOnly
+                    className="w-full h-full text-center bg-white text-gray-800 font-semibold focus:outline-none cursor-default"
+                />
+                <button 
+                    type="button" 
+                    onClick={() => handleTravelersChange(1)} 
+                    className="w-12 h-full flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 transition-colors"
+                >
+                    <span className="font-bold text-xl">+</span>
+                </button>
             </div>
-            <span id="travelers-tooltip" role="tooltip" className={tooltipStyles}>Select the number of people in your group.</span>
         </div>
       </div>
 
+      {/* Private Tour Lock */}
       <div className="relative group">
-        <label htmlFor="tripType" className={labelStyles}>
+        <label className={labelStyles}>
             Trip Type
         </label>
-        <div className={`${inputStyles.replace('py-3', 'py-0')} h-12 bg-ink-neutral-200/50 dark:bg-ink-neutral-900/50 cursor-not-allowed flex items-center gap-2`}>
-            <span className="material-symbols-outlined text-primary text-base ml-1">lock</span>
-            <span>Private Tour</span>
+        <div className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-lg flex items-center gap-2 text-gray-500 cursor-not-allowed">
+            <span className="material-symbols-outlined text-sm">lock</span>
+            <span className="font-medium">Private Tour</span>
         </div>
-        <span id="tripType-tooltip" role="tooltip" className={tooltipStyles}>All our tours are private to ensure a personalized and high-quality experience.</span>
+        <p className="text-xs text-gray-400 mt-1">Exclusively for your group.</p>
       </div>
       
       <button
         type="submit"
-        className="w-full px-6 py-3 mt-2 rounded-xl bg-primary text-white font-semibold hover:bg-opacity-90 transform hover:scale-105 transition-transform duration-200"
+        className="w-full px-6 py-4 mt-4 rounded-xl bg-green-600 text-white font-bold text-lg shadow-lg hover:bg-green-700 hover:shadow-green-200 hover:-translate-y-0.5 transition-all duration-200"
       >
         Request to Book
       </button>
