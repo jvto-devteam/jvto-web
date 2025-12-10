@@ -224,6 +224,8 @@ export default function PackageDetailPage({ initialData }: Props) {
       label: a.name,
       price: a.price,
       selected: false,
+      type: a.type,
+      transportType: a.transportType,
     })) ?? []
   );
 
@@ -238,6 +240,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       qty: number;
       price: number;
       subtotal: number;
+      type?: string | null;
     }[]
   ) => {
     const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
@@ -254,7 +257,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       imageUrl: pkg.imageUrl,
       addon: addons,
       grandTotal,
-      totalPackage: basePayload.packageTotal, 
+      totalPackage: basePayload.packageTotal,
       totalAddons: addOnTotal,
       downPayment: downPayment,
     };
@@ -297,6 +300,7 @@ export default function PackageDetailPage({ initialData }: Props) {
         label: a.label,
         price: a.price,
         subtotal: pax * a.price,
+        type: a.type,
       }));
     finalizeBooking(pendingBasePayload, selectedAddOns);
     setShowAddOnModal(false);
@@ -1612,43 +1616,71 @@ export default function PackageDetailPage({ initialData }: Props) {
               </button>
             </div>
             <div className="max-h-[60vh] overflow-y-auto p-6 space-y-4">
-              {addOnSelections.map((item, idx) => (
-                <label
-                  key={item.addOnId}
-                  className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border p-4 transition-all ${
-                    item.selected
-                      ? "border-lime-500 bg-lime-50"
-                      : "border-slate-200 bg-white hover:border-lime-300"
-                  }`}
-                >
-                  <div>
-                    <p className="font-bold text-slate-900">{item.label}</p>
-                    <p className="text-xs text-slate-500">
-                      {formatCurrency(item.price)} x {pax} pax
-                    </p>
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      checked={item.selected}
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        setAddOnSelections((prev) =>
-                          prev.map((p, i) =>
-                            i === idx ? { ...p, selected: checked } : p
-                          )
-                        );
-                      }}
-                      className="peer sr-only"
-                    />
-                    <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-lime-500 peer-checked:bg-lime-500 transition-all flex items-center justify-center">
-                      {item.selected && (
-                        <Check size={14} className="text-white" />
+              {addOnSelections.map((item, idx) => {
+                // --- LOGIC FILTER TRANSPORT BERDASARKAN PAX ---
+                if (item.type === "transport") {
+                  let requiredType = "big";
+                  if (pax <= 3) {
+                    requiredType = "small";
+                  } else if (pax >= 4 && pax <= 9) {
+                    requiredType = "medium";
+                  }
+
+                  // Jika tipe transport item ini TIDAK SAMA dengan yang dibutuhkan user, JANGAN TAMPILKAN
+                  if (
+                    item.transportType &&
+                    item.transportType !== requiredType
+                  ) {
+                    return null;
+                  }
+                }
+                // ---------------------------------------------
+
+                return (
+                  <label
+                    key={item.addOnId}
+                    className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border p-4 transition-all ${
+                      item.selected
+                        ? "border-lime-500 bg-lime-50"
+                        : "border-slate-200 bg-white hover:border-lime-300"
+                    }`}
+                  >
+                    <div>
+                      <p className="font-bold text-slate-900">{item.label}</p>
+                      <p className="text-xs text-slate-500">
+                        {formatCurrency(item.price)} x {pax} pax
+                      </p>
+
+                      {/* Optional: Tampilkan badge tipe transport untuk debug/info */}
+                      {item.type === "transport" && (
+                        <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                          {item.transportType} Vehicle
+                        </span>
                       )}
                     </div>
-                  </div>
-                </label>
-              ))}
+                    <div className="relative">
+                      <input
+                        type="checkbox"
+                        checked={item.selected}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          setAddOnSelections((prev) =>
+                            prev.map((p, i) =>
+                              i === idx ? { ...p, selected: checked } : p
+                            )
+                          );
+                        }}
+                        className="peer sr-only"
+                      />
+                      <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-lime-500 peer-checked:bg-lime-500 transition-all flex items-center justify-center">
+                        {item.selected && (
+                          <Check size={14} className="text-white" />
+                        )}
+                      </div>
+                    </div>
+                  </label>
+                );
+              })}
             </div>
             <div className="border-t border-slate-100 bg-slate-50 p-6">
               <div className="flex justify-between items-center mb-4 text-sm">
