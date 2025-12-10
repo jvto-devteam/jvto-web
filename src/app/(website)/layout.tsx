@@ -3,9 +3,11 @@ import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
-import {contactInfo} from "@/constants";
+import { contactInfo } from "@/constants";
 import "./website.css";
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata = {
   title: {
     default: "JVTO Tours | Private East Java Adventures",
@@ -17,11 +19,11 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: contactInfo.website,
+    url: siteUrl,
     siteName: "Java Volcano Tour Operator",
     images: [
       {
-        url: contactInfo.website+"/assets/img/og/default.jpg", // gambar default kalau halaman tidak punya OG sendiri
+        url: siteUrl + "/assets/img/og/default.jpg", // gambar default kalau halaman tidak punya OG sendiri
         width: 1200,
         height: 630,
         alt: "Java Volcano Tour Operator - JVTO",
@@ -31,12 +33,16 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    images: [contactInfo.website+"/assets/img/og/default.jpg"],
+    images: [contactInfo.website + "/assets/img/og/default.jpg"],
   },
 
   // Favicon & icons (ini tetap di sini, tidak perlu di-override per halaman)
   icons: {
-    icon: ["/assets/img/favicon/favicon.ico", "/assets/img/favicon/favicon-32x32.png", "/assets/img/favicon/favicon-16x16.png"],
+    icon: [
+      "/assets/img/favicon/favicon.ico",
+      "/assets/img/favicon/favicon-32x32.png",
+      "/assets/img/favicon/favicon-16x16.png",
+    ],
     apple: "/assets/img/favicon/apple-touch-icon.png",
   },
 
@@ -67,7 +73,6 @@ export default function WebsiteLayout({
 
           {/* Footer website */}
           <Footer />
-
         </div>
       </div>
     </>
