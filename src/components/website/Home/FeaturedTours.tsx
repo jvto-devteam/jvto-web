@@ -1,41 +1,40 @@
-import React from 'react';
-import TourCard from '../Tours/TourCard';
-import { FEATURED_TOURS } from '@/services/mockData';
 import { ListTourPackage } from "@/types";
+import FeaturedToursClient from "./FeaturedToursClient"; // Import Client Component
 
-interface FeaturedToursProps {
-  tours: ListTourPackage[];
+// Helper function untuk fetch
+async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  // Gunakan no-store agar data selalu fresh saat user refresh halaman
+  const res = await fetch(`${siteUrl}/api/packages/web?from=${id}&limit=6`, {
+    method: "GET",
+    cache: "no-store", 
+  });
+
+  if (!res.ok) {
+     console.error(`Failed to fetch tours for location ${id}`);
+     return []; // Return array kosong agar tidak error fatal (white screen)
+  }
+  return res.json();
 }
 
-const FeaturedTours = ({tours}:FeaturedToursProps) => {
+const FeaturedTours = async () => {
+  // Fetch data Surabaya (4) dan Bali (3) secara PARALLEL (bersamaan)
+  // Ini lebih cepat daripada fetch satu per satu
+  const [surabayaTours, baliTours] = await Promise.all([
+    getToursByLocation(4),
+    getToursByLocation(3),
+  ]);
+
   return (
     <section className="py-24 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-2 mb-4">
-             <span className="text-yellow-400">★★★★★</span>
-             <span className="font-bold text-sm">Trustpilot</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">Tried & Trusted Adventures</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Much Better Adventures is consistently rated {`'Excellent'`} by our guests. Here are the top private volcano routes booked this season.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tours.slice(0,6).map((tour) => (
-            <div key={tour.id} className="h-[500px]">
-              <TourCard tour={tour} />
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-16">
-          <a href="/tours" className="inline-block border-2 border-jvto-dark text-jvto-dark px-8 py-3 font-bold uppercase tracking-wide hover:bg-jvto-dark hover:text-white transition-all">
-            See All Private Tours
-          </a>
-        </div>
-      </div>
+      {/* Oper data ke Client Component.
+        User akan menerima HTML yang berisi JSON data ini (SEO Friendly),
+        tapi interaksi switch tab terjadi di browser.
+      */}
+      <FeaturedToursClient 
+        surabayaTours={surabayaTours} 
+        baliTours={baliTours} 
+      />
     </section>
   );
 };

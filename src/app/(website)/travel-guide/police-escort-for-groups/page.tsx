@@ -397,7 +397,11 @@ If you are planning a large group and would like to explore the possibility of o
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
                 Travel Guide
               </Link>

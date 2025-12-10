@@ -1,3 +1,79 @@
+export interface Asset {
+  id: number;
+  folder_id: number;
+  name: string;
+  caption: string;
+  description: string;
+  type: string;
+  url: string; // Contoh: "/uploads/..."
+  file_ext: string;
+  size_bytes: number;
+  is_active: boolean;
+}
+
+export interface DestinationAsset {
+  id: number;
+  destination_id: number;
+  asset_id: number;
+  type: 'primary' | 'gallery' | string; // Type aset, kita cari yang 'primary'
+  asset: Asset;
+}
+// types/destination.ts
+export interface DestinationDetail {
+  id: number;
+  code: string;
+  name: string;
+  category: string;
+  region: string;
+  province: string;
+  country: string;
+  latitude: string;
+  longitude: string;
+  altitude: number;
+  area_hectares: string;
+  terrain: string;
+  best_time_to_visit: string;
+  difficulty_level: string;
+  duration: string;
+  physical_demand: number;
+  cultural_depth: number;
+  photo_potential: number;
+  weather_by_season: string;
+  rainfall_intensity: string;
+  temperature_range: string;
+  trail_details: string;
+  required_gear: string[];
+  summary: string;
+  description: string;
+  highlight: string;
+  main_attractions: Array<{ title: string; description: string }>;
+  key_highlights: Array<{ title: string; description: string }>;
+  permit_required: boolean;
+  permit_details: string;
+  guide_required: boolean;
+  safety_notes: string[];
+  risk_factors: Array<{
+    type: string;
+    level: string;
+    mitigation: string;
+    description: string;
+  }>;
+  environmental_factors: Array<{
+    unit?: string;
+    value: string;
+    factor: string;
+    impact: string;
+    condition?: string;
+  }>;
+  physical_requirements: string;
+  cultural_context: string;
+  local_tribes: string[];
+  tips_for_visitors: string;
+  featured_image: string;
+  tags: string[];
+  destination_assets: DestinationAsset[];
+}
+
 export interface Destination {
   id: number;
   name: string;

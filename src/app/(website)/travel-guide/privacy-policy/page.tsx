@@ -120,6 +120,20 @@ export default function PrivacyPolicyPage() {
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/travel-guide" className="hover:text-primary">
+                Travel Guide
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-foreground font-medium">
+                Privacy Policy
+              </span>
+            </nav>
+
             <div className="text-center mb-12">
               <nav className="mb-8 text-sm text-muted-foreground">
                 <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>

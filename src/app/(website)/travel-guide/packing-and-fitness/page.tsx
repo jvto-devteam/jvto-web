@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 
 export const metadata: Metadata = {
-    title: 'Packing & Fitness — Bromo, Ijen & Tumpak Sewu | JVTO Travel Guide',
-    description: 'What to pack and fitness requirements for Bromo, Ijen, and Tumpak Sewu tours. Essential packing list and fitness guidance for volcano hikes.',
+  title: "Packing & Fitness — Bromo, Ijen & Tumpak Sewu | JVTO Travel Guide",
+  description:
+    "What to pack and fitness requirements for Bromo, Ijen, and Tumpak Sewu tours. Essential packing list and fitness guidance for volcano hikes.",
 };
 
 export default function PackingAndFitnessPage() {
@@ -321,38 +322,106 @@ We recommend minimizing valuables. Avoid wearing expensive jewellery on hikes an
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
-                <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>
-                <span className="mx-2">›</span>
-                <span className="text-foreground font-medium">Packing & Fitness</span>
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/travel-guide" className="hover:text-primary">
+                Travel Guide
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-foreground font-medium">
+                Packing & Fitness
+              </span>
             </nav>
             <div className="text-center mb-12">
               <h1 className="font-black uppercase text-4xl md:text-5xl tracking-tight">
                 Packing & Fitness — Bromo, Ijen & Tumpak Sewu
               </h1>
               <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                This page helps you prepare realistically for your private tour. We cover what to pack, how fit you should be for each destination, and a few practical tips to protect your belongings.
+                This page helps you prepare realistically for your private tour.
+                We cover what to pack, how fit you should be for each
+                destination, and a few practical tips to protect your
+                belongings.
               </p>
             </div>
 
             <div className="prose prose-lg max-w-none mx-auto text-muted-foreground">
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">General Clothing & Essentials</h2>
-              <p>For all routes (Bromo, Ijen, waterfalls), we recommend: light, quick-drying layers, a warm jacket or fleece, long trousers or leggings, comfortable walking shoes with good grip, a small daypack, sunscreen, a light rain jacket, personal medication. Your main luggage stays in the car/hotel; you only carry what you need for the activity.</p>
-              
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Bromo — Packing & Fitness</h2>
-              <p><strong>Packing:</strong> Warm layers (early morning can feel near 5–10°C), hat, gloves, scarf. Comfortable shoes for sand and dust. <br/><strong>Fitness:</strong> Suitable for most guests with basic mobility. You should be able to step in and out of the jeep, walk short distances, and climb modest stairs.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                General Clothing & Essentials
+              </h2>
+              <p>
+                For all routes (Bromo, Ijen, waterfalls), we recommend: light,
+                quick-drying layers, a warm jacket or fleece, long trousers or
+                leggings, comfortable walking shoes with good grip, a small
+                daypack, sunscreen, a light rain jacket, personal medication.
+                Your main luggage stays in the car/hotel; you only carry what
+                you need for the activity.
+              </p>
 
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Ijen — Packing & Fitness</h2>
-              <p><strong>Packing:</strong> Warm layers, long sleeves and trousers, good hiking shoes, a light headlamp (often provided), and an optional spare mask for dust. <br/><strong>Fitness:</strong> The trail is a sustained uphill walk. You should be able to walk uphill at a steady pace for 1–2 hours. Guests with heart, lung, or circulation conditions should consult a doctor. Final permission depends on the <Link href="/travel-guide/ijen-health-screening">Ijen health screening</Link>.</p>
-              
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Tumpak Sewu — Packing & Fitness</h2>
-              <p><strong>Packing:</strong> Clothing and shoes that can get wet, water shoes for river sections, a small towel, and a change of clothes. <br/><strong>Fitness:</strong> The trail is steep with stairs, rocks, and wet surfaces. You should be comfortable with balance and using ropes/handholds. Not recommended for guests with serious knee, ankle, or balance issues.</p>
-              
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Private Tour & Crew Support</h2>
-              <p>Because your tour is private, your JVTO crew is focused on your group. You can ask for extra stops. If you feel tired or unwell, tell the crew early — they can slow the pace or offer alternatives. Please do not hesitate to speak up.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Bromo — Packing & Fitness
+              </h2>
+              <p>
+                <strong>Packing:</strong> Warm layers (early morning can feel
+                near 5–10°C), hat, gloves, scarf. Comfortable shoes for sand and
+                dust. <br />
+                <strong>Fitness:</strong> Suitable for most guests with basic
+                mobility. You should be able to step in and out of the jeep,
+                walk short distances, and climb modest stairs.
+              </p>
 
-              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Valuables & Jewellery</h2>
-              <p>We recommend minimizing valuables. Avoid wearing expensive jewellery on hikes and waterfall days. Water, mud, and tight spaces make it easy for items to be dropped or lost. At Ijen, volcanic gases can tarnish silver, so we strongly recommend not wearing it.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Ijen — Packing & Fitness
+              </h2>
+              <p>
+                <strong>Packing:</strong> Warm layers, long sleeves and
+                trousers, good hiking shoes, a light headlamp (often provided),
+                and an optional spare mask for dust. <br />
+                <strong>Fitness:</strong> The trail is a sustained uphill walk.
+                You should be able to walk uphill at a steady pace for 1–2
+                hours. Guests with heart, lung, or circulation conditions should
+                consult a doctor. Final permission depends on the{" "}
+                <Link href="/travel-guide/ijen-health-screening">
+                  Ijen health screening
+                </Link>
+                .
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Tumpak Sewu — Packing & Fitness
+              </h2>
+              <p>
+                <strong>Packing:</strong> Clothing and shoes that can get wet,
+                water shoes for river sections, a small towel, and a change of
+                clothes. <br />
+                <strong>Fitness:</strong> The trail is steep with stairs, rocks,
+                and wet surfaces. You should be comfortable with balance and
+                using ropes/handholds. Not recommended for guests with serious
+                knee, ankle, or balance issues.
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Private Tour & Crew Support
+              </h2>
+              <p>
+                Because your tour is private, your JVTO crew is focused on your
+                group. You can ask for extra stops. If you feel tired or unwell,
+                tell the crew early — they can slow the pace or offer
+                alternatives. Please do not hesitate to speak up.
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Valuables & Jewellery
+              </h2>
+              <p>
+                We recommend minimizing valuables. Avoid wearing expensive
+                jewellery on hikes and waterfall days. Water, mud, and tight
+                spaces make it easy for items to be dropped or lost. At Ijen,
+                volcanic gases can tarnish silver, so we strongly recommend not
+                wearing it.
+              </p>
             </div>
           </div>
         </section>

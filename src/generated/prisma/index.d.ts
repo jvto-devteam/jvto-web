@@ -131038,6 +131038,7 @@ export namespace Prisma {
 
   export type destinationsWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
+    slug?: string
     AND?: destinationsWhereInput | destinationsWhereInput[]
     OR?: destinationsWhereInput[]
     NOT?: destinationsWhereInput | destinationsWhereInput[]
@@ -131089,7 +131090,6 @@ export namespace Prisma {
     seo_description?: StringNullableFilter<"destinations"> | string | null
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
-    slug?: StringNullableFilter<"destinations"> | string | null
     short_slug?: StringNullableFilter<"destinations"> | string | null
     created_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"destinations"> | Date | string | null
@@ -131107,7 +131107,7 @@ export namespace Prisma {
     destination_faqs?: Destination_faqsListRelationFilter
     route_destinations?: Route_destinationsListRelationFilter
     destination_gears?: Destination_gearsListRelationFilter
-  }, "id">
+  }, "id" | "slug">
 
   export type destinationsOrderByWithAggregationInput = {
     id?: SortOrder
