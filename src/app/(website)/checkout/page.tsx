@@ -40,6 +40,7 @@ interface AddOn {
   price: number;
   qty: number;
   subtotal: number;
+  type?: string | null;
 }
 
 interface CheckoutPayload {
@@ -77,17 +78,22 @@ function recalculateTotals(
   let newAddonTotal = 0;
   let updatedAddons: AddOn[] = [];
 
-  if (payload.addon && payload.addon.length > 0) {
+if (payload.addon && payload.addon.length > 0) {
     updatedAddons = payload.addon.map((a) => {
-      const newSubtotal = newPax * a.price;
+      const isTransport = a.type === 'transport';
+      
+      const newQty = isTransport ? 1 : newPax;
+      
+      const newSubtotal = newQty * a.price;
       newAddonTotal += newSubtotal;
-      return { ...a, qty: newPax, subtotal: newSubtotal };
+
+      return { ...a, qty: newQty, subtotal: newSubtotal };
     });
   }
 
   const newGrandTotal = newPackageTotal + newAddonTotal;
   const newDownPayment = Math.ceil(newGrandTotal * 0.2);
-  
+
   return {
     ...payload,
     pax: newPax,
