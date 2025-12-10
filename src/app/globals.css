@@ -4,8 +4,26 @@
 @import "../styles/_keyframe-animations.scss";
 
 :root {
+  /* Kita kunci warnanya di sini (Light Mode Only) */
   --background: #ffffff;
   --foreground: #171717;
+}
+
+/* BAGIAN YANG DIHAPUS:
+   @media (prefers-color-scheme: dark) { ... }
+   (Sudah saya buang agar tampilan tidak berubah di HP Dark Mode)
+*/
+
+@layer base {
+  :root {
+    /* Memaksa elemen sistem (seperti scrollbar & date picker) jadi terang */
+    color-scheme: light; 
+  }
+
+  html, body {
+    /* Memaksa style default Tailwind */
+    @apply bg-white text-gray-900; 
+  }
 }
 
 @theme inline {
@@ -15,27 +33,22 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html, body {
-  color-scheme: light; /* Ini memaksa browser merender dalam mode terang */
-}
 body {
+  /* Karena --background dan --foreground sekarang statis (tidak berubah),
+     tampilan akan selalu Light Mode */
   background: var(--background);
   color: var(--foreground);
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
 .faq-content ul {
   list-style-type: disc;
   padding-left: 1.5rem; /* Indent bullets */
