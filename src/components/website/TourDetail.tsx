@@ -185,6 +185,9 @@ export default function PackageDetailPage({ initialData }: Props) {
   const [startDate, setStartDate] = useState("");
   const [pax, setPax] = useState(2);
 
+  const isTransportItem = (type: string | null | undefined) =>
+    type === "transport";
+
   // Keyboard navigation for lightbox
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -294,14 +297,19 @@ export default function PackageDetailPage({ initialData }: Props) {
     if (!pendingBasePayload) return;
     const selectedAddOns = addOnSelections
       .filter((a) => a.selected)
-      .map((a) => ({
-        addOnId: a.addOnId,
-        qty: pax,
-        label: a.label,
-        price: a.price,
-        subtotal: pax * a.price,
-        type: a.type,
-      }));
+      .map((a) => {
+        // LOGIC PENTING: Jika Transport, Qty = 1. Jika Lainnya, Qty = Pax.
+        const quantity = isTransportItem(a.type) ? 1 : pax;
+
+        return {
+          addOnId: a.addOnId,
+          qty: quantity,
+          label: a.label,
+          price: a.price,
+          subtotal: quantity * a.price,
+          type: a.type,
+        };
+      });
     finalizeBooking(pendingBasePayload, selectedAddOns);
     setShowAddOnModal(false);
     setPendingBasePayload(null);
@@ -1648,9 +1656,11 @@ export default function PackageDetailPage({ initialData }: Props) {
                     <div>
                       <p className="font-bold text-slate-900">{item.label}</p>
                       <p className="text-xs text-slate-500">
-                        {formatCurrency(item.price)} x {pax} pax
+                        {formatCurrency(item.price)}
+                        {isTransportItem(item.type)
+                          ? " / unit (Flat Rate)"
+                          : ` x ${pax} pax`}
                       </p>
-
                       {/* Optional: Tampilkan badge tipe transport untuk debug/info */}
                       {item.type === "transport" && (
                         <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
@@ -1689,10 +1699,12 @@ export default function PackageDetailPage({ initialData }: Props) {
                 </span>
                 <span className="font-bold text-slate-900 text-lg">
                   {formatCurrency(
-                    addOnSelections.reduce(
-                      (sum, a) => (a.selected ? sum + pax * a.price : sum),
-                      0
-                    )
+                    addOnSelections.reduce((sum, a) => {
+                      if (!a.selected) return sum;
+                      // Cek tipe saat hitung total live di modal
+                      const qty = isTransportItem(a.type) ? 1 : pax;
+                      return sum + qty * a.price;
+                    }, 0)
                   )}
                 </span>
               </div>
