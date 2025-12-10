@@ -27,6 +27,30 @@ function getPriceForPax(pax: number, tiers: any[]) {
   });
   return tier ? tier.pricePerPerson : null;
 }
+function calculateDownPayment(dateStr: string, total: number) {
+  if (!dateStr) return 0;
+
+  // Parse input "YYYY-MM-DD" menjadi tahun, bulan, tanggal local
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const tripDate = new Date(y, m - 1, d); // Bulan di JS mulai dari 0
+  tripDate.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Hitung selisih hari
+  const diffTime = tripDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  console.log(`📅 Date Check: Trip=${dateStr}, H-${diffDays}`);
+
+  // Jika H-7 atau kurang (bahkan minus/hari H), wajib Full Payment
+  if (diffDays <= 7) {
+    return total;
+  }
+  // Jika lebih dari 7 hari, DP 20%
+  return Math.ceil(total * 0.2);
+}
 
 interface ContactDetails {
   email: string;
@@ -41,6 +65,8 @@ interface AddOn {
   qty: number;
   subtotal: number;
   type?: string | null;
+  transportType?: string | null;
+  transportDestination?: string | null; // <--- Add this
 }
 
 interface CheckoutPayload {
@@ -78,12 +104,12 @@ function recalculateTotals(
   let newAddonTotal = 0;
   let updatedAddons: AddOn[] = [];
 
-if (payload.addon && payload.addon.length > 0) {
+  if (payload.addon && payload.addon.length > 0) {
     updatedAddons = payload.addon.map((a) => {
-      const isTransport = a.type === 'transport';
-      
+      const isTransport = a.type === "transport";
+
       const newQty = isTransport ? 1 : newPax;
-      
+
       const newSubtotal = newQty * a.price;
       newAddonTotal += newSubtotal;
 
@@ -92,7 +118,7 @@ if (payload.addon && payload.addon.length > 0) {
   }
 
   const newGrandTotal = newPackageTotal + newAddonTotal;
-  const newDownPayment = Math.ceil(newGrandTotal * 0.2);
+  const newDownPayment = calculateDownPayment(payload.date, newGrandTotal);
 
   return {
     ...payload,
@@ -277,7 +303,13 @@ const StepOneDetails = ({
   // LOGIKA BARU: Handle Date Change
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.target.value;
-    const updatedPayload = { ...payload, date: newDate };
+    const newDownPayment = calculateDownPayment(newDate, payload.grandTotal);
+    const updatedPayload = {
+      ...payload,
+      date: newDate,
+      downPayment: newDownPayment,
+    };
+    console.log("💰 DP Recalculated:", newDownPayment); // Debugging
     setPayload(updatedPayload);
     localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
   };
@@ -437,6 +469,7 @@ const StepTwoPayment = ({
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"cc" | "bank">("cc");
 
+  const isFullPayment = payload.downPayment === payload.grandTotal;
   const depositAmount = Math.ceil(payload.grandTotal * 0.2);
   const remainingAmount = payload.grandTotal - depositAmount;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -450,36 +483,136 @@ const StepTwoPayment = ({
 
     setProcessing(true);
 
+    // ============================================================
+    // 1. SIAPKAN PAYLOAD UNTUK LEGACY (LARAVEL)
+    // ============================================================
+    const legacyPayload = {
+      contactDetails: {
+        name: payload.contact?.customerName || "",
+        email: payload.contact?.email || "",
+        phone: payload.contact?.phone || "",
+        note: "Booking from New Next.js Website",
+      },
+      bookingSelection: {
+        package_id: Number(payload.packageId),
+        travel_date_start: payload.date,
+        numb_of_pax: Number(payload.pax),
+
+        down_payment: payload.downPayment,
+        total_package: payload.totalPackage,
+        total_addons: payload.totalAddons,
+        grand_total: payload.grandTotal,
+        total_discount: 0,
+
+        addons:
+          payload.addon?.map((item) => {
+            // Logic Transport: Paksa ID jadi 'bali_transport' & Sertakan details destination
+            if (item.type === "transport") {
+              return {
+                id: "bali_transport",
+                name: item.label,
+                price: item.price,
+                details: [
+                  { destination: item.transportDestination || "Unknown" },
+                ],
+              };
+            }
+            // Logic Madakaripura: Paksa ID 'madakaripura'
+            if (item.type === "madakaripura" || item.addOnId === "2") {
+              return {
+                id: "madakaripura",
+                name: item.label,
+                price: item.price,
+                details: [],
+              };
+            }
+            // Default
+            return {
+              id: item.addOnId,
+              name: item.label,
+              price: item.price,
+              details: [],
+            };
+          }) || [],
+      },
+
+      travelerDetails: {
+        pickupLocation: "", // String kosong agar aman di PHP
+        pickupDetail: "",
+        flightNumber: "",
+        trainNumber: null,
+        pickupTime: "",
+        dropoffLocation: "",
+        dropoffDetail: "",
+        dropoffFlightNumber: null,
+        dropoffTrainNumber: null,
+        dropoffTime: "",
+        specialRequirements: "",
+      },
+    };
+
+    // ============================================================
+    // 2. PROSES SUBMIT KE LEGACY (EXTERNAL)
+    // ============================================================
     try {
-      // POST ke API route
+      // Gunakan endpoint internal Next.js sendiri
+      const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
+
+      console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
+
+      const response = await fetch(internalApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(legacyPayload), // Kirim payload legacy yang sudah matang
+      });
+
+      const result = await response.json();
+      console.log("✅ Final Result:", result);
+
+      if (response.ok && result.success && result.payment_link) {
+        localStorage.removeItem("checkoutPayload");
+        window.location.href = result.payment_link;
+      } else {
+        throw new Error(result.message || "Gagal memproses booking.");
+      }
+    } catch (error: any) {
+      console.error("❌ Checkout Error:", error);
+      setProcessing(false);
+      alert(`Error: ${error.message}`);
+    }
+
+    // ============================================================
+    // 3. API INTERNAL (NEXT.JS) - COMMENTED OUT / BACKUP
+    // ============================================================
+    /*
+    try {
       const response = await fetch(siteUrl + "/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload), // Menggunakan payload flat asli MAIN
       });
-
+      
       if (!response.ok) {
-        throw new Error("Failed to create booking");
+        throw new Error("Failed to create booking internally");
       }
-
+      
       const result = await response.json();
-      console.log("Booking created:", result);
+      console.log("Internal Booking created:", result);
 
-      // Simulasi delay sedikit untuk UX
       setTimeout(() => {
-        setProcessing(false);
-        // Hapus data cart setelah sukses
-        localStorage.removeItem("checkoutPayload");
-        // Redirect ke halaman success
-        router.push("/my-booking");
+          setProcessing(false);
+          localStorage.removeItem("checkoutPayload");
+          router.push("/my-booking");
       }, 1000);
+
     } catch (error) {
       console.error(error);
       setProcessing(false);
-      alert("Something went wrong. Please try again.");
+      alert("Something went wrong with internal submission.");
     }
+    */
   };
 
   return (
@@ -497,27 +630,45 @@ const StepTwoPayment = ({
               <span className="font-medium text-slate-600">
                 Total Trip Cost:
               </span>
-              <span className="font-bold text-slate-500 line-through decoration-red-400">
+              <span
+                className={`font-bold ${
+                  isFullPayment
+                    ? "text-slate-900"
+                    : "text-slate-500 line-through decoration-red-400"
+                }`}
+              >
                 {formatCurrency(payload.grandTotal)}
-              </span>
+              </span>{" "}
             </p>
             <p className="flex justify-between items-center">
               <span className="font-bold text-slate-900">
-                Due Now (20% Deposit):
+                {payload.downPayment === payload.grandTotal
+                  ? "Due Now (Full Payment):"
+                  : "Due Now (20% Deposit):"}
               </span>
               <span className="text-xl font-black text-lime-600">
-                {formatCurrency(depositAmount)}
+                {formatCurrency(payload.downPayment)}
               </span>
             </p>
           </div>
           <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
             <span>ℹ️</span>
-            <p>
-              You only pay <strong>{formatCurrency(depositAmount)}</strong>{" "}
-              today to secure your spot. The remaining{" "}
-              <strong>{formatCurrency(remainingAmount)}</strong> can be paid
-              upon arrival or 7 days before the trip.
-            </p>
+            {/* 2. UPDATE TEKS INFO: Beda pesan jika Full Payment */}
+            {isFullPayment ? (
+              <p>
+                Since your trip is within 7 days, <strong>full payment</strong>{" "}
+                is required to secure your reservation immediately. No further
+                payment will be collected.
+              </p>
+            ) : (
+              <p>
+                You only pay{" "}
+                <strong>{formatCurrency(payload.downPayment)}</strong> today to
+                secure your spot. The remaining{" "}
+                <strong>{formatCurrency(remainingAmount)}</strong> can be paid
+                upon arrival or 7 days before the trip.
+              </p>
+            )}
           </div>
         </div>
 
@@ -547,7 +698,7 @@ const StepTwoPayment = ({
                 Credit Card / Debit Card
               </span>
               <span className="text-xs text-slate-500">
-                Instant confirmation via Xendit/Midtrans
+                Instant confirmation via Xendit
               </span>
             </div>
 
@@ -633,9 +784,10 @@ const StepTwoPayment = ({
         <JVTOButton type="submit" disabled={processing} fullWidth>
           {processing
             ? "Processing..."
-            : `Pay Deposit ${formatCurrency(depositAmount)}`}
+            : isFullPayment
+            ? `Pay Full Amount ${formatCurrency(payload.downPayment)}`
+            : `Pay Deposit ${formatCurrency(payload.downPayment)}`}
         </JVTOButton>
-
         <button
           type="button"
           onClick={onBack}

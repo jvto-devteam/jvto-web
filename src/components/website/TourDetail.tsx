@@ -162,6 +162,30 @@ function getExperienceIcon(name: string) {
     return <Flame size={24} className="text-lime-600" />;
   return <MapPin size={24} className="text-lime-600" />;
 }
+function calculateDownPayment(dateStr: string, total: number) {
+  if (!dateStr) return 0;
+  
+  // Parse input "YYYY-MM-DD" menjadi tahun, bulan, tanggal local
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const tripDate = new Date(y, m - 1, d); // Bulan di JS mulai dari 0
+  tripDate.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Hitung selisih hari
+  const diffTime = tripDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  console.log(`📅 Date Check: Trip=${dateStr}, H-${diffDays}`);
+
+  // Jika H-7 atau kurang (bahkan minus/hari H), wajib Full Payment
+  if (diffDays <= 7) {
+    return total;
+  }
+  // Jika lebih dari 7 hari, DP 20%
+  return Math.ceil(total * 0.20);
+}
 
 export default function PackageDetailPage({ initialData }: Props) {
   const router = useRouter();
@@ -229,6 +253,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       selected: false,
       type: a.type,
       transportType: a.transportType,
+      transportDestination: a.transportDestination,
     })) ?? []
   );
 
@@ -249,7 +274,7 @@ export default function PackageDetailPage({ initialData }: Props) {
     const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
     const grandTotal = basePayload.packageTotal + addOnTotal;
 
-    const downPayment = Math.ceil(grandTotal * 0.2);
+    const downPayment = calculateDownPayment(basePayload.date, grandTotal);
 
     const payload = {
       ...basePayload,
@@ -308,6 +333,8 @@ export default function PackageDetailPage({ initialData }: Props) {
           price: a.price,
           subtotal: quantity * a.price,
           type: a.type,
+          transportType: a.transportType,
+          transportDestination: a.transportDestination          
         };
       });
     finalizeBooking(pendingBasePayload, selectedAddOns);

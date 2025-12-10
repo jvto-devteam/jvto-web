@@ -205,6 +205,7 @@ interface _AddOn {
   description: string;
   transportType: string | null;
   price: number;
+  transportDestination: string | null;
 }
 
 interface _AccommodationPlan {
