@@ -192,6 +192,7 @@ export async function GET(req: NextRequest) {
             name: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")}`
               : addon.addons?.name || "",
+            type : addon.addons?.id == 2 ? 'madakaripura' : (addon.addons?.is_transport ? 'transport' : null),   
             description: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
                   addon.addons?.transport_type || ""
@@ -203,6 +204,7 @@ export async function GET(req: NextRequest) {
                     : "10 Pax Above"
                 })`
               : "",
+            transportType : addon.addons?.transport_type ?? null,
             price: addon.addons?.price ?? 0,
           })),
           accommodationPlan:
