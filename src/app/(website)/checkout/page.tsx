@@ -57,6 +57,10 @@ interface CheckoutPayload {
   imageUrl: string;
   addon?: AddOn[];
   contact?: ContactDetails;
+
+  totalPackage: number;
+  totalAddons: number;
+  downPayment: number;
 }
 
 // =================================================================
@@ -82,7 +86,8 @@ function recalculateTotals(
   }
 
   const newGrandTotal = newPackageTotal + newAddonTotal;
-
+  const newDownPayment = Math.ceil(newGrandTotal * 0.2);
+  
   return {
     ...payload,
     pax: newPax,
@@ -90,6 +95,10 @@ function recalculateTotals(
     packageTotal: newPackageTotal,
     grandTotal: newGrandTotal,
     addon: updatedAddons,
+
+    totalPackage: newPackageTotal,
+    totalAddons: newAddonTotal,
+    downPayment: newDownPayment,
   };
 }
 
@@ -158,7 +167,7 @@ const StickyOrderSummary = ({
   if (!payload) return null;
 
   return (
-    <div className="sticky top-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+    <div className="sticky top-36 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
       {/* Header Image */}
       <div className="relative h-40 bg-slate-900">
         {payload.imageUrl ? (
@@ -420,48 +429,46 @@ const StepTwoPayment = ({
 }) => {
   const [consent, setConsent] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'cc' | 'bank'>('cc');
+  const [paymentMethod, setPaymentMethod] = useState<"cc" | "bank">("cc");
 
-  const depositAmount = Math.ceil(payload.grandTotal * 0.20);
+  const depositAmount = Math.ceil(payload.grandTotal * 0.2);
   const remainingAmount = payload.grandTotal - depositAmount;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
 
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) {
-        alert("Please accept the terms to proceed.");
-        return;
+      alert("Please accept the terms to proceed.");
+      return;
     }
 
     setProcessing(true);
 
     try {
       // POST ke API route
-      const response = await fetch(siteUrl+"/api/checkout", {
+      const response = await fetch(siteUrl + "/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to create booking");
       }
-      
+
       const result = await response.json();
       console.log("Booking created:", result);
 
       // Simulasi delay sedikit untuk UX
       setTimeout(() => {
-          setProcessing(false);
-          // Hapus data cart setelah sukses
-          localStorage.removeItem("checkoutPayload");
-          // Redirect ke halaman success
-          router.push("/my-booking");
+        setProcessing(false);
+        // Hapus data cart setelah sukses
+        localStorage.removeItem("checkoutPayload");
+        // Redirect ke halaman success
+        router.push("/my-booking");
       }, 1000);
-
     } catch (error) {
       console.error(error);
       setProcessing(false);
@@ -470,60 +477,101 @@ const StepTwoPayment = ({
   };
 
   return (
-    <form onSubmit={handlePay} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <form
+      onSubmit={handlePay}
+      className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
+    >
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="3" title="Review & Payment" />
-        
+
         {/* --- UPDATE: TAMPILAN RINCIAN HARGA (TOTAL vs DP) --- */}
         <div className="mb-6 rounded-xl bg-slate-50 p-5 text-sm border border-slate-100">
-            <div className="space-y-2 pb-4 border-b border-slate-200">
-                <p className="flex justify-between">
-                    <span className="font-medium text-slate-600">Total Trip Cost:</span> 
-                    <span className="font-bold text-slate-500 line-through decoration-red-400">{formatCurrency(payload.grandTotal)}</span>
-                </p>
-                <p className="flex justify-between items-center">
-                    <span className="font-bold text-slate-900">Due Now (20% Deposit):</span> 
-                    <span className="text-xl font-black text-lime-600">{formatCurrency(depositAmount)}</span>
-                </p>
-            </div>
-            <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
-                <span>ℹ️</span>
-                <p>
-                    You only pay <strong>{formatCurrency(depositAmount)}</strong> today to secure your spot. 
-                    The remaining <strong>{formatCurrency(remainingAmount)}</strong> can be paid upon arrival or 7 days before the trip.
-                </p>
-            </div>
+          <div className="space-y-2 pb-4 border-b border-slate-200">
+            <p className="flex justify-between">
+              <span className="font-medium text-slate-600">
+                Total Trip Cost:
+              </span>
+              <span className="font-bold text-slate-500 line-through decoration-red-400">
+                {formatCurrency(payload.grandTotal)}
+              </span>
+            </p>
+            <p className="flex justify-between items-center">
+              <span className="font-bold text-slate-900">
+                Due Now (20% Deposit):
+              </span>
+              <span className="text-xl font-black text-lime-600">
+                {formatCurrency(depositAmount)}
+              </span>
+            </p>
+          </div>
+          <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
+            <span>ℹ️</span>
+            <p>
+              You only pay <strong>{formatCurrency(depositAmount)}</strong>{" "}
+              today to secure your spot. The remaining{" "}
+              <strong>{formatCurrency(remainingAmount)}</strong> can be paid
+              upon arrival or 7 days before the trip.
+            </p>
+          </div>
         </div>
 
         <div className="space-y-3">
-            {/* Option 1: CC */}
-            <div 
-                onClick={() => setPaymentMethod('cc')}
-                className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
-                    paymentMethod === 'cc' 
-                    ? 'border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500' 
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
-                }`}
+          {/* Option 1: CC */}
+          <div
+            onClick={() => setPaymentMethod("cc")}
+            className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
+              paymentMethod === "cc"
+                ? "border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500"
+                : "border-slate-200 hover:border-slate-300 bg-white"
+            }`}
+          >
+            <div
+              className={`flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
+                paymentMethod === "cc"
+                  ? "border-lime-600 bg-lime-600"
+                  : "border-slate-300"
+              }`}
             >
-                <div className={`flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
-                    paymentMethod === 'cc' ? 'border-lime-600 bg-lime-600' : 'border-slate-300'
-                }`}>
-                    {paymentMethod === 'cc' && <div className="h-2 w-2 rounded-full bg-white" />}
-                </div>
-                <div>
-                    <span className="block font-bold text-slate-900">Credit Card / Debit Card</span>
-                    <span className="text-xs text-slate-500">Instant confirmation via Xendit/Midtrans</span>
-                </div>
-                
-                <div className="ml-auto flex items-center gap-2">
-                    <Image src="/assets/img/icons/visa.svg" alt="Visa" width={40} height={25} className="h-5 w-auto object-contain" />
-                    <Image src="/assets/img/icons/mastercard.svg" alt="Mastercard" width={40} height={25} className="h-5 w-auto object-contain" />
-                    <Image src="/assets/img/icons/jcb.svg" alt="JCB" width={40} height={25} className="h-5 w-auto object-contain" />
-                </div>
+              {paymentMethod === "cc" && (
+                <div className="h-2 w-2 rounded-full bg-white" />
+              )}
+            </div>
+            <div>
+              <span className="block font-bold text-slate-900">
+                Credit Card / Debit Card
+              </span>
+              <span className="text-xs text-slate-500">
+                Instant confirmation via Xendit/Midtrans
+              </span>
             </div>
 
-            {/* Option 2: Bank Transfer */}
-            <div 
+            <div className="ml-auto flex items-center gap-2">
+              <Image
+                src="/assets/img/icons/visa.svg"
+                alt="Visa"
+                width={40}
+                height={25}
+                className="h-5 w-auto object-contain"
+              />
+              <Image
+                src="/assets/img/icons/mastercard.svg"
+                alt="Mastercard"
+                width={40}
+                height={25}
+                className="h-5 w-auto object-contain"
+              />
+              <Image
+                src="/assets/img/icons/jcb.svg"
+                alt="JCB"
+                width={40}
+                height={25}
+                className="h-5 w-auto object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Option 2: Bank Transfer */}
+          {/* <div 
                 onClick={() => setPaymentMethod('bank')}
                 className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
                     paymentMethod === 'bank' 
@@ -540,36 +588,54 @@ const StepTwoPayment = ({
                     <span className="block font-bold text-slate-900">Bank Transfer / QRIS</span>
                     <span className="text-xs text-slate-500">BCA, Mandiri, BRI, QRIS</span>
                 </div>
-            </div>
+            </div> */}
         </div>
 
         <div className="mt-8 border-t border-slate-100 pt-6">
-             <label className="flex items-start gap-3 cursor-pointer group">
-                <input 
-                    type="checkbox" 
-                    checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
-                    className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-lime-500 focus:ring-lime-500" 
-                />
-                <span className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800">
-                    I agree to the <a href="#" className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2">Terms & Conditions</a> and <a href="#" className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2">Cancellation Policy</a>.
-                </span>
-             </label>
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+              className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-lime-500 focus:ring-lime-500"
+            />
+            <span className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800">
+              I agree to the{" "}
+              <a
+                target="_blank"
+                href="/travel-guide/booking-information"
+                className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2"
+              >
+                Terms & Conditions
+              </a>{" "}
+              and{" "}
+              <a
+                target="_blank"
+                href="/travel-guide/booking-information"
+                className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2"
+              >
+                Cancellation Policy
+              </a>
+              .
+            </span>
+          </label>
         </div>
       </div>
 
       <div className="flex flex-col gap-3">
         {/* --- UPDATE: TEKS TOMBOL MENAMPILKAN NOMINAL DP --- */}
         <JVTOButton type="submit" disabled={processing} fullWidth>
-            {processing ? "Processing..." : `Pay Deposit ${formatCurrency(depositAmount)}`}
+          {processing
+            ? "Processing..."
+            : `Pay Deposit ${formatCurrency(depositAmount)}`}
         </JVTOButton>
-        
-        <button 
-            type="button" 
-            onClick={onBack}
-            className="text-center text-sm font-semibold text-slate-400 hover:text-slate-600 hover:underline"
+
+        <button
+          type="button"
+          onClick={onBack}
+          className="text-center text-sm font-semibold text-slate-400 hover:text-slate-600 hover:underline"
         >
-            ← Back to Details
+          ← Back to Details
         </button>
       </div>
     </form>
@@ -615,7 +681,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-6xl px-4 py-30">
+      <div className="mx-auto max-w-6xl px-4 py-26 md:py-40">
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-extrabold uppercase tracking-tight text-slate-900 md:text-4xl">
             Secure Your{" "}

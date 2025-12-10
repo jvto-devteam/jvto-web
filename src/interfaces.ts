@@ -201,7 +201,9 @@ interface _PriceTier {
 interface _AddOn {
   id: string;
   name: string;
+  type : string | null;
   description: string;
+  transportType: string | null;
   price: number;
 }
 

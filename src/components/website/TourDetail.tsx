@@ -243,6 +243,8 @@ export default function PackageDetailPage({ initialData }: Props) {
     const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
     const grandTotal = basePayload.packageTotal + addOnTotal;
 
+    const downPayment = Math.ceil(grandTotal * 0.2);
+
     const payload = {
       ...basePayload,
       packageLabel: pkg.name,
@@ -251,8 +253,10 @@ export default function PackageDetailPage({ initialData }: Props) {
       allAddOns: pkg.addOns,
       imageUrl: pkg.imageUrl,
       addon: addons,
-      addOnTotal,
       grandTotal,
+      totalPackage: basePayload.packageTotal, 
+      totalAddons: addOnTotal,
+      downPayment: downPayment,
     };
     localStorage.setItem("checkoutPayload", JSON.stringify(payload));
     router.push("/checkout");
