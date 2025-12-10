@@ -64,12 +64,14 @@ function serializePackage(pkg: any) {
     slug: pkg.slug || "",
     physicality: pkg.physicality || "",
     tags: Array.isArray(pkg.tags)
-      ? pkg.tags.map((s : any) => s?.trim()).filter((s : any) => s && s.length > 0)
+      ? pkg.tags
+          .map((s: any) => s?.trim())
+          .filter((s: any) => s && s.length > 0)
       : [],
     highlights: Array.isArray(pkg.highlights_bullets)
       ? pkg.highlights_bullets
-          .map((s : any) => s?.trim())
-          .filter((s : any) => s && s.length > 0)
+          .map((s: any) => s?.trim())
+          .filter((s: any) => s && s.length > 0)
       : [],
   };
 }
@@ -79,6 +81,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const fromIdParam = searchParams.get("from")?.trim() || undefined;
     const durationIdParam = searchParams.get("duration")?.trim() || undefined;
+    const limitParam = searchParams.get("limit")?.trim() || undefined;
 
     const fromId =
       fromIdParam && !isNaN(Number(fromIdParam))
@@ -88,6 +91,8 @@ export async function GET(request: NextRequest) {
       durationIdParam && !isNaN(Number(durationIdParam))
         ? Number(durationIdParam)
         : undefined;
+    const limit =
+      limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
 
     const pkgs = await prisma.packages.findMany({
       where: {
@@ -114,6 +119,7 @@ export async function GET(request: NextRequest) {
         package_assets: { include: { asset: true } },
       },
       orderBy: { id: "asc" },
+      ...(limit !== undefined && { take: limit }),
     });
 
     // Jika tidak ada paket

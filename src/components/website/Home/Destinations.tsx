@@ -2,11 +2,21 @@ import Link from "next/link";
 import DestinationCard from "@/components/website/DestinationCard";
 import type { Destination } from "@/interfaces";
 
-interface DestinationsPageProps {
-  destinations: Destination[];
+async function getAllDestinations(): Promise<Destination[]> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  const res = await fetch(`${siteUrl}/api/destinations/web`, {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch all tours");
+  return res.json();
 }
 
-const Destinations = ({destinations}:DestinationsPageProps) => {
+const Destinations = async () => {
+    const destinations = await getAllDestinations();
+
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6">

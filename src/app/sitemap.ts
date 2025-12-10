@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { now } from "@/lib/site";
 
 import { sitemapRoot } from "./sitemap.data";
-import { sitemapBlog } from "./(website)/blog/sitemap.data";
+// import { sitemapBlog } from "./(website)/blog/sitemap.data";
 import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
 import { sitemapTravelGuide } from "./(website)/travel-guide/sitemap.data";
 import { sitemapDestinations } from "./(website)/destinations/sitemap.data";
@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     toursIdx,
     fromSub,
     fromBali,
-    blog,
+    // blog,
   ] = await Promise.all([
     sitemapRoot(t),
     sitemapWhyJvto(t),
@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     sitemapToursIndex(t),
     sitemapToursFromSurabaya(t),
     sitemapToursFromBali(t),
-    sitemapBlog(t),
+    // sitemapBlog(t),
   ]);
 
 
@@ -46,6 +46,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...toursIdx,
     ...fromSub,
     ...fromBali,
-    ...blog,
+    // ...blog,
   ];
 }

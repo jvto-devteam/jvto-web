@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 
 export const metadata: Metadata = {
-    title: 'Safety on Tours — How We Make Decisions | JVTO Travel Guide',
-    description: 'Learn how JVTO thinks about safety across all tours — on the road, at viewpoints, on trails, and around volcanoes.',
+  title: "Safety on Tours — How We Make Decisions | JVTO Travel Guide",
+  description:
+    "Learn how JVTO thinks about safety across all tours — on the road, at viewpoints, on trails, and around volcanoes.",
 };
 
 export default function SafetyOnToursPage() {
@@ -321,38 +322,121 @@ For safety reasons, guests under the influence of alcohol or other substances ma
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
-                <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>
-                <span className="mx-2">›</span>
-                <span className="text-foreground font-medium">Safety on Tours</span>
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/travel-guide" className="hover:text-primary">
+                Travel Guide
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-foreground font-medium">
+                Safety on Tours
+              </span>
             </nav>
             <div className="text-center mb-12">
               <h1 className="font-black uppercase text-4xl md:text-5xl tracking-tight">
                 Safety on Tours — How We Make Decisions
               </h1>
               <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                This page explains how JVTO thinks about safety across all tours — on the road, at viewpoints, on trails, and around volcanoes.
+                This page explains how JVTO thinks about safety across all tours
+                — on the road, at viewpoints, on trails, and around volcanoes.
               </p>
             </div>
 
             <div className="prose prose-lg max-w-none mx-auto text-muted-foreground">
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Responsibility & Roles</h2>
-                <p>JVTO is a registered Indonesian travel company specializing in private volcano tours. The company is led by a tourist police officer who works daily with real tourism and safety cases. Our crews (drivers and guides) are trained to follow internal procedures and local regulations, not just chase “the best photo”. On tour, the tour leader/guide and driver are your first line of support. For larger groups, coordination may also involve local authorities when needed.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Responsibility & Roles
+              </h2>
+              <p>
+                JVTO is a registered Indonesian travel company specializing in
+                private volcano tours. The company is led by a tourist police
+                officer who works daily with real tourism and safety cases. Our
+                crews (drivers and guides) are trained to follow internal
+                procedures and local regulations, not just chase “the best
+                photo”. On tour, the tour leader/guide and driver are your first
+                line of support. For larger groups, coordination may also
+                involve local authorities when needed.
+              </p>
 
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Before the Tour</h2>
-                <p>Before your trip starts, we check recent updates on road and park conditions, review weather patterns and any official alerts, confirm hotel and transport availability, and align with local partners in key areas like Bromo, Ijen, and Tumpak Sewu. For Ijen, health screening is a mandatory part of preparation for those doing the night hike.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Before the Tour
+              </h2>
+              <p>
+                Before your trip starts, we check recent updates on road and
+                park conditions, review weather patterns and any official
+                alerts, confirm hotel and transport availability, and align with
+                local partners in key areas like Bromo, Ijen, and Tumpak Sewu.
+                For Ijen, health screening is a mandatory part of preparation
+                for those doing the night hike.
+              </p>
 
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">During the Tour</h2>
-                <p>During your tour, our crew monitors conditions on the ground: weather, road status, crowding, and local announcements, communicates with other operators and local contacts when necessary, and adjusts timings if there are delays or sudden changes. We may leave earlier or later to avoid traffic or unsafe crowding, switch viewpoints if one area is too congested or temporarily restricted, or choose safer walking paths at waterfalls or along crater rims.</p>
-                
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">When Plans Need to Change</h2>
-                <p>Sometimes, the safest decision is to change or cancel part of the plan. Reasons can include heavy rain, strong winds, or dense fog, volcanic gas levels or alerts, road closures, landslides, or accidents, or local ceremonies or regulations. If we need to change plans we will explain why, we will propose reasonable alternatives where possible, and we will apply our Travel Credit rules if key elements cannot be operated. See <Link href="/travel-guide/weather-and-closures">Weather & Closures</Link> and <Link href="/travel-guide/booking-information">Booking Information</Link>.</p>
-                
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Your Role as a Guest</h2>
-                <p>Safety works best when everyone plays their part. We ask you to wear appropriate clothing and footwear (see <Link href="/travel-guide/packing-and-fitness">Packing & Fitness</Link>), follow instructions from guides and drivers, especially in narrow, wet, or crowded areas, tell the crew immediately if you feel unwell, dizzy, or anxious, and be honest about your health and any conditions that might affect the trip. If you feel something is unsafe, you can always ask to slow down, stop, or skip an activity. There is no pressure to “push through” discomfort.</p>
-                
-                <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">Alcohol, Substances & Risky Behaviour</h2>
-                <p>For safety reasons, guests under the influence of alcohol or other substances may be refused participation in certain activities (especially hikes and steep trails). Dangerous behaviour that puts yourself or others at risk may result in parts of the tour being modified or stopped. Our priority is that everyone finishes the trip safely — guests, crew, and local communities.</p>
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                During the Tour
+              </h2>
+              <p>
+                During your tour, our crew monitors conditions on the ground:
+                weather, road status, crowding, and local announcements,
+                communicates with other operators and local contacts when
+                necessary, and adjusts timings if there are delays or sudden
+                changes. We may leave earlier or later to avoid traffic or
+                unsafe crowding, switch viewpoints if one area is too congested
+                or temporarily restricted, or choose safer walking paths at
+                waterfalls or along crater rims.
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                When Plans Need to Change
+              </h2>
+              <p>
+                Sometimes, the safest decision is to change or cancel part of
+                the plan. Reasons can include heavy rain, strong winds, or dense
+                fog, volcanic gas levels or alerts, road closures, landslides,
+                or accidents, or local ceremonies or regulations. If we need to
+                change plans we will explain why, we will propose reasonable
+                alternatives where possible, and we will apply our Travel Credit
+                rules if key elements cannot be operated. See{" "}
+                <Link href="/travel-guide/weather-and-closures">
+                  Weather & Closures
+                </Link>{" "}
+                and{" "}
+                <Link href="/travel-guide/booking-information">
+                  Booking Information
+                </Link>
+                .
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Your Role as a Guest
+              </h2>
+              <p>
+                Safety works best when everyone plays their part. We ask you to
+                wear appropriate clothing and footwear (see{" "}
+                <Link href="/travel-guide/packing-and-fitness">
+                  Packing & Fitness
+                </Link>
+                ), follow instructions from guides and drivers, especially in
+                narrow, wet, or crowded areas, tell the crew immediately if you
+                feel unwell, dizzy, or anxious, and be honest about your health
+                and any conditions that might affect the trip. If you feel
+                something is unsafe, you can always ask to slow down, stop, or
+                skip an activity. There is no pressure to “push through”
+                discomfort.
+              </p>
+
+              <h2 className="font-black uppercase text-3xl tracking-tight mt-12 mb-4 text-foreground">
+                Alcohol, Substances & Risky Behaviour
+              </h2>
+              <p>
+                For safety reasons, guests under the influence of alcohol or
+                other substances may be refused participation in certain
+                activities (especially hikes and steep trails). Dangerous
+                behaviour that puts yourself or others at risk may result in
+                parts of the tour being modified or stopped. Our priority is
+                that everyone finishes the trip safely — guests, crew, and local
+                communities.
+              </p>
             </div>
           </div>
         </section>

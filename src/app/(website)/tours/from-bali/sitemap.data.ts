@@ -5,12 +5,12 @@ import { prisma } from "@/lib/prisma";
 
 export async function sitemapToursFromBali(t: Date): Promise<MetadataRoute.Sitemap> {
   // Grup durasi (statis)
-  const durationGroups: MetadataRoute.Sitemap = [
-    { url: url("/tours/from-bali/2d1n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-    { url: url("/tours/from-bali/3d2n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-    { url: url("/tours/from-bali/4d3n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-    { url: url("/tours/from-bali/5d4n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  ];
+  // const durationGroups: MetadataRoute.Sitemap = [
+  //   { url: url("/tours/from-bali/2d1n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
+  //   { url: url("/tours/from-bali/3d2n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
+  //   { url: url("/tours/from-bali/4d3n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
+  //   { url: url("/tours/from-bali/5d4n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
+  // ];
 
   // Ambil paket publish yang start dari bali
   const packages = await prisma.packages.findMany({
@@ -31,11 +31,12 @@ export async function sitemapToursFromBali(t: Date): Promise<MetadataRoute.Sitem
 
   const dynamicTours: MetadataRoute.Sitemap =
     packages.map((pkg) => ({
-      url: url(`/tours/${pkg.slug}`),
+      url: url(`/${pkg.slug}`),
       lastModified: pkg.updated_at ?? t,
       changeFrequency: "weekly",
       priority: 0.7,
     }));
 
-  return [...durationGroups, ...dynamicTours];
+  // return [...durationGroups, ...dynamicTours];
+  return dynamicTours;
 }

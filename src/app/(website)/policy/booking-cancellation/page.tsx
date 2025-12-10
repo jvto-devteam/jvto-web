@@ -122,6 +122,20 @@ export default function BookingPolicyPage() {
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/policy" className="hover:text-primary">
+                Policy
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-foreground font-medium">
+                Booking Cancellation
+              </span>
+            </nav>
+
             <div className="text-center mb-12">
               <h1 className="heading-lg">{policy.documentTitle}</h1>
               <p className="mt-4 text-sm text-muted-foreground">

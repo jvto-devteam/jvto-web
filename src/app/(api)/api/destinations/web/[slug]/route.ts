@@ -4,21 +4,26 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { id } = await params;
-    const idNum = Number(id);
+    const { slug } = await params;
+    // const idNum = Number(id);
 
-    if (!Number.isInteger(idNum) || idNum <= 0) {
-      return NextResponse.json(
-        { message: "ID paket tidak valid" },
-        { status: 400 }
-      );
-    }
+    // if (!Number.isInteger(idNum) || idNum <= 0) {
+    //   return NextResponse.json(
+    //     { message: "ID paket tidak valid" },
+    //     { status: 400 }
+    //   );
+    // }
 
     const dest = await prisma.destinations.findUnique({
-      where: { id: BigInt(idNum) },
+      where: { slug: slug },
+      include : {
+        destination_assets:{
+          include : {asset:true}
+        }
+      }
     });
 
     if (!dest) {
