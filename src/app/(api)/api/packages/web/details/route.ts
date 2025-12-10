@@ -205,6 +205,7 @@ export async function GET(req: NextRequest) {
                 })`
               : "",
             transportType : addon.addons?.transport_type ?? null,
+            transportDestination : addon.addons?.name ?? null,
             price: addon.addons?.price ?? 0,
           })),
           accommodationPlan:
