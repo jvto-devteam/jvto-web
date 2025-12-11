@@ -21,7 +21,7 @@ const policyData = {
       {
         number: "1",
         title: "Operator Identity & Official Channels",
-        text: 'Legal Entity: PT Java Volcano Rendezvous\nBrand / Trading Name: Java Volcano Tour Operator (JVTO)\nRegistered Office: Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nBusiness ID (NIB): 1102230032918\nTourism License (TDUP): 1102230032918 (11 February 2023)\nOfficial Channels:\nWebsite & secure checkout: https://javavolcano-touroperator.com\n\nWhatsApp: +62 822-4478-8833\n\nEmail: info@javavolcano-touroperator.com\n\nJVTO operates only private, all-inclusive tours. JVTO does not operate open join-in group tours and does not sell standalone "transport-only" services as its core product.\nJVTO is not responsible for any offers, instructions, or payment requests made outside these official channels.',
+        text: 'Legal Entity: PT Java Volcano Rendezvous\nBrand / Trading Name: Java Volcano Tour Operator (JVTO)\nRegistered Office: Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nBusiness ID (NIB): 1102230032918\nTourism License (TDUP): 1102230032918 (11 February 2023)\nOfficial Channels:\nWebsite & secure checkout: https://javavolcano-touroperator.com\n\nWhatsApp: +62 822-4478-8833\n\nEmail: hello@javavolcano-touroperator.com\n\nJVTO operates only private, all-inclusive tours. JVTO does not operate open join-in group tours and does not sell standalone "transport-only" services as its core product.\nJVTO is not responsible for any offers, instructions, or payment requests made outside these official channels.',
       },
       {
         number: "2",
