@@ -72,7 +72,7 @@ export default function EditBookingModals({
           <div>
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-lime-500"></span>
-              Complimentary T-Shirt
+              Travel T-Shirt
             </h3>
             <p className="text-sm text-slate-500">
               Free gift for every participant

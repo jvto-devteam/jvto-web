@@ -4,6 +4,7 @@ import BookingPaymentAction from "./BookingPaymentAction";
 import EditBookingModals from "./EditBookingModals";
 import ItineraryAccordion from "./ItineraryAccordion";
 import CrewTransportCards from "./CrewTransportCards";
+import BookingInformation from "./BookingInformation";
 import {
   MapPin,
   Calendar,
@@ -66,10 +67,10 @@ export default async function MyBookingPage({
   const isConfirmed = booking.status === "booked";
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-24 pt-30">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-24 pt-20 md:pt-30">
       {/* 1. STICKY HEADER */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className=" bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="container mx-auto px-4 py-4 md:flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 bg-slate-900 rounded-lg flex items-center justify-center text-lime-400 font-black text-xs">
               JV
@@ -84,7 +85,7 @@ export default async function MyBookingPage({
             </div>
           </div>
 
-          <div className="text-right">
+          <div className="mt-2 md:mt-0 md:text-right">
             {isFullyPaid ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-lime-100 text-lime-700 border border-lime-200">
                 <CheckCircle size={12} /> Confirmed & Paid
