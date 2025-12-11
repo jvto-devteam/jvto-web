@@ -140,7 +140,7 @@ export default function PrivacyPolicyPage() {
                 <span className="mx-2">›</span>
                 <span className="text-foreground font-medium">Privacy Policy</span>
               </nav>
-              <h1 className="heading-lg">
+              <h1 className="font-black text-2xl md:text-5xl">
                 {policy.documentTitle}
               </h1>
               <p className="mt-4 text-sm text-muted-foreground">
