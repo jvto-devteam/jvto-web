@@ -2,6 +2,7 @@
 
 import BookingForm from './BookingForm'; 
 import { contactInfo, proofLinks } from '@/constants';
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const ContactPage = () => {
   return (
@@ -31,11 +32,12 @@ const ContactPage = () => {
                 </div>
 
                 <div className="space-y-8 mt-8">
+
                     {/* Office Item */}
                     <div className="flex group">
                         <div className="flex-shrink-0 mr-5">
                           <div className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white transition-all duration-300">
-                            <span className="material-symbols-outlined text-2xl">location_on</span>
+                            <MapPin className="w-6 h-6" />
                           </div>
                         </div>
                         <div>
@@ -52,11 +54,11 @@ const ContactPage = () => {
                         </div>
                     </div>
 
-                     {/* Phone Item */}
-                     <div className="flex group">
+                    {/* Phone Item */}
+                    <div className="flex group">
                         <div className="flex-shrink-0 mr-5">
                           <div className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white transition-all duration-300">
-                            <span className="material-symbols-outlined text-2xl">call</span>
+                            <Phone className="w-6 h-6" />
                           </div>
                         </div>
                         <div>
@@ -73,11 +75,11 @@ const ContactPage = () => {
                         </div>
                     </div>
 
-                     {/* Email Item */}
-                     <div className="flex group">
+                    {/* Email Item */}
+                    <div className="flex group">
                         <div className="flex-shrink-0 mr-5">
                           <div className="w-12 h-12 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white transition-all duration-300">
-                            <span className="material-symbols-outlined text-2xl">email</span>
+                            <Mail className="w-6 h-6" />
                           </div>
                         </div>
                         <div>
@@ -88,9 +90,10 @@ const ContactPage = () => {
                             >
                               {contactInfo.email}
                             </a>
-                             <p className="text-sm text-gray-400 mt-1">We generally reply within a few business hours.</p>
+                            <p className="text-sm text-gray-400 mt-1">We generally reply within a few business hours.</p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
