@@ -137,7 +137,7 @@ export default function BookingPolicyPage() {
             </nav>
 
             <div className="text-center mb-12">
-              <h1 className="heading-lg">{policy.documentTitle}</h1>
+              <h1 className="font-black text-2xl md:text-5xl">{policy.documentTitle}</h1>
               <p className="mt-4 text-sm text-muted-foreground">
                 Last updated: {policy.lastUpdated}
               </p>
