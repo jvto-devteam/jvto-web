@@ -153,7 +153,7 @@ export default function DestinationDetailView({
       {/* HERO SECTION */}
       <header className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
         <div className="absolute inset-0 bg-black/20 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-transparent to-black/50 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10" />
         <img
           src={heroImageUrl}
           alt={data.name}
