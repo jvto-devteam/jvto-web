@@ -68,14 +68,18 @@ export interface BookingData {
   }>;
 
   // Keuangan
-  finance: {
+finance: {
     grand_total: number;
     total_addons: number;
     dp_amount: number;
     balance: number;
     paid_amount: number;
     due_date: string;
-    payment_method: string | null; // 'cc', 'wise', 'cash'
+    
+    // UPDATE FIELD INI
+    initial_payment_method: string | null; 
+    balance_payment_method: string | null; // Bisa null jika belum pilih
+    
     payment_link: string | null;
     payment_history: Array<{
       id: number;
@@ -86,7 +90,6 @@ export interface BookingData {
       created_at: string;
     }>;
   };
-
   // Static Content
   faq: Record<string, Record<string, string>>;
   packing_recommendations: Record<string, string[]>;
