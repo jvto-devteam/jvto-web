@@ -16,7 +16,7 @@ const policyData = {
       {
         "number": "2",
         "title": "Who We Are",
-        "text": "Legal Entity: PT Java Volcano Rendezvous\nBrand / Trading Name: Java Volcano Tour Operator (JVTO)\nBusiness Nature: Licensed, specialist private tour operator focusing on volcano, nature, and overland journeys in Java and surrounding regions.\nRegistered Address: Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nOfficial Contact Channels:\nWhatsApp: +62 822-4478-8833\nEmail: info@javavolcano-touroperator.com\nOfficial Website & Booking Portals as published by JVTO\n\nJVTO operates only private, all-inclusive tours under its own management. JVTO does not operate open join-in group tours and does not sell standalone \"transport-only\" services as its core product.\nFor the purposes of data protection, PT Java Volcano Rendezvous acts as the Data Controller for personal data processed in the course of JVTO’s operations."
+        "text": "Legal Entity: PT Java Volcano Rendezvous\nBrand / Trading Name: Java Volcano Tour Operator (JVTO)\nBusiness Nature: Licensed, specialist private tour operator focusing on volcano, nature, and overland journeys in Java and surrounding regions.\nRegistered Address: Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nOfficial Contact Channels:\nWhatsApp: +62 822-4478-8833\nEmail: hello@javavolcano-touroperator.com\nOfficial Website & Booking Portals as published by JVTO\n\nJVTO operates only private, all-inclusive tours under its own management. JVTO does not operate open join-in group tours and does not sell standalone \"transport-only\" services as its core product.\nFor the purposes of data protection, PT Java Volcano Rendezvous acts as the Data Controller for personal data processed in the course of JVTO’s operations."
       },
       {
         "number": "3",
@@ -66,7 +66,7 @@ const policyData = {
       {
         "number": "12",
         "title": "Contact for Privacy Matters",
-        "text": "For any questions, requests, or concerns about this Policy or our handling of personal data, please contact:\nPT Java Volcano Rendezvous (Java Volcano Tour Operator)\nJl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nWhatsApp: +62 822-4478-8833\nEmail: info@javavolcano-touroperator.com\nAll privacy-related communications received through official channels will be reviewed and handled in a timely and appropriate manner."
+        "text": "For any questions, requests, or concerns about this Policy or our handling of personal data, please contact:\nPT Java Volcano Rendezvous (Java Volcano Tour Operator)\nJl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia\nWhatsApp: +62 822-4478-8833\nEmail: hello@javavolcano-touroperator.com\nAll privacy-related communications received through official channels will be reviewed and handled in a timely and appropriate manner."
       }
     ],
     "closingStatement": "This document is an official corporate policy of PT Java Volcano Rendezvous and serves as the single source of truth for all public-facing content, website material, FAQs, and automated assistant responses relating to privacy and data protection."

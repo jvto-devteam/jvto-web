@@ -32,7 +32,7 @@ export default function BookingPolicyPage() {
                 <ul>
                     <li><strong>Website & Secure Checkout:</strong> https://javavolcano-touroperator.com</li>
                     <li><strong>WhatsApp:</strong> +62 822-4478-8833</li>
-                    <li><strong>Email:</strong> info@javavolcano-touroperator.com</li>
+                    <li><strong>Email:</strong> hello@javavolcano-touroperator.com</li>
                 </ul>
                 <p>Any offer or payment request received outside these channels must be treated as suspicious and verified directly with JVTO.</p>
 
