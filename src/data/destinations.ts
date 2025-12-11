@@ -7,11 +7,11 @@ export const destinationsData: Destination[] = [
         name: 'Mount Bromo',
         description: "Mount Bromo, part of the Tengger Caldera, is an active volcano in East Java. Standing at 2,329 meters, it's a world-renowned icon, famed for its ethereal sunrises, vast 'Sea of Sand', and the raw power of its active crater.",
         images: [
-            "https://javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/new3.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/new2.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/new1.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb10.jpg"
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new3.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new2.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new1.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb10.jpg"
         ],
         geo: { latitude: -7.94227, longitude: 112.95301 },
         keyInfo: {
@@ -61,11 +61,11 @@ export const destinationsData: Destination[] = [
         name: 'Ijen Crater',
         description: "Mount Ijen is a unique volcano complex famed for its otherworldly 'blue fire' phenomenon and the world's largest acidic crater lake. The challenging midnight trek is a rite of passage for adventurers, rewarded with surreal landscapes at dawn.",
         images: [
-            "https://javavolcano-touroperator.com/assets/img/destinations/new6.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb8.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb6.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb5.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb2.jpg"
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new6.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb8.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb6.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb5.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb2.jpg"
         ],
         geo: { latitude: -8.05795, longitude: 114.24165 },
         keyInfo: {
@@ -115,11 +115,11 @@ export const destinationsData: Destination[] = [
         name: 'Tumpak Sewu Waterfall',
         description: 'Often called "Coban Sewu" or "a thousand waterfalls," Tumpak Sewu is a breathtaking 120-meter high tiered waterfall that forms a majestic curtain of water. The trek to its base is a true adventure into a hidden paradise.',
         images: [
-            "https://javavolcano-touroperator.com/assets/img/destinations/new5.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/fb3.jpg",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/tumpaksewu3.webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/tumpaksewu2.webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/ijen-coffee-and-cocoa-science-technopark-papuma-tumpak-sewu-bromo-surabaya-(6d-5n)-1692530713108/tumpaksewu4.webp"
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new5.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb3.jpg",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/tumpaksewu3.webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/tumpaksewu2.webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/ijen-coffee-and-cocoa-science-technopark-papuma-tumpak-sewu-bromo-surabaya-(6d-5n)-1692530713108/tumpaksewu4.webp"
         ],
         geo: { latitude: -8.2302713, longitude: 112.9165192 },
         keyInfo: {
@@ -164,11 +164,11 @@ export const destinationsData: Destination[] = [
         name: 'Madakaripura Waterfall',
         description: "Hidden in a deep valley in the foothills of the Bromo-Tengger-Semeru National Park, Madakaripura is a legendary 200-meter high waterfall. The journey to its base is an adventure in itself, involving a trek through rivers and lush greenery to reach the towering, sacred cascades.",
         images: [
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/madakaripura1.webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/madakaripura.webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt.ijen-bromo-madakaripura-malang-surabaya-(-5d-4n-)-1676527974520/madakaripura1.webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt.-ijen---bromo---madakaripura---surabaya-night-market-tour-(4d-3n)-1676516629546/madakaripura (2).webp",
-            "https://javavolcano-touroperator.com/assets/img/destinations/mt.-ijen---bromo---madakaripura---surabaya-night-market-tour-(4d-3n)-1676513053011/madakaripura1.webp"
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/madakaripura1.webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt-ijen-papuma-beach-tumpak-sewu-fall-mt.-bromo-malang-tour-surabaya-(6d-5n)-1692676432971/madakaripura.webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt.ijen-bromo-madakaripura-malang-surabaya-(-5d-4n-)-1676527974520/madakaripura1.webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt.-ijen---bromo---madakaripura---surabaya-night-market-tour-(4d-3n)-1676516629546/madakaripura (2).webp",
+            "https://legacy.javavolcano-touroperator.com/assets/img/destinations/mt.-ijen---bromo---madakaripura---surabaya-night-market-tour-(4d-3n)-1676513053011/madakaripura1.webp"
         ],
         geo: { latitude: -7.8551394, longitude: 113.0076892 },
         keyInfo: {

@@ -30,7 +30,7 @@ const travelAgencySchema = {
     "name":"Java Volcano Tour Operator",
     "legalName":"PT Java Volcano Rendezvous",
     "url":"https://javavolcano-touroperator.com/",
-    "logo":"https://javavolcano-touroperator.com/assets/logo.png",
+    "logo":"https://legacy.javavolcano-touroperator.com/assets/logo.png",
     "email": contactInfo.email,
     "telephone": contactInfo.whatsapp,
     "priceRange":"IDR",
