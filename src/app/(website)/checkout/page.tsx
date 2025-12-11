@@ -554,63 +554,63 @@ const StepTwoPayment = ({
     // ============================================================
     // 2. PROSES SUBMIT KE LEGACY (EXTERNAL)
     // ============================================================
-    // try {
-    //   // Gunakan endpoint internal Next.js sendiri
-    //   const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
+    try {
+      // Gunakan endpoint internal Next.js sendiri
+      const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
 
-    //   console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
+      console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
 
-    //   const response = await fetch(internalApiUrl, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(legacyPayload), // Kirim payload legacy yang sudah matang
-    //   });
+      const response = await fetch(internalApiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(legacyPayload), // Kirim payload legacy yang sudah matang
+      });
 
-    //   const result = await response.json();
-    //   console.log("✅ Final Result:", result);
+      const result = await response.json();
+      console.log("✅ Final Result:", result);
 
-    //   if (response.ok && result.success && result.payment_link) {
-    //     localStorage.removeItem("checkoutPayload");
-    //     window.location.href = result.payment_link;
-    //   } else {
-    //     throw new Error(result.message || "Gagal memproses booking.");
-    //   }
-    // } catch (error: any) {
-    //   console.error("❌ Checkout Error:", error);
-    //   setProcessing(false);
-    //   alert(`Error: ${error.message}`);
-    // }
+      if (response.ok && result.success && result.payment_link) {
+        localStorage.removeItem("checkoutPayload");
+        window.location.href = result.payment_link;
+      } else {
+        throw new Error(result.message || "Gagal memproses booking.");
+      }
+    } catch (error: any) {
+      console.error("❌ Checkout Error:", error);
+      setProcessing(false);
+      alert(`Error: ${error.message}`);
+    }
 
     // ============================================================
     // 3. API INTERNAL (NEXT.JS) - COMMENTED OUT / BACKUP
     // ============================================================
-    try {
-      const response = await fetch(siteUrl + "/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // Menggunakan payload flat asli MAIN
-      });
+    // try {
+    //   const response = await fetch(siteUrl + "/api/checkout", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(payload), // Menggunakan payload flat asli MAIN
+    //   });
       
-      if (!response.ok) {
-        throw new Error("Failed to create booking internally");
-      }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to create booking internally");
+    //   }
       
-      const result = await response.json();
-      console.log("Internal Booking created:", result);
+    //   const result = await response.json();
+    //   console.log("Internal Booking created:", result);
 
-      setTimeout(() => {
-          setProcessing(false);
-          localStorage.removeItem("checkoutPayload");
-          router.push("/my-booking");
-      }, 1000);
+    //   setTimeout(() => {
+    //       setProcessing(false);
+    //       localStorage.removeItem("checkoutPayload");
+    //       router.push("/my-booking");
+    //   }, 1000);
 
-    } catch (error) {
-      console.error(error);
-      setProcessing(false);
-      alert("Something went wrong with internal submission.");
-    }
+    // } catch (error) {
+    //   console.error(error);
+    //   setProcessing(false);
+    //   alert("Something went wrong with internal submission.");
+    // }
   };
 
   return (
