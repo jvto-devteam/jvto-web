@@ -24,10 +24,10 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Whispering Sand mystical landscape discovery",
       "Complete experience returning to Surabaya by noon"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
     gallery: [
-        "https://javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
-        "https://javavolcano-touroperator.com/assets/img/destinations/surabaya-mt.-bromo-1-day-tour-1692564153744/bromo11.webp"
+        "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new4.jpg",
+        "https://legacy.javavolcano-touroperator.com/assets/img/destinations/surabaya-mt.-bromo-1-day-tour-1692564153744/bromo11.webp"
     ],
     isPrivate: true,
     rating: 4.9,
@@ -88,9 +88,9 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Visit Java's highest waterfall at Madakaripura",
       "Perfect short escape from Surabaya with maximum impact"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/new2.jpg",
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new2.jpg",
     gallery: [
-        "https://javavolcano-touroperator.com/assets/img/destinations/new2.jpg"
+        "https://legacy.javavolcano-touroperator.com/assets/img/destinations/new2.jpg"
     ],
     isPrivate: true,
     rating: 4.9,
@@ -159,8 +159,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Observe local sulfur miners",
       "Visit Malabar Coffee Plantation"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-ijen-1-day-tours-1679724664576/ijen12.webp"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,
@@ -226,8 +226,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Explore Java's highest waterfall at Madakaripura",
       "Cross-island adventure from Bali"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/bali-bromo-ijen-bali-(3d-2n)-1698473982924/00000IMG_00000_BURST20230827072437106_COVER1.webp"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,
@@ -303,8 +303,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Mesmerizing Ijen Blue Fire",
       "Seamless transfer to Bali"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/fb4.jpg",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/fb4.jpg"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb4.jpg",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb4.jpg"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,
@@ -378,8 +378,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Bromo Sunrise",
       "Madakaripura Waterfall"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/fb9.jpg",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/fb9.jpg"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb9.jpg",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb9.jpg"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,
@@ -455,8 +455,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Madakaripura Waterfall",
       "Comfortable city stay in Surabaya"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/fb2.jpg",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/fb2.jpg"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb2.jpg",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb2.jpg"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,
@@ -539,8 +539,8 @@ export const FEATURED_TOURS: TourPackage[] = [
       "Tumpak Sewu Waterfall",
       "Bromo Sunrise"
     ],
-    imageUrl: "https://javavolcano-touroperator.com/assets/img/destinations/fb6.jpg",
-    gallery: ["https://javavolcano-touroperator.com/assets/img/destinations/fb6.jpg"],
+    imageUrl: "https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb6.jpg",
+    gallery: ["https://legacy.javavolcano-touroperator.com/assets/img/destinations/fb6.jpg"],
     isPrivate: true,
     rating: 4.9,
     reviewCount: 112,

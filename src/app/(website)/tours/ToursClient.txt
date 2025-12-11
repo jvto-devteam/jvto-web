@@ -469,7 +469,7 @@ export default function ToursClient({
                     >
                       <div className="relative h-48 w-full">
                         <img
-                          src={`https://javavolcano-touroperator.com/assets${image}`}
+                          src={`https://legacy.javavolcano-touroperator.com/assets${image}`}
                           alt={pkg.name || "Tour package"}
                           className="object-cover h-full w-full"
                         />

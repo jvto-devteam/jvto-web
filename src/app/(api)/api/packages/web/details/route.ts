@@ -214,7 +214,7 @@ export async function GET(req: NextRequest) {
               name: h.hotels?.name ?? "",
               area: h.hotels?.destinations?.name ?? "",
               image: h.hotels
-                ? "https://javavolcano-touroperator.com/assets/img/hotels/" +
+                ? "https://legacy.javavolcano-touroperator.com/assets/img/hotels/" +
                   h.hotels.banner
                 : "",
             })) ?? [],
@@ -407,7 +407,7 @@ export async function GET(req: NextRequest) {
               {
                 type: "MPV",
                 model: "Toyota Avanza/Innova",
-                banner: "https://javavolcano-touroperator.com/assets/img/cars/avanza.png",
+                banner: "https://legacy.javavolcano-touroperator.com/assets/img/cars/avanza.png",
                 maxPax: 3,
                 baggageCapacity: "3 medium bags",
                 features: ["AC", "Charging ports"],
@@ -415,7 +415,7 @@ export async function GET(req: NextRequest) {
               {
                 type: "Hiace",
                 model: "Toyota Hiace",
-                banner: "https://javavolcano-touroperator.com/assets/img/cars/hiace.png",
+                banner: "https://legacy.javavolcano-touroperator.com/assets/img/cars/hiace.png",
                 maxPax: 11,
                 baggageCapacity: "11 medium bags",
                 features: ["AC", "Spacious legroom"],

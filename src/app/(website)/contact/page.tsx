@@ -30,9 +30,9 @@ export default function Contact() {
         "@id": "https://javavolcano-touroperator.com/#travelagency",
         name: "Java Volcano Tour Operator",
         url: "https://javavolcano-touroperator.com/",
-        logo: "https://javavolcano-touroperator.com/assets/img/download.png",
+        logo: "https://legacy.javavolcano-touroperator.com/assets/img/download.png",
         image:
-          "https://javavolcano-touroperator.com/assets/img/destinations/og-image/java-volcano-home-thumb.jpg",
+          "https://legacy.javavolcano-touroperator.com/assets/img/destinations/og-image/java-volcano-home-thumb.jpg",
         description:
           "Private volcano tours in East Java: Mount Bromo, Ijen Crater, Tumpak Sewu & more. Licensed local tour operator based in Bondowoso.",
         address: {

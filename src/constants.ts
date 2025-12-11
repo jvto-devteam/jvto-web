@@ -200,7 +200,7 @@ export const guides: Guide[] = [
         id: 3,
         name: 'Agung Sambuko (Mr. Sam)',
         bio: 'As an active Tourist Police officer and JVTO\'s founder, Mr. Sam built the company on a promise of safety, integrity, and authentic local experience.',
-        imageUrl: 'https://javavolcano-touroperator.com/assets/img/pages/about/agung-sambuko.jpg',
+        imageUrl: 'https://legacy.javavolcano-touroperator.com/assets/img/pages/about/agung-sambuko.jpg',
         specialties: ['Founder', 'Safety Leadership', 'Local Expertise']
     },
     {
