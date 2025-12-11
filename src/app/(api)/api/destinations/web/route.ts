@@ -13,30 +13,37 @@ function serializeDestination(dest: any) {
     name: dest.name,
     slug: dest.slug,
     banner: {
-      url: (dest.destination_assets ?? []).find(
-      (da: any) => da.asset?.type === "image" && da.type === "primary"
-    )?.asset.url ?? "",
-      alt: (dest.destination_assets ?? []).find(
-      (da: any) => da.asset?.type === "image" && da.type === "primary"
-    )?.asset.description ?? "",
+      url:
+        (dest.destination_assets ?? []).find(
+          (da: any) => da.asset?.type === "image" && da.type === "primary"
+        )?.asset.url ?? "",
+      alt:
+        (dest.destination_assets ?? []).find(
+          (da: any) => da.asset?.type === "image" && da.type === "primary"
+        )?.asset.description ?? "",
     },
     description: dest.description,
-    keyInfo:{
+    keyInfo: {
       difficulty_level: dest.difficulty_level,
       temperature_range: dest.temperature_range,
       best_time_to_visit: dest.best_time_to_visit,
-    }
+    },
   };
 }
 
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const limitParam = searchParams.get("limit")?.trim() || undefined;
+    const limit =
+      limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
+
     const destinations = await prisma.destinations.findMany({
       where: {
         id: {
           notIn: [3, 4],
         },
-        published : true
+        published: true,
       },
       select: {
         id: true,
@@ -52,6 +59,7 @@ export async function GET(request: NextRequest) {
         },
       },
       orderBy: { id: "asc" },
+      ...(limit !== undefined && { take: limit }),
     });
 
     const payload = destinations.map(serializeDestination);

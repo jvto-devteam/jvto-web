@@ -5,7 +5,7 @@ import type { Destination } from "@/interfaces";
 async function getAllDestinations(): Promise<Destination[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-  const res = await fetch(`${siteUrl}/api/destinations/web`, {
+  const res = await fetch(`${siteUrl}/api/destinations/web?limit=4`, {
     method: "GET",
     cache: "no-store",
   });
