@@ -164,9 +164,9 @@ function getExperienceIcon(name: string) {
 }
 function calculateDownPayment(dateStr: string, total: number) {
   if (!dateStr) return 0;
-  
+
   // Parse input "YYYY-MM-DD" menjadi tahun, bulan, tanggal local
-  const [y, m, d] = dateStr.split('-').map(Number);
+  const [y, m, d] = dateStr.split("-").map(Number);
   const tripDate = new Date(y, m - 1, d); // Bulan di JS mulai dari 0
   tripDate.setHours(0, 0, 0, 0);
 
@@ -184,8 +184,12 @@ function calculateDownPayment(dateStr: string, total: number) {
     return total;
   }
   // Jika lebih dari 7 hari, DP 20%
-  return Math.ceil(total * 0.20);
+  return Math.ceil(total * 0.2);
 }
+const stripHtml = (html) => {
+  if (!html) return "";
+  return html.replace(/<[^>]+>/g, "");
+};
 
 export default function PackageDetailPage({ initialData }: Props) {
   const router = useRouter();
@@ -334,7 +338,7 @@ export default function PackageDetailPage({ initialData }: Props) {
           subtotal: quantity * a.price,
           type: a.type,
           transportType: a.transportType,
-          transportDestination: a.transportDestination          
+          transportDestination: a.transportDestination,
         };
       });
     finalizeBooking(pendingBasePayload, selectedAddOns);
@@ -575,17 +579,27 @@ export default function PackageDetailPage({ initialData }: Props) {
               </h2>
 
               <div className="relative">
-                <div
-                  className={`text-lg text-slate-600 leading-relaxed whitespace-pre-line transition-all duration-500`}
-                >
-                  {/* Logika Truncate: Tampilkan full jika expanded ATAU jika teks pendek (< 400 char) */}
-                  {isDescriptionExpanded || pkg.description.length < 350
-                    ? pkg.description
-                    : `${pkg.description.substring(0, 350)}...`}
-                </div>
+                {/* FULL HTML */}
+                {isDescriptionExpanded ? (
+                  <div
+                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    dangerouslySetInnerHTML={{ __html: pkg.description }}
+                  />
+                ) : (
+                  <div
+                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        stripHtml(pkg.description).length < 350
+                          ? pkg.description
+                          : stripHtml(pkg.description).substring(0, 350) +
+                            "...",
+                    }}
+                  />
+                )}
 
-                {/* Tombol Toggle hanya muncul jika teks panjang */}
-                {pkg.description.length >= 350 && (
+                {/* TOGGLE BUTTON */}
+                {stripHtml(pkg.description).length >= 350 && (
                   <button
                     onClick={() =>
                       setIsDescriptionExpanded(!isDescriptionExpanded)
