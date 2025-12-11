@@ -20,6 +20,8 @@ export interface BookingData {
   drop_time: string;
   special_requirements: string | null;
 
+  media_link: string | null;
+
   // Ukuran Kaos
   tshirt_sizes: {
     xs: number;
