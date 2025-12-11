@@ -39,6 +39,10 @@ const Navbar: React.FC = () => {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+  setIsMenuOpen(false);
+}, [pathname]);
+
   // Dynamic classes based on state
   const navClass =
     isHome && !isScrolled
@@ -185,7 +189,7 @@ const Navbar: React.FC = () => {
               href="/contact"
               className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
             >
-              Book Now
+              Contact
             </Link>
           </div>
 
