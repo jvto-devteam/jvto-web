@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
         id: {
           notIn: [3, 4],
         },
+        published : true
       },
       select: {
         id: true,
