@@ -15,7 +15,6 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Jika sudah ada link pembayaran (outstanding link), langsung redirect
   const handleDirectPay = () => {
     if (paymentLink) window.location.href = paymentLink;
   };
@@ -23,7 +22,6 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
   const handleSelectMethod = async (type: 'cc' | 'wise' | 'cash') => {
     setLoading(true);
     try {
-      // Kita menembak API route Next.js (Proxy) yang akan meneruskan ke Legacy
       const res = await fetch('/api/booking/pay-balance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -34,15 +32,16 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
 
       if (!res.ok) throw new Error(result.message || "Failed to set payment method");
 
-      if (type === 'cc' && result.payment_link) {
-        // Redirect ke Xendit
-        window.location.href = result.payment_link;
-      } else {
-        // Refresh halaman untuk Cash/Wise agar status terupdate
-        alert(`Success! Payment method set to ${type.toUpperCase()}. Check your WhatsApp for instructions.`);
-        setIsOpen(false);
-        router.refresh();
-      }
+      // --- UPDATE LOGIC: Hapus Redirect Otomatis ---
+      
+      // Tutup Modal
+      setIsOpen(false);
+      
+      // Tampilkan Pesan Sukses
+      alert(`Success! Payment method updated to ${type === 'cc' ? 'Credit Card' : type.toUpperCase()}.`);
+      
+      // Refresh Data Halaman (Agar tombol berubah jadi "Pay Balance")
+      router.refresh();
 
     } catch (error: any) {
       alert(error.message || "Something went wrong");
@@ -51,19 +50,19 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
     }
   };
 
-  // Jika paymentLink ada (artinya user sudah pernah pilih CC sebelumnya), tampilkan tombol Pay Now
+  // Jika paymentLink sudah ada (User sudah set method CC sebelumnya), tombol jadi "Pay Balance"
   if (paymentLink) {
     return (
       <button 
         onClick={handleDirectPay}
-        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto"
+        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto flex items-center justify-center gap-2"
       >
         Pay Balance &rarr;
       </button>
     );
   }
 
-  // Jika belum pilih metode, tampilkan tombol Select Payment Method
+  // Jika belum pilih metode, tombol "Select Payment Method"
   return (
     <>
       <button 
@@ -78,7 +77,6 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
             
-            {/* Header Modal */}
             <div className="bg-slate-900 p-4 text-white flex justify-between items-center">
               <h3 className="font-bold text-lg">Pay Remaining Balance</h3>
               <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors">
@@ -93,11 +91,10 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
               </div>
 
               <div className="space-y-3">
-                {/* Option 1: CC */}
                 <button 
                   onClick={() => handleSelectMethod('cc')}
                   disabled={loading}
-                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:border-lime-500 hover:bg-lime-50 transition-all text-left group relative overflow-hidden"
+                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:border-lime-500 hover:bg-lime-50 transition-all text-left group"
                 >
                   <div className="bg-blue-100 p-3 rounded-full text-blue-600 group-hover:bg-lime-200 group-hover:text-lime-700 transition-colors">
                     <CreditCard size={24} />
@@ -108,7 +105,6 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                   </div>
                 </button>
 
-                {/* Option 2: Wise */}
                 <button 
                   onClick={() => handleSelectMethod('wise')}
                   disabled={loading}
@@ -123,7 +119,6 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                   </div>
                 </button>
 
-                {/* Option 3: Cash */}
                 <button 
                   onClick={() => handleSelectMethod('cash')}
                   disabled={loading}
