@@ -169,7 +169,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
             <div className="flex items-center gap-1">
               {/* Star dengan fill agar solid */}
               <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              <span className="text-ink-primary dark:text-white font-bold">
+              <span className="text-ink-primary font-bold">
                 49
               </span>
               <span className="text-ink-neutral-400 normal-case">(122)</span>
@@ -179,7 +179,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
           <Link href={fullTourSlug} className="group/title block mb-3">
             <h3
               id={`tour-title-${tour.id}`}
-              className="text-lg font-bold text-ink-primary dark:text-white leading-tight group-hover/title:text-lime-600 transition-colors line-clamp-2"
+              className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-lime-600 transition-colors line-clamp-2"
             >
               {tour.name}
             </h3>

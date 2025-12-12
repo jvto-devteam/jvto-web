@@ -12,6 +12,7 @@ const Hero: React.FC = () => {
           fill
           priority
           sizes="100vw"
+          quality={80}
           className="object-cover"
         />
 
