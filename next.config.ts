@@ -11,7 +11,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'javavolcano-touroperator.com',
+        hostname: 'legacy.javavolcano-touroperator.com',
         port: '',
         pathname: '/**',
       },
