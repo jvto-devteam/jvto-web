@@ -8,7 +8,7 @@ export function middleware(req: NextRequest) {
 
   const rawHost = req.headers.get("host") || "";
   const host = rawHost.split(":")[0];
-  const domain = "java-tour";
+  const domain = "javavolcano-touroperator";
 
   const isCustomerHost = host === `my.${domain}.local` || host === `my.${domain}.com`;
 

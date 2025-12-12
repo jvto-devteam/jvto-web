@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/backoffice/',
     },
-    sitemap: 'https://java-tour.com/sitemap.xml',
+    sitemap: 'https://javavolcano-touroperator.com/sitemap.xml',
   }
 }
