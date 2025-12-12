@@ -203,6 +203,7 @@ export default function ToursPageClient({
             min={0}
             max={globalMaxPrice}
             step={100000}
+            aria-label="Price Range"
             value={filters.maxPrice}
             onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: Number(e.target.value) }))}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-jvto-dark"
@@ -305,7 +306,7 @@ export default function ToursPageClient({
             <div className={`absolute right-0 top-0 h-full w-[85%] max-w-[360px] bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${isMobileFilterOpen ? "translate-x-0" : "translate-x-full"}`}>
               <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-white">
                 <h3 className="text-lg font-bold text-jvto-dark">Filter Tours</h3>
-                <button onClick={() => setIsMobileFilterOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <button onClick={() => setIsMobileFilterOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Close Button">
                   <X size={20} />
                 </button>
               </div>

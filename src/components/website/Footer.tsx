@@ -85,9 +85,9 @@ const Footer: React.FC = () => {
           </div>
           
           <div className="flex gap-4">
-            <a href="#" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Instagram size={16} /></a>
-            <a href="#" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Facebook size={16} /></a>
-            <a href="#" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Twitter size={16} /></a>
+            <a target="_blank" href="https://www.instagram.com/javavolcanotouroperator/" aria-label="Instagram" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Instagram size={16} /></a>
+            <a target="_blank" href="https://www.facebook.com/javavolcanotours/" aria-label="Facebook" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Facebook size={16} /></a>
+            <a target="_blank" href="#" aria-label="Twitter" className="bg-gray-800 p-2 rounded-full hover:bg-jvto-green hover:text-jvto-dark transition-colors"><Twitter size={16} /></a>
           </div>
         </div>
       </div>

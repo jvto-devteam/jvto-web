@@ -35,7 +35,7 @@ const Features: React.FC = () => {
             >
               <div className="mt-1">{item.icon}</div>
               <div>
-                <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+                <h2 className="font-bold text-lg mb-1">{item.title}</h2>
                 <p className="text-sm text-gray-600 leading-relaxed">
                   {item.desc}
                 </p>
