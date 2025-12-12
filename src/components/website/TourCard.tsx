@@ -100,7 +100,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
                 className={`object-cover transition-all duration-500 ease-in-out group-hover:scale-105 ${
                   index === currentImageIndex ? "opacity-100" : "opacity-0"
                 }`}
-                priority={index === 0}
+                // priority={index === 0}
               />
             ))}
           </div>

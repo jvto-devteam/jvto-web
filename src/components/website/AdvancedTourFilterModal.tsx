@@ -192,6 +192,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
               type="range"
               min="1"
               max="7"
+              aria-label="Duration Slider"
               value={maxDuration}
               onChange={(e) => setMaxDuration(Number(e.target.value))}
               className="w-full h-2 bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-lg appearance-none cursor-pointer accent-primary"
