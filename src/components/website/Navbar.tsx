@@ -1,17 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Menu, ShieldCheck, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-// import { useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // const location = useLocation();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -21,11 +19,6 @@ const Navbar: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Close menu when route changes
-  // useEffect(() => {
-  //   setIsMenuOpen(false);
-  // }, [location]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -40,8 +33,8 @@ const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   useEffect(() => {
-  setIsMenuOpen(false);
-}, [pathname]);
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   // Dynamic classes based on state
   const navClass =
@@ -96,29 +89,30 @@ const Navbar: React.FC = () => {
             )}
           </button>
 
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-8 font-bold text-sm uppercase tracking-wider">
+          {/* Desktop Links (UPDATED FOR RESPONSIVENESS) */}
+          {/* Menggunakan lg:gap-3 lg:text-xs untuk layar laptop agar tidak menabrak logo */}
+          <div className="hidden lg:flex items-center lg:gap-3 xl:gap-8 font-bold lg:text-xs xl:text-sm uppercase tracking-wider">
             <Link
               href="/tours"
-              className="hover:text-jvto-green transition-colors"
+              className="hover:text-jvto-green transition-colors whitespace-nowrap"
             >
               Private Tours
             </Link>
             <Link
               href="/destinations"
-              className="hover:text-jvto-green transition-colors"
+              className="hover:text-jvto-green transition-colors whitespace-nowrap"
             >
               Destinations
             </Link>
             <Link
               href="/why-jvto"
-              className="hover:text-jvto-green transition-colors"
+              className="hover:text-jvto-green transition-colors whitespace-nowrap"
             >
               Why JVTO
             </Link>
             <Link
               href="/travel-guide"
-              className="hover:text-jvto-green transition-colors"
+              className="hover:text-jvto-green transition-colors whitespace-nowrap"
             >
               Travel Guide
             </Link>
@@ -135,8 +129,8 @@ const Navbar: React.FC = () => {
               src="/assets/img/jvto-color.png"
               alt="JVTO Logo"
               width={100}
-              height={100} // wajib ada (boleh disesuaikan)
-              priority // opsional (supaya load lebih cepat)
+              height={100} 
+              priority 
               className="object-contain"
             />
           </Link>
