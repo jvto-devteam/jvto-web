@@ -1,10 +1,18 @@
 'use client'
-import { useState } from 'react';
+
+import { useState, TouchEvent } from 'react';
 import { Star, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
 import { REVIEWS } from '@/services/mockData';
 
 const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // State untuk fitur Swipe di Mobile
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Minimum jarak swipe agar dianggap ganti slide
+  const minSwipeDistance = 50;
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % REVIEWS.length);
@@ -14,8 +22,33 @@ const Testimonials: React.FC = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + REVIEWS.length) % REVIEWS.length);
   };
 
+  // --- Logic Swipe Mobile ---
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+  // --------------------------
+
   const getVisibleReviews = () => {
     const reviews = [];
+    // Kita tetap ambil 3 item untuk kebutuhan Desktop
     for (let i = 0; i < 3; i++) {
       const index = (currentIndex + i) % REVIEWS.length;
       reviews.push(REVIEWS[index]);
@@ -40,7 +73,13 @@ const Testimonials: React.FC = () => {
           </p>
         </div>
 
-        <div className="relative">
+        <div 
+          className="relative"
+          // Tambahkan event listener swipe di container ini
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {/* Navigation Buttons */}
           <button 
             onClick={prevSlide}
@@ -59,7 +98,16 @@ const Testimonials: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {visibleReviews.map((review, idx) => (
-              <div key={`${review.Reviewer_Name}-${idx}`} className="bg-gray-50 p-8 rounded-sm border border-gray-100 flex flex-col relative h-full group hover:shadow-md transition-shadow">
+              <div 
+                key={`${review.Reviewer_Name}-${idx}`} 
+                // LOGIKA UTAMA DISINI:
+                // Jika index 0: Tampil (flex)
+                // Jika index > 0 (item ke-2 & ke-3): Sembunyi di mobile (hidden), tampil di desktop (md:flex)
+                className={`
+                  bg-gray-50 p-8 rounded-sm border border-gray-100 flex-col relative h-full group hover:shadow-md transition-shadow
+                  ${idx === 0 ? 'flex' : 'hidden md:flex'} 
+                `}
+              >
                 <div className="flex items-center gap-1 mb-4 text-jvto-green">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={16} fill="currentColor" />
@@ -88,6 +136,7 @@ const Testimonials: React.FC = () => {
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </section>

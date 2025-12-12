@@ -1,31 +1,32 @@
 import { ListTourPackage } from "@/types";
-import ToursPageClient from "@/components/website/ToursPageClient"; // yang interaktif saja
 import StructuredData from "@/components/website/StructuredData";
-import TourCard from "@/components/website/Tours/TourCard";
-
+import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "All Private Tours in East Java | JVTO Tours",
+  title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu | JVTO",
   description:
-    "Browse our complete collection of private, all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect adventure.",
+    "Explore East Java starting from Surabaya. Best private tours to Mount Bromo sunrise, Ijen Blue Fire, and Madakaripura Waterfall. All-inclusive & hassle-free.",
 };
 
-// Fungsi untuk fetch semua data tours (bisa dipanggil di server)
-async function getAllTours(): Promise<ListTourPackage[]> {
+async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
+  // Fetch khusus ID 4 (Surabaya)
   const res = await fetch(`${siteUrl}/api/packages/web?from=4`, {
-    // Tanpa ?from untuk fetch semua tours
     method: "GET",
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch all tours");
+  if (!res.ok) {
+    console.error("Failed to fetch surabaya tours");
+    return [];
+  }
   return res.json();
 }
 
-export default async function ToursPage() {
-  const initialTours = await getAllTours();
+export default async function ToursPageSurabaya() {
+  const initialTours = await getToursFromSurabaya();
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -41,39 +42,24 @@ export default async function ToursPage() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Tours",
-            item: "https://javavolcano-touroperator.com/tours/",
+            name: "Tours From Surabaya",
+            item: "https://javavolcano-touroperator.com/tours/from-surabaya",
           },
         ],
       },
     ],
   };
+
   return (
     <>
       <StructuredData data={schema} />
-      <section className="md:py-40 py-26  bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
-              Tours From Surabaya
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Browse our complete collection of private, all-inclusive tours from Surabaya to
-              Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect
-              adventure.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {initialTours.map((tour) => (
-              <div key={tour.id} className="h-[500px]">
-                <TourCard tour={tour} />
-              </div>
-            ))}
-          </div>
-        </div>
+      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
+        <ToursPageClient 
+          initialTours={initialTours}
+          destinationName="Surabaya"
+          description="The most convenient starting point for your East Java adventure. Our private tours from Surabaya include premium transport, expert guides, and seamless access to Mount Bromo and Ijen Crater."
+        />
       </section>
-      {/* <ToursPageClient isFilter={false} initialTours={initialTours} /> */}
     </>
   );
 }

@@ -497,11 +497,11 @@ export default function TravelGuideHubPage() {
 
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16 bg-accent border-b">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
+          <div className="container mx-auto px-4 max-w-6xl text-center">
             <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
-            <div className="prose prose-lg mx-auto text-muted-foreground">
+            <div className="space-y-2 mx-auto">
               {hero.introParagraphs.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p className="text-gray-600 text-lg" key={i}>{p}</p>
               ))}
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -509,7 +509,7 @@ export default function TravelGuideHubPage() {
                 <Button
                   key={cta.href}
                   size="lg"
-                  variant={cta.href.includes("tours") ? "default" : "outline"}
+                  variant={cta.href.includes("tours") ? "primary" : "outline"}
                 >
                   <Link href={cta.href}>{cta.label}</Link>
                 </Button>
@@ -519,21 +519,21 @@ export default function TravelGuideHubPage() {
         </section>
 
         <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4 max-w-4xl">
+          <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid lg:grid-cols-12 gap-16">
               <aside className="lg:col-span-4 hidden lg:block">
                 <div className="sticky top-32">
-                  <Card>
+                  <Card className="border-2">
                     <CardHeader>
-                      <CardTitle>{toc.title}</CardTitle>
+                      <CardTitle className="font-black">{toc.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {toc.items.map((item) => (
                           <li key={item.id}>
                             <a
                               href={`#${item.id}`}
-                              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                              className="underline font-medium text-md text-muted-foreground hover:text-lime-600 transition-colors"
                             >
                               {item.label}
                             </a>
@@ -546,13 +546,13 @@ export default function TravelGuideHubPage() {
               </aside>
 
               <main className="lg:col-span-8">
-                <Card className="bg-blue-50 border-blue-200 mb-12">
+                <Card className="bg-lime-50 border-lime-600 border-2 mb-12">
                   <CardHeader>
-                    <CardTitle className="text-blue-800">
+                    <CardTitle className="text-lime-800 font-black">
                       {latestUpdate.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="prose prose-sm max-w-none text-blue-700">
+                  <CardContent className="prose prose-sm max-w-none text-lime-700">
                     <p className="font-bold">
                       Last updated : {latestUpdate.lastUpdatedPlaceholder}
                     </p>
@@ -572,10 +572,11 @@ export default function TravelGuideHubPage() {
                       id={section.id}
                       className="scroll-mt-24"
                     >
-                      <h2 className="heading-md text-2xl mb-4">
+                      <h2 className="font-black text-2xl">
                         {section.title}
                       </h2>
-                      <div className="prose max-w-none text-muted-foreground">
+                      <hr className="my-2" />
+                      <div className="prose max-w-none text-md text-muted-foreground">
                         {section.summaryParagraphs.map((p, i) => {
                           if (p.startsWith("- ")) {
                             const items = section.summaryParagraphs.filter(
@@ -599,7 +600,7 @@ export default function TravelGuideHubPage() {
                       </div>
                       {section.cta && (
                         <div className="mt-6">
-                          <Button variant="link" className="p-0 flex h-auto">
+                          <Button variant="outline" size="sm" className="p-0 flex h-auto">
                             <Link className="flex" href={section.cta.href}>
                               {section.cta.label}{" "}
                               <ArrowRight className="ml-2 w-4 h-4" />
