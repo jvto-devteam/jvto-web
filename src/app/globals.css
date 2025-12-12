@@ -4,6 +4,7 @@
 @import "../styles/_keyframe-animations.scss";
 
 :root {
+  color-scheme: light; 
   /* Kita kunci warnanya di sini (Light Mode Only) */
   --background: #ffffff;
   --foreground: #171717;
