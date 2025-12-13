@@ -19,7 +19,7 @@ const Hero: React.FC<HeroProps> = ({ heroCopy }) => {
         className="object-cover z-0"
         sizes="100vw" // sesuaikan jika gambar tidak full-width (misal: "(max-width: 768px) 100vw, 50vw")
         priority // optional: gunakan jika gambar ini LCP (above the fold)
-        quality={85} // optional: default 75, kamu set 85 sesuai URL asli
+        quality={70} 
       />
       {/* Overlay */}
       <div
