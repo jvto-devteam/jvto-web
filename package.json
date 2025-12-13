@@ -58,5 +58,12 @@
     "sass": "^1.94.2",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not chrome < 90",
+    "not safari < 14",
+    "not android < 90"
+  ]
 }
