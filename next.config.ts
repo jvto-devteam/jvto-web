@@ -2,36 +2,36 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-      ignoreDuringBuilds: true,
-    },
-    typescript: {
-      ignoreBuildErrors: true,
-    },
-    images: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'legacy.javavolcano-touroperator.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "legacy.javavolcano-touroperator.com",
+        port: "",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'i.pravatar.cc',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+        port: "",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: 'storage.googleapis.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
@@ -251,116 +251,87 @@ const nextConfig = {
         permanent: true,
       },
 
-      // Detailed Surabaya Packages
+      // Detailed Packages
       {
-        source: "/packages/surabaya/1d1n/1",
-        destination: "/tours/1-day-bromo-midnight-experience-from-surabaya",
+        source: "/packages/surabaya/2d1n/2",
+        destination: "/tours/from-surabaya/ijen-2d1n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/2d1n/1",
-        destination: "/tours/2-day-bromo-sunrise-adventure-from-surabaya",
-        permanent: true,
-      },
-      {
-        source: "/packages/surabaya/2d1n/2",
-        destination: "/tours/2-day-ijen-blue-fire-expedition-from-surabaya",
+        destination: "/tours/from-surabaya/bromo-2d1n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/1",
-        destination:
-          "/tours/3-day-bromo-and-madakaripura-waterfall-and-ijen-overland-from-surabaya-to-bali",
+        destination: "/tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/2",
-        destination:
-          "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
+        destination: "/tours/from-surabaya/ijen-bromo-madakaripura-3d2n",
         permanent: true,
       },
       {
-        source: "/packages/surabaya/3d2n/4",
-        destination:
-          "/tours/3-day-bromo-and-madakaripura-waterfall-getaway-from-surabaya",
+        source: "/packages/bali/3d2n/1",
+        destination: "/tours/from-bali/ijen-bromo-madakaripura-3d2n",
         permanent: true,
       },
       {
-        source: "/packages/surabaya/3d2n/5",
-        destination: "/tours/3-day-bromo-and-ijen-volcano-trip-from-surabaya",
-        permanent: true,
-      },
-      {
-        source: "/packages/surabaya/3d2n/6",
-        destination:
-          "/tours/3-day-tumpak-sewu-waterfall-and-bromo-explorer-from-surabaya",
+        source: "/packages/bali/3d2n/2",
+        destination: "/tours/from-bali/bromo-ijen-3d2n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/3d2n/7",
         destination:
-          "/tours/3-day-taman-safari-prigen-and-bromo-and-madakaripura-waterfall-family-adventure-from-surabaya",
+          "/tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/1",
-        destination:
-          "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
+        destination: "/tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/2",
-        destination:
-          "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
+        destination: "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/4d3n/3",
-        destination:
-          "/tours/4-day-tumpak-sewu-waterfall-and-bromo-and-ijen-adventure-from-surabaya-to-bali",
+        destination: "/tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n",
+        permanent: true,
+      },
+      {
+        source: "/packages/bali/4d3n/2",
+        destination: "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/5d4n/5",
-        destination:
-          "/tours/5-day-ijen-and-bromo-and-madakaripura-waterfall-and-malang-city-adventure-from-surabaya",
+        destination: "/tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n",
+        permanent: true,
+      },
+      {
+        source: "/packages/bali/5d4n/2",
+        destination: "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/5d4n/8",
-        destination:
-          "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
+        destination: "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n",
         permanent: true,
       },
       {
         source: "/packages/surabaya/6d5n/1",
         destination:
-          "/tours/6-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-and-malang-city-discovery-from-surabaya",
-        permanent: true,
-      },
-
-      // Bali Detailed Packages
-      {
-        source: "/packages/bali/3d2n/1",
-        destination:
-          "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-bali-to-surabaya",
+          "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n",
         permanent: true,
       },
       {
-        source: "/packages/bali/3d2n/2",
-        destination: "/tours/3-day-bromo-and-ijen-volcano-discovery-from-bali",
-        permanent: true,
-      },
-      {
-        source: "/packages/bali/4d3n/2",
-        destination:
-          "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
-        permanent: true,
-      },
-      {
-        source: "/packages/bali/5d4n/2",
-        destination:
-          "/tours/5-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
+        source: "/packages/surabaya/1d1n/1",
+        destination: "/tours/from-surabaya/bromo-1d1n",
         permanent: true,
       },
 
@@ -387,37 +358,37 @@ const nextConfig = {
       },
       {
         source: "/how-it-works",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/reserve-now-pay-later",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/support/reserve-now-pay-later",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/how-to-book",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/terms-and-conditions",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/payment-information",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
         source: "/privacy-policy",
-        destination: "/travel-guide/booking-payment-cancellation/",
+        destination: "/travel-guide/booking-information/",
         permanent: true,
       },
       {
