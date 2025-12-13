@@ -73,7 +73,7 @@ export async function generateMetadata(
       siteName: 'Java Volcano Tour Operator',
       images: [
         {
-          url: pkg.imageUrl || pkg.gallery[0], // Gambar utama paket
+          url: siteUrl+pkg.imageUrl || siteUrl+pkg.gallery[0], // Gambar utama paket
           width: 1200,
           height: 630,
           alt: pkg.name,
