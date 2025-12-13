@@ -1,4 +1,3 @@
-// app/(website)/tours/[slug]/page.tsx
 import TourDetail from "@/components/website/TourDetail";
 import StructuredData from "@/components/website/StructuredData";
 import { notFound } from "next/navigation";
@@ -11,13 +10,13 @@ interface Props {
   params: Promise<{ slug: string[] }>;
 }
 
-// 1. Helper untuk membersihkan HTML tags dari deskripsi (Server Side)
+// --- HELPER FUNCTIONS ---
+
 function stripHtml(html: string) {
   if (!html) return "";
   return html.replace(/<[^>]*>?/gm, "");
 }
 
-// 2. Helper format currency (Opsional, untuk ditampilkan di deskripsi)
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -27,19 +26,22 @@ function formatCurrency(value: number) {
   }).format(value);
 }
 
-// 3. Fungsi Utama Generate Metadata
+// --- METADATA GENERATION ---
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  // Pastikan ada fallback URL jika env belum tersetting
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+  
   const { slug } = await params;
   const fullSlug = `tours/from-bali/${slug}`;
 
-  // Fetch data (Deduplicated automatically by Next.js)
+  // Fetch data
   const res = await fetch(
     `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-    { cache: "no-store" } // Sesuaikan cache strategi Anda
+    { cache: "no-store" }
   );
 
   if (!res.ok) {
@@ -50,18 +52,21 @@ export async function generateMetadata(
   }
 
   const tour: TourPackageDetail = await res.json();
-  const product = tour.product; // Sesuaikan struktur response API Anda (di kode asli Anda ada 'tour.product' atau langsung 'tour')
-  // Note: Di kode asli Anda di "Page", variable 'tour' langsung dipakai, tapi di "TourDetail" ada 'initialData.product'.
-  // Saya asumsikan struktur datanya: const pkg = tour.product || tour; 
   const pkg = tour.product || tour; 
 
-  // Siapkan Data
-  const previousImages = (await parent).openGraph?.images || [];
-  const cleanDesc = stripHtml(pkg.description).substring(0, 160); // Max 160 chars untuk SEO
+  // Format Data untuk SEO
+  const cleanDesc = stripHtml(pkg.description).substring(0, 160);
   const price = formatCurrency(pkg.offers?.aggregateOffer?.lowPrice || 0);
-  
   const metaTitle = `${pkg.name} | Private Tour from ${pkg.originCity}`;
   const metaDesc = `Book ${pkg.name}. Starts from ${price}. ${cleanDesc}...`;
+
+  // LOGIC GAMBAR ABSOLUT (Sangat Penting untuk WA/FB/Twitter)
+  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]) || "/assets/img/og/default.jpg";
+  
+  // Cek apakah rawImage sudah ada 'http'. Jika belum, tempel dengan siteUrl.
+  const imageUrl = rawImage.startsWith("http") 
+    ? rawImage 
+    : `${siteUrl}${rawImage.startsWith("/") ? "" : "/"}${rawImage}`;
 
   return {
     title: metaTitle,
@@ -69,31 +74,34 @@ export async function generateMetadata(
     openGraph: {
       title: metaTitle,
       description: metaDesc,
-      url: `${siteUrl}/${slug}`,
+      url: `${siteUrl}/tours/from-bali/${slug}`, // Canonical URL
       siteName: 'Java Volcano Tour Operator',
+      locale: 'id_ID',
+      type: 'website',
+      // DITEMPATKAN DISINI AGAR OVERRIDE LAYOUT DEFAULT
       images: [
         {
-          url: siteUrl+pkg.imageUrl || siteUrl+pkg.gallery[0], // Gambar utama paket
+          url: imageUrl, 
           width: 1200,
           height: 630,
           alt: pkg.name,
-        },
-        ...previousImages,
-      ],
-      locale: 'id_ID',
-      type: 'website',
+        }
+      ], 
+      // Penting: Jangan gunakan ...previousImages disini agar gambar default layout tidak muncul
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDesc,
-      images: [pkg.imageUrl || pkg.gallery[0]],
+      images: [imageUrl], // Gunakan URL absolut
     },
   };
 }
 
+// --- MAIN PAGE COMPONENT ---
+
 export default async function Page({ params }: Props) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const { slug } = await params;
   const fullSlug = `tours/from-bali/${slug}`
 
@@ -105,17 +113,24 @@ export default async function Page({ params }: Props) {
   if (!res.ok) notFound();
 
   const tour: TourPackageDetail = await res.json();
+  const pkg = tour.product || tour;
 
-  // JSON-LD untuk SEO Google Rich Snippets (Product / Event)
+  // Logic URL Gambar untuk Schema (Product)
+  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]);
+  const schemaImageUrl = rawImage && !rawImage.startsWith("http") 
+    ? `${siteUrl}${rawImage}` 
+    : rawImage;
+
+  // JSON-LD untuk SEO Google Rich Snippets (Product)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": tour.product?.name || tour.name,
-    "image": tour.product?.imageUrl || tour.imageUrl,
-    "description": stripHtml(tour.product?.description || tour.description),
+    "name": pkg.name,
+    "image": schemaImageUrl,
+    "description": stripHtml(pkg.description),
     "offers": {
       "@type": "AggregateOffer",
-      "lowPrice": tour.product?.offers?.aggregateOffer?.lowPrice,
+      "lowPrice": pkg.offers?.aggregateOffer?.lowPrice,
       "priceCurrency": "IDR",
       "availability": "https://schema.org/InStock"
     }
