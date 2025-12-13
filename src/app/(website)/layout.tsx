@@ -1,21 +1,27 @@
-// app/(website)/layout.tsx
 import { Suspense } from "react";
-import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+// Pastikan path import komponen di bawah ini sesuai dengan struktur folder Anda
+import { GoogleAnalytics } from "@/components/GoogleAnalytics"; 
 import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export const metadata = {
+// Fallback URL jika env tidak ada (penting untuk dev/preview)
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+
+export const metadata: Metadata = {
+  // 1. MetadataBase sangat penting untuk mengubah link relative menjadi absolute secara otomatis
+  metadataBase: new URL(siteUrl),
+
   title: {
     default: "JVTO Tours | Private East Java Adventures",
+    template: "%s | JVTO Tours" // Optional: Template untuk child pages
   },
   description:
     "Private all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu & more. 24/7 support from local experts.",
 
-  // Open Graph global fallback
+  // Open Graph global fallback (Akan dipakai jika halaman anak TIDAK mendefinisikan OG Image)
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -23,7 +29,7 @@ export const metadata = {
     siteName: "Java Volcano Tour Operator",
     images: [
       {
-        url: siteUrl + "/assets/img/og/default.jpg", // gambar default kalau halaman tidak punya OG sendiri
+        url: "/assets/img/og/default.jpg", // Karena ada metadataBase, ini otomatis jadi absolute URL
         width: 1200,
         height: 630,
         alt: "Java Volcano Tour Operator - JVTO",
@@ -33,10 +39,10 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    images: [contactInfo.website + "/assets/img/og/default.jpg"],
+    // Gunakan full URL untuk aman di Twitter
+    images: [`${siteUrl}/assets/img/og/default.jpg`],
   },
 
-  // Favicon & icons (ini tetap di sini, tidak perlu di-override per halaman)
   icons: {
     icon: [
       "/assets/img/favicon/favicon.ico",
@@ -57,21 +63,18 @@ export default function WebsiteLayout({
   return (
     <>
       <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
-        {/* GA khusus segment (website) */}
+        {/* GA optional logic */}
         {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
         </Suspense> */}
 
         <div className="min-h-screen flex flex-col bg-white">
-          {/* Header / Navbar website */}
           <header>
             <Navbar />
           </header>
 
-          {/* Konten utama */}
           <main className="flex-1">{children}</main>
 
-          {/* Footer website */}
           <Footer />
         </div>
       </div>
