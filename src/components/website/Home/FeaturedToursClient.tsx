@@ -14,6 +14,7 @@ import {
   Umbrella,
   PawPrint,
   Check,
+  RefreshCcw,
 } from "lucide-react";
 
 // --- TIPE DATA ---
@@ -218,7 +219,7 @@ const FilterDrawer = ({
             onClick={handleClear}
             className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-red-500 transition-colors px-2"
           >
-            <span className="material-symbols-outlined text-lg">refresh</span>
+            <RefreshCcw size={18} strokeWidth={2} />
             Clear
           </button>
 

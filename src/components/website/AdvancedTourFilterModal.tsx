@@ -1,5 +1,6 @@
 // components/AdvancedTourFilterModal.tsx
 import React, { useState, useEffect, useMemo } from "react";
+import { Check, X } from "lucide-react";
 import { ListTourPackage } from "@/types";
 
 export interface AdvancedFilters {
@@ -15,7 +16,7 @@ interface AdvancedTourFilterModalProps {
   onClose: () => void;
   onApplyFilters: (filters: AdvancedFilters) => void;
   initialFilters: AdvancedFilters;
-  tours: ListTourPackage[]; // Tambah props ini untuk ganti tourPackages statis
+  tours: ListTourPackage[];
 }
 
 const CustomCheckbox: React.FC<{
@@ -38,11 +39,13 @@ const CustomCheckbox: React.FC<{
               ? "bg-primary border-primary"
               : "bg-transparent border-ink-neutral-500"
           }`}
-        ></div>
+        />
         {checked && (
-          <span className="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-sm">
-            check
-          </span>
+          <Check
+            className="absolute top-1/2 left-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white"
+            strokeWidth={3}
+            aria-hidden="true"
+          />
         )}
       </div>
       <span>{label}</span>
@@ -74,21 +77,23 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
     const capitalize = (s: string) =>
       s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 
-    // Ambil semua kota yang valid (bukan null/undefined)
     const validCities = tours
       .flatMap((t) => [t.startDestination, t.endDestination])
-      .filter((city): city is string => !!city); // type guard: hanya string non-null
+      .filter((city): city is string => !!city);
 
-    const uniqueCities = [...new Set(validCities)].map(capitalize).sort();
+    const uniqueCities = [...new Set(validCities)]
+      .map(capitalize)
+      .sort();
 
     const keyExperiences = [
       ...new Set(
-        tours.flatMap((t) => t.keyExperiences.filter(Boolean)) // hilangkan falsy
+        tours.flatMap((t) => t.keyExperiences.filter(Boolean))
       ),
     ].sort();
 
     return { cities: uniqueCities, keyExperiences };
   }, [tours]);
+
   useEffect(() => {
     if (isOpen) {
       setMaxDuration(initialFilters.maxDuration);
@@ -97,6 +102,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
       setExperiences(initialFilters.experiences);
     }
   }, [isOpen, initialFilters]);
+
   const matchingTourCount = useMemo(() => {
     if (!tours?.length) return 0;
 
@@ -130,6 +136,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
       return true;
     }).length;
   }, [tours, maxDuration, startCities, endCities, experiences]);
+
   const handleCheckboxChange = (
     setter: React.Dispatch<React.SetStateAction<string[]>>,
     item: string,
@@ -164,6 +171,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
         className="bg-white dark:bg-background-dark rounded-2xl shadow-xl w-11/12 max-w-3xl m-4 relative animate-slide-in-up"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className="flex justify-between items-center p-4 md:p-6 border-b border-ink-neutral-200 dark:border-ink-neutral-700">
           <h3 className="text-xl font-bold text-ink-primary dark:text-white">
             Find Your Perfect Tour
@@ -173,26 +181,28 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
             className="p-2 rounded-full text-ink-neutral-500 hover:bg-ink-neutral-200 dark:hover:bg-ink-neutral-700 transition-colors"
             aria-label="Close modal"
           >
-            <span className="material-symbols-outlined">close</span>
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
+        {/* Content */}
         <div className="p-4 md:p-6 max-h-[70vh] overflow-y-auto">
-          {/* Duration Slider */}
+          {/* Duration */}
           <div className="mb-6">
             <label
               htmlFor="duration-slider"
               className="block text-lg font-semibold mb-2 text-ink-primary dark:text-white"
             >
               Maximum Duration:{" "}
-              <span className="text-primary font-bold">{maxDuration} days</span>
+              <span className="text-primary font-bold">
+                {maxDuration} days
+              </span>
             </label>
             <input
               id="duration-slider"
               type="range"
               min="1"
               max="7"
-              aria-label="Duration Slider"
               value={maxDuration}
               onChange={(e) => setMaxDuration(Number(e.target.value))}
               className="w-full h-2 bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-lg appearance-none cursor-pointer accent-primary"
@@ -215,13 +225,14 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
                     key={`start-${city}`}
                     label={city}
                     checked={startCities.includes(city)}
-                    onChange={(isChecked) =>
-                      handleCheckboxChange(setStartCities, city, isChecked)
+                    onChange={(checked) =>
+                      handleCheckboxChange(setStartCities, city, checked)
                     }
                   />
                 ))}
               </div>
             </div>
+
             <div>
               <h4 className="text-lg font-semibold mb-3 text-ink-primary dark:text-white">
                 Ending City
@@ -232,8 +243,8 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
                     key={`end-${city}`}
                     label={city}
                     checked={endCities.includes(city)}
-                    onChange={(isChecked) =>
-                      handleCheckboxChange(setEndCities, city, isChecked)
+                    onChange={(checked) =>
+                      handleCheckboxChange(setEndCities, city, checked)
                     }
                   />
                 ))}
@@ -241,7 +252,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
             </div>
           </div>
 
-          {/* Key Experiences */}
+          {/* Experiences */}
           <div>
             <h4 className="text-lg font-semibold mb-3 text-ink-primary dark:text-white">
               Key Experiences
@@ -252,8 +263,8 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
                   key={exp}
                   label={exp}
                   checked={experiences.includes(exp)}
-                  onChange={(isChecked) =>
-                    handleCheckboxChange(setExperiences, exp, isChecked)
+                  onChange={(checked) =>
+                    handleCheckboxChange(setExperiences, exp, checked)
                   }
                 />
               ))}
@@ -261,6 +272,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
           </div>
         </div>
 
+        {/* Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center p-4 md:p-6 border-t border-ink-neutral-200 dark:border-ink-neutral-700">
           <button
             onClick={handleReset}
