@@ -1,3 +1,5 @@
+import StructuredData from "@/components/website/StructuredData";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
@@ -88,9 +90,242 @@ export default function PoliceLedSafetyPage() {
     flushList();
     return elements;
   };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
+  const ourStorySchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://javavolcano-touroperator.com/#website",
+        url: "https://javavolcano-touroperator.com",
+        name: "Java Volcano Tour Operator (JVTO)",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        inLanguage: "en",
+        hasPart: [
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/our-story#webpage",
+          },
+        ],
+      },
+      {
+        "@type": "TravelAgency",
+        "@id": "https://javavolcano-touroperator.com/#organization",
+        name: "Java Volcano Tour Operator (JVTO)",
+        alternateName: "JVTO",
+        url: "https://javavolcano-touroperator.com",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        image: [
+          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/hero/home.webp",
+        ],
+        email: "hello@javavolcano-touroperator.com",
+        telephone: "+62 822-4478-8833",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress:
+            "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
+          postalCode: "68214",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
+        },
+        areaServed: [
+          {
+            "@type": "AdministrativeArea",
+            name: "East Java",
+          },
+          {
+            "@type": "Country",
+            name: "Indonesia",
+          },
+          {
+            "@type": "City",
+            name: "Surabaya",
+          },
+          {
+            "@type": "Place",
+            name: "Bali",
+          },
+        ],
+        identifier: [
+          {
+            "@type": "PropertyValue",
+            name: "Business and tourism licence number",
+            value: "1102230032918",
+          },
+        ],
+        sameAs: [
+          "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
+          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
+        ],
+        founder: {
+          "@type": "Person",
+          name: "Agung Sambuko",
+          alternateName: "Mr. Sam",
+          jobTitle: "Founder & CEO",
+          knowsAbout: [
+            "TouristSafety",
+            "EastJavaTourism",
+            "VolcanoTrekking",
+            "LogisticsManagement",
+          ],
+          description:
+            "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
+        },
+        priceRange: "IDR 1.000.000 - IDR 9.050.000",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "07:30",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Sunday",
+            opens: "08:00",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Monday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Tuesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Wednesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Thursday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Friday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -7.9161788,
+          longitude: 113.8085868,
+        },
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+62 822-4478-8833",
+            email: "hello@javavolcano-touroperator.com",
+            contactType: "customer support",
+          },
+        ],
+        foundingDate: "2016-01-01",
+        currenciesAccepted: "IDR",
+        paymentAccepted: "Credit Card, Bank Transfer",
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          reviewCount: "112",
+        },
+        mainEntityOfPage: {
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/our-story#webpage",
+        },
+      },
+      {
+        "@type": "AboutPage",
+        "@id":
+          "https://javavolcano-touroperator.com/why-jvto/our-story#webpage",
+        url: "https://javavolcano-touroperator.com/why-jvto/our-story",
+        name: "Our Story – From Local Host to Tourist Police-Led Volcano Tours",
+        headline:
+          "Our Story – From Local Host to Tourist Police-Led Volcano Tours",
+        description:
+          "Learn how a local host in East Java became a registered Indonesian travel company led by an active Tourist Police officer, with real Ijen health screening and private, all-inclusive volcano tours.",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/#website",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/community-standards#primaryimage",
+          url: siteUrl + "/assets/img/hero/home.webp",
+        },
+        inLanguage: "en",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+        text: "Before JVTO existed as a registered travel company, our founder Agung (“Mr. Sam”) welcomed guests as a local host and organiser around Kawah Ijen. Early visitors stayed in a small homestay and booked simple private trips. Those years built the core approach we still follow: host like a local, brief like a professional, and respect the mountain. To stay accountable, the business was formalized as a registered Indonesian travel company (PT Java Volcano Rendezvous).",
+        relatedLink: [
+          "https://javavolcano-touroperator.com/why-jvto/the-jvto-difference",
+          "https://javavolcano-touroperator.com/why-jvto/reviews",
+          "https://javavolcano-touroperator.com/travel-guide",
+          "https://javavolcano-touroperator.com/travel-guide/booking-information",
+        ],
+        mainEntity: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        breadcrumb: {
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/our-story#breadcrumb",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id":
+          "https://javavolcano-touroperator.com/why-jvto/our-story#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://javavolcano-touroperator.com/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Why JVTO",
+            item: "https://javavolcano-touroperator.com/why-jvto",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Our Story",
+            item: "https://javavolcano-touroperator.com/why-jvto/our-story",
+          },
+        ],
+      },
+    ],
+  };
   return (
     <div className="flex flex-col min-h-screen bg-background">
+      <StructuredData data={ourStorySchema} />
+
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
