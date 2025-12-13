@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import Button from "@/components/website/UI/Button";
 import { Check } from "lucide-react";
 import { operations, healthSafety } from "@/lib/legal";
+import StructuredData from "@/components/website/StructuredData";
 
 export const metadata: Metadata = {
   title: "Community Standards – Local Guides & Responsible Travel | JVTO",
@@ -86,9 +87,331 @@ export default function CommunityStandardsPage() {
       ],
     },
   ];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
+  const communityStandardsSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": "https://javavolcano-touroperator.com/#organization",
+        name: "Java Volcano Tour Operator (JVTO)",
+        alternateName: "JVTO",
+        url: "https://javavolcano-touroperator.com",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        image: [
+          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/hero/home.webp",
+        ],
+        email: "hello@javavolcano-touroperator.com",
+        telephone: "+62 822-4478-8833",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress:
+            "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
+          postalCode: "68214",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
+        },
+        areaServed: [
+          {
+            "@type": "AdministrativeArea",
+            name: "East Java",
+          },
+          {
+            "@type": "Country",
+            name: "Indonesia",
+          },
+          {
+            "@type": "City",
+            name: "Surabaya",
+          },
+          {
+            "@type": "Place",
+            name: "Bali",
+          },
+        ],
+        identifier: [
+          {
+            "@type": "PropertyValue",
+            name: "Business and tourism licence number",
+            value: "1102230032918",
+          },
+        ],
+        sameAs: [
+          "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
+          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
+        ],
+        founder: {
+          "@type": "Person",
+          name: "Agung Sambuko",
+          alternateName: "Mr. Sam",
+          jobTitle: "Founder & CEO",
+          knowsAbout: [
+            "TouristSafety",
+            "EastJavaTourism",
+            "VolcanoTrekking",
+            "LogisticsManagement",
+          ],
+          description:
+            "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
+        },
+        priceRange: "IDR 1.000.000 - IDR 9.050.000",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "07:30",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Sunday",
+            opens: "08:00",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Monday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Tuesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Wednesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Thursday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Friday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -7.9161788,
+          longitude: 113.8085868,
+        },
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+62 822-4478-8833",
+            email: "hello@javavolcano-touroperator.com",
+            contactType: "customer support",
+          },
+        ],
+        foundingDate: "2016-01-01",
+        currenciesAccepted: "IDR",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          reviewCount: "112",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://javavolcano-touroperator.com/#website",
+        url: "https://javavolcano-touroperator.com",
+        name: "Java Volcano Tour Operator (JVTO)",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        inLanguage: "en",
+      },
+      {
+        "@type": "WebPage",
+        "@id":
+          "https://javavolcano-touroperator.com/why-jvto/community-standards#webpage",
+        url: "https://javavolcano-touroperator.com/why-jvto/community-standards",
+        name: "Community Standards & Responsible Travel in East Java | Java Volcano Tour Operator",
+        headline: "Community Standards & Responsible Travel in East Java",
+        description:
+          "Learn how Java Volcano Tour Operator works with local guides, youth and communities around Bromo, Ijen and Tumpak Sewu, and what we expect from our guests in return.",
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/#website",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/community-standards#primaryimage",
+          url: siteUrl + "/assets/img/hero/home.webp",
+        },
+        image: [
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#primaryimage",
+          },
+        ],
+        about: [
+          {
+            "@type": "Thing",
+            name: "Community Standards & Responsible Travel in East Java",
+          },
+        ],
+        relatedLink: [
+          "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
+          "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+          "https://javavolcano-touroperator.com/isic/student-package",
+          "https://javavolcano-touroperator.com/travel-guide/booking-information",
+          "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
+          "https://javavolcano-touroperator.com/verify-jvto",
+          "https://javavolcano-touroperator.com/why-jvto/our-story",
+        ],
+        breadcrumb: {
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/community-standards#breadcrumb",
+        },
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/why-jvto/community-standards#article",
+        headline: "Community Standards & Responsible Travel in East Java",
+        description:
+          "Learn how Java Volcano Tour Operator works with local guides, youth and communities around Bromo, Ijen and Tumpak Sewu, and what we expect from our guests in return.",
+        inLanguage: "en",
+        mainEntityOfPage: {
+          "@id":
+            "https://javavolcano-touroperator.com/why-jvto/community-standards#webpage",
+        },
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+        articleSection: [
+          "Local Routes, Local People",
+          "Working With Local Networks & Tourism Bodies",
+          "Health & Safety as a Shared Responsibility",
+          "Fair Pricing & Students",
+          "Environmental Conduct on Tour",
+          "Behaviour, Respect & Expectations",
+          "How You Will Notice These Standards in Your Tour",
+        ],
+        articleBody: "JVTO partners with local guides and drivers across the Bromo–Ijen–Tumpak Sewu corridor. Many are youth from the surrounding villages, trained and supported over time. This keeps knowledge and income close to the destinations themselves.",
+        image: [
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-group-at-jvto-office",
+            url: siteUrl + "/ops/group-at-jvto-office.jpg",
+            caption:
+              "International group visiting JVTO Bondowoso operations office",
+            description:
+              "International travelers posing at JVTO Bondowoso operations office",
+          },
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-guest-welcome-evening",
+            url: "https://javavolcano-touroperator.com/ops/guest-welcome-evening.png",
+            caption: "Evening welcome with guests at JVTO office",
+            description:
+              "Evening welcome and briefing with guests at JVTO office",
+          },
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-ijen-geopark-briefing",
+            url: "https://javavolcano-touroperator.com/ops/ijen-geopark-briefing.png",
+            caption:
+              "Tourist Police briefing at Ijen Geopark Information Center with local miners present",
+            description:
+              "Tourist Police briefing at Ijen Geopark Center with local miners present",
+          },
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-baratha-hotel-departure-team",
+            url: "https://javavolcano-touroperator.com/ops/baratha-hotel-departure-team.jpg",
+            caption:
+              "Pre-ascent lineup at Baratha Hotel with Tourist Police support",
+            description:
+              "Team and guests lined up outside Baratha Hotel before Ijen ascent with Tourist Police support vehicle",
+          },
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-ijen-screening-hotel-01",
+            url: "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
+            caption: "Pre-ascent health screening at partner hotel",
+            description:
+              "Nurse checks blood pressure during Ijen pre-ascent screening at hotel lobby",
+          },
+          {
+            "@type": "ImageObject",
+            "@id":
+              "https://javavolcano-touroperator.com/why-jvto/community-standards#image-ijen-screening-hotel-02",
+            url: "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
+            caption: "Vitals taken and logged before night ascent",
+            description:
+              "Medical staff measure vitals for adult traveler at a hotel table",
+          },
+        ],
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/#website",
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id":
+          "https://javavolcano-touroperator.com/why-jvto/community-standards#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://javavolcano-touroperator.com/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Why JVTO",
+            item: "https://javavolcano-touroperator.com/why-jvto/",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Community Standards & Responsible Travel in East Java",
+            item: "https://javavolcano-touroperator.com/why-jvto/community-standards",
+          },
+        ],
+      },
+    ],
+  };
   return (
     <div className="flex flex-col min-h-screen bg-background">
+      <StructuredData data={communityStandardsSchema} />
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -97,7 +420,9 @@ export default function CommunityStandardsPage() {
                 Why JVTO
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">Community Standards</span>
+              <span className="text-foreground font-medium">
+                Community Standards
+              </span>
             </nav>
 
             <div className="text-center mb-12">
