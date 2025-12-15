@@ -126,7 +126,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <p className="text-primary font-semibold tracking-wide uppercase">
+          <p className="text-lime-600 font-semibold tracking-wide uppercase">
             {copy.overline}
           </p>
           <h2 className="text-3xl font-bold text-ink-primary dark:text-white mt-1">
