@@ -1,13 +1,32 @@
-import LevelSelector from "@/components/website/Home/LevelSelector";
+import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
+import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
+
 export const metadata: Metadata = {
-  title: "All Private Tours in East Java | JVTO Tours",
+  title: "All Private Tours | East Java & Bali Adventures | JVTO",
   description:
-    "Browse our complete collection of private, all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu, and more. Find your perfect adventure.",
+    "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
 };
 
-export default async function ToursPage() {
+async function getAllTours(): Promise<ListTourPackage[]> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  // Fetch global (tanpa filter from=...)
+  const res = await fetch(`${siteUrl}/api/packages/web`, {
+    method: "GET",
+    cache: "no-store", 
+  });
+
+  if (!res.ok) {
+    console.error("Failed to fetch all tours");
+    return [];
+  }
+  return res.json();
+}
+
+export default async function ToursPageGlobal() {
+  const initialTours = await getAllTours();
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -23,19 +42,25 @@ export default async function ToursPage() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Tours",
-            item: "https://javavolcano-touroperator.com/tours/",
+            name: "All Tours",
+            item: "https://javavolcano-touroperator.com/tours",
           },
         ],
       },
     ],
   };
+
   return (
     <>
       <StructuredData data={schema} />
-      <LevelSelector />
-
-      {/* <ToursPageClient isFilter={true} initialTours={initialTours} /> */}
+      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
+        <ToursPageClient 
+          initialTours={initialTours}
+          destinationName="All Destinations"
+          description="Discover the ultimate collection of volcanic adventures, waterfall expeditions, and wildlife safaris across East Java and Bali."
+          showLocationFilter={true} // <--- INI KUNCINYA
+        />
+      </section>
     </>
   );
 }
