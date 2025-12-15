@@ -1,21 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import Image from "next/image";
+import { useRef, forwardRef } from "react";
 import Link from "next/link";
 import { ListTourPackage } from "@/types";
-import { formatIDR } from "@/utils/formatting"; // Pastikan path ini benar
 import TourCard from "../TourCard";
-import {
-  Filter,
-  X,
-  Mountain,
-  Waves,
-  Umbrella,
-  PawPrint,
-  Check,
-  RefreshCcw,
-} from "lucide-react";
+import {MapPin, ArrowLeft, ArrowRight } from "lucide-react";
 
 // --- TIPE DATA ---
 interface FeaturedToursClientProps {
@@ -23,431 +12,173 @@ interface FeaturedToursClientProps {
   baliTours: ListTourPackage[];
 }
 
-type TourCategory = "Volcano" | "Waterfall" | "Beach" | "Wildlife";
-
-// --- KOMPONEN FILTER DRAWER ---
-interface FilterDrawerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  filters: {
-    duration: number | null;
-    maxPrice: number;
-    categories: TourCategory[];
-  };
-  setFilters: React.Dispatch<
-    React.SetStateAction<{
-      duration: number | null;
-      maxPrice: number;
-      categories: TourCategory[];
-    }>
-  >;
-  priceRange: { min: number; max: number };
-  tourCounts: number;
+interface TourRowProps {
+  title: string;
+  tours: ListTourPackage[];
+  bgColor?: string; // Opsional untuk membedakan background section
 }
 
-const FilterDrawer = ({
-  isOpen,
-  onClose,
-  filters,
-  setFilters,
-  priceRange,
-  tourCounts,
-}: FilterDrawerProps) => {
-  // Prevent body scroll when drawer is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
+// --- SUB-COMPONENT: TOUR CAROUSEL ROW ---
+// Menggunakan forwardRef agar parent bisa melakukan scrollIntoView ke komponen ini
+const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
+  ({ title, tours, bgColor = "bg-white" }, ref) => {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    // Logic scroll horizontal (kiri/kanan) untuk carousel
+    const scroll = (direction: "left" | "right") => {
+      if (scrollContainerRef.current) {
+        // Scroll sebesar 80% dari lebar layar agar user masih melihat konteks item berikutnya
+        const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8;
+        scrollContainerRef.current.scrollBy({
+          left: direction === "left" ? -scrollAmount : scrollAmount,
+          behavior: "smooth",
+        });
+      }
     };
-  }, [isOpen]);
 
-  const handleCategoryToggle = (cat: TourCategory) => {
-    setFilters((prev) => {
-      const exists = prev.categories.includes(cat);
-      return {
-        ...prev,
-        categories: exists
-          ? prev.categories.filter((c) => c !== cat)
-          : [...prev.categories, cat],
-      };
-    });
-  };
+    if (tours.length === 0) return null;
 
-  const handleClear = () => {
-    setFilters({
-      duration: null,
-      maxPrice: priceRange.max,
-      categories: [],
-    });
-  };
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        onClick={onClose}
-      />
-
-      {/* Drawer Panel */}
-      <div
-        className={`fixed top-0 right-0 h-full w-full max-w-[350px] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+    return (
+      <section
+        ref={ref}
+        className={`py-12 md:py-12 scroll-mt-24 border-b border-gray-100 last:border-0 ${bgColor}`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-100">
-          <h3 className="text-xl font-bold text-jvto-dark">Filters</h3>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
-            aria-label="Close Button"
-          >
-            <X className="w-6 h-6 text-gray-500" />
-          </button>
-        </div>
+        <div className="container mx-auto px-6">
+          {/* Header Section: Judul & Tombol Navigasi Carousel */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-black uppercase text-jvto-dark tracking-wide">
+                {title}
+              </h3>
+              <p className="text-gray-500 mt-1 text-sm md:text-base">
+                {tours.length} adventures available
+              </p>
+            </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          {/* 1. Duration Filter */}
-          <div>
-            <h4 className="font-bold text-gray-800 mb-3">Duration</h4>
-            <div className="flex flex-wrap gap-2">
-              {[1, 2, 3, 4, 5, 6].map((day) => (
-                <button
-                  key={day}
-                  onClick={() =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      duration: prev.duration === day ? null : day,
-                    }))
-                  }
-                  className={`
-                    px-4 py-2 rounded-full text-sm font-medium border transition-all
-                    ${
-                      filters.duration === day
-                        ? "bg-yellow-400 border-yellow-400 text-black shadow-sm"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-yellow-400"
-                    }
-                  `}
+            {/* Tombol Panah Kiri/Kanan */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => scroll("left")}
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                aria-label="Scroll Left"
+              >
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                aria-label="Scroll Right"
+              >
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            </div>
+          </div>
+
+          {/* Carousel Container */}
+          <div className="relative -mx-6 px-6 md:mx-0 md:px-0">
+            <div
+              ref={scrollContainerRef}
+              className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide"
+              style={{ scrollBehavior: "smooth" }}
+            >
+              {tours.map((tour) => (
+                <div
+                  key={tour.id}
+                  className="snap-center flex-shrink-0 w-[85vw] sm:w-[350px]"
                 >
-                  {day} Day{day > 1 ? "s" : ""}
-                </button>
+                  <TourCard tour={tour} />
+                </div>
               ))}
             </div>
           </div>
-
-          {/* 2. Price Range Filter */}
-          <div>
-            <h4 className="font-bold text-gray-800 mb-3">Price Range</h4>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-              <div className="flex justify-between text-sm text-gray-500 mb-2">
-                <span>0</span>
-                <span className="font-bold text-jvto-dark">
-                  {formatIDR(filters.maxPrice)}
-                </span>
-              </div>
-              <input
-                type="range"
-                aria-label="Price Range"
-                min={0}
-                max={priceRange.max}
-                step={100000}
-                value={filters.maxPrice}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    maxPrice: Number(e.target.value),
-                  }))
-                }
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-jvto-dark"
-              />
-              <p className="text-xs text-center text-gray-400 mt-2">
-                Slide to adjust maximum budget
-              </p>
-            </div>
-          </div>
-
-          {/* 3. Tour Type Filter */}
-          <div>
-            <h4 className="font-bold text-gray-800 mb-3">Tour Type</h4>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { label: "Volcano", icon: Mountain, value: "Volcano" },
-                { label: "Waterfall", icon: Waves, value: "Waterfall" },
-                { label: "Beach", icon: Umbrella, value: "Beach" },
-                { label: "Wildlife", icon: PawPrint, value: "Wildlife" },
-              ].map((type) => {
-                const isSelected = filters.categories.includes(
-                  type.value as TourCategory
-                );
-                return (
-                  <button
-                    key={type.value}
-                    onClick={() =>
-                      handleCategoryToggle(type.value as TourCategory)
-                    }
-                    className={`
-                      flex items-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all
-                      ${
-                        isSelected
-                          ? "border-jvto-dark bg-jvto-dark/5 text-jvto-dark"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      }
-                    `}
-                  >
-                    <type.icon
-                      className={`w-4 h-4 ${isSelected ? "fill-current" : ""}`}
-                    />
-                    <span>{type.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
         </div>
+      </section>
+    );
+  }
+);
 
-        {/* Footer */}
-        <div className="p-5 border-t border-gray-100 bg-white flex items-center justify-between gap-4">
-          <button
-            onClick={handleClear}
-            className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-red-500 transition-colors px-2"
-          >
-            <RefreshCcw size={18} strokeWidth={2} />
-            Clear
-          </button>
-
-          <button
-            onClick={onClose}
-            className="flex-1 bg-jvto-dark text-white py-3 rounded-lg font-bold text-sm shadow-lg hover:bg-gray-800 transition-all flex justify-center items-center gap-2"
-          >
-            Show {tourCounts} Tours
-          </button>
-        </div>
-      </div>
-    </>
-  );
-};
+// Diperlukan displayName untuk debugging React Component dengan forwardRef
+TourCarouselRow.displayName = "TourCarouselRow";
 
 // --- MAIN CLIENT COMPONENT ---
 const FeaturedToursClient = ({
   surabayaTours,
   baliTours,
 }: FeaturedToursClientProps) => {
-  const [activeLocation, setActiveLocation] = useState<"surabaya" | "bali">(
-    "surabaya"
-  );
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // Ref untuk target scroll
+  const surabayaRef = useRef<HTMLDivElement>(null);
+  const baliRef = useRef<HTMLDivElement>(null);
 
-  // Cari harga tertinggi dari semua data untuk batas atas slider
-  const globalMaxPrice = useMemo(() => {
-    const allTours = [...surabayaTours, ...baliTours];
-    return Math.max(...allTours.map((t) => t.startFrom)) + 500000; // Tambah buffer sedikit
-  }, [surabayaTours, baliTours]);
+  // Handler untuk scroll ke section tertentu
+  const scrollToSection = (location: "surabaya" | "bali") => {
+    const targetRef = location === "surabaya" ? surabayaRef : baliRef;
+    
+    if (targetRef.current) {
+      // Offset -100px agar judul section tidak tertutup sticky header (jika ada)
+      const yOffset = -100; 
+      const element = targetRef.current;
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
 
-  // State Filter
-  const [filters, setFilters] = useState<{
-    duration: number | null;
-    maxPrice: number;
-    categories: TourCategory[];
-  }>({
-    duration: null,
-    maxPrice: globalMaxPrice,
-    categories: [],
-  });
-
-  // Reset filter jika lokasi berubah (optional, bisa dihapus jika ingin filter persisten)
-  useEffect(() => {
-    setFilters((prev) => ({ ...prev, maxPrice: globalMaxPrice }));
-  }, [activeLocation, globalMaxPrice]);
-
-  // Logic Filtering
-  const filteredData = useMemo(() => {
-    const baseData = activeLocation === "surabaya" ? surabayaTours : baliTours;
-
-    return baseData.filter((tour) => {
-      // 1. Duration Check
-      if (filters.duration && tour.duration.day !== filters.duration)
-        return false;
-
-      // 2. Price Check
-      if (tour.startFrom > filters.maxPrice) return false;
-
-      // 3. Category/Tags Check
-      if (filters.categories.length > 0) {
-        // Mapping category ke keyword tags dari JSON Anda
-        const tourTags = tour.tags.map((t) => t.toLowerCase());
-        const hasMatch = filters.categories.some((cat) => {
-          if (cat === "Volcano")
-            return (
-              tourTags.includes("volcano") ||
-              tourTags.includes("bromo") ||
-              tourTags.includes("ijen")
-            );
-          if (cat === "Waterfall")
-            return (
-              tourTags.includes("waterfall") ||
-              tourTags.includes("madakaripura") ||
-              tourTags.includes("tumpak-sewu")
-            );
-          if (cat === "Beach")
-            return (
-              tourTags.includes("beach") ||
-              tourTags.includes("papuma") ||
-              tourTags.includes("papuma-beach")
-            );
-          if (cat === "Wildlife")
-            return (
-              tourTags.includes("wildlife") || tourTags.includes("taman-safari")
-            );
-          return false;
-        });
-        if (!hasMatch) return false;
-      }
-
-      return true;
-    });
-  }, [activeLocation, surabayaTours, baliTours, filters]);
-
-  // Check apakah ada filter yang aktif
-  const activeFilterCount =
-    (filters.duration ? 1 : 0) +
-    filters.categories.length +
-    (filters.maxPrice < globalMaxPrice ? 1 : 0);
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="container mx-auto px-6">
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="text-yellow-400">★★★★★</span>
-          <span className="font-bold text-sm">Trustpilot</span>
+    <div className="bg-white min-h-screen">
+      {/* --- HERO / HEADER SECTION --- */}
+      <div className="container mx-auto px-6 text-center mb-16">
+        <div className="w-16 h-16 mx-auto mb-6 bg-jvto-green rounded-full flex items-center justify-center">
+          <MapPin className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
-          Tried & Trusted Adventures
+          Start Your Route
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-          Our most popular private, all-inclusive routes. We handle the permits,
-          transport, and Ijen health screening so you can focus on the
-          adventure.
+        <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          Choose your origin. We handle the rest — private vehicle, drivers, Bromo jeep, permits, and no shared groups.
         </p>
-
-        {/* --- CONTROL BAR: LOCATION + FILTER BUTTON --- */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 relative z-10">
-          {/* Tab Location */}
-          <div className="inline-flex bg-gray-100 p-1.5 rounded-full relative">
-            <button
-              onClick={() => setActiveLocation("surabaya")}
-              className={`px-6 py-2 rounded-full text-sm font-bold uppercase transition-all duration-300 ${
-                activeLocation === "surabaya"
-                  ? "bg-white text-jvto-dark shadow-md"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              From Surabaya
-            </button>
-            <button
-              onClick={() => setActiveLocation("bali")}
-              className={`px-6 py-2 rounded-full text-sm font-bold uppercase transition-all duration-300 ${
-                activeLocation === "bali"
-                  ? "bg-white text-jvto-dark shadow-md"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              From Bali
-            </button>
-          </div>
-
-          {/* Filter Trigger Button */}
+        {/* --- NAVIGATION BUTTONS --- */}
+        <div className="flex flex-col mt-8 sm:flex-row items-center justify-center gap-4 relative z-10">
           <button
-            onClick={() => setIsFilterOpen(true)}
-            className={`
-              flex items-center gap-2 px-5 py-2.5 rounded-full border text-sm font-bold uppercase transition-all
-              ${
-                activeFilterCount > 0
-                  ? "bg-jvto-dark text-white border-jvto-dark hover:bg-gray-800"
-                  : "bg-white text-gray-700 border-gray-300 hover:border-gray-800"
-              }
-            `}
+            onClick={() => scrollToSection("surabaya")}
+            className="w-full sm:w-auto px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
-            <Filter className="w-4 h-4" />
-            <span>Filters</span>
-            {activeFilterCount > 0 && (
-              <span className="bg-yellow-400 text-black text-[10px] w-5 h-5 flex items-center justify-center rounded-full ml-1">
-                {activeFilterCount}
-              </span>
-            )}
+            From Surabaya
+          </button>
+          
+          <button
+            onClick={() => scrollToSection("bali")}
+            className="w-full sm:w-auto px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+          >
+            From Bali
           </button>
         </div>
       </div>
 
-      {/* --- GRID CONTENT --- */}
-      {filteredData.length > 0 ? (
-        <div
-          className="
-          flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-6 px-6 
-          md:grid md:grid-cols-2 md:gap-8 lg:grid-cols-3 md:pb-0 md:mx-0 md:px-0 
-          scrollbar-hide
-        "
-        >
-          {filteredData.map((tour) => (
-            <div
-              key={tour.id}
-              className="min-w-[85vw] sm:min-w-[350px] snap-center md:min-w-0"
-            >
-              <TourCard tour={tour} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-16 bg-gray-50 rounded-xl border border-dashed border-gray-300 mx-auto max-w-2xl">
-          <div className="bg-white p-4 rounded-full inline-block mb-4 shadow-sm">
-            <Filter className="w-8 h-8 text-gray-300" />
-          </div>
-          <h3 className="text-lg font-bold text-gray-900 mb-2">
-            No matching tours found
-          </h3>
-          <p className="text-gray-500 mb-6">
-            Try adjusting your filters or search criteria.
-          </p>
-          <button
-            onClick={() =>
-              setFilters({
-                duration: null,
-                maxPrice: globalMaxPrice,
-                categories: [],
-              })
-            }
-            className="text-white bg-jvto-dark px-6 py-2 rounded-lg font-bold text-sm hover:bg-gray-800 transition-colors"
-          >
-            Clear All Filters
-          </button>
-        </div>
-      )}
+      {/* --- CONTENT SECTIONS (STACKED) --- */}
+      <div className="mt-8">
+        <TourCarouselRow
+          ref={surabayaRef}
+          title="Tours From Surabaya"
+          tours={surabayaTours}
+        />
+        
+        <TourCarouselRow
+          ref={baliRef}
+          title="Tours From Bali"
+          tours={baliTours}
+        />
+      </div>
 
-      <div className="text-center mt-8 md:mt-16">
+      {/* --- FOOTER CTA --- */}
+      <div className="pb-24 text-center container mx-auto px-6">
         <Link
           href="/tours"
-          className="inline-block border-2 border-jvto-dark text-jvto-dark px-8 py-3 font-bold uppercase tracking-wide hover:bg-jvto-dark hover:text-white transition-all"
+          className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
         >
-          See All Private Tours
+          View All Tours
+          <ArrowRight className="w-5 h-5" />
         </Link>
       </div>
-
-      {/* --- FILTER DRAWER COMPONENT --- */}
-      <FilterDrawer
-        isOpen={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-        filters={filters}
-        setFilters={setFilters}
-        priceRange={{ min: 0, max: globalMaxPrice }}
-        tourCounts={filteredData.length}
-      />
     </div>
   );
 };

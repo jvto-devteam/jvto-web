@@ -8,6 +8,9 @@ import Testimonials from "@/components/website/Home/Testimonials";
 import Destinations from "@/components/website/Home/Destinations";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import type { Metadata } from "next";
+import FAQSection from '@/components/website/FAQSection';
+import Contact from '@/components/website/Contact';
+import { miniFaqs, faqsCopy } from '@/constants';
 
 export const metadata: Metadata = {
   title:
@@ -295,11 +298,13 @@ const Home = () => {
 
       <Hero />
       <Features />
-      <LevelSelector />
+      {/* <LevelSelector /> */}
       <FeaturedTours />
       <WhyJVTO />
       <Testimonials />
       <Destinations />
+      <FAQSection copy={faqsCopy} faqs={miniFaqs} />
+      <Contact/>
       <TravelGuideTeaser />
     </main>
   );

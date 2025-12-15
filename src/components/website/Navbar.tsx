@@ -1,9 +1,163 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Menu, ShieldCheck, X } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Menu, ShieldCheck, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+const MegaMenuLink: React.FC<{
+  to: string;
+  children: React.ReactNode;
+  onClick: () => void;
+}> = ({ to, children, onClick }) => (
+  <li>
+    <Link
+      href={to}
+      onClick={onClick}
+      className="block py-2 text-sm font-medium text-gray-700 hover:text-jvto-green transition-colors"
+    >
+      {children}
+    </Link>
+  </li>
+);
+const ToursDropdown: React.FC = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [menuStyle, setMenuStyle] = useState<{ left: number; top: number }>({
+    left: 0,
+    top: 0,
+  });
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+
+      setMenuStyle({
+        left: rect.left + rect.width / 2,
+        top: rect.bottom,
+      });
+    }
+
+    setIsDropdownOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsDropdownOpen(false);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 200);
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        ref={buttonRef}
+        className="flex items-center gap-1 uppercase tracking-wider font-bold text-sm hover:text-jvto-green transition-colors whitespace-nowrap"
+      >
+        Tours
+        <ChevronDown
+          className={`w-4 h-4 transition-transform duration-200 ${
+            isDropdownOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <div
+        style={{
+          left: menuStyle.left,
+          top: menuStyle.top + 12, // jarak kecil dari menu
+          // transform: "translateX(-50%)",
+        }}
+        className={`
+    fixed
+    z-40
+    transition-all duration-200
+    ${
+      isDropdownOpen
+        ? "opacity-100 translate-y-0"
+        : "opacity-0 -translate-y-4 pointer-events-none"
+    }
+  `}
+      >
+        {/* Pop Art Triangle Indicator */}
+        <div className="absolute -top-3 left-0 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[10px] border-b-gray-200"></div>
+
+        <div className="bg-white border border-gray-200 shadow-xl rounded-lg w-[800px] max-w-[90vw] overflow-hidden">
+          <div className="flex">
+            <div className="flex-1 p-8 grid grid-cols-2 gap-8 bg-white">
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
+                  Popular
+                </h4>
+                <ul className="space-y-2">
+                  <MegaMenuLink
+                    to="/tours/from-surabaya/ijen-bromo-madakaripura-3d2n"
+                    onClick={handleClose}
+                  >
+                    3D2N Ijen, Bromo & Waterfall
+                  </MegaMenuLink>
+                  <MegaMenuLink
+                    to="/tours/from-bali/bromo-ijen-3d2n"
+                    onClick={handleClose}
+                  >
+                    3D2N Bromo & Ijen from Bali
+                  </MegaMenuLink>
+                  <MegaMenuLink
+                    to="/tours/from-surabaya/bromo-2d1n"
+                    onClick={handleClose}
+                  >
+                    2D1N Bromo & Waterfall
+                  </MegaMenuLink>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
+                  By Duration
+                </h4>
+                <ul className="space-y-2">
+                  <MegaMenuLink
+                    to="/tours"
+                    onClick={handleClose}
+                  >
+                    Short Trips (1-2 Days)
+                  </MegaMenuLink>
+                  <MegaMenuLink to="/tours" onClick={handleClose}>
+                    Classic (3-4 Days)
+                  </MegaMenuLink>
+                  <MegaMenuLink to="/tours" onClick={handleClose}>
+                    Expeditions (5+ Days)
+                  </MegaMenuLink>
+                </ul>
+              </div>
+            </div>
+            <div className="w-[300px] bg-gray-50 border-l border-gray-200 p-6 flex flex-col justify-center">
+              <Link
+                href="/tours"
+                onClick={handleClose}
+                className="bg-white border-4 border-black p-4 shadow-pop hover:-translate-y-1 transition-transform text-center"
+              >
+                <span className="font-display text-2xl text-black block text-primary">
+                  ALL TOURS
+                </span>
+                <span className="font-bold text-sm text-black">Find your adventure!</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -92,12 +246,13 @@ const Navbar: React.FC = () => {
           {/* Desktop Links (UPDATED FOR RESPONSIVENESS) */}
           {/* Menggunakan lg:gap-3 lg:text-xs untuk layar laptop agar tidak menabrak logo */}
           <div className="hidden lg:flex items-center lg:gap-3 xl:gap-8 font-bold lg:text-xs xl:text-sm uppercase tracking-wider">
-            <Link
+            <ToursDropdown />
+            {/* <Link
               href="/tours"
               className="hover:text-jvto-green transition-colors whitespace-nowrap"
             >
               Private Tours
-            </Link>
+            </Link> */}
             <Link
               href="/destinations"
               className="hover:text-jvto-green transition-colors whitespace-nowrap"
@@ -129,8 +284,8 @@ const Navbar: React.FC = () => {
               src="/assets/img/jvto-color.png"
               alt="JVTO Logo"
               width={100}
-              height={100} 
-              priority 
+              height={100}
+              priority
               className="object-contain"
             />
           </Link>
