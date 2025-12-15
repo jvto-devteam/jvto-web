@@ -11,6 +11,17 @@ import type { Metadata } from "next";
 import FAQSection from '@/components/website/FAQSection';
 import Contact from '@/components/website/Contact';
 import { miniFaqs, faqsCopy } from '@/constants';
+import { headers } from "next/headers";
+
+export async function getFullUrl() {
+  const headersList = await headers(); // ⬅️ WAJIB await
+
+  const host = headersList.get("host");
+  const protocol =
+    headersList.get("x-forwarded-proto") ?? "https";
+
+  return `${protocol}://${host}`;
+}
 
 export const metadata: Metadata = {
   title:
@@ -20,7 +31,7 @@ export const metadata: Metadata = {
 };
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-const Home = () => {
+const Home = async () => {
   const homeSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -291,7 +302,9 @@ const Home = () => {
       },
     ],
   };
+  const fullUrl = await getFullUrl();
 
+  console.log("URL:", fullUrl);
   return (
     <main>
       <StructuredData data={homeSchema} />
