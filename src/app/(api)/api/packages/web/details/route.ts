@@ -1,6 +1,7 @@
 // app/api/packages/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MOCK_PACKAGE_DETAILS } from "@/data/mockData";
 
 export async function GET(req: NextRequest) {
   try {
@@ -8,6 +9,22 @@ export async function GET(req: NextRequest) {
     if (slug == null) {
       return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
     }
+
+    if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
+      const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find((p) => p.product?.slug === slug || p.slug === slug);
+      if (mockPkg) {
+        return NextResponse.json(mockPkg, { status: 200 });
+      } else {
+        // Fallback or returned 404 immediately? 
+        // User might want to fall through if not found in mock? 
+        // But the requirement implies replacing the data source.
+        return NextResponse.json(
+          { message: "Paket tidak ditemukan (Mock)" },
+          { status: 404 }
+        );
+      }
+    }
+
     const pkg = await prisma.packages.findUnique({
       where: { slug: slug },
       include: {
@@ -129,9 +146,8 @@ export async function GET(req: NextRequest) {
           durationId: pkg.durations?.id ?? null,
           durationDays: pkg.durations?.day ?? 0,
           durationNights: pkg.durations?.night ?? 0,
-          marketedDurationLabel: `${pkg.durations?.day ?? 0}D${
-            pkg.durations?.night ?? 0
-          }N`,
+          marketedDurationLabel: `${pkg.durations?.day ?? 0}D${pkg.durations?.night ?? 0
+            }N`,
           route: (pkg.package_destinations ?? [])
             .filter(
               (pd) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id))
@@ -184,28 +200,27 @@ export async function GET(req: NextRequest) {
           ),
           travelerRequirements: Array.isArray(pkg.traveler_requirements)
             ? pkg.traveler_requirements
-                .map((s) => s?.trim())
-                .filter((s) => s && s.length > 0)
+              .map((s) => s?.trim())
+              .filter((s) => s && s.length > 0)
             : [],
           addOns: (pkg.package_addons ?? []).map((addon: any) => ({
             id: addon.addons?.id,
             name: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")}`
               : addon.addons?.name || "",
-            type : addon.addons?.id == 2 ? 'madakaripura' : (addon.addons?.is_transport ? 'transport' : null),   
+            type: addon.addons?.id == 2 ? 'madakaripura' : (addon.addons?.is_transport ? 'transport' : null),
             description: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
-                  addon.addons?.transport_type || ""
-                )} Car (${
-                  addon.addons?.transport_type === "small"
-                    ? "1-3 Pax"
-                    : addon.addons?.transport_type === "medium"
-                    ? "4-9 Pax"
-                    : "10 Pax Above"
-                })`
+                addon.addons?.transport_type || ""
+              )} Car (${addon.addons?.transport_type === "small"
+                ? "1-3 Pax"
+                : addon.addons?.transport_type === "medium"
+                  ? "4-9 Pax"
+                  : "10 Pax Above"
+              })`
               : "",
-            transportType : addon.addons?.transport_type ?? null,
-            transportDestination : addon.addons?.name ?? null,
+            transportType: addon.addons?.transport_type ?? null,
+            transportDestination: addon.addons?.name ?? null,
             price: addon.addons?.price ?? 0,
           })),
           accommodationPlan:
@@ -215,7 +230,7 @@ export async function GET(req: NextRequest) {
               area: h.hotels?.destinations?.name ?? "",
               image: h.hotels
                 ? "https://legacy.javavolcano-touroperator.com/assets/img/hotels/" +
-                  h.hotels.banner
+                h.hotels.banner
                 : "",
             })) ?? [],
           gear: {
@@ -296,19 +311,19 @@ export async function GET(req: NextRequest) {
           marketing: {
             perfectFor: Array.isArray(pkg.perfect_for)
               ? pkg.perfect_for
-                  .map((s) => s?.trim())
-                  .filter((s) => s && s.length > 0)
+                .map((s) => s?.trim())
+                .filter((s) => s && s.length > 0)
               : [],
             highlightsBullets: Array.isArray(pkg.highlights_bullets)
               ? pkg.highlights_bullets
-                  .map((s) => s?.trim())
-                  .filter((s) => s && s.length > 0)
+                .map((s) => s?.trim())
+                .filter((s) => s && s.length > 0)
               : [],
             safetyPositioning: pkg.safety_positioning ?? "",
             uniqueSellingPoints: Array.isArray(pkg.unique_selling_points)
               ? pkg.unique_selling_points
-                  .map((s) => s?.trim())
-                  .filter((s) => s && s.length > 0)
+                .map((s) => s?.trim())
+                .filter((s) => s && s.length > 0)
               : [],
           },
           operationalComplexityNote: pkg.operational_complexity_note ?? "",

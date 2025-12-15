@@ -1,6 +1,7 @@
 // app/api/destinations/details/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
 
 export async function GET(
   _req: NextRequest,
@@ -8,20 +9,24 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    // const idNum = Number(id);
 
-    // if (!Number.isInteger(idNum) || idNum <= 0) {
-    //   return NextResponse.json(
-    //     { message: "ID paket tidak valid" },
-    //     { status: 400 }
-    //   );
-    // }
+    if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
+      const mockDest = MOCK_DESTINATION_DETAILS.find((d) => d.slug === slug);
+      if (mockDest) {
+        return NextResponse.json(mockDest, { status: 200 });
+      } else {
+        return NextResponse.json(
+          { message: "Destinasi tidak ditemukan (Mock)" },
+          { status: 404 }
+        );
+      }
+    }
 
     const dest = await prisma.destinations.findUnique({
       where: { slug: slug },
-      include : {
-        destination_assets:{
-          include : {asset:true}
+      include: {
+        destination_assets: {
+          include: { asset: true }
         }
       }
     });
