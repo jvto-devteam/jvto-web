@@ -122,25 +122,22 @@ const ToursDropdown: React.FC = () => {
               </div>
               <div>
                 <h4 className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
-                  By Duration
+                  By Location
                 </h4>
                 <ul className="space-y-2">
                   <MegaMenuLink
-                    to="/tours"
+                    to="/tours/from-surabaya"
                     onClick={handleClose}
                   >
-                    Short Trips (1-2 Days)
+                    Start From Surabaya
                   </MegaMenuLink>
-                  <MegaMenuLink to="/tours" onClick={handleClose}>
-                    Classic (3-4 Days)
-                  </MegaMenuLink>
-                  <MegaMenuLink to="/tours" onClick={handleClose}>
-                    Expeditions (5+ Days)
+                  <MegaMenuLink to="/tours/from-bali" onClick={handleClose}>
+                    Start From Bali
                   </MegaMenuLink>
                 </ul>
               </div>
             </div>
-            <div className="w-[300px] bg-gray-50 border-l border-gray-200 p-6 flex flex-col justify-center">
+            <div className="w-[300px] bg-jvto-green border-l border-gray-200 p-6 flex flex-col justify-center">
               <Link
                 href="/tours"
                 onClick={handleClose}

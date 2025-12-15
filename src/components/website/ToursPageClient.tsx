@@ -15,7 +15,8 @@ import {
   Umbrella,
   PawPrint,
   Check,
-  RotateCcw
+  RotateCcw,
+  MapPin // Icon baru untuk lokasi
 } from "lucide-react";
 
 // --- TYPES ---
@@ -23,12 +24,14 @@ interface ToursPageClientProps {
   initialTours: ListTourPackage[];
   destinationName: string;
   description: string;
+  showLocationFilter?: boolean; // <--- PROP BARU (Optional, default false)
 }
 
 type TourCategory = "Volcano" | "Waterfall" | "Beach" | "Wildlife";
 type DurationRange = "1-2" | "3-4" | "5+";
+type StartLocation = "Surabaya" | "Bali"; 
 
-// --- COMPONENT: ACCORDION SECTION (Tetap di luar) ---
+// --- COMPONENT: ACCORDION SECTION ---
 const FilterSection = ({
   title,
   isOpen = true,
@@ -64,7 +67,9 @@ export default function ToursPageClient({
   initialTours,
   destinationName,
   description,
+  showLocationFilter = false, // Default false agar aman untuk halaman lain
 }: ToursPageClientProps) {
+  
   // 1. Hitung Max Price Dinamis
   const globalMaxPrice = useMemo(() => {
     if (initialTours.length === 0) return 10000000;
@@ -75,11 +80,13 @@ export default function ToursPageClient({
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [filters, setFilters] = useState<{
     search: string;
+    startLocations: StartLocation[];
     durationRanges: DurationRange[];
     maxPrice: number;
     categories: TourCategory[];
   }>({
     search: "",
+    startLocations: [], 
     durationRanges: [],
     maxPrice: globalMaxPrice,
     categories: [],
@@ -100,6 +107,18 @@ export default function ToursPageClient({
   }, [isMobileFilterOpen]);
 
   // 3. Handlers
+  const handleLocationToggle = (loc: StartLocation) => {
+    setFilters((prev) => {
+      const exists = prev.startLocations.includes(loc);
+      return {
+        ...prev,
+        startLocations: exists
+          ? prev.startLocations.filter((l) => l !== loc)
+          : [...prev.startLocations, loc],
+      };
+    });
+  };
+
   const handleDurationToggle = (range: DurationRange) => {
     setFilters((prev) => {
       const exists = prev.durationRanges.includes(range);
@@ -127,6 +146,7 @@ export default function ToursPageClient({
   const clearFilters = () => {
     setFilters({
       search: "",
+      startLocations: [],
       durationRanges: [],
       maxPrice: globalMaxPrice,
       categories: [],
@@ -142,6 +162,14 @@ export default function ToursPageClient({
         !tour.name.toLowerCase().includes(filters.search.toLowerCase())
       )
         return false;
+
+      // START LOCATION FILTER (Hanya jalan jika filternya dipilih)
+      // Kita tidak perlu cek showLocationFilter disini, karena jika UI-nya hidden,
+      // filters.startLocations pasti kosong, jadi logic ini otomatis terlewati (pass through).
+      if (filters.startLocations.length > 0) {
+        if (!filters.startLocations.includes(tour.startDestination as StartLocation)) 
+          return false;
+      }
 
       // Price
       if (tour.startFrom > filters.maxPrice) return false;
@@ -196,8 +224,7 @@ export default function ToursPageClient({
     });
   }, [initialTours, filters]);
 
-  // 5. PERBAIKAN: Gunakan Variable JSX, BUKAN Component Function
-  // Ini mencegah input kehilangan fokus saat mengetik (re-render)
+  // 5. VARIABLE JSX
   const filterContent = (
     <div className="space-y-2">
       {/* Search Input */}
@@ -213,6 +240,37 @@ export default function ToursPageClient({
           className="w-full pl-9 pr-4 py-3 border border-gray-200 bg-gray-50 rounded-lg text-sm focus:outline-none focus:border-jvto-dark focus:bg-white transition-all"
         />
       </div>
+
+      {/* --- KONDISIONAL RENDER FILTER LOKASI --- */}
+      {showLocationFilter && (
+        <FilterSection title="Start Location">
+          <div className="grid grid-cols-1 gap-2">
+            {["Surabaya", "Bali"].map((loc) => {
+              const isSelected = filters.startLocations.includes(loc as StartLocation);
+              return (
+                <button
+                  key={loc}
+                  onClick={() => handleLocationToggle(loc as StartLocation)}
+                  className={`
+                    flex items-center justify-between p-3 rounded-lg border transition-all text-sm group
+                    ${
+                      isSelected
+                        ? "border-jvto-dark bg-gray-50 text-jvto-dark font-semibold"
+                        : "border-transparent hover:bg-gray-50 text-gray-600"
+                    }
+                  `}
+                >
+                  <div className="flex items-center gap-3">
+                    <MapPin size={18} strokeWidth={1.5} className={isSelected ? "fill-jvto-dark/10" : ""} />
+                    <span>From {loc}</span>
+                  </div>
+                  {isSelected && <Check size={16} className="text-jvto-dark" />}
+                </button>
+              );
+            })}
+          </div>
+        </FilterSection>
+      )}
 
       {/* Duration */}
       <FilterSection title="Duration">
@@ -267,7 +325,7 @@ export default function ToursPageClient({
       </FilterSection>
 
       {/* Categories */}
-      <FilterSection title="Tour Type">
+      <FilterSection title="Experience Type">
         <div className="grid grid-cols-1 gap-2">
           {[
             { label: "Volcano", icon: Mountain, value: "Volcano" },
@@ -317,7 +375,7 @@ export default function ToursPageClient({
       {/* HEADER */}
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
-          Tours From {destinationName}
+          {destinationName} Tours
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {description}
@@ -337,13 +395,13 @@ export default function ToursPageClient({
               </span>
             </div>
 
-            {/* RENDER VARIABLE JSX (bukan <FilterContent />) */}
+            {/* RENDER VARIABLE JSX */}
             {filterContent}
           </div>
         </aside>
 
         {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6  bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between sticky top-24 z-30">
           <div>
             <span className="block text-xs text-gray-500 font-medium">
               Showing
@@ -388,7 +446,7 @@ export default function ToursPageClient({
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-5">
-              {/* RENDER VARIABLE JSX DISINI JUGA */}
+              {/* RENDER VARIABLE JSX */}
               {filterContent}
             </div>
             <div className="p-5 border-t border-gray-100 bg-white">
