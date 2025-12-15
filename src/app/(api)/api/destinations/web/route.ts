@@ -1,6 +1,7 @@
 // app/api/destinations/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MOCK_DESTINATIONS } from "@/data/mockData";
 
 function serializeDestination(dest: any) {
   const primaryBanner =
@@ -32,6 +33,17 @@ function serializeDestination(dest: any) {
 }
 
 export async function GET(request: NextRequest) {
+  if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
+    let filteredDestinations = [...MOCK_DESTINATIONS];
+    const { searchParams } = new URL(request.url);
+    const limitParam = searchParams.get("limit")?.trim() || undefined;
+    const limit = limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
+
+    if (limit !== undefined) {
+      filteredDestinations = filteredDestinations.slice(0, limit);
+    }
+    return NextResponse.json(filteredDestinations, { status: 200 });
+  }
   try {
     const { searchParams } = new URL(request.url);
     const limitParam = searchParams.get("limit")?.trim() || undefined;

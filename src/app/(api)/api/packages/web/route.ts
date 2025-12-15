@@ -1,8 +1,7 @@
-// app/api/packages/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MOCK_PACKAGES } from "@/data/mockData";
 
-// Tambahkan interface untuk tipe data yang lebih aman (opsional tapi sangat disarankan)
 interface ImageAsset {
   url: string;
   alt: string;
@@ -65,18 +64,60 @@ function serializePackage(pkg: any) {
     physicality: pkg.physicality || "",
     tags: Array.isArray(pkg.tags)
       ? pkg.tags
-          .map((s: any) => s?.trim())
-          .filter((s: any) => s && s.length > 0)
+        .map((s: any) => s?.trim())
+        .filter((s: any) => s && s.length > 0)
       : [],
     highlights: Array.isArray(pkg.highlights_bullets)
       ? pkg.highlights_bullets
-          .map((s: any) => s?.trim())
-          .filter((s: any) => s && s.length > 0)
+        .map((s: any) => s?.trim())
+        .filter((s: any) => s && s.length > 0)
       : [],
   };
 }
 
 export async function GET(request: NextRequest) {
+  if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
+    let filteredPackages = [...MOCK_PACKAGES];
+    const { searchParams } = new URL(request.url);
+    const limitParam = searchParams.get("limit")?.trim() || undefined;
+    const fromIdParam = searchParams.get("from")?.trim() || undefined;
+    const durationIdParam = searchParams.get("duration")?.trim() || undefined;
+
+    const fromId = fromIdParam && !isNaN(Number(fromIdParam)) ? Number(fromIdParam) : undefined;
+    const durationId = durationIdParam && !isNaN(Number(durationIdParam)) ? Number(durationIdParam) : undefined;
+    const limit = limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
+
+    // Filter by Start Destination (From)
+    if (fromId !== undefined) {
+      if (fromId === 4) {
+        filteredPackages = filteredPackages.filter(p => p.startDestination === "Surabaya");
+      } else if (fromId === 3) {
+        filteredPackages = filteredPackages.filter(p => p.startDestination === "Bali");
+      }
+    }
+
+    // Filter by Duration
+    if (durationId !== undefined) {
+      // NOTE: Adjust this mapping if your database duration_ids differ from day counts
+      // Currently assuming duration_id roughly corresponds to day count for mock purposes
+      // or specific IDs: 1=1 Day, 2=2 Days, 3=3 Days, 4=4 Days, 5=5 Days, 6=6 Days
+      const durationMap: Record<number, number> = {
+        1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6
+      };
+      const expectedDays = durationMap[durationId];
+      if (expectedDays) {
+        filteredPackages = filteredPackages.filter(p => p.duration.day === expectedDays);
+      }
+    }
+
+    // Filter by Limit
+    if (limit !== undefined) {
+      filteredPackages = filteredPackages.slice(0, limit);
+    }
+
+    return NextResponse.json(filteredPackages, { status: 200 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const fromIdParam = searchParams.get("from")?.trim() || undefined;
