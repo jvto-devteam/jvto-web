@@ -31,14 +31,14 @@ const FAQItem: React.FC<FAQItemProps> = ({ faq, isOpen, onClick }) => {
   };
 
   return (
-    <div className="border-b border-ink-neutral-200 dark:border-ink-neutral-700">
+    <div className="border-b border-ink-neutral-200">
       {/* Question */}
       <button
         onClick={onClick}
         className="w-full flex justify-between items-center text-left py-5 px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
         aria-expanded={isOpen}
       >
-        <span className="text-lg font-semibold text-ink-primary dark:text-white">
+        <span className="text-lg font-semibold text-ink-primary">
           {faq.question}
         </span>
 
@@ -56,14 +56,14 @@ const FAQItem: React.FC<FAQItemProps> = ({ faq, isOpen, onClick }) => {
           isOpen ? "max-h-96" : "max-h-0"
         }`}
       >
-        <div className="pb-5 px-2 text-ink-neutral-700 dark:text-ink-neutral-200">
+        <div className="pb-5 px-2 text-ink-neutral-700">
           <p>{faq.answer}</p>
 
           {/* Copy Button */}
           <div className="mt-4 text-right">
             <button
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-ink-neutral-300 dark:border-ink-neutral-600 text-ink-neutral-500 dark:text-ink-neutral-400 hover:bg-ink-neutral-100 dark:hover:bg-ink-neutral-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-ink-neutral-300 text-ink-neutral-500 hover:bg-ink-neutral-100  transition-colors"
               aria-live="polite"
             >
               {copyStatus === "Copied!" ? (
@@ -120,7 +120,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
   );
 
   return (
-    <section className="py-12 md:py-24 bg-white dark:bg-background-dark">
+    <section className="py-12 md:py-24 bg-white">
       <StructuredData data={faqSchema} />
 
       <div className="container mx-auto px-4">
@@ -129,10 +129,10 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
           <p className="text-lime-600 font-semibold tracking-wide uppercase">
             {copy.overline}
           </p>
-          <h2 className="text-3xl font-bold text-ink-primary dark:text-white mt-1">
+          <h2 className="text-3xl font-bold text-ink-primary mt-1">
             {copy.title}
           </h2>
-          <p className="mt-2 text-ink-neutral-500 dark:text-ink-neutral-200 max-w-2xl mx-auto">
+          <p className="mt-2 text-ink-neutral-500 max-w-2xl mx-auto">
             {copy.subhead}
           </p>
         </div>
