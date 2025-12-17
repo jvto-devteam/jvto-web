@@ -12,6 +12,28 @@ export const metadata: Metadata = {
   title: "Guest Reviews & Long-Term Feedback",
   description:
     "Read how guests describe their private volcano tours with JVTO and see independent reviews from Google, Tripadvisor and Trustpilot, plus early homestay-era recognition.",
+  openGraph: {
+    title: "Guest Reviews & Long-Term Feedback",
+    description: "Read how guests describe their private volcano tours with JVTO and see independent reviews from Google, Tripadvisor and Trustpilot, plus early homestay-era recognition.",
+    url: `${siteUrl}/why-jvto/reviews`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/reviews.webp",
+        width: 1200,
+        height: 630,
+        alt: "Ijen Health Screening",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Guest Reviews & Long-Term Feedback",
+    description: "Read how guests describe their private volcano tours with JVTO and see independent reviews from Google, Tripadvisor and Trustpilot, plus early homestay-era recognition.",
+    images: [siteUrl + "/assets/img/og/reviews.webp"],
+  },    
 };
 
 export default function ReviewsPage() {

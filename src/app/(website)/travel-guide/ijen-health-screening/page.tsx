@@ -137,6 +137,28 @@ const ijenScreeningData = {
 export const metadata: Metadata = {
   title: ijenScreeningData.seo.title,
   description: ijenScreeningData.seo.metaDescription,
+  openGraph: {
+    title: ijenScreeningData.seo.title,
+    description: ijenScreeningData.seo.metaDescription,
+    url: `${siteUrl}/travel-guide/ijen-health-screening`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/ijen-health-screening.webp",
+        width: 1200,
+        height: 630,
+        alt: "Ijen Health Screening",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: ijenScreeningData.seo.title,
+    description: ijenScreeningData.seo.metaDescription,
+    images: [siteUrl + "/assets/img/og/ijen-health-screening.webp"],
+  },
 };
 
 const renderParagraphs = (paragraphs: string[]) => {
