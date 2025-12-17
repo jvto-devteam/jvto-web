@@ -11,6 +11,8 @@ import {
 } from "@/lib/legal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Download, Eye, EyeOff } from "lucide-react";
+import type { Metadata } from "next";
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "Verify JVTO Documents",
