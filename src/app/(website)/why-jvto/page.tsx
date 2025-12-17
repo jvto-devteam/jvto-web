@@ -15,11 +15,36 @@ import {
   Users,
   ArrowRight,
 } from "lucide-react";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: "Why Travel with Java Volcano Tour Operator (JVTO)",
   description:
     "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
+  openGraph: {
+    title: "Why Travel with Java Volcano Tour Operator (JVTO)",
+    description:
+      "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
+    url: `${siteUrl}/why-jvto`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/why-jvto.webp",
+        width: 1200,
+        height: 630,
+        alt: "Why JVTO",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Why Travel with Java Volcano Tour Operator (JVTO)",
+    description:
+      "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
+    images: [siteUrl + "/assets/img/og/why-jvto.webp"],
+  },
 };
 
 const differenceCards = [
@@ -88,8 +113,6 @@ const trustTiles = [
 ];
 
 export default function WhyJvtoPage() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [

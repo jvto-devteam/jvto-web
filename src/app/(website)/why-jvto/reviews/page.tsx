@@ -25,7 +25,7 @@ export const metadata: Metadata = {
         url: siteUrl + "/assets/img/og/reviews.webp",
         width: 1200,
         height: 630,
-        alt: "Ijen Health Screening",
+        alt: "Reviews",
       },
     ],
   },

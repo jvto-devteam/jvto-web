@@ -6,11 +6,35 @@ import { Card, CardContent } from "@/components/ui/card";
 import Button from "@/components/website/UI/Button";
 import { companyHistory } from "@/lib/legal";
 import { type Metadata } from "next";
-
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "Police-Led Safety & Our Story | JVTO",
   description:
     "How JVTO grew from a local homestay into a tourist police-led, registered East Java travel company with real health screening and community partnerships.",
+  openGraph: {
+    title: "Police-Led Safety & Our Story | JVTO",
+    description:
+      "How JVTO grew from a local homestay into a tourist police-led, registered East Java travel company with real health screening and community partnerships.",
+    url: `${siteUrl}/why-jvto/our-story`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/our-story.webp",
+        width: 1200,
+        height: 630,
+        alt: "Our Story",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Police-Led Safety & Our Story | JVTO",
+    description:
+      "How JVTO grew from a local homestay into a tourist police-led, registered East Java travel company with real health screening and community partnerships.",
+    images: [siteUrl + "/assets/img/og/our-story.webp"],
+  },
 };
 
 export default function PoliceLedSafetyPage() {
@@ -90,7 +114,6 @@ export default function PoliceLedSafetyPage() {
     flushList();
     return elements;
   };
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const ourStorySchema = {
     "@context": "https://schema.org",
