@@ -10,12 +10,7 @@ import Image from "next/image";
 // =================================================================
 
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(value);
+    return `IDR ${Math.round(value).toLocaleString("id-ID")}`;
 }
 
 function getPriceForPax(pax: number, tiers: any[]) {

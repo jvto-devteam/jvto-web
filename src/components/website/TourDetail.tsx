@@ -56,12 +56,7 @@ interface Props {
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-    minimumFractionDigits: 0,
-  }).format(value);
+  return `IDR ${Math.round(value).toLocaleString("id-ID")}`;
 }
 
 function getPriceForPax(pax: number, tiers: any[]) {
@@ -211,8 +206,9 @@ export default function PackageDetailPage({ initialData }: Props) {
   // State Booking Form
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [startDate, setStartDate] = useState("");
-  const [pax, setPax] = useState(pkg.channelMetadata.minPaxOperational);
-
+  const [pax, setPax] = useState<number | string>(
+    pkg.channelMetadata.minPaxOperational
+  );
   const isTransportItem = (type: string | null | undefined) =>
     type === "transport";
 
@@ -239,11 +235,10 @@ export default function PackageDetailPage({ initialData }: Props) {
   };
 
   const pricePerPerson = useMemo(
-    () => getPriceForPax(pax, pkg.offers.tiers),
+    () => getPriceForPax(Number(pax), pkg.offers.tiers),
     [pax, pkg.offers.tiers]
   );
-  const total = pricePerPerson ? pricePerPerson * pax : 0;
-
+  const total = pricePerPerson ? pricePerPerson * Number(pax) : 0;
   // --- ADD-ON LOGIC ---
   const [showAddOnModal, setShowAddOnModal] = useState(false);
   const [pendingBasePayload, setPendingBasePayload] = useState<any | null>(
@@ -299,17 +294,22 @@ export default function PackageDetailPage({ initialData }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!startDate || !pax || pax < pkg.channelMetadata.minPaxOperational) {
+    const numPax = Number(pax);
+
+    if (
+      !startDate ||
+      !numPax ||
+      numPax < pkg.channelMetadata.minPaxOperational
+    ) {
       alert("Please select a valid date and number of guests.");
       return;
     }
-
     const packageTotal = pricePerPerson ? pricePerPerson * pax : 0;
     const basePayload = {
       packageId: pkg.id,
       durationId: pkg.durationId,
       date: startDate,
-      pax,
+      pax:numPax,
       pricePerPerson,
       packageTotal,
     };
@@ -328,7 +328,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       .filter((a) => a.selected)
       .map((a) => {
         // LOGIC PENTING: Jika Transport, Qty = 1. Jika Lainnya, Qty = Pax.
-        const quantity = isTransportItem(a.type) ? 1 : pax;
+        const quantity = isTransportItem(a.type) ? 1 : Number(pax);
 
         return {
           addOnId: a.addOnId,
@@ -1597,14 +1597,25 @@ export default function PackageDetailPage({ initialData }: Props) {
                       min={pkg.channelMetadata.minPaxOperational}
                       max={pkg.channelMetadata.maxPaxRecommended}
                       value={pax}
-                      onChange={(e) =>
-                        setPax(
-                          Math.max(
-                            pkg.channelMetadata.minPaxOperational,
-                            Number(e.target.value)
-                          )
-                        )
-                      }
+                      // UBAH 4: onChange hanya update value, jangan divalidasi dulu
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        // Izinkan string kosong agar bisa dihapus
+                        if (val === "") {
+                          setPax("");
+                        } else {
+                          setPax(Number(val));
+                        }
+                      }}
+                      // UBAH 5: Validasi minPax dilakukan saat onBlur (user klik keluar/selesai ngetik)
+                      onBlur={() => {
+                        const currentVal = Number(pax);
+                        if (
+                          currentVal < pkg.channelMetadata.minPaxOperational
+                        ) {
+                          setPax(pkg.channelMetadata.minPaxOperational);
+                        }
+                      }}
                       className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-lime-500 focus:outline-none focus:ring-2 focus:ring-lime-200"
                       required
                     />

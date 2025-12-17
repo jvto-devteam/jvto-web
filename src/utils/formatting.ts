@@ -12,13 +12,5 @@ export function isValidPrice(n: unknown): n is number {
 }
 
 export function formatIDR(n: number) {
-  try {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0,
-    }).format(n);
-  } catch {
     return `IDR ${Math.round(n).toLocaleString("id-ID")}`;
-  }
 }
