@@ -133,7 +133,7 @@ const ijenScreeningData = {
     },
   ],
 };
-
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: ijenScreeningData.seo.title,
   description: ijenScreeningData.seo.metaDescription,
