@@ -49,11 +49,36 @@ const policyData = {
     ],
   },
 };
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: policyData.inclusionsExclusionsPolicy.documentTitle,
   description:
     "Official Inclusions & Exclusions Policy for Java Volcano Tour Operator (JVTO).",
+  openGraph: {
+    title: policyData.inclusionsExclusionsPolicy.documentTitle,
+    description:
+      "Official Inclusions & Exclusions Policy for Java Volcano Tour Operator (JVTO).",
+    url: `${siteUrl}/travel-guide/inclusions-exclusions-policy`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/include-exclude.webp",
+        width: 1200,
+        height: 630,
+        alt: "Inclusions Exclusions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: policyData.inclusionsExclusionsPolicy.documentTitle,
+    description:
+      "Official Inclusions & Exclusions Policy for Java Volcano Tour Operator (JVTO).",
+    images: [siteUrl + "/assets/img/og/include-exclude.webp"],
+  },
 };
 
 export default function InclusionsExclusionsPolicyPage() {
@@ -225,7 +250,9 @@ export default function InclusionsExclusionsPolicyPage() {
             </nav>
 
             <div className="text-center mb-12">
-              <h1 className="font-black text-2xl md:text-5xl">{policy.documentTitle}</h1>
+              <h1 className="font-black text-2xl md:text-5xl">
+                {policy.documentTitle}
+              </h1>
               <p className="mt-4 text-sm text-muted-foreground">
                 Last updated: {policy.lastUpdated}
               </p>

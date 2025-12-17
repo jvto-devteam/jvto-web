@@ -1,10 +1,35 @@
 import ContactPage from "@/components/website/ContactPage";
 import StructuredData from "@/components/website/StructuredData";
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "Contact JVTO Tours | Plan Your East Java Adventure",
   description:
     "Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7.",
+  openGraph: {
+    title: "Contact JVTO Tours | Plan Your East Java Adventure",
+    description:
+      "Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7.",
+    url: `${siteUrl}/contact`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/contact.webp",
+        width: 1200,
+        height: 630,
+        alt: "Contact",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact JVTO Tours | Plan Your East Java Adventure",
+    description:
+      "Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7.",
+    images: [siteUrl + "/assets/img/og/contact.webp"],
+  },
 };
 
 export default function Contact() {

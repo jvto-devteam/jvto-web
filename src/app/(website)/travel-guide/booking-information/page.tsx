@@ -241,10 +241,33 @@ const bookingInfoData = {
     },
   ],
 };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: bookingInfoData.seo.title,
   description: bookingInfoData.seo.metaDescription,
+    openGraph: {
+    title: bookingInfoData.seo.title,
+    description: bookingInfoData.seo.metaDescription,
+    url: `${siteUrl}/travel-guide/booking-information`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/booking-information.webp",
+        width: 1200,
+        height: 630,
+        alt: "Booking Information",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: bookingInfoData.seo.title,
+    description: bookingInfoData.seo.metaDescription,
+    images: [siteUrl + "/assets/img/og/booking-information.webp"],
+  },
 };
 
 const ParagraphRenderer = ({ text }: { text: string }) => {
@@ -335,8 +358,6 @@ const renderParagraphs = (paragraphs: string[]) => {
 
 export default function BookingInformationPage() {
   const { h1, hero, sections } = bookingInfoData;
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   // 4. Siapkan Schema.org Data secara dinamis
   const schemaData = {

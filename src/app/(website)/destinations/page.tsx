@@ -4,14 +4,37 @@ import type { Metadata } from "next";
 import type { Destination } from "@/interfaces";
 import DestinationCard from "@/components/website/DestinationCard";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
   description:
     "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+  openGraph: {
+    title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
+    description:
+      "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+    url: `${siteUrl}/destinations`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/destinations.webp",
+        width: 1200,
+        height: 630,
+        alt: "Destinations",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
+    description:
+      "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
+    images: [siteUrl + "/assets/img/og/destinations.webp"],
+  },
 };
 async function getAllDestinations(): Promise<Destination[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
   const res = await fetch(`${siteUrl}/api/destinations/web`, {
     method: "GET",
     cache: "no-store",

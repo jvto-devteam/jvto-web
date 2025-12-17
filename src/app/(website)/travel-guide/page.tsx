@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
 import StructuredData from "@/components/website/StructuredData";
 
-
 const travelGuideData = {
   route: "/travel-guide",
   seo: {
@@ -185,14 +184,37 @@ const travelGuideData = {
   ],
 };
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: travelGuideData.seo.title,
   description: travelGuideData.seo.metaDescription,
+  openGraph: {
+    title: travelGuideData.seo.title,
+    description:
+      travelGuideData.seo.metaDescription,
+    url: `${siteUrl}/travel-guide`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/travel-guide.webp",
+        width: 1200,
+        height: 630,
+        alt: "Travel Guide",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: travelGuideData.seo.title,
+    description:
+      travelGuideData.seo.metaDescription,
+    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+  },
 };
 
 export default function TravelGuideHubPage() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
   const travelGudideSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -501,7 +523,9 @@ export default function TravelGuideHubPage() {
             <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
             <div className="space-y-2 mx-auto">
               {hero.introParagraphs.map((p, i) => (
-                <p className="text-gray-600 text-lg" key={i}>{p}</p>
+                <p className="text-gray-600 text-lg" key={i}>
+                  {p}
+                </p>
               ))}
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -572,9 +596,7 @@ export default function TravelGuideHubPage() {
                       id={section.id}
                       className="scroll-mt-24"
                     >
-                      <h2 className="font-black text-2xl">
-                        {section.title}
-                      </h2>
+                      <h2 className="font-black text-2xl">{section.title}</h2>
                       <hr className="my-2" />
                       <div className="prose max-w-none text-md text-muted-foreground">
                         {section.summaryParagraphs.map((p, i) => {
@@ -600,7 +622,11 @@ export default function TravelGuideHubPage() {
                       </div>
                       {section.cta && (
                         <div className="mt-6">
-                          <Button variant="outline" size="sm" className="p-0 flex h-auto">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="p-0 flex h-auto"
+                          >
                             <Link className="flex" href={section.cta.href}>
                               {section.cta.label}{" "}
                               <ArrowRight className="ml-2 w-4 h-4" />
