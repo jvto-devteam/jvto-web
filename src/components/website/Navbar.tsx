@@ -104,21 +104,21 @@ const ToursDropdown: React.FC = () => {
                     to="/tours/from-surabaya/bromo-madakaripura-ijen-3d2n"
                     onClick={handleClose}
                   >
-                    3 Day Bromo, Madakaripura Waterfall & Ijen Overland from
+                    3 Day Bromo, Madakaripura & Ijen from
                     Surabaya to Bali
                   </MegaMenuLink>
                   <MegaMenuLink
                     to="/tours/from-surabaya/ijen-bromo-madakaripura-3d2n"
                     onClick={handleClose}
                   >
-                    3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from
+                    3 Day Ijen, Bromo, Madakaripura from
                     Surabaya
                   </MegaMenuLink>
                   <MegaMenuLink
                     to="/tours/from-surabaya/ijen-bromo-madakaripura-4d3n"
                     onClick={handleClose}
                   >
-                    4 Day Ijen, Bromo & Madakaripura Waterfall Expedition from
+                    4 Day Ijen, Bromo, Madakaripura from
                     Surabaya
                   </MegaMenuLink>
                 </ul>
