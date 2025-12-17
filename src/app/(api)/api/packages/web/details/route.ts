@@ -11,12 +11,14 @@ export async function GET(req: NextRequest) {
     }
 
     if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
-      const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find((p) => p.product?.slug === slug || p.slug === slug);
+      const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find(
+        (p) => p.product?.slug === slug || p.slug === slug
+      );
       if (mockPkg) {
         return NextResponse.json(mockPkg, { status: 200 });
       } else {
-        // Fallback or returned 404 immediately? 
-        // User might want to fall through if not found in mock? 
+        // Fallback or returned 404 immediately?
+        // User might want to fall through if not found in mock?
         // But the requirement implies replacing the data source.
         return NextResponse.json(
           { message: "Paket tidak ditemukan (Mock)" },
@@ -122,6 +124,16 @@ export async function GET(req: NextRequest) {
     }
 
     const EXCLUDED_DESTINATION_IDS = new Set([3, 4]);
+    const allTiers = (pkg.package_prices ?? [])
+      .map((p) => p.price_tiers)
+      .filter((t) => t != null);
+
+    const calculatedMinPax =
+      allTiers.length > 0
+        ? Math.min(...allTiers.map((t) => t?.min_pax ?? 1))
+        : 1;
+
+    const calculatedMaxPax =100;
 
     return NextResponse.json(
       replaceBigInt({
@@ -146,8 +158,9 @@ export async function GET(req: NextRequest) {
           durationId: pkg.durations?.id ?? null,
           durationDays: pkg.durations?.day ?? 0,
           durationNights: pkg.durations?.night ?? 0,
-          marketedDurationLabel: `${pkg.durations?.day ?? 0}D${pkg.durations?.night ?? 0
-            }N`,
+          marketedDurationLabel: `${pkg.durations?.day ?? 0}D${
+            pkg.durations?.night ?? 0
+          }N`,
           route: (pkg.package_destinations ?? [])
             .filter(
               (pd) => !EXCLUDED_DESTINATION_IDS.has(Number(pd.destination_id))
@@ -200,24 +213,30 @@ export async function GET(req: NextRequest) {
           ),
           travelerRequirements: Array.isArray(pkg.traveler_requirements)
             ? pkg.traveler_requirements
-              .map((s) => s?.trim())
-              .filter((s) => s && s.length > 0)
+                .map((s) => s?.trim())
+                .filter((s) => s && s.length > 0)
             : [],
           addOns: (pkg.package_addons ?? []).map((addon: any) => ({
             id: addon.addons?.id,
             name: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")}`
               : addon.addons?.name || "",
-            type: addon.addons?.id == 2 ? 'madakaripura' : (addon.addons?.is_transport ? 'transport' : null),
+            type:
+              addon.addons?.id == 2
+                ? "madakaripura"
+                : addon.addons?.is_transport
+                ? "transport"
+                : null,
             description: addon.addons?.is_transport
               ? `Transport to ${ucwords(addon.addons?.name || "")} - ${ucwords(
-                addon.addons?.transport_type || ""
-              )} Car (${addon.addons?.transport_type === "small"
-                ? "1-3 Pax"
-                : addon.addons?.transport_type === "medium"
-                  ? "4-9 Pax"
-                  : "10 Pax Above"
-              })`
+                  addon.addons?.transport_type || ""
+                )} Car (${
+                  addon.addons?.transport_type === "small"
+                    ? "1-3 Pax"
+                    : addon.addons?.transport_type === "medium"
+                    ? "4-9 Pax"
+                    : "10 Pax Above"
+                })`
               : "",
             transportType: addon.addons?.transport_type ?? null,
             transportDestination: addon.addons?.name ?? null,
@@ -230,7 +249,7 @@ export async function GET(req: NextRequest) {
               area: h.hotels?.destinations?.name ?? "",
               image: h.hotels
                 ? "https://legacy.javavolcano-touroperator.com/assets/img/hotels/" +
-                h.hotels.banner
+                  h.hotels.banner
                 : "",
             })) ?? [],
           gear: {
@@ -311,19 +330,19 @@ export async function GET(req: NextRequest) {
           marketing: {
             perfectFor: Array.isArray(pkg.perfect_for)
               ? pkg.perfect_for
-                .map((s) => s?.trim())
-                .filter((s) => s && s.length > 0)
+                  .map((s) => s?.trim())
+                  .filter((s) => s && s.length > 0)
               : [],
             highlightsBullets: Array.isArray(pkg.highlights_bullets)
               ? pkg.highlights_bullets
-                .map((s) => s?.trim())
-                .filter((s) => s && s.length > 0)
+                  .map((s) => s?.trim())
+                  .filter((s) => s && s.length > 0)
               : [],
             safetyPositioning: pkg.safety_positioning ?? "",
             uniqueSellingPoints: Array.isArray(pkg.unique_selling_points)
               ? pkg.unique_selling_points
-                .map((s) => s?.trim())
-                .filter((s) => s && s.length > 0)
+                  .map((s) => s?.trim())
+                  .filter((s) => s && s.length > 0)
               : [],
           },
           operationalComplexityNote: pkg.operational_complexity_note ?? "",
@@ -376,8 +395,8 @@ export async function GET(req: NextRequest) {
             languageOffered: ["en"],
             status: "active",
             minLeadTimeHours: 24,
-            maxPaxRecommended: 11,
-            minPaxOperational: 2,
+            maxPaxRecommended: calculatedMaxPax,
+            minPaxOperational: calculatedMinPax,
           },
           _cms: {
             contentType: "tour-package",
@@ -422,7 +441,8 @@ export async function GET(req: NextRequest) {
               {
                 type: "MPV",
                 model: "Toyota Avanza/Innova",
-                banner: "https://legacy.javavolcano-touroperator.com/assets/img/cars/avanza.png",
+                banner:
+                  "https://legacy.javavolcano-touroperator.com/assets/img/cars/avanza.png",
                 maxPax: 3,
                 baggageCapacity: "3 medium bags",
                 features: ["AC", "Charging ports"],
@@ -430,7 +450,8 @@ export async function GET(req: NextRequest) {
               {
                 type: "Hiace",
                 model: "Toyota Hiace",
-                banner: "https://legacy.javavolcano-touroperator.com/assets/img/cars/hiace.png",
+                banner:
+                  "https://legacy.javavolcano-touroperator.com/assets/img/cars/hiace.png",
                 maxPax: 11,
                 baggageCapacity: "11 medium bags",
                 features: ["AC", "Spacious legroom"],

@@ -211,7 +211,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   // State Booking Form
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [startDate, setStartDate] = useState("");
-  const [pax, setPax] = useState(2);
+  const [pax, setPax] = useState(pkg.channelMetadata.minPaxOperational);
 
   const isTransportItem = (type: string | null | undefined) =>
     type === "transport";

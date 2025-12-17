@@ -27,6 +27,7 @@ function getPriceForPax(pax: number, tiers: any[]) {
   });
   return tier ? tier.pricePerPerson : null;
 }
+
 function calculateDownPayment(dateStr: string, total: number) {
   if (!dateStr) return 0;
 
@@ -42,14 +43,24 @@ function calculateDownPayment(dateStr: string, total: number) {
   const diffTime = tripDate.getTime() - today.getTime();
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  console.log(`📅 Date Check: Trip=${dateStr}, H-${diffDays}`);
-
   // Jika H-7 atau kurang (bahkan minus/hari H), wajib Full Payment
   if (diffDays <= 7) {
     return total;
   }
   // Jika lebih dari 7 hari, DP 20%
   return Math.ceil(total * 0.2);
+}
+
+// --- HELPER: Hitung Diskon FOC ---
+function calculateFOCDiscount(pax: number, pricePerPerson: number) {
+  if (pax >= 50) {
+    return { amount: pricePerPerson * 3, label: "FOC: 3 Pax Free" };
+  } else if (pax >= 34) {
+    return { amount: pricePerPerson * 2, label: "FOC: 2 Pax Free" };
+  } else if (pax >= 18) {
+    return { amount: pricePerPerson * 1, label: "FOC: 1 Pax Free" };
+  }
+  return { amount: 0, label: "" };
 }
 
 interface ContactDetails {
@@ -66,7 +77,7 @@ interface AddOn {
   subtotal: number;
   type?: string | null;
   transportType?: string | null;
-  transportDestination?: string | null; // <--- Add this
+  transportDestination?: string | null;
 }
 
 interface CheckoutPayload {
@@ -87,6 +98,8 @@ interface CheckoutPayload {
 
   totalPackage: number;
   totalAddons: number;
+  totalDiscount: number; 
+  discountLabel?: string; 
   downPayment: number;
 }
 
@@ -101,15 +114,24 @@ function recalculateTotals(
   const newPricePerPerson = getPriceForPax(newPax, payload.priceTiers);
   const newPackageTotal = newPricePerPerson ? newPricePerPerson * newPax : 0;
 
+  // 1. Hitung Diskon
+  let discountAmount = 0;
+  let discountLabel = "";
+
+  if (newPricePerPerson) {
+    const discount = calculateFOCDiscount(newPax, newPricePerPerson);
+    discountAmount = discount.amount;
+    discountLabel = discount.label;
+  }
+
+  // 2. Hitung Addons
   let newAddonTotal = 0;
   let updatedAddons: AddOn[] = [];
 
   if (payload.addon && payload.addon.length > 0) {
     updatedAddons = payload.addon.map((a) => {
       const isTransport = a.type === "transport";
-
       const newQty = isTransport ? 1 : newPax;
-
       const newSubtotal = newQty * a.price;
       newAddonTotal += newSubtotal;
 
@@ -117,7 +139,12 @@ function recalculateTotals(
     });
   }
 
-  const newGrandTotal = newPackageTotal + newAddonTotal;
+  // 3. Grand Total (dikurangi diskon, tidak boleh minus)
+  const newGrandTotal = Math.max(
+    0,
+    newPackageTotal + newAddonTotal - discountAmount
+  );
+  
   const newDownPayment = calculateDownPayment(payload.date, newGrandTotal);
 
   return {
@@ -127,7 +154,8 @@ function recalculateTotals(
     packageTotal: newPackageTotal,
     grandTotal: newGrandTotal,
     addon: updatedAddons,
-
+    totalDiscount: discountAmount,
+    discountLabel: discountLabel,
     totalPackage: newPackageTotal,
     totalAddons: newAddonTotal,
     downPayment: newDownPayment,
@@ -200,7 +228,6 @@ const StickyOrderSummary = ({
 
   return (
     <div className="sticky top-36 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
-      {/* Header Image */}
       <div className="relative h-40 bg-slate-900">
         {payload.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -262,6 +289,14 @@ const StickyOrderSummary = ({
               ))}
             </div>
           )}
+
+          {/* DISKON SECTION */}
+          {payload.totalDiscount > 0 && (
+            <div className="flex justify-between text-lime-600 font-bold bg-lime-50 px-2 py-1 rounded">
+              <span>{payload.discountLabel || "Group Discount"}</span>
+              <span>- {formatCurrency(payload.totalDiscount)}</span>
+            </div>
+          )}
         </div>
 
         <div className="border-t border-slate-200 pt-4">
@@ -300,7 +335,6 @@ const StepOneDetails = ({
   const [phone, setPhone] = useState(payload.contact?.phone || "");
   const [paxCount, setPaxCount] = useState(payload.pax);
 
-  // LOGIKA BARU: Handle Date Change
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.target.value;
     const newDownPayment = calculateDownPayment(newDate, payload.grandTotal);
@@ -309,7 +343,6 @@ const StepOneDetails = ({
       date: newDate,
       downPayment: newDownPayment,
     };
-    console.log("💰 DP Recalculated:", newDownPayment); // Debugging
     setPayload(updatedPayload);
     localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
   };
@@ -344,7 +377,6 @@ const StepOneDetails = ({
     onNext();
   };
 
-  // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD untuk atribut min
   const today = new Date().toISOString().split("T")[0];
 
   return (
@@ -352,12 +384,10 @@ const StepOneDetails = ({
       onSubmit={handleSubmit}
       className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
-      {/* Card 1: Guest Info */}
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="1" title="Trip Configuration" />
 
         <div className="grid gap-6 md:grid-cols-2">
-          {/* LOGIKA BARU: Date Editable */}
           <div className="col-span-2 md:col-span-1">
             <label
               htmlFor="startDate"
@@ -376,7 +406,6 @@ const StepOneDetails = ({
             />
           </div>
 
-          {/* Pax Input */}
           <div className="col-span-2 md:col-span-1">
             <label
               htmlFor="pax"
@@ -395,11 +424,15 @@ const StepOneDetails = ({
               onChange={handlePaxChange}
               className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
             />
+             {payload.totalDiscount > 0 && (
+                <p className="mt-2 text-xs font-bold text-lime-600">
+                    🎉 {payload.discountLabel} Applied!
+                </p>
+             )}
           </div>
         </div>
       </div>
 
-      {/* Card 2: Contact Info */}
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="2" title="Contact Details" />
 
@@ -472,7 +505,6 @@ const StepTwoPayment = ({
   const isFullPayment = payload.downPayment === payload.grandTotal;
   const depositAmount = Math.ceil(payload.grandTotal * 0.2);
   const remainingAmount = payload.grandTotal - depositAmount;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -483,9 +515,6 @@ const StepTwoPayment = ({
 
     setProcessing(true);
 
-    // ============================================================
-    // 1. SIAPKAN PAYLOAD UNTUK LEGACY (LARAVEL)
-    // ============================================================
     const legacyPayload = {
       contactDetails: {
         name: payload.contact?.customerName || "",
@@ -497,16 +526,15 @@ const StepTwoPayment = ({
         package_id: Number(payload.packageId),
         travel_date_start: payload.date,
         numb_of_pax: Number(payload.pax),
+        user_id: 0, 
 
         down_payment: payload.downPayment,
         total_package: payload.totalPackage,
         total_addons: payload.totalAddons,
         grand_total: payload.grandTotal,
-        total_discount: 0,
-
+        total_discount: payload.totalDiscount || 0,
         addons:
           payload.addon?.map((item) => {
-            // Logic Transport: Paksa ID jadi 'bali_transport' & Sertakan details destination
             if (item.type === "transport") {
               return {
                 id: "bali_transport",
@@ -517,7 +545,6 @@ const StepTwoPayment = ({
                 ],
               };
             }
-            // Logic Madakaripura: Paksa ID 'madakaripura'
             if (item.type === "madakaripura" || item.addOnId === "2") {
               return {
                 id: "madakaripura",
@@ -526,7 +553,6 @@ const StepTwoPayment = ({
                 details: [],
               };
             }
-            // Default
             return {
               id: item.addOnId,
               name: item.label,
@@ -535,9 +561,8 @@ const StepTwoPayment = ({
             };
           }) || [],
       },
-
       travelerDetails: {
-        pickupLocation: "", // String kosong agar aman di PHP
+        pickupLocation: "",
         pickupDetail: "",
         flightNumber: "",
         trainNumber: null,
@@ -551,24 +576,17 @@ const StepTwoPayment = ({
       },
     };
 
-    // ============================================================
-    // 2. PROSES SUBMIT KE LEGACY (EXTERNAL)
-    // ============================================================
     try {
-      // Gunakan endpoint internal Next.js sendiri
       const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
-
       console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
 
       const response = await fetch(internalApiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(legacyPayload), // Kirim payload legacy yang sudah matang
+        body: JSON.stringify(legacyPayload),
       });
 
       const result = await response.json();
-      console.log("✅ Final Result:", result);
-
       if (response.ok && result.success && result.payment_link) {
         localStorage.removeItem("checkoutPayload");
         window.location.href = result.payment_link;
@@ -580,37 +598,6 @@ const StepTwoPayment = ({
       setProcessing(false);
       alert(`Error: ${error.message}`);
     }
-
-    // ============================================================
-    // 3. API INTERNAL (NEXT.JS) - COMMENTED OUT / BACKUP
-    // ============================================================
-    // try {
-    //   const response = await fetch(siteUrl + "/api/checkout", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(payload), // Menggunakan payload flat asli MAIN
-    //   });
-      
-    //   if (!response.ok) {
-    //     throw new Error("Failed to create booking internally");
-    //   }
-      
-    //   const result = await response.json();
-    //   console.log("Internal Booking created:", result);
-
-    //   setTimeout(() => {
-    //       setProcessing(false);
-    //       localStorage.removeItem("checkoutPayload");
-    //       router.push("/my-booking");
-    //   }, 1000);
-
-    // } catch (error) {
-    //   console.error(error);
-    //   setProcessing(false);
-    //   alert("Something went wrong with internal submission.");
-    // }
   };
 
   return (
@@ -621,7 +608,6 @@ const StepTwoPayment = ({
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="3" title="Review & Payment" />
 
-        {/* --- UPDATE: TAMPILAN RINCIAN HARGA (TOTAL vs DP) --- */}
         <div className="mb-6 rounded-xl bg-slate-50 p-5 text-sm border border-slate-100">
           <div className="space-y-2 pb-4 border-b border-slate-200">
             <p className="flex justify-between">
@@ -651,7 +637,6 @@ const StepTwoPayment = ({
           </div>
           <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
             <span>ℹ️</span>
-            {/* 2. UPDATE TEKS INFO: Beda pesan jika Full Payment */}
             {isFullPayment ? (
               <p>
                 Since your trip is within 7 days, <strong>full payment</strong>{" "}
@@ -671,7 +656,6 @@ const StepTwoPayment = ({
         </div>
 
         <div className="space-y-3">
-          {/* Option 1: CC */}
           <div
             onClick={() => setPaymentMethod("cc")}
             className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
@@ -724,26 +708,6 @@ const StepTwoPayment = ({
               />
             </div>
           </div>
-
-          {/* Option 2: Bank Transfer */}
-          {/* <div 
-                onClick={() => setPaymentMethod('bank')}
-                className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
-                    paymentMethod === 'bank' 
-                    ? 'border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500' 
-                    : 'border-slate-200 hover:border-slate-300 bg-white'
-                }`}
-            >
-                <div className={`flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
-                    paymentMethod === 'bank' ? 'border-lime-600 bg-lime-600' : 'border-slate-300'
-                }`}>
-                    {paymentMethod === 'bank' && <div className="h-2 w-2 rounded-full bg-white" />}
-                </div>
-                <div>
-                    <span className="block font-bold text-slate-900">Bank Transfer / QRIS</span>
-                    <span className="text-xs text-slate-500">BCA, Mandiri, BRI, QRIS</span>
-                </div>
-            </div> */}
         </div>
 
         <div className="mt-8 border-t border-slate-100 pt-6">
@@ -778,7 +742,6 @@ const StepTwoPayment = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        {/* --- UPDATE: TEKS TOMBOL MENAMPILKAN NOMINAL DP --- */}
         <JVTOButton type="submit" disabled={processing} fullWidth>
           {processing
             ? "Processing..."
@@ -814,8 +777,14 @@ export default function CheckoutPage() {
       try {
         const parsed = JSON.parse(data);
         if (!parsed.packageLabel) throw new Error("Invalid Data");
-        setPayload(parsed);
+        
+        // --- FIX PENTING: HITUNG ULANG SAAT LOAD PERTAMA KALI ---
+        // Ini memastikan diskon terhitung meskipun data dari halaman sebelumnya belum punya diskon.
+        const recalculated = recalculateTotals(parsed, parsed.pax);
+        
+        setPayload(recalculated);
       } catch (e) {
+        console.error(e);
         router.push("/");
       }
     } else {
@@ -851,7 +820,6 @@ export default function CheckoutPage() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-12">
-          {/* Main Form Area */}
           <div className="lg:col-span-8">
             <ProgressIndicator currentStep={step} />
 
@@ -872,7 +840,6 @@ export default function CheckoutPage() {
             )}
           </div>
 
-          {/* Sidebar Summary */}
           <div className="lg:col-span-4">
             <StickyOrderSummary payload={payload} />
 
