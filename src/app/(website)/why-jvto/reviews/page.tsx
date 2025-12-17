@@ -7,6 +7,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { type Metadata } from "next";
 import { Check, Shield, Star, Users } from "lucide-react";
 import StructuredData from "@/components/website/StructuredData";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: "Guest Reviews & Long-Term Feedback",
