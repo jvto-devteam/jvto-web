@@ -101,22 +101,25 @@ const ToursDropdown: React.FC = () => {
                 </h4>
                 <ul className="space-y-2">
                   <MegaMenuLink
+                    to="/tours/from-surabaya/bromo-madakaripura-ijen-3d2n"
+                    onClick={handleClose}
+                  >
+                    3 Day Bromo, Madakaripura Waterfall & Ijen Overland from
+                    Surabaya to Bali
+                  </MegaMenuLink>
+                  <MegaMenuLink
                     to="/tours/from-surabaya/ijen-bromo-madakaripura-3d2n"
                     onClick={handleClose}
                   >
-                    3D2N Ijen, Bromo & Waterfall
+                    3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from
+                    Surabaya
                   </MegaMenuLink>
                   <MegaMenuLink
-                    to="/tours/from-bali/bromo-ijen-3d2n"
+                    to="/tours/from-surabaya/ijen-bromo-madakaripura-4d3n"
                     onClick={handleClose}
                   >
-                    3D2N Bromo & Ijen from Bali
-                  </MegaMenuLink>
-                  <MegaMenuLink
-                    to="/tours/from-surabaya/bromo-2d1n"
-                    onClick={handleClose}
-                  >
-                    2D1N Bromo & Waterfall
+                    4 Day Ijen, Bromo & Madakaripura Waterfall Expedition from
+                    Surabaya
                   </MegaMenuLink>
                 </ul>
               </div>
@@ -125,10 +128,7 @@ const ToursDropdown: React.FC = () => {
                   By Location
                 </h4>
                 <ul className="space-y-2">
-                  <MegaMenuLink
-                    to="/tours/from-surabaya"
-                    onClick={handleClose}
-                  >
+                  <MegaMenuLink to="/tours/from-surabaya" onClick={handleClose}>
                     Start From Surabaya
                   </MegaMenuLink>
                   <MegaMenuLink to="/tours/from-bali" onClick={handleClose}>
@@ -146,7 +146,9 @@ const ToursDropdown: React.FC = () => {
                 <span className="font-display text-2xl text-black block text-primary">
                   ALL TOURS
                 </span>
-                <span className="font-bold text-sm text-black">Find your adventure!</span>
+                <span className="font-bold text-sm text-black">
+                  Find your adventure!
+                </span>
               </Link>
             </div>
           </div>
