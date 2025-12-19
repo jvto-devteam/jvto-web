@@ -398,6 +398,14 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/octo/:path*', 
+        destination: 'https://legacy.javavolcano-touroperator.com/api/octo/:path*',
+      },
+    ]
+  },
 };
 
 module.exports = nextConfig;
