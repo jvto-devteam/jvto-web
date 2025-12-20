@@ -17,6 +17,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "javavolcano-touroperator.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "i.pravatar.cc",
         port: "",
         pathname: "/**",
