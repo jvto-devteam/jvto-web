@@ -125,7 +125,7 @@ export default async function MyBookingPage({
           {/* --- LEFT COLUMN --- */}
           <div className="lg:col-span-2 space-y-6">
             {/* A. PAYMENT CARD LOGIC */}
-            {!isFullyPaid && !isCanceled && (
+            {booking.channel != 'KLOOK' && !isFullyPaid && !isCanceled && (
               <>
                 {isConfirmed ? (
                   // 1. TAMPILAN CONFIRMED (STYLE: WHITE CARD, BLUE TEXT, ORANGE BUTTON)
