@@ -369,51 +369,53 @@ export default async function MyBookingPage({
             </div>
 
             {/* 2. DOCUMENTS DOWNLOAD */}
-            <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
-              <div className="absolute top-0 right-0 p-10 bg-lime-500 blur-3xl opacity-20 rounded-full pointer-events-none"></div>
-              <h3 className="font-bold uppercase tracking-widest mb-6 text-lime-400 text-xs relative z-10">
-                Documents
-              </h3>
-              <div className="space-y-3 relative z-10">
-                <a
-                  href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice/${booking.url}`}
-                  className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
-                >
-                  <span className="font-bold text-sm">Invoice</span>
-                  <Download
-                    size={18}
-                    className="text-slate-400 group-hover:text-white transition-colors"
-                  />
-                </a>
-
-                <a
-                  href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/receipt/${booking.url}`}
-                  className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
-                >
-                  <span className="font-bold text-sm">Receipt</span>
-                  <Download
-                    size={18}
-                    className="text-slate-400 group-hover:text-white transition-colors"
-                  />
-                </a>
-
-                {booking.addons.length > 0 && (
+            {booking.channel != 'KLOOK' && (
+              <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-10 bg-lime-500 blur-3xl opacity-20 rounded-full pointer-events-none"></div>
+                <h3 className="font-bold uppercase tracking-widest mb-6 text-lime-400 text-xs relative z-10">
+                  Documents
+                </h3>
+                <div className="space-y-3 relative z-10">
                   <a
-                    href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice-addon/${booking.url}`}
+                    href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice/${booking.url}`}
                     className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
                   >
-                    <span className="font-bold text-sm">Add-on Invoice</span>
+                    <span className="font-bold text-sm">Invoice</span>
                     <Download
                       size={18}
                       className="text-slate-400 group-hover:text-white transition-colors"
                     />
                   </a>
-                )}
+
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/receipt/${booking.url}`}
+                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
+                  >
+                    <span className="font-bold text-sm">Receipt</span>
+                    <Download
+                      size={18}
+                      className="text-slate-400 group-hover:text-white transition-colors"
+                    />
+                  </a>
+
+                  {booking.addons.length > 0 && (
+                    <a
+                      href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice-addon/${booking.url}`}
+                      className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
+                    >
+                      <span className="font-bold text-sm">Add-on Invoice</span>
+                      <Download
+                        size={18}
+                        className="text-slate-400 group-hover:text-white transition-colors"
+                      />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* 3. PAYMENT HISTORY */}
-            {booking.finance.payment_history.length > 0 && (
+            {booking.channel != 'KLOOK' && booking.finance.payment_history.length > 0 && (
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                   Payment History
