@@ -84,7 +84,7 @@ export default async function MyBookingPage({
               </h1>
             </div>
           </div>
-
+          {booking.channel != 'KLOOK' && (
           <div className="mt-2 md:mt-0 md:text-right">
             {isFullyPaid ? (
               <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-lime-100 text-lime-700 border border-lime-200">
@@ -100,6 +100,7 @@ export default async function MyBookingPage({
               </span>
             )}
           </div>
+          )}
         </div>
       </div>
 
