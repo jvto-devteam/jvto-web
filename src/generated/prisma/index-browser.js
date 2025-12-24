@@ -646,16 +646,40 @@ exports.Prisma.Currency_exchange_ratesScalarFieldEnum = {
   source: 'source'
 };
 
-exports.Prisma.CustomersScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
   phone: 'phone',
+  emailVerified: 'emailVerified',
+  image: 'image',
   country_id: 'country_id',
   order_channel_id: 'order_channel_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  sessionToken: 'sessionToken',
+  userId: 'userId',
+  expires: 'expires'
 };
 
 exports.Prisma.Destination_activitiesScalarFieldEnum = {
@@ -1443,7 +1467,9 @@ exports.Prisma.ModelName = {
   crew_roles: 'crew_roles',
   crew_unavailabilities: 'crew_unavailabilities',
   currency_exchange_rates: 'currency_exchange_rates',
-  customers: 'customers',
+  User: 'User',
+  Account: 'Account',
+  Session: 'Session',
   destination_activities: 'destination_activities',
   destinations: 'destinations',
   destination_gears: 'destination_gears',
