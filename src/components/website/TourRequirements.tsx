@@ -13,7 +13,7 @@ const TourRequirements = () => {
       </p>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full text-left text-sm whitespace-nowrap">
+        <table className="min-w-full text-left text-sm">
           <thead className="uppercase tracking-wider border-b-2 border-gray-200 bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-4 font-semibold text-gray-700">Attribute (Category)</th>
@@ -46,7 +46,7 @@ const TourRequirements = () => {
               <td className="px-6 py-4 font-medium text-gray-900">Start Time</td>
               <td className="px-6 py-4 text-gray-700">
                 <strong>00:00 AM - 01:00 AM</strong><br/>
-                <span className="text-xs text-gray-500">To catch the Blue Fire phenomenon before sunrise.</span>
+                <span className="text-xs text-gray-500">To catch the Blue Fire phenomenon before sunrise, please note that its appearance depends on sulfur gas concentration and high combustion temperatures above 360°C, so visibility is natural-condition dependent and not guaranteed.</span>
               </td>
             </tr>
           </tbody>
