@@ -682,6 +682,12 @@ exports.Prisma.SessionScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  identifier: 'identifier',
+  token: 'token',
+  expires: 'expires'
+};
+
 exports.Prisma.Destination_activitiesScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -1470,6 +1476,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
+  VerificationToken: 'VerificationToken',
   destination_activities: 'destination_activities',
   destinations: 'destinations',
   destination_gears: 'destination_gears',
