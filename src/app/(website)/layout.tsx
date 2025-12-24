@@ -6,6 +6,7 @@ import Footer from "@/components/website/Footer";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
+import { Providers } from "../providers";
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -62,6 +63,7 @@ export default function WebsiteLayout({
 }) {
   return (
     <>
+    <Providers>
       <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
         {/* GA optional logic */}
         {/* <Suspense>
@@ -78,6 +80,7 @@ export default function WebsiteLayout({
           <Footer />
         </div>
       </div>
+      </Providers>
     </>
   );
 }

@@ -10,7 +10,8 @@ export function middleware(req: NextRequest) {
   const host = rawHost.split(":")[0];
   const domain = "javavolcano-touroperator";
 
-  const isCustomerHost = host === `my.${domain}.local` || host === `my.${domain}.com`;
+  const isCustomerHost =
+    host === `my.${domain}.local` || host === `my.${domain}.com`;
 
   if (!isCustomerHost && pathname.startsWith("/customer")) {
     return new NextResponse("404 Not Found", { status: 404 });
@@ -60,3 +61,13 @@ export function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
+export const config = {
+  // Matcher ini berfungsi untuk MENGECUALIKAN middleware pada path tertentu:
+  // 1. /api (API Routes termasuk NextAuth) -> Agar tidak kena error JSON
+  // 2. /_next (Next.js internals)
+  // 3. /static (Static files)
+  // 4. favicon.ico, sitemap.xml, robots.txt, dll
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+  ],
+};

@@ -517,7 +517,7 @@ model bookings {
   booking_tshirts                booking_tshirts[]
   booking_vehicle_units          booking_vehicle_units[]
   booking_whatsapp_logs          booking_whatsapp_logs[]
-  customers                      customers?                       @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_customer_id")
+  customer                       User?                            @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_customer_id")
   durations                      durations?                       @relation(fields: [duration_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_duration_id")
   order_channels                 order_channels?                  @relation(fields: [order_channel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_order_channel_id")
   packages                       packages?                        @relation(fields: [package_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_package_id")
@@ -698,17 +698,62 @@ model currency_exchange_rates {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model customers {
-  id               BigInt     @id @default(autoincrement())
-  name             String?
-  email            String?
-  phone            String?
+model User {
+  id            BigInt    @id @default(autoincrement())
+  name          String?
+  email         String?   @unique // Wajib tambah unique
+  phone         String?
+  
+  // Field tambahan NextAuth
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+
+  // Field lama
   country_id       BigInt?
   order_channel_id BigInt?
-  created_at       DateTime?  @default(now()) @db.Timestamp(6)
-  updated_at       DateTime?  @db.Timestamp(6)
-  deleted_at       DateTime?  @db.Timestamp(6)
-  bookings         bookings[]
+  created_at       DateTime? @default(now()) @db.Timestamp(6)
+  updated_at       DateTime? @updatedAt @db.Timestamp(6)
+  deleted_at       DateTime? @db.Timestamp(6)
+
+  // Relasi
+  accounts      Account[]
+  sessions      Session[]
+  bookings      bookings[] // Relasi ke booking
+
+  // PENTING: Map ke tabel lama agar data tidak hilang
+  @@map("customers") 
+}
+
+// 2. Gunakan model standar Account (sesuaikan relasi ke BigInt)
+model Account {
+  id                String  @id @default(cuid())
+  userId            BigInt  @map("user_id") // Sesuaikan tipe data ID User (BigInt)
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// 3. Model Session
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       BigInt   @map("user_id") // Sesuaikan tipe data ID User (BigInt)
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
