@@ -5,6 +5,7 @@ import { TourPackageDetail } from "@/interfaces";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
+import TourRequirements from "./TourRequirements";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -309,7 +310,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       packageId: pkg.id,
       durationId: pkg.durationId,
       date: startDate,
-      pax:numPax,
+      pax: numPax,
       pricePerPerson,
       packageTotal,
     };
@@ -1335,6 +1336,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                 </div>
               </div>
             </div>
+            {pkg.route.includes("Ijen Crater") && <TourRequirements />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="py-12 border-t border-slate-200 mt-12">
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
