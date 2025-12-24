@@ -47,8 +47,10 @@ import {
   Award,
   Stethoscope,
   HardHat,
-  MessageCircle,
+  Message,
+  Search,
   Quote,
+  MessageCircle,
 } from "lucide-react";
 
 interface Props {
@@ -210,6 +212,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   const [pax, setPax] = useState<number | string>(
     pkg.channelMetadata.minPaxOperational
   );
+  const [searchTerm, setSearchTerm] = useState(""); // State untuk pencarian
   const isTransportItem = (type: string | null | undefined) =>
     type === "transport";
 
@@ -427,7 +430,6 @@ export default function PackageDetailPage({ initialData }: Props) {
           </div>
         </div>
       </div>
-
       {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
       <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
         <div className="container mx-auto px-6">
@@ -478,7 +480,6 @@ export default function PackageDetailPage({ initialData }: Props) {
           </div>
         </div>
       </div>
-
       {/* 3. GALLERY STRIP (Memicu Lightbox) */}
       <div className="bg-slate-900 pb-12">
         <div className="container mx-auto px-6">
@@ -566,7 +567,6 @@ export default function PackageDetailPage({ initialData }: Props) {
           </div>
         </div>
       )}
-
       {/* --- MAIN CONTENT GRID (Tetap sama) --- */}
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -1644,24 +1644,23 @@ export default function PackageDetailPage({ initialData }: Props) {
                     type="submit"
                     className="w-full bg-lime-400 text-slate-900 font-bold uppercase tracking-widest py-4 rounded-lg hover:bg-lime-500 transition-all shadow-md active:scale-[0.98]"
                   >
-                    Check Availability
+                    Instant Book
                   </button>
                 </form>
                 <p className="text-xs text-center text-slate-400 mt-4 leading-relaxed">
-                  Powered by Xendit/Midtrans. Instant Confirmation.
+                  Powered by Xendit. Instant Confirmation.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* --- ADD-ON MODAL (TETAP SAMA) --- */}
+      {/* --- ADD-ON MODAL WITH SEARCH --- */}
       {showAddOnModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
-            {/* ... (Konten Modal Sama Seperti Sebelumnya) ... */}
-            <div className="bg-slate-900 px-6 py-4 flex justify-between items-center">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl flex flex-col max-h-[90vh]">
+            {/* Header */}
+            <div className="bg-slate-900 px-6 py-4 flex justify-between items-center shrink-0">
               <div>
                 <h2 className="text-lg font-bold uppercase tracking-wide text-white">
                   Enhance Your Trip
@@ -1671,82 +1670,159 @@ export default function PackageDetailPage({ initialData }: Props) {
                 </p>
               </div>
               <button
-                onClick={() => setShowAddOnModal(false)}
+                onClick={() => {
+                  setShowAddOnModal(false);
+                  setSearchTerm(""); // Reset search saat close
+                }}
                 className="text-white hover:text-lime-400 transition-colors"
               >
                 <X size={24} />
               </button>
             </div>
-            <div className="max-h-[60vh] overflow-y-auto p-6 space-y-4">
-              {addOnSelections.map((item, idx) => {
-                // --- LOGIC FILTER TRANSPORT BERDASARKAN PAX ---
-                if (item.type === "transport") {
-                  let requiredType = "big";
-                  if (pax <= 3) {
-                    requiredType = "small";
-                  } else if (pax >= 4 && pax <= 9) {
-                    requiredType = "medium";
+
+            {/* SEARCH BAR SECTION */}
+            <div className="px-6 py-4 border-b border-slate-100 bg-white shrink-0">
+              <div className="relative">
+                <Search
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="Search add-ons"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-lime-500/20 focus:border-lime-500 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* List Content */}
+            <div className="overflow-y-auto p-6 space-y-4 flex-1">
+              {(() => {
+                // 1. Filter berdasarkan pencarian DAN aturan transport
+                const filteredItems = addOnSelections.filter((item) => {
+                  // A. Filter Search
+                  const matchesSearch = item.label
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase());
+
+                  // B. Filter Transport (Logika Pax kamu tetap terjaga)
+                  let matchesTransport = true;
+                  if (item.type === "transport") {
+                    let requiredType = "big";
+                    if (Number(pax) <= 3) requiredType = "small";
+                    else if (Number(pax) >= 4 && Number(pax) <= 9)
+                      requiredType = "medium";
+
+                    if (
+                      item.transportType &&
+                      item.transportType !== requiredType
+                    ) {
+                      matchesTransport = false;
+                    }
                   }
 
-                  // Jika tipe transport item ini TIDAK SAMA dengan yang dibutuhkan user, JANGAN TAMPILKAN
-                  if (
-                    item.transportType &&
-                    item.transportType !== requiredType
-                  ) {
-                    return null;
-                  }
-                }
-                // ---------------------------------------------
+                  return matchesSearch && matchesTransport;
+                });
 
-                return (
-                  <label
-                    key={item.addOnId}
-                    className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border p-4 transition-all ${
-                      item.selected
-                        ? "border-lime-500 bg-lime-50"
-                        : "border-slate-200 bg-white hover:border-lime-300"
-                    }`}
-                  >
-                    <div>
-                      <p className="font-bold text-slate-900">{item.label}</p>
-                      <p className="text-xs text-slate-500">
-                        {formatCurrency(item.price)}
-                        {isTransportItem(item.type)
-                          ? " / unit (Flat Rate)"
-                          : ` x ${pax} pax`}
+                // 2. Tampilkan Empty State jika tidak ada hasil
+                if (filteredItems.length === 0) {
+                  return (
+                    <div className="text-center py-10">
+                      <p className="text-slate-400 text-sm italic">
+                        No add-ons found for "{searchTerm}"
                       </p>
-                      {/* Optional: Tampilkan badge tipe transport untuk debug/info */}
-                      {item.type === "transport" && (
-                        <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
-                          {item.transportType} Vehicle
-                        </span>
-                      )}
                     </div>
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        checked={item.selected}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          setAddOnSelections((prev) =>
-                            prev.map((p, i) =>
-                              i === idx ? { ...p, selected: checked } : p
-                            )
-                          );
-                        }}
-                        className="peer sr-only"
-                      />
-                      <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-lime-500 peer-checked:bg-lime-500 transition-all flex items-center justify-center">
-                        {item.selected && (
-                          <Check size={14} className="text-white" />
+                  );
+                }
+
+                // 3. Map items yang sudah difilter
+                return filteredItems.map((item) => {
+                  const originalIndex = addOnSelections.findIndex(
+                    (a) => a.addOnId === item.addOnId
+                  );
+
+                  // Logika Pemilihan Gambar Transport
+                  let transportImage = null;
+                  if (item.type === "transport") {
+                    if (item.transportType === "small")
+                      transportImage = "/assets/img/cars/avanza.png";
+                    else if (item.transportType === "medium")
+                      transportImage = "/assets/img/cars/elf-short.png";
+                    else if (item.transportType === "big")
+                      transportImage = "/assets/img/cars/elf-long.jpg";
+                  }
+
+                  return (
+                    <label
+                      key={item.addOnId}
+                      className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
+                        item.selected
+                          ? "border-lime-500 bg-lime-50"
+                          : "border-slate-200 bg-white hover:border-lime-300"
+                      }`}
+                    >
+                      {/* Gambar Transport (Hanya muncul jika tipe transport) */}
+                      {item.type === "transport" && transportImage && (
+                        <div className="h-16 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100 border border-slate-200">
+                          <img
+                            src={transportImage}
+                            alt={item.label}
+                            className="h-full w-full object-contain p-1"
+                          />
+                        </div>
+                      )}
+
+                      {/* Info Teks */}
+                      <div className="flex-1">
+                        <p className="font-bold text-slate-900 leading-tight">
+                          {item.label}
+                        </p>
+                        <p className="text-xs text-slate-500 mt-1">
+                          {formatCurrency(item.price)}
+                          {item.type === "transport"
+                            ? " / unit (Flat Rate)"
+                            : ` x ${pax} pax`}
+                        </p>
+                        {item.type === "transport" && (
+                          <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-white border border-slate-200 text-slate-500 px-1.5 py-0.5 rounded">
+                            {item.transportType} Car
+                          </span>
                         )}
                       </div>
-                    </div>
-                  </label>
-                );
-              })}
+
+                      {/* Checkbox */}
+                      <div className="relative shrink-0">
+                        <input
+                          type="checkbox"
+                          checked={item.selected}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            setAddOnSelections((prev) =>
+                              prev.map((p, i) =>
+                                i === originalIndex
+                                  ? { ...p, selected: checked }
+                                  : p
+                              )
+                            );
+                          }}
+                          className="peer sr-only"
+                        />
+                        <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-lime-500 peer-checked:bg-lime-500 transition-all flex items-center justify-center">
+                          {item.selected && (
+                            <Check size={14} className="text-white" />
+                          )}
+                        </div>
+                      </div>
+                    </label>
+                  );
+                });
+              })()}
             </div>
-            <div className="border-t border-slate-100 bg-slate-50 p-6">
+
+            {/* Footer Modal */}
+            <div className="border-t border-slate-100 bg-slate-50 p-6 shrink-0">
               <div className="flex justify-between items-center mb-4 text-sm">
                 <span className="font-medium text-slate-600">
                   Add-ons Total:
@@ -1755,8 +1831,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                   {formatCurrency(
                     addOnSelections.reduce((sum, a) => {
                       if (!a.selected) return sum;
-                      // Cek tipe saat hitung total live di modal
-                      const qty = isTransportItem(a.type) ? 1 : pax;
+                      const qty = a.type === "transport" ? 1 : Number(pax);
                       return sum + qty * a.price;
                     }, 0)
                   )}
@@ -1768,6 +1843,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                   onClick={() => {
                     setShowAddOnModal(false);
                     setPendingBasePayload(null);
+                    setSearchTerm("");
                   }}
                   className="flex-1 rounded-lg border border-slate-300 bg-white py-3 text-sm font-bold uppercase text-slate-600 hover:bg-slate-100"
                 >
@@ -1784,7 +1860,7 @@ export default function PackageDetailPage({ initialData }: Props) {
             </div>
           </div>
         </div>
-      )}
+      )}{" "}
       {/* --- MOBILE STICKY BOTTOM BAR (New) --- */}
       <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="flex items-center justify-between gap-5">
@@ -1809,7 +1885,7 @@ export default function PackageDetailPage({ initialData }: Props) {
             onClick={scrollToBooking}
             className="flex-1 text-sm bg-lime-500 hover:bg-lime-600 text-black font-bold uppercase tracking-wide py-3 px-2 rounded-lg shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
           >
-            Check Availability <ChevronRight size={16} />
+            Instant Book <ChevronRight size={16} />
           </button>
         </div>
       </div>
