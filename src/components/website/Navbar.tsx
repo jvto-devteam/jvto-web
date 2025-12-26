@@ -561,10 +561,10 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2 hover:bg-black/5 rounded-full transition-colors"
+              className="p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
             >
               <Search size={20} className={finalMenuIconClass} />
             </button>
@@ -577,13 +577,9 @@ const Navbar: React.FC = () => {
               // 2. BELUM LOGIN -> Tombol Log In Saja
               <button
                 onClick={() => setIsLoginOpen(true)}
-                className={`hidden md:inline-flex px-4 py-2 text-xs font-bold uppercase rounded-sm border-2 transition-all ${
-                  isHome && !isScrolled
-                    ? "border-white hover:bg-white hover:text-black text-white"
-                    : "border-black hover:bg-black hover:text-white text-jvto-dark"
-                }`}
+                className='hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors'
               >
-                Log In
+                <User size={20} className={finalMenuIconClass} />
               </button>
             )}
           </div>
