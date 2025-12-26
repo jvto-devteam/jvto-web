@@ -77,6 +77,8 @@ interface AddOn {
 }
 
 interface CheckoutPayload {
+  packageCategory?: string; // Tambahkan ini
+  isicCodes?: string[]; // Tambahkan ini untuk menyimpan array kode ISIC
   packageId: string;
   durationId: string;
   date: string;
@@ -331,6 +333,13 @@ const StepOneDetails = ({
   const [email, setEmail] = useState(payload.contact?.email || "");
   const [phone, setPhone] = useState(payload.contact?.phone || "");
   const [paxCount, setPaxCount] = useState(payload.pax);
+
+  const [isicCodes, setIsicCodes] = useState<string[]>(
+    payload.isicCodes && payload.isicCodes.length === payload.pax
+      ? payload.isicCodes
+      : Array(payload.pax).fill("")
+  );
+
   useEffect(() => {
     if (session?.user) {
       // Hanya isi jika field masih kosong (agar tidak menimpa ketikan user)
@@ -343,6 +352,17 @@ const StepOneDetails = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
+
+  const handleIsicChange = (index: number, value: string) => {
+    const newCodes = [...isicCodes];
+    newCodes[index] = value;
+    setIsicCodes(newCodes);
+
+    // Update payload realtime agar tersimpan jika refresh
+    const updatedPayload = { ...payload, isicCodes: newCodes };
+    setPayload(updatedPayload);
+    localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
+  };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.target.value;
@@ -365,10 +385,26 @@ const StepOneDetails = ({
       return;
     }
 
-    const updatedPayload = recalculateTotals(payload, newPax);
+    const recalculatedPayload = recalculateTotals(payload, newPax);
+
+    // --- LOGIC RESIZE ARRAY ISIC ---
+    // Jika pax bertambah, tambah string kosong. Jika berkurang, potong array.
+    const currentCodes = [...isicCodes];
+    let newCodes = [];
+    if (newPax > currentCodes.length) {
+      const diff = newPax - currentCodes.length;
+      newCodes = [...currentCodes, ...Array(diff).fill("")];
+    } else {
+      newCodes = currentCodes.slice(0, newPax);
+    }
+
+    setIsicCodes(newCodes);
     setPaxCount(newPax);
-    setPayload(updatedPayload);
-    localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
+
+    // Simpan payload baru dengan pax baru & array isic yang sudah di-resize
+    const finalPayload = { ...recalculatedPayload, isicCodes: newCodes };
+    setPayload(finalPayload);
+    localStorage.setItem("checkoutPayload", JSON.stringify(finalPayload));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -377,11 +413,23 @@ const StepOneDetails = ({
       alert("Please fill in all essential contact details.");
       return;
     }
+
+    // --- VALIDASI TAMBAHAN UNTUK STUDENT ---
+    if (payload.packageCategory === "student") {
+      const isAllFilled = isicCodes.every((code) => code.trim() !== "");
+      if (!isAllFilled) {
+        alert("Please enter ISIC Codes for all travelers.");
+        return;
+      }
+    }
+
     const updatedPayload = {
       ...payload,
       contact: { customerName, email, phone },
-      userId: session?.user?.id,
+      isicCodes: isicCodes, // Pastikan tersimpan final
+      userId: session?.user?.id, // Asumsi ada properti id di user session
     };
+
     localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
     setPayload(updatedPayload);
     onNext();
@@ -442,6 +490,94 @@ const StepOneDetails = ({
           </div>
         </div>
       </div>
+      {/* --- EXCLUSIVE STUDENT VERIFICATION SECTION --- */}
+      {payload.packageCategory === "student" && (
+        <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+          {/* Header Section */}
+          <div className="border-b border-slate-200 bg-white px-6 py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-900 text-2xl">
+                  🎓
+                </div>
+                <div>
+                  <h4 className="flex items-center gap-2 text-base font-bold text-slate-900">
+                    Student Verification
+                    <span className="rounded bg-lime-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900">
+                      Required
+                    </span>
+                  </h4>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-500">
+                    This package is exclusive for{" "}
+                    <strong className="text-slate-800">
+                      ISIC Card Holders
+                    </strong>
+                    . Please ensure every traveler brings their physical card.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Input Grid Section */}
+          <div className="p-6">
+            <div className="grid gap-5 md:grid-cols-2">
+              {isicCodes.map((code, index) => (
+                <div key={index} className="group relative">
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-lime-600">
+                    Traveler #{index + 1} ISIC Code
+                  </label>
+                  <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                      {/* SVG Card Icon */}
+                      <svg
+                        className="h-5 w-5 transition-colors group-focus-within:text-lime-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="e.g. S 123 456 789 X"
+                      value={code}
+                      onChange={(e) =>
+                        handleIsicChange(index, e.target.value.toUpperCase())
+                      }
+                      className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all uppercase"
+                      required
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer Note */}
+            <div className="mt-6 flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+              <span className="text-lg">💡</span>
+              <p className="text-xs text-slate-500">
+                Forgot your card number? You can check it on the{" "}
+                <a
+                  href="https://www.isic.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-slate-900 underline decoration-lime-400 decoration-2 hover:no-underline"
+                >
+                  ISIC App
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="2" title="Contact Details" />

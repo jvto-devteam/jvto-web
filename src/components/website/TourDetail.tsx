@@ -282,6 +282,7 @@ export default function PackageDetailPage({ initialData }: Props) {
 
     const payload = {
       ...basePayload,
+      packageCategory: 'regular',
       packageLabel: pkg.name,
       paxMin: pkg.channelMetadata.minPaxOperational,
       priceTiers: pkg.offers.tiers,
