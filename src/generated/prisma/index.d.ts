@@ -65581,6 +65581,7 @@ export namespace Prisma {
     featured: number
     seo_title: number
     seo_description: number
+    schema_json: number
     tags: number
     types: number
     slug: number
@@ -65752,6 +65753,7 @@ export namespace Prisma {
     featured?: true
     seo_title?: true
     seo_description?: true
+    schema_json?: true
     tags?: true
     types?: true
     slug?: true
@@ -65896,6 +65898,7 @@ export namespace Prisma {
     featured: boolean | null
     seo_title: string | null
     seo_description: string | null
+    schema_json: JsonValue | null
     tags: string[]
     types: JsonValue | null
     slug: string | null
@@ -65972,6 +65975,7 @@ export namespace Prisma {
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
+    schema_json?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -66043,6 +66047,7 @@ export namespace Prisma {
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
+    schema_json?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -66100,6 +66105,7 @@ export namespace Prisma {
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
+    schema_json?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -66157,6 +66163,7 @@ export namespace Prisma {
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
+    schema_json?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -66166,7 +66173,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "tags" | "types" | "slug" | "short_slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "schema_json" | "tags" | "types" | "slug" | "short_slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -66251,6 +66258,7 @@ export namespace Prisma {
       featured: boolean | null
       seo_title: string | null
       seo_description: string | null
+      schema_json: Prisma.JsonValue | null
       tags: string[]
       types: Prisma.JsonValue | null
       slug: string | null
@@ -66741,6 +66749,7 @@ export namespace Prisma {
     readonly featured: FieldRef<"destinations", 'Boolean'>
     readonly seo_title: FieldRef<"destinations", 'String'>
     readonly seo_description: FieldRef<"destinations", 'String'>
+    readonly schema_json: FieldRef<"destinations", 'Json'>
     readonly tags: FieldRef<"destinations", 'String[]'>
     readonly types: FieldRef<"destinations", 'Json'>
     readonly slug: FieldRef<"destinations", 'String'>
@@ -129860,6 +129869,7 @@ export namespace Prisma {
     featured: 'featured',
     seo_title: 'seo_title',
     seo_description: 'seo_description',
+    schema_json: 'schema_json',
     tags: 'tags',
     types: 'types',
     slug: 'slug',
@@ -134795,6 +134805,7 @@ export namespace Prisma {
     featured?: BoolNullableFilter<"destinations"> | boolean | null
     seo_title?: StringNullableFilter<"destinations"> | string | null
     seo_description?: StringNullableFilter<"destinations"> | string | null
+    schema_json?: JsonNullableFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     slug?: StringNullableFilter<"destinations"> | string | null
@@ -134865,6 +134876,7 @@ export namespace Prisma {
     featured?: SortOrderInput | SortOrder
     seo_title?: SortOrderInput | SortOrder
     seo_description?: SortOrderInput | SortOrder
+    schema_json?: SortOrderInput | SortOrder
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
@@ -134939,6 +134951,7 @@ export namespace Prisma {
     featured?: BoolNullableFilter<"destinations"> | boolean | null
     seo_title?: StringNullableFilter<"destinations"> | string | null
     seo_description?: StringNullableFilter<"destinations"> | string | null
+    schema_json?: JsonNullableFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     short_slug?: StringNullableFilter<"destinations"> | string | null
@@ -135008,6 +135021,7 @@ export namespace Prisma {
     featured?: SortOrderInput | SortOrder
     seo_title?: SortOrderInput | SortOrder
     seo_description?: SortOrderInput | SortOrder
+    schema_json?: SortOrderInput | SortOrder
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
@@ -135073,6 +135087,7 @@ export namespace Prisma {
     featured?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
     seo_title?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     seo_description?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    schema_json?: JsonNullableWithAggregatesFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableWithAggregatesFilter<"destinations">
     slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
@@ -143528,6 +143543,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -143598,6 +143614,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -143668,6 +143685,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143738,6 +143756,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143808,6 +143827,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -143865,6 +143885,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143922,6 +143943,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151733,6 +151755,7 @@ export namespace Prisma {
     featured?: SortOrder
     seo_title?: SortOrder
     seo_description?: SortOrder
+    schema_json?: SortOrder
     tags?: SortOrder
     types?: SortOrder
     slug?: SortOrder
@@ -162467,6 +162490,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -162536,6 +162560,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -162686,6 +162711,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162755,6 +162781,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162925,6 +162952,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -162994,6 +163022,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -163171,6 +163200,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163240,6 +163270,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163382,6 +163413,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -163451,6 +163483,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -163628,6 +163661,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163697,6 +163731,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164948,6 +164983,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -165017,6 +165053,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -165260,6 +165297,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165329,6 +165367,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174389,6 +174428,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -174458,6 +174498,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -174586,6 +174627,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174655,6 +174697,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175785,6 +175828,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -175854,6 +175898,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -175939,6 +175984,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176008,6 +176054,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177073,6 +177120,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -177142,6 +177190,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -177417,6 +177466,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177486,6 +177536,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179091,6 +179142,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -179160,6 +179212,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -179360,6 +179413,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179429,6 +179483,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182798,6 +182853,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -182867,6 +182923,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -182999,6 +183056,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -183068,6 +183126,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -183428,6 +183487,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183497,6 +183557,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183647,6 +183708,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183716,6 +183778,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184334,6 +184397,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -184403,6 +184467,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -184539,6 +184604,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184608,6 +184674,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186463,6 +186530,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -186532,6 +186600,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -186660,6 +186729,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186729,6 +186799,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186847,6 +186918,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -186916,6 +186988,7 @@ export namespace Prisma {
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -187032,6 +187105,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187101,6 +187175,7 @@ export namespace Prisma {
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null

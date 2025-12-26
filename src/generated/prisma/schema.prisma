@@ -847,6 +847,7 @@ model destinations {
   featured        Boolean? @default(false)
   seo_title       String?  @db.VarChar(200)
   seo_description String?  @db.Text
+  schema_json     Json?
 
   tags       String[] @db.VarChar(100)
   types      Json?
