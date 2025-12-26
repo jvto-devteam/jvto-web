@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
+import LegalBadge from "@/components/website/LegalBadge";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -1488,44 +1489,24 @@ export default function PackageDetailPage({ initialData }: Props) {
                   </div>
 
                   {/* PART 3: ABOUT THE PROVIDER (Re-Layout) */}
-                  <div>
-                    <div className="bg-orange-50 border border-orange-100 rounded-3xl p-8">
-                      {/* Row Icon & Text */}
-                      <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start text-center sm:text-left mb-8">
-                        <div className="shrink-0 p-4 bg-white rounded-full border border-orange-100 shadow-sm text-orange-500">
-                          <Shield size={32} />
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-800 leading-relaxed font-medium">
-                            This tour is operated by{" "}
-                            <span className="font-bold text-slate-900">
-                              {pkg.provider.brand}
-                            </span>
-                            , a fully licensed and insured local expert
-                            committed to sustainable tourism.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Contact Info (Placed Below) */}
-                      <div className="pt-6 border-t border-orange-200/50 flex flex-col items-center sm:items-start">
-                        <p className="text-xs font-bold uppercase text-orange-800 mb-2">
-                          Questions?
-                        </p>
-                        <a
-                          href={`https://wa.me/${pkg.provider.official.whatsapp.replace(
-                            /[^0-9]/g,
-                            ""
-                          )}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-lime-600 transition-colors bg-white px-5 py-3 rounded-xl border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
-                        >
-                          <MessageCircle size={18} className="text-lime-600" />
-                          Contact us on WhatsApp:{" "}
-                          {pkg.provider.official.whatsapp}
-                        </a>
-                      </div>
+                  <div className="space-y-6">
+                    <LegalBadge />
+                    <div>
+                      <p className="text-xs font-bold uppercase text-orange-800 mb-2">
+                        Questions?
+                      </p>
+                      <a
+                        href={`https://wa.me/${pkg.provider.official.whatsapp.replace(
+                          /[^0-9]/g,
+                          ""
+                        )}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-lime-600 transition-colors bg-white px-5 py-3 rounded-xl border border-orange-100 shadow-sm w-full sm:w-auto justify-center"
+                      >
+                        <MessageCircle size={18} className="text-lime-600" />
+                        Contact us on WhatsApp: {pkg.provider.official.whatsapp}
+                      </a>
                     </div>
                   </div>
                 </div>
