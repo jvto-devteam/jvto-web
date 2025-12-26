@@ -754,6 +754,7 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   featured: 'featured',
   seo_title: 'seo_title',
   seo_description: 'seo_description',
+  schema_json: 'schema_json',
   tags: 'tags',
   types: 'types',
   slug: 'slug',
