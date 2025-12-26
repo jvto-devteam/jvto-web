@@ -1455,7 +1455,6 @@ export default function PackageDetailPage({ initialData }: Props) {
 
                 {/* RIGHT COLUMN: PART 2 & 3 */}
                 <div className="flex flex-col gap-8">
-                  {/* PART 2: COMMITMENT TO SAFETY */}
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
                       Our Commitment to Safety
@@ -1487,8 +1486,6 @@ export default function PackageDetailPage({ initialData }: Props) {
                       ))}
                     </div>
                   </div>
-
-                  {/* PART 3: ABOUT THE PROVIDER (Re-Layout) */}
                   <div className="space-y-6">
                     <LegalBadge />
                     <div>
