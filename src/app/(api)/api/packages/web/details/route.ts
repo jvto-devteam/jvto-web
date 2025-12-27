@@ -33,6 +33,7 @@ export async function GET(req: NextRequest) {
         start_destination: true,
         end_destination: true,
         durations: true,
+        package_categories: true,
         package_destinations: {
           include: {
             destinations: {
@@ -51,6 +52,7 @@ export async function GET(req: NextRequest) {
         package_excludes: {
           include: { item_excludes: true },
         },
+        
         package_addons: { include: { addons: true } },
         package_assets: { include: { asset: true } },
         package_faqs: true,
@@ -155,6 +157,8 @@ export async function GET(req: NextRequest) {
           shortLabel: pkg.short_label,
           originCity: pkg.start_destination?.name ?? "",
           endCity: pkg.end_destination?.name ?? "",
+          category_id: pkg.package_category_id == 1 ? 'reluger' : 'student',
+          category: pkg.package_categories.name ?? "",
           durationId: pkg.durations?.id ?? null,
           durationDays: pkg.durations?.day ?? 0,
           durationNights: pkg.durations?.night ?? 0,

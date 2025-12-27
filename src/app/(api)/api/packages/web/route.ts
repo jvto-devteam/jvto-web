@@ -82,9 +82,11 @@ export async function GET(request: NextRequest) {
     const limitParam = searchParams.get("limit")?.trim() || undefined;
     const fromIdParam = searchParams.get("from")?.trim() || undefined;
     const durationIdParam = searchParams.get("duration")?.trim() || undefined;
+    const categoryIdParam = searchParams.get("category")?.trim() || undefined;
 
     const fromId = fromIdParam && !isNaN(Number(fromIdParam)) ? Number(fromIdParam) : undefined;
     const durationId = durationIdParam && !isNaN(Number(durationIdParam)) ? Number(durationIdParam) : undefined;
+    const categoryId = categoryIdParam && !isNaN(Number(categoryIdParam)) ? Number(categoryIdParam) : undefined;
     const limit = limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
 
     // Filter by Start Destination (From)
@@ -122,6 +124,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const fromIdParam = searchParams.get("from")?.trim() || undefined;
     const durationIdParam = searchParams.get("duration")?.trim() || undefined;
+    const categoryIdParam = searchParams.get("category")?.trim() || undefined;
     const limitParam = searchParams.get("limit")?.trim() || undefined;
 
     const fromId =
@@ -132,6 +135,8 @@ export async function GET(request: NextRequest) {
       durationIdParam && !isNaN(Number(durationIdParam))
         ? Number(durationIdParam)
         : undefined;
+    const categoryId =
+      categoryIdParam && !isNaN(Number(categoryIdParam)) ? Number(categoryIdParam) : undefined;
     const limit =
       limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
 
@@ -140,6 +145,7 @@ export async function GET(request: NextRequest) {
         is_publish: true,
         ...(fromId !== undefined && { start_destination_id: fromId }),
         ...(durationId !== undefined && { duration_id: durationId }),
+        ...(categoryId !== undefined && { package_category_id: categoryId })
       },
       include: {
         start_destination: true,

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 async function getAllTours(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   // Fetch global (tanpa filter from=...)
-  const res = await fetch(`${siteUrl}/api/packages/web`, {
+  const res = await fetch(`${siteUrl}/api/packages/web?category=1`, {
     method: "GET",
     cache: "no-store", 
   });
