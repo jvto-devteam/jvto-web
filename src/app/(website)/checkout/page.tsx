@@ -406,22 +406,64 @@ const StepOneDetails = ({
     setPayload(finalPayload);
     localStorage.setItem("checkoutPayload", JSON.stringify(finalPayload));
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isVerifying, setIsVerifying] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerName || !email || !phone) {
       alert("Please fill in all essential contact details.");
       return;
     }
 
-    // --- VALIDASI TAMBAHAN UNTUK STUDENT ---
+    // --- LOGIKA BARU: VALIDASI ISIC ---
     if (payload.packageCategory === "student") {
-      const isAllFilled = isicCodes.every((code) => code.trim() !== "");
-      if (!isAllFilled) {
+      // Cek field kosong
+      if (isicCodes.some((code) => !code.trim())) {
         alert("Please enter ISIC Codes for all travelers.");
         return;
       }
+
+      setIsVerifying(true);
+
+      try {
+        // --- LOGIC BARU: BULK CHECK (1 Request) ---
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SITE_URL}/api/check-isic`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ codes: isicCodes }), // Kirim Array ['A', 'B']
+          }
+        );
+
+        const data = await res.json();
+
+        if (!data.valid) {
+          // Jika ada yang salah, backend mengirim list 'invalid_items'
+          let errorMessage = "Verification Failed:\n";
+
+          if (data.invalid_items && data.invalid_items.length > 0) {
+            data.invalid_items.forEach((item: any) => {
+              // Tampilkan error spesifik: "Traveler #2 (KODE): Invalid"
+              errorMessage += `- Traveler #${item.index + 1} (${
+                item.code
+              }): Invalid\n`;
+            });
+          } else {
+            errorMessage += data.message;
+          }
+
+          alert(errorMessage);
+          setIsVerifying(false);
+          return; // STOP
+        }
+      } catch (error) {
+        alert("System error. Please try again.");
+        setIsVerifying(false);
+        return;
+      }
+      setIsVerifying(false);
     }
+    // --- AKHIR LOGIKA ISIC ---
 
     const updatedPayload = {
       ...payload,
@@ -512,7 +554,8 @@ const StepOneDetails = ({
                     <strong className="text-slate-800">
                       ISIC Card Holders
                     </strong>
-                    . Please ensure every traveler brings their physical card.
+                    . Please enter the valid ISIC discount code for each
+                    traveler to avail the student discount.
                   </p>
                 </div>
               </div>
@@ -525,7 +568,7 @@ const StepOneDetails = ({
               {isicCodes.map((code, index) => (
                 <div key={index} className="group relative">
                   <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-lime-600">
-                    Traveler #{index + 1} ISIC Code
+                    Traveler #{index + 1} Discount Code
                   </label>
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
@@ -563,14 +606,14 @@ const StepOneDetails = ({
             <div className="mt-6 flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
               <span className="text-lg">💡</span>
               <p className="text-xs text-slate-500">
-                Forgot your card number? You can check it on the{" "}
+                Get your discount code from the official{" "}
                 <a
-                  href="https://www.isic.org/"
+                  href="https://www.isic.org/discounts/?providerId=259268"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-bold text-slate-900 underline decoration-lime-400 decoration-2 hover:no-underline"
                 >
-                  ISIC App
+                  ISIC Website
                 </a>
                 .
               </p>
@@ -784,6 +827,7 @@ const StepTwoPayment = ({
             };
           }) || [],
       },
+      isic_codes: payload.isicCodes || [],
       travelerDetails: {
         pickupLocation: "",
         pickupDetail: "",

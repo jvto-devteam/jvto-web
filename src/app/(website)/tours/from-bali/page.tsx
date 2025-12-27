@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 async function getToursFromBali(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   // Fetch khusus ID 3 (Bali)
-  const res = await fetch(`${siteUrl}/api/packages/web?from=3`, {
+  const res = await fetch(`${siteUrl}/api/packages/web?from=3&category=1`, {
     method: "GET",
     cache: "no-store",
   });

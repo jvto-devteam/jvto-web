@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   // Fetch khusus ID 4 (Surabaya)
-  const res = await fetch(`${siteUrl}/api/packages/web?from=4`, {
+  const res = await fetch(`${siteUrl}/api/packages/web?from=4&category=1`, {
     method: "GET",
     cache: "no-store",
   });

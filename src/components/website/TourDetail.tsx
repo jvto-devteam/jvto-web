@@ -282,7 +282,7 @@ export default function PackageDetailPage({ initialData }: Props) {
 
     const payload = {
       ...basePayload,
-      packageCategory: 'regular',
+      packageCategory: pkg.category_id,
       packageLabel: pkg.name,
       paxMin: pkg.channelMetadata.minPaxOperational,
       priceTiers: pkg.offers.tiers,
@@ -391,15 +391,15 @@ export default function PackageDetailPage({ initialData }: Props) {
         <div className="absolute bottom-0 w-full z-20 pb-12">
           <div className="container mx-auto px-6">
             <div className="flex items-center gap-2 text-lime-400 text-xs font-black uppercase tracking-widest mb-4">
-              <MapPin size={14} /> {pkg.originCity}, Indonesia
+              <MapPin size={14} /> From {pkg.originCity}, Indonesia
             </div>
             <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-6 max-w-5xl">
               {pkg.name}
             </h1>
             <div className="flex flex-wrap items-center gap-3 md:gap-10 text-white text-sm font-bold uppercase tracking-wide">
               <div className="flex items-center gap-2">
-                <MapPin size={18} className="text-lime-400" />
-                <span>{pkg.originCity}</span>
+                <Shield size={18} className="text-lime-400" />
+                <span>{pkg.category}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock size={18} className="text-lime-400" />
