@@ -7,18 +7,19 @@ import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import Testimonials from "@/components/website/Home/Testimonials";
 import Destinations from "@/components/website/Home/Destinations";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
+import IjenHealthScreeningSection from "@/components/website/Home/IjenHealthScreeningSection";
+import IsicSection from "@/components/website/Home/IsicSection";
 import type { Metadata } from "next";
-import FAQSection from '@/components/website/FAQSection';
-import Contact from '@/components/website/Contact';
-import { miniFaqs, faqsCopy } from '@/constants';
+import FAQSection from "@/components/website/FAQSection";
+import Contact from "@/components/website/Contact";
+import { miniFaqs, faqsCopy } from "@/constants";
 import { headers } from "next/headers";
 
 export async function getFullUrl() {
   const headersList = await headers(); // ⬅️ WAJIB await
 
   const host = headersList.get("host");
-  const protocol =
-    headersList.get("x-forwarded-proto") ?? "https";
+  const protocol = headersList.get("x-forwarded-proto") ?? "https";
 
   return `${protocol}://${host}`;
 }
@@ -316,9 +317,11 @@ const Home = async () => {
       <WhyJVTO />
       <Testimonials />
       <Destinations />
+      <IjenHealthScreeningSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
-      <Contact/>
       <TravelGuideTeaser />
+      <IsicSection />
+      <Contact />
     </main>
   );
 };
