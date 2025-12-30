@@ -23,30 +23,30 @@ function getPriceForPax(pax: number, tiers: any[]) {
   });
   return tier ? tier.pricePerPerson : null;
 }
-
-function calculateDownPayment(dateStr: string, total: number) {
+function getDaysUntilTrip(dateStr: string): number {
   if (!dateStr) return 0;
-
-  // Parse input "YYYY-MM-DD" menjadi tahun, bulan, tanggal local
   const [y, m, d] = dateStr.split("-").map(Number);
-  const tripDate = new Date(y, m - 1, d); // Bulan di JS mulai dari 0
+  const tripDate = new Date(y, m - 1, d);
   tripDate.setHours(0, 0, 0, 0);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Hitung selisih hari
   const diffTime = tripDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  // Jika H-7 atau kurang (bahkan minus/hari H), wajib Full Payment
-  if (diffDays <= 7) {
-    return total;
-  }
-  // Jika lebih dari 7 hari, DP 20%
-  return Math.ceil(total * 0.2);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
+function calculateDownPayment(dateStr: string, total: number) {
+  const diffDays = getDaysUntilTrip(dateStr);
+
+  // RULE: >= 14 Days -> DP 20%
+  if (diffDays >= 14) {
+    return Math.ceil(total * 0.2);
+  }
+
+  // RULE: < 14 Days (including < 6) -> Full Payment (100%)
+  return total;
+}
 // --- HELPER: Hitung Diskon FOC ---
 function calculateFOCDiscount(pax: number, pricePerPerson: number) {
   if (pax >= 50) {
@@ -764,9 +764,21 @@ const StepTwoPayment = ({
   onBack: () => void;
   router: any;
 }) => {
+  const diffDays = getDaysUntilTrip(payload.date);
+
+  // Deterministic Logic: No user choice
+  let paymentMethod: "cc" | "bank" = "cc";
+  let methodLabel = "Credit Card / Online Payment (Xendit)";
+  let methodDesc = "Your booking will be confirmed instantly after payment.";
+
+  if (diffDays < 6) {
+    paymentMethod = "bank";
+    methodLabel = "Manual Bank Transfer";
+    methodDesc =
+      "Please transfer the full amount. Our team will verify it manually.";
+  }
   const [consent, setConsent] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"cc" | "bank">("cc");
 
   const isFullPayment = payload.downPayment === payload.grandTotal;
   const depositAmount = Math.ceil(payload.grandTotal * 0.2);
@@ -793,7 +805,7 @@ const StepTwoPayment = ({
         travel_date_start: payload.date,
         numb_of_pax: Number(payload.pax),
         user_id: 0,
-
+        payment_method: paymentMethod,
         down_payment: payload.downPayment,
         total_package: payload.totalPackage,
         total_addons: payload.totalAddons,
@@ -846,7 +858,7 @@ const StepTwoPayment = ({
     try {
       const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
       console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
-
+      
       const response = await fetch(internalApiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -874,7 +886,6 @@ const StepTwoPayment = ({
     >
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="3" title="Review & Payment" />
-
         <div className="mb-6 rounded-xl bg-slate-50 p-5 text-sm border border-slate-100">
           <div className="space-y-2 pb-4 border-b border-slate-200">
             <p className="flex justify-between">
@@ -904,79 +915,93 @@ const StepTwoPayment = ({
           </div>
           <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
             <span>ℹ️</span>
-            {isFullPayment ? (
+            {diffDays >= 14 ? (
               <p>
-                Since your trip is within 7 days, <strong>full payment</strong>{" "}
-                is required to secure your reservation immediately. No further
-                payment will be collected.
+                Because your trip is 14+ days away, a 20% deposit via Xendit is
+                sufficient to secure your spot.
+              </p>
+            ) : diffDays >= 6 ? (
+              <p>
+                Because your trip is in less than 14 days, full payment via
+                Xendit is required.
               </p>
             ) : (
               <p>
-                You only pay{" "}
-                <strong>{formatCurrency(payload.downPayment)}</strong> today to
-                secure your spot. The remaining{" "}
-                <strong>{formatCurrency(remainingAmount)}</strong> can be paid
-                upon arrival or 7 days before the trip.
+                For last-minute trips (under 6 days), we require full payment
+                via Manual Bank Transfer for verification.
               </p>
-            )}
+            )}{" "}
           </div>
         </div>
+        {/* LOGIC SUMMARY:
+  >= 14 Days: 20% DP via Xendit
+  < 14 Days: 100% via Xendit
+  < 6 Days: 100% via Bank Transfer
+*/}
 
         <div className="space-y-3">
-          <div
-            onClick={() => setPaymentMethod("cc")}
-            className={`relative flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
-              paymentMethod === "cc"
-                ? "border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500"
-                : "border-slate-200 hover:border-slate-300 bg-white"
-            }`}
-          >
-            <div
-              className={`flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
-                paymentMethod === "cc"
-                  ? "border-lime-600 bg-lime-600"
-                  : "border-slate-300"
-              }`}
-            >
-              {paymentMethod === "cc" && (
+          {diffDays >= 6 ? (
+            /* 1. XENDIT VERSION (AUTOMATIC FOR >= 6 DAYS) */
+            <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
-              )}
-            </div>
-            <div>
-              <span className="block font-bold text-slate-900">
-                Credit Card / Debit Card
-              </span>
-              <span className="text-xs text-slate-500">
-                Instant confirmation via Xendit
-              </span>
-            </div>
+              </div>
 
-            <div className="ml-auto flex items-center gap-2">
-              <Image
-                src="/assets/img/icons/visa.svg"
-                alt="Visa"
-                width={40}
-                height={25}
-                className="h-5 w-auto object-contain"
-              />
-              <Image
-                src="/assets/img/icons/mastercard.svg"
-                alt="Mastercard"
-                width={40}
-                height={25}
-                className="h-5 w-auto object-contain"
-              />
-              <Image
-                src="/assets/img/icons/jcb.svg"
-                alt="JCB"
-                width={40}
-                height={25}
-                className="h-5 w-auto object-contain"
-              />
+              <div>
+                <span className="block font-bold text-slate-900">
+                  Credit Card / Debit Card
+                </span>
+                <span className="text-xs text-slate-500">
+                  Instant confirmation via Xendit
+                </span>
+              </div>
+
+              <div className="ml-auto flex items-center gap-2">
+                <Image
+                  src="/assets/img/icons/visa.svg"
+                  alt="Visa"
+                  width={40}
+                  height={25}
+                  className="h-5 w-auto object-contain"
+                />
+                <Image
+                  src="/assets/img/icons/mastercard.svg"
+                  alt="Mastercard"
+                  width={40}
+                  height={25}
+                  className="h-5 w-auto object-contain"
+                />
+                <Image
+                  src="/assets/img/icons/jcb.svg"
+                  alt="JCB"
+                  width={40}
+                  height={25}
+                  className="h-5 w-auto object-contain"
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            /* 2. BANK TRANSFER VERSION (AUTOMATIC FOR < 6 DAYS) */
+            <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
+                <div className="h-2 w-2 rounded-full bg-white" />
+              </div>
+
+              <div>
+                <span className="block font-bold text-slate-900">
+                  Manual Bank Transfer
+                </span>
+                <span className="text-xs text-slate-500">
+                  Verification by admin required (Due to urgent booking)
+                </span>
+              </div>
+
+              <div className="ml-auto flex items-center gap-2 pr-2">
+                <span className="text-xl">🏦</span>
+              </div>
+            </div>
+          )}
         </div>
-
         <div className="mt-8 border-t border-slate-100 pt-6">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
@@ -1012,10 +1037,8 @@ const StepTwoPayment = ({
         <JVTOButton type="submit" disabled={processing} fullWidth>
           {processing
             ? "Processing..."
-            : isFullPayment
-            ? `Pay Full Amount ${formatCurrency(payload.downPayment)}`
-            : `Pay Deposit ${formatCurrency(payload.downPayment)}`}
-        </JVTOButton>
+            : `Pay ${formatCurrency(payload.downPayment)}`}
+        </JVTOButton>{" "}
         <button
           type="button"
           onClick={onBack}
