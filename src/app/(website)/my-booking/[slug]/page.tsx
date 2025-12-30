@@ -84,22 +84,25 @@ export default async function MyBookingPage({
               </h1>
             </div>
           </div>
-          {booking.channel != 'KLOOK' && (
-          <div className="mt-2 md:mt-0 md:text-right">
-            {isFullyPaid ? (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-lime-100 text-lime-700 border border-lime-200">
-                <CheckCircle size={12} /> Confirmed & Paid
-              </span>
-            ) : isConfirmed ? (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-blue-50 text-blue-600 border border-blue-100">
-                <Info size={12} /> Confirmed (Balance Due)
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-orange-100 text-orange-700 border border-orange-200">
-                <Clock size={12} /> Awaiting Deposit
-              </span>
-            )}
-          </div>
+          {booking.channel != "KLOOK" && (
+            <div className="mt-2 md:mt-0 md:text-right">
+              {isFullyPaid ? (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-lime-100 text-lime-700 border border-lime-200">
+                  <CheckCircle size={12} /> Confirmed & Paid
+                </span>
+              ) : isConfirmed ? (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-blue-50 text-blue-600 border border-blue-100">
+                  <Info size={12} /> Confirmed (Balance Due)
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-orange-100 text-orange-700 border border-orange-200">
+                  <Clock size={12} />{" "}
+                  {booking.finance.pending_upload_proof
+                    ? "Payment Under Review"
+                    : "Awaiting Payment"}
+                </span>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -126,7 +129,7 @@ export default async function MyBookingPage({
           {/* --- LEFT COLUMN --- */}
           <div className="lg:col-span-2 space-y-6">
             {/* A. PAYMENT CARD LOGIC */}
-            {booking.channel != 'KLOOK' && !isFullyPaid && !isCanceled && (
+            {booking.channel != "KLOOK" && !isFullyPaid && !isCanceled && (
               <>
                 {isConfirmed ? (
                   // 1. TAMPILAN CONFIRMED (STYLE: WHITE CARD, BLUE TEXT, ORANGE BUTTON)
@@ -183,29 +186,58 @@ export default async function MyBookingPage({
                   // 2. TAMPILAN AWAITING DEPOSIT (Orange Alert)
                   <div className="bg-white rounded-2xl border border-orange-100 p-6 shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
+
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                       <div>
                         <h3 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
-                          <AlertCircle size={18} className="text-orange-500" />{" "}
-                          Payment Required
+                          <AlertCircle size={18} className="text-orange-500" />
+                          {booking.finance.pending_upload_proof
+                            ? "Payment Checking Process"
+                            : "Awaiting Payment"}
                         </h3>
+
                         <p className="text-sm text-slate-500 mb-3 max-w-md">
-                          Please complete your payment before{" "}
-                          <b>{formatDate(booking.finance.due_date)}</b> to
-                          secure your reservation.
+                          {booking.finance.pending_upload_proof ? (
+                            <>
+                              Your payment proof has been submitted and is being
+                              reviewed.
+                            </>
+                          ) : (
+                            <>
+                              Please complete your payment before{" "}
+                              <b>{formatDate(booking.finance.due_date)}</b> to
+                              secure your reservation.
+                            </>
+                          )}
                         </p>
+
                         <div className="text-3xl font-black text-slate-900 tracking-tight">
                           {formatIDR(booking.finance.balance)}
                         </div>
                       </div>
 
-                      <div className="shrink-0">
-                        <a
-                          href={booking.finance.payment_link || "#"}
-                          className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-wide px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all inline-block"
-                        >
-                          Pay Deposit &rarr;
-                        </a>
+                      <div className="shrink-0 flex gap-3">
+                        {/* tombol bayar */}
+                        {!booking.finance.pending_upload_proof && (
+                          <a
+                            href={booking.finance.payment_link || "#"}
+                            className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-wide px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all inline-block"
+                          >
+                            Pay Now &rarr;
+                          </a>
+                        )}
+
+                        {/* tombol lihat bukti */}
+                        {booking.finance.pending_upload_proof && (
+                          <a
+                            href={booking.finance.uploaded_payment_proof}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold uppercase tracking-wide px-6 py-3 rounded-lg border border-slate-200 transition-all inline-block"
+                          >
+                            View Payment Proof
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -370,7 +402,7 @@ export default async function MyBookingPage({
             </div>
 
             {/* 2. DOCUMENTS DOWNLOAD */}
-            {booking.channel != 'KLOOK' && (
+            {booking.channel != "KLOOK" && (
               <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
                 <div className="absolute top-0 right-0 p-10 bg-lime-500 blur-3xl opacity-20 rounded-full pointer-events-none"></div>
                 <h3 className="font-bold uppercase tracking-widest mb-6 text-lime-400 text-xs relative z-10">
@@ -416,38 +448,39 @@ export default async function MyBookingPage({
             )}
 
             {/* 3. PAYMENT HISTORY */}
-            {booking.channel != 'KLOOK' && booking.finance.payment_history.length > 0 && (
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
-                  Payment History
-                </h3>
-                <div className="space-y-4">
-                  {booking.finance.payment_history.map((hist, i) => (
-                    <div
-                      key={i}
-                      className="flex justify-between items-start pb-3 border-b border-slate-50 last:border-0 last:pb-0"
-                    >
-                      <div>
-                        <p className="font-bold text-slate-900 text-sm">
-                          {hist.method}
-                        </p>
-                        <p className="text-xs text-slate-400">
-                          {formatDate(hist.created_at)}
-                        </p>
+            {booking.channel != "KLOOK" &&
+              booking.finance.payment_history.length > 0 && (
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+                    Payment History
+                  </h3>
+                  <div className="space-y-4">
+                    {booking.finance.payment_history.map((hist, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between items-start pb-3 border-b border-slate-50 last:border-0 last:pb-0"
+                      >
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">
+                            {hist.method}
+                          </p>
+                          <p className="text-xs text-slate-400">
+                            {formatDate(hist.created_at)}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold text-slate-900 text-sm">
+                            {formatIDR(hist.nominal)}
+                          </p>
+                          <span className="text-[10px] uppercase font-bold text-lime-600 bg-lime-100 px-1.5 py-0.5 rounded">
+                            Success
+                          </span>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-slate-900 text-sm">
-                          {formatIDR(hist.nominal)}
-                        </p>
-                        <span className="text-[10px] uppercase font-bold text-lime-600 bg-lime-100 px-1.5 py-0.5 rounded">
-                          Success
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
