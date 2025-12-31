@@ -41,7 +41,7 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
     return (
       <section
         ref={ref}
-        className={`py-12 md:py-12 scroll-mt-24 border-b border-gray-100 last:border-0 ${bgColor}`}
+        className={`py-6 md:py-12 scroll-mt-24 border-b border-gray-100 last:border-0 ${bgColor}`}
       >
         <div className="container mx-auto px-6">
           {/* Header Section: Judul & Tombol Navigasi Carousel */}
@@ -56,7 +56,7 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
             </div>
 
             {/* Tombol Panah Kiri/Kanan */}
-            <div className="flex gap-3">
+            <div className="hidden md:flex gap-3">
               <button
                 onClick={() => scroll("left")}
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
@@ -75,16 +75,16 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
           </div>
 
           {/* Carousel Container */}
-          <div className="relative -mx-6 px-6 md:mx-0 md:px-0">
+          <div className="relative -mx-6 md:mx-0 md:px-0">
             <div
               ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide"
+              className="flex md:gap-6 gap-3 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide"
               style={{ scrollBehavior: "smooth" }}
             >
-              {tours.map((tour) => (
+              {tours.map((tour,key) => (
                 <div
                   key={tour.id}
-                  className="snap-center flex-shrink-0 w-[85vw] sm:w-[350px]"
+                  className={` ${key == 0 ? 'ml-6' : ''} ${key+1 == tours.length ? 'mr-6' : ''} flex-shrink-0 w-[80vw] sm:w-[350px]`}
                 >
                   <TourCard tour={tour} />
                 </div>
@@ -137,17 +137,17 @@ const FeaturedToursClient = ({
           Choose your origin. We handle the rest — private vehicle, drivers, Bromo jeep, permits, and no shared groups.
         </p>
         {/* --- NAVIGATION BUTTONS --- */}
-        <div className="flex flex-col mt-8 sm:flex-row items-center justify-center gap-4 relative z-10">
+        <div className="flex mt-8 items-center justify-center md:gap-4 gap-2 relative z-10">
           <button
             onClick={() => scrollToSection("surabaya")}
-            className="w-full sm:w-auto px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Surabaya
           </button>
           
           <button
             onClick={() => scrollToSection("bali")}
-            className="w-full sm:w-auto px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Bali
           </button>
@@ -155,7 +155,7 @@ const FeaturedToursClient = ({
       </div>
 
       {/* --- CONTENT SECTIONS (STACKED) --- */}
-      <div className="mt-8">
+      <div>
         <TourCarouselRow
           ref={surabayaRef}
           title="Tours From Surabaya"
@@ -170,7 +170,7 @@ const FeaturedToursClient = ({
       </div>
 
       {/* --- FOOTER CTA --- */}
-      <div className="pb-24 text-center container mx-auto px-6">
+      <div className="text-center container mx-auto px-6">
         <Link
           href="/tours"
           className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"

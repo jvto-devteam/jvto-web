@@ -8,6 +8,7 @@ import Testimonials from "@/components/website/Home/Testimonials";
 import Destinations from "@/components/website/Home/Destinations";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import IjenHealthScreeningSection from "@/components/website/Home/IjenHealthScreeningSection";
+import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import IsicSection from "@/components/website/Home/IsicSection";
 import type { Metadata } from "next";
 import FAQSection from "@/components/website/FAQSection";
@@ -311,16 +312,17 @@ const Home = async () => {
       <StructuredData data={homeSchema} />
 
       <Hero />
-      <Features />
+            <HomeDestinations />
+      {/* <Features /> */}
       {/* <LevelSelector /> */}
       <FeaturedTours />
       <WhyJVTO />
       <Testimonials />
-      <Destinations />
+      <IsicSection />
+      {/* <Destinations /> */}
       <IjenHealthScreeningSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
       <TravelGuideTeaser />
-      <IsicSection />
       <Contact />
     </main>
   );

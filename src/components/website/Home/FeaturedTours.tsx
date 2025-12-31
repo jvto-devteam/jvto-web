@@ -26,7 +26,7 @@ const FeaturedTours = async () => {
   ]);
 
   return (
-    <section className="py-24">
+    <section className="py-16">
       {/* Oper data ke Client Component.
         User akan menerima HTML yang berisi JSON data ini (SEO Friendly),
         tapi interaksi switch tab terjadi di browser.

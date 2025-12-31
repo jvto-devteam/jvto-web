@@ -649,7 +649,7 @@ export default function ReviewsPage() {
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-muted-foreground">
+            <nav className="text-center mb-8 text-sm text-muted-foreground">
               <Link href="/why-jvto" className="hover:text-primary">
                 Why JVTO
               </Link>

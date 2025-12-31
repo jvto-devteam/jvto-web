@@ -24,8 +24,8 @@ export const SITE_CONFIG = {
     role: "Active Tourist Police Officer & Founder"
   },
   proofLinks: {
-    googleReviews: "https://g.page/r/CRA1b9A3yS6GEBM/review",
-    tripadvisor: "https://www.tripadvisor.com/Attraction_Review-g3495111-d10775587-Reviews-Ijen_Bondowoso_Homestay_Tour-Bondowoso_East_Java_Java.html",
+    googleReviews: "https://g.page/r/Cb3i9Eu0K5MREB0/review",
+    tripadvisor: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
     trustpilot: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     healthScreening: "https://health.mountijen.com"
   },

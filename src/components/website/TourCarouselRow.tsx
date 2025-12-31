@@ -24,7 +24,7 @@ const TourCarouselRow = React.forwardRef<
   if (tours.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-8 scroll-mt-24">
+    <section ref={ref} className="py-4 scroll-mt-24">
       <header className="mb-8 md:flex md:items-center md:justify-between">
         <div>
         <h3 className="text-2xl font-bold text-ink-primary dark:text-white">
