@@ -5,7 +5,7 @@ const policyData = {
   bookingPaymentCancellationPolicy: {
     title: "The Booking, Payment & Cancellation Policy",
     operatorName: "Java Volcano Tour Operator (JVTO)",
-    documentTitle: "Booking, Payment & Cancellation Policy",
+    documentTitle: "The Booking, Payment & Cancellation Policy",
     lastUpdated: "20 December 2025",
     appliesTo:
       "Applies to: All enquiries, quotations, bookings, amendments, cancellations, and tour participation with Java Volcano Tour Operator (JVTO), operated by PT Java Volcano Rendezvous.",
@@ -16,7 +16,7 @@ const policyData = {
       "The specific terms stated on your Official E-Voucher / Invoice.",
     ],
     precedenceRule:
-      "If there is any discrepancy, the Official E-Voucher for the confirmed booking takes precedence for that booking, followed by this Policy.",
+      "Order of precedence (if there is any discrepancy): If there is any discrepancy, the Official E-Voucher for the confirmed booking takes precedence for that booking, followed by this Policy.",
     sections: [
       {
         number: "1",
@@ -26,17 +26,17 @@ const policyData = {
       {
         number: "2",
         title: "Nature of JVTO Products",
-        text: "All JVTO tours are sold as integrated private tour packages, which may include (as specified per package): accommodation, private transportation, jeeps, guides, tickets, permits, and operational support.\n\nPrices, conditions, and logistics are constructed on a package basis, not on isolated components.\n\nOnly inclusions explicitly stated on the official JVTO tour page and/or your Official E-Voucher / Invoice are contractually binding.\n\nFull inclusions and exclusions are detailed in the JVTO Inclusions & Exclusions Policy.",
+        text: "All JVTO tours are sold as integrated private tour packages, which may include (as specified per package): accommodation, private transportation, jeeps, guides, tickets, permits, and operational support.\n\nPrices, conditions, and logistics are constructed on a package basis, not on isolated components.\n\nOnly inclusions explicitly stated on the official JVTO tour page and/or your Official E-Voucher / Invoice (PDF) are contractually binding.\n\nFull inclusions and exclusions are detailed in the JVTO Inclusions & Exclusions Policy.",
       },
       {
         number: "3",
         title: "Booking & Confirmation",
-        text: "3.1 Enquiries & Quotations\nQuotations issued via official channels are indicative and subject to availability until a booking is confirmed.\n\nRates may vary based on travel dates, group size, rooming, and operational factors.\n\nJVTO may revise a quotation if costs or availability change before confirmation.\n\n3.2 How to Confirm a Booking\nA booking is considered confirmed only when all of the following conditions are met:\nThe guest selects a specific JVTO package (route, dates, group size, start/end points) as offered by JVTO;\n\nThe required deposit or full payment has been successfully processed through an approved method (see Section 4);\n\nJVTO has issued an Official E-Voucher / Booking Confirmation (digitally) showing:\n\nBooking reference;\n\nTour name and outline itinerary;\n\nTravel dates;\n\nNumber of participants;\n\nStart and end locations;\n\nKey inclusions and any specific written conditions.\n\nEnquiries, quotations, or screenshots without an Official E-Voucher are not confirmed and do not bind JVTO.",
+        text: "3.1 Enquiries & Quotations\nQuotations issued via official channels are indicative and subject to availability until a booking is confirmed.\n\nRates may vary based on travel dates, group size, rooming, and operational factors.\n\nJVTO may revise a quotation if costs or availability change before confirmation.\n\n3.2 How to Confirm a Booking\nA booking is considered confirmed only when all of the following conditions are met:\nThe guest selects a specific JVTO package (route, dates, group size, start/end points) as offered by JVTO;\n\nThe required deposit or full payment has been successfully processed through an approved method (see Section 4);\n\nJVTO has issued an Official E-Voucher / Invoice (PDF) (digitally) showing:\n\nBooking reference;\n\nTour name and outline itinerary;\n\nTravel dates;\n\nNumber of participants;\n\nStart and end locations;\n\nKey inclusions and any specific written conditions.\n\nEnquiries, quotations, or screenshots without an Official E-Voucher are not confirmed and do not bind JVTO.",
       },
       {
         number: "4",
         title: "Payment Terms & Security",
-        text: "4.1 Standard Deposit\nA standard 20% deposit of the total package price is required to secure a booking, unless a different amount is explicitly stated in writing for specific products or promotions.\n\nFor bookings where Day 1 is less than 14 days from the time of booking, JVTO may require up to 100% full payment at checkout.\n\n4.2 Accepted Methods & Workflow\n1. Initial Deposit (Standard Rule)\nThe initial deposit is processed exclusively via credit/debit card (e.g. Visa, MasterCard, Amex) through JVTO’s secure, SSL-encrypted checkout integrated with the authorised payment gateway, as described in the Official Booking Guide.\n\n2. Remaining Balance (If Only 20% Deposit Paid Initially)\nThe remaining balance (normally 80%) may be settled using:\nCredit/Debit Card (online): Pay via JVTO’s secure payment link no later than 5 (five) calendar days before Day 1;\n\nBank Transfer / Wise: Transfer to official bank accounts of PT Java Volcano Rendezvous no later than 3 (three) calendar days before Day 1;\n\nCash at JVTO Office: Only if explicitly approved in writing by JVTO at the time of booking; must be settled in IDR at JVTO’s office before departure on Day 1.\n\nJVTO’s official bank accounts for approved balance payments are:\nBank BRI — PT Java Volcano Rendezvous — 001301001779564 — SWIFT: BRINIDJAXXX\n\nBank BCA — PT Java Volcano Rendezvous — 1200944352 — SWIFT: CENAIDJAXXX\n\nAny payment instructions outside the above must be verified via official channels before action.\n4.3 Payment Security (Aligned with Privacy Policy)\nAll online card payments are processed through a secure, SSL-encrypted checkout with a PCI DSS-compliant payment gateway;\n\nJVTO does not store full card numbers, CVV codes, or online banking passwords on its own systems. Sensitive card data is tokenised and handled by the gateway;\n\nJVTO and its payment partners apply fraud monitoring and risk controls to help detect and reduce unauthorised or suspicious transactions.\n\nJVTO will never:\nAsk guests to send full card numbers, CVV codes, or online banking credentials via email, SMS, social media, or unsecured chat;\n\nRequest payments to personal accounts or channels not listed as official in this Policy or the Official Booking Guide.\n\nIf you receive such a request, treat it as suspicious and verify directly with JVTO using official contacts.\n4.4 Non-Payment & Invalid Payment\nIf required payments are not received in full by the stated deadlines, or are made to unauthorised accounts:\nJVTO may treat the booking as unconfirmed or cancelled in line with Sections 7 and 8;\n\nJVTO is not responsible for losses arising from payments made to non-official channels.",
+        text: "4.1 Standard Deposit\nA standard 20% deposit of the total package price is required to secure a booking, unless a different amount is explicitly stated in writing for specific products or promotions.\n\nFor bookings where Day 1 is less than 14 days from the time of booking, JVTO may require up to 100% full payment at checkout.\n\n4.2 Accepted Methods & Workflow\n1. Initial Deposit (Standard Rule)\nThe initial deposit is processed exclusively via credit/debit card (e.g. Visa, MasterCard, Amex) through JVTO's secure, SSL-encrypted checkout integrated with the authorised payment gateway, as described in the Official Booking Guide.\n\n2. Remaining Balance (If Only 20% Deposit Paid Initially)\nThe remaining balance (normally 80%) may be settled using:\nCredit/Debit Card (online): Pay via JVTO's secure payment link no later than 5 (five) calendar days before Day 1;\n\nBank Transfer / Wise: Transfer to official bank accounts of PT Java Volcano Rendezvous no later than 3 (three) calendar days before Day 1;\n\nCash at JVTO Office: Only if explicitly approved in writing by JVTO at the time of booking; must be settled in IDR at JVTO's office before departure on Day 1.\n\nJVTO's official bank accounts for approved balance payments are:\nBank BRI — PT Java Volcano Rendezvous — 001301001779564 — SWIFT: BRINIDJAXXX\n\nBank BCA — PT Java Volcano Rendezvous — 1200944352 — SWIFT: CENAIDJAXXX\n\nAny payment instructions outside the above must be verified via official channels before action.\n4.3 Payment Security (Aligned with Privacy Policy)\nAll online card payments are processed through a secure, SSL-encrypted checkout with a PCI DSS-compliant payment gateway;\n\nJVTO does not store full card numbers, CVV codes, or online banking passwords on its own systems. Sensitive card data is tokenised and handled by the gateway;\n\nJVTO and its payment partners apply fraud monitoring and risk controls to help detect and reduce unauthorised or suspicious transactions.\n\nJVTO will never:\nAsk guests to send full card numbers, CVV codes, or online banking credentials via email, SMS, social media, or unsecured chat;\n\nRequest payments to personal accounts or channels not listed as official in this Policy or the Official Booking Guide.\n\nIf you receive such a request, treat it as suspicious and verify directly with JVTO using official contacts.\n4.4 Non-Payment & Invalid Payment\nIf required payments are not received in full by the stated deadlines, or are made to unauthorised accounts:\nJVTO may treat the booking as unconfirmed or cancelled in line with Sections 7 and 8;\n\nJVTO is not responsible for losses arising from payments made to non-official channels.",
       },
       {
         number: "5",
@@ -66,12 +66,12 @@ const policyData = {
       {
         number: "10",
         title: "Guest Responsibilities",
-        text: "By confirming a booking with JVTO, the lead guest and all participants acknowledge and agree to:\nProvide accurate and complete information during enquiry and booking;\n\nMake all payments through official channels and within the stated deadlines;\n\nReview the Official E-Voucher promptly and report discrepancies;\n\nSubmit required pickup and logistical details within requested timeframes;\n\nBe present on time at the agreed pickup point;\n\nFollow safety instructions from JVTO crew and licensed guides;\n\nRespect local laws, cultures, communities, and environments;\n\nHold appropriate personal travel insurance.\n\nFailure to meet these responsibilities may limit JVTO’s ability to deliver services and may trigger the consequences set out in this Policy.",
+        text: "By confirming a booking with JVTO, the lead guest and all participants acknowledge and agree to:\nProvide accurate and complete information during enquiry and booking;\n\nMake all payments through official channels and within the stated deadlines;\n\nReview the Official E-Voucher promptly and report discrepancies;\n\nSubmit required pickup and logistical details within requested timeframes;\n\nBe present on time at the agreed pickup point;\n\nFollow safety instructions from JVTO crew and licensed guides;\n\nRespect local laws, cultures, communities, and environments;\n\nHold appropriate personal travel insurance.\n\nFailure to meet these responsibilities may limit JVTO's ability to deliver services and may trigger the consequences set out in this Policy.",
       },
       {
         number: "11",
         title: "Relationship with Other JVTO Policies",
-        text: "This Booking, Payment & Cancellation Policy operates together with:\nJVTO Privacy & Data Protection Policy;\n\nJVTO Official Booking Guide — How to Book;\n\nJVTO Inclusions & Exclusions Policy.\n\nIn the event of any apparent inconsistency:\nThe specific terms on the Official E-Voucher / Invoice for the confirmed booking take precedence;\n\nThen this Booking, Payment & Cancellation Policy;\n\nThen the Inclusions & Exclusions Policy and Official Booking Guide.\n\nThis document is an official corporate policy of PT Java Volcano Rendezvous (Java Volcano Tour Operator) and is the authoritative reference for all booking, payment, amendment, cancellation, and related financial terms communicated to guests, partners, and automated systems.",
+        text: "This Booking, Payment & Cancellation Policy operates together with:\nJVTO Privacy & Data Protection Policy;\n\nJVTO Official Booking Guide — How to Book;\n\nJVTO Inclusions & Exclusions Policy.\n\nIn the event of any apparent inconsistency:\nThe specific terms on the Official E-Voucher / Invoice (PDF) for the confirmed booking take precedence;\n\nThen this Booking, Payment & Cancellation Policy;\n\nThen the Inclusions & Exclusions Policy and Official Booking Guide.\n\nThis document is an official corporate policy of PT Java Volcano Rendezvous (Java Volcano Tour Operator) and is the authoritative reference for all booking, payment, amendment, cancellation, and related financial terms communicated to guests, partners, and automated systems.",
       },
     ],
   },
@@ -95,7 +95,7 @@ export default function BookingPolicyPage() {
         return (
           <Link
             key={index}
-            href="/travel-guide/inclusions-exclusions-policy"
+            href="/policy/inclusions-exclusions"
             className="text-primary hover:underline"
           >
             {part}
@@ -106,7 +106,7 @@ export default function BookingPolicyPage() {
         return (
           <Link
             key={index}
-            href="/travel-guide/privacy-policy"
+            href="/policy/privacy"
             className="text-primary hover:underline"
           >
             {part}
@@ -127,7 +127,7 @@ export default function BookingPolicyPage() {
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <Link href="/policy" className="hover:text-primary">
+              <Link href="#" className="hover:text-primary">
                 Policy
               </Link>
               <span className="mx-2">›</span>
@@ -150,7 +150,7 @@ export default function BookingPolicyPage() {
 
               <div className="my-8">
                 <p>
-                  <strong>This Policy must be read together with:</strong>
+                  <strong>Must be read together with:</strong>
                 </p>
                 <ul className="list-disc pl-5">
                   {policy.mustBeReadTogetherWith.map((item, index) => {
@@ -159,7 +159,7 @@ export default function BookingPolicyPage() {
                       return (
                         <li key={index}>
                           <Link
-                            href="/travel-guide/inclusions-exclusions-policy"
+                            href="/policy/inclusions-exclusions"
                             className="text-primary hover:underline"
                           >
                             {text}
@@ -171,7 +171,7 @@ export default function BookingPolicyPage() {
                       return (
                         <li key={index}>
                           <Link
-                            href="/travel-guide/privacy-policy"
+                            href="/policy/privacy"
                             className="text-primary hover:underline"
                           >
                             {text}
@@ -186,6 +186,8 @@ export default function BookingPolicyPage() {
                   <strong>{policy.precedenceRule}</strong>
                 </p>
               </div>
+
+              <hr className="my-8 border-border" />
 
               {policy.sections.map((section, index) => (
                 <div key={index} className="mb-8">

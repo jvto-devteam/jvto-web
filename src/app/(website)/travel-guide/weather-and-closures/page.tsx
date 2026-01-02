@@ -144,7 +144,7 @@ const ParagraphRenderer = ({ text }: { text: string }) => {
           return (
             <Link
               key={index}
-              href="/policy/booking-cancellation"
+              href="/policy/booking-payment-cancellation"
               className="text-primary hover:underline"
             >
               {part}
@@ -155,7 +155,7 @@ const ParagraphRenderer = ({ text }: { text: string }) => {
           return (
             <Link
               key={index}
-              href="/travel-guide/inclusions-exclusions-policy"
+              href="/policy/inclusions-exclusions"
               className="text-primary hover:underline"
             >
               {part}
