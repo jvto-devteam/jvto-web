@@ -348,66 +348,66 @@ const nextConfig = {
       },
 
       // Misc
-      {
-        source: "/all-inclusive",
-        destination: "/why-jvto/the-jvto-difference/",
-        permanent: true,
-      },
-      {
-        source: "/police-escort",
-        destination: "/why-jvto/the-jvto-difference/",
-        permanent: true,
-      },
-      {
-        source: "/medical-checkup",
-        destination: "/why-jvto/the-jvto-difference/",
-        permanent: true,
-      },
-      {
-        source: "/travel-tshirt",
-        destination: "/why-jvto/the-jvto-difference/",
-        permanent: true,
-      },
-      {
-        source: "/how-it-works",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/reserve-now-pay-later",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/support/reserve-now-pay-later",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/how-to-book",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/terms-and-conditions",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/payment-information",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/privacy-policy",
-        destination: "/travel-guide/booking-information/",
-        permanent: true,
-      },
-      {
-        source: "/flip/jvr/legality",
-        destination: "/why-jvto/the-jvto-difference",
-        permanent: true,
-      },
+      // {
+      //   source: "/all-inclusive",
+      //   destination: "/why-jvto/the-jvto-difference/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/police-escort",
+      //   destination: "/why-jvto/the-jvto-difference/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/medical-checkup",
+      //   destination: "/why-jvto/the-jvto-difference/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/travel-tshirt",
+      //   destination: "/why-jvto/the-jvto-difference/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/how-it-works",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/reserve-now-pay-later",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/support/reserve-now-pay-later",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/how-to-book",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/terms-and-conditions",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/payment-information",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/privacy-policy",
+      //   destination: "/travel-guide/booking-information/",
+      //   permanent: true,
+      // },
+      // {
+      //   source: "/flip/jvr/legality",
+      //   destination: "/why-jvto/the-jvto-difference",
+      //   permanent: true,
+      // },
     ];
   },
   async rewrites() {

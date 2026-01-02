@@ -79,7 +79,7 @@ export default function PoliceLedSafetyPage() {
       ],
       cta: {
         text: "See What's Included",
-        href: "/travel-guide/inclusions-exclusions-policy",
+        href: "/policy/inclusions-exclusions",
         variant: "outline",
       },
     },

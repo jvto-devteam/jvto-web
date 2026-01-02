@@ -89,7 +89,7 @@ export default function JvtoDifferencePage() {
       links: [
         {
           text: "What's included and excluded",
-          href: "/travel-guide/inclusions-exclusions-policy",
+          href: "/policy/inclusions-exclusions",
         },
       ],
       note: "Anything not included (for example travel insurance or personal expenses) is clearly stated.",

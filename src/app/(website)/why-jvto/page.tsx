@@ -70,7 +70,7 @@ const differenceCards = [
       "All itineraries are private only and designed to be transparent. Tickets, jeeps, Ijen screening, and essential gear are clearly written into each program.",
     icon: Lock,
     color: "purple",
-    link: "/travel-guide/inclusions-exclusions-policy",
+    link: "/policy/inclusions-exclusions",
   },
   {
     title: "Real Ijen Health Screening",

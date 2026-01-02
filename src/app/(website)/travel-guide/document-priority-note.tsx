@@ -26,10 +26,10 @@ export function DocumentPriorityNote(){
                 <ol className="list-decimal pl-5 font-medium text-foreground">
                     <li>{documentPriorityNote.paragraphs[1].substring(documentPriorityNote.paragraphs[1].indexOf('.') + 2)}</li>
                     <li>
-                      <Link href="/policy/booking-cancellation" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[2].substring(documentPriorityNote.paragraphs[2].indexOf('.') + 2)}</Link>
+                      <Link href="/policy/booking-payment-cancellation" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[2].substring(documentPriorityNote.paragraphs[2].indexOf('.') + 2)}</Link>
                     </li>
-                    <li><Link href="/travel-guide/inclusions-exclusions-policy" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[3].substring(documentPriorityNote.paragraphs[3].indexOf('.') + 2)}</Link></li>
-                    <li><Link href="/travel-guide/privacy-policy" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[4].substring(documentPriorityNote.paragraphs[4].indexOf('.') + 2)}</Link></li>
+                    <li><Link href="/policy/inclusions-exclusions" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[3].substring(documentPriorityNote.paragraphs[3].indexOf('.') + 2)}</Link></li>
+                    <li><Link href="/policy/privacy" className="text-primary hover:text-lime-600">{documentPriorityNote.paragraphs[4].substring(documentPriorityNote.paragraphs[4].indexOf('.') + 2)}</Link></li>
                     <li>{documentPriorityNote.paragraphs[5].substring(documentPriorityNote.paragraphs[5].indexOf('.') + 2)}</li>
                 </ol>
                 {documentPriorityNote.paragraphs.slice(6).map((p,i) => <p key={i} className="text-xs">{p}</p>)}
