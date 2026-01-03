@@ -2,189 +2,36 @@ import Link from "next/link";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 
-const policeEscortData = {
-  route: "/travel-guide/police-escort-for-groups",
-  seo: {
-    title:
-      "Official Traffic Police Escort for Tourist Groups in East Java | JVTO",
-    metaDescription:
-      "Learn how official traffic police escort can be coordinated for larger tourist groups in East Java, when it is appropriate, and how JVTO handles requests and written approvals.",
-  },
-  h1: "Traffic Police Escort for Tourist Groups in East Java",
-  hero: {
-    introParagraphs: [
-      "This page explains how official traffic police escort can be coordinated for certain larger groups travelling with JVTO in East Java – what it is for, when it is appropriate, and how requests are handled through formal channels.",
-      "It is not a guarantee that every group will receive an escort, and it is not an offer of unofficial or informal privileges.",
-    ],
-  },
-  sections: [
-    {
-      id: "what-is-traffic-police-escort",
-      title: "1. What “Traffic Police Escort” Means in Practice",
-      paragraphs: [
-        "In this context, a traffic police escort is a legally authorised road convoy support provided by the official traffic police unit, for example:",
-        "- One or more marked police vehicles guiding a convoy on specific segments.",
-        "- Assistance with safe convoy movement through certain junctions or routes.",
-        "The purpose is:",
-        "- To manage convoy movement more safely for large groups.",
-        "- To reduce confusion and risk on complex or busy road sections.",
-        "It is not:",
-        "- A license to ignore traffic laws.",
-        "- A guarantee of higher speeds.",
-        "- An informal favour sold as a “special trick”.",
-      ],
-    },
-    {
-      id: "when-can-escort-be-considered",
-      title: "2. When Can a Traffic Police Escort Be Considered?",
-      paragraphs: [
-        "JVTO generally considers requesting traffic police escort only when:",
-        "- The group is significantly larger than a typical private tour (for example, around 18 guests or more).",
-        "- There will be multiple vehicles moving together in convoy.",
-        "- The route includes specific segments where coordinated movement is safer – for example, from a given toll exit to accommodation in Bondowoso or similar cases.",
-        "Even when these conditions are met:",
-        "- An escort is never automatic.",
-        "- All requests must pass through the formal process of the relevant traffic police unit.",
-        "- Approval depends on law, regulations, availability and operational priorities of the police, not only on JVTO or the guest.",
-      ],
-    },
-    {
-      id: "how-requests-are-made",
-      title: "3. How Requests Are Made & Approved",
-      paragraphs: [
-        "When a group programme seems suitable for an escort, JVTO can:",
-        "- Discuss the idea with the group organiser during the planning stage.",
-        "- Prepare the necessary route and timing information.",
-        "- Submit a formal request through the relevant traffic police channels.",
-        "If the traffic police unit approves:",
-        "- They will issue the relevant written order or confirmation for the escort.",
-        "- JVTO will reflect the escort arrangement in the group itinerary and Official E-Voucher.",
-        "If the request is not approved:",
-        "- The tour proceeds without escort.",
-        "- JVTO will still apply its own convoy and safety procedures within the limits of normal traffic rules.",
-      ],
-    },
-    {
-      id: "costs-and-inclusions",
-      title: "4. Costs & What Is Included (If Approved)",
-      paragraphs: [
-        "Where an escort is approved, there may be additional costs, which can include:",
-        "- Fees or charges associated with the police escort service.",
-        "- Adjustments to vehicle and crew planning.",
-        "Any such costs:",
-        "- Are discussed with the group organiser in advance.",
-        "- Are stated in writing as part of the group quotation.",
-        "- Are included in the Official E-Voucher / Invoice if the group confirms the programme.",
-        "There is no “cash-on-the-road” payment for unofficial escort services offered by JVTO. All charges related to escort services are documented and part of the formal booking where applicable.",
-      ],
-    },
-    {
-      id: "what-escort-does-and-does-not-do",
-      title: "5. What an Escort Is Meant to Do – And What It Is Not",
-      paragraphs: [
-        "An official traffic police escort is meant to:",
-        "- Support the safe and orderly movement of a convoy on approved segments.",
-        "- Coordinate with JVTO and drivers on timing and route.",
-        "It is not intended to:",
-        "- Break or bypass road safety regulations.",
-        "- Turn a convoy into a race.",
-        "- Guarantee a specific travel time in all conditions.",
-        "Even with escort vehicles, all standard safety expectations still apply, including respecting speed limits where possible, wearing seat belts and following instructions from police officers and JVTO crew.",
-      ],
-    },
-    {
-      id: "guest-and-group-behaviour",
-      title: "6. Behaviour Expectations for Groups with Escort",
-      paragraphs: [
-        "If your group programme includes an approved escort:",
-        "- Guests must follow instructions from both JVTO staff and traffic police officers.",
-        "- Drivers remain responsible for safe driving and cannot be forced by guests to drive aggressively.",
-        "- Guests should stay in assigned vehicles and avoid behaviour that distracts drivers or police.",
-        "Inappropriate behaviour towards police officers, JVTO staff, other road users or local communities is not acceptable and may lead to changes in how the convoy is managed.",
-      ],
-    },
-    {
-      id: "relationship-with-tourist-police-experience",
-      title: "7. How JVTO’s Tourist Police Experience Fits Into This",
-      paragraphs: [
-        "JVTO’s founder has professional experience in tourist and traffic safety in East Java.",
-        "This experience helps JVTO:",
-        "- Understand how and when escort services can be requested legally.",
-        "- Communicate with the relevant police units in a structured, documented way.",
-        "- Design group routes that respect regulations and local realities.",
-        "However:",
-        "- JVTO does not promise that escort will always be available.",
-        "- JVTO does not offer unofficial, unapproved escort services.",
-        "- All escort services described here are subject to formal approval by the traffic police unit, not only by JVTO or the guest.",
-      ],
-    },
-    {
-      id: "document-hierarchy-and-questions",
-      title: "8. Where to Check Your Group’s Exact Arrangement",
-      paragraphs: [
-        "If your group has discussed escort options with JVTO, the final, binding details will always appear in:",
-        "1. Your Official E-Voucher / Invoice for the group programme.",
-        "2. Any written confirmation issued by JVTO referencing escort arrangements.",
-        "If escort is not mentioned in these documents, you should assume that your programme will run without traffic police escort.",
-        "For questions about escort possibilities for a future group itinerary, please contact JVTO using the official channels listed on this site.",
-      ],
-    },
-  ],
-};
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: policeEscortData.seo.title,
-  description: policeEscortData.seo.metaDescription,
-};
-
-const renderParagraphs = (paragraphs: string[]) => {
-  const elements: JSX.Element[] = [];
-  let listItems: string[] = [];
-  let listType: "ul" | "ol" | null = null;
-
-  const flushList = () => {
-    if (listItems.length > 0 && listType) {
-      const ListComponent = listType;
-      elements.push(
-        <ListComponent
-          key={`list-${elements.length}`}
-          className={`list-${
-            listType === "ul" ? "disc" : "decimal"
-          } pl-5 space-y-2 my-4`}
-        >
-          {listItems.map((item, i) => (
-            <li key={i}>{item}</li>
-          ))}
-        </ListComponent>
-      );
-      listItems = [];
-      listType = null;
-    }
-  };
-
-  for (const p of paragraphs) {
-    if (p.startsWith("- ")) {
-      if (listType === "ol") flushList();
-      listType = "ul";
-      listItems.push(p.substring(2));
-    } else if (/^\d+\./.test(p)) {
-      if (listType === "ul") flushList();
-      listType = "ol";
-      listItems.push(p.substring(p.indexOf(" ") + 1));
-    } else {
-      flushList();
-      elements.push(<p key={elements.length}>{p}</p>);
-    }
-  }
-
-  flushList();
-  return elements;
+  title: "Traffic Police Escort for Tourist Groups in East Java",
+  description: "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
+  openGraph: {
+    title: "Traffic Police Escort for Tourist Groups in East Java",
+    description: "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
+    url: `${siteUrl}/travel-guide/police-escort-for-groups`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/police-escort.webp",
+        width: 1200,
+        height: 630,
+        alt: "Police Escort for Groups",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Traffic Police Escort for Tourist Groups in East Java",
+    description: "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
+    images: [siteUrl + "/assets/img/og/police-escort.webp"],
+  },
 };
 
 export default function PoliceEscortForGroupsPage() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  // 4. Siapkan Schema.org Data secara dinamis
   const pageSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -335,9 +182,9 @@ export default function PoliceEscortForGroupsPage() {
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups#webpage",
         url: "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups",
-        name: "Official Police Escort for Large Tourist Groups in East Java",
+        name: "Traffic Police Escort for Tourist Groups in East Java",
         description:
-          "Learn when and how JVTO can coordinate official traffic police escort for large groups in East Java, and what this service does and does not include.",
+          "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
         inLanguage: "en",
         image: {
           "@type": "ImageObject",
@@ -400,7 +247,7 @@ export default function PoliceEscortForGroupsPage() {
           {
             "@type": "ListItem",
             position: 3,
-            name: "Police Escort for Groups",
+            name: "Traffic Police Escort for Groups",
             item: "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups",
           },
         ],
@@ -409,10 +256,9 @@ export default function PoliceEscortForGroupsPage() {
         "@type": "Article",
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups#article",
-        headline:
-          "Official Police Escort for Large Tourist Groups in East Java",
+        headline: "Traffic Police Escort for Tourist Groups in East Java",
         description:
-          "Learn when and how JVTO can coordinate official traffic police escort for large groups in East Java, and what this service does and does not include.",
+          "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
         inLanguage: "en",
         url: "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups",
         image: {
@@ -439,15 +285,17 @@ export default function PoliceEscortForGroupsPage() {
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
         articleSection: [
-          "What \u201cPolice Escort\u201d Means in Our Context",
-          "When Escort May Be Available",
-          "How the Request Process Works",
-          "Costs, Inclusions & Limitations",
-          "Cancellation, Changes & Force Majeure",
-          "Quick FAQ",
+          "What it is (and what it is not)",
+          "Is it included by default?",
+          "When it may be relevant",
+          "How it is arranged",
+          "Limitations",
+          "Timing and coordination",
+          "Responsibility",
+          "Binding note",
         ],
         articleBody:
-          "This page explains how official traffic police escort can be coordinated for certain larger groups travelling with JVTO in East Java – what it is for, when it is appropriate, and how requests are handled through formal channels. It is not a guarantee that every group will receive an escort, and it is not an offer of unofficial or informal privileges.",
+          "Information about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
         mentions: [
           {
             "@type": "WebPage",
@@ -497,50 +345,48 @@ export default function PoliceEscortForGroupsPage() {
         mainEntity: [
           {
             "@type": "Question",
-            name: "Can every JVTO tour get a police escort?",
+            name: "Is police escort included in standard tour packages?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "No. Escort is reserved for specific large group programs and must be approved by the relevant Traffic Police unit. Regular private tours are not escorted.",
+              text: "No. Police escort is a conditional inclusion and only applies if explicitly written on your package page and/or voucher.",
             },
           },
           {
             "@type": "Question",
-            name: "Can we decide to add escort at the last minute?",
+            name: "Can any group request police escort?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Normally no. Escort requires formal approvals, planning, and scheduling. Last-minute requests are unlikely to be accepted.",
+              text: "It may be considered for large groups with multiple vehicles, VIP movements, or routes with known congestion risks, but availability depends on local regulations and operational conditions.",
             },
           },
           {
             "@type": "Question",
-            name: "Is escort included in the standard tour price?",
+            name: "Does police escort guarantee faster travel times?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "No. If escort is approved and included, any cost is clearly shown as a separate line in your group proposal and invoice.",
+              text: "No. Safety always overrides speed. Escort helps with coordination but does not override road laws, weather limits, or park closures.",
             },
           },
           {
             "@type": "Question",
-            name: "Does escort mean we can ignore normal road rules?",
+            name: "How is police escort arranged?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "No. Escort is intended to improve convoy management and safety, not to bypass the law.",
+              text: "If requested, JVTO confirms feasibility, availability, required permits, pricing, and scope. Only written confirmation in your voucher counts as included.",
             },
           },
           {
             "@type": "Question",
-            name: "What happens if the police cancel our escort?",
+            name: "What happens if conditions change?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "If the escort is cancelled by the authorities, JVTO will still operate your tour using normal private vehicles. We will apply the same principles that we use for other external changes, as described in our Booking Information.",
+              text: "Availability depends on local regulations and operational conditions. JVTO cannot promise this service unless it is confirmed in writing.",
             },
           },
         ],
       },
     ],
   };
-
-  const { h1, hero, sections } = policeEscortData;
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -549,7 +395,12 @@ export default function PoliceEscortForGroupsPage() {
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16 bg-accent border-b">
           <div className="container mx-auto px-4 max-w-4xl">
+            {/* Breadcrumb Navigation */}
             <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
                 Travel Guide
               </Link>
@@ -558,14 +409,45 @@ export default function PoliceEscortForGroupsPage() {
                 Police Escort for Groups
               </span>
             </nav>
-            <div className="text-center">
-              <h1 className="heading-lg mb-6 font-black text-2xl md:text-5xl">
-                {h1}
+
+            {/* Main Header */}
+            <div className="text-center mb-12">
+              <h1 className="font-black text-2xl md:text-5xl mb-6">
+                Traffic Police Escort for Tourist Groups in East Java
               </h1>
-              <div className="prose prose-lg mx-auto text-muted-foreground">
-                {hero.introParagraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+              
+              {/* Disclaimer Box */}
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
+                <p className="text-sm italic mb-2">
+                  This page is informational. Binding terms are defined by the documents below.
+                </p>
+                <p className="font-semibold text-foreground mb-2">
+                  Order of precedence (if there is any discrepancy):
+                </p>
+                <ol className="list-decimal pl-5 space-y-1 text-sm">
+                  <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
+                  <li>
+                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
+                      Booking, Payment & Cancellation Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
+                      Inclusions & Exclusions Policy
+                    </Link>
+                  </li>
+                  <li>Travel Guide pages (informational)</li>
+                </ol>
+              </div>
+
+              {/* Contact Help */}
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
+                <p className="font-semibold text-foreground mb-2">
+                  Need help?
+                </p>
+                <p className="text-sm">
+                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
+                </p>
               </div>
             </div>
           </div>
@@ -573,21 +455,186 @@ export default function PoliceEscortForGroupsPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-16">
-              {sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-24"
-                >
-                  <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4">
-                    {section.title}
-                  </h2>
-                  <div className="prose max-w-none text-muted-foreground space-y-4">
-                    {renderParagraphs(section.paragraphs)}
+            <div className="space-y-12">
+              {/* Section 1 */}
+              <div id="what-it-is" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  1) What it is (and what it is not)
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    A traffic police escort (when available and permitted) is a coordination service that may help large/VIP groups move more smoothly under certain conditions. It does not override road law, weather limits, or park closures.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 2 */}
+              <div id="included-by-default" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  2) Is it included by default?
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    No. Police escort or special convoy arrangements are <span className="font-semibold">conditional inclusions</span> and only apply if explicitly written on your package page and/or voucher.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 3 */}
+              <div id="when-relevant" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  3) When it may be relevant
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    It may be considered for:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>large groups with multiple vehicles</li>
+                    <li>VIP movements with tight timing windows</li>
+                    <li>routes with known congestion risks (subject to local reality)</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Section 4 */}
+              <div id="how-arranged" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  4) How it is arranged
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    If requested, JVTO will confirm:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>feasibility and availability</li>
+                    <li>any required permits/coordination</li>
+                    <li>pricing and scope (if applicable)</li>
+                  </ul>
+                  <p>
+                    Only written confirmation in your voucher counts as included.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 5 */}
+              <div id="limitations" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  5) Limitations
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Availability depends on local regulations and operational conditions. JVTO cannot promise this service unless it is confirmed in writing.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 6 */}
+              <div id="timing-coordination" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  6) Timing and coordination
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    If included, JVTO coordinates timing and meeting points with local authorities and your vehicle convoy.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 7 */}
+              <div id="responsibility" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  7) Responsibility
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Guests must follow instructions from the escort and JVTO crew. Safety always overrides speed.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 8 */}
+              <div id="binding-note" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  8) Binding note
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Your Official E-Voucher / Invoice (PDF) is the final reference for whether police escort is included.
+                  </p>
+                </div>
+              </div>
+
+              {/* FAQ Section */}
+              <div id="faq" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  Frequently Asked Questions
+                </h2>
+                <div className="space-y-6">
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Is police escort included in standard tour packages?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      No. Police escort is a conditional inclusion and only applies if explicitly written on your package page and/or voucher.
+                    </p>
                   </div>
-                </section>
-              ))}
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Can any group request police escort?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      It may be considered for large groups with multiple vehicles, VIP movements, or routes with known congestion risks, but availability depends on local regulations and operational conditions.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Does police escort guarantee faster travel times?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      No. Safety always overrides speed. Escort helps with coordination but does not override road laws, weather limits, or park closures.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      How is police escort arranged?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      If requested, JVTO confirms feasibility, availability, required permits, pricing, and scope. Only written confirmation in your voucher counts as included.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      What happens if conditions change?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Availability depends on local regulations and operational conditions. JVTO cannot promise this service unless it is confirmed in writing.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Important Notice */}
+              <div id="important-notice" className="scroll-mt-24 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
+                <h3 className="font-bold text-lg mb-3 text-foreground">
+                  Important Notice
+                </h3>
+                <p className="text-muted-foreground mb-3">
+                  JVTO's founder has professional experience in tourist and traffic safety in East Java. This experience helps with:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>Understanding when escort services can be requested legally</li>
+                  <li>Communicating with relevant police units in a structured way</li>
+                  <li>Designing group routes that respect regulations</li>
+                </ul>
+                <p className="text-muted-foreground mt-4">
+                  However, JVTO does not promise that escort will always be available and does not offer unofficial, unapproved escort services. All escort services are subject to formal approval by traffic police.
+                </p>
+              </div>
             </div>
           </div>
         </section>
