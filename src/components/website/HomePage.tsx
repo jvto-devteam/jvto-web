@@ -39,7 +39,7 @@ const travelAgencySchema = {
       "streetAddress":"Jl. Khairil Anwar No.102 A, Badean",
       "addressLocality":"Bondowoso",
       "addressRegion":"Jawa Timur",
-      "postalCode":"68217",
+      "postalCode":"68214",
       "addressCountry":"ID"
     },
     "founder":{

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
       "Safety guidelines and procedures for JVTO tours. Learn about vehicle standards, safety equipment, guest responsibilities, and emergency handling.",
     url: `${siteUrl}/travel-guide/safety-on-tours`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -166,7 +166,7 @@ export default function SafetyOnToursPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
       },
       {
         "@type": "WebSite",

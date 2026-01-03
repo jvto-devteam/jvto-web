@@ -194,7 +194,7 @@ export const metadata: Metadata = {
       travelGuideData.seo.metaDescription,
     url: `${siteUrl}/travel-guide`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -346,7 +346,7 @@ export default function TravelGuideHubPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
       },
       {
         "@type": "WebSite",

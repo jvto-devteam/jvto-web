@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
              <p className="text-sm text-gray-400 mb-4">
                <strong>PT Java Volcano Rendezvous</strong><br/>
                Jl. Khairil Anwar No.102 A, Badean,<br/>
-               Bondowoso, East Java 68217, Indonesia
+               Bondowoso, East Java 68214, Indonesia
              </p>
              <p className="text-sm text-gray-400 mb-6">
                WhatsApp: +62 822-4478-8833<br/>

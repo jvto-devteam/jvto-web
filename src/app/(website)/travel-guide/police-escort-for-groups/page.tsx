@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: "Learn about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
     url: `${siteUrl}/travel-guide/police-escort-for-groups`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -163,7 +163,7 @@ export default function PoliceEscortForGroupsPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
       },
       {
         "@type": "WebSite",

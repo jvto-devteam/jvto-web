@@ -106,7 +106,7 @@ export const knowledgeBase: KnowledgeChunk[] = [
 * **Legal Entity:** PT Java Volcano Rendezvous (an Indonesian Limited Liability Company)
 * **Business ID (NIB):** 1102230032918
 * **Tourism License (TDUP):** 1102230032918 (Issued 11 February 2023)
-* **Registered Office:** Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia.`,
+* **Registered Office:** Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68214, Indonesia.`,
     tags: [
       "legal",
       "license",

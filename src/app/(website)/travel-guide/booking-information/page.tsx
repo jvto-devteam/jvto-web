@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
     url: `${siteUrl}/travel-guide/booking-information`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -166,7 +166,7 @@ export default function BookingInformationPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",

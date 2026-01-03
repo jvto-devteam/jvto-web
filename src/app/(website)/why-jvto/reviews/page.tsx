@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: "Read how guests describe their private volcano tours with JVTO and see independent reviews from Google, Tripadvisor and Trustpilot, plus early homestay-era recognition.",
     url: `${siteUrl}/why-jvto/reviews`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -225,7 +225,7 @@ export default function ReviewsPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",

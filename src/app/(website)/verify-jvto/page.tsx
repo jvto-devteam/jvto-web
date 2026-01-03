@@ -14,7 +14,7 @@ export const metadata: Metadata = {
       "Official licences, police clearances, operational certificates, and verification documents for Java Volcano Tour Operator.",
     url: `${siteUrl}/verify-jvto`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
