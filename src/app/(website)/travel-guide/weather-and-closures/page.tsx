@@ -2,241 +2,36 @@ import Link from "next/link";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 
-const weatherData = {
-  route: "/travel-guide/weather-and-closures",
-  seo: {
-    title: "Weather, Volcano Alerts & Closures – How JVTO Handles Changes",
-    metaDescription:
-      "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
-  },
-  h1: "Weather, Volcano Alerts & Closures",
-  hero: {
-    introParagraphs: [
-      "Volcanoes and waterfalls are part of a changing natural environment. This page explains how weather, volcanic activity and access closures can affect your private tour, and how JVTO responds when plans need to change.",
-      "It is a plain-language summary. For legal details and specific cases, your Official E-Voucher and the Booking, Payment & Cancellation Policy remain the final reference.",
-    ],
-  },
-  sections: [
-    {
-      id: "factors-that-can-change-itinerary",
-      title: "1. Factors That Can Change a Volcano or Waterfall Tour",
-      paragraphs: [
-        "Routes to Mount Bromo, Kawah Ijen and Tumpak Sewu are influenced by:",
-        "- Weather – heavy rain, fog, strong winds, lightning.",
-        "- Volcanic activity – ash, gas emissions, increased alert status.",
-        "- Landslides, floods or road damage.",
-        "- Forest fires or smoke.",
-        "- Religious or cultural ceremonies.",
-        "- Temporary government or park regulations.",
-      ],
-    },
-    {
-      id: "how-jvto-monitors-conditions",
-      title: "2. How JVTO Monitors Conditions & Decides on Changes",
-      paragraphs: [
-        "JVTO uses:",
-        "- Local guide and driver reports from Bromo, Ijen and Tumpak Sewu areas.",
-        "- Information from park authorities and local government.",
-        "- Updates linked to volcanic alert levels, gas readings and weather.",
-        "When conditions are clearly unsafe or access is formally restricted, JVTO adjusts plans in line with:",
-        "- Local regulations.",
-        "- Safety considerations for guests and crew.",
-        "- The options allowed under the Booking, Payment & Cancellation Policy.",
-      ],
-    },
-    {
-      id: "partial-vs-full-closures",
-      title: "3. Partial Closures vs Full Closures",
-      paragraphs: [
-        "Not all changes are the same. Some examples:",
-        "- Partial closure at Bromo:",
-        "  - Certain viewpoints or the sea of sand may be off-limits.",
-        "  - Other viewpoints or areas may remain open.",
-        "- Partial closure at Ijen:",
-        "  - Access to the crater floor or blue fire area may be restricted.",
-        "  - Hikes may be limited to safer viewpoints higher up.",
-        "- Partial closure at Tumpak Sewu:",
-        "  - Lower levels or specific paths may be closed after heavy rain.",
-        "  - Only upper viewpoints may be open.",
-        "- Full closure:",
-        "  - Entire sites or access routes can be closed for safety, ceremonies or official orders.",
-        "In partial closures, JVTO will typically adapt the program to what is still legally and safely accessible, while keeping the main structure of your tour.",
-      ],
-    },
-    {
-      id: "alternative-routes-and-adjustments",
-      title: "4. Alternative Routes & Adjustments",
-      paragraphs: [
-        "When a closure or restriction affects your itinerary, JVTO will:",
-        "- Inform you as early as reasonably possible.",
-        "- Propose alternative viewpoints, routes or activities where they exist and fit the conditions.",
-        "- Explain how any changes relate to the Booking, Payment & Cancellation Policy and your Official E-Voucher.",
-        "Examples of adjustments can include:",
-        "- Moving a viewpoint or timing on the same day.",
-        "- Reordering certain stops within the same trip.",
-        "- Changing the ratio between volcanoes, waterfalls and cultural stops.",
-        "Some alternatives may not fully match the original experience but are chosen to keep your trip running safely and legally.",
-      ],
-    },
-    {
-      id: "blue-fire-sunrise-visibility",
-      title: "5. Blue Fire, Sunrise Views & Visibility",
-      paragraphs: [
-        "Phenomena such as blue fire at Ijen and specific sunrise views at Bromo depend on:",
-        "- Wind direction and gas levels.",
-        "- Cloud and fog.",
-        "- Park regulations and crowd control.",
-        "JVTO plans itineraries based on the best available local knowledge, but:",
-        "- Blue fire sightings are never guaranteed.",
-        "- Perfect sunrise conditions cannot be promised.",
-        "- Some viewpoints may be closed or narrowed to control risk.",
-        "Screenshots or photos on the website and social media are examples of past conditions, not promises for your specific date.",
-      ],
-    },
-    {
-      id: "closures-travel-credit-force-majeure",
-      title: "6. Closures, Travel Credit & External Events",
-      paragraphs: [
-        "When closures or external events (for example, volcanic alerts, landslides, floods or government bans) make it impossible or unsafe to run part or all of a planned activity, JVTO:",
-        "- Aligns decisions with local authorities and safety guidance.",
-        "- Applies the options described in your Booking, Payment & Cancellation Policy and Official E-Voucher.",
-        "Depending on timing and the exact situation, this may include:",
-        "- Continuing with a modified route.",
-        "- Applying JVTO Travel Credit for affected services, where applicable.",
-        "- Other solutions described in the policy.",
-        "This page does not describe every scenario; it explains the principles that guide how JVTO responds in practice.",
-      ],
-    },
-    {
-      id: "guest-role-uncertain-conditions",
-      title: "7. Your Role as a Guest During Uncertain Conditions",
-      paragraphs: [
-        "You can help keep the whole group safe by:",
-        "- Reading pre-tour briefings and health notes carefully.",
-        "- Following instructions from guides, drivers and local authorities on site.",
-        "- Allowing reasonable flexibility when weather or volcano conditions change plans.",
-        "If you have specific questions about how a closure or alert could affect an upcoming tour, please contact JVTO using the official channels listed on this website.",
-      ],
-    },
-    {
-      id: "document-hierarchy-reminder",
-      title: "8. Which Document Wins if There Is a Difference?",
-      paragraphs: [
-        "If there is ever a difference between this page and your booking documents, the order of priority is:",
-        "1. The specific terms on your Official E-Voucher / Invoice.",
-        "2. The Booking, Payment & Cancellation Policy.",
-        "3. The Inclusions & Exclusions Policy.",
-        "4. General website text and informal communication.",
-      ],
-    },
-  ],
-};
-
-const ParagraphRenderer = ({ text }: { text: string }) => {
-  const parts = text.split(
-    /(Booking, Payment & Cancellation Policy|The Inclusions & Exclusions Policy)/g
-  );
-
-  return (
-    <>
-      {parts.map((part, index) => {
-        if (part === "Booking, Payment & Cancellation Policy") {
-          return (
-            <Link
-              key={index}
-              href="/policy/booking-payment-cancellation"
-              className="text-primary hover:underline"
-            >
-              {part}
-            </Link>
-          );
-        }
-        if (part === "The Inclusions & Exclusions Policy") {
-          return (
-            <Link
-              key={index}
-              href="/policy/inclusions-exclusions"
-              className="text-primary hover:underline"
-            >
-              {part}
-            </Link>
-          );
-        }
-        return part;
-      })}
-    </>
-  );
-};
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: weatherData.seo.title,
-  description: weatherData.seo.metaDescription,
-};
-
-const renderParagraphs = (paragraphs: string[]) => {
-  const elements: JSX.Element[] = [];
-  let listItems: { text: string; indent: number }[] = [];
-  let listType: "ul" | "ol" | null = null;
-
-  const flushList = () => {
-    if (listItems.length > 0 && listType) {
-      const ListComponent = listType;
-      elements.push(
-        <ListComponent
-          key={`list-${elements.length}`}
-          className={`list-${
-            listType === "ul" ? "disc" : "decimal"
-          } pl-5 space-y-2 my-4`}
-        >
-          {listItems.map((item, i) => (
-            <li
-              key={i}
-              className={item.indent > 0 ? `ml-${item.indent * 4}` : ""}
-            >
-              <ParagraphRenderer text={item.text} />
-            </li>
-          ))}
-        </ListComponent>
-      );
-      listItems = [];
-      listType = null;
-    }
-  };
-
-  for (const p of paragraphs) {
-    const ulMatch = p.match(/^(\s*)-\s(.*)/);
-    const olMatch = p.match(/^(\s*\d+\.)\s(.*)/);
-
-    if (ulMatch) {
-      if (listType === "ol") flushList();
-      listType = "ul";
-      const indent = (ulMatch[1].length - 1) / 2;
-      listItems.push({ text: ulMatch[2], indent });
-    } else if (olMatch) {
-      if (listType === "ul") flushList();
-      listType = "ol";
-      const indent = (olMatch[1].length - 2) / 2;
-      listItems.push({ text: olMatch[2], indent });
-    } else {
-      flushList();
-      elements.push(
-        <p key={elements.length}>
-          <ParagraphRenderer text={p} />
-        </p>
-      );
-    }
-  }
-
-  flushList();
-  return elements;
+  title: "Weather, Volcano Alerts & Closures",
+  description: "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+  openGraph: {
+    title: "Weather, Volcano Alerts & Closures",
+    description: "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+    url: `${siteUrl}/travel-guide/weather-and-closures`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/weather-closures.webp",
+        width: 1200,
+        height: 630,
+        alt: "Weather and Closures",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Weather, Volcano Alerts & Closures",
+    description: "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+    images: [siteUrl + "/assets/img/og/weather-closures.webp"],
+  },
 };
 
 export default function WeatherAndClosuresPage() {
-  const { h1, hero, sections } = weatherData;
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  // 4. Siapkan Schema.org Data secara dinamis
   const pageSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -379,7 +174,7 @@ export default function WeatherAndClosuresPage() {
         url: "https://javavolcano-touroperator.com/travel-guide/weather-and-closures",
         name: "Weather, Volcano Alerts & Closures",
         description:
-          "How weather and volcanic activity can affect your Bromo, Ijen and Tumpak Sewu tour with JVTO, and how we handle timetable changes, reroutes, closures and Travel Credit.",
+          "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
         inLanguage: "en",
         isPartOf: {
           "@id": "https://javavolcano-touroperator.com/#website",
@@ -407,9 +202,28 @@ export default function WeatherAndClosuresPage() {
           "https://javavolcano-touroperator.com/travel-guide/booking-information",
           "https://javavolcano-touroperator.com/travel-guide/faq",
           "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
-          "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
           "https://javavolcano-touroperator.com/travel-guide/safety-on-tours",
+          "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
           "https://javavolcano-touroperator.com/travel-guide/police-escort-for-groups",
+        ],
+        datePublished: "2025-12-05",
+        dateModified: "2025-12-05",
+        about: [
+          {
+            "@type": "TouristAttraction",
+            name: "Mount Bromo",
+            url: "https://javavolcano-touroperator.com/destinations/mount-bromo",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Ijen Crater",
+            url: "https://javavolcano-touroperator.com/destinations/ijen-crater",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Tumpak Sewu Waterfall",
+            url: "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+          },
         ],
       },
 
@@ -445,7 +259,7 @@ export default function WeatherAndClosuresPage() {
           "https://javavolcano-touroperator.com/travel-guide/weather-and-closures#article",
         headline: "Weather, Volcano Alerts & Closures",
         description:
-          "How weather and volcanic activity can affect your Bromo, Ijen and Tumpak Sewu tour with JVTO, and how we handle timetable changes, reroutes, closures and Travel Credit.",
+          "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
         inLanguage: "en",
         author: {
           "@id": "https://javavolcano-touroperator.com/#organization",
@@ -464,14 +278,14 @@ export default function WeatherAndClosuresPage() {
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
         articleSection: [
-          "Why Conditions Can Change Quickly",
-          "Rain Patterns: What to Expect (Without Overpromising)",
-          "Volcano Activity & Official Alerts",
-          "Types of Changes You Might Experience",
-          "How This Links to Booking Information & Travel Credit",
-          "Your Role as a Guest",
-          "Quick FAQ",
-          "Related Pages",
+          "Why conditions can change fast",
+          "What JVTO monitors",
+          "How JVTO handles closures",
+          "What you should prepare",
+          "Cancellations vs closures",
+          "Driving times & buffers",
+          "Communication",
+          "Binding note",
         ],
         about: [
           {
@@ -491,66 +305,7 @@ export default function WeatherAndClosuresPage() {
           },
         ],
         articleBody:
-          "Volcanoes and waterfalls are part of a changing natural environment. This page explains how weather, volcanic activity and access closures can affect your private tour, and how JVTO responds when plans need to change. It is a plain-language summary. For legal details and specific cases, your Official E-Voucher and the Booking, Payment & Cancellation Policy remain the final reference."
-      },
-
-      {
-        "@type": "FAQPage",
-        "@id":
-          "https://javavolcano-touroperator.com/travel-guide/weather-and-closures#faq",
-        inLanguage: "en",
-        publisher: {
-          "@id": "https://javavolcano-touroperator.com/#organization",
-        },
-        isPartOf: {
-          "@id": "https://javavolcano-touroperator.com/#website",
-        },
-        mainEntityOfPage: {
-          "@id":
-            "https://javavolcano-touroperator.com/travel-guide/weather-and-closures#webpage",
-        },
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "What happens if Bromo or Ijen is closed on my travel dates?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "We follow official instructions. Where possible, we will reroute to alternative viewpoints or destinations, or adjust the pacing of your trip. The financial treatment follows the rules in our Booking Information and policy.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "If the volcano is “on alert”, will you still run the tour?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "It depends on the alert level, hazard zones, and permissions. Some alerts allow controlled access; others require full closure. We decide based on official guidance, not marketing promises.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Can you guarantee that we will see sunrise or blue fire?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "No. Weather, visibility, and volcanic activity are outside our control.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "If it rains, will our tour be cancelled?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Light rain rarely cancels a tour but may change timings, viewpoints, or comfort levels.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "Can I get a full cash refund if a volcano is closed?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "Refunds and Travel Credit follow our official Booking & Cancellation Policy.",
-            },
-          },
-        ],
+          "Information about weather conditions, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. How JVTO handles safety changes and operational adjustments.",
       },
     ],
   };
@@ -562,23 +317,59 @@ export default function WeatherAndClosuresPage() {
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16 bg-accent border-b">
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-sm text-center text-muted-foreground">
+            {/* Breadcrumb Navigation */}
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
                 Travel Guide
               </Link>
               <span className="mx-2">›</span>
               <span className="text-foreground font-medium">
-                Weather &amp; Closures
+                Weather & Closures
               </span>
             </nav>
-            <div className="text-center">
-              <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
-              <div className="prose prose-lg mx-auto text-muted-foreground">
-                {hero.introParagraphs.map((p, i) => (
-                  <p key={i}>
-                    <ParagraphRenderer text={p} />
-                  </p>
-                ))}
+
+            {/* Main Header */}
+            <div className="text-center mb-12">
+              <h1 className="font-black text-2xl md:text-5xl mb-6">
+                Weather, Volcano Alerts & Closures
+              </h1>
+              
+              {/* Disclaimer Box */}
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
+                <p className="text-sm italic mb-2">
+                  This page is informational. Binding terms are defined by the documents below.
+                </p>
+                <p className="font-semibold text-foreground mb-2">
+                  Order of precedence (if there is any discrepancy):
+                </p>
+                <ol className="list-decimal pl-5 space-y-1 text-sm">
+                  <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
+                  <li>
+                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
+                      Booking, Payment & Cancellation Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
+                      Inclusions & Exclusions Policy
+                    </Link>
+                  </li>
+                  <li>Travel Guide pages (informational)</li>
+                </ol>
+              </div>
+
+              {/* Contact Help */}
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
+                <p className="font-semibold text-foreground mb-2">
+                  Need help?
+                </p>
+                <p className="text-sm">
+                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
+                </p>
               </div>
             </div>
           </div>
@@ -586,21 +377,251 @@ export default function WeatherAndClosuresPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-16">
-              {sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-24"
-                >
-                  <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4">
-                    {section.title}
-                  </h2>
-                  <div className="prose max-w-none text-muted-foreground space-y-4">
-                    {renderParagraphs(section.paragraphs)}
+            <div className="space-y-12">
+              {/* Section 1 */}
+              <div id="conditions-change" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  1) Why conditions can change fast
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Mountain weather and volcanic activity can change quickly. Safety decisions may require route adjustments, rescheduling, or site substitutions.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 2 */}
+              <div id="jvto-monitors" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  2) What JVTO monitors
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    JVTO monitors:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>local weather conditions along the route</li>
+                    <li>site access conditions communicated by local authorities/park offices</li>
+                    <li>operational constraints (road closures, safety alerts)</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Section 3 */}
+              <div id="handling-closures" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  3) How JVTO handles closures
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    If a site is closed or unsafe:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>JVTO may substitute an alternative site or adjust timings;</li>
+                    <li>JVTO will prioritize safety and practicality;</li>
+                    <li>the remedy depends on what costs are already committed to third parties (e.g., tickets, hotels).</li>
+                  </ul>
+                  <p>
+                    Binding terms are in the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your voucher.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 4 */}
+              <div id="what-to-prepare" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  4) What you should prepare
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Prepare for cold mornings and wet conditions:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>warm layers (especially for sunrise)</li>
+                    <li>rain protection</li>
+                    <li>proper footwear for wet terrain</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Section 5 */}
+              <div id="cancellations-vs-closures" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  5) Cancellations vs closures
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Guest cancellations follow the standard cancellation rules (including the 48-hour cutoff). Closures and safety changes may be treated differently depending on the policy terms and what has been committed.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 6 */}
+              <div id="driving-times" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  6) Driving times & buffers
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Driving times in East Java can vary due to traffic, weather, and road works. JVTO includes buffer planning where possible, but flexibility is essential in mountain logistics.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 7 */}
+              <div id="communication" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  7) Communication
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    JVTO will communicate changes through official channels. Keep your WhatsApp reachable during travel dates.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 8 */}
+              <div id="binding-note" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  8) Binding note
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Your Official E-Voucher / Invoice (PDF) remains the booking-specific reference for inclusions and plan details.
+                  </p>
+                </div>
+              </div>
+
+              {/* FAQ Section */}
+              <div id="faq" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  Frequently Asked Questions
+                </h2>
+                <div className="space-y-6">
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      What happens if Bromo is closed due to volcanic activity?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      If Bromo is closed for safety reasons, JVTO may substitute with alternative viewpoints or activities. The specific remedy depends on what costs have already been committed and the terms in your Booking, Payment & Cancellation Policy.
+                    </p>
                   </div>
-                </section>
-              ))}
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Do I get a refund if weather affects my tour?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Weather-related changes are handled differently from guest cancellations. If JVTO can provide alternative arrangements, these will be offered. Refunds depend on what costs have already been committed to third parties (hotels, permits, etc.).
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      How will I know if there are last-minute changes?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      JVTO communicates through official WhatsApp channels. Keep your phone accessible, especially on travel dates. Our crew will also provide real-time updates during the tour.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      What should I pack for changing mountain weather?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Pack layers: warm clothing for cold mornings (especially for Bromo sunrise), waterproof jacket, proper hiking shoes with good grip, and sun protection. Check our Packing & Fitness guide for detailed recommendations.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Can I cancel my tour if the weather forecast looks bad?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Guest cancellations follow the standard cancellation rules, including the 48-hour cutoff. Weather forecasts don't automatically trigger cancellations - JVTO makes decisions based on actual conditions and safety assessments on the day.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Important Notice */}
+              <div id="important-notice" className="scroll-mt-24 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
+                <h3 className="font-bold text-lg mb-3 text-foreground">
+                  Important Notice About Natural Phenomena
+                </h3>
+                <p className="text-muted-foreground mb-3">
+                  Certain natural phenomena like blue fire at Ijen and perfect sunrise views at Bromo depend on:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>Wind direction and gas levels at Ijen</li>
+                  <li>Cloud cover and fog conditions</li>
+                  <li>Park regulations and crowd control measures</li>
+                  <li>Current volcanic activity levels</li>
+                </ul>
+                <p className="text-muted-foreground mt-4">
+                  JVTO plans itineraries based on the best available local knowledge, but these phenomena are never guaranteed. Screenshots or photos on our website are examples of past conditions, not promises for your specific date.
+                </p>
+              </div>
+
+              {/* Weather Preparedness Checklist */}
+              <div id="preparedness-checklist" className="scroll-mt-24 bg-gray-50 p-6 rounded-lg">
+                <h2 className="heading-md font-black text-2xl mb-6 text-foreground">
+                  Weather Preparedness Checklist
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="font-bold text-lg mb-3 text-foreground">For Cold Mornings (Bromo/Ijen)</h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Warm jacket or fleece layer</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Thermal base layer</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Beanie or warm hat</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Gloves (lightweight)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Extra pair of socks</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-3 text-foreground">For Wet Conditions (Waterfalls)</h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Waterproof jacket or poncho</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Quick-dry clothing</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Waterproof shoes or sandals with grip</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Waterproof bag for electronics</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Small towel and change of clothes</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

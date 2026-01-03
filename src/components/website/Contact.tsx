@@ -6,8 +6,8 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       title: 'Email',
-      value: 'info@javavolcano-touroperator.com',
-      href: 'mailto:info@javavolcano-touroperator.com',
+      value: 'hello@javavolcano-touroperator.com',
+      href: 'mailto:hello@javavolcano-touroperator.com',
       description: 'We generally reply within a few business hours.'
     },
     {

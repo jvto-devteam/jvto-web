@@ -2,234 +2,39 @@ import Link from "next/link";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 
-
-const packingFitnessData = {
-  route: "/travel-guide/packing-and-fitness",
-  seo: {
-    title: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu | JVTO",
-    metaDescription:
-      "What to pack and how fit you should be for private tours to Bromo, Ijen and Tumpak Sewu. Clear expectations, simple fitness checklist, and links to our safety and health screening guides.",
-  },
-  h1: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
-  hero: {
-    introParagraphs: [],
-  },
-  sections: [
-    {
-      id: "what-to-expect-physically-on-each-tour",
-      title: "1. What to Expect Physically on Each Tour",
-      paragraphs: [
-        "Bromo, Ijen and Tumpak Sewu are not technical climbs, but they can be demanding:",
-        "* **Long days**: early departures, late arrivals, and some night-time sections (especially Ijen).",
-        "* **Altitude & temperature changes**: cool to cold nights, warm days, and wind at viewpoints.",
-        "* **Uneven ground**: volcanic sand, stone steps, rocky paths, wet and sometimes slippery sections.",
-        "* **Stairs & slopes**: especially at Ijen and Tumpak Sewu.",
-        "This page is here to help you prepare. It is **not** a medical evaluation. For Ijen, your final clearance comes from the **health screening** we include in relevant tours and the medical staff who perform it (see `/travel-guide/ijen-health-screening`).",
-      ],
-    },
-    {
-      id: "simple-fitness-checklist-self-assessment",
-      title: "2. Simple Fitness Checklist (Self-Assessment)",
-      paragraphs: [
-        "Before booking, ask yourself:",
-        "* Can I comfortably walk **3–4 hours in a day**, including hills or stairs, with breaks?",
-        "* Am I generally comfortable with **early mornings or night starts**?",
-        "* Am I able to walk on **uneven or dusty ground** without losing balance easily?",
-        "* For Tumpak Sewu: am I okay with **steep, sometimes wet paths** and using handholds / simple ladders?",
-        "If you are unsure or have a known heart, lung, or serious mobility issue, talk to your doctor first and tell JVTO about it in your booking form. We will adjust expectations where possible and be very clear about which routes may not be suitable.",
-        "For Ijen, your fitness is additionally checked through the **included health screening**, which may result in you being advised **not** to hike if it is unsafe for you.",
-      ],
-    },
-    {
-      id: "essentials-to-pack-for-all-volcano-tours",
-      title: "3. Essentials to Pack for All Volcano Tours",
-      paragraphs: [
-        "These items are useful for most JVTO tours in East Java:",
-        "* **Footwear**",
-        "  * Closed, comfortable walking shoes or light hiking boots with good grip.",
-        "  * Optional: light sandals for use at accommodation (not for hikes).",
-        "* **Clothing**",
-        "  * Base layer (t-shirt or long-sleeve, breathable).",
-        "  * Warm middle layer (fleece or light sweater).",
-        "  * **Windproof / waterproof outer layer** for cold mornings and possible rain.",
-        "  * Comfortable trousers (avoid jeans that stay wet and heavy).",
-        "  * Extra socks.",
-        "* **Weather & sun**",
-        "  * Hat or beanie (warm for night, cap for day).",
-        "  * Light gloves for Bromo/Ijen early morning.",
-        "  * Sunglasses.",
-        "  * Sunscreen and simple lip balm.",
-        "* **Small daypack**",
-        "  * Enough space for water, snacks, camera/phone, extra layer.",
-        "  * Rain cover or plastic liner.",
-        "* **Personal items**",
-        "  * Basic personal medication (with original packaging).",
-        "  * Travel-sized toiletries.",
-        "  * Power bank & charging cable.",
-        "  * Copy of your passport photo page (printed or on phone).",
-        "Your main luggage stays in the vehicle or accommodation at appropriate times. We tell you the best bag to carry for each day in your tour briefing.",
-      ],
-    },
-    {
-      id: "extra-items-for-mount-bromo",
-      title: "4. Extra Items for Mount Bromo",
-      paragraphs: [
-        "For Bromo sunrise:",
-        "* **More warmth**",
-        "  * Night and early morning at viewpoints can be **very cold and windy**.",
-        "  * Bring: extra sweater or jacket, beanie, and warm gloves.",
-        "* **Dust protection**",
-        "  * A simple buff, scarf or light mask can make dust and sulfur smell more comfortable.",
-        "  * We still recommend stepping away if the air feels too dusty or uncomfortable.",
-        "* **Electronics**",
-        "  * Camera / phone with enough battery — temperatures and early wake-ups can drain batteries faster than normal.",
-      ],
-    },
-    {
-      id: "extra-items-for-ijen-crater-tours",
-      title: "5. Extra Items for Ijen Crater Tours",
-      paragraphs: [
-        "For Ijen night hikes:",
-        "* **What JVTO provides**",
-        "  * Gas mask for sulfur gas.",
-        "  * Basic trekking pole(s) when needed.",
-        "  * Mineral water.",
-        "  * Headlamp or flashlight (depending on your tour setup).",
-        "  * JVTO travel t-shirt (on eligible packages).",
-        "* **What you may want to bring**",
-        "  * An additional scarf or buff for comfort under or around the mask.",
-        "  * Thin inner gloves (if your hands get cold easily).",
-        "  * Light snacks that you know your body accepts well.",
-        "* **Fitness & health**",
-        "  * Ijen is a **steep, sustained hike** with thin, cold air and possible sulfur gas exposure.",
-        "  * If you have heart, lung, or serious circulation issues, you must tell us in advance and be honest during screening.",
-        "  * Your final go/no-go decision for the hike follows the **health screening process** and current conditions (see `/travel-guide/ijen-health-screening`).",
-      ],
-    },
-    {
-      id: "extra-items-for-tumpak-sewu-waterfall",
-      title: "6. Extra Items for Tumpak Sewu Waterfall",
-      paragraphs: [
-        "Tumpak Sewu involves steep paths, wet sections and spray from the waterfall. For this route:",
-        "* **Footwear**",
-        "  * Shoes with strong grip that can get wet, or",
-        "  * Sports sandals with heel strap and good traction.",
-        "* **Clothing**",
-        "  * Quick-drying clothes; avoid heavy cotton that stays wet and cold.",
-        "  * A lightweight rain jacket or poncho.",
-        "* **Protection**",
-        "  * Waterproof bag or dry sack for phone, camera and passport.",
-        "  * Small towel and a set of dry clothes for after the hike.",
-        "This route is **not ideal** for guests with serious knee, hip, or balance issues. Tell us in advance so we can advise honestly.",
-      ],
-    },
-    {
-      id: "weather-fitness-and-safety-information",
-      title: "7. Weather, Fitness & Safety Information",
-      paragraphs: [
-        "For detailed information on:",
-        "* How we handle extreme weather and volcanic alerts → see `/travel-guide/weather-and-closures`.",
-        "* How we integrate **health screening** for Ijen → see `/travel-guide/ijen-health-screening`.",
-        "* How we manage overall tour safety and follow official information sources → see `/travel-guide/safety-on-tours`.",
-        "Packing well and understanding your own limits is part of keeping your tour safe and enjoyable. JVTO’s role is to **plan, brief, and adjust** based on real conditions and official guidance; your role is to come prepared and to tell us the truth about your health and comfort levels.",
-      ],
-    },
-  ],
-};
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: packingFitnessData.seo.title,
-  description: packingFitnessData.seo.metaDescription,
-};
-
-const renderTextWithLinks = (text: string) => {
-  const parts = text.split(
-    /(`\/travel-guide\/[a-z-]+`|\/travel-guide\/[a-z-]+)/g
-  );
-  return parts.map((part, index) => {
-    const isLink = part.match(/^\/?travel-guide\/[a-z-]+$/);
-    if (isLink) {
-      return (
-        <Link key={index} href={part} className="text-primary hover:underline">
-          {part}
-        </Link>
-      );
-    }
-    const isCodeLink = part.match(/^`(\/travel-guide\/[a-z-]+)`$/);
-    if (isCodeLink) {
-      return (
-        <Link
-          key={index}
-          href={isCodeLink[1]}
-          className="text-primary hover:underline"
-        >
-          {isCodeLink[1]}
-        </Link>
-      );
-    }
-    // Handle **bold** text
-    const boldParts = part.split(/\*\*(.*?)\*\*/g);
-    return boldParts.map((boldPart, boldIndex) => {
-      if (boldIndex % 2 === 1) {
-        return <strong key={`${index}-${boldIndex}`}>{boldPart}</strong>;
-      }
-      return boldPart;
-    });
-  });
-};
-
-const renderParagraphs = (paragraphs: string[]) => {
-  const elements: JSX.Element[] = [];
-  let listItems: { text: string; indent: number }[] = [];
-
-  const flushList = () => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul
-          key={`list-${elements.length}`}
-          className="list-disc pl-5 my-4 space-y-2"
-        >
-          {listItems.map((item, i) => (
-            <li
-              key={i}
-              className={item.indent > 0 ? `ml-${item.indent * 4}` : ""}
-            >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: item.text.replace(
-                    /\*\*(.*?)\*\*/g,
-                    "<strong>$1</strong>"
-                  ),
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      );
-      listItems = [];
-    }
-  };
-
-  for (const p of paragraphs) {
-    const listItemMatch = p.match(/^(\s*\*)\s(.*)/);
-    if (listItemMatch) {
-      const indent = (listItemMatch[1].length - 1) / 2;
-      listItems.push({ text: listItemMatch[2], indent });
-    } else {
-      flushList();
-      elements.push(<p key={elements.length}>{renderTextWithLinks(p)}</p>);
-    }
-  }
-
-  flushList();
-  return elements;
+  title: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
+  description:
+    "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
+  openGraph: {
+    title: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
+    description:
+      "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
+    url: `${siteUrl}/travel-guide/packing-and-fitness`,
+    siteName: "Java Volcano Tour Operator",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: siteUrl + "/assets/img/og/packing-fitness.webp",
+        width: 1200,
+        height: 630,
+        alt: "Packing and Fitness",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
+    description:
+      "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
+    images: [siteUrl + "/assets/img/og/packing-fitness.webp"],
+  },
 };
 
 export default function PackingAndFitnessPage() {
-  const { h1, sections } = packingFitnessData;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  // 4. Siapkan Schema.org Data secara dinamis
   const pageSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -370,9 +175,9 @@ export default function PackingAndFitnessPage() {
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness#webpage",
         url: "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
-        name: "Packing & Fitness Guide for Bromo, Ijen & Tumpak Sewu",
+        name: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
         description:
-          "What to pack and how fit you should realistically be for private tours to Bromo, Ijen and Tumpak Sewu with JVTO. Clothing layers, footwear, fitness levels and practical tips for safer, more comfortable trips.",
+          "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
         inLanguage: "en",
         isPartOf: {
           "@id": "https://javavolcano-touroperator.com/#website",
@@ -445,7 +250,7 @@ export default function PackingAndFitnessPage() {
           {
             "@type": "ListItem",
             position: 3,
-            name: "Packing & Fitness Guide for Bromo, Ijen & Tumpak Sewu",
+            name: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
             item: "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness",
           },
         ],
@@ -455,9 +260,9 @@ export default function PackingAndFitnessPage() {
         "@type": "Article",
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/packing-and-fitness#article",
-        headline: "Packing & Fitness Guide for Bromo, Ijen & Tumpak Sewu",
+        headline: "Packing & Fitness for Bromo, Ijen & Tumpak Sewu",
         description:
-          "What to pack and how fit you should realistically be for private tours to Bromo, Ijen and Tumpak Sewu with JVTO. Clothing layers, footwear, fitness levels and practical tips for safer, more comfortable trips.",
+          "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
         inLanguage: "en",
         author: {
           "@id": "https://javavolcano-touroperator.com/#organization",
@@ -476,16 +281,13 @@ export default function PackingAndFitnessPage() {
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
         articleSection: [
-          "Why This Guide Matters",
-          "Temperatures & Conditions in Short",
-          "Clothing: Layers Work Best",
-          "Footwear, Small Gear & Valuables",
-          "Special Note for Silver Jewellery at Ijen",
-          "Fitness Levels by Destination",
-          "Who Should Consider a Gentler Itinerary",
-          "During the Tour: Tell Your Crew How You Feel",
-          "Quick Packing Checklist",
-          "Related Pages",
+          "Temperature and terrain basics",
+          "Essential packing list (practical)",
+          "Ijen-specific (night/early trek)",
+          "Waterfall-specific (Tumpak Sewu/Madakaripura)",
+          "Fitness and pace",
+          "Families and seniors",
+          "Binding note",
         ],
         about: [
           {
@@ -505,7 +307,7 @@ export default function PackingAndFitnessPage() {
           },
         ],
         articleBody:
-          "What to pack and how fit you should be for private tours to Bromo, Ijen and Tumpak Sewu. Clear expectations, simple fitness checklist, and links to our safety and health screening guides.",
+          "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
       },
     ],
   };
@@ -516,8 +318,13 @@ export default function PackingAndFitnessPage() {
 
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16 bg-accent border-b">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
+          <div className="container mx-auto px-4 max-w-4xl">
+            {/* Breadcrumb Navigation */}
             <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
                 Travel Guide
               </Link>
@@ -526,29 +333,332 @@ export default function PackingAndFitnessPage() {
                 Packing & Fitness
               </span>
             </nav>
-            <h1 className="heading-lg mb-6 font-black text-2xl md:text-5xl">
-              {h1}
-            </h1>
+
+            {/* Main Header */}
+            <div className="text-center mb-12">
+              <h1 className="font-black text-2xl md:text-5xl mb-6">
+                Packing & Fitness for Bromo, Ijen & Tumpak Sewu
+              </h1>
+
+              {/* Disclaimer Box */}
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
+                <p className="text-sm italic mb-2">
+                  This page is informational. Binding terms are defined by the
+                  documents below.
+                </p>
+                <p className="font-semibold text-foreground mb-2">
+                  Order of precedence (if there is any discrepancy):
+                </p>
+                <ol className="list-decimal pl-5 space-y-1 text-sm">
+                  <li>
+                    Official E-Voucher / Invoice (PDF) (your booking-specific
+                    contract)
+                  </li>
+                  <li>
+                    <Link
+                      href="/policy/booking-cancellation"
+                      className="text-primary hover:underline"
+                    >
+                      Booking, Payment & Cancellation Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/policy/inclusions-exclusions"
+                      className="text-primary hover:underline"
+                    >
+                      Inclusions & Exclusions Policy
+                    </Link>
+                  </li>
+                  <li>Travel Guide pages (informational)</li>
+                </ol>
+              </div>
+
+              {/* Contact Help */}
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
+                <p className="font-semibold text-foreground mb-2">Need help?</p>
+                <p className="text-sm">
+                  WhatsApp{" "}
+                  <a
+                    href="https://wa.me/6282244788833"
+                    className="text-primary hover:underline"
+                  >
+                    +62 822-4478-8833
+                  </a>{" "}
+                  or email{" "}
+                  <a
+                    href="mailto:hello@javavolcano-touroperator.com"
+                    className="text-primary hover:underline"
+                  >
+                    hello@javavolcano-touroperator.com
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-16">
-              {sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={section.id}
-                  className="scroll-mt-24"
-                >
-                  <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4">
-                    {section.title}
-                  </h2>
-                  <div className="prose max-w-none text-muted-foreground space-y-4">
-                    {renderParagraphs(section.paragraphs)}
+            <div className="space-y-12">
+              {/* Section 1 */}
+              <div id="temperature-basics" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  1) Temperature and terrain basics
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Expect cold mornings at high elevations and wet/slippery
+                    paths at waterfalls. Fitness and footwear matter more than
+                    most travellers expect.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 2 */}
+              <div id="essential-packing" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  2) Essential packing list (practical)
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>Recommended items:</p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>warm jacket / thermal layer</li>
+                    <li>rain jacket / poncho</li>
+                    <li>comfortable walking shoes with grip</li>
+                    <li>small daypack</li>
+                    <li>personal medications</li>
+                    <li>headlamp (optional but helpful for early starts)</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Section 3 */}
+              <div id="ijen-specific" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  3) Ijen-specific (night/early trek)
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>Recommended for Ijen:</p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>warm layers for night wind</li>
+                    <li>gloves / beanie (optional)</li>
+                    <li>energy snack (optional)</li>
+                  </ul>
+                  <p>
+                    Gas mask and trekking support are typically provided when
+                    Ijen is included, as written in your voucher/package.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 4 */}
+              <div id="waterfall-specific" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  4) Waterfall-specific (Tumpak Sewu/Madakaripura)
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>Bring:</p>
+                  <ul className="list-disc pl-5 space-y-2 my-4">
+                    <li>quick-dry clothes</li>
+                    <li>sandals/river shoes (optional)</li>
+                    <li>phone waterproof protection (optional)</li>
+                  </ul>
+                  <p>
+                    Local conditions may require adapting the route for safety.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 5 */}
+              <div id="fitness-pace" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  5) Fitness and pace
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    JVTO will support pacing, but each guest must assess their
+                    own fitness. Inform JVTO in advance about health concerns
+                    that could affect trekking.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 6 */}
+              <div id="families-seniors" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  6) Families and seniors
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    Some itineraries are suitable for mixed ages, but certain
+                    hikes may not be appropriate for everyone. JVTO can advise
+                    on alternatives depending on your route.
+                  </p>
+                </div>
+              </div>
+
+              {/* Section 7 */}
+              <div id="binding-note" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  7) Binding note
+                </h2>
+                <div className="prose max-w-none text-muted-foreground space-y-4">
+                  <p>
+                    For what equipment and logistics are included, refer to the{" "}
+                    <Link
+                      href="/policy/inclusions-exclusions"
+                      className="text-primary hover:underline"
+                    >
+                      Inclusions & Exclusions Policy
+                    </Link>{" "}
+                    and your Official E-Voucher / Invoice (PDF).
+                  </p>
+                </div>
+              </div>
+
+              {/* FAQ Section */}
+              <div id="faq" className="scroll-mt-24">
+                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+                  Frequently Asked Questions
+                </h2>
+                <div className="space-y-6">
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      How cold does it get at Bromo sunrise?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Temperatures at Bromo viewpoints can drop to 5-10°C
+                      (41-50°F), and with wind chill it can feel even colder.
+                      Layered clothing, a warm jacket, beanie, and gloves are
+                      essential.
+                    </p>
                   </div>
-                </section>
-              ))}
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      What type of shoes are best?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      For Bromo and Ijen: closed walking shoes or light hiking
+                      boots with good grip. For Tumpak Sewu: shoes that can get
+                      wet with excellent traction, or sport sandals with heel
+                      straps.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Do I need to bring my own gas mask for Ijen?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      No, when Ijen is included in your tour, JVTO typically
+                      provides a professional gas mask suitable for sulfur
+                      conditions. This is included as written on your
+                      voucher/package.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      What if I'm not very fit?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      JVTO crews are trained to support various fitness levels
+                      and pacing. However, guests should be able to walk 3-4
+                      hours with breaks. If you have concerns, discuss with JVTO
+                      before booking to assess suitability.
+                    </p>
+                  </div>
+
+                  <div className="border-l-4 border-primary pl-4 py-2">
+                    <h3 className="font-bold text-lg text-foreground mb-2">
+                      Can children join these tours?
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Some itineraries are family-friendly, but certain hikes
+                      (especially Ijen night trek and Tumpak Sewu) may not be
+                      suitable for young children. JVTO can advise on
+                      age-appropriate alternatives.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Packing Checklist */}
+              <div
+                id="checklist"
+                className="scroll-mt-24 bg-gray-50 p-6 rounded-lg"
+              >
+                <h2 className="heading-md font-black text-2xl mb-6 text-foreground">
+                  Quick Packing Checklist
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 className="font-bold text-lg mb-3 text-foreground">
+                      Clothing & Protection
+                    </h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Warm jacket / thermal layer</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Rain jacket / poncho</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Comfortable walking trousers</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Extra socks</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Beanie / gloves (for Bromo/Ijen)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Sunglasses & sunscreen</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-3 text-foreground">
+                      Gear & Essentials
+                    </h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Walking shoes with good grip</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Small daypack</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Headlamp / flashlight</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Personal medications</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Power bank & charging cable</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-primary mr-2">✓</span>
+                        <span>Passport copy (printed/digital)</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

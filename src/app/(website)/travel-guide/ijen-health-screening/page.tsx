@@ -398,7 +398,7 @@ export default function IjenHealthScreeningPage() {
                 <ol className="list-decimal pl-5 space-y-1 text-sm">
                   <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
                   <li>
-                    <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
+                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
                       Booking, Payment & Cancellation Policy
                     </Link>
                   </li>
@@ -532,7 +532,7 @@ export default function IjenHealthScreeningPage() {
                 </h2>
                 <div className="prose max-w-none text-muted-foreground space-y-4">
                   <p>
-                    If there is any discrepancy, your Official E-Voucher / Invoice (PDF) is the booking-specific contract. For legal terms, refer to the <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link>.
+                    If there is any discrepancy, your Official E-Voucher / Invoice (PDF) is the booking-specific contract. For legal terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link>.
                   </p>
                 </div>
               </div>

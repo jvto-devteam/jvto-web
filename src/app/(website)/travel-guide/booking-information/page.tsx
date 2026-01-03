@@ -302,7 +302,7 @@ export default function BookingInformationPage() {
                 <ol className="list-decimal pl-5 space-y-1 text-sm">
                   <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
                   <li>
-                    <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
+                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
                       Booking, Payment & Cancellation Policy
                     </Link>
                   </li>
@@ -321,7 +321,7 @@ export default function BookingInformationPage() {
                   Need help?
                 </p>
                 <p className="text-sm">
-                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:info@javavolcano-touroperator.com" className="text-primary hover:underline">info@javavolcano-touroperator.com</a>.
+                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
                 </p>
               </div>
             </div>
@@ -351,7 +351,7 @@ export default function BookingInformationPage() {
                       WhatsApp: <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a>
                     </li>
                     <li>
-                      Email: <a href="mailto:info@javavolcano-touroperator.com" className="text-primary hover:underline">info@javavolcano-touroperator.com</a>
+                      Email: <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>
                     </li>
                   </ul>
                   <p>
@@ -387,7 +387,7 @@ export default function BookingInformationPage() {
                 <div className="prose max-w-none text-muted-foreground space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg mb-4">
                     <p className="text-sm italic mb-2">
-                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
+                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
                     </p>
                   </div>
                   
@@ -422,7 +422,7 @@ export default function BookingInformationPage() {
                 <div className="prose max-w-none text-muted-foreground space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg mb-4">
                     <p className="text-sm italic mb-2">
-                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
+                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
                     </p>
                   </div>
                   
@@ -595,7 +595,7 @@ export default function BookingInformationPage() {
                 </h2>
                 <div className="prose max-w-none text-muted-foreground space-y-4">
                   <p>
-                    If there is any discrepancy, your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span> is the final booking-specific reference, followed by the <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and the <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">Inclusions & Exclusions Policy</Link>.
+                    If there is any discrepancy, your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span> is the final booking-specific reference, followed by the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and the <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">Inclusions & Exclusions Policy</Link>.
                   </p>
                 </div>
               </div>
