@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
     url: `${siteUrl}/why-jvto`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -244,7 +244,7 @@ export default function WhyJvtoPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
       },
       {
         "@type": "WebSite",

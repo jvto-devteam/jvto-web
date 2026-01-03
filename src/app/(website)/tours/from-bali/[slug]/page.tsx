@@ -389,7 +389,7 @@ export async function generateMetadata(
       description: metaDesc,
       url: `${siteUrl}/${pkg.slug}`,
       siteName: "Java Volcano Tour Operator",
-      locale: "id_ID",
+      locale: "en_US",
       type: "website",
       images: [
         {

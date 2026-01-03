@@ -12,13 +12,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
   title: "Ijen Health Screening – Real Checks, Digital Proof",
-  description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital records with QR codes, and safety procedures for Mount Ijen hikes.",
+  description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
   openGraph: {
     title: "Ijen Health Screening – Real Checks, Digital Proof",
-    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital records with QR codes, and safety procedures for Mount Ijen hikes.",
+    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
     url: `${siteUrl}/travel-guide/ijen-health-screening`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ijen Health Screening – Real Checks, Digital Proof",
-    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital records with QR codes, and safety procedures for Mount Ijen hikes.",
+    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
     images: [siteUrl + "/assets/img/og/ijen-health-screening.webp"],
   },
 };
@@ -193,7 +193,7 @@ export default function IjenHealthScreeningPage() {
         url: "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
         name: "Ijen Health Screening – Real Checks, Digital Proof",
         headline: "Ijen Health Screening – Real Checks, Digital Proof",
-        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital records with QR codes, and safety procedures for Mount Ijen hikes.",
+        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
         isPartOf: {
           "@id": "https://javavolcano-touroperator.com/#website",
         },
@@ -248,7 +248,7 @@ export default function IjenHealthScreeningPage() {
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening#article",
         headline: "Ijen Health Screening – Real Checks, Digital Proof",
-        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital records with QR codes, and safety procedures for Mount Ijen hikes.",
+        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
         mainEntityOfPage: {
           "@id":
             "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening#webpage",

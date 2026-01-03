@@ -15,7 +15,7 @@ export const metadata: Metadata = {
       "The standards behind JVTO: tourist police-led safety culture, registered Indonesian travel company, private all-inclusive tours, real Ijen health screening, local guides and student fairness.",
     url: `${siteUrl}/why-jvto/the-jvto-difference`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {

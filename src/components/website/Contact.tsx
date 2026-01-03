@@ -20,7 +20,7 @@ const Contact: React.FC = () => {
     {
       icon: MapPin,
       title: 'Our Office',
-      value: 'Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Jawa Timur 68217.',
+      value: 'Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Jawa Timur 68214.',
       href: 'https://maps.app.goo.gl/fwZq5hBZcS6rRupA9',
       description: 'Visit us for a consultation.'
     },

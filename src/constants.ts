@@ -290,6 +290,6 @@ export const contactInfo: ContactInfo = {
   email: 'hello@javavolcano-touroperator.com',
   whatsapp: '+62 822 4478 8833',
   whatsappLink: 'https://wa.me/6282244788833',
-  officeAddress: 'Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68217, Indonesia',
+  officeAddress: 'Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214, Indonesia',
   googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.815981775797!2d113.8085867750059!3d-7.913704292102875!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6dce1d25a03db%3A0x11932bb44bf4e2bd!2sJava%20Volcano%20Tour%20Operator!5e0!3m2!1sen!2sid!4v1677656254780!5m2!1sen!2sid'
 };

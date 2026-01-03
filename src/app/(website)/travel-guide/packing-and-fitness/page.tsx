@@ -14,7 +14,7 @@ export const metadata: Metadata = {
       "Essential packing list and fitness guidelines for Bromo, Ijen, and Tumpak Sewu tours. Practical tips for cold weather, night treks, and waterfall hikes.",
     url: `${siteUrl}/travel-guide/packing-and-fitness`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -154,7 +154,7 @@ export default function PackingAndFitnessPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
       },
 
       {
@@ -565,10 +565,11 @@ export default function PackingAndFitnessPage() {
                       What if I'm not very fit?
                     </h3>
                     <p className="text-muted-foreground">
-                      JVTO crews are trained to support various fitness levels
-                      and pacing. However, guests should be able to walk 3-4
-                      hours with breaks. If you have concerns, discuss with JVTO
-                      before booking to assess suitability.
+                      JVTO aims to support guests with various fitness levels
+                      and pacing. However, guests should be able to walk 3–4
+                      hours with breaks (typical range depends on the
+                      itinerary). If you have concerns, please discuss them with
+                      JVTO before booking to assess suitability.{" "}
                     </p>
                   </div>
 

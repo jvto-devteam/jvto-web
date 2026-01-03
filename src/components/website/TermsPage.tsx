@@ -187,7 +187,7 @@ const TermsPage: React.FC = () => {
                 <h2>13. Legal Entity & Office Information</h2>
                 <p><strong>Company Name:</strong> PT Java Volcano Rendezvous<br/>
                 <strong>Brand / Trading Name:</strong> Java Volcano Tour Operator (JVTO)<br/>
-                <strong>Registered Office:</strong> Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68217, Indonesia<br/>
+                <strong>Registered Office:</strong> Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68214, Indonesia<br/>
                 <strong>Business ID (NIB):</strong> 1102230032918<br/>
                 <strong>Tourism License (TDUP):</strong> 1102230032918 (Issued 11 Feb 2023)</p>
             </section>

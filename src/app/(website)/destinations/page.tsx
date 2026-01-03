@@ -15,7 +15,7 @@ export const metadata: Metadata = {
       "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
     url: `${siteUrl}/destinations`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {

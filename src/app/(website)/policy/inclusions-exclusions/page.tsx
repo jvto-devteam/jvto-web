@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Official Inclusions & Exclusions Policy for Java Volcano Tour Operator (JVTO).",
     url: `${siteUrl}/policy/inclusions-exclusions`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -70,7 +70,7 @@ export default function InclusionsExclusionsPolicyPage() {
               {/* Intro Section */}
               <div className="my-8">
                 <div className="whitespace-pre-line">
-                  This policy defines, in clear and operational terms, what is included and not included in JVTO private tour packages. Only inclusions written on your specific Official E-Voucher / Invoice (PDF) are contractually binding.
+                  This policy defines what is included and not included in JVTO private tour packages. Your Official E-Voucher / Invoice (PDF) confirms your booking-specific inclusions and is the controlling reference if anything differs from general package descriptions.
                 </div>
               </div>
 
@@ -80,9 +80,6 @@ export default function InclusionsExclusionsPolicyPage() {
                   Contractual rule (Write-it-to-Bind-it)
                 </h2>
                 <div>
-                  <p className="mb-4">
-                    Definition: In this policy, the term "Official Tour Voucher" refers to your Official E-Voucher / Invoice (PDF) issued by JVTO after successful payment.
-                  </p>
                   <p className="mb-4">
                     Only inclusions that appear on:
                   </p>
@@ -225,7 +222,7 @@ export default function InclusionsExclusionsPolicyPage() {
                     JVTO Branded Inclusions & Group Extras
                   </h3>
                   <ul className="list-disc pl-5 space-y-2 mb-6">
-                    <li>1 × JVTO travel T-shirt per participant for eligible packages: standard JVTO design, size selection via the "Complete Your Details" link.</li>
+                    <li>1 × JVTO travel T-shirt per participant for eligible packages (where stated on your voucher): standard JVTO design, size selection via the ‘Complete Your Details’ link.</li>
                     <li>Custom JVTO Group T-shirt (where explicitly included): for groups of ≥12 guests in a single booking, if written on your package/voucher; 1 × custom design T-shirt per person; sizes and final design must be confirmed before production.</li>
                   </ul>
 

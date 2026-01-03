@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       "How JVTO grew from a local homestay into a tourist police-led, registered East Java travel company with real health screening and community partnerships.",
     url: `${siteUrl}/why-jvto/our-story`,
     siteName: "Java Volcano Tour Operator",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
     images: [
       {
@@ -264,7 +264,7 @@ export default function PoliceLedSafetyPage() {
         ],
         foundingDate: "2016-01-01",
         currenciesAccepted: "IDR",
-        paymentAccepted: "Credit Card, Bank Transfer",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
         aggregateRating: {
           "@type": "AggregateRating",
           ratingValue: "4.9",

@@ -9,7 +9,7 @@ export const SITE_CONFIG = {
     street: "Jl. Khairil Anwar No.102 A, Badean",
     city: "Bondowoso",
     region: "East Java",
-    postalCode: "68217",
+    postalCode: "68214",
     country: "Indonesia",
     googleMaps: "https://maps.app.goo.gl/y3hYeK2CVaK9x4e98"
   },
