@@ -285,14 +285,9 @@ export default function PoliceEscortForGroupsPage() {
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
         articleSection: [
-          "What it is (and what it is not)",
-          "Is it included by default?",
-          "When it may be relevant",
-          "How it is arranged",
-          "Limitations",
-          "Timing and coordination",
-          "Responsibility",
-          "Binding note",
+          "What This Is",
+          "When It Can Be Included",
+          "What Guests Should Know"
         ],
         articleBody:
           "Information about traffic police escort services for large tourist groups in East Java. When it's available, how it's arranged, and what it includes.",
@@ -356,7 +351,7 @@ export default function PoliceEscortForGroupsPage() {
             name: "Can any group request police escort?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "It may be considered for large groups with multiple vehicles, VIP movements, or routes with known congestion risks, but availability depends on local regulations and operational conditions.",
+              text: "It may be considered for large group movements or VIP arrangements, but availability depends on local regulations and operational feasibility.",
             },
           },
           {
@@ -372,7 +367,7 @@ export default function PoliceEscortForGroupsPage() {
             name: "How is police escort arranged?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "If requested, JVTO confirms feasibility, availability, required permits, pricing, and scope. Only written confirmation in your voucher counts as included.",
+              text: "If applicable, JVTO confirms feasibility and availability. Details (timing, route constraints) will be communicated in writing when applicable.",
             },
           },
           {
@@ -419,34 +414,7 @@ export default function PoliceEscortForGroupsPage() {
               {/* Disclaimer Box */}
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  This page is informational. Binding terms are defined by the documents below.
-                </p>
-                <p className="font-semibold text-foreground mb-2">
-                  Order of precedence (if there is any discrepancy):
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm">
-                  <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
-                  <li>
-                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
-                      Booking, Payment & Cancellation Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
-                      Inclusions & Exclusions Policy
-                    </Link>
-                  </li>
-                  <li>Travel Guide pages (informational)</li>
-                </ol>
-              </div>
-
-              {/* Contact Help */}
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
-                <p className="font-semibold text-foreground mb-2">
-                  Need help?
-                </p>
-                <p className="text-sm">
-                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
+                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
                 </p>
               </div>
             </div>
@@ -455,119 +423,63 @@ export default function PoliceEscortForGroupsPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-12">
+            <div className="prose max-w-none space-y-12">
               {/* Section 1 */}
-              <div id="what-it-is" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  1) What it is (and what it is not)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  1) What This Is
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    A traffic police escort (when available and permitted) is a coordination service that may help large/VIP groups move more smoothly under certain conditions. It does not override road law, weather limits, or park closures.
-                  </p>
-                </div>
+                <p className="text-muted-foreground">
+                  For certain large group movements or VIP arrangements, police escort / convoy coordination may be possible, subject to local regulation and operational feasibility.
+                </p>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 2 */}
-              <div id="included-by-default" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  2) Is it included by default?
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  2) When It Can Be Included
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    No. Police escort or special convoy arrangements are <span className="font-semibold">conditional inclusions</span> and only apply if explicitly written on your package page and/or voucher.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Police escort arrangements are <strong>not standard</strong> for all tours.
+                </p>
+                <p className="text-muted-foreground">
+                  They are included <strong>only when explicitly written</strong> in:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mt-4">
+                  <li>the official package details you booked, and</li>
+                  <li>your <strong>Official E-Voucher / Invoice (PDF)</strong>.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 3 */}
-              <div id="when-relevant" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  3) When it may be relevant
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  3) What Guests Should Know
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    It may be considered for:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>large groups with multiple vehicles</li>
-                    <li>VIP movements with tight timing windows</li>
-                    <li>routes with known congestion risks (subject to local reality)</li>
-                  </ul>
-                </div>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>Availability depends on local authority scheduling and regulations.</li>
+                  <li>Details (timing, route constraints, required documents if any) will be communicated in writing when applicable.</li>
+                </ul>
+                <p className="text-muted-foreground">
+                  For inclusion rules, see:{' '}
+                  <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
+                    /policy/inclusions-exclusions
+                  </Link>
+                </p>
               </div>
 
-              {/* Section 4 */}
-              <div id="how-arranged" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  4) How it is arranged
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    If requested, JVTO will confirm:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>feasibility and availability</li>
-                    <li>any required permits/coordination</li>
-                    <li>pricing and scope (if applicable)</li>
-                  </ul>
-                  <p>
-                    Only written confirmation in your voucher counts as included.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 5 */}
-              <div id="limitations" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  5) Limitations
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Availability depends on local regulations and operational conditions. JVTO cannot promise this service unless it is confirmed in writing.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 6 */}
-              <div id="timing-coordination" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  6) Timing and coordination
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    If included, JVTO coordinates timing and meeting points with local authorities and your vehicle convoy.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 7 */}
-              <div id="responsibility" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  7) Responsibility
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Guests must follow instructions from the escort and JVTO crew. Safety always overrides speed.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 8 */}
-              <div id="binding-note" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  8) Binding note
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Your Official E-Voucher / Invoice (PDF) is the final reference for whether police escort is included.
-                  </p>
-                </div>
-              </div>
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* FAQ Section */}
-              <div id="faq" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+              <div>
+                <h2 className="text-2xl font-bold mb-6 text-foreground">
                   Frequently Asked Questions
                 </h2>
                 <div className="space-y-6">
@@ -585,7 +497,7 @@ export default function PoliceEscortForGroupsPage() {
                       Can any group request police escort?
                     </h3>
                     <p className="text-muted-foreground">
-                      It may be considered for large groups with multiple vehicles, VIP movements, or routes with known congestion risks, but availability depends on local regulations and operational conditions.
+                      It may be considered for large group movements or VIP arrangements, but availability depends on local regulations and operational feasibility.
                     </p>
                   </div>
 
@@ -603,7 +515,7 @@ export default function PoliceEscortForGroupsPage() {
                       How is police escort arranged?
                     </h3>
                     <p className="text-muted-foreground">
-                      If requested, JVTO confirms feasibility, availability, required permits, pricing, and scope. Only written confirmation in your voucher counts as included.
+                      If applicable, JVTO confirms feasibility and availability. Details (timing, route constraints) will be communicated in writing when applicable.
                     </p>
                   </div>
 
@@ -616,24 +528,6 @@ export default function PoliceEscortForGroupsPage() {
                     </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Important Notice */}
-              <div id="important-notice" className="scroll-mt-24 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
-                <h3 className="font-bold text-lg mb-3 text-foreground">
-                  Important Notice
-                </h3>
-                <p className="text-muted-foreground mb-3">
-                  JVTO's founder has professional experience in tourist and traffic safety in East Java. This experience helps with:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>Understanding when escort services can be requested legally</li>
-                  <li>Communicating with relevant police units in a structured way</li>
-                  <li>Designing group routes that respect regulations</li>
-                </ul>
-                <p className="text-muted-foreground mt-4">
-                  However, JVTO does not promise that escort will always be available and does not offer unofficial, unapproved escort services. All escort services are subject to formal approval by traffic police.
-                </p>
               </div>
             </div>
           </div>

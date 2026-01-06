@@ -10,9 +10,8 @@ export function sitemapTravelGuide(t: Date): MetadataRoute.Sitemap {
     { url: url("/travel-guide/packing-and-fitness"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/booking-information"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/police-escort-for-groups"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
-    { url: url("/travel-guide/booking-cancellation"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/ijen-health-screening"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
-    { url: url("/policy/booking-cancellation"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/policy/booking-payment-cancellation"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/policy/inclusions-exclusions"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/policy/privacy"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
   ];

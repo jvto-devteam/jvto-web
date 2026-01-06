@@ -7,191 +7,122 @@ import { DocumentPriorityNote } from "./document-priority-note";
 import StructuredData from "@/components/website/StructuredData";
 
 const travelGuideData = {
-  route: "/travel-guide",
-  seo: {
-    title:
-      "Travel Guide – Safety, Health & Practical Information | Java Volcano Tour Operator",
-    metaDescription:
-      "Official travel guide for private tours with Java Volcano Tour Operator (JVTO). Learn about booking, safety, Ijen health screening, weather and closures, packing, police escort for groups and ISIC student deals.",
-  },
-  h1: "Travel Guide – Safety, Health & Practical Information",
-  hero: {
-    introParagraphs: [
-      "Java Volcano Tour Operator (JVTO) is a licensed Indonesian inbound operator based in Bondowoso, specialising in private, all-inclusive tours to Mount Bromo, Kawah Ijen and Tumpak Sewu.",
-      "This Travel Guide is the official handbook for guests who want to understand how JVTO handles safety, health, weather, closures, payments and student deals before they book or travel.",
-      "It summarises key topics and links to detailed pages. For legal details and specific cases, your Official E-Voucher / Invoice and the Booking, Payment & Cancellation Policy are always the final reference.",
-    ],
-    primaryCtas: [
-      {
-        label: "How to book & pay",
+  version: "v1",
+  hub: {
+    route: "/travel-guide",
+    seo: {
+      title:
+        "Travel Guide – Private Bromo, Ijen & East Java Tours | Java Volcano Tour Operator",
+      metaDescription:
+        "Official travel guide for private Bromo, Ijen and Tumpak Sewu tours with Java Volcano Tour Operator. Learn how booking, payments, health screening, safety, weather alerts and police escort for groups work.",
+    },
+    h1: "Travel Guide for Private Bromo, Ijen & East Java Tours",
+    hero: {
+      kicker: "Official Travel Guide",
+      headline: "Plan Safe, Informed Private Volcano Tours in East Java",
+      subheadline:
+        "This Travel Guide explains, in plain English, how our private Bromo, Ijen and Tumpak Sewu tours work – from booking, payments and Travel Credit to health screening, safety, weather and group logistics.",
+      body: [
+        "Use these pages as your **single source of truth** before and after booking. They translate JVTO's internal policies and on-the-ground experience into clear guidance for international travellers – and for AI assistants that help you plan.",
+        "For anything legal or case-specific, your **Official E-Voucher** and the **Booking, Payment & Cancellation Policy** remain the final reference.",
+      ],
+      primaryCta: {
+        label: "How Private JVTO Tours Work",
         href: "/travel-guide/booking-information",
       },
-      {
-        label: "Browse private tours",
-        href: "/tours",
+      secondaryCta: {
+        label: "Frequently Asked Questions",
+        href: "/travel-guide/faq",
       },
-    ],
-  },
-  latestUpdate: {
-    title: "Latest JVTO update",
-    lastUpdatedPlaceholder: "20 December 2025",
-    bodyParagraphs: [
-      "Bromo: operating normally; cold and windy conditions possible at sunrise.",
-      "Ijen: night hikes require health screening and may be adjusted based on sulfur gas and wind.",
-      "Tumpak Sewu: lower paths can be slippery after heavy rain; guides may change timings or access.",
-      "Guests travelling in the next few weeks should review Packing & Fitness, Safety on Tours, and Weather & Closures before departure.",
-    ],
-    note: "This block is intended to be updated by the JVTO team and should only contain information that can be reasonably confirmed at the time of update.",
-  },
-  operatingStatus: {
-    title: "JVTO operating status – East Java volcano routes",
-    paragraphs: [
-      "JVTO currently operates private, pre-booked tours on our standard routes in East Java, subject to weather, volcanic activity and access regulations.",
-      "In practice this means:",
-      "- We plan and adjust tours based on official information from Indonesian authorities (including MAGMA / PVMBG) and local park management.",
-      "- Some viewpoints, hiking sections or waterfalls may be temporarily restricted even when tours are running.",
-      "- Changes to itineraries are handled according to the rules described in Weather & Closures and Booking, Payment & Cancellation.",
-      "For country-level travel advice (for example, political or health alerts), guests should always check the official travel advisories issued by their own governments in addition to this guide.",
-    ],
-  },
-  toc: {
-    title: "On this page",
-    items: [
-      { id: "safety-on-tours", label: "Safety on JVTO tours" },
-      { id: "health-and-ijen-screening", label: "Health & Ijen screening" },
+    },
+    latestUpdate: {
+      label: "Latest operational update",
+      placeholder: true,
+      body: "This area is reserved for time-sensitive information about access, closures and special conditions for Bromo, Ijen and Tumpak Sewu. Before your departure, always check the latest email from JVTO and your Official E-Voucher for date-specific details.",
+      note: "Content here should be updated manually by JVTO staff based on official information from local authorities and MAGMA Indonesia.",
+    },
+    summaryPanels: [
+      {
+        id: "booking-information",
+        title: "Booking Information – How JVTO Private Tours Work",
+        href: "/travel-guide/booking-information",
+        summary:
+          "Step-by-step explanation of how private tours are booked, paid, changed or cancelled – including deposits, balance payments and JVTO Travel Credit.",
+        tags: ["Booking", "Payments", "Travel Credit"],
+      },
+      {
+        id: "faq",
+        title: "Frequently Asked Questions",
+        href: "/travel-guide/faq",
+        summary:
+          "Short answers to the most common questions about private tours, inclusions, payments, Travel Credit, Ijen screening, closures, student deals and group options.",
+        tags: ["FAQ", "Overview"],
+      },
+      {
+        id: "ijen-health-screening",
+        title: "Ijen Health Screening – Real Checks, Digital Proof",
+        href: "/travel-guide/ijen-health-screening",
+        summary:
+          "How health screening works for Ijen night hikes, what is included for JVTO guests, and how the digital system and QR checks help reduce fake certificates.",
+        tags: ["Health", "Ijen", "Screening"],
+      },
       {
         id: "weather-and-closures",
-        label: "Weather, volcano alerts & closures",
-      },
-      { id: "packing-and-fitness", label: "Packing & fitness" },
-      {
-        id: "booking-and-payments",
-        label: "Booking, payments & Travel Credit",
+        title: "Weather, Volcano Alerts & Closures",
+        href: "/travel-guide/weather-and-closures",
+        summary:
+          "How weather, volcanic activity and official closures can affect your itinerary, and how JVTO responds with alternative routes and Travel Credit options.",
+        tags: ["Weather", "Closures", "Policy"],
       },
       {
         id: "police-escort-for-groups",
-        label: "Traffic police escort for groups",
-      },
-      { id: "isic-student-deals", label: "ISIC student deals" },
-      { id: "official-sources", label: "Official sources & external links" },
-    ],
-  },
-  sections: [
-    {
-      id: "safety-on-tours",
-      title: "Safety on JVTO tours",
-      summaryParagraphs: [
-        "JVTO is a licensed inbound operator led by an active Tourist Police officer in East Java. All tours are private-only: no mixed groups and no transport-only tickets. Routes are planned with documented partners, trained local guides and clear briefings before key activities.",
-        "We monitor official information on volcanic activity and weather, apply our own safety procedures on the road and on the trails, and adjust itineraries when conditions or regulations make the original plan unsafe.",
-      ],
-      cta: {
-        label: "Read full safety overview",
-        href: "/travel-guide/safety-on-tours",
-      },
-    },
-    {
-      id: "health-and-ijen-screening",
-      title: "Health & Ijen screening",
-      summaryParagraphs: [
-        "Kawah Ijen is a night hike at altitude with possible sulfur gas exposure. For JVTO guests joining Ijen hikes, we include a formal health screening carried out by trained medical staff. Results are recorded digitally and can be verified with a QR code to help prevent fake certificates and support safer decision-making at the gate.",
-        "The same digital system is also available to other travellers via a public tool, so that more visitors can make informed choices and avoid unsafe attempts. A cleared screening reduces risk but does not remove it; JVTO and local authorities may still cancel or modify a hike if conditions are unsafe.",
-      ],
-      cta: {
-        label: "Ijen health screening – what we do and why",
-        href: "/travel-guide/ijen-health-screening",
-      },
-    },
-    {
-      id: "weather-and-closures",
-      title: "Weather, volcano alerts & closures",
-      summaryParagraphs: [
-        "Volcanoes and waterfalls are part of a changing natural environment. Heavy rain, landslides, volcanic ash, gas, smoke, floods, forest fires, road damage or official ceremonies can affect access to Bromo, Ijen and Tumpak Sewu. Sometimes only one viewpoint is affected; sometimes entire sites or routes can be temporarily closed.",
-        "When conditions or official regulations require changes, JVTO:",
-        "- Uses official information (including MAGMA / PVMBG data and local government instructions) as a baseline.",
-        "- Distinguishes between partial closures (for example, one path or rim section) and full closures.",
-        "- Proposes alternative routes or timings where possible.",
-        "- Applies the options defined in the Booking, Payment & Cancellation Policy and your Official E-Voucher / Invoice, including the use of JVTO Travel Credit where applicable.",
-      ],
-      cta: {
-        label: "How JVTO handles weather, volcano alerts and closures",
-        href: "/travel-guide/weather-and-closures",
-      },
-    },
-    {
-      id: "packing-and-fitness",
-      title: "Packing & fitness for Bromo, Ijen & Tumpak Sewu",
-      summaryParagraphs: [
-        "Bromo, Ijen and Tumpak Sewu are not technical mountaineering routes, but they can still be physically demanding: early starts, night hiking, cold winds, steep paths, stairs, and wet or slippery sections.",
-        "The Packing & Fitness guide explains a simple self-check for basic fitness and mobility, what to pack for all routes (footwear, layers, daypack and personal items), and extra items recommended specifically for Bromo sunrise, Ijen night hikes and Tumpak Sewu.",
-        "It is a preparation guide, not a medical evaluation. Final decisions about hikes follow your health screening results, on-site conditions and the safety assessments described in the other Travel Guide pages.",
-      ],
-      cta: {
-        label: "Packing list & fitness checklist",
-        href: "/travel-guide/packing-and-fitness",
-      },
-    },
-    {
-      id: "booking-and-payments",
-      title: "Booking, payments & Travel Credit",
-      summaryParagraphs: [
-        "JVTO operates private, all-inclusive tours on a pre-booked basis. The Booking Information page explains how to submit a booking request and confirm a private tour, deposit amounts and when final payment is due, accepted payment methods, and how JVTO Travel Credit works.",
-        "It also explains why JVTO does not provide cash refunds and how this is balanced by flexible Travel Credit rules, as well as how changes, reschedules and cancellations are handled in different time windows before departure.",
-      ],
-      cta: {
-        label: "Full booking, payment & Travel Credit rules",
-        href: "/travel-guide/booking-information",
-      },
-    },
-    {
-      id: "police-escort-for-groups",
-      title: "Traffic police escort for larger groups",
-      summaryParagraphs: [
-        "For larger groups (for example, around 18 guests or more on multi-vehicle convoys), JVTO may propose requesting official traffic police escort for specific road segments in East Java.",
-        "Escort is provided by the official traffic police unit, not by JVTO itself. Requests are made through formal channels and are always subject to law, written approval and police availability. Escort is designed to support safe convoy movement, not to break traffic rules or promise faster travel times. If approved, details and any charges are listed in your group quotation and Official E-Voucher / Invoice.",
-        "If escort is not explicitly stated in your booking documents, your tour should be considered as running without escort.",
-      ],
-      cta: {
-        label: "How official traffic police escort works for tourist groups",
+        title: "Traffic Police Escort for Tourist Groups",
         href: "/travel-guide/police-escort-for-groups",
+        summary:
+          "When an official traffic police escort can be requested for larger groups, how the formal process works, and what an escort does and does not do.",
+        tags: ["Groups", "Escort", "Logistics"],
+      },
+      {
+        id: "packing-and-fitness",
+        title: "Packing & Fitness",
+        href: "/travel-guide/packing-and-fitness",
+        summary:
+          "What to pack and how fit you should be for Bromo, Ijen and Tumpak Sewu – including simple self-checks and route-specific packing tips.",
+        tags: ["Packing", "Fitness", "Preparation"],
+      },
+      {
+        id: "safety-on-tours",
+        title: "Safety on JVTO Tours",
+        href: "/travel-guide/safety-on-tours",
+        summary:
+          "How JVTO builds safety into every private tour using police-informed planning, health screening, official MAGMA Indonesia updates and clear guest responsibilities.",
+        tags: ["Safety", "MAGMA", "Screening"],
+      },
+    ],
+    ctaStrip: {
+      headline: "Ready to Plan Your Private Volcano Tour?",
+      body: "After reviewing this Travel Guide, you can choose a route from Surabaya or Bali, check what is included, and book with clear expectations on payments, safety and flexibility.",
+      primaryCta: {
+        label: "Browse Private Tour Routes",
+        href: "/tours",
+      },
+      secondaryCta: {
+        label: "Talk to JVTO via WhatsApp",
+        href: "https://wa.me/6282244788833",
       },
     },
-    {
-      id: "isic-student-deals",
-      title: "ISIC student deals & fair pricing",
-      summaryParagraphs: [
-        "International students often pay higher park entrance fees than local visitors. Through collaboration with ISIC (International Student Identity Card), JVTO offers student-focused structures on selected tours so that verified students can access safe, all-inclusive volcano tours without cutting standards or inclusions.",
-        "The ISIC page explains which tours are eligible, how to show valid ISIC identification, and how student-oriented pricing interacts with JVTO’s normal booking, payment and Travel Credit rules.",
-      ],
-      cta: {
-        label: "ISIC student packages",
-        href: "/isic/student-package",
-      },
-    },
-    {
-      id: "official-sources",
-      title: "Official sources & external links",
-      summaryParagraphs: [
-        "JVTO monitors and respects information from official Indonesian authorities and encourages guests to use official information alongside this Travel Guide.",
-        "Important references include:",
-        "- MAGMA Indonesia / PVMBG – the official national platform for volcanic and geohazard information, including alert levels, hazard maps and recommendations for the public.",
-        "- VONA (Volcano Observatory Notice for Aviation) – specialised notices on volcanic ash for aviation stakeholders, available through MAGMA (for example, https://magma.esdm.go.id/v1/vona?code=KRA for technical users).",
-        "- Local park and government announcements – including temporary closures, restricted zones and ceremony-related access rules.",
-        "- Travel advice from your own government – for country-level security, health and entry requirements.",
-        "JVTO uses these sources to plan and adjust tours, but does not replace government advisories or personal medical advice. Your own government’s travel advice and your Official E-Voucher / Invoice remain key references for any travel decision.",
-      ],
-      cta: null,
-    },
-  ],
+    description:
+      "Official JVTO Travel Guide for planning your private tour. For binding terms, always refer to the Policy pages and your Official E-Voucher / Invoice (PDF).",
+  },
 };
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
-  title: travelGuideData.seo.title,
-  description: travelGuideData.seo.metaDescription,
+  title: travelGuideData.hub.seo.title,
+  description: travelGuideData.hub.seo.metaDescription,
   openGraph: {
-    title: travelGuideData.seo.title,
-    description:
-      travelGuideData.seo.metaDescription,
+    title: travelGuideData.hub.seo.title,
+    description: travelGuideData.hub.seo.metaDescription,
     url: `${siteUrl}/travel-guide`,
     siteName: "Java Volcano Tour Operator",
     locale: "en_US",
@@ -207,15 +138,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: travelGuideData.seo.title,
-    description:
-      travelGuideData.seo.metaDescription,
+    title: travelGuideData.hub.seo.title,
+    description: travelGuideData.hub.seo.metaDescription,
     images: [siteUrl + "/assets/img/og/travel-guide.webp"],
   },
 };
 
 export default function TravelGuideHubPage() {
-  const travelGudideSchema = {
+  const travelGuideSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -369,7 +299,7 @@ export default function TravelGuideHubPage() {
         url: siteUrl + "/travel-guide",
         name: "Travel Guide — Booking, Safety & Practical Info",
         description:
-          "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you’ll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
+          "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
         inLanguage: "en",
         isPartOf: {
           "@id": siteUrl + "/#website",
@@ -446,7 +376,7 @@ export default function TravelGuideHubPage() {
               url: siteUrl + "/travel-guide/safety-on-tours",
               name: "Safety on Tours",
               description:
-                "Understand how safety is built into JVTO’s private tours, what you can expect from us, and what we expect from you as a guest.",
+                "Understand how safety is built into JVTO's private tours, what you can expect from us, and what we expect from you as a guest.",
             },
           },
           {
@@ -511,33 +441,40 @@ export default function TravelGuideHubPage() {
     ],
   };
 
-  const { h1, hero, latestUpdate, toc, sections } = travelGuideData;
+  const { h1, hero, latestUpdate, summaryPanels, ctaStrip } =
+    travelGuideData.hub;
+
+  // Generate TOC from summaryPanels
+  const tocItems = summaryPanels.map((panel) => ({
+    id: panel.id,
+    label: panel.title,
+  }));
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <StructuredData data={travelGudideSchema} />
+      <StructuredData data={travelGuideSchema} />
 
       <main className="flex-grow pt-24">
         <section className="py-12 md:py-16 bg-accent border-b">
           <div className="container mx-auto px-4 max-w-6xl text-center">
             <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
             <div className="space-y-2 mx-auto">
-              {hero.introParagraphs.map((p, i) => (
+              <p className="text-gray-600 text-lg">{hero.subheadline}</p>
+              {hero.body.map((p, i) => (
                 <p className="text-gray-600 text-lg" key={i}>
-                  {p}
+                  {p.replace(/\*\*(.*?)\*\*/g, "$1")}
                 </p>
               ))}
             </div>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-              {hero.primaryCtas.map((cta) => (
-                <Button
-                  key={cta.href}
-                  size="lg"
-                  variant={cta.href.includes("tours") ? "primary" : "outline"}
-                >
-                  <Link href={cta.href}>{cta.label}</Link>
-                </Button>
-              ))}
+              <Button size="lg" variant="primary">
+                <Link href={hero.primaryCta.href}>{hero.primaryCta.label}</Link>
+              </Button>
+              <Button size="lg" variant="outline">
+                <Link href={hero.secondaryCta.href}>
+                  {hero.secondaryCta.label}
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -549,11 +486,11 @@ export default function TravelGuideHubPage() {
                 <div className="sticky top-32">
                   <Card className="border-2">
                     <CardHeader>
-                      <CardTitle className="font-black">{toc.title}</CardTitle>
+                      <CardTitle className="font-black">On this page</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-3">
-                        {toc.items.map((item) => (
+                        {tocItems.map((item) => (
                           <li key={item.id}>
                             <a
                               href={`#${item.id}`}
@@ -573,67 +510,48 @@ export default function TravelGuideHubPage() {
                 <Card className="bg-lime-50 border-lime-600 border-2 mb-12">
                   <CardHeader>
                     <CardTitle className="text-lime-800 font-black">
-                      {latestUpdate.title}
+                      {latestUpdate.label}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="prose prose-sm max-w-none text-lime-700">
-                    <p className="font-bold">
-                      Last updated : {latestUpdate.lastUpdatedPlaceholder}
-                    </p>
-                    <ul className="list-disc pl-5">
-                      {latestUpdate.bodyParagraphs.map((p, i) => (
-                        <li key={i}>{p}</li>
-                      ))}
-                    </ul>
+                    <p>{latestUpdate.body}</p>
                     <p className="text-xs italic mt-4">{latestUpdate.note}</p>
                   </CardContent>
                 </Card>
 
                 <div className="space-y-12">
-                  {sections.map((section) => (
+                  {summaryPanels.map((panel) => (
                     <section
-                      key={section.id}
-                      id={section.id}
+                      key={panel.id}
+                      id={panel.id}
                       className="scroll-mt-24"
                     >
-                      <h2 className="font-black text-2xl">{section.title}</h2>
+                      <h2 className="font-black text-2xl">{panel.title}</h2>
                       <hr className="my-2" />
                       <div className="prose max-w-none text-md text-muted-foreground">
-                        {section.summaryParagraphs.map((p, i) => {
-                          if (p.startsWith("- ")) {
-                            const items = section.summaryParagraphs.filter(
-                              (sp) => sp.startsWith("- ")
-                            );
-                            if (
-                              i > 0 &&
-                              section.summaryParagraphs[i - 1].startsWith("- ")
-                            )
-                              return null;
-                            return (
-                              <ul key={i} className="list-disc pl-5">
-                                {items.map((item, j) => (
-                                  <li key={j}>{item.replace("- ", "")}</li>
-                                ))}
-                              </ul>
-                            );
-                          }
-                          return <p key={i}>{p}</p>;
-                        })}
-                      </div>
-                      {section.cta && (
-                        <div className="mt-6">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="p-0 flex h-auto"
-                          >
-                            <Link className="flex" href={section.cta.href}>
-                              {section.cta.label}{" "}
-                              <ArrowRight className="ml-2 w-4 h-4" />
-                            </Link>
-                          </Button>
+                        <p>{panel.summary}</p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {panel.tags.map((tag, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
                         </div>
-                      )}
+                      </div>
+                      <div className="mt-6">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="p-0 flex h-auto"
+                        >
+                          <Link className="flex" href={panel.href}>
+                            Read more <ArrowRight className="ml-2 w-4 h-4" />
+                          </Link>
+                        </Button>
+                      </div>
                     </section>
                   ))}
                 </div>
@@ -641,6 +559,22 @@ export default function TravelGuideHubPage() {
                 <DocumentPriorityNote />
               </main>
             </div>
+            <section className="mt-16 text-center bg-gray-50 border-2 border-gray-200 rounded-lg p-8">
+              <h2 className="font-black text-2xl mb-4">{ctaStrip.headline}</h2>
+              <p className="text-gray-600 mb-6">{ctaStrip.body}</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button size="lg" variant="primary">
+                  <Link href={ctaStrip.primaryCta.href}>
+                    {ctaStrip.primaryCta.label}
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline">
+                  <Link href={ctaStrip.secondaryCta.href} target="_blank">
+                    {ctaStrip.secondaryCta.label}
+                  </Link>
+                </Button>
+              </div>
+            </section>
           </div>
         </section>
       </main>

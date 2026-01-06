@@ -347,6 +347,44 @@ const nextConfig = {
         permanent: true,
       },
 
+      {
+        source: "/terms-and-condition",
+        destination: "/policy/booking-payment-cancellation",
+        permanent: true,
+      },
+      {
+        source: "/payment-information",
+        destination: "/travel-guide/booking-information",
+        permanent: true,
+      },
+      {
+        source: "/support/reserve-now-pay-later",
+        destination: "/travel-guide/booking-information",
+        permanent: true,
+      },
+      {
+        source: "/privacy-policy",
+        destination: "/policy/privacy",
+        permanent: true,
+      },
+
+      // Deprecated travel-guide policy routes -> canonical policy routes
+      {
+        source: "/travel-guide/booking-cancellation",
+        destination: "/policy/booking-payment-cancellation",
+        permanent: true,
+      },
+      {
+        source: "/travel-guide/inclusions-exclusions-policy",
+        destination: "/policy/inclusions-exclusions",
+        permanent: true,
+      },
+      {
+        source: "/travel-guide/privacy-policy",
+        destination: "/policy/privacy",
+        permanent: true,
+      },
+
       // Misc
       // {
       //   source: "/all-inclusive",
@@ -413,10 +451,11 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/octo/:path*', 
-        destination: 'https://legacy.javavolcano-touroperator.com/api/octo/:path*',
+        source: "/api/octo/:path*",
+        destination:
+          "https://legacy.javavolcano-touroperator.com/api/octo/:path*",
       },
-    ]
+    ];
   },
 };
 

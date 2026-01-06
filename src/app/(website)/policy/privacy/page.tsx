@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage() {
                     only. Booking terms (payment, cancellation, credits) are
                     governed by the{" "}
                     <Link
-                      href="/policy/booking-cancellation"
+                      href="/policy/booking-payment-cancellation"
                       className="font-semibold text-primary hover:underline"
                     >
                       Booking, Payment & Cancellation Policy
@@ -345,7 +345,7 @@ export default function PrivacyPolicyPage() {
                   payments to booking records. For payment deadlines, deposit
                   rules, and cancellation/credit terms, please refer to the
                   <Link
-                    href="/policy/booking-cancellation"
+                    href="/policy/booking-payment-cancellation"
                     className="font-semibold text-primary hover:underline"
                   >
                     {" "}
