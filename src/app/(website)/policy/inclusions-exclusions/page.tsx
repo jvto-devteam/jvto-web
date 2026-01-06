@@ -42,7 +42,7 @@ export default function InclusionsExclusionsPolicyPage() {
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <Link href="#" className="hover:text-primary">
+              <Link href="/policy" className="hover:text-primary">
                 Policy
               </Link>
               <span className="mx-2">›</span>
