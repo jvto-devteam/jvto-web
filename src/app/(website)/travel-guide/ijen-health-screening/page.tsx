@@ -266,14 +266,11 @@ export default function IjenHealthScreeningPage() {
           "@id": "https://javavolcano-touroperator.com/#organization",
         },
         articleSection: [
-          "Why there is a health screening",
-          "What JVTO typically arranges",
-          "What you must do as a guest",
-          "Safety equipment for Ijen",
-          "If Ijen access is restricted or closed",
-          "Timing realities (night trek)",
-          "What counts as included meals around Ijen",
-          "Binding note",
+          "Why Ijen Health Screening Matters",
+          "For JVTO Guests — What's Included",
+          "At the Ijen Gate — What Happens",
+          "Important Clarification",
+          "Data & Privacy",
         ],
         articleBody: "Information about Ijen health screening procedures, safety equipment, and operational guidelines for Mount Ijen hikes with JVTO.",
         inLanguage: "en",
@@ -338,10 +335,10 @@ export default function IjenHealthScreeningPage() {
           },
           {
             "@type": "Question",
-            name: "Are meals around Ijen included?",
+            name: "What safety equipment is provided for Ijen?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Some itineraries include specific meals around Bondowoso/Ijen schedules, but these are only included if written on your package page and/or voucher.",
+              text: "When Ijen is included, JVTO typically provides a gas mask suitable for sulfur conditions and trekking poles.",
             },
             inLanguage: "en",
             lastReviewed: "2025-12-05",
@@ -390,34 +387,7 @@ export default function IjenHealthScreeningPage() {
               {/* Disclaimer Box */}
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  This page is informational. Binding terms are defined by the documents below.
-                </p>
-                <p className="font-semibold text-foreground mb-2">
-                  Order of precedence (if there is any discrepancy):
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm">
-                  <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
-                  <li>
-                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
-                      Booking, Payment & Cancellation Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
-                      Inclusions & Exclusions Policy
-                    </Link>
-                  </li>
-                  <li>Travel Guide pages (informational)</li>
-                </ol>
-              </div>
-
-              {/* Contact Help */}
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
-                <p className="font-semibold text-foreground mb-2">
-                  Need help?
-                </p>
-                <p className="text-sm">
-                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
+                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
                 </p>
               </div>
             </div>
@@ -426,120 +396,104 @@ export default function IjenHealthScreeningPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-12">
+            <div className="prose max-w-none space-y-12">
               {/* Section 1 */}
-              <div id="why-screening" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  1) Why there is a health screening
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  1) Why Ijen Health Screening Matters
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Mount Ijen access may require a health clearance process for visitor safety. JVTO treats this as a mandatory operational step when Ijen is included in your itinerary.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Kawah Ijen is a high-exertion night hike with cold temperatures and potential exposure to sulfur gas. JVTO supports a screening system so that:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>guests attempt the hike <strong>only after a real screening</strong>, and</li>
+                  <li>results can be checked digitally (when required by local providers/authorities).</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 2 */}
-              <div id="jvto-arranges" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  2) What JVTO typically arranges (when Ijen is included)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  2) For JVTO Guests — What's Included
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    When Ijen is included, JVTO typically arranges:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>the mandatory medical check by licensed medical personnel; and</li>
-                    <li>digital/printed clearance as required by the local process.</li>
-                  </ul>
-                  <p>
-                    This is included in eligible Ijen itineraries unless stated otherwise on your voucher.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  If your JVTO tour includes the <strong>Ijen night hike</strong>, your package includes a <strong>health screening before the hike</strong>.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  What to expect:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>
+                    Screening is performed by <strong>trained medical staff</strong> following local guidelines.
+                  </li>
+                  <li>
+                    Typical checks include simple measurements (for example <strong>blood pressure and oxygen level</strong>) plus a short set of questions.
+                  </li>
+                  <li>
+                    You may be asked to bring a form of <strong>ID</strong> and/or fill a short form.
+                  </li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 3 */}
-              <div id="guest-responsibilities" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  3) What you must do as a guest
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  3) At the Ijen Gate — What Happens
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Be honest about relevant health conditions and follow on-site instructions. If screening is required, participation may depend on meeting the minimum health requirements.
-                  </p>
-                </div>
+                <p className="text-muted-foreground">
+                  At certain times, local authorities/providers may verify that screening was completed before allowing entry for the Ijen night hike.
+                </p>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 4 */}
-              <div id="safety-equipment" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  4) Safety equipment for Ijen (when Ijen is included)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  4) Important Clarification
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    When Ijen is included, JVTO typically provides:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>a gas mask suitable for sulfur conditions; and</li>
-                    <li>trekking poles (shared or individual depending on configuration).</li>
-                  </ul>
-                  <p>
-                    Exact inclusions must match what is written on your voucher/package.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Screening helps reduce risk but does not guarantee that nothing will happen. Conditions at Ijen remain subject to:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>local authority decisions,</li>
+                  <li>weather and visibility conditions, and</li>
+                  <li>safety assessments by JVTO and on-site teams.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 5 */}
-              <div id="access-restrictions" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  5) If Ijen access is restricted or closed
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  5) Data & Privacy
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    If Ijen access is restricted (e.g., closures, hazardous gas, weather), JVTO may adjust the plan for safety. The remedy (alternative route/partial refund/travel credit) depends on the Booking, Payment & Cancellation Policy and the specific services already committed.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  If any personal data is collected during screening, it is handled in line with JVTO's privacy commitments and the requirements of local providers/authorities.
+                </p>
+                <p className="text-muted-foreground">
+                  Privacy Policy:{' '}
+                  <Link href="/policy/privacy" className="text-primary hover:underline">
+                    /policy/privacy
+                  </Link>
+                </p>
               </div>
 
-              {/* Section 6 */}
-              <div id="timing-realities" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  6) Timing realities (night trek)
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Ijen (especially blue-fire schedules) may require overnight departures and early-morning returns. JVTO coordinates timing with local conditions and safety considerations.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 7 */}
-              <div id="included-meals" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  7) What counts as included meals around Ijen
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Some itineraries include specific meals around Bondowoso/Ijen schedules, but these are <span className="font-semibold">only included if written</span> on your package page and/or voucher.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 8 */}
-              <div id="binding-note" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  8) Binding note
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    If there is any discrepancy, your Official E-Voucher / Invoice (PDF) is the booking-specific contract. For legal terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link>.
-                  </p>
-                </div>
-              </div>
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* FAQ Section */}
-              <div id="faq" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+              <div>
+                <h2 className="text-2xl font-bold mb-6 text-foreground">
                   Frequently Asked Questions
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
@@ -567,33 +521,33 @@ export default function IjenHealthScreeningPage() {
 
                   <AccordionItem value="item-3">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      Are meals around Ijen included?
+                      What safety equipment is provided for Ijen?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        Some itineraries include specific meals around Bondowoso/Ijen schedules, but these are only included if written on your package page and/or voucher.
+                        When Ijen is included, JVTO typically provides a gas mask suitable for sulfur conditions and trekking poles.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-4">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What safety equipment is provided for Ijen?
+                      What should I do if I have health concerns?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        When Ijen is included, JVTO typically provides a gas mask suitable for sulfur conditions and trekking poles. Exact inclusions must match what is written on your voucher/package.
+                        Be honest about relevant health conditions and follow on-site instructions. If screening is required, participation may depend on meeting the minimum health requirements. Consult with your doctor before booking if you have concerns.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-5">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What should I do if I have health concerns?
+                      What if I don't pass the health screening?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        Be honest about relevant health conditions and follow on-site instructions. If screening is required, participation may depend on meeting the minimum health requirements. Consult with your doctor before booking if you have concerns.
+                        If health screening indicates that the Ijen hike may pose a risk, JVTO staff will discuss alternative options or adjustments to the itinerary based on safety considerations and the Booking, Payment & Cancellation Policy.
                       </p>
                     </AccordionContent>
                   </AccordionItem>

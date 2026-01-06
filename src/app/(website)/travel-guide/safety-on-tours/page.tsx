@@ -263,14 +263,11 @@ export default function SafetyOnToursPage() {
             "https://javavolcano-touroperator.com/travel-guide/safety-on-tours#webpage",
         },
         articleSection: [
-          "Safety-first operational rule",
-          "Vehicles and driver standards",
-          "Site guides and local rules",
-          "Ijen sulfur environment",
-          "Emergency handling",
-          "Guest responsibilities",
-          "Photography and risky behavior",
-          "Binding note",
+          "Safety Comes First",
+          "Ijen Safety (When Ijen Is Included)",
+          "Driving & Logistics Safety",
+          "Guest Responsibilities (Practical)",
+          "Official References"
         ],
         articleBody:
           "Safety guidelines and procedures for JVTO tours. Learn about vehicle standards, safety equipment, guest responsibilities, and emergency handling.",
@@ -350,56 +347,7 @@ export default function SafetyOnToursPage() {
               {/* Disclaimer Box */}
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  This page is informational. Binding terms are defined by the
-                  documents below.
-                </p>
-                <p className="font-semibold text-foreground mb-2">
-                  Order of precedence (if there is any discrepancy):
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm">
-                  <li>
-                    Official E-Voucher / Invoice (PDF) (your booking-specific
-                    contract)
-                  </li>
-                  <li>
-                    <Link
-                      href="/policy/booking-cancellation"
-                      className="text-primary hover:underline"
-                    >
-                      Booking, Payment & Cancellation Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/policy/inclusions-exclusions"
-                      className="text-primary hover:underline"
-                    >
-                      Inclusions & Exclusions Policy
-                    </Link>
-                  </li>
-                  <li>Travel Guide pages (informational)</li>
-                </ol>
-              </div>
-
-              {/* Contact Help */}
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
-                <p className="font-semibold text-foreground mb-2">Need help?</p>
-                <p className="text-sm">
-                  WhatsApp{" "}
-                  <a
-                    href="https://wa.me/6282244788833"
-                    className="text-primary hover:underline"
-                  >
-                    +62 822-4478-8833
-                  </a>{" "}
-                  or email{" "}
-                  <a
-                    href="mailto:hello@javavolcano-touroperator.com"
-                    className="text-primary hover:underline"
-                  >
-                    hello@javavolcano-touroperator.com
-                  </a>
-                  .
+                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
                 </p>
               </div>
             </div>
@@ -408,128 +356,104 @@ export default function SafetyOnToursPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-12">
+            <div className="prose max-w-none space-y-12">
               {/* Section 1 */}
-              <div id="safety-rule" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  1) Safety-first operational rule
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  1) Safety Comes First
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    JVTO may adjust routes, timings, and site choices when
-                    required for safety (weather, closures, volcanic gas,
-                    traffic risks).
-                  </p>
-                </div>
+                <p className="text-muted-foreground">
+                  JVTO operates with safety and legal access as the priority. Routes may be adjusted if conditions change.
+                </p>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 2 */}
-              <div id="vehicles-standards" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  2) Vehicles and driver standards
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  2) Ijen Safety (When Ijen Is Included)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Tours use private, air-conditioned vehicles with
-                    professional drivers. Vehicle allocation and additional
-                    vehicles depend on group size and route requirements.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Eligible Ijen routes typically include:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>sulfur-rated gas mask for each guest,</li>
+                  <li>trekking support (poles depending on configuration),</li>
+                  <li>a mandatory pre-hike health screening arranged by JVTO.</li>
+                </ul>
+                <p className="text-muted-foreground">
+                  Always follow on-site instructions for gas mask use and movement around the crater area.
+                </p>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 3 */}
-              <div id="site-guides" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  3) Site guides and local rules
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  3) Driving & Logistics Safety
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Certain sites require licensed local guides or follow local
-                    authority instructions. JVTO coordinates compliance as part
-                    of the tour logistics.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Your assigned crew coordinates:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>safe driving practices,</li>
+                  <li>timing to avoid unsafe conditions where possible,</li>
+                  <li>coordination with jeep operators, hotels, and local authorities.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 4 */}
-              <div id="ijen-environment" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  4) Ijen sulfur environment
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  4) Guest Responsibilities (Practical)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Ijen is a sulfur environment. When Ijen is included, safety
-                    equipment (gas mask) and trekking support are typically
-                    provided as written in your voucher/package.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Guests are expected to:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>be on time for pickups,</li>
+                  <li>follow safety instructions at sites,</li>
+                  <li>disclose relevant limitations (fitness/health concerns) before the tour where applicable.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 5 */}
-              <div id="emergency-handling" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  5) Emergency handling
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  5) Official References
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    JVTO crew can help coordinate basic response and logistics
-                    adjustments, including assisting with local
-                    clinics/hospitals where feasible. Guests should have travel
-                    insurance for medical and evacuation coverage.
-                  </p>
-                </div>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>
+                    Inclusions & Exclusions:{' '}
+                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
+                      /policy/inclusions-exclusions
+                    </Link>
+                  </li>
+                  <li>
+                    Booking Policy:{' '}
+                    <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
+                      /policy/booking-payment-cancellation
+                    </Link>
+                  </li>
+                </ul>
               </div>
 
-              {/* Section 6 */}
-              <div id="guest-responsibilities" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  6) Guest responsibilities
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Guests must follow crew instructions, respect safety
-                    boundaries, and disclose relevant health conditions for
-                    trekking-heavy routes.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 7 */}
-              <div id="photography-behavior" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  7) Photography and risky behavior
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    Do not attempt risky positions near cliffs, crater edges, or
-                    waterfalls for photos. JVTO may restrict access to unsafe
-                    areas.
-                  </p>
-                </div>
-              </div>
-
-              {/* Section 8 */}
-              <div id="binding-note" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  8) Binding note
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    For included safety gear and services, refer to the{" "}
-                    <Link
-                      href="/policy/inclusions-exclusions"
-                      className="text-primary hover:underline"
-                    >
-                      Inclusions & Exclusions Policy
-                    </Link>{" "}
-                    and your Official E-Voucher / Invoice (PDF).
-                  </p>
-                </div>
-              </div>
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* FAQ Section */}
-              <div id="faq" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
+              <div>
+                <h2 className="text-2xl font-bold mb-6 text-foreground">
                   Frequently Asked Questions
                 </h2>
                 <div className="space-y-6">
@@ -538,10 +462,7 @@ export default function SafetyOnToursPage() {
                       What safety equipment is provided for Ijen?
                     </h3>
                     <p className="text-muted-foreground">
-                      When Ijen is included, JVTO typically provides a
-                      professional gas mask suitable for sulfur conditions and
-                      trekking poles. Exact inclusions must match what is
-                      written on your voucher/package.
+                      When Ijen is included, JVTO typically provides a sulfur-rated gas mask for each guest and trekking support (poles depending on configuration).
                     </p>
                   </div>
 
@@ -550,10 +471,7 @@ export default function SafetyOnToursPage() {
                       What happens in case of a medical emergency?
                     </h3>
                     <p className="text-muted-foreground">
-                      JVTO crew can help coordinate basic response and assist
-                      with local clinics/hospitals where feasible. However,
-                      guests must have their own travel insurance for medical
-                      and evacuation coverage.
+                      JVTO crew can help coordinate basic response and assist with local clinics/hospitals where feasible. However, guests must have their own travel insurance for medical and evacuation coverage.
                     </p>
                   </div>
 
@@ -562,10 +480,7 @@ export default function SafetyOnToursPage() {
                       Can JVTO cancel tours for safety reasons?
                     </h3>
                     <p className="text-muted-foreground">
-                      Yes, JVTO may adjust or cancel activities when required
-                      for safety due to weather, volcanic activity, closures, or
-                      other risks. This follows our safety-first operational
-                      rule.
+                      Yes, JVTO may adjust routes or activities when required for safety due to weather, volcanic activity, closures, or other risks. Safety is our priority.
                     </p>
                   </div>
 
@@ -574,127 +489,19 @@ export default function SafetyOnToursPage() {
                       What if a guest doesn't follow safety instructions?
                     </h3>
                     <p className="text-muted-foreground">
-                      Guests must follow crew instructions and respect safety
-                      boundaries. JVTO may restrict access to unsafe areas or
-                      activities if guests engage in risky behavior.
+                      Guests must follow crew instructions and respect safety boundaries. JVTO may restrict access to unsafe areas or activities if guests engage in risky behavior.
                     </p>
                   </div>
 
                   <div className="border-l-4 border-primary pl-4 py-2">
                     <h3 className="font-bold text-lg text-foreground mb-2">
-                      Are local guides included at all sites?
+                      What is the health screening for Ijen?
                     </h3>
                     <p className="text-muted-foreground">
-                      Certain sites require licensed local guides per local
-                      regulations. JVTO coordinates this compliance as part of
-                      the tour logistics. Check your voucher for specific
-                      inclusions.
+                      When Ijen is included, JVTO arranges a mandatory pre-hike health screening by trained medical staff to ensure guests are fit for the trek. This typically includes basic measurements and questions.
                     </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Safety Checklist */}
-              <div
-                id="safety-checklist"
-                className="scroll-mt-24 bg-green-50 border-l-4 border-green-400 p-6 rounded-lg"
-              >
-                <h2 className="heading-md font-black text-2xl mb-6 text-foreground">
-                  Safety Checklist for Guests
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="font-bold text-lg mb-3 text-foreground">
-                      Before Your Tour
-                    </h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>
-                          Purchase travel insurance with medical and evacuation
-                          coverage
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>
-                          Disclose relevant health conditions during booking
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>Check weather and pack appropriate clothing</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>
-                          Review your voucher for included safety equipment
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-3 text-foreground">
-                      During Your Tour
-                    </h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>Always follow crew instructions</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>
-                          Respect safety boundaries and restricted areas
-                        </span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>Use provided safety equipment properly</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-green-600 mr-2">✓</span>
-                        <span>
-                          Report any health concerns to your guide immediately
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Important Notice */}
-              <div
-                id="important-notice"
-                className="scroll-mt-24 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg"
-              >
-                <h3 className="font-bold text-lg mb-3 text-foreground">
-                  Important Safety Notice
-                </h3>
-                <p className="text-muted-foreground mb-3">
-                  JVTO is led by an active Tourist Police officer with
-                  professional experience in tourist safety. This influences our
-                  safety approach:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>
-                    We plan routes with real local regulations and risk patterns
-                    in mind
-                  </li>
-                  <li>
-                    We work only with drivers, guides, and partners we can
-                    brief, train, and hold accountable
-                  </li>
-                  <li>
-                    We use documented processes instead of informal shortcuts
-                  </li>
-                  <li>All tours are private-only for better safety control</li>
-                </ul>
-                <p className="text-muted-foreground mt-4">
-                  Safety is a shared responsibility. JVTO commits to
-                  professional standards, and we ask guests to follow
-                  instructions and respect safety boundaries.
-                </p>
               </div>
             </div>
           </div>

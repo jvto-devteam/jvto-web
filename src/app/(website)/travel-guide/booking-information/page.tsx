@@ -1,8 +1,6 @@
 import StructuredData from "@/components/website/StructuredData";
 import Link from "next/link";
 import { type Metadata } from "next";
-import Button from "@/components/website/UI/Button";
-import { Check, ArrowRight } from "lucide-react";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -294,34 +292,7 @@ export default function BookingInformationPage() {
               {/* Disclaimer Box */}
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  This page is informational. Binding terms are defined by the documents below.
-                </p>
-                <p className="font-semibold text-foreground mb-2">
-                  Order of precedence (if there is any discrepancy):
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm">
-                  <li>Official E-Voucher / Invoice (PDF) (your booking-specific contract)</li>
-                  <li>
-                    <Link href="/policy/booking-cancellation" className="text-primary hover:underline">
-                      Booking, Payment & Cancellation Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
-                      Inclusions & Exclusions Policy
-                    </Link>
-                  </li>
-                  <li>Travel Guide pages (informational)</li>
-                </ol>
-              </div>
-
-              {/* Contact Help */}
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
-                <p className="font-semibold text-foreground mb-2">
-                  Need help?
-                </p>
-                <p className="text-sm">
-                  WhatsApp <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a> or email <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>.
+                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
                 </p>
               </div>
             </div>
@@ -330,274 +301,234 @@ export default function BookingInformationPage() {
 
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-12">
+            <div className="prose max-w-none space-y-12">
               {/* Section 1 */}
-              <div id="private-tours-only" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  1) Private tours only & official channels
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  1) Private Tours Only & Official Channels
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    JVTO operates <span className="font-semibold">private, all-inclusive tours</span>.
-                  </p>
-                  <p>
-                    For payment and booking safety, only use official channels:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>
-                      Website (secure checkout): <a href="https://javavolcano-touroperator.com" className="text-primary hover:underline">https://javavolcano-touroperator.com</a>
-                    </li>
-                    <li>
-                      WhatsApp: <a href="https://wa.me/6282244788833" className="text-primary hover:underline">+62 822-4478-8833</a>
-                    </li>
-                    <li>
-                      Email: <a href="mailto:hello@javavolcano-touroperator.com" className="text-primary hover:underline">hello@javavolcano-touroperator.com</a>
-                    </li>
-                  </ul>
-                  <p>
-                    If you receive payment instructions that do not match JVTO's official channels, verify with JVTO before paying.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  JVTO operates <strong>private, all-inclusive tours</strong> (no shared/open trips, and not a transport-only service).
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  To keep your booking safe:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>
+                    Use the official website and secure checkout:{" "}
+                    <a href="https://javavolcano-touroperator.com" className="text-primary hover:underline">
+                      https://javavolcano-touroperator.com
+                    </a>
+                  </li>
+                  <li>
+                    Use only the official contacts:
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>WhatsApp: +62 822-4478-8833</li>
+                      <li>Email: hello@javavolcano-touroperator.com</li>
+                    </ul>
+                  </li>
+                  <li>
+                    Do not send payment to personal accounts. If you receive any payment instruction that does not match JVTO's official details, contact us first via the official WhatsApp/email.
+                  </li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 2 */}
-              <div id="confirmed-booking" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  2) What counts as a confirmed booking
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  2) How a JVTO Booking Works (Simple Flow)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    A booking is confirmed only when:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>the required deposit or full payment is successfully processed; and</li>
-                    <li>JVTO issues your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.</li>
-                  </ul>
-                  <p>
-                    Screenshots, informal chat messages, or a quotation alone are not a confirmed booking.
-                  </p>
-                </div>
+                <ol className="list-decimal pl-5 space-y-4 text-muted-foreground">
+                  <li>
+                    <strong>Choose your tour</strong> on the official website (starting point, duration, route).
+                  </li>
+                  <li>
+                    <strong>Submit your details</strong> at checkout:
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>Lead guest full name</li>
+                      <li>Verified email address</li>
+                      <li>Active WhatsApp/mobile number</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Pay the required amount</strong> (deposit or full payment depending on lead time).
+                  </li>
+                  <li>
+                    <strong>Receive your Official E-Voucher / Invoice (PDF)</strong> by email.
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>This document is your formal booking confirmation and the final contract for your specific itinerary (dates, pickup, inclusions written on the voucher).</li>
+                    </ul>
+                  </li>
+                </ol>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 3 */}
-              <div id="payments-summary" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  3) Payments: deposit, short notice, and balance deadlines (summary)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  3) Payments — Deposit, Balance & Methods
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                    <p className="text-sm italic mb-2">
-                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
-                    </p>
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mt-6 mb-2 text-foreground">
-                    Deposit / full payment logic
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>
-                      Standard bookings (Day 1 is <span className="font-semibold">14 days or more</span> from booking): <span className="font-semibold">20% deposit</span>
-                    </li>
-                    <li>
-                      Short notice (Day 1 is <span className="font-semibold">less than 14 days</span> from booking): JVTO may require <span className="font-semibold">up to 100% (full payment)</span>.
-                    </li>
-                  </ul>
+                
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Deposit and short-notice rule
+                </h3>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>
+                    Standard booking: <strong>20% deposit</strong> of the total package price at checkout.
+                  </li>
+                  <li>
+                    Short notice booking: if <strong>Day 1 is less than 14 days</strong> from the time of booking, JVTO may require <strong>up to 100% full payment</strong> at checkout.
+                  </li>
+                </ul>
 
-                  <h3 className="text-xl font-bold mt-6 mb-2 text-foreground">
-                    Balance payment deadlines (before Day 1)
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Credit/debit card: <span className="font-semibold">5 days</span> before Day 1</li>
-                    <li>Bank transfer / Wise: <span className="font-semibold">3 days</span> before Day 1</li>
-                    <li>Cash (IDR) at JVTO office: only by written exception and must be paid before departure on Day 1.</li>
-                  </ul>
-                </div>
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Balance settlement deadlines (if only 20% deposit was paid initially)
+                </h3>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>
+                    <strong>Credit / Debit card:</strong> balance must be paid no later than <strong>5 calendar days before Day 1</strong>.
+                  </li>
+                  <li>
+                    <strong>Bank transfer / Wise:</strong> balance must be received no later than <strong>3 calendar days before Day 1</strong>.
+                  </li>
+                  <li>
+                    <strong>Cash (IDR only):</strong> allowed only if explicitly approved in writing; settled at the JVTO office before departure on Day 1.
+                  </li>
+                </ul>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Payment security and currency
+                </h3>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>Card payments are processed via JVTO's secure checkout and authorised payment gateway.</li>
+                  <li>The contracted currency is <strong>IDR</strong> unless otherwise stated in writing for a specific product/promotion.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 4 */}
-              <div id="cancellations-travel-credit" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  4) Cancellations & travel credit (summary)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  4) Changes, Amendments & Rescheduling (Guest-Initiated)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                    <p className="text-sm italic mb-2">
-                      This section is a <span className="font-semibold">plain-English summary</span>. For binding terms, refer to the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>.
-                    </p>
-                  </div>
-                  
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>
-                      Guest cancellations <span className="font-semibold">48 hours or more</span> before Day 1: <span className="font-semibold">no cash refund</span>; JVTO issues <span className="font-semibold">travel credit</span> equivalent to payments received.
-                    </li>
-                    <li>
-                      Guest cancellations <span className="font-semibold">less than 48 hours</span> before Day 1: up to <span className="font-semibold">100% forfeiture</span> (including no-show).
-                    </li>
-                  </ul>
-                  
-                  <p className="font-semibold text-foreground">
-                    Travel credit rules (summary):
-                  </p>
-                  <p>
-                    non-expiring and can be transferred/gifted with written confirmation from JVTO.
-                  </p>
-                </div>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>Any request to amend dates, pickup points, names, or itinerary elements should be made through the official contacts.</li>
+                  <li>Changes are subject to availability and third-party rules (hotels, parks, jeep providers).</li>
+                  <li>Any additional costs (if applicable) will be communicated in writing before confirmation.</li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 5 */}
-              <div id="inclusions-policy" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  5) Inclusions are written into your voucher
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  5) Cancellations, Travel Credit & No-Show (Guest-Initiated)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    JVTO uses a "write-it-to-bind-it" approach:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>what is included is what is written on the official package page and/or your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span>;</li>
-                    <li>if it is not written, it is not part of the contracted inclusions.</li>
-                  </ul>
-                  
-                  <p>
-                    For the complete list of inclusions/exclusions and conditional inclusions, see the <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">Inclusions & Exclusions Policy</Link>.
-                  </p>
+                
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Cancellation ≥ 48 hours before Day 1
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  If a guest cancels <strong>48 hours or more before Day 1 (local Indonesia time)</strong>:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>JVTO issues <strong>JVTO Travel Credit equal to 100% of payments received</strong> for the cancelled services.</li>
+                  <li>No rebooking/administration fee is charged when using valid Travel Credit.</li>
+                </ul>
 
-                  <h3 className="text-xl font-bold mt-8 mb-4 text-foreground">
-                    Technical snapshot (typical inclusions — only if written on your voucher/package)
-                  </h3>
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  {`Cancellation < 48 hours before Day 1`}
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  If a guest cancels <strong>less than 48 hours before Day 1</strong>:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>Up to <strong>100% of the total package price may be forfeited</strong>.</li>
+                  <li><strong>No Travel Credit or cash refund</strong> is normally provided.</li>
+                </ul>
 
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Transport
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Private air-conditioned vehicle + driver + fuel + tolls + standard parking (as per itinerary).</li>
-                    <li>
-                      Vehicle allocation by group size:
-                      <ul className="list-disc pl-5 mt-2">
-                        <li>2–3 guests: 1 × MPV (e.g., Toyota Avanza or similar)</li>
-                        <li>4–9 guests: 1 × Toyota Hiace (or similar 16-seat minibus)</li>
-                        <li>10–11 guests: 1 × Toyota Hiace + 1 × MPV (to ensure proper seating and luggage space)</li>
-                      </ul>
-                    </li>
-                    <li>Mount Bromo (when included): private 4WD jeep(s) for viewpoints; max ±4 guests per jeep.</li>
-                  </ul>
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  No-show & same-day cancellation
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Situations such as not appearing at pickup, refusing to depart after crew/vehicles are deployed, or cancelling on the same day are treated as no-show/same-day cancellation:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>Up to <strong>100% of the total package price is forfeited</strong>.</li>
+                  <li><strong>No refund or Travel Credit</strong> is provided for unused services.</li>
+                </ul>
 
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Accommodation
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Overnight stays as listed in the itinerary.</li>
-                    <li>
-                      Standard rooming:
-                      <ul className="list-disc pl-5 mt-2">
-                        <li>Even-numbered groups: 1 room per 2 guests (King or Twin)</li>
-                        <li>Odd-numbered groups: 1 room per 2 guests + 1 extra bed in one room</li>
-                      </ul>
-                    </li>
-                    <li>Upgrade option: replace the extra bed with an additional private room (supplement applies; see your voucher).</li>
-                  </ul>
-
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Tickets, permits & logistics
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Entrance tickets/permits for the named attractions in your confirmed itinerary.</li>
-                  </ul>
-
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Ijen (when included)
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Gas mask suitable for sulfur conditions + trekking poles.</li>
-                    <li>Mandatory medical check & clearance arranged by JVTO (Bondowoso area).</li>
-                  </ul>
-
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Meals
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Bottled mineral water during overland sectors + hotel breakfasts.</li>
-                    <li>Extra meals (e.g., Bondowoso dinner/lunch for Ijen schedule, Tumpak Sewu lunch) are included only if written on your voucher/package.</li>
-                  </ul>
-
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Brand extras (where eligible and written)
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>JVTO travel T-shirt per participant for eligible packages (size selection via details link).</li>
-                    <li>Custom group T-shirt (≥12 guests in one booking) only if written.</li>
-                  </ul>
-
-                  <h4 className="font-bold text-lg mt-6 mb-2 text-foreground">
-                    Ferry (where applicable)
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Java–Bali ferry tickets only if the crossing is listed in your itinerary and written as included on your voucher.</li>
-                  </ul>
-
-                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6 rounded-r-lg">
-                    <h4 className="font-bold text-lg mb-2 text-foreground">
-                      Common exclusions (unless explicitly written as included)
-                    </h4>
-                    <ul className="list-disc pl-5 space-y-2">
-                      <li>Flights and visas</li>
-                      <li>Travel insurance</li>
-                      <li>Meals not specified (including alcohol)</li>
-                      <li>Tips/gratuities</li>
-                    </ul>
-                  </div>
-                </div>
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Skipping activities / leaving early
+                </h3>
+                <p className="text-muted-foreground">
+                  If a guest chooses to skip activities or end the tour early for personal reasons, the full package price remains payable and no partial refund or discount applies.
+                </p>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 6 */}
-              <div id="booking-checklist" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  6) Practical booking checklist (what we need from you)
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  6) What's Typically Included (Quick Reference)
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    To prepare permits, rooms, vehicles, and crew scheduling, JVTO may request:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>lead guest full name and contact</li>
-                    <li>passport details (where required for permits)</li>
-                    <li>rooming preferences</li>
-                    <li>dietary constraints (if applicable)</li>
-                    <li>pickup/drop-off details (flight/train/hotel information)</li>
-                  </ul>
-                  <p>
-                    Provide details as early as possible, and no later than the timeframe requested in JVTO's "Complete Your Details" link (if issued).
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Your exact inclusions depend on your chosen package and what is written on your voucher, but eligible JVTO private tour packages typically include:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>Private AC transport + fuel/tolls/standard parking (itinerary-based)</li>
+                  <li>Bromo 4WD jeep (when Bromo is included)</li>
+                  <li>Accommodation for overnight stays listed in the itinerary</li>
+                  <li>Professional crew (driver, guide/escort guide, and required licensed local guides)</li>
+                  <li>Entrance tickets/permits for the attractions listed in your itinerary</li>
+                  <li>Ijen safety gear (gas mask, trekking poles) and a mandatory pre-hike health screening (when Ijen is included)</li>
+                  <li>Daily bottled water in the vehicle and hotel breakfasts</li>
+                </ul>
+                <p className="text-muted-foreground">
+                  For the full definitions (and what is excluded unless written), see:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>
+                    <strong>Inclusions & Exclusions Policy:</strong>{' '}
+                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
+                      /policy/inclusions-exclusions
+                    </Link>
+                  </li>
+                  <li>
+                    <strong>Booking, Payment & Cancellation Policy:</strong>{' '}
+                    <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
+                      /policy/booking-payment-cancellation
+                    </Link>
+                  </li>
+                </ul>
               </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
 
               {/* Section 7 */}
-              <div id="payment-security" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  7) Payment security & anti-fraud reminders
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  7) Need Help Before Booking?
                 </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    For your security:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-2 my-4">
-                    <li>Do not share sensitive card data in chat.</li>
-                    <li>Pay only via JVTO's secure checkout or official accounts stated in the policy.</li>
-                    <li>JVTO staff should not request payments to personal accounts.</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Section 8 */}
-              <div id="final-note" className="scroll-mt-24">
-                <h2 className="heading-md font-black text-2xl mb-6 border-b pb-4 text-foreground">
-                  8) Final note
-                </h2>
-                <div className="prose max-w-none text-muted-foreground space-y-4">
-                  <p>
-                    If there is any discrepancy, your <span className="font-semibold">Official E-Voucher / Invoice (PDF)</span> is the final booking-specific reference, followed by the <Link href="/policy/booking-cancellation" className="text-primary hover:underline">Booking, Payment & Cancellation Policy</Link> and the <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">Inclusions & Exclusions Policy</Link>.
-                  </p>
-                </div>
+                <p className="text-muted-foreground mb-4">
+                  Send your preferred dates, group size, and starting point to:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+                  <li>WhatsApp: +62 822-4478-8833</li>
+                  <li>Email: hello@javavolcano-touroperator.com</li>
+                </ul>
               </div>
             </div>
           </div>

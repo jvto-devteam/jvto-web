@@ -11,8 +11,9 @@ import { generateFaqSchema } from "@/lib/generateFaqSchema";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions (FAQ) - Java Wolcano",
-  description: "Temukan jawaban atas pertanyaan umum seputar paket wisata Bromo, Ijen, dan Tumpak Sewu.",
+  title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
+  description:
+    "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
 };
 
 async function getFaqData() {
@@ -23,7 +24,7 @@ async function getFaqData() {
       // LOGIKA UTAMA: Filter ini memastikan kategori kosong tidak akan terambil
       faqs: {
         some: {
-          is_published: true, 
+          is_published: true,
         },
       },
     },
@@ -54,10 +55,11 @@ async function getFaqData() {
   });
 
   // Gabungkan Uncategorized hanya jika ada isinya
+  // If there are uncategorized FAQs
   if (uncategorizedFaqs.length > 0) {
     categories.push({
       id: 9999,
-      name: "Umum / Lainnya",
+      name: "General / Others",
       slug: "general",
       sort_order: 9999,
       is_active: true,
@@ -89,10 +91,12 @@ export default async function FaqPage() {
       <main className="flex-grow">
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4 max-w-4xl">
-             <nav className="mb-8 text-sm text-muted-foreground">
-                <Link href="/travel-guide" className="hover:text-primary">Travel Guide</Link>
-                <span className="mx-2">›</span>
-                <span className="text-foreground font-medium">FAQ</span>
+            <nav className="mb-8 text-center text-sm text-muted-foreground">
+              <Link href="/travel-guide" className="hover:text-primary">
+                Travel Guide
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-foreground font-medium">FAQ</span>
             </nav>
 
             <div className="text-center mb-12">
@@ -100,13 +104,14 @@ export default async function FaqPage() {
                 Frequently Asked Questions
               </h1>
               <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-                Punya pertanyaan? Kami punya jawabannya. Berikut adalah hal-hal yang sering ditanyakan oleh wisatawan kami.
+                Have questions? We have the answers. Here are some of the most
+                frequently asked questions from our travelers.
               </p>
             </div>
 
             {categories.length === 0 ? (
               <div className="text-center text-muted-foreground py-10 bg-slate-50/50 rounded-lg border border-dashed">
-                <p>Belum ada pertanyaan yang tersedia saat ini.</p>
+                <p>No questions are available at the moment.</p>
               </div>
             ) : (
               categories.map((category) => (
