@@ -84,16 +84,33 @@ export default function WeatherAndClosuresPage() {
           "@type": "Person",
           name: "Agung Sambuko",
           alternateName: "Mr. Sam",
-          jobTitle: "Founder & CEO",
+          jobTitle: "Tourist Police Officer",
+          image:
+            "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
+          description:
+            "Founder of JVTO and active member of the East Java Tourist Police Unit (Ditpamobvit), specializing in tourist safety and risk management.",
+          memberOf: {
+            "@type": "GovernmentOrganization",
+            name: "Indonesian National Police",
+            alternateName: "Kepolisian Negara Republik Indonesia",
+            subOrganization: {
+              "@type": "GovernmentOrganization",
+              name: "Ditpamobvit (Directorate of Vital Object Security)",
+            },
+            sameAs: [
+              "https://www.wikidata.org/wiki/Q3103954",
+              "https://polri.go.id/",
+            ],
+          },
           knowsAbout: [
             "TouristSafety",
             "EastJavaTourism",
             "VolcanoTrekking",
             "LogisticsManagement",
           ],
-          description:
-            "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
         },
+
+
         priceRange: "IDR 1.000.000 - IDR 9.050.000",
         openingHoursSpecification: [
           {
