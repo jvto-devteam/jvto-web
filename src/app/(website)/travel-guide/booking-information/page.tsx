@@ -5,18 +5,22 @@ import { type Metadata } from "next";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Booking Information – How JVTO Private Tours Work",
-  description: "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
+  title:
+    "Booking Information – Payments, Changes & Travel Credit | Java Volcano Tour Operator",
+  description:
+    "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
   openGraph: {
-    title: "Booking Information – How JVTO Private Tours Work",
-    description: "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
+    title:
+      "Booking Information – Payments, Changes & Travel Credit | Java Volcano Tour Operator",
+    description:
+      "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
     url: `${siteUrl}/travel-guide/booking-information`,
     siteName: "Java Volcano Tour Operator",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: siteUrl + "/assets/img/og/booking-information.webp",
+        url: siteUrl + "/assets/img/og/travel-guide.webp",
         width: 1200,
         height: 630,
         alt: "Booking Information",
@@ -25,9 +29,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Booking Information – How JVTO Private Tours Work",
-    description: "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
-    images: [siteUrl + "/assets/img/og/booking-information.webp"],
+    title:
+      "Booking Information – Payments, Changes & Travel Credit | Java Volcano Tour Operator",
+    description:
+      "Learn how private Bromo and Ijen tours with JVTO are booked, paid and changed. Clear rules on deposits, balance payments, cancellations and Travel Credit.",
+    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
   },
 };
 
@@ -304,11 +310,28 @@ export default function BookingInformationPage() {
               <h1 className="font-black text-2xl md:text-5xl mb-6">
                 Booking Information – How JVTO Private Tours Work
               </h1>
-              
-              {/* Disclaimer Box */}
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
-                <p className="text-sm italic mb-2">
-                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
+
+              {/* Hero Intro */}
+              <div className="prose max-w-none text-left bg-white p-6 rounded-lg shadow-sm mb-6">
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Use this page to understand how JVTO private tour bookings
+                    work from deposit to Travel Credit.
+                  </strong>{" "}
+                  This page explains, in simple terms, how private tour bookings
+                  with Java Volcano Tour Operator work—from choosing a tour and
+                  paying the deposit, to final payments, changes, cancellations,
+                  and Travel Credit.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Use your Official E-Voucher and the Booking, Payment &
+                    Cancellation Policy as the final reference for legal
+                    wording.
+                  </strong>{" "}
+                  This page is a plain-language summary; for anything legal or
+                  detailed, your Official E-Voucher and the Booking, Payment &
+                  Cancellation Policy are the final reference.
                 </p>
               </div>
             </div>
@@ -324,29 +347,41 @@ export default function BookingInformationPage() {
                   1) Private Tours Only & Official Channels
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  JVTO operates <strong>private, all-inclusive tours</strong> (no shared/open trips, and not a transport-only service).
+                  <strong>
+                    Book JVTO tours as private, all-inclusive packages only.
+                  </strong>{" "}
+                  All JVTO routes are private, all-inclusive tours—we do not
+                  sell shared-group or transport-only packages.
                 </p>
                 <p className="text-muted-foreground mb-4">
-                  To keep your booking safe:
+                  <strong>
+                    Protect your booking by using only official JVTO channels
+                    and checkout.
+                  </strong>{" "}
+                  Book only through the official JVTO website and secure
+                  checkout, and use only the official WhatsApp number and email
+                  address listed on this site.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
-                  <li>
-                    Use the official website and secure checkout:{" "}
-                    <a href="https://javavolcano-touroperator.com" className="text-primary hover:underline">
-                      https://javavolcano-touroperator.com
-                    </a>
-                  </li>
-                  <li>
-                    Use only the official contacts:
-                    <ul className="list-disc pl-5 mt-2">
-                      <li>WhatsApp: +62 822-4478-8833</li>
-                      <li>Email: hello@javavolcano-touroperator.com</li>
-                    </ul>
-                  </li>
-                  <li>
-                    Do not send payment to personal accounts. If you receive any payment instruction that does not match JVTO's official details, contact us first via the official WhatsApp/email.
-                  </li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>Verify anything unusual before paying.</strong> If you
+                  ever receive a different account number, payment link, or
+                  contact, pause and verify it with us via our official contacts
+                  before paying.
+                </p>
+                <div className="bg-gray-50 px-4 py-2 rounded-lg mt-4">
+                  <p className="text-sm text-gray-700">
+                    <strong>Links:</strong>
+                    <br />• Full step-by-step guide →{" "}
+                    <Link
+                      href="/travel-guide/faq"
+                      className="text-primary hover:underline"
+                    >
+                      /travel-guide/faq
+                    </Link>
+                    {/* <br />• Official Booking Guide (PDF) → [add official
+                    document link if used] */}
+                  </p>
+                </div>
               </div>
 
               {/* Divider */}
@@ -355,30 +390,73 @@ export default function BookingInformationPage() {
               {/* Section 2 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  2) How a JVTO Booking Works (Simple Flow)
+                  2) How to Book a Private Tour with JVTO
                 </h2>
-                <ol className="list-decimal pl-5 space-y-4 text-muted-foreground">
+                <p className="text-muted-foreground mb-6">
+                  <strong>
+                    Confirm a booking by paying through secure checkout and
+                    receiving an Official E-Voucher.
+                  </strong>{" "}
+                  Your booking is considered confirmed only when payment has
+                  been processed and your Official E-Voucher has been issued to
+                  your verified email address.
+                </p>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  Step-by-step
+                </h3>
+                <ul className="list-disc pl-5 space-y-3 text-muted-foreground mb-6">
                   <li>
-                    <strong>Choose your tour</strong> on the official website (starting point, duration, route).
+                    <strong>Choose your tour on the official website.</strong>{" "}
+                    Select your starting point (for example, Surabaya or Bali),
+                    your preferred duration (2D1N, 3D2N, 4D3N, 5D+), and review
+                    the detailed itinerary, inclusions, and exclusions.
                   </li>
                   <li>
-                    <strong>Submit your details</strong> at checkout:
-                    <ul className="list-disc pl-5 mt-2">
-                      <li>Lead guest full name</li>
-                      <li>Verified email address</li>
-                      <li>Active WhatsApp/mobile number</li>
-                    </ul>
+                    <strong>
+                      Provide lead guest contact details used for delivery and
+                      support.
+                    </strong>{" "}
+                    Enter the full name of the lead guest, a verified email
+                    address, and an active WhatsApp/mobile number so we can
+                    issue your Official E-Voucher and support your booking
+                    before and during the tour.
                   </li>
                   <li>
-                    <strong>Pay the required amount</strong> (deposit or full payment depending on lead time).
+                    <strong>
+                      Pay the initial deposit (or full amount if required).
+                    </strong>{" "}
+                    In most cases, a 20% deposit is required at checkout; if Day
+                    1 is close (for example, less than 14 days away), the system
+                    may request up to 100% full payment at the time of booking.
                   </li>
                   <li>
-                    <strong>Receive your Official E-Voucher / Invoice (PDF)</strong> by email.
-                    <ul className="list-disc pl-5 mt-2">
-                      <li>This document is your formal booking confirmation and the final contract for your specific itinerary (dates, pickup, inclusions written on the voucher).</li>
-                    </ul>
+                    <strong>
+                      Receive your payment confirmation and Official E-Voucher.
+                    </strong>{" "}
+                    After a successful payment, you will see a
+                    successful/complete status and receive an order
+                    summary/payment receipt and your Official E-Voucher (PDF).
+                    Always check the details and contact us quickly if something
+                    is incorrect.
                   </li>
-                </ol>
+                  <li>
+                    <strong>
+                      Provide additional details after confirmation if
+                      requested.
+                    </strong>{" "}
+                    Once confirmed, you may receive a secure link or access to a
+                    My Bookings/Customer Portal to provide extra details such as
+                    guest list, arrival times, room preferences, dietary needs,
+                    and relevant health information.
+                  </li>
+                </ul>
+                <p className="text-muted-foreground italic">
+                  <strong>Use official documents for precise wording.</strong>{" "}
+                  This page is a plain-language summary; for precise legal
+                  wording and conditions, refer to the Official Booking Guide –
+                  How to Book and the Booking, Payment & Cancellation Policy.
+                </p>
               </div>
 
               {/* Divider */}
@@ -387,43 +465,96 @@ export default function BookingInformationPage() {
               {/* Section 3 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  3) Payments — Deposit, Balance & Methods
+                  3) Payments – Deposit, Balance & Accepted Methods
                 </h2>
-                
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  Deposit and short-notice rule
-                </h3>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>
-                    Standard booking: <strong>20% deposit</strong> of the total package price at checkout.
-                  </li>
-                  <li>
-                    Short notice booking: if <strong>Day 1 is less than 14 days</strong> from the time of booking, JVTO may require <strong>up to 100% full payment</strong> at checkout.
-                  </li>
-                </ul>
 
                 <h3 className="text-xl font-bold mb-3 text-foreground">
-                  Balance settlement deadlines (if only 20% deposit was paid initially)
+                  3.1 Deposit
                 </h3>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>
-                    <strong>Credit / Debit card:</strong> balance must be paid no later than <strong>5 calendar days before Day 1</strong>.
-                  </li>
-                  <li>
-                    <strong>Bank transfer / Wise:</strong> balance must be received no later than <strong>3 calendar days before Day 1</strong>.
-                  </li>
-                  <li>
-                    <strong>Cash (IDR only):</strong> allowed only if explicitly approved in writing; settled at the JVTO office before departure on Day 1.
-                  </li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Secure most bookings with a 20% deposit unless clearly
+                    stated otherwise.
+                  </strong>{" "}
+                  Standard rule: a 20% deposit of the total package price is
+                  required to secure a booking, unless a different amount is
+                  clearly stated in writing for special products or promotions.
+                </p>
+                <p className="text-muted-foreground mb-6">
+                  <strong>
+                    Expect up to 100% payment for close departures.
+                  </strong>{" "}
+                  For tours where Day 1 is less than 14 days away, the system
+                  may request up to 100% full payment at checkout.
+                </p>
 
                 <h3 className="text-xl font-bold mb-3 text-foreground">
-                  Payment security and currency
+                  3.2 How you can pay
                 </h3>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>Card payments are processed via JVTO's secure checkout and authorised payment gateway.</li>
-                  <li>The contracted currency is <strong>IDR</strong> unless otherwise stated in writing for a specific product/promotion.</li>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Pay the initial deposit by card through secure checkout.
+                  </strong>{" "}
+                  The initial deposit is paid by credit/debit card only, through
+                  JVTO's secure, SSL-encrypted checkout with an authorised
+                  payment gateway.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Pay the remaining balance using the deadline that matches
+                    your method.
+                  </strong>{" "}
+                  For the remaining balance (if only 20% was paid initially):
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
+                  <li>
+                    <strong>Card (online):</strong> pay via JVTO's secure
+                    payment link no later than 5 calendar days before Day 1.
+                  </li>
+                  <li>
+                    <strong>Bank transfer / Wise:</strong> pay to JVTO's
+                    official company bank accounts no later than 3 calendar days
+                    before Day 1.
+                  </li>
+                  <li>
+                    <strong>Cash at JVTO office:</strong> possible only if
+                    explicitly approved in writing at the time of booking; must
+                    be settled in Indonesian Rupiah at the JVTO office before
+                    departure on Day 1.
+                  </li>
                 </ul>
+                <p className="text-muted-foreground mb-6">
+                  <strong>Expect consequences if deadlines are missed.</strong>{" "}
+                  If balance payment deadlines are not met, your booking may be
+                  handled according to the Booking, Payment & Cancellation
+                  Policy, which can include cancellation and forfeiture
+                  depending on timing.
+                </p>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  3.3 Payment security
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Use secure checkout and do not share sensitive payment
+                    credentials.
+                  </strong>{" "}
+                  All online card payments are processed via a secure, encrypted
+                  checkout using a compliant payment gateway, and JVTO does not
+                  store full card numbers or CVV codes on its own systems.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Treat requests for card details or passwords as invalid.
+                  </strong>{" "}
+                  JVTO will never ask you to send full card details or online
+                  banking passwords via WhatsApp, email, or social media.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>Stop and verify unusual instructions.</strong> If you
+                  receive unusual payment instructions, stop and verify using
+                  the official WhatsApp or email listed on this site.
+                </p>
               </div>
 
               {/* Divider */}
@@ -432,13 +563,99 @@ export default function BookingInformationPage() {
               {/* Section 4 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  4) Changes, Amendments & Rescheduling (Guest-Initiated)
+                  4) Cancellations, Travel Credit & No-Show (Guest-Initiated)
                 </h2>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>Any request to amend dates, pickup points, names, or itinerary elements should be made through the official contacts.</li>
-                  <li>Changes are subject to availability and third-party rules (hotels, parks, jeep providers).</li>
-                  <li>Any additional costs (if applicable) will be communicated in writing before confirmation.</li>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  4.1 Cancel 48 hours or more before Day 1
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Receive Travel Credit instead of a cash refund when
+                    cancelling early enough.
+                  </strong>{" "}
+                  If you cancel 48 hours or more before Day 1 (local Indonesia
+                  time), any payments already received are not refunded in cash.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Receive Travel Credit equal to 100% of eligible payments
+                    received.
+                  </strong>{" "}
+                  JVTO issues Travel Credit equal to 100% of the payments
+                  received for the cancelled services.
+                </p>
+                <p className="text-muted-foreground mb-6">
+                  <strong>Use Travel Credit with these characteristics.</strong>{" "}
+                  Travel Credit:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>Issued in IDR</li>
+                  <li>Non-expiring</li>
+                  <li>
+                    Transferable/giftable with written confirmation from JVTO
+                  </li>
+                  <li>
+                    Applied to future JVTO private tours at prevailing rates at
+                    the time of the new booking
+                  </li>
+                  <li>
+                    No rebooking or administration fee for using valid Travel
+                    Credit
+                  </li>
                 </ul>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  4.2 Cancel less than 48 hours before Day 1
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  <strong>Expect forfeiture for late cancellations.</strong> If
+                  you cancel less than 48 hours before Day 1, up to 100% of the
+                  total package price may be forfeited.
+                </p>
+                <p className="text-muted-foreground mb-6">
+                  <strong>
+                    Do not expect Travel Credit or cash refunds for very late
+                    cancellations.
+                  </strong>{" "}
+                  As a general rule, no Travel Credit or cash refund is provided
+                  when cancelling this late.
+                </p>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  4.3 No-show & same-day cancellation
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Treat no-shows and same-day cancellations as forfeiture
+                    cases.
+                  </strong>{" "}
+                  Situations such as not appearing at the pickup point, refusing
+                  to depart after vehicles and crew are deployed, cancelling on
+                  the same day after services are prepared, or voluntarily
+                  leaving after the tour starts may be treated as
+                  no-show/same-day cancellation.
+                </p>
+                <p className="text-muted-foreground mb-6">
+                  <strong>
+                    Expect up to 100% forfeiture and no unused-service credit.
+                  </strong>{" "}
+                  Up to 100% of the total package price may be forfeited, and no
+                  refund or Travel Credit is provided for services not used.
+                </p>
+
+                <h3 className="text-xl font-bold mb-3 text-foreground">
+                  4.4 Skipping activities or leaving early
+                </h3>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Keep the full package payable if you skip activities for
+                    personal reasons.
+                  </strong>{" "}
+                  If a guest chooses to skip activities or end the tour early
+                  for personal reasons, no partial refund or discount applies
+                  and the full package price remains payable.
+                </p>
               </div>
 
               {/* Divider */}
@@ -447,47 +664,23 @@ export default function BookingInformationPage() {
               {/* Section 5 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  5) Cancellations, Travel Credit & No-Show (Guest-Initiated)
+                  5) Changing Your Booking (Dates, Details & Adjustments)
                 </h2>
-                
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  Cancellation ≥ 48 hours before Day 1
-                </h3>
                 <p className="text-muted-foreground mb-4">
-                  If a guest cancels <strong>48 hours or more before Day 1 (local Indonesia time)</strong>:
+                  <strong>
+                    Expect minor corrections to be possible and operational
+                    changes to carry supplier costs.
+                  </strong>{" "}
+                  Some minor corrections may be possible without extra charge,
+                  but changes that affect permits, tickets, accommodation
+                  allocations, or transport inventory typically pass supplier
+                  costs on to the guest.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>JVTO issues <strong>JVTO Travel Credit equal to 100% of payments received</strong> for the cancelled services.</li>
-                  <li>No rebooking/administration fee is charged when using valid Travel Credit.</li>
-                </ul>
-
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  {`Cancellation < 48 hours before Day 1`}
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  If a guest cancels <strong>less than 48 hours before Day 1</strong>:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>Up to <strong>100% of the total package price may be forfeited</strong>.</li>
-                  <li><strong>No Travel Credit or cash refund</strong> is normally provided.</li>
-                </ul>
-
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  No-show & same-day cancellation
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  Situations such as not appearing at pickup, refusing to depart after crew/vehicles are deployed, or cancelling on the same day are treated as no-show/same-day cancellation:
-                </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>Up to <strong>100% of the total package price is forfeited</strong>.</li>
-                  <li><strong>No refund or Travel Credit</strong> is provided for unused services.</li>
-                </ul>
-
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  Skipping activities / leaving early
-                </h3>
                 <p className="text-muted-foreground">
-                  If a guest chooses to skip activities or end the tour early for personal reasons, the full package price remains payable and no partial refund or discount applies.
+                  <strong>Follow formal rules for reschedules.</strong>{" "}
+                  Reschedule options follow the timings and rules described in
+                  the Booking, Payment & Cancellation Policy and on your
+                  Official E-Voucher.
                 </p>
               </div>
 
@@ -497,37 +690,32 @@ export default function BookingInformationPage() {
               {/* Section 6 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  6) What's Typically Included (Quick Reference)
+                  6) Changes by JVTO & External Events
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Your exact inclusions depend on your chosen package and what is written on your voucher, but eligible JVTO private tour packages typically include:
+                  <strong>
+                    Expect JVTO to adjust plans when required for safety,
+                    compliance, or access.
+                  </strong>{" "}
+                  JVTO may adjust routes, timings, accommodation, or activities
+                  due to volcanic activity, toxic gas, landslides, floods,
+                  government restrictions, or park closures.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
-                  <li>Private AC transport + fuel/tolls/standard parking (itinerary-based)</li>
-                  <li>Bromo 4WD jeep (when Bromo is included)</li>
-                  <li>Accommodation for overnight stays listed in the itinerary</li>
-                  <li>Professional crew (driver, guide/escort guide, and required licensed local guides)</li>
-                  <li>Entrance tickets/permits for the attractions listed in your itinerary</li>
-                  <li>Ijen safety gear (gas mask, trekking poles) and a mandatory pre-hike health screening (when Ijen is included)</li>
-                  <li>Daily bottled water in the vehicle and hotel breakfasts</li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Expect alternatives where feasible and policy-based
+                    remedies.
+                  </strong>{" "}
+                  JVTO prioritises safety and legal compliance, proposes
+                  alternatives where feasible, and applies options described in
+                  the Booking, Payment & Cancellation Policy and your Official
+                  E-Voucher.
+                </p>
                 <p className="text-muted-foreground">
-                  For the full definitions (and what is excluded unless written), see:
+                  <strong>Use the policy for force majeure detail.</strong> Full
+                  details of how force majeure and external events are handled
+                  are described in the Booking, Payment & Cancellation Policy.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>
-                    <strong>Inclusions & Exclusions Policy:</strong>{' '}
-                    <Link href="/policy/inclusions-exclusions" className="text-primary hover:underline">
-                      /policy/inclusions-exclusions
-                    </Link>
-                  </li>
-                  <li>
-                    <strong>Booking, Payment & Cancellation Policy:</strong>{' '}
-                    <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
-                      /policy/booking-payment-cancellation
-                    </Link>
-                  </li>
-                </ul>
               </div>
 
               {/* Divider */}
@@ -536,15 +724,54 @@ export default function BookingInformationPage() {
               {/* Section 7 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  7) Need Help Before Booking?
+                  7) Your Responsibilities & Document Hierarchy
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Send your preferred dates, group size, and starting point to:
+                  <strong>
+                    Provide accurate information and verify your E-Voucher.
+                  </strong>{" "}
+                  Provide accurate names (as per ID/passport where required),
+                  contact details, arrival/departure times, and relevant health
+                  information you choose to share, and review your Official
+                  E-Voucher carefully.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>WhatsApp: +62 822-4478-8833</li>
-                  <li>Email: hello@javavolcano-touroperator.com</li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Use only official channels and payment methods.
+                  </strong>{" "}
+                  Use only official channels and verified payment instructions.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Follow the document hierarchy if wording differs.
+                  </strong>{" "}
+                  Order of precedence:
+                </p>
+                <ol className="list-decimal pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>Official E-Voucher / Invoice (your booking)</li>
+                  <li>Booking, Payment & Cancellation Policy</li>
+                  <li>
+                    Inclusions & Exclusions Policy and Official Booking Guide –
+                    How to Book
+                  </li>
+                  <li>General website content or informal communication</li>
+                </ol>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 8 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  8) Verification & Support
+                </h2>
+                <p className="text-muted-foreground">
+                  <strong>Stop and verify if anything looks unusual.</strong> If
+                  you are unsure about a link, account number, or message
+                  claiming to be from JVTO: stop the payment process and contact
+                  us via official WhatsApp or email listed on this website.
+                </p>
               </div>
             </div>
           </div>

@@ -5,13 +5,13 @@ import StructuredData from "@/components/website/StructuredData";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Weather, Volcano Alerts & Closures",
+  title: "Weather, Volcano Alerts & Closures – How JVTO Handles Changes",
   description:
-    "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+    "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
   openGraph: {
-    title: "Weather, Volcano Alerts & Closures",
+    title: "Weather, Volcano Alerts & Closures – How JVTO Handles Changes",
     description:
-      "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+      "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
     url: `${siteUrl}/travel-guide/weather-and-closures`,
     siteName: "Java Volcano Tour Operator",
     locale: "en_US",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Weather, Volcano Alerts & Closures",
+    title: "Weather, Volcano Alerts & Closures – How JVTO Handles Changes",
     description:
-      "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+      "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
     images: [siteUrl + "/assets/img/og/weather-closures.webp"],
   },
 };
@@ -109,7 +109,6 @@ export default function WeatherAndClosuresPage() {
             "LogisticsManagement",
           ],
         },
-
 
         priceRange: "IDR 1.000.000 - IDR 9.050.000",
         openingHoursSpecification: [
@@ -194,7 +193,7 @@ export default function WeatherAndClosuresPage() {
         url: "https://javavolcano-touroperator.com/travel-guide/weather-and-closures",
         name: "Weather, Volcano Alerts & Closures",
         description:
-          "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+          "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
         inLanguage: "en",
         isPartOf: {
           "@id": "https://javavolcano-touroperator.com/#website",
@@ -279,7 +278,7 @@ export default function WeatherAndClosuresPage() {
           "https://javavolcano-touroperator.com/travel-guide/weather-and-closures#article",
         headline: "Weather, Volcano Alerts & Closures",
         description:
-          "How JVTO handles weather changes, volcanic alerts, and site closures for Bromo, Ijen and Tumpak Sewu tours. Safety procedures and operational guidelines.",
+          "Understand how weather, volcanic activity and closures can affect private Bromo, Ijen and Tumpak Sewu tours with JVTO, and how alternative plans and Travel Credit work.",
         inLanguage: "en",
         author: {
           "@id": "https://javavolcano-touroperator.com/#organization",
@@ -298,10 +297,15 @@ export default function WeatherAndClosuresPage() {
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
         articleSection: [
-          "Why Conditions Can Change",
-          "How JVTO Handles Safety & Access",
+          "Intro",
+          "Factors That Can Change a Volcano or Waterfall Tour",
+          "How JVTO Monitors Conditions & Decides on Changes",
+          "Partial Closures vs Full Closures",
+          "Alternative Routes & Adjustments",
           "Blue Fire, Sunrise Views & Visibility",
-          "If JVTO Must Change or Cancel (Force Majeure)"
+          "Closures, Travel Credit & External Events",
+          "Your Role as a Guest During Uncertain Conditions",
+          "Which Document Wins if There Is a Difference?",
         ],
         about: [
           {
@@ -354,10 +358,25 @@ export default function WeatherAndClosuresPage() {
                 Weather, Volcano Alerts & Closures
               </h1>
 
-              {/* Disclaimer Box */}
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
-                <p className="text-sm italic mb-2">
-                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
+              {/* Intro Section */}
+              <div className="prose max-w-none text-left bg-white p-6 rounded-lg shadow-sm mb-6">
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Use this page to understand how closures and changing
+                    conditions can affect a private tour and how JVTO responds.
+                  </strong>{" "}
+                  Volcanoes and waterfalls are part of a changing natural
+                  environment, and this page explains how weather, volcanic
+                  activity, and access closures can affect your tour and how
+                  JVTO responds.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Use your E-Voucher and Booking Policy for binding details.
+                  </strong>{" "}
+                  This is a plain-language summary; for legal details and
+                  specific cases, your Official E-Voucher and the Booking,
+                  Payment & Cancellation Policy are the final reference.
                 </p>
               </div>
             </div>
@@ -370,17 +389,25 @@ export default function WeatherAndClosuresPage() {
               {/* Section 1 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  1) Why Conditions Can Change
+                  1) Factors That Can Change a Volcano or Waterfall Tour
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Routes may change due to factors such as:
+                  <strong>
+                    Expect access and timing to change due to natural events and
+                    official regulations.
+                  </strong>{" "}
+                  Routes can be influenced by heavy rain, fog, strong winds,
+                  lightning, ash, gas emissions, landslides, floods, road
+                  damage, forest fires, smoke, ceremonies, and temporary rules.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>volcanic activity and sulfur gas exposure levels,</li>
-                  <li>extreme weather, heavy rain, or unsafe terrain,</li>
-                  <li>national park closures or partial access restrictions,</li>
-                  <li>road and traffic constraints (especially during peak periods).</li>
-                </ul>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Expect partial impacts or full closure depending on
+                    severity.
+                  </strong>{" "}
+                  Sometimes only specific areas are affected; sometimes full
+                  closure applies for safety and legal reasons.
+                </p>
               </div>
 
               {/* Divider */}
@@ -389,19 +416,26 @@ export default function WeatherAndClosuresPage() {
               {/* Section 2 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  2) How JVTO Handles Safety & Access
+                  2) How JVTO Monitors Conditions & Decides on Changes
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  JVTO coordinates with local teams and follows legal access rules for parks and sites.
+                  <strong>
+                    Expect decisions to use local reports and official inputs.
+                  </strong>{" "}
+                  JVTO uses local guide/driver reports, park and government
+                  information, and updates linked to alert levels, gas, and
+                  weather.
                 </p>
-                <p className="text-muted-foreground mb-4">
-                  If conditions change, JVTO may:
+                <p className="text-muted-foreground">
+                  <strong>
+                    Expect changes when conditions are unsafe or access is
+                    restricted.
+                  </strong>{" "}
+                  When conditions are clearly unsafe or formally restricted,
+                  JVTO adjusts plans in line with regulations, safety
+                  considerations, and the options allowed under the Booking,
+                  Payment & Cancellation Policy.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-                  <li>adjust timing (earlier/later departures),</li>
-                  <li>change viewpoints/route segments,</li>
-                  <li>substitute a closed site with a safer alternative (where feasible).</li>
-                </ul>
               </div>
 
               {/* Divider */}
@@ -410,10 +444,25 @@ export default function WeatherAndClosuresPage() {
               {/* Section 3 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  3) Blue Fire, Sunrise Views & Visibility
+                  3) Partial Closures vs Full Closures
                 </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Expect JVTO to distinguish partial closures from full
+                    closures.
+                  </strong>{" "}
+                  Not all changes are the same, and restrictions may affect
+                  certain viewpoints, rim sections, crater floor access, or
+                  lower paths at waterfalls.
+                </p>
                 <p className="text-muted-foreground">
-                  Natural phenomena (blue fire visibility, clear sunrise views) depend on conditions and cannot be guaranteed. JVTO will prioritise safety and legal access.
+                  <strong>
+                    Expect partial closures to keep a modified structure where
+                    possible.
+                  </strong>{" "}
+                  In partial closures, JVTO typically adapts to what is still
+                  legally and safely accessible while keeping the main structure
+                  of your tour.
                 </p>
               </div>
 
@@ -423,19 +472,112 @@ export default function WeatherAndClosuresPage() {
               {/* Section 4 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  4) If JVTO Must Change or Cancel (Force Majeure)
+                  4) Alternative Routes & Adjustments
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  In rare cases, JVTO may need to change or cancel a portion of the program due to safety/legal closures.
-                </p>
-                <p className="text-muted-foreground mb-4">
-                  Remedies follow the official policy under "Changes or Cancellation by JVTO / Force Majeure".
+                  <strong>
+                    Expect JVTO to propose alternatives where feasible and
+                    explain how they relate to policy.
+                  </strong>{" "}
+                  JVTO will inform you as early as reasonably possible, propose
+                  alternative viewpoints/routes/activities where available, and
+                  explain how changes relate to the Booking, Payment &
+                  Cancellation Policy and your Official E-Voucher.
                 </p>
                 <p className="text-muted-foreground">
-                  Policy:{' '}
-                  <Link href="/policy/booking-payment-cancellation" className="text-primary hover:underline">
-                    /policy/booking-payment-cancellation
-                  </Link>
+                  <strong>
+                    Expect some substitutions to differ from the original
+                    experience.
+                  </strong>{" "}
+                  Some alternatives may not fully match the original plan but
+                  are chosen to keep your trip running safely and legally.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 5 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  5) Blue Fire, Sunrise Views & Visibility
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Do not treat blue fire or perfect sunrise views as
+                    guarantees.
+                  </strong>{" "}
+                  Blue fire and specific views depend on wind, gas, clouds, fog,
+                  crowd control, and regulations.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>Treat photos as examples, not promises.</strong>{" "}
+                  Screenshots or photos on the website and social media are
+                  examples of past conditions, not promises for your specific
+                  date.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 6 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  6) Closures, Travel Credit & External Events
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Expect closure responses to follow official decisions and
+                    your booking documents.
+                  </strong>{" "}
+                  JVTO aligns with authorities, applies options described in
+                  your Booking, Payment & Cancellation Policy and Official
+                  E-Voucher, and may continue with a modified route or apply
+                  Travel Credit where applicable.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Use this page for principles, not every scenario.
+                  </strong>{" "}
+                  This page explains guiding principles rather than every
+                  possible scenario.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 7 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  7) Your Role as a Guest During Uncertain Conditions
+                </h2>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Help keep the tour safe by following briefings and accepting
+                    reasonable flexibility.
+                  </strong>{" "}
+                  Read briefings, follow instructions from crew and authorities,
+                  and allow flexibility when conditions change plans.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 8 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  8) Which Document Wins if There Is a Difference?
+                </h2>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Follow the document hierarchy if wording differs.
+                  </strong>{" "}
+                  Priority order: Official E-Voucher/Invoice → Booking, Payment
+                  & Cancellation Policy → Inclusions & Exclusions Policy →
+                  general website and informal communication.
                 </p>
               </div>
 
@@ -453,7 +595,11 @@ export default function WeatherAndClosuresPage() {
                       What happens if Bromo is closed due to volcanic activity?
                     </h3>
                     <p className="text-muted-foreground">
-                      If Bromo is closed for safety reasons, JVTO may substitute with alternative viewpoints or activities. The specific remedy depends on what costs have already been committed and the terms in your Booking, Payment & Cancellation Policy.
+                      If Bromo is closed for safety reasons, JVTO may substitute
+                      with alternative viewpoints or activities. The specific
+                      remedy depends on what costs have already been committed
+                      and the terms in your Booking, Payment & Cancellation
+                      Policy.
                     </p>
                   </div>
 
@@ -462,7 +608,11 @@ export default function WeatherAndClosuresPage() {
                       Do I get a refund if weather affects my tour?
                     </h3>
                     <p className="text-muted-foreground">
-                      Weather-related changes are handled differently from guest cancellations. If JVTO can provide alternative arrangements, these will be offered. Refunds depend on what costs have already been committed to third parties (hotels, permits, etc.).
+                      Weather-related changes are handled differently from guest
+                      cancellations. If JVTO can provide alternative
+                      arrangements, these will be offered. Refunds depend on
+                      what costs have already been committed to third parties
+                      (hotels, permits, etc.).
                     </p>
                   </div>
 
@@ -471,7 +621,9 @@ export default function WeatherAndClosuresPage() {
                       How will I know if there are last-minute changes?
                     </h3>
                     <p className="text-muted-foreground">
-                      JVTO communicates through official WhatsApp channels. Keep your phone accessible, especially on travel dates. Our crew will also provide real-time updates during the tour.
+                      JVTO communicates through official WhatsApp channels. Keep
+                      your phone accessible, especially on travel dates. Our
+                      crew will also provide real-time updates during the tour.
                     </p>
                   </div>
 
@@ -480,7 +632,10 @@ export default function WeatherAndClosuresPage() {
                       What should I pack for changing mountain weather?
                     </h3>
                     <p className="text-muted-foreground">
-                      Pack layers: warm clothing for cold mornings (especially for Bromo sunrise), waterproof jacket, proper hiking shoes with good grip, and sun protection. Check our Packing & Fitness guide for detailed recommendations.
+                      Pack layers: warm clothing for cold mornings (especially
+                      for Bromo sunrise), waterproof jacket, proper hiking shoes
+                      with good grip, and sun protection. Check our Packing &
+                      Fitness guide for detailed recommendations.
                     </p>
                   </div>
 
@@ -489,7 +644,11 @@ export default function WeatherAndClosuresPage() {
                       Can I cancel my tour if the weather forecast looks bad?
                     </h3>
                     <p className="text-muted-foreground">
-                      Guest cancellations follow the standard cancellation rules, including the 48-hour cutoff. Weather forecasts don't automatically trigger cancellations - JVTO makes decisions based on actual conditions and safety assessments on the day.
+                      Guest cancellations follow the standard cancellation
+                      rules, including the 48-hour cutoff. Weather forecasts
+                      don't automatically trigger cancellations - JVTO makes
+                      decisions based on actual conditions and safety
+                      assessments on the day.
                     </p>
                   </div>
                 </div>

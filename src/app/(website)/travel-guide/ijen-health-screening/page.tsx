@@ -11,18 +11,22 @@ import StructuredData from "@/components/website/StructuredData";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Ijen Health Screening – Real Checks, Digital Proof",
-  description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
+  title:
+    "Ijen Health Screening – Real Checks, Digital Proof & QR | Java Volcano Tour Operator",
+  description:
+    "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
   openGraph: {
-    title: "Ijen Health Screening – Real Checks, Digital Proof",
-    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
+    title:
+      "Ijen Health Screening – Real Checks, Digital Proof & QR | Java Volcano Tour Operator",
+    description:
+      "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
     url: `${siteUrl}/travel-guide/ijen-health-screening`,
     siteName: "Java Volcano Tour Operator",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: siteUrl + "/assets/img/og/ijen-health-screening.webp",
+        url: siteUrl + "/assets/img/og/travel-guide.webp",
         width: 1200,
         height: 630,
         alt: "Ijen Health Screening",
@@ -31,9 +35,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ijen Health Screening – Real Checks, Digital Proof",
-    description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
-    images: [siteUrl + "/assets/img/og/ijen-health-screening.webp"],
+    title:
+      "Ijen Health Screening – Real Checks, Digital Proof & QR | Java Volcano Tour Operator",
+    description:
+      "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
+    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
   },
 };
 
@@ -209,7 +215,8 @@ export default function IjenHealthScreeningPage() {
         url: "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening",
         name: "Ijen Health Screening – Real Checks, Digital Proof",
         headline: "Ijen Health Screening – Real Checks, Digital Proof",
-        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
+        description:
+          "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
         isPartOf: {
           "@id": "https://javavolcano-touroperator.com/#website",
         },
@@ -264,7 +271,8 @@ export default function IjenHealthScreeningPage() {
         "@id":
           "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening#article",
         headline: "Ijen Health Screening – Real Checks, Digital Proof",
-        description: "Learn about Ijen health screening with JVTO: real checks by trained staff, digital/printed clearance (as required by the local process), and safety procedures for Mount Ijen hikes.",
+        description:
+          "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
         mainEntityOfPage: {
           "@id":
             "https://javavolcano-touroperator.com/travel-guide/ijen-health-screening#webpage",
@@ -283,12 +291,16 @@ export default function IjenHealthScreeningPage() {
         },
         articleSection: [
           "Why Ijen Health Screening Matters",
-          "For JVTO Guests — What's Included",
-          "At the Ijen Gate — What Happens",
-          "Important Clarification",
+          "For JVTO Guests – What We Include",
+          "For Non-JVTO Travellers – Using the Public Digital Tool",
+          "At the Ijen Gate – How the QR Is Used",
+          "If the Screening Says 'Not Recommended to Hike'",
+          "What This Screening Is – And What It Is Not",
           "Data & Privacy",
+          "Quick Questions About Ijen Screening",
         ],
-        articleBody: "Information about Ijen health screening procedures, safety equipment, and operational guidelines for Mount Ijen hikes with JVTO.",
+        articleBody:
+          "Information about Ijen health screening procedures, safety equipment, digital QR verification, and operational guidelines for Mount Ijen hikes with JVTO.",
         inLanguage: "en",
         datePublished: "2025-12-05",
         dateModified: "2025-12-05",
@@ -329,10 +341,10 @@ export default function IjenHealthScreeningPage() {
         mainEntity: [
           {
             "@type": "Question",
-            name: "Is Ijen health screening mandatory for JVTO guests?",
+            name: "Is Ijen health screening mandatory?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Yes, when Ijen is included in your itinerary, health screening is a mandatory operational step for safety reasons.",
+              text: "Screening is stated as standard for JVTO guests attempting the Ijen night hike, and non-JVTO visitors are strongly encouraged to use official screening channels; local authorities may require proof at certain times.",
             },
             inLanguage: "en",
             lastReviewed: "2025-12-05",
@@ -340,10 +352,10 @@ export default function IjenHealthScreeningPage() {
           },
           {
             "@type": "Question",
-            name: "What happens if Ijen is closed due to weather or gas conditions?",
+            name: "Does screening guarantee that nothing will happen?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "JVTO may adjust the plan for safety. The remedy depends on the Booking, Payment & Cancellation Policy and specific services already committed.",
+              text: "No; screening reduces risk but does not guarantee outcomes, and access may still change due to conditions.",
             },
             inLanguage: "en",
             lastReviewed: "2025-12-05",
@@ -351,10 +363,32 @@ export default function IjenHealthScreeningPage() {
           },
           {
             "@type": "Question",
-            name: "What safety equipment is provided for Ijen?",
+            name: "Does screening affect my insurance?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "When Ijen is included, JVTO typically provides a gas mask suitable for sulfur conditions and trekking poles.",
+              text: "Screening is a safety/verification step and not a replacement for travel insurance; guests remain responsible for arranging appropriate coverage.",
+            },
+            inLanguage: "en",
+            lastReviewed: "2025-12-05",
+            dateModified: "2025-12-05",
+          },
+          {
+            "@type": "Question",
+            name: "What happens if the screening says 'Not Recommended to Hike'?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Do not hike if screening suggests it is unsafe. JVTO will discuss alternatives in line with the Booking, Payment & Cancellation Policy and your Official E-Voucher.",
+            },
+            inLanguage: "en",
+            lastReviewed: "2025-12-05",
+            dateModified: "2025-12-05",
+          },
+          {
+            "@type": "Question",
+            name: "How is the QR code used at the Ijen gate?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Gate staff may verify that screening occurred by checking the QR code. This is for safety traceability to ensure screening is real and reduce falsified documents.",
             },
             inLanguage: "en",
             lastReviewed: "2025-12-05",
@@ -399,11 +433,16 @@ export default function IjenHealthScreeningPage() {
               <h1 className="font-black text-2xl md:text-5xl mb-6">
                 Ijen Health Screening – Real Checks, Digital Proof
               </h1>
-              
+
               {/* Disclaimer Box */}
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  <strong>Note:</strong> This Travel Guide is for information and trip planning. For binding terms (payments, cancellations, refunds/credits), please refer to the official policies and your <strong>Official E-Voucher / Invoice (PDF)</strong>. If anything differs, the E-Voucher/Invoice and the Policy pages take precedence.
+                  <strong>Note:</strong> This Travel Guide is for information
+                  and trip planning. For binding terms (payments, cancellations,
+                  refunds/credits), please refer to the official policies and
+                  your <strong>Official E-Voucher / Invoice (PDF)</strong>. If
+                  anything differs, the E-Voucher/Invoice and the Policy pages
+                  take precedence.
                 </p>
               </div>
             </div>
@@ -419,12 +458,30 @@ export default function IjenHealthScreeningPage() {
                   1) Why Ijen Health Screening Matters
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Kawah Ijen is a high-exertion night hike with cold temperatures and potential exposure to sulfur gas. JVTO supports a screening system so that:
+                  <strong>
+                    Ijen screening exists because Kawah Ijen is demanding and
+                    exposure conditions can be risky.
+                  </strong>{" "}
+                  Kawah Ijen is a night hike with steep sections, cold
+                  temperatures, and possible sulfur gas exposure.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
-                  <li>guests attempt the hike <strong>only after a real screening</strong>, and</li>
-                  <li>results can be checked digitally (when required by local providers/authorities).</li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Ijen screening also exists to reduce fake or incomplete
+                    checks.
+                  </strong>{" "}
+                  In the past, some visitors reached the gate without real
+                  screening or with fake letters, putting visitors, local teams,
+                  and authorities at risk.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    JVTO supports a system where screening is real and
+                    verifiable.
+                  </strong>{" "}
+                  Guests attempt the hike only after a real screening, and
+                  results can be checked digitally to prove screening occurred.
+                </p>
               </div>
 
               {/* Divider */}
@@ -433,25 +490,38 @@ export default function IjenHealthScreeningPage() {
               {/* Section 2 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  2) For JVTO Guests — What's Included
+                  2) For JVTO Guests – What We Include
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  If your JVTO tour includes the <strong>Ijen night hike</strong>, your package includes a <strong>health screening before the hike</strong>.
+                  <strong>
+                    Ijen night-hike tours include screening as part of your JVTO
+                    package.
+                  </strong>{" "}
+                  If your tour includes the Ijen night hike, your package
+                  includes a health screening before the hike.
                 </p>
                 <p className="text-muted-foreground mb-4">
-                  What to expect:
+                  <strong>
+                    Expect screening to follow a practical, documented workflow.
+                  </strong>{" "}
+                  Screening typically happens before departure for the night
+                  hike at a partner accommodation or clinic, performed by
+                  trained medical staff, and includes basic measurements and
+                  relevant questions.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
-                  <li>
-                    Screening is performed by <strong>trained medical staff</strong> following local guidelines.
-                  </li>
-                  <li>
-                    Typical checks include simple measurements (for example <strong>blood pressure and oxygen level</strong>) plus a short set of questions.
-                  </li>
-                  <li>
-                    You may be asked to bring a form of <strong>ID</strong> and/or fill a short form.
-                  </li>
-                </ul>
+                <p className="text-muted-foreground mb-4">
+                  <strong>Expect digital recording and QR linkage.</strong> The
+                  result is recorded in a secure digital system and linked to a
+                  QR code.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Use your E-Voucher and briefing for exact timing and
+                    requirements.
+                  </strong>{" "}
+                  Your Official E-Voucher and daily briefing will show
+                  where/when screening occurs and what you need to prepare.
+                </p>
               </div>
 
               {/* Divider */}
@@ -460,10 +530,31 @@ export default function IjenHealthScreeningPage() {
               {/* Section 3 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  3) At the Ijen Gate — What Happens
+                  3) For Non-JVTO Travellers – Using the Public Digital Tool
                 </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Non-JVTO travellers can use the same workflow through a
+                    public tool.
+                  </strong>{" "}
+                  The digital screening workflow is described as available for
+                  other travellers through a public web tool.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Follow the register → screen → QR clearance flow.
+                  </strong>{" "}
+                  You register basic details and intended hiking time, attend
+                  screening with a participating provider, and if cleared,
+                  receive a QR-linked clearance that gate staff can verify.
+                </p>
                 <p className="text-muted-foreground">
-                  At certain times, local authorities/providers may verify that screening was completed before allowing entry for the Ijen night hike.
+                  <strong>
+                    Use the official access instructions for the tool.
+                  </strong>{" "}
+                  For access to the public tool, follow information on
+                  health.mountijen.com or as communicated by local authorities
+                  and official providers.
                 </p>
               </div>
 
@@ -473,16 +564,24 @@ export default function IjenHealthScreeningPage() {
               {/* Section 4 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  4) Important Clarification
+                  4) At the Ijen Gate – How the QR Is Used
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  Screening helps reduce risk but does not guarantee that nothing will happen. Conditions at Ijen remain subject to:
+                  <strong>
+                    Expect gate staff to verify that screening occurred.
+                  </strong>{" "}
+                  Staff may ask if you completed screening and may check
+                  clearance via QR code or reference.
                 </p>
-                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-4">
-                  <li>local authority decisions,</li>
-                  <li>weather and visibility conditions, and</li>
-                  <li>safety assessments by JVTO and on-site teams.</li>
-                </ul>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Treat QR verification as safety traceability, not
+                    bureaucracy.
+                  </strong>{" "}
+                  The purpose is to ensure screening is real and traceable,
+                  reduce falsified letters, and help identify guests who may not
+                  be fit for a demanding hike.
+                </p>
               </div>
 
               {/* Divider */}
@@ -491,16 +590,81 @@ export default function IjenHealthScreeningPage() {
               {/* Section 5 */}
               <div>
                 <h2 className="text-2xl font-bold mb-4 text-foreground">
-                  5) Data & Privacy
+                  5) If the Screening Says "Not Recommended to Hike"
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  If any personal data is collected during screening, it is handled in line with JVTO's privacy commitments and the requirements of local providers/authorities.
+                  <strong>
+                    Do not hike if screening suggests it is unsafe.
+                  </strong>{" "}
+                  JVTO will not force the hike and will respect screening
+                  results.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Expect itinerary alternatives to follow policy and your
+                    E-Voucher.
+                  </strong>{" "}
+                  JVTO will discuss alternatives in line with the Booking,
+                  Payment & Cancellation Policy and your Official E-Voucher.
                 </p>
                 <p className="text-muted-foreground">
-                  Privacy Policy:{' '}
-                  <Link href="/policy/privacy" className="text-primary hover:underline">
-                    /policy/privacy
-                  </Link>
+                  <strong>
+                    Do not assume screening outcomes automatically produce
+                    refunds.
+                  </strong>{" "}
+                  Health-related decisions are serious and may affect what is
+                  possible, but they do not automatically mean a full refund.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 6 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  6) What This Screening Is – And What It Is Not
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Use screening as a practical risk filter and verification
+                    step.
+                  </strong>{" "}
+                  It helps identify basic risks before a demanding night hike
+                  and provides a verifiable record that screening took place.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Do not treat screening as a guarantee or full medical
+                    evaluation.
+                  </strong>{" "}
+                  It is not a hospital admission, full medical check-up, or
+                  guarantee of safety, and conditions can still change quickly.
+                </p>
+              </div>
+
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 7 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  7) Data & Privacy
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  <strong>
+                    Treat screening data as limited to what is required for
+                    clearance.
+                  </strong>{" "}
+                  The system records only the information required to operate
+                  the screening and clearance process.
+                </p>
+                <p className="text-muted-foreground">
+                  <strong>
+                    Use the dedicated Privacy Policy for details when finalised.
+                  </strong>{" "}
+                  Details on collection, retention, and protection are described
+                  as belonging in a dedicated Privacy Policy once finalised.
                 </p>
               </div>
 
@@ -510,60 +674,86 @@ export default function IjenHealthScreeningPage() {
               {/* FAQ Section */}
               <div>
                 <h2 className="text-2xl font-bold mb-6 text-foreground">
-                  Frequently Asked Questions
+                  8) Quick Questions About Ijen Screening
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      Is Ijen health screening mandatory for JVTO guests?
+                      Q1. Is Ijen health screening mandatory?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        Yes, when Ijen is included in your itinerary, health screening is a mandatory operational step for safety reasons.
+                        <strong>
+                          Screening is stated as standard for JVTO guests
+                          attempting the Ijen night hike,
+                        </strong>{" "}
+                        and non-JVTO visitors are strongly encouraged to use
+                        official screening channels; local authorities may
+                        require proof at certain times.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What happens if Ijen is closed due to weather or gas conditions?
+                      Q2. Does screening guarantee that nothing will happen?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        JVTO may adjust the plan for safety. The remedy depends on the Booking, Payment & Cancellation Policy and specific services already committed.
+                        <strong>No;</strong> screening reduces risk but does not
+                        guarantee outcomes, and access may still change due to
+                        conditions.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-3">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What safety equipment is provided for Ijen?
+                      Q3. Does screening affect my insurance?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        When Ijen is included, JVTO typically provides a gas mask suitable for sulfur conditions and trekking poles.
+                        <strong>
+                          Screening is a safety/verification step and not a
+                          replacement for travel insurance;
+                        </strong>{" "}
+                        guests remain responsible for arranging appropriate
+                        coverage.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-4">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What should I do if I have health concerns?
+                      What happens if the screening says "Not Recommended to
+                      Hike"?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        Be honest about relevant health conditions and follow on-site instructions. If screening is required, participation may depend on meeting the minimum health requirements. Consult with your doctor before booking if you have concerns.
+                        <strong>
+                          Do not hike if screening suggests it is unsafe.
+                        </strong>{" "}
+                        JVTO will discuss alternatives in line with the Booking,
+                        Payment & Cancellation Policy and your Official
+                        E-Voucher. Health-related decisions do not automatically
+                        mean a full refund.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
 
                   <AccordionItem value="item-5">
                     <AccordionTrigger className="text-lg text-left font-bold text-foreground hover:text-primary">
-                      What if I don't pass the health screening?
+                      How is the QR code used at the Ijen gate?
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        If health screening indicates that the Ijen hike may pose a risk, JVTO staff will discuss alternative options or adjustments to the itinerary based on safety considerations and the Booking, Payment & Cancellation Policy.
+                        <strong>
+                          Gate staff may verify that screening occurred by
+                          checking the QR code.
+                        </strong>{" "}
+                        This is for safety traceability to ensure screening is
+                        real and traceable, reduce falsified letters, and help
+                        identify guests who may not be fit for a demanding hike.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
