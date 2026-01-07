@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
+import Image from "next/image";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -1390,66 +1391,70 @@ export default function PackageDetailPage({ initialData }: Props) {
                       autoplay={{ delay: 5000, disableOnInteraction: false }}
                       className="pb-10" // Padding bawah untuk dots pagination
                     >
-                      {/* Review 1 */}
-                      <SwiperSlide>
-                        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative h-full">
-                          <Quote
-                            size={40}
-                            className="text-lime-300 absolute top-4 left-4 opacity-40"
-                          />
-                          <div className="relative z-10 pt-2">
-                            <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
-                              {`"An absolutely unforgettable adventure. The
-                              logistics were seamless, and the guides were
-                              fantastic. Bromo's sunrise was a life-changing
-                              moment!"`}
-                            </p>
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-sm font-bold text-white">
-                                S
-                              </div>
-                              <div>
-                                <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
-                                  Sarah M.
-                                </span>
-                                <span className="block text-xs text-slate-500">
-                                  November 2024
-                                </span>
+                      {[
+                        {
+                          customer_name: "Jeremy Teo",
+                          profile_photo:
+                            "https://lh3.googleusercontent.com/a-/ALV-UjWa-RMLudsDhNwpmpsIBwsgbZ34fLvnurqo2Qg8DdMUJFtR8k2s=s120-c-rp-mo-br100",
+                          date: "2025-10-28",
+                          star: 5,
+                          review:
+                            "We recently completed a tour by Java Volcano Tour Operator (JVTO) to Mt Bromo as well as IJEN and we were very satisfied with the arrangements made by the team. The team was very responsive, the trip was organised smoothly and our driver, Fredi, did a fantastic job, ensuring that we got from place to place safely and on time. We would certainly recommend going for a tour with JVTO!",
+                        },
+                        {
+                          customer_name: "Samia Amrani",
+                          profile_photo:
+                            "https://lh3.googleusercontent.com/a/ACg8ocJ4eOWcIFSgTsYGvX-1TDyCTZjuzn4AVC7Oc5enXGTNU54tczQI=s120-c-rp-mo-br100",
+                          date: "2025-10-14",
+                          star: 5,
+                          review:
+                            "It was the best experience ever!! Our driver Pras and guide Rendi were the best, great people, super professionals and thoughtful, they took care of every detail and made us feel super safe and good.\nI recommended it 100%",
+                        },
+                        {
+                          customer_name: "Remy H",
+                          profile_photo:
+                            "https://lh3.googleusercontent.com/a/ACg8ocLaF32GQ_E3jcrj4JYyoSVZ54QAdvusR_qhqsnflGpRgEdffg=s120-c-rp-mo-br100",
+                          date: "2025-10-03",
+                          star: 5,
+                          review:
+                            "Me and my girlfriend had an amazing trip over here. We did the 3D2N Ijen + Bromo tour and everything was well arranged. Special thanks to the guide Gufron, who made this trip special ❤️",
+                        },
+                      ].map((review, idx) => (
+                        <SwiperSlide key={idx}>
+                          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative h-full">
+                            <Quote
+                              size={40}
+                              className="text-lime-300 absolute top-4 left-4 opacity-40"
+                            />
+                            <div className="relative z-10 pt-2">
+                              <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
+                                {review.review}
+                              </p>
+                              <div className="flex items-center gap-3">
+                                <div className="relative w-12 h-12 flex-shrink-0">
+                                  <Image
+                                    src={review.profile_photo}
+                                    alt={
+                                      review.customer_name + " Profile Photo"
+                                    }
+                                    fill
+                                    className="rounded-full object-cover border-2 border-gray-200"
+                                    sizes="48px"
+                                  />
+                                </div>
+                                <div>
+                                  <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
+                                    {review.customer_name}
+                                  </span>
+                                  <span className="block text-xs text-slate-500">
+                                    {review.date}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </SwiperSlide>
-
-                      {/* Review 2 */}
-                      <SwiperSlide>
-                        <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative h-full">
-                          <Quote
-                            size={40}
-                            className="text-lime-300 absolute top-4 left-4 opacity-40"
-                          />
-                          <div className="relative z-10 pt-2">
-                            <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
-                              {`"Challenging but so rewarding. The operator was
-                              very professional, especially regarding the Ijen
-                              safety requirements. Highly recommend!"`}
-                            </p>
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-sm font-bold text-white">
-                                M
-                              </div>
-                              <div>
-                                <span className="block text-sm font-bold text-slate-900 uppercase tracking-wide">
-                                  Mark T.
-                                </span>
-                                <span className="block text-xs text-slate-500">
-                                  October 2024
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </SwiperSlide>
+                        </SwiperSlide>
+                      ))}
                     </Swiper>
                   </div>
                 </div>
@@ -1625,10 +1630,17 @@ export default function PackageDetailPage({ initialData }: Props) {
                   >
                     Instant Book
                   </button>
+                  <div className="text-center">
+                    <a
+                      href="/policy/booking-cancellation"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4 transition"
+                    >
+                      View Cancellation Policy
+                    </a>
+                  </div>
                 </form>
-                <p className="text-xs text-center text-slate-400 mt-4 leading-relaxed">
-                  Powered by Xendit. Instant Confirmation.
-                </p>
               </div>
             </div>
           </div>

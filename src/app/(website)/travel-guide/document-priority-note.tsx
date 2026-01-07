@@ -1,18 +1,16 @@
-//file document-priority-note.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Info } from "lucide-react";
 import Link from "next/link";
 
 const documentPriorityNote = {
-  title: "Document priority reminder",
+  title: "Document Priority Reminder (Bottom of Page)",
   paragraphs: [
-    "This Travel Guide is written in plain language to help you understand how JVTO operates. If there is ever a difference between wording on this page and your booking documents, the order of priority is:",
-    "1. Your Official E-Voucher / Invoice for the specific tour or group",
-    "2. The Booking, Payment & Cancellation Policy",
-    "3. The Inclusions & Exclusions Policy",
-    "4. The Privacy & Data Protection Policy",
-    "5. General website text and informal communication",
-    "If you are unsure how a rule applies to your case, please contact JVTO using the official contact details listed on this website before you travel.",
+    "Treat your Official E-Voucher / Invoice as the highest authority for your specific booking. If there is ever a difference between website wording and booking documents, the order of priority is:",
+    "1. Official E-Voucher / Invoice (specific booking)",
+    "2. Booking, Payment & Cancellation Policy",
+    "3. Inclusions & Exclusions Policy",
+    "4. General website text and informal communication",
+    "Verify uncertainties via official JVTO channels before travel. Contact JVTO using the official contact details listed on the website if you are unsure how a rule applies.",
   ],
 };
 
@@ -55,23 +53,13 @@ export function DocumentPriorityNote() {
             </Link>
           </li>
           <li>
-            <Link
-              href="/policy/privacy"
-              className="text-primary hover:text-lime-600"
-            >
-              {documentPriorityNote.paragraphs[4].substring(
-                documentPriorityNote.paragraphs[4].indexOf(".") + 2
-              )}
-            </Link>
-          </li>
-          <li>
-            {documentPriorityNote.paragraphs[5].substring(
-              documentPriorityNote.paragraphs[5].indexOf(".") + 2
+            {documentPriorityNote.paragraphs[4].substring(
+              documentPriorityNote.paragraphs[4].indexOf(".") + 2
             )}
           </li>
         </ol>
-        {documentPriorityNote.paragraphs.slice(6).map((p, i) => (
-          <p key={i} className="text-xs">
+        {documentPriorityNote.paragraphs.slice(5).map((p, i) => (
+          <p key={i} className="text-xs mt-4">
             {p}
           </p>
         ))}
