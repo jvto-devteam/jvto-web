@@ -1632,7 +1632,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                   </button>
                   <div className="text-center">
                     <a
-                      href="/policy/booking-cancellation"
+                      href="/policy/booking-payment-cancellation"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4 transition"

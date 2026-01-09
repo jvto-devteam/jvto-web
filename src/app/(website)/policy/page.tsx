@@ -129,7 +129,7 @@ export default function PolicyHubPage() {
         "Payment & deposit handling",
         "Cancellations, amendments, and operational constraints",
       ],
-      href: "/policy/booking-cancellation",
+      href: "/policy/booking-payment-cancellation",
       cta: "Read Booking Policy",
       accent: "border-yellow-400 bg-yellow-50",
     },
