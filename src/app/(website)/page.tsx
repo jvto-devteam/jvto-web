@@ -255,31 +255,6 @@ const Home = async () => {
           },
         ],
       },
-      {
-        "@type": "TouristAttraction",
-        "@id": siteUrl + "/destinations/mount-bromo#destination",
-        name: "Mount Bromo",
-      },
-      {
-        "@type": "TouristAttraction",
-        "@id": siteUrl + "/destinations/ijen-crater#destination",
-        name: "Ijen Crater",
-      },
-      {
-        "@type": "TouristAttraction",
-        "@id": siteUrl + "/destinations/tumpak-sewu-waterfall#destination",
-        name: "Tumpak Sewu Waterfall",
-      },
-      {
-        "@type": "TouristAttraction",
-        "@id": siteUrl + "/destinations/madakaripura-waterfall#destination",
-        name: "Madakaripura Waterfall",
-      },
-      {
-        "@type": "TouristAttraction",
-        "@id": siteUrl + "/destinations/papuma-beach#destination",
-        name: "Papuma Beach",
-      },
     ],
   };
   const fullUrl = await getFullUrl();
