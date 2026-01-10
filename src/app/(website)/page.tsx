@@ -143,17 +143,6 @@ const Home = async () => {
           "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
         ],
       },
-      {
-        "@type": "WebSite",
-        "@id": siteUrl + "/#website",
-        url: siteUrl,
-        name: "Java Volcano Tour Operator",
-        alternateName: "JVTO",
-        publisher: {
-          "@id": siteUrl + "/#organization",
-        },
-        inLanguage: "en",
-      },
 
     ],
   };
