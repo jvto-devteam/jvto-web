@@ -39,65 +39,40 @@ const Home = async () => {
     "@graph": [
       {
         "@type": "TravelAgency",
-        "@id": siteUrl + "/#organization",
-        name: "Java Volcano Tour Operator (JVTO)",
+        "@id": "https://javavolcano-touroperator.com/#organization",
+        name: "Java Volcano Tour Operator",
+        legalName: "PT Java Volcano Rendezvous",
         alternateName: "JVTO",
-        url: siteUrl,
         description:
           "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-        logo: siteUrl + "/assets/img/jvto-color.png",
-        image: [
-          siteUrl + "/assets/img/jvto-color.png",
-          siteUrl + "/assets/img/hero/home.webp",
-        ],
+        url: "https://javavolcano-touroperator.com/",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        image: "https://javavolcano-touroperator.com/assets/img/hero/home.webp",
+        foundingDate: "2016-01-01",
+        priceRange: "$$",
+        telephone: "+6282244788833",
         email: "hello@javavolcano-touroperator.com",
-        telephone: "+62 822-4478-8833",
         address: {
           "@type": "PostalAddress",
-          streetAddress:
-            "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-          postalCode: "68214",
+          streetAddress: "Jl. Khairil Anwar No.102 A, Badean",
           addressLocality: "Bondowoso",
-          addressRegion: "East Java",
+          addressRegion: "Jawa Timur",
+          postalCode: "68214",
           addressCountry: "ID",
         },
-        areaServed: [
-          {
-            "@type": "AdministrativeArea",
-            name: "East Java",
-          },
-          {
-            "@type": "Country",
-            name: "Indonesia",
-          },
-          {
-            "@type": "City",
-            name: "Surabaya",
-          },
-          {
-            "@type": "Place",
-            name: "Bali",
-          },
-        ],
-        identifier: [
-          {
-            "@type": "PropertyValue",
-            name: "Business and tourism licence number",
-            value: "1102230032918",
-          },
-        ],
-        sameAs: [
-          "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          telephone: "+6282244788833",
+          email: "hello@javavolcano-touroperator.com",
+          availableLanguage: ["en", "id"],
+        },
         founder: {
           "@type": "Person",
-          name: "Agung Sambuko",
-          alternateName: "Mr. Sam",
-          jobTitle: "Tourist Police Officer",
-          image:
-            "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
+          "@id": "https://javavolcano-touroperator.com/#founder",
+          name: "Agung Sambuko (Mr. Sam)",
+          image: "https://commons.wikimedia.org/wiki/File:Agung_Sambuko.jpg",
+          jobTitle: "Founder & Active Tourist Police Officer",
           description:
             "Founder of JVTO and active member of the East Java Tourist Police Unit (Ditpamobvit), specializing in tourist safety and risk management.",
           memberOf: {
@@ -119,66 +94,73 @@ const Home = async () => {
             "VolcanoTrekking",
             "LogisticsManagement",
           ],
+          affiliation: {
+            "@id": "https://javavolcano-touroperator.com/#organization",
+          },
         },
-        priceRange: "IDR 1.000.000 - IDR 9.050.000",
-        openingHoursSpecification: [
+        areaServed: ["East Java", "Mount Bromo", "Mount Ijen"],
+        memberOf: {
+          "@type": "Organization",
+          name: "Himpunan Pelaku Wisata Khusus Ijen (HPWKI)",
+          url: "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyaSAyMDI0",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Bondowoso",
+            addressRegion: "Jawa Timur",
+            addressCountry: "ID",
+          },
+          identifier: [
+            {
+              "@type": "PropertyValue",
+              propertyID: "AHU-Decree",
+              value: "AHU-0001072.AH.01.07.TAHUN 2024",
+            },
+          ],
+        },
+        areaServed: [
           {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Saturday",
-            opens: "07:30",
-            closes: "17:00",
+            "@type": "AdministrativeArea",
+            name: "East Java",
           },
           {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Sunday",
-            opens: "08:00",
-            closes: "17:00",
+            "@type": "Country",
+            name: "Indonesia",
           },
           {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Monday",
-            opens: "08:00",
-            closes: "21:00",
+            "@type": "City",
+            name: "Surabaya",
           },
           {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Tuesday",
-            opens: "08:00",
-            closes: "21:00",
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Wednesday",
-            opens: "08:00",
-            closes: "21:00",
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Thursday",
-            opens: "08:00",
-            closes: "21:00",
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Friday",
-            opens: "08:00",
-            closes: "21:00",
+            "@type": "Place",
+            name: "Bali",
           },
         ],
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: -7.9161788,
-          longitude: 113.8085868,
-        },
-        contactPoint: [
+
+        identifier: [
           {
-            "@type": "ContactPoint",
-            telephone: "+62 822-4478-8833",
-            email: "hello@javavolcano-touroperator.com",
-            contactType: "customer support",
+            "@type": "PropertyValue",
+            propertyID: "TDUP",
+            value: "0220001393513",
+          },
+          {
+            "@type": "PropertyValue",
+            name: "Business and tourism licence number",
+            value: "1102230032918",
+          },
+          {
+            "@type": "PropertyValue",
+            propertyID: "AHU-Company-Profile",
+            value:
+              "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
           },
         ],
-        foundingDate: "2016-01-01",
+        sameAs: [
+          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+          "https://trustpilot.com/review/javavolcano-touroperator.com",
+          "https://www.google.com/maps?cid=1266403973589689021",
+          "https://www.isic.org/discounts/?providerId=259268",
+          "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
+        ],
       },
       {
         "@type": "WebSite",
