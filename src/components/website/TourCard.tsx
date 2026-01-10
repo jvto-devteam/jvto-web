@@ -7,14 +7,14 @@ import { ListTourPackage } from "@/types";
 import { formatIDR } from "@/utils/formatting";
 import Modal from "./Modal";
 import { notFound } from "next/navigation";
-import { 
-  Dumbbell, 
-  ChevronLeft, 
-  ChevronRight, 
-  Clock, 
-  MapPin, 
-  Star, 
-  ArrowRight 
+import {
+  Dumbbell,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Star,
+  ArrowRight,
 } from "lucide-react";
 
 // Skeleton tetap sama
@@ -22,13 +22,14 @@ import {
 
 interface TourCardProps {
   tour?: ListTourPackage;
+  isNewTab?: boolean;
   isLoading?: boolean;
 }
 
-const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
+const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, isLoading }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   if (!tour) return notFound();
 
   // PASTIKAN images selalu array yang valid + fallback
@@ -74,7 +75,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const originCityDisplay = tour.startDestination;
-  const fullTourSlug = '/'+tour.slug;
+  const fullTourSlug = "/" + tour.slug;
   const displayPrice = `From ${formatIDR(tour.startFrom)}`;
 
   return (
@@ -169,14 +170,16 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
             <div className="flex items-center gap-1">
               {/* Star dengan fill agar solid */}
               <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              <span className="text-ink-primary font-bold">
-                49
-              </span>
+              <span className="text-ink-primary font-bold">49</span>
               <span className="text-ink-neutral-400 normal-case">(122)</span>
             </div>
           </div>
 
-          <Link href={fullTourSlug} className="group/title block mb-3">
+          <Link
+            target={isNewTab ? "_blank" : "_self"}
+            href={fullTourSlug}
+            className="group/title block mb-3"
+          >
             <h3
               id={`tour-title-${tour.id}`}
               className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-lime-600 transition-colors line-clamp-2"
@@ -204,6 +207,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isLoading }) => {
               </div>
 
               <Link
+                target={isNewTab ? "_blank" : "_self"}
                 href={fullTourSlug}
                 className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
                 aria-label="View tour details"
