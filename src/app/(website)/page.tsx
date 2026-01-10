@@ -117,25 +117,6 @@ const Home = async () => {
             },
           ],
         },
-        areaServed: [
-          {
-            "@type": "AdministrativeArea",
-            name: "East Java",
-          },
-          {
-            "@type": "Country",
-            name: "Indonesia",
-          },
-          {
-            "@type": "City",
-            name: "Surabaya",
-          },
-          {
-            "@type": "Place",
-            name: "Bali",
-          },
-        ],
-
         identifier: [
           {
             "@type": "PropertyValue",
