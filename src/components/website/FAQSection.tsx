@@ -93,19 +93,6 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   const faqContent = (
     <div>
       {faqs.map((faq, index) => (
@@ -121,8 +108,6 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
 
   return (
     <section className="py-12 md:py-24 bg-white">
-      <StructuredData data={faqSchema} />
-
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
