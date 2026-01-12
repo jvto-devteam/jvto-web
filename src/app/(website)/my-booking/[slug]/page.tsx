@@ -394,7 +394,7 @@ export default async function MyBookingPage({
                       Email
                     </p>
                     <p className="font-bold text-sm">
-                      javavolcanotouroperator@gmail.com
+                      hello@javavolcano-touroperator.com
                     </p>
                   </div>
                 </div>
