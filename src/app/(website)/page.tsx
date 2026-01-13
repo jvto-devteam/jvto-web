@@ -207,8 +207,8 @@ const Home = async () => {
       {/* <LevelSelector /> */}
       <FeaturedTours />
       <WhyJVTO />
-      {/* <Testimonials /> */}
-      <Reviews />
+      <Testimonials />
+      {/* <Reviews /> */}
       <IsicSection />
       {/* <Destinations /> */}
       <IjenHealthScreeningSection />
