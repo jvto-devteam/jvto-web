@@ -72,7 +72,8 @@ const Home = async () => {
           "@type": "Person",
           "@id": "https://javavolcano-touroperator.com/#founder",
           name: "Agung Sambuko (Mr. Sam)",
-          image: "https://upload.wikimedia.org/wikipedia/commons/b/bf/Agung_Sambuko.jpg",
+          image:
+            "https://upload.wikimedia.org/wikipedia/commons/b/bf/Agung_Sambuko.jpg",
           jobTitle: "Founder & Active Tourist Police Officer",
           description:
             "Founder of JVTO and active member of the East Java Tourist Police Unit (Ditpamobvit), specializing in tourist safety and risk management.",
@@ -200,18 +201,18 @@ const Home = async () => {
   return (
     <main>
       <StructuredData data={homeSchema} />
-
       <Hero />
       <HomeDestinations />
       {/* <Features /> */}
       {/* <LevelSelector /> */}
       <FeaturedTours />
       <WhyJVTO />
+
       <Testimonials />
       {/* <Reviews /> */}
-      <IsicSection />
       {/* <Destinations /> */}
       <IjenHealthScreeningSection />
+      <IsicSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
       <TravelGuideTeaser />
       <Contact />
