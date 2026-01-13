@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   to,
   ...props
 }) => {
+  const target = props.target || "_self";
   const baseStyles =
     "inline-flex items-center justify-center font-bold transition-colors duration-200 rounded-sm uppercase tracking-wide";
 
@@ -52,7 +53,7 @@ const Button: React.FC<ButtonProps> = ({
 
   if (to) {
     return (
-      <Link href={to} className={classes}>
+      <Link target={target} href={to} className={classes}>
         {children}
       </Link>
     );

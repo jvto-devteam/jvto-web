@@ -26,6 +26,7 @@ export default function IsicSection() {
 
           {/* Right Side: Action Button */}
           <Link 
+          target="_blank"
             href="/isic/student-package" 
             className="group flex-shrink-0 inline-flex items-center justify-center px-8 py-3 text-sm font-bold text-black transition-all duration-200 bg-lime-400 hover:bg-lime-500 rounded-lg uppercase tracking-widest"
           >
