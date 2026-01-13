@@ -6,15 +6,6 @@ import { prisma } from "@/lib/prisma";
 export async function sitemapToursFromSurabaya(
   t: Date
 ): Promise<MetadataRoute.Sitemap> {
-  // Grup durasi (statis)
-  // const durationGroups: MetadataRoute.Sitemap = [
-  //   { url: url("/tours/from-surabaya/1d1n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  //   { url: url("/tours/from-surabaya/2d1n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  //   { url: url("/tours/from-surabaya/3d2n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  //   { url: url("/tours/from-surabaya/4d3n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  //   { url: url("/tours/from-surabaya/5d4n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  //   { url: url("/tours/from-surabaya/6d5n"), lastModified: t, changeFrequency: "weekly", priority: 0.7 },
-  // ];
 
   // Ambil paket publish yang start dari Surabaya
   const packages = await prisma.packages.findMany({
