@@ -79,6 +79,7 @@ const Hero: React.FC = () => {
             Private Tours
           </Button>
           <Button
+          target="_blank"
             to="/verify-jvto"
             variant="outline"
             size="lg"
