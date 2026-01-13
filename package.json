@@ -44,7 +44,8 @@
     "react-quill-new": "^3.6.0",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "embla-carousel-react": "^8.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
