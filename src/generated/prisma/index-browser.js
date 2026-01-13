@@ -601,6 +601,11 @@ exports.Prisma.Crew_membersScalarFieldEnum = {
   code: 'code',
   name: 'name',
   phone: 'phone',
+  full_name: 'full_name',
+  year_of_joining: 'year_of_joining',
+  facebook_url: 'facebook_url',
+  instagram_url: 'instagram_url',
+  about_me: 'about_me',
   type: 'type',
   tags: 'tags',
   photo_url: 'photo_url',
@@ -644,6 +649,25 @@ exports.Prisma.Currency_exchange_ratesScalarFieldEnum = {
   created_at: 'created_at',
   last_updated: 'last_updated',
   source: 'source'
+};
+
+exports.Prisma.ReviewsScalarFieldEnum = {
+  id: 'id',
+  customer_name: 'customer_name',
+  profile_photo: 'profile_photo',
+  platform: 'platform',
+  date: 'date',
+  star: 'star',
+  review: 'review',
+  photos: 'photos',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Crew_reviewsScalarFieldEnum = {
+  id: 'id',
+  review_id: 'review_id',
+  crew_id: 'crew_id'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -1474,6 +1498,8 @@ exports.Prisma.ModelName = {
   crew_roles: 'crew_roles',
   crew_unavailabilities: 'crew_unavailabilities',
   currency_exchange_rates: 'currency_exchange_rates',
+  reviews: 'reviews',
+  crew_reviews: 'crew_reviews',
   User: 'User',
   Account: 'Account',
   Session: 'Session',

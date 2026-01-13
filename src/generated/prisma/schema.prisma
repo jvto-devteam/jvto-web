@@ -637,6 +637,11 @@ model crew_members {
   code                  String?
   name                  String
   phone                 String?
+  full_name             String?                 @db.VarChar(255)
+  year_of_joining       Int?                    @db.SmallInt
+  facebook_url          String?                 @db.VarChar(255)
+  instagram_url         String?                 @db.VarChar(255)
+  about_me              String?                 @db.Text
   type                  String?
   tags                  String?
   photo_url             String?
@@ -650,6 +655,7 @@ model crew_members {
   crew_member_reviews   crew_member_reviews[]
   crew_member_roles     crew_member_roles[]
   crew_unavailabilities crew_unavailabilities[]
+  crew_reviews          crew_reviews[]
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -696,6 +702,33 @@ model currency_exchange_rates {
   source          String?
 
   @@unique([base_currency, target_currency, effective_date], map: "uq_currency_rate")
+}
+
+model reviews {
+  id            BigInt    @id @default(autoincrement())
+  customer_name String    @db.VarChar(255)
+  profile_photo String?   @db.VarChar(255)
+  platform      String    @db.VarChar(255)
+  date          DateTime  @db.Date
+  star          Int?      @db.SmallInt
+  review        String    @db.Text
+  photos        String?   @db.Text
+  created_at    DateTime? @db.Timestamp(6)
+  updated_at    DateTime? @db.Timestamp(6)
+
+  crew_reviews crew_reviews[]
+}
+
+model crew_reviews {
+  id        BigInt @id @default(autoincrement())
+  review_id BigInt
+  crew_id   BigInt
+
+  review reviews      @relation(fields: [review_id], references: [id])
+  crew   crew_members @relation(fields: [crew_id], references: [id])
+
+  @@index([review_id])
+  @@index([crew_id])
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments

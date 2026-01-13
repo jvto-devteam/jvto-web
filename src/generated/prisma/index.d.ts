@@ -219,6 +219,16 @@ export type crew_unavailabilities = $Result.DefaultSelection<Prisma.$crew_unavai
  */
 export type currency_exchange_rates = $Result.DefaultSelection<Prisma.$currency_exchange_ratesPayload>
 /**
+ * Model reviews
+ * 
+ */
+export type reviews = $Result.DefaultSelection<Prisma.$reviewsPayload>
+/**
+ * Model crew_reviews
+ * 
+ */
+export type crew_reviews = $Result.DefaultSelection<Prisma.$crew_reviewsPayload>
+/**
  * Model User
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -1074,6 +1084,26 @@ export class PrismaClient<
     * ```
     */
   get currency_exchange_rates(): Prisma.currency_exchange_ratesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reviews`: Exposes CRUD operations for the **reviews** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reviews
+    * const reviews = await prisma.reviews.findMany()
+    * ```
+    */
+  get reviews(): Prisma.reviewsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.crew_reviews`: Exposes CRUD operations for the **crew_reviews** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Crew_reviews
+    * const crew_reviews = await prisma.crew_reviews.findMany()
+    * ```
+    */
+  get crew_reviews(): Prisma.crew_reviewsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -2134,6 +2164,8 @@ export namespace Prisma {
     crew_roles: 'crew_roles',
     crew_unavailabilities: 'crew_unavailabilities',
     currency_exchange_rates: 'currency_exchange_rates',
+    reviews: 'reviews',
+    crew_reviews: 'crew_reviews',
     User: 'User',
     Account: 'Account',
     Session: 'Session',
@@ -2210,7 +2242,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5097,6 +5129,154 @@ export namespace Prisma {
           count: {
             args: Prisma.currency_exchange_ratesCountArgs<ExtArgs>
             result: $Utils.Optional<Currency_exchange_ratesCountAggregateOutputType> | number
+          }
+        }
+      }
+      reviews: {
+        payload: Prisma.$reviewsPayload<ExtArgs>
+        fields: Prisma.reviewsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.reviewsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.reviewsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          findFirst: {
+            args: Prisma.reviewsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.reviewsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          findMany: {
+            args: Prisma.reviewsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>[]
+          }
+          create: {
+            args: Prisma.reviewsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          createMany: {
+            args: Prisma.reviewsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.reviewsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>[]
+          }
+          delete: {
+            args: Prisma.reviewsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          update: {
+            args: Prisma.reviewsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          deleteMany: {
+            args: Prisma.reviewsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.reviewsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.reviewsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>[]
+          }
+          upsert: {
+            args: Prisma.reviewsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$reviewsPayload>
+          }
+          aggregate: {
+            args: Prisma.ReviewsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReviews>
+          }
+          groupBy: {
+            args: Prisma.reviewsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReviewsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.reviewsCountArgs<ExtArgs>
+            result: $Utils.Optional<ReviewsCountAggregateOutputType> | number
+          }
+        }
+      }
+      crew_reviews: {
+        payload: Prisma.$crew_reviewsPayload<ExtArgs>
+        fields: Prisma.crew_reviewsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.crew_reviewsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.crew_reviewsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          findFirst: {
+            args: Prisma.crew_reviewsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.crew_reviewsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          findMany: {
+            args: Prisma.crew_reviewsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>[]
+          }
+          create: {
+            args: Prisma.crew_reviewsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          createMany: {
+            args: Prisma.crew_reviewsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.crew_reviewsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>[]
+          }
+          delete: {
+            args: Prisma.crew_reviewsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          update: {
+            args: Prisma.crew_reviewsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          deleteMany: {
+            args: Prisma.crew_reviewsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.crew_reviewsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.crew_reviewsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>[]
+          }
+          upsert: {
+            args: Prisma.crew_reviewsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$crew_reviewsPayload>
+          }
+          aggregate: {
+            args: Prisma.Crew_reviewsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCrew_reviews>
+          }
+          groupBy: {
+            args: Prisma.crew_reviewsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Crew_reviewsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.crew_reviewsCountArgs<ExtArgs>
+            result: $Utils.Optional<Crew_reviewsCountAggregateOutputType> | number
           }
         }
       }
@@ -9527,6 +9707,8 @@ export namespace Prisma {
     crew_roles?: crew_rolesOmit
     crew_unavailabilities?: crew_unavailabilitiesOmit
     currency_exchange_rates?: currency_exchange_ratesOmit
+    reviews?: reviewsOmit
+    crew_reviews?: crew_reviewsOmit
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
@@ -10236,6 +10418,7 @@ export namespace Prisma {
     crew_member_reviews: number
     crew_member_roles: number
     crew_unavailabilities: number
+    crew_reviews: number
   }
 
   export type Crew_membersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10244,6 +10427,7 @@ export namespace Prisma {
     crew_member_reviews?: boolean | Crew_membersCountOutputTypeCountCrew_member_reviewsArgs
     crew_member_roles?: boolean | Crew_membersCountOutputTypeCountCrew_member_rolesArgs
     crew_unavailabilities?: boolean | Crew_membersCountOutputTypeCountCrew_unavailabilitiesArgs
+    crew_reviews?: boolean | Crew_membersCountOutputTypeCountCrew_reviewsArgs
   }
 
   // Custom InputTypes
@@ -10290,6 +10474,13 @@ export namespace Prisma {
    */
   export type Crew_membersCountOutputTypeCountCrew_unavailabilitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: crew_unavailabilitiesWhereInput
+  }
+
+  /**
+   * Crew_membersCountOutputType without action
+   */
+  export type Crew_membersCountOutputTypeCountCrew_reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: crew_reviewsWhereInput
   }
 
 
@@ -10339,6 +10530,37 @@ export namespace Prisma {
    */
   export type Crew_rolesCountOutputTypeCountTransport_crew_rulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: transport_crew_rulesWhereInput
+  }
+
+
+  /**
+   * Count Type ReviewsCountOutputType
+   */
+
+  export type ReviewsCountOutputType = {
+    crew_reviews: number
+  }
+
+  export type ReviewsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    crew_reviews?: boolean | ReviewsCountOutputTypeCountCrew_reviewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReviewsCountOutputType without action
+   */
+  export type ReviewsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReviewsCountOutputType
+     */
+    select?: ReviewsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReviewsCountOutputType without action
+   */
+  export type ReviewsCountOutputTypeCountCrew_reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: crew_reviewsWhereInput
   }
 
 
@@ -54825,10 +55047,12 @@ export namespace Prisma {
 
   export type Crew_membersAvgAggregateOutputType = {
     id: number | null
+    year_of_joining: number | null
   }
 
   export type Crew_membersSumAggregateOutputType = {
     id: bigint | null
+    year_of_joining: number | null
   }
 
   export type Crew_membersMinAggregateOutputType = {
@@ -54836,6 +55060,11 @@ export namespace Prisma {
     code: string | null
     name: string | null
     phone: string | null
+    full_name: string | null
+    year_of_joining: number | null
+    facebook_url: string | null
+    instagram_url: string | null
+    about_me: string | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -54851,6 +55080,11 @@ export namespace Prisma {
     code: string | null
     name: string | null
     phone: string | null
+    full_name: string | null
+    year_of_joining: number | null
+    facebook_url: string | null
+    instagram_url: string | null
+    about_me: string | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -54866,6 +55100,11 @@ export namespace Prisma {
     code: number
     name: number
     phone: number
+    full_name: number
+    year_of_joining: number
+    facebook_url: number
+    instagram_url: number
+    about_me: number
     type: number
     tags: number
     photo_url: number
@@ -54880,10 +55119,12 @@ export namespace Prisma {
 
   export type Crew_membersAvgAggregateInputType = {
     id?: true
+    year_of_joining?: true
   }
 
   export type Crew_membersSumAggregateInputType = {
     id?: true
+    year_of_joining?: true
   }
 
   export type Crew_membersMinAggregateInputType = {
@@ -54891,6 +55132,11 @@ export namespace Prisma {
     code?: true
     name?: true
     phone?: true
+    full_name?: true
+    year_of_joining?: true
+    facebook_url?: true
+    instagram_url?: true
+    about_me?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -54906,6 +55152,11 @@ export namespace Prisma {
     code?: true
     name?: true
     phone?: true
+    full_name?: true
+    year_of_joining?: true
+    facebook_url?: true
+    instagram_url?: true
+    about_me?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -54921,6 +55172,11 @@ export namespace Prisma {
     code?: true
     name?: true
     phone?: true
+    full_name?: true
+    year_of_joining?: true
+    facebook_url?: true
+    instagram_url?: true
+    about_me?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -55023,6 +55279,11 @@ export namespace Prisma {
     code: string | null
     name: string
     phone: string | null
+    full_name: string | null
+    year_of_joining: number | null
+    facebook_url: string | null
+    instagram_url: string | null
+    about_me: string | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -55057,6 +55318,11 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     phone?: boolean
+    full_name?: boolean
+    year_of_joining?: boolean
+    facebook_url?: boolean
+    instagram_url?: boolean
+    about_me?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -55070,6 +55336,7 @@ export namespace Prisma {
     crew_member_reviews?: boolean | crew_members$crew_member_reviewsArgs<ExtArgs>
     crew_member_roles?: boolean | crew_members$crew_member_rolesArgs<ExtArgs>
     crew_unavailabilities?: boolean | crew_members$crew_unavailabilitiesArgs<ExtArgs>
+    crew_reviews?: boolean | crew_members$crew_reviewsArgs<ExtArgs>
     _count?: boolean | Crew_membersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["crew_members"]>
 
@@ -55078,6 +55345,11 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     phone?: boolean
+    full_name?: boolean
+    year_of_joining?: boolean
+    facebook_url?: boolean
+    instagram_url?: boolean
+    about_me?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -55093,6 +55365,11 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     phone?: boolean
+    full_name?: boolean
+    year_of_joining?: boolean
+    facebook_url?: boolean
+    instagram_url?: boolean
+    about_me?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -55108,6 +55385,11 @@ export namespace Prisma {
     code?: boolean
     name?: boolean
     phone?: boolean
+    full_name?: boolean
+    year_of_joining?: boolean
+    facebook_url?: boolean
+    instagram_url?: boolean
+    about_me?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -55118,13 +55400,14 @@ export namespace Prisma {
     email?: boolean
   }
 
-  export type crew_membersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "phone" | "type" | "tags" | "photo_url" | "created_at" | "updated_at" | "deleted_at" | "password" | "email", ExtArgs["result"]["crew_members"]>
+  export type crew_membersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "phone" | "full_name" | "year_of_joining" | "facebook_url" | "instagram_url" | "about_me" | "type" | "tags" | "photo_url" | "created_at" | "updated_at" | "deleted_at" | "password" | "email", ExtArgs["result"]["crew_members"]>
   export type crew_membersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking_crew_members?: boolean | crew_members$booking_crew_membersArgs<ExtArgs>
     booking_review_crews?: boolean | crew_members$booking_review_crewsArgs<ExtArgs>
     crew_member_reviews?: boolean | crew_members$crew_member_reviewsArgs<ExtArgs>
     crew_member_roles?: boolean | crew_members$crew_member_rolesArgs<ExtArgs>
     crew_unavailabilities?: boolean | crew_members$crew_unavailabilitiesArgs<ExtArgs>
+    crew_reviews?: boolean | crew_members$crew_reviewsArgs<ExtArgs>
     _count?: boolean | Crew_membersCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type crew_membersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -55138,12 +55421,18 @@ export namespace Prisma {
       crew_member_reviews: Prisma.$crew_member_reviewsPayload<ExtArgs>[]
       crew_member_roles: Prisma.$crew_member_rolesPayload<ExtArgs>[]
       crew_unavailabilities: Prisma.$crew_unavailabilitiesPayload<ExtArgs>[]
+      crew_reviews: Prisma.$crew_reviewsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       code: string | null
       name: string
       phone: string | null
+      full_name: string | null
+      year_of_joining: number | null
+      facebook_url: string | null
+      instagram_url: string | null
+      about_me: string | null
       type: string | null
       tags: string | null
       photo_url: string | null
@@ -55551,6 +55840,7 @@ export namespace Prisma {
     crew_member_reviews<T extends crew_members$crew_member_reviewsArgs<ExtArgs> = {}>(args?: Subset<T, crew_members$crew_member_reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_member_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     crew_member_roles<T extends crew_members$crew_member_rolesArgs<ExtArgs> = {}>(args?: Subset<T, crew_members$crew_member_rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_member_rolesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     crew_unavailabilities<T extends crew_members$crew_unavailabilitiesArgs<ExtArgs> = {}>(args?: Subset<T, crew_members$crew_unavailabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_unavailabilitiesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    crew_reviews<T extends crew_members$crew_reviewsArgs<ExtArgs> = {}>(args?: Subset<T, crew_members$crew_reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -55584,6 +55874,11 @@ export namespace Prisma {
     readonly code: FieldRef<"crew_members", 'String'>
     readonly name: FieldRef<"crew_members", 'String'>
     readonly phone: FieldRef<"crew_members", 'String'>
+    readonly full_name: FieldRef<"crew_members", 'String'>
+    readonly year_of_joining: FieldRef<"crew_members", 'Int'>
+    readonly facebook_url: FieldRef<"crew_members", 'String'>
+    readonly instagram_url: FieldRef<"crew_members", 'String'>
+    readonly about_me: FieldRef<"crew_members", 'String'>
     readonly type: FieldRef<"crew_members", 'String'>
     readonly tags: FieldRef<"crew_members", 'String'>
     readonly photo_url: FieldRef<"crew_members", 'String'>
@@ -56097,6 +56392,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Crew_unavailabilitiesScalarFieldEnum | Crew_unavailabilitiesScalarFieldEnum[]
+  }
+
+  /**
+   * crew_members.crew_reviews
+   */
+  export type crew_members$crew_reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    where?: crew_reviewsWhereInput
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    cursor?: crew_reviewsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
   }
 
   /**
@@ -59615,6 +59934,2261 @@ export namespace Prisma {
      * Omit specific fields from the currency_exchange_rates
      */
     omit?: currency_exchange_ratesOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model reviews
+   */
+
+  export type AggregateReviews = {
+    _count: ReviewsCountAggregateOutputType | null
+    _avg: ReviewsAvgAggregateOutputType | null
+    _sum: ReviewsSumAggregateOutputType | null
+    _min: ReviewsMinAggregateOutputType | null
+    _max: ReviewsMaxAggregateOutputType | null
+  }
+
+  export type ReviewsAvgAggregateOutputType = {
+    id: number | null
+    star: number | null
+  }
+
+  export type ReviewsSumAggregateOutputType = {
+    id: bigint | null
+    star: number | null
+  }
+
+  export type ReviewsMinAggregateOutputType = {
+    id: bigint | null
+    customer_name: string | null
+    profile_photo: string | null
+    platform: string | null
+    date: Date | null
+    star: number | null
+    review: string | null
+    photos: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ReviewsMaxAggregateOutputType = {
+    id: bigint | null
+    customer_name: string | null
+    profile_photo: string | null
+    platform: string | null
+    date: Date | null
+    star: number | null
+    review: string | null
+    photos: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ReviewsCountAggregateOutputType = {
+    id: number
+    customer_name: number
+    profile_photo: number
+    platform: number
+    date: number
+    star: number
+    review: number
+    photos: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ReviewsAvgAggregateInputType = {
+    id?: true
+    star?: true
+  }
+
+  export type ReviewsSumAggregateInputType = {
+    id?: true
+    star?: true
+  }
+
+  export type ReviewsMinAggregateInputType = {
+    id?: true
+    customer_name?: true
+    profile_photo?: true
+    platform?: true
+    date?: true
+    star?: true
+    review?: true
+    photos?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ReviewsMaxAggregateInputType = {
+    id?: true
+    customer_name?: true
+    profile_photo?: true
+    platform?: true
+    date?: true
+    star?: true
+    review?: true
+    photos?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ReviewsCountAggregateInputType = {
+    id?: true
+    customer_name?: true
+    profile_photo?: true
+    platform?: true
+    date?: true
+    star?: true
+    review?: true
+    photos?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ReviewsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which reviews to aggregate.
+     */
+    where?: reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of reviews to fetch.
+     */
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned reviews
+    **/
+    _count?: true | ReviewsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReviewsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReviewsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReviewsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReviewsMaxAggregateInputType
+  }
+
+  export type GetReviewsAggregateType<T extends ReviewsAggregateArgs> = {
+        [P in keyof T & keyof AggregateReviews]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReviews[P]>
+      : GetScalarType<T[P], AggregateReviews[P]>
+  }
+
+
+
+
+  export type reviewsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: reviewsWhereInput
+    orderBy?: reviewsOrderByWithAggregationInput | reviewsOrderByWithAggregationInput[]
+    by: ReviewsScalarFieldEnum[] | ReviewsScalarFieldEnum
+    having?: reviewsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReviewsCountAggregateInputType | true
+    _avg?: ReviewsAvgAggregateInputType
+    _sum?: ReviewsSumAggregateInputType
+    _min?: ReviewsMinAggregateInputType
+    _max?: ReviewsMaxAggregateInputType
+  }
+
+  export type ReviewsGroupByOutputType = {
+    id: bigint
+    customer_name: string
+    profile_photo: string | null
+    platform: string
+    date: Date
+    star: number | null
+    review: string
+    photos: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    _count: ReviewsCountAggregateOutputType | null
+    _avg: ReviewsAvgAggregateOutputType | null
+    _sum: ReviewsSumAggregateOutputType | null
+    _min: ReviewsMinAggregateOutputType | null
+    _max: ReviewsMaxAggregateOutputType | null
+  }
+
+  type GetReviewsGroupByPayload<T extends reviewsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReviewsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReviewsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReviewsGroupByOutputType[P]>
+            : GetScalarType<T[P], ReviewsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type reviewsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customer_name?: boolean
+    profile_photo?: boolean
+    platform?: boolean
+    date?: boolean
+    star?: boolean
+    review?: boolean
+    photos?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    crew_reviews?: boolean | reviews$crew_reviewsArgs<ExtArgs>
+    _count?: boolean | ReviewsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reviews"]>
+
+  export type reviewsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customer_name?: boolean
+    profile_photo?: boolean
+    platform?: boolean
+    date?: boolean
+    star?: boolean
+    review?: boolean
+    photos?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["reviews"]>
+
+  export type reviewsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    customer_name?: boolean
+    profile_photo?: boolean
+    platform?: boolean
+    date?: boolean
+    star?: boolean
+    review?: boolean
+    photos?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["reviews"]>
+
+  export type reviewsSelectScalar = {
+    id?: boolean
+    customer_name?: boolean
+    profile_photo?: boolean
+    platform?: boolean
+    date?: boolean
+    star?: boolean
+    review?: boolean
+    photos?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type reviewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customer_name" | "profile_photo" | "platform" | "date" | "star" | "review" | "photos" | "created_at" | "updated_at", ExtArgs["result"]["reviews"]>
+  export type reviewsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    crew_reviews?: boolean | reviews$crew_reviewsArgs<ExtArgs>
+    _count?: boolean | ReviewsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type reviewsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type reviewsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $reviewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "reviews"
+    objects: {
+      crew_reviews: Prisma.$crew_reviewsPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      customer_name: string
+      profile_photo: string | null
+      platform: string
+      date: Date
+      star: number | null
+      review: string
+      photos: string | null
+      created_at: Date | null
+      updated_at: Date | null
+    }, ExtArgs["result"]["reviews"]>
+    composites: {}
+  }
+
+  type reviewsGetPayload<S extends boolean | null | undefined | reviewsDefaultArgs> = $Result.GetResult<Prisma.$reviewsPayload, S>
+
+  type reviewsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<reviewsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReviewsCountAggregateInputType | true
+    }
+
+  export interface reviewsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['reviews'], meta: { name: 'reviews' } }
+    /**
+     * Find zero or one Reviews that matches the filter.
+     * @param {reviewsFindUniqueArgs} args - Arguments to find a Reviews
+     * @example
+     * // Get one Reviews
+     * const reviews = await prisma.reviews.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends reviewsFindUniqueArgs>(args: SelectSubset<T, reviewsFindUniqueArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Reviews that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {reviewsFindUniqueOrThrowArgs} args - Arguments to find a Reviews
+     * @example
+     * // Get one Reviews
+     * const reviews = await prisma.reviews.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends reviewsFindUniqueOrThrowArgs>(args: SelectSubset<T, reviewsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsFindFirstArgs} args - Arguments to find a Reviews
+     * @example
+     * // Get one Reviews
+     * const reviews = await prisma.reviews.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends reviewsFindFirstArgs>(args?: SelectSubset<T, reviewsFindFirstArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Reviews that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsFindFirstOrThrowArgs} args - Arguments to find a Reviews
+     * @example
+     * // Get one Reviews
+     * const reviews = await prisma.reviews.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends reviewsFindFirstOrThrowArgs>(args?: SelectSubset<T, reviewsFindFirstOrThrowArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Reviews
+     * const reviews = await prisma.reviews.findMany()
+     * 
+     * // Get first 10 Reviews
+     * const reviews = await prisma.reviews.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reviewsWithIdOnly = await prisma.reviews.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends reviewsFindManyArgs>(args?: SelectSubset<T, reviewsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Reviews.
+     * @param {reviewsCreateArgs} args - Arguments to create a Reviews.
+     * @example
+     * // Create one Reviews
+     * const Reviews = await prisma.reviews.create({
+     *   data: {
+     *     // ... data to create a Reviews
+     *   }
+     * })
+     * 
+     */
+    create<T extends reviewsCreateArgs>(args: SelectSubset<T, reviewsCreateArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Reviews.
+     * @param {reviewsCreateManyArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const reviews = await prisma.reviews.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends reviewsCreateManyArgs>(args?: SelectSubset<T, reviewsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Reviews and returns the data saved in the database.
+     * @param {reviewsCreateManyAndReturnArgs} args - Arguments to create many Reviews.
+     * @example
+     * // Create many Reviews
+     * const reviews = await prisma.reviews.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Reviews and only return the `id`
+     * const reviewsWithIdOnly = await prisma.reviews.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends reviewsCreateManyAndReturnArgs>(args?: SelectSubset<T, reviewsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Reviews.
+     * @param {reviewsDeleteArgs} args - Arguments to delete one Reviews.
+     * @example
+     * // Delete one Reviews
+     * const Reviews = await prisma.reviews.delete({
+     *   where: {
+     *     // ... filter to delete one Reviews
+     *   }
+     * })
+     * 
+     */
+    delete<T extends reviewsDeleteArgs>(args: SelectSubset<T, reviewsDeleteArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Reviews.
+     * @param {reviewsUpdateArgs} args - Arguments to update one Reviews.
+     * @example
+     * // Update one Reviews
+     * const reviews = await prisma.reviews.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends reviewsUpdateArgs>(args: SelectSubset<T, reviewsUpdateArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Reviews.
+     * @param {reviewsDeleteManyArgs} args - Arguments to filter Reviews to delete.
+     * @example
+     * // Delete a few Reviews
+     * const { count } = await prisma.reviews.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends reviewsDeleteManyArgs>(args?: SelectSubset<T, reviewsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Reviews
+     * const reviews = await prisma.reviews.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends reviewsUpdateManyArgs>(args: SelectSubset<T, reviewsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Reviews and returns the data updated in the database.
+     * @param {reviewsUpdateManyAndReturnArgs} args - Arguments to update many Reviews.
+     * @example
+     * // Update many Reviews
+     * const reviews = await prisma.reviews.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Reviews and only return the `id`
+     * const reviewsWithIdOnly = await prisma.reviews.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends reviewsUpdateManyAndReturnArgs>(args: SelectSubset<T, reviewsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Reviews.
+     * @param {reviewsUpsertArgs} args - Arguments to update or create a Reviews.
+     * @example
+     * // Update or create a Reviews
+     * const reviews = await prisma.reviews.upsert({
+     *   create: {
+     *     // ... data to create a Reviews
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Reviews we want to update
+     *   }
+     * })
+     */
+    upsert<T extends reviewsUpsertArgs>(args: SelectSubset<T, reviewsUpsertArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsCountArgs} args - Arguments to filter Reviews to count.
+     * @example
+     * // Count the number of Reviews
+     * const count = await prisma.reviews.count({
+     *   where: {
+     *     // ... the filter for the Reviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends reviewsCountArgs>(
+      args?: Subset<T, reviewsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReviewsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReviewsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReviewsAggregateArgs>(args: Subset<T, ReviewsAggregateArgs>): Prisma.PrismaPromise<GetReviewsAggregateType<T>>
+
+    /**
+     * Group by Reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {reviewsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends reviewsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: reviewsGroupByArgs['orderBy'] }
+        : { orderBy?: reviewsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, reviewsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReviewsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the reviews model
+   */
+  readonly fields: reviewsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for reviews.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__reviewsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    crew_reviews<T extends reviews$crew_reviewsArgs<ExtArgs> = {}>(args?: Subset<T, reviews$crew_reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the reviews model
+   */
+  interface reviewsFieldRefs {
+    readonly id: FieldRef<"reviews", 'BigInt'>
+    readonly customer_name: FieldRef<"reviews", 'String'>
+    readonly profile_photo: FieldRef<"reviews", 'String'>
+    readonly platform: FieldRef<"reviews", 'String'>
+    readonly date: FieldRef<"reviews", 'DateTime'>
+    readonly star: FieldRef<"reviews", 'Int'>
+    readonly review: FieldRef<"reviews", 'String'>
+    readonly photos: FieldRef<"reviews", 'String'>
+    readonly created_at: FieldRef<"reviews", 'DateTime'>
+    readonly updated_at: FieldRef<"reviews", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * reviews findUnique
+   */
+  export type reviewsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which reviews to fetch.
+     */
+    where: reviewsWhereUniqueInput
+  }
+
+  /**
+   * reviews findUniqueOrThrow
+   */
+  export type reviewsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which reviews to fetch.
+     */
+    where: reviewsWhereUniqueInput
+  }
+
+  /**
+   * reviews findFirst
+   */
+  export type reviewsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which reviews to fetch.
+     */
+    where?: reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of reviews to fetch.
+     */
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for reviews.
+     */
+    cursor?: reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of reviews.
+     */
+    distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * reviews findFirstOrThrow
+   */
+  export type reviewsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which reviews to fetch.
+     */
+    where?: reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of reviews to fetch.
+     */
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for reviews.
+     */
+    cursor?: reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of reviews.
+     */
+    distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * reviews findMany
+   */
+  export type reviewsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which reviews to fetch.
+     */
+    where?: reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of reviews to fetch.
+     */
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing reviews.
+     */
+    cursor?: reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` reviews.
+     */
+    skip?: number
+    distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
+  }
+
+  /**
+   * reviews create
+   */
+  export type reviewsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a reviews.
+     */
+    data: XOR<reviewsCreateInput, reviewsUncheckedCreateInput>
+  }
+
+  /**
+   * reviews createMany
+   */
+  export type reviewsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many reviews.
+     */
+    data: reviewsCreateManyInput | reviewsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * reviews createManyAndReturn
+   */
+  export type reviewsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * The data used to create many reviews.
+     */
+    data: reviewsCreateManyInput | reviewsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * reviews update
+   */
+  export type reviewsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a reviews.
+     */
+    data: XOR<reviewsUpdateInput, reviewsUncheckedUpdateInput>
+    /**
+     * Choose, which reviews to update.
+     */
+    where: reviewsWhereUniqueInput
+  }
+
+  /**
+   * reviews updateMany
+   */
+  export type reviewsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update reviews.
+     */
+    data: XOR<reviewsUpdateManyMutationInput, reviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which reviews to update
+     */
+    where?: reviewsWhereInput
+    /**
+     * Limit how many reviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * reviews updateManyAndReturn
+   */
+  export type reviewsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * The data used to update reviews.
+     */
+    data: XOR<reviewsUpdateManyMutationInput, reviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which reviews to update
+     */
+    where?: reviewsWhereInput
+    /**
+     * Limit how many reviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * reviews upsert
+   */
+  export type reviewsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the reviews to update in case it exists.
+     */
+    where: reviewsWhereUniqueInput
+    /**
+     * In case the reviews found by the `where` argument doesn't exist, create a new reviews with this data.
+     */
+    create: XOR<reviewsCreateInput, reviewsUncheckedCreateInput>
+    /**
+     * In case the reviews was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<reviewsUpdateInput, reviewsUncheckedUpdateInput>
+  }
+
+  /**
+   * reviews delete
+   */
+  export type reviewsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    /**
+     * Filter which reviews to delete.
+     */
+    where: reviewsWhereUniqueInput
+  }
+
+  /**
+   * reviews deleteMany
+   */
+  export type reviewsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which reviews to delete
+     */
+    where?: reviewsWhereInput
+    /**
+     * Limit how many reviews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * reviews.crew_reviews
+   */
+  export type reviews$crew_reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    where?: crew_reviewsWhereInput
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    cursor?: crew_reviewsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
+  }
+
+  /**
+   * reviews without action
+   */
+  export type reviewsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model crew_reviews
+   */
+
+  export type AggregateCrew_reviews = {
+    _count: Crew_reviewsCountAggregateOutputType | null
+    _avg: Crew_reviewsAvgAggregateOutputType | null
+    _sum: Crew_reviewsSumAggregateOutputType | null
+    _min: Crew_reviewsMinAggregateOutputType | null
+    _max: Crew_reviewsMaxAggregateOutputType | null
+  }
+
+  export type Crew_reviewsAvgAggregateOutputType = {
+    id: number | null
+    review_id: number | null
+    crew_id: number | null
+  }
+
+  export type Crew_reviewsSumAggregateOutputType = {
+    id: bigint | null
+    review_id: bigint | null
+    crew_id: bigint | null
+  }
+
+  export type Crew_reviewsMinAggregateOutputType = {
+    id: bigint | null
+    review_id: bigint | null
+    crew_id: bigint | null
+  }
+
+  export type Crew_reviewsMaxAggregateOutputType = {
+    id: bigint | null
+    review_id: bigint | null
+    crew_id: bigint | null
+  }
+
+  export type Crew_reviewsCountAggregateOutputType = {
+    id: number
+    review_id: number
+    crew_id: number
+    _all: number
+  }
+
+
+  export type Crew_reviewsAvgAggregateInputType = {
+    id?: true
+    review_id?: true
+    crew_id?: true
+  }
+
+  export type Crew_reviewsSumAggregateInputType = {
+    id?: true
+    review_id?: true
+    crew_id?: true
+  }
+
+  export type Crew_reviewsMinAggregateInputType = {
+    id?: true
+    review_id?: true
+    crew_id?: true
+  }
+
+  export type Crew_reviewsMaxAggregateInputType = {
+    id?: true
+    review_id?: true
+    crew_id?: true
+  }
+
+  export type Crew_reviewsCountAggregateInputType = {
+    id?: true
+    review_id?: true
+    crew_id?: true
+    _all?: true
+  }
+
+  export type Crew_reviewsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which crew_reviews to aggregate.
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of crew_reviews to fetch.
+     */
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: crew_reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` crew_reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` crew_reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned crew_reviews
+    **/
+    _count?: true | Crew_reviewsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Crew_reviewsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Crew_reviewsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Crew_reviewsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Crew_reviewsMaxAggregateInputType
+  }
+
+  export type GetCrew_reviewsAggregateType<T extends Crew_reviewsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCrew_reviews]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCrew_reviews[P]>
+      : GetScalarType<T[P], AggregateCrew_reviews[P]>
+  }
+
+
+
+
+  export type crew_reviewsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: crew_reviewsWhereInput
+    orderBy?: crew_reviewsOrderByWithAggregationInput | crew_reviewsOrderByWithAggregationInput[]
+    by: Crew_reviewsScalarFieldEnum[] | Crew_reviewsScalarFieldEnum
+    having?: crew_reviewsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Crew_reviewsCountAggregateInputType | true
+    _avg?: Crew_reviewsAvgAggregateInputType
+    _sum?: Crew_reviewsSumAggregateInputType
+    _min?: Crew_reviewsMinAggregateInputType
+    _max?: Crew_reviewsMaxAggregateInputType
+  }
+
+  export type Crew_reviewsGroupByOutputType = {
+    id: bigint
+    review_id: bigint
+    crew_id: bigint
+    _count: Crew_reviewsCountAggregateOutputType | null
+    _avg: Crew_reviewsAvgAggregateOutputType | null
+    _sum: Crew_reviewsSumAggregateOutputType | null
+    _min: Crew_reviewsMinAggregateOutputType | null
+    _max: Crew_reviewsMaxAggregateOutputType | null
+  }
+
+  type GetCrew_reviewsGroupByPayload<T extends crew_reviewsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Crew_reviewsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Crew_reviewsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Crew_reviewsGroupByOutputType[P]>
+            : GetScalarType<T[P], Crew_reviewsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type crew_reviewsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    review_id?: boolean
+    crew_id?: boolean
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["crew_reviews"]>
+
+  export type crew_reviewsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    review_id?: boolean
+    crew_id?: boolean
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["crew_reviews"]>
+
+  export type crew_reviewsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    review_id?: boolean
+    crew_id?: boolean
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["crew_reviews"]>
+
+  export type crew_reviewsSelectScalar = {
+    id?: boolean
+    review_id?: boolean
+    crew_id?: boolean
+  }
+
+  export type crew_reviewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "review_id" | "crew_id", ExtArgs["result"]["crew_reviews"]>
+  export type crew_reviewsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }
+  export type crew_reviewsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }
+  export type crew_reviewsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    review?: boolean | reviewsDefaultArgs<ExtArgs>
+    crew?: boolean | crew_membersDefaultArgs<ExtArgs>
+  }
+
+  export type $crew_reviewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "crew_reviews"
+    objects: {
+      review: Prisma.$reviewsPayload<ExtArgs>
+      crew: Prisma.$crew_membersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      review_id: bigint
+      crew_id: bigint
+    }, ExtArgs["result"]["crew_reviews"]>
+    composites: {}
+  }
+
+  type crew_reviewsGetPayload<S extends boolean | null | undefined | crew_reviewsDefaultArgs> = $Result.GetResult<Prisma.$crew_reviewsPayload, S>
+
+  type crew_reviewsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<crew_reviewsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Crew_reviewsCountAggregateInputType | true
+    }
+
+  export interface crew_reviewsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['crew_reviews'], meta: { name: 'crew_reviews' } }
+    /**
+     * Find zero or one Crew_reviews that matches the filter.
+     * @param {crew_reviewsFindUniqueArgs} args - Arguments to find a Crew_reviews
+     * @example
+     * // Get one Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends crew_reviewsFindUniqueArgs>(args: SelectSubset<T, crew_reviewsFindUniqueArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Crew_reviews that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {crew_reviewsFindUniqueOrThrowArgs} args - Arguments to find a Crew_reviews
+     * @example
+     * // Get one Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends crew_reviewsFindUniqueOrThrowArgs>(args: SelectSubset<T, crew_reviewsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Crew_reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsFindFirstArgs} args - Arguments to find a Crew_reviews
+     * @example
+     * // Get one Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends crew_reviewsFindFirstArgs>(args?: SelectSubset<T, crew_reviewsFindFirstArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Crew_reviews that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsFindFirstOrThrowArgs} args - Arguments to find a Crew_reviews
+     * @example
+     * // Get one Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends crew_reviewsFindFirstOrThrowArgs>(args?: SelectSubset<T, crew_reviewsFindFirstOrThrowArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Crew_reviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findMany()
+     * 
+     * // Get first 10 Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const crew_reviewsWithIdOnly = await prisma.crew_reviews.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends crew_reviewsFindManyArgs>(args?: SelectSubset<T, crew_reviewsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Crew_reviews.
+     * @param {crew_reviewsCreateArgs} args - Arguments to create a Crew_reviews.
+     * @example
+     * // Create one Crew_reviews
+     * const Crew_reviews = await prisma.crew_reviews.create({
+     *   data: {
+     *     // ... data to create a Crew_reviews
+     *   }
+     * })
+     * 
+     */
+    create<T extends crew_reviewsCreateArgs>(args: SelectSubset<T, crew_reviewsCreateArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Crew_reviews.
+     * @param {crew_reviewsCreateManyArgs} args - Arguments to create many Crew_reviews.
+     * @example
+     * // Create many Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends crew_reviewsCreateManyArgs>(args?: SelectSubset<T, crew_reviewsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Crew_reviews and returns the data saved in the database.
+     * @param {crew_reviewsCreateManyAndReturnArgs} args - Arguments to create many Crew_reviews.
+     * @example
+     * // Create many Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Crew_reviews and only return the `id`
+     * const crew_reviewsWithIdOnly = await prisma.crew_reviews.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends crew_reviewsCreateManyAndReturnArgs>(args?: SelectSubset<T, crew_reviewsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Crew_reviews.
+     * @param {crew_reviewsDeleteArgs} args - Arguments to delete one Crew_reviews.
+     * @example
+     * // Delete one Crew_reviews
+     * const Crew_reviews = await prisma.crew_reviews.delete({
+     *   where: {
+     *     // ... filter to delete one Crew_reviews
+     *   }
+     * })
+     * 
+     */
+    delete<T extends crew_reviewsDeleteArgs>(args: SelectSubset<T, crew_reviewsDeleteArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Crew_reviews.
+     * @param {crew_reviewsUpdateArgs} args - Arguments to update one Crew_reviews.
+     * @example
+     * // Update one Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends crew_reviewsUpdateArgs>(args: SelectSubset<T, crew_reviewsUpdateArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Crew_reviews.
+     * @param {crew_reviewsDeleteManyArgs} args - Arguments to filter Crew_reviews to delete.
+     * @example
+     * // Delete a few Crew_reviews
+     * const { count } = await prisma.crew_reviews.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends crew_reviewsDeleteManyArgs>(args?: SelectSubset<T, crew_reviewsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Crew_reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends crew_reviewsUpdateManyArgs>(args: SelectSubset<T, crew_reviewsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Crew_reviews and returns the data updated in the database.
+     * @param {crew_reviewsUpdateManyAndReturnArgs} args - Arguments to update many Crew_reviews.
+     * @example
+     * // Update many Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Crew_reviews and only return the `id`
+     * const crew_reviewsWithIdOnly = await prisma.crew_reviews.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends crew_reviewsUpdateManyAndReturnArgs>(args: SelectSubset<T, crew_reviewsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Crew_reviews.
+     * @param {crew_reviewsUpsertArgs} args - Arguments to update or create a Crew_reviews.
+     * @example
+     * // Update or create a Crew_reviews
+     * const crew_reviews = await prisma.crew_reviews.upsert({
+     *   create: {
+     *     // ... data to create a Crew_reviews
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Crew_reviews we want to update
+     *   }
+     * })
+     */
+    upsert<T extends crew_reviewsUpsertArgs>(args: SelectSubset<T, crew_reviewsUpsertArgs<ExtArgs>>): Prisma__crew_reviewsClient<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Crew_reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsCountArgs} args - Arguments to filter Crew_reviews to count.
+     * @example
+     * // Count the number of Crew_reviews
+     * const count = await prisma.crew_reviews.count({
+     *   where: {
+     *     // ... the filter for the Crew_reviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends crew_reviewsCountArgs>(
+      args?: Subset<T, crew_reviewsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Crew_reviewsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Crew_reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Crew_reviewsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Crew_reviewsAggregateArgs>(args: Subset<T, Crew_reviewsAggregateArgs>): Prisma.PrismaPromise<GetCrew_reviewsAggregateType<T>>
+
+    /**
+     * Group by Crew_reviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {crew_reviewsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends crew_reviewsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: crew_reviewsGroupByArgs['orderBy'] }
+        : { orderBy?: crew_reviewsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, crew_reviewsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCrew_reviewsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the crew_reviews model
+   */
+  readonly fields: crew_reviewsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for crew_reviews.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__crew_reviewsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    review<T extends reviewsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, reviewsDefaultArgs<ExtArgs>>): Prisma__reviewsClient<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    crew<T extends crew_membersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, crew_membersDefaultArgs<ExtArgs>>): Prisma__crew_membersClient<$Result.GetResult<Prisma.$crew_membersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the crew_reviews model
+   */
+  interface crew_reviewsFieldRefs {
+    readonly id: FieldRef<"crew_reviews", 'BigInt'>
+    readonly review_id: FieldRef<"crew_reviews", 'BigInt'>
+    readonly crew_id: FieldRef<"crew_reviews", 'BigInt'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * crew_reviews findUnique
+   */
+  export type crew_reviewsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which crew_reviews to fetch.
+     */
+    where: crew_reviewsWhereUniqueInput
+  }
+
+  /**
+   * crew_reviews findUniqueOrThrow
+   */
+  export type crew_reviewsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which crew_reviews to fetch.
+     */
+    where: crew_reviewsWhereUniqueInput
+  }
+
+  /**
+   * crew_reviews findFirst
+   */
+  export type crew_reviewsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which crew_reviews to fetch.
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of crew_reviews to fetch.
+     */
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for crew_reviews.
+     */
+    cursor?: crew_reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` crew_reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` crew_reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of crew_reviews.
+     */
+    distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
+  }
+
+  /**
+   * crew_reviews findFirstOrThrow
+   */
+  export type crew_reviewsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which crew_reviews to fetch.
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of crew_reviews to fetch.
+     */
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for crew_reviews.
+     */
+    cursor?: crew_reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` crew_reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` crew_reviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of crew_reviews.
+     */
+    distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
+  }
+
+  /**
+   * crew_reviews findMany
+   */
+  export type crew_reviewsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter, which crew_reviews to fetch.
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of crew_reviews to fetch.
+     */
+    orderBy?: crew_reviewsOrderByWithRelationInput | crew_reviewsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing crew_reviews.
+     */
+    cursor?: crew_reviewsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` crew_reviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` crew_reviews.
+     */
+    skip?: number
+    distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
+  }
+
+  /**
+   * crew_reviews create
+   */
+  export type crew_reviewsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a crew_reviews.
+     */
+    data: XOR<crew_reviewsCreateInput, crew_reviewsUncheckedCreateInput>
+  }
+
+  /**
+   * crew_reviews createMany
+   */
+  export type crew_reviewsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many crew_reviews.
+     */
+    data: crew_reviewsCreateManyInput | crew_reviewsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * crew_reviews createManyAndReturn
+   */
+  export type crew_reviewsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * The data used to create many crew_reviews.
+     */
+    data: crew_reviewsCreateManyInput | crew_reviewsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * crew_reviews update
+   */
+  export type crew_reviewsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a crew_reviews.
+     */
+    data: XOR<crew_reviewsUpdateInput, crew_reviewsUncheckedUpdateInput>
+    /**
+     * Choose, which crew_reviews to update.
+     */
+    where: crew_reviewsWhereUniqueInput
+  }
+
+  /**
+   * crew_reviews updateMany
+   */
+  export type crew_reviewsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update crew_reviews.
+     */
+    data: XOR<crew_reviewsUpdateManyMutationInput, crew_reviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which crew_reviews to update
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * Limit how many crew_reviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * crew_reviews updateManyAndReturn
+   */
+  export type crew_reviewsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * The data used to update crew_reviews.
+     */
+    data: XOR<crew_reviewsUpdateManyMutationInput, crew_reviewsUncheckedUpdateManyInput>
+    /**
+     * Filter which crew_reviews to update
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * Limit how many crew_reviews to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * crew_reviews upsert
+   */
+  export type crew_reviewsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the crew_reviews to update in case it exists.
+     */
+    where: crew_reviewsWhereUniqueInput
+    /**
+     * In case the crew_reviews found by the `where` argument doesn't exist, create a new crew_reviews with this data.
+     */
+    create: XOR<crew_reviewsCreateInput, crew_reviewsUncheckedCreateInput>
+    /**
+     * In case the crew_reviews was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<crew_reviewsUpdateInput, crew_reviewsUncheckedUpdateInput>
+  }
+
+  /**
+   * crew_reviews delete
+   */
+  export type crew_reviewsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
+    /**
+     * Filter which crew_reviews to delete.
+     */
+    where: crew_reviewsWhereUniqueInput
+  }
+
+  /**
+   * crew_reviews deleteMany
+   */
+  export type crew_reviewsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which crew_reviews to delete
+     */
+    where?: crew_reviewsWhereInput
+    /**
+     * Limit how many crew_reviews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * crew_reviews without action
+   */
+  export type crew_reviewsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the crew_reviews
+     */
+    select?: crew_reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the crew_reviews
+     */
+    omit?: crew_reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: crew_reviewsInclude<ExtArgs> | null
   }
 
 
@@ -129689,6 +132263,11 @@ export namespace Prisma {
     code: 'code',
     name: 'name',
     phone: 'phone',
+    full_name: 'full_name',
+    year_of_joining: 'year_of_joining',
+    facebook_url: 'facebook_url',
+    instagram_url: 'instagram_url',
+    about_me: 'about_me',
     type: 'type',
     tags: 'tags',
     photo_url: 'photo_url',
@@ -129744,6 +132323,31 @@ export namespace Prisma {
   };
 
   export type Currency_exchange_ratesScalarFieldEnum = (typeof Currency_exchange_ratesScalarFieldEnum)[keyof typeof Currency_exchange_ratesScalarFieldEnum]
+
+
+  export const ReviewsScalarFieldEnum: {
+    id: 'id',
+    customer_name: 'customer_name',
+    profile_photo: 'profile_photo',
+    platform: 'platform',
+    date: 'date',
+    star: 'star',
+    review: 'review',
+    photos: 'photos',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ReviewsScalarFieldEnum = (typeof ReviewsScalarFieldEnum)[keyof typeof ReviewsScalarFieldEnum]
+
+
+  export const Crew_reviewsScalarFieldEnum: {
+    id: 'id',
+    review_id: 'review_id',
+    crew_id: 'crew_id'
+  };
+
+  export type Crew_reviewsScalarFieldEnum = (typeof Crew_reviewsScalarFieldEnum)[keyof typeof Crew_reviewsScalarFieldEnum]
 
 
   export const UserScalarFieldEnum: {
@@ -134031,6 +136635,11 @@ export namespace Prisma {
     code?: StringNullableFilter<"crew_members"> | string | null
     name?: StringFilter<"crew_members"> | string
     phone?: StringNullableFilter<"crew_members"> | string | null
+    full_name?: StringNullableFilter<"crew_members"> | string | null
+    year_of_joining?: IntNullableFilter<"crew_members"> | number | null
+    facebook_url?: StringNullableFilter<"crew_members"> | string | null
+    instagram_url?: StringNullableFilter<"crew_members"> | string | null
+    about_me?: StringNullableFilter<"crew_members"> | string | null
     type?: StringNullableFilter<"crew_members"> | string | null
     tags?: StringNullableFilter<"crew_members"> | string | null
     photo_url?: StringNullableFilter<"crew_members"> | string | null
@@ -134044,6 +136653,7 @@ export namespace Prisma {
     crew_member_reviews?: Crew_member_reviewsListRelationFilter
     crew_member_roles?: Crew_member_rolesListRelationFilter
     crew_unavailabilities?: Crew_unavailabilitiesListRelationFilter
+    crew_reviews?: Crew_reviewsListRelationFilter
   }
 
   export type crew_membersOrderByWithRelationInput = {
@@ -134051,6 +136661,11 @@ export namespace Prisma {
     code?: SortOrderInput | SortOrder
     name?: SortOrder
     phone?: SortOrderInput | SortOrder
+    full_name?: SortOrderInput | SortOrder
+    year_of_joining?: SortOrderInput | SortOrder
+    facebook_url?: SortOrderInput | SortOrder
+    instagram_url?: SortOrderInput | SortOrder
+    about_me?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     tags?: SortOrderInput | SortOrder
     photo_url?: SortOrderInput | SortOrder
@@ -134064,6 +136679,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsOrderByRelationAggregateInput
     crew_member_roles?: crew_member_rolesOrderByRelationAggregateInput
     crew_unavailabilities?: crew_unavailabilitiesOrderByRelationAggregateInput
+    crew_reviews?: crew_reviewsOrderByRelationAggregateInput
   }
 
   export type crew_membersWhereUniqueInput = Prisma.AtLeast<{
@@ -134074,6 +136690,11 @@ export namespace Prisma {
     code?: StringNullableFilter<"crew_members"> | string | null
     name?: StringFilter<"crew_members"> | string
     phone?: StringNullableFilter<"crew_members"> | string | null
+    full_name?: StringNullableFilter<"crew_members"> | string | null
+    year_of_joining?: IntNullableFilter<"crew_members"> | number | null
+    facebook_url?: StringNullableFilter<"crew_members"> | string | null
+    instagram_url?: StringNullableFilter<"crew_members"> | string | null
+    about_me?: StringNullableFilter<"crew_members"> | string | null
     type?: StringNullableFilter<"crew_members"> | string | null
     tags?: StringNullableFilter<"crew_members"> | string | null
     photo_url?: StringNullableFilter<"crew_members"> | string | null
@@ -134087,6 +136708,7 @@ export namespace Prisma {
     crew_member_reviews?: Crew_member_reviewsListRelationFilter
     crew_member_roles?: Crew_member_rolesListRelationFilter
     crew_unavailabilities?: Crew_unavailabilitiesListRelationFilter
+    crew_reviews?: Crew_reviewsListRelationFilter
   }, "id">
 
   export type crew_membersOrderByWithAggregationInput = {
@@ -134094,6 +136716,11 @@ export namespace Prisma {
     code?: SortOrderInput | SortOrder
     name?: SortOrder
     phone?: SortOrderInput | SortOrder
+    full_name?: SortOrderInput | SortOrder
+    year_of_joining?: SortOrderInput | SortOrder
+    facebook_url?: SortOrderInput | SortOrder
+    instagram_url?: SortOrderInput | SortOrder
+    about_me?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     tags?: SortOrderInput | SortOrder
     photo_url?: SortOrderInput | SortOrder
@@ -134117,6 +136744,11 @@ export namespace Prisma {
     code?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     name?: StringWithAggregatesFilter<"crew_members"> | string
     phone?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    full_name?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    year_of_joining?: IntNullableWithAggregatesFilter<"crew_members"> | number | null
+    facebook_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    instagram_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    about_me?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     type?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     tags?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     photo_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
@@ -134358,6 +136990,138 @@ export namespace Prisma {
     created_at?: DateTimeNullableWithAggregatesFilter<"currency_exchange_rates"> | Date | string | null
     last_updated?: DateTimeNullableWithAggregatesFilter<"currency_exchange_rates"> | Date | string | null
     source?: StringNullableWithAggregatesFilter<"currency_exchange_rates"> | string | null
+  }
+
+  export type reviewsWhereInput = {
+    AND?: reviewsWhereInput | reviewsWhereInput[]
+    OR?: reviewsWhereInput[]
+    NOT?: reviewsWhereInput | reviewsWhereInput[]
+    id?: BigIntFilter<"reviews"> | bigint | number
+    customer_name?: StringFilter<"reviews"> | string
+    profile_photo?: StringNullableFilter<"reviews"> | string | null
+    platform?: StringFilter<"reviews"> | string
+    date?: DateTimeFilter<"reviews"> | Date | string
+    star?: IntNullableFilter<"reviews"> | number | null
+    review?: StringFilter<"reviews"> | string
+    photos?: StringNullableFilter<"reviews"> | string | null
+    created_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
+    crew_reviews?: Crew_reviewsListRelationFilter
+  }
+
+  export type reviewsOrderByWithRelationInput = {
+    id?: SortOrder
+    customer_name?: SortOrder
+    profile_photo?: SortOrderInput | SortOrder
+    platform?: SortOrder
+    date?: SortOrder
+    star?: SortOrderInput | SortOrder
+    review?: SortOrder
+    photos?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    crew_reviews?: crew_reviewsOrderByRelationAggregateInput
+  }
+
+  export type reviewsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: reviewsWhereInput | reviewsWhereInput[]
+    OR?: reviewsWhereInput[]
+    NOT?: reviewsWhereInput | reviewsWhereInput[]
+    customer_name?: StringFilter<"reviews"> | string
+    profile_photo?: StringNullableFilter<"reviews"> | string | null
+    platform?: StringFilter<"reviews"> | string
+    date?: DateTimeFilter<"reviews"> | Date | string
+    star?: IntNullableFilter<"reviews"> | number | null
+    review?: StringFilter<"reviews"> | string
+    photos?: StringNullableFilter<"reviews"> | string | null
+    created_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
+    crew_reviews?: Crew_reviewsListRelationFilter
+  }, "id">
+
+  export type reviewsOrderByWithAggregationInput = {
+    id?: SortOrder
+    customer_name?: SortOrder
+    profile_photo?: SortOrderInput | SortOrder
+    platform?: SortOrder
+    date?: SortOrder
+    star?: SortOrderInput | SortOrder
+    review?: SortOrder
+    photos?: SortOrderInput | SortOrder
+    created_at?: SortOrderInput | SortOrder
+    updated_at?: SortOrderInput | SortOrder
+    _count?: reviewsCountOrderByAggregateInput
+    _avg?: reviewsAvgOrderByAggregateInput
+    _max?: reviewsMaxOrderByAggregateInput
+    _min?: reviewsMinOrderByAggregateInput
+    _sum?: reviewsSumOrderByAggregateInput
+  }
+
+  export type reviewsScalarWhereWithAggregatesInput = {
+    AND?: reviewsScalarWhereWithAggregatesInput | reviewsScalarWhereWithAggregatesInput[]
+    OR?: reviewsScalarWhereWithAggregatesInput[]
+    NOT?: reviewsScalarWhereWithAggregatesInput | reviewsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"reviews"> | bigint | number
+    customer_name?: StringWithAggregatesFilter<"reviews"> | string
+    profile_photo?: StringNullableWithAggregatesFilter<"reviews"> | string | null
+    platform?: StringWithAggregatesFilter<"reviews"> | string
+    date?: DateTimeWithAggregatesFilter<"reviews"> | Date | string
+    star?: IntNullableWithAggregatesFilter<"reviews"> | number | null
+    review?: StringWithAggregatesFilter<"reviews"> | string
+    photos?: StringNullableWithAggregatesFilter<"reviews"> | string | null
+    created_at?: DateTimeNullableWithAggregatesFilter<"reviews"> | Date | string | null
+    updated_at?: DateTimeNullableWithAggregatesFilter<"reviews"> | Date | string | null
+  }
+
+  export type crew_reviewsWhereInput = {
+    AND?: crew_reviewsWhereInput | crew_reviewsWhereInput[]
+    OR?: crew_reviewsWhereInput[]
+    NOT?: crew_reviewsWhereInput | crew_reviewsWhereInput[]
+    id?: BigIntFilter<"crew_reviews"> | bigint | number
+    review_id?: BigIntFilter<"crew_reviews"> | bigint | number
+    crew_id?: BigIntFilter<"crew_reviews"> | bigint | number
+    review?: XOR<ReviewsScalarRelationFilter, reviewsWhereInput>
+    crew?: XOR<Crew_membersScalarRelationFilter, crew_membersWhereInput>
+  }
+
+  export type crew_reviewsOrderByWithRelationInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+    review?: reviewsOrderByWithRelationInput
+    crew?: crew_membersOrderByWithRelationInput
+  }
+
+  export type crew_reviewsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: crew_reviewsWhereInput | crew_reviewsWhereInput[]
+    OR?: crew_reviewsWhereInput[]
+    NOT?: crew_reviewsWhereInput | crew_reviewsWhereInput[]
+    review_id?: BigIntFilter<"crew_reviews"> | bigint | number
+    crew_id?: BigIntFilter<"crew_reviews"> | bigint | number
+    review?: XOR<ReviewsScalarRelationFilter, reviewsWhereInput>
+    crew?: XOR<Crew_membersScalarRelationFilter, crew_membersWhereInput>
+  }, "id">
+
+  export type crew_reviewsOrderByWithAggregationInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+    _count?: crew_reviewsCountOrderByAggregateInput
+    _avg?: crew_reviewsAvgOrderByAggregateInput
+    _max?: crew_reviewsMaxOrderByAggregateInput
+    _min?: crew_reviewsMinOrderByAggregateInput
+    _sum?: crew_reviewsSumOrderByAggregateInput
+  }
+
+  export type crew_reviewsScalarWhereWithAggregatesInput = {
+    AND?: crew_reviewsScalarWhereWithAggregatesInput | crew_reviewsScalarWhereWithAggregatesInput[]
+    OR?: crew_reviewsScalarWhereWithAggregatesInput[]
+    NOT?: crew_reviewsScalarWhereWithAggregatesInput | crew_reviewsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
+    review_id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
+    crew_id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
   }
 
   export type UserWhereInput = {
@@ -142688,6 +145452,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -142701,6 +145470,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateInput = {
@@ -142708,6 +145478,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -142721,6 +145496,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUpdateInput = {
@@ -142728,6 +145504,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142741,6 +145522,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateInput = {
@@ -142748,6 +145530,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142761,6 +145548,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersCreateManyInput = {
@@ -142768,6 +145556,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -142783,6 +145576,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142798,6 +145596,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143061,6 +145864,141 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     last_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type reviewsCreateInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutReviewInput
+  }
+
+  export type reviewsUncheckedCreateInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type reviewsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUpdateManyWithoutReviewNestedInput
+  }
+
+  export type reviewsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type reviewsCreateManyInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type reviewsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type reviewsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type crew_reviewsCreateInput = {
+    id?: bigint | number
+    review: reviewsCreateNestedOneWithoutCrew_reviewsInput
+    crew: crew_membersCreateNestedOneWithoutCrew_reviewsInput
+  }
+
+  export type crew_reviewsUncheckedCreateInput = {
+    id?: bigint | number
+    review_id: bigint | number
+    crew_id: bigint | number
+  }
+
+  export type crew_reviewsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review?: reviewsUpdateOneRequiredWithoutCrew_reviewsNestedInput
+    crew?: crew_membersUpdateOneRequiredWithoutCrew_reviewsNestedInput
+  }
+
+  export type crew_reviewsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    crew_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type crew_reviewsCreateManyInput = {
+    id?: bigint | number
+    review_id: bigint | number
+    crew_id: bigint | number
+  }
+
+  export type crew_reviewsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type crew_reviewsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    crew_id?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type UserCreateInput = {
@@ -151067,6 +154005,12 @@ export namespace Prisma {
     none?: crew_unavailabilitiesWhereInput
   }
 
+  export type Crew_reviewsListRelationFilter = {
+    every?: crew_reviewsWhereInput
+    some?: crew_reviewsWhereInput
+    none?: crew_reviewsWhereInput
+  }
+
   export type crew_member_rolesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -151075,11 +154019,20 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type crew_reviewsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type crew_membersCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    full_name?: SortOrder
+    year_of_joining?: SortOrder
+    facebook_url?: SortOrder
+    instagram_url?: SortOrder
+    about_me?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -151092,6 +154045,7 @@ export namespace Prisma {
 
   export type crew_membersAvgOrderByAggregateInput = {
     id?: SortOrder
+    year_of_joining?: SortOrder
   }
 
   export type crew_membersMaxOrderByAggregateInput = {
@@ -151099,6 +154053,11 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    full_name?: SortOrder
+    year_of_joining?: SortOrder
+    facebook_url?: SortOrder
+    instagram_url?: SortOrder
+    about_me?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -151114,6 +154073,11 @@ export namespace Prisma {
     code?: SortOrder
     name?: SortOrder
     phone?: SortOrder
+    full_name?: SortOrder
+    year_of_joining?: SortOrder
+    facebook_url?: SortOrder
+    instagram_url?: SortOrder
+    about_me?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -151126,6 +154090,7 @@ export namespace Prisma {
 
   export type crew_membersSumOrderByAggregateInput = {
     id?: SortOrder
+    year_of_joining?: SortOrder
   }
 
   export type Transport_crew_rulesListRelationFilter = {
@@ -151308,6 +154273,90 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type reviewsCountOrderByAggregateInput = {
+    id?: SortOrder
+    customer_name?: SortOrder
+    profile_photo?: SortOrder
+    platform?: SortOrder
+    date?: SortOrder
+    star?: SortOrder
+    review?: SortOrder
+    photos?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type reviewsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    star?: SortOrder
+  }
+
+  export type reviewsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    customer_name?: SortOrder
+    profile_photo?: SortOrder
+    platform?: SortOrder
+    date?: SortOrder
+    star?: SortOrder
+    review?: SortOrder
+    photos?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type reviewsMinOrderByAggregateInput = {
+    id?: SortOrder
+    customer_name?: SortOrder
+    profile_photo?: SortOrder
+    platform?: SortOrder
+    date?: SortOrder
+    star?: SortOrder
+    review?: SortOrder
+    photos?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type reviewsSumOrderByAggregateInput = {
+    id?: SortOrder
+    star?: SortOrder
+  }
+
+  export type ReviewsScalarRelationFilter = {
+    is?: reviewsWhereInput
+    isNot?: reviewsWhereInput
+  }
+
+  export type crew_reviewsCountOrderByAggregateInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+  }
+
+  export type crew_reviewsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+  }
+
+  export type crew_reviewsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+  }
+
+  export type crew_reviewsMinOrderByAggregateInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
+  }
+
+  export type crew_reviewsSumOrderByAggregateInput = {
+    id?: SortOrder
+    review_id?: SortOrder
+    crew_id?: SortOrder
   }
 
   export type AccountListRelationFilter = {
@@ -157333,6 +160382,13 @@ export namespace Prisma {
     connect?: crew_unavailabilitiesWhereUniqueInput | crew_unavailabilitiesWhereUniqueInput[]
   }
 
+  export type crew_reviewsCreateNestedManyWithoutCrewInput = {
+    create?: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput> | crew_reviewsCreateWithoutCrewInput[] | crew_reviewsUncheckedCreateWithoutCrewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutCrewInput | crew_reviewsCreateOrConnectWithoutCrewInput[]
+    createMany?: crew_reviewsCreateManyCrewInputEnvelope
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+  }
+
   export type booking_crew_membersUncheckedCreateNestedManyWithoutCrew_membersInput = {
     create?: XOR<booking_crew_membersCreateWithoutCrew_membersInput, booking_crew_membersUncheckedCreateWithoutCrew_membersInput> | booking_crew_membersCreateWithoutCrew_membersInput[] | booking_crew_membersUncheckedCreateWithoutCrew_membersInput[]
     connectOrCreate?: booking_crew_membersCreateOrConnectWithoutCrew_membersInput | booking_crew_membersCreateOrConnectWithoutCrew_membersInput[]
@@ -157366,6 +160422,13 @@ export namespace Prisma {
     connectOrCreate?: crew_unavailabilitiesCreateOrConnectWithoutCrew_membersInput | crew_unavailabilitiesCreateOrConnectWithoutCrew_membersInput[]
     createMany?: crew_unavailabilitiesCreateManyCrew_membersInputEnvelope
     connect?: crew_unavailabilitiesWhereUniqueInput | crew_unavailabilitiesWhereUniqueInput[]
+  }
+
+  export type crew_reviewsUncheckedCreateNestedManyWithoutCrewInput = {
+    create?: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput> | crew_reviewsCreateWithoutCrewInput[] | crew_reviewsUncheckedCreateWithoutCrewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutCrewInput | crew_reviewsCreateOrConnectWithoutCrewInput[]
+    createMany?: crew_reviewsCreateManyCrewInputEnvelope
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
   }
 
   export type booking_crew_membersUpdateManyWithoutCrew_membersNestedInput = {
@@ -157438,6 +160501,20 @@ export namespace Prisma {
     deleteMany?: crew_unavailabilitiesScalarWhereInput | crew_unavailabilitiesScalarWhereInput[]
   }
 
+  export type crew_reviewsUpdateManyWithoutCrewNestedInput = {
+    create?: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput> | crew_reviewsCreateWithoutCrewInput[] | crew_reviewsUncheckedCreateWithoutCrewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutCrewInput | crew_reviewsCreateOrConnectWithoutCrewInput[]
+    upsert?: crew_reviewsUpsertWithWhereUniqueWithoutCrewInput | crew_reviewsUpsertWithWhereUniqueWithoutCrewInput[]
+    createMany?: crew_reviewsCreateManyCrewInputEnvelope
+    set?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    disconnect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    delete?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    update?: crew_reviewsUpdateWithWhereUniqueWithoutCrewInput | crew_reviewsUpdateWithWhereUniqueWithoutCrewInput[]
+    updateMany?: crew_reviewsUpdateManyWithWhereWithoutCrewInput | crew_reviewsUpdateManyWithWhereWithoutCrewInput[]
+    deleteMany?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+  }
+
   export type booking_crew_membersUncheckedUpdateManyWithoutCrew_membersNestedInput = {
     create?: XOR<booking_crew_membersCreateWithoutCrew_membersInput, booking_crew_membersUncheckedCreateWithoutCrew_membersInput> | booking_crew_membersCreateWithoutCrew_membersInput[] | booking_crew_membersUncheckedCreateWithoutCrew_membersInput[]
     connectOrCreate?: booking_crew_membersCreateOrConnectWithoutCrew_membersInput | booking_crew_membersCreateOrConnectWithoutCrew_membersInput[]
@@ -157506,6 +160583,20 @@ export namespace Prisma {
     update?: crew_unavailabilitiesUpdateWithWhereUniqueWithoutCrew_membersInput | crew_unavailabilitiesUpdateWithWhereUniqueWithoutCrew_membersInput[]
     updateMany?: crew_unavailabilitiesUpdateManyWithWhereWithoutCrew_membersInput | crew_unavailabilitiesUpdateManyWithWhereWithoutCrew_membersInput[]
     deleteMany?: crew_unavailabilitiesScalarWhereInput | crew_unavailabilitiesScalarWhereInput[]
+  }
+
+  export type crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput = {
+    create?: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput> | crew_reviewsCreateWithoutCrewInput[] | crew_reviewsUncheckedCreateWithoutCrewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutCrewInput | crew_reviewsCreateOrConnectWithoutCrewInput[]
+    upsert?: crew_reviewsUpsertWithWhereUniqueWithoutCrewInput | crew_reviewsUpsertWithWhereUniqueWithoutCrewInput[]
+    createMany?: crew_reviewsCreateManyCrewInputEnvelope
+    set?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    disconnect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    delete?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    update?: crew_reviewsUpdateWithWhereUniqueWithoutCrewInput | crew_reviewsUpdateWithWhereUniqueWithoutCrewInput[]
+    updateMany?: crew_reviewsUpdateManyWithWhereWithoutCrewInput | crew_reviewsUpdateManyWithWhereWithoutCrewInput[]
+    deleteMany?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
   }
 
   export type booking_crew_member_activitiesCreateNestedManyWithoutCrew_rolesInput = {
@@ -157672,6 +160763,76 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type crew_reviewsCreateNestedManyWithoutReviewInput = {
+    create?: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput> | crew_reviewsCreateWithoutReviewInput[] | crew_reviewsUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutReviewInput | crew_reviewsCreateOrConnectWithoutReviewInput[]
+    createMany?: crew_reviewsCreateManyReviewInputEnvelope
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+  }
+
+  export type crew_reviewsUncheckedCreateNestedManyWithoutReviewInput = {
+    create?: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput> | crew_reviewsCreateWithoutReviewInput[] | crew_reviewsUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutReviewInput | crew_reviewsCreateOrConnectWithoutReviewInput[]
+    createMany?: crew_reviewsCreateManyReviewInputEnvelope
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+  }
+
+  export type crew_reviewsUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput> | crew_reviewsCreateWithoutReviewInput[] | crew_reviewsUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutReviewInput | crew_reviewsCreateOrConnectWithoutReviewInput[]
+    upsert?: crew_reviewsUpsertWithWhereUniqueWithoutReviewInput | crew_reviewsUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: crew_reviewsCreateManyReviewInputEnvelope
+    set?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    disconnect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    delete?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    update?: crew_reviewsUpdateWithWhereUniqueWithoutReviewInput | crew_reviewsUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: crew_reviewsUpdateManyWithWhereWithoutReviewInput | crew_reviewsUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+  }
+
+  export type crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput = {
+    create?: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput> | crew_reviewsCreateWithoutReviewInput[] | crew_reviewsUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: crew_reviewsCreateOrConnectWithoutReviewInput | crew_reviewsCreateOrConnectWithoutReviewInput[]
+    upsert?: crew_reviewsUpsertWithWhereUniqueWithoutReviewInput | crew_reviewsUpsertWithWhereUniqueWithoutReviewInput[]
+    createMany?: crew_reviewsCreateManyReviewInputEnvelope
+    set?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    disconnect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    delete?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+    update?: crew_reviewsUpdateWithWhereUniqueWithoutReviewInput | crew_reviewsUpdateWithWhereUniqueWithoutReviewInput[]
+    updateMany?: crew_reviewsUpdateManyWithWhereWithoutReviewInput | crew_reviewsUpdateManyWithWhereWithoutReviewInput[]
+    deleteMany?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+  }
+
+  export type reviewsCreateNestedOneWithoutCrew_reviewsInput = {
+    create?: XOR<reviewsCreateWithoutCrew_reviewsInput, reviewsUncheckedCreateWithoutCrew_reviewsInput>
+    connectOrCreate?: reviewsCreateOrConnectWithoutCrew_reviewsInput
+    connect?: reviewsWhereUniqueInput
+  }
+
+  export type crew_membersCreateNestedOneWithoutCrew_reviewsInput = {
+    create?: XOR<crew_membersCreateWithoutCrew_reviewsInput, crew_membersUncheckedCreateWithoutCrew_reviewsInput>
+    connectOrCreate?: crew_membersCreateOrConnectWithoutCrew_reviewsInput
+    connect?: crew_membersWhereUniqueInput
+  }
+
+  export type reviewsUpdateOneRequiredWithoutCrew_reviewsNestedInput = {
+    create?: XOR<reviewsCreateWithoutCrew_reviewsInput, reviewsUncheckedCreateWithoutCrew_reviewsInput>
+    connectOrCreate?: reviewsCreateOrConnectWithoutCrew_reviewsInput
+    upsert?: reviewsUpsertWithoutCrew_reviewsInput
+    connect?: reviewsWhereUniqueInput
+    update?: XOR<XOR<reviewsUpdateToOneWithWhereWithoutCrew_reviewsInput, reviewsUpdateWithoutCrew_reviewsInput>, reviewsUncheckedUpdateWithoutCrew_reviewsInput>
+  }
+
+  export type crew_membersUpdateOneRequiredWithoutCrew_reviewsNestedInput = {
+    create?: XOR<crew_membersCreateWithoutCrew_reviewsInput, crew_membersUncheckedCreateWithoutCrew_reviewsInput>
+    connectOrCreate?: crew_membersCreateOrConnectWithoutCrew_reviewsInput
+    upsert?: crew_membersUpsertWithoutCrew_reviewsInput
+    connect?: crew_membersWhereUniqueInput
+    update?: XOR<XOR<crew_membersUpdateToOneWithWhereWithoutCrew_reviewsInput, crew_membersUpdateWithoutCrew_reviewsInput>, crew_membersUncheckedUpdateWithoutCrew_reviewsInput>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -164591,6 +167752,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -164603,6 +167769,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateWithoutBooking_crew_membersInput = {
@@ -164610,6 +167777,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -164622,6 +167794,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersCreateOrConnectWithoutBooking_crew_membersInput = {
@@ -164756,6 +167929,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164768,6 +167946,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateWithoutBooking_crew_membersInput = {
@@ -164775,6 +167954,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164787,6 +167971,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_activitiesInput = {
@@ -169331,6 +172516,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -169343,6 +172533,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateWithoutBooking_review_crewsInput = {
@@ -169350,6 +172541,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -169362,6 +172558,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersCreateOrConnectWithoutBooking_review_crewsInput = {
@@ -169410,6 +172607,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169422,6 +172624,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateWithoutBooking_review_crewsInput = {
@@ -169429,6 +172632,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169441,6 +172649,7 @@ export namespace Prisma {
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
   }
 
   export type booking_reviewsUpsertWithoutBooking_review_crewsInput = {
@@ -172958,6 +176167,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -172970,6 +176184,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateWithoutCrew_member_reviewsInput = {
@@ -172977,6 +176192,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -172989,6 +176209,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersCreateOrConnectWithoutCrew_member_reviewsInput = {
@@ -173123,6 +176344,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173135,6 +176361,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateWithoutCrew_member_reviewsInput = {
@@ -173142,6 +176369,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173154,6 +176386,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersCreateWithoutCrew_member_rolesInput = {
@@ -173161,6 +176394,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -173173,6 +176411,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsCreateNestedManyWithoutCrew_membersInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateWithoutCrew_member_rolesInput = {
@@ -173180,6 +176419,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -173192,6 +176436,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersCreateOrConnectWithoutCrew_member_rolesInput = {
@@ -173248,6 +176493,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173260,6 +176510,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateWithoutCrew_member_rolesInput = {
@@ -173267,6 +176518,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173279,6 +176535,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_rolesUpsertWithoutCrew_member_rolesInput = {
@@ -173470,6 +176727,26 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type crew_reviewsCreateWithoutCrewInput = {
+    id?: bigint | number
+    review: reviewsCreateNestedOneWithoutCrew_reviewsInput
+  }
+
+  export type crew_reviewsUncheckedCreateWithoutCrewInput = {
+    id?: bigint | number
+    review_id: bigint | number
+  }
+
+  export type crew_reviewsCreateOrConnectWithoutCrewInput = {
+    where: crew_reviewsWhereUniqueInput
+    create: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput>
+  }
+
+  export type crew_reviewsCreateManyCrewInputEnvelope = {
+    data: crew_reviewsCreateManyCrewInput | crew_reviewsCreateManyCrewInput[]
+    skipDuplicates?: boolean
+  }
+
   export type booking_crew_membersUpsertWithWhereUniqueWithoutCrew_membersInput = {
     where: booking_crew_membersWhereUniqueInput
     update: XOR<booking_crew_membersUpdateWithoutCrew_membersInput, booking_crew_membersUncheckedUpdateWithoutCrew_membersInput>
@@ -173575,6 +176852,31 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"crew_unavailabilities"> | Date | string
     updated_at?: DateTimeNullableFilter<"crew_unavailabilities"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"crew_unavailabilities"> | Date | string | null
+  }
+
+  export type crew_reviewsUpsertWithWhereUniqueWithoutCrewInput = {
+    where: crew_reviewsWhereUniqueInput
+    update: XOR<crew_reviewsUpdateWithoutCrewInput, crew_reviewsUncheckedUpdateWithoutCrewInput>
+    create: XOR<crew_reviewsCreateWithoutCrewInput, crew_reviewsUncheckedCreateWithoutCrewInput>
+  }
+
+  export type crew_reviewsUpdateWithWhereUniqueWithoutCrewInput = {
+    where: crew_reviewsWhereUniqueInput
+    data: XOR<crew_reviewsUpdateWithoutCrewInput, crew_reviewsUncheckedUpdateWithoutCrewInput>
+  }
+
+  export type crew_reviewsUpdateManyWithWhereWithoutCrewInput = {
+    where: crew_reviewsScalarWhereInput
+    data: XOR<crew_reviewsUpdateManyMutationInput, crew_reviewsUncheckedUpdateManyWithoutCrewInput>
+  }
+
+  export type crew_reviewsScalarWhereInput = {
+    AND?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+    OR?: crew_reviewsScalarWhereInput[]
+    NOT?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+    id?: BigIntFilter<"crew_reviews"> | bigint | number
+    review_id?: BigIntFilter<"crew_reviews"> | bigint | number
+    crew_id?: BigIntFilter<"crew_reviews"> | bigint | number
   }
 
   export type booking_crew_member_activitiesCreateWithoutCrew_rolesInput = {
@@ -173816,6 +177118,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -173828,6 +177135,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsCreateNestedManyWithoutCrew_membersInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersUncheckedCreateWithoutCrew_unavailabilitiesInput = {
@@ -173835,6 +177143,11 @@ export namespace Prisma {
     code?: string | null
     name: string
     phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -173847,6 +177160,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
     crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutCrewInput
   }
 
   export type crew_membersCreateOrConnectWithoutCrew_unavailabilitiesInput = {
@@ -173870,6 +177184,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173882,6 +177201,7 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUpdateManyWithoutCrewNestedInput
   }
 
   export type crew_membersUncheckedUpdateWithoutCrew_unavailabilitiesInput = {
@@ -173889,6 +177209,11 @@ export namespace Prisma {
     code?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173901,6 +177226,227 @@ export namespace Prisma {
     booking_review_crews?: booking_review_crewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
     crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutCrewNestedInput
+  }
+
+  export type crew_reviewsCreateWithoutReviewInput = {
+    id?: bigint | number
+    crew: crew_membersCreateNestedOneWithoutCrew_reviewsInput
+  }
+
+  export type crew_reviewsUncheckedCreateWithoutReviewInput = {
+    id?: bigint | number
+    crew_id: bigint | number
+  }
+
+  export type crew_reviewsCreateOrConnectWithoutReviewInput = {
+    where: crew_reviewsWhereUniqueInput
+    create: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput>
+  }
+
+  export type crew_reviewsCreateManyReviewInputEnvelope = {
+    data: crew_reviewsCreateManyReviewInput | crew_reviewsCreateManyReviewInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type crew_reviewsUpsertWithWhereUniqueWithoutReviewInput = {
+    where: crew_reviewsWhereUniqueInput
+    update: XOR<crew_reviewsUpdateWithoutReviewInput, crew_reviewsUncheckedUpdateWithoutReviewInput>
+    create: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput>
+  }
+
+  export type crew_reviewsUpdateWithWhereUniqueWithoutReviewInput = {
+    where: crew_reviewsWhereUniqueInput
+    data: XOR<crew_reviewsUpdateWithoutReviewInput, crew_reviewsUncheckedUpdateWithoutReviewInput>
+  }
+
+  export type crew_reviewsUpdateManyWithWhereWithoutReviewInput = {
+    where: crew_reviewsScalarWhereInput
+    data: XOR<crew_reviewsUpdateManyMutationInput, crew_reviewsUncheckedUpdateManyWithoutReviewInput>
+  }
+
+  export type reviewsCreateWithoutCrew_reviewsInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type reviewsUncheckedCreateWithoutCrew_reviewsInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
+  export type reviewsCreateOrConnectWithoutCrew_reviewsInput = {
+    where: reviewsWhereUniqueInput
+    create: XOR<reviewsCreateWithoutCrew_reviewsInput, reviewsUncheckedCreateWithoutCrew_reviewsInput>
+  }
+
+  export type crew_membersCreateWithoutCrew_reviewsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
+    type?: string | null
+    tags?: string | null
+    photo_url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    password?: string | null
+    email?: string | null
+    booking_crew_members?: booking_crew_membersCreateNestedManyWithoutCrew_membersInput
+    booking_review_crews?: booking_review_crewsCreateNestedManyWithoutCrew_membersInput
+    crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutCrew_membersInput
+    crew_member_roles?: crew_member_rolesCreateNestedManyWithoutCrew_membersInput
+    crew_unavailabilities?: crew_unavailabilitiesCreateNestedManyWithoutCrew_membersInput
+  }
+
+  export type crew_membersUncheckedCreateWithoutCrew_reviewsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    phone?: string | null
+    full_name?: string | null
+    year_of_joining?: number | null
+    facebook_url?: string | null
+    instagram_url?: string | null
+    about_me?: string | null
+    type?: string | null
+    tags?: string | null
+    photo_url?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    password?: string | null
+    email?: string | null
+    booking_crew_members?: booking_crew_membersUncheckedCreateNestedManyWithoutCrew_membersInput
+    booking_review_crews?: booking_review_crewsUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_member_roles?: crew_member_rolesUncheckedCreateNestedManyWithoutCrew_membersInput
+    crew_unavailabilities?: crew_unavailabilitiesUncheckedCreateNestedManyWithoutCrew_membersInput
+  }
+
+  export type crew_membersCreateOrConnectWithoutCrew_reviewsInput = {
+    where: crew_membersWhereUniqueInput
+    create: XOR<crew_membersCreateWithoutCrew_reviewsInput, crew_membersUncheckedCreateWithoutCrew_reviewsInput>
+  }
+
+  export type reviewsUpsertWithoutCrew_reviewsInput = {
+    update: XOR<reviewsUpdateWithoutCrew_reviewsInput, reviewsUncheckedUpdateWithoutCrew_reviewsInput>
+    create: XOR<reviewsCreateWithoutCrew_reviewsInput, reviewsUncheckedCreateWithoutCrew_reviewsInput>
+    where?: reviewsWhereInput
+  }
+
+  export type reviewsUpdateToOneWithWhereWithoutCrew_reviewsInput = {
+    where?: reviewsWhereInput
+    data: XOR<reviewsUpdateWithoutCrew_reviewsInput, reviewsUncheckedUpdateWithoutCrew_reviewsInput>
+  }
+
+  export type reviewsUpdateWithoutCrew_reviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type reviewsUncheckedUpdateWithoutCrew_reviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type crew_membersUpsertWithoutCrew_reviewsInput = {
+    update: XOR<crew_membersUpdateWithoutCrew_reviewsInput, crew_membersUncheckedUpdateWithoutCrew_reviewsInput>
+    create: XOR<crew_membersCreateWithoutCrew_reviewsInput, crew_membersUncheckedCreateWithoutCrew_reviewsInput>
+    where?: crew_membersWhereInput
+  }
+
+  export type crew_membersUpdateToOneWithWhereWithoutCrew_reviewsInput = {
+    where?: crew_membersWhereInput
+    data: XOR<crew_membersUpdateWithoutCrew_reviewsInput, crew_membersUncheckedUpdateWithoutCrew_reviewsInput>
+  }
+
+  export type crew_membersUpdateWithoutCrew_reviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    photo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_crew_members?: booking_crew_membersUpdateManyWithoutCrew_membersNestedInput
+    booking_review_crews?: booking_review_crewsUpdateManyWithoutCrew_membersNestedInput
+    crew_member_reviews?: crew_member_reviewsUpdateManyWithoutCrew_membersNestedInput
+    crew_member_roles?: crew_member_rolesUpdateManyWithoutCrew_membersNestedInput
+    crew_unavailabilities?: crew_unavailabilitiesUpdateManyWithoutCrew_membersNestedInput
+  }
+
+  export type crew_membersUncheckedUpdateWithoutCrew_reviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    year_of_joining?: NullableIntFieldUpdateOperationsInput | number | null
+    facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
+    about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: NullableStringFieldUpdateOperationsInput | string | null
+    photo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_crew_members?: booking_crew_membersUncheckedUpdateManyWithoutCrew_membersNestedInput
+    booking_review_crews?: booking_review_crewsUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_member_roles?: crew_member_rolesUncheckedUpdateManyWithoutCrew_membersNestedInput
+    crew_unavailabilities?: crew_unavailabilitiesUncheckedUpdateManyWithoutCrew_membersNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -189232,6 +192778,11 @@ export namespace Prisma {
     deleted_at?: Date | string | null
   }
 
+  export type crew_reviewsCreateManyCrewInput = {
+    id?: bigint | number
+    review_id: bigint | number
+  }
+
   export type booking_crew_membersUpdateWithoutCrew_membersInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     type?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189382,6 +192933,21 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type crew_reviewsUpdateWithoutCrewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review?: reviewsUpdateOneRequiredWithoutCrew_reviewsNestedInput
+  }
+
+  export type crew_reviewsUncheckedUpdateWithoutCrewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type crew_reviewsUncheckedUpdateManyWithoutCrewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    review_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
   export type booking_crew_member_activitiesCreateManyCrew_rolesInput = {
     id?: bigint | number
     booking_id: bigint | number
@@ -189504,6 +193070,26 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type crew_reviewsCreateManyReviewInput = {
+    id?: bigint | number
+    crew_id: bigint | number
+  }
+
+  export type crew_reviewsUpdateWithoutReviewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    crew?: crew_membersUpdateOneRequiredWithoutCrew_reviewsNestedInput
+  }
+
+  export type crew_reviewsUncheckedUpdateWithoutReviewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    crew_id?: BigIntFieldUpdateOperationsInput | bigint | number
+  }
+
+  export type crew_reviewsUncheckedUpdateManyWithoutReviewInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    crew_id?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type AccountCreateManyUserInput = {
