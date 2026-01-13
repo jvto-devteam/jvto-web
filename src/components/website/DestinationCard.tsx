@@ -4,11 +4,12 @@ import type { Destination } from "@/interfaces";
 
 interface DestinationCardProps {
   destination: Destination;
+  isHome?: boolean;
 }
 
-const DestinationCard: React.FC<DestinationCardProps> = ({ destination }) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }) => {
   return (
-    <Link href={`/destinations/${destination.slug}`}>
+    <Link target={isHome ? "_blank" : "_self"} href={`/destinations/${destination.slug}`}>
       <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
 
         <Image

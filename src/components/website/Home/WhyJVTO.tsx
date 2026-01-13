@@ -36,6 +36,7 @@ const WhyJVTO: React.FC = () => {
 
             <div className="mt-10 flex flex-wrap gap-6">
               <Link
+                target="_blank"
                 href="/why-jvto/our-story"
                 className="font-bold border-b-2 border-jvto-green text-white hover:text-jvto-green transition-colors pb-1 text-lg"
               >
@@ -43,6 +44,7 @@ const WhyJVTO: React.FC = () => {
               </Link>
 
               <Link
+                target="_blank"
                 href="/verify-jvto"
                 className="font-bold border-b-2 border-gray-600 text-gray-400 hover:text-white hover:border-white transition-colors pb-1 text-lg"
               >

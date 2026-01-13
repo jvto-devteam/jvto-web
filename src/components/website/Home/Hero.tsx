@@ -62,7 +62,7 @@ const Hero: React.FC = () => {
         </p>
 
         <div className="flex gap-4 justify-center md:hidden">
-          <Button to="/tours" variant="primary" size="md">
+          <Button target="_blank" to="/tours" variant="primary" size="md">
             Private Tours
           </Button>
           <Button
@@ -75,10 +75,11 @@ const Hero: React.FC = () => {
           </Button>
         </div>
         <div className="md:flex gap-4 justify-center hidden">
-          <Button to="/tours" variant="primary" size="lg">
+          <Button target="_blank" to="/tours" variant="primary" size="lg">
             Private Tours
           </Button>
           <Button
+          target="_blank"
             to="/verify-jvto"
             variant="outline"
             size="lg"

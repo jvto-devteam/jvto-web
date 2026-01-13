@@ -56,7 +56,7 @@ const IjenHealthScreeningSection = () => (
 
                 {/* Button Action */}
                 <div>
-                    <Link href="/travel-guide/ijen-health-screening" className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-black hover:bg-lime-600 rounded-lg uppercase tracking-widest group">
+                    <Link target="_blank" href="/travel-guide/ijen-health-screening" className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-black hover:bg-lime-600 rounded-lg uppercase tracking-widest group">
                         See How It Works
                         <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
