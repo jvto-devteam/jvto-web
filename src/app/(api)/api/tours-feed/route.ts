@@ -76,6 +76,7 @@ export async function GET() {
       <g:availability>in_stock</g:availability>
       <g:price>${p.price}</g:price>
       <g:brand>JVTO</g:brand>
+      <g:identifier_exists>false</g:identifier_exists>
       <g:google_product_category>8</g:google_product_category>
       <g:custom_label_0>${p.durationLabel}</g:custom_label_0>
       <g:custom_label_1>From ${p.startDestination}</g:custom_label_1>
