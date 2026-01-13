@@ -3,14 +3,27 @@ import Image from "next/image";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { type Metadata } from 'next';
 import { operations } from "@/lib/legal";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
     title: 'Our Team – Local Guides & Tourism Professionals',
     description: 'Meet the JVTO team: local guides from Bromo and Ijen communities, tourist police-led leadership, and dedicated operations professionals.',
 };
 
+async function getCrew() {
+  return await prisma.crew_members.findMany({
+    where : {
+      id : {
+        notIn: [9,56,58]
+      }
+    }
+  });
+}
 
-export default function OurTeamPage() {
+export default async function OurTeamPage() {
+  const crew = await getCrew();
+  console.log(crew);
+  
   const team = [
     {
       name: SITE_CONFIG.founder.name,
