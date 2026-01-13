@@ -214,6 +214,7 @@ const Testimonials: React.FC = () => {
         </div>
         <div className="md:mt-16 mt-8 text-center container mx-auto px-6">
           <Link
+          target="_blank"
             href="/why-jvto/reviews"
             className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
           >

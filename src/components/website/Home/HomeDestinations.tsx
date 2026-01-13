@@ -25,7 +25,7 @@ const HomeDestinations: React.FC = async () => {
         <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
           {destinations.map((dest, idx) => (
             <div key={idx} className="flex-shrink-0 w-56">
-              <DestinationCard destination={dest} />
+              <DestinationCard isHome={true} destination={dest} />
             </div>
           ))}
         </div>
