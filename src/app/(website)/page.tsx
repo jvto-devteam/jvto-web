@@ -208,10 +208,10 @@ const Home = async () => {
       <FeaturedTours />
       <WhyJVTO />
 
-      <Testimonials />
-      {/* <Reviews /> */}
-      {/* <Destinations /> */}
+      {/* <Testimonials /> */}
+      <Reviews />
       <IjenHealthScreeningSection />
+      {/* <Destinations /> */}
       <IsicSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
       <TravelGuideTeaser />
