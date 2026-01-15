@@ -10161,6 +10161,7 @@ export namespace Prisma {
     booking_whatsapp_logs: number
     crew_member_reviews: number
     feedback: number
+    reviews: number
   }
 
   export type BookingsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10185,6 +10186,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: boolean | BookingsCountOutputTypeCountBooking_whatsapp_logsArgs
     crew_member_reviews?: boolean | BookingsCountOutputTypeCountCrew_member_reviewsArgs
     feedback?: boolean | BookingsCountOutputTypeCountFeedbackArgs
+    reviews?: boolean | BookingsCountOutputTypeCountReviewsArgs
   }
 
   // Custom InputTypes
@@ -10343,6 +10345,13 @@ export namespace Prisma {
    */
   export type BookingsCountOutputTypeCountFeedbackArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: feedbackWhereInput
+  }
+
+  /**
+   * BookingsCountOutputType without action
+   */
+  export type BookingsCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: reviewsWhereInput
   }
 
 
@@ -11320,6 +11329,7 @@ export namespace Prisma {
     package_prices: number
     package_assets: number
     package_faqs: number
+    reviews: number
   }
 
   export type PackagesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11335,6 +11345,7 @@ export namespace Prisma {
     package_prices?: boolean | PackagesCountOutputTypeCountPackage_pricesArgs
     package_assets?: boolean | PackagesCountOutputTypeCountPackage_assetsArgs
     package_faqs?: boolean | PackagesCountOutputTypeCountPackage_faqsArgs
+    reviews?: boolean | PackagesCountOutputTypeCountReviewsArgs
   }
 
   // Custom InputTypes
@@ -11430,6 +11441,13 @@ export namespace Prisma {
    */
   export type PackagesCountOutputTypeCountPackage_faqsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_faqsWhereInput
+  }
+
+  /**
+   * PackagesCountOutputType without action
+   */
+  export type PackagesCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: reviewsWhereInput
   }
 
 
@@ -44295,6 +44313,7 @@ export namespace Prisma {
     packages?: boolean | bookings$packagesArgs<ExtArgs>
     crew_member_reviews?: boolean | bookings$crew_member_reviewsArgs<ExtArgs>
     feedback?: boolean | bookings$feedbackArgs<ExtArgs>
+    reviews?: boolean | bookings$reviewsArgs<ExtArgs>
     _count?: boolean | BookingsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bookings"]>
 
@@ -44423,6 +44442,7 @@ export namespace Prisma {
     packages?: boolean | bookings$packagesArgs<ExtArgs>
     crew_member_reviews?: boolean | bookings$crew_member_reviewsArgs<ExtArgs>
     feedback?: boolean | bookings$feedbackArgs<ExtArgs>
+    reviews?: boolean | bookings$reviewsArgs<ExtArgs>
     _count?: boolean | BookingsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type bookingsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -44466,6 +44486,7 @@ export namespace Prisma {
       packages: Prisma.$packagesPayload<ExtArgs> | null
       crew_member_reviews: Prisma.$crew_member_reviewsPayload<ExtArgs>[]
       feedback: Prisma.$feedbackPayload<ExtArgs>[]
+      reviews: Prisma.$reviewsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -44914,6 +44935,7 @@ export namespace Prisma {
     packages<T extends bookings$packagesArgs<ExtArgs> = {}>(args?: Subset<T, bookings$packagesArgs<ExtArgs>>): Prisma__packagesClient<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     crew_member_reviews<T extends bookings$crew_member_reviewsArgs<ExtArgs> = {}>(args?: Subset<T, bookings$crew_member_reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_member_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     feedback<T extends bookings$feedbackArgs<ExtArgs> = {}>(args?: Subset<T, bookings$feedbackArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$feedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends bookings$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, bookings$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -45943,6 +45965,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FeedbackScalarFieldEnum | FeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * bookings.reviews
+   */
+  export type bookings$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    where?: reviewsWhereInput
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    cursor?: reviewsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
   }
 
   /**
@@ -59952,11 +59998,15 @@ export namespace Prisma {
   export type ReviewsAvgAggregateOutputType = {
     id: number | null
     star: number | null
+    booking_id: number | null
+    package_id: number | null
   }
 
   export type ReviewsSumAggregateOutputType = {
     id: bigint | null
     star: number | null
+    booking_id: bigint | null
+    package_id: bigint | null
   }
 
   export type ReviewsMinAggregateOutputType = {
@@ -59968,6 +60018,10 @@ export namespace Prisma {
     star: number | null
     review: string | null
     photos: string | null
+    url: string | null
+    url_reference: string | null
+    booking_id: bigint | null
+    package_id: bigint | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -59981,6 +60035,10 @@ export namespace Prisma {
     star: number | null
     review: string | null
     photos: string | null
+    url: string | null
+    url_reference: string | null
+    booking_id: bigint | null
+    package_id: bigint | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -59994,6 +60052,10 @@ export namespace Prisma {
     star: number
     review: number
     photos: number
+    url: number
+    url_reference: number
+    booking_id: number
+    package_id: number
     created_at: number
     updated_at: number
     _all: number
@@ -60003,11 +60065,15 @@ export namespace Prisma {
   export type ReviewsAvgAggregateInputType = {
     id?: true
     star?: true
+    booking_id?: true
+    package_id?: true
   }
 
   export type ReviewsSumAggregateInputType = {
     id?: true
     star?: true
+    booking_id?: true
+    package_id?: true
   }
 
   export type ReviewsMinAggregateInputType = {
@@ -60019,6 +60085,10 @@ export namespace Prisma {
     star?: true
     review?: true
     photos?: true
+    url?: true
+    url_reference?: true
+    booking_id?: true
+    package_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -60032,6 +60102,10 @@ export namespace Prisma {
     star?: true
     review?: true
     photos?: true
+    url?: true
+    url_reference?: true
+    booking_id?: true
+    package_id?: true
     created_at?: true
     updated_at?: true
   }
@@ -60045,6 +60119,10 @@ export namespace Prisma {
     star?: true
     review?: true
     photos?: true
+    url?: true
+    url_reference?: true
+    booking_id?: true
+    package_id?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -60145,6 +60223,10 @@ export namespace Prisma {
     star: number | null
     review: string
     photos: string | null
+    url: string | null
+    url_reference: string | null
+    booking_id: bigint | null
+    package_id: bigint | null
     created_at: Date | null
     updated_at: Date | null
     _count: ReviewsCountAggregateOutputType | null
@@ -60177,9 +60259,15 @@ export namespace Prisma {
     star?: boolean
     review?: boolean
     photos?: boolean
+    url?: boolean
+    url_reference?: boolean
+    booking_id?: boolean
+    package_id?: boolean
     created_at?: boolean
     updated_at?: boolean
     crew_reviews?: boolean | reviews$crew_reviewsArgs<ExtArgs>
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
     _count?: boolean | ReviewsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reviews"]>
 
@@ -60192,8 +60280,14 @@ export namespace Prisma {
     star?: boolean
     review?: boolean
     photos?: boolean
+    url?: boolean
+    url_reference?: boolean
+    booking_id?: boolean
+    package_id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
   }, ExtArgs["result"]["reviews"]>
 
   export type reviewsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -60205,8 +60299,14 @@ export namespace Prisma {
     star?: boolean
     review?: boolean
     photos?: boolean
+    url?: boolean
+    url_reference?: boolean
+    booking_id?: boolean
+    package_id?: boolean
     created_at?: boolean
     updated_at?: boolean
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
   }, ExtArgs["result"]["reviews"]>
 
   export type reviewsSelectScalar = {
@@ -60218,22 +60318,36 @@ export namespace Prisma {
     star?: boolean
     review?: boolean
     photos?: boolean
+    url?: boolean
+    url_reference?: boolean
+    booking_id?: boolean
+    package_id?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type reviewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customer_name" | "profile_photo" | "platform" | "date" | "star" | "review" | "photos" | "created_at" | "updated_at", ExtArgs["result"]["reviews"]>
+  export type reviewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customer_name" | "profile_photo" | "platform" | "date" | "star" | "review" | "photos" | "url" | "url_reference" | "booking_id" | "package_id" | "created_at" | "updated_at", ExtArgs["result"]["reviews"]>
   export type reviewsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     crew_reviews?: boolean | reviews$crew_reviewsArgs<ExtArgs>
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
     _count?: boolean | ReviewsCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type reviewsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type reviewsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type reviewsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
+  }
+  export type reviewsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    package?: boolean | reviews$packageArgs<ExtArgs>
+    booking?: boolean | reviews$bookingArgs<ExtArgs>
+  }
 
   export type $reviewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "reviews"
     objects: {
       crew_reviews: Prisma.$crew_reviewsPayload<ExtArgs>[]
+      package: Prisma.$packagesPayload<ExtArgs> | null
+      booking: Prisma.$bookingsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -60244,6 +60358,10 @@ export namespace Prisma {
       star: number | null
       review: string
       photos: string | null
+      url: string | null
+      url_reference: string | null
+      booking_id: bigint | null
+      package_id: bigint | null
       created_at: Date | null
       updated_at: Date | null
     }, ExtArgs["result"]["reviews"]>
@@ -60641,6 +60759,8 @@ export namespace Prisma {
   export interface Prisma__reviewsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     crew_reviews<T extends reviews$crew_reviewsArgs<ExtArgs> = {}>(args?: Subset<T, reviews$crew_reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$crew_reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    package<T extends reviews$packageArgs<ExtArgs> = {}>(args?: Subset<T, reviews$packageArgs<ExtArgs>>): Prisma__packagesClient<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    booking<T extends reviews$bookingArgs<ExtArgs> = {}>(args?: Subset<T, reviews$bookingArgs<ExtArgs>>): Prisma__bookingsClient<$Result.GetResult<Prisma.$bookingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -60678,6 +60798,10 @@ export namespace Prisma {
     readonly star: FieldRef<"reviews", 'Int'>
     readonly review: FieldRef<"reviews", 'String'>
     readonly photos: FieldRef<"reviews", 'String'>
+    readonly url: FieldRef<"reviews", 'String'>
+    readonly url_reference: FieldRef<"reviews", 'String'>
+    readonly booking_id: FieldRef<"reviews", 'BigInt'>
+    readonly package_id: FieldRef<"reviews", 'BigInt'>
     readonly created_at: FieldRef<"reviews", 'DateTime'>
     readonly updated_at: FieldRef<"reviews", 'DateTime'>
   }
@@ -60929,6 +61053,10 @@ export namespace Prisma {
      */
     data: reviewsCreateManyInput | reviewsCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -60999,6 +61127,10 @@ export namespace Prisma {
      * Limit how many reviews to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -61089,6 +61221,44 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Crew_reviewsScalarFieldEnum | Crew_reviewsScalarFieldEnum[]
+  }
+
+  /**
+   * reviews.package
+   */
+  export type reviews$packageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the packages
+     */
+    select?: packagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the packages
+     */
+    omit?: packagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: packagesInclude<ExtArgs> | null
+    where?: packagesWhereInput
+  }
+
+  /**
+   * reviews.booking
+   */
+  export type reviews$bookingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the bookings
+     */
+    select?: bookingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the bookings
+     */
+    omit?: bookingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: bookingsInclude<ExtArgs> | null
+    where?: bookingsWhereInput
   }
 
   /**
@@ -105725,6 +105895,7 @@ export namespace Prisma {
     start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     package_assets?: boolean | packages$package_assetsArgs<ExtArgs>
     package_faqs?: boolean | packages$package_faqsArgs<ExtArgs>
+    reviews?: boolean | packages$reviewsArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["packages"]>
 
@@ -105889,6 +106060,7 @@ export namespace Prisma {
     start_destination?: boolean | packages$start_destinationArgs<ExtArgs>
     package_assets?: boolean | packages$package_assetsArgs<ExtArgs>
     package_faqs?: boolean | packages$package_faqsArgs<ExtArgs>
+    reviews?: boolean | packages$reviewsArgs<ExtArgs>
     _count?: boolean | PackagesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type packagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -105926,6 +106098,7 @@ export namespace Prisma {
       start_destination: Prisma.$destinationsPayload<ExtArgs> | null
       package_assets: Prisma.$package_assetsPayload<ExtArgs>[]
       package_faqs: Prisma.$package_faqsPayload<ExtArgs>[]
+      reviews: Prisma.$reviewsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -106380,6 +106553,7 @@ export namespace Prisma {
     start_destination<T extends packages$start_destinationArgs<ExtArgs> = {}>(args?: Subset<T, packages$start_destinationArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     package_assets<T extends packages$package_assetsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_faqs<T extends packages$package_faqsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends packages$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, packages$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reviewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -107226,6 +107400,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Package_faqsScalarFieldEnum | Package_faqsScalarFieldEnum[]
+  }
+
+  /**
+   * packages.reviews
+   */
+  export type packages$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the reviews
+     */
+    select?: reviewsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the reviews
+     */
+    omit?: reviewsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: reviewsInclude<ExtArgs> | null
+    where?: reviewsWhereInput
+    orderBy?: reviewsOrderByWithRelationInput | reviewsOrderByWithRelationInput[]
+    cursor?: reviewsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
   }
 
   /**
@@ -132334,6 +132532,10 @@ export namespace Prisma {
     star: 'star',
     review: 'review',
     photos: 'photos',
+    url: 'url',
+    url_reference: 'url_reference',
+    booking_id: 'booking_id',
+    package_id: 'package_id',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -135896,6 +136098,7 @@ export namespace Prisma {
     packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
     crew_member_reviews?: Crew_member_reviewsListRelationFilter
     feedback?: FeedbackListRelationFilter
+    reviews?: ReviewsListRelationFilter
   }
 
   export type bookingsOrderByWithRelationInput = {
@@ -135951,6 +136154,7 @@ export namespace Prisma {
     packages?: packagesOrderByWithRelationInput
     crew_member_reviews?: crew_member_reviewsOrderByRelationAggregateInput
     feedback?: feedbackOrderByRelationAggregateInput
+    reviews?: reviewsOrderByRelationAggregateInput
   }
 
   export type bookingsWhereUniqueInput = Prisma.AtLeast<{
@@ -136009,6 +136213,7 @@ export namespace Prisma {
     packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
     crew_member_reviews?: Crew_member_reviewsListRelationFilter
     feedback?: FeedbackListRelationFilter
+    reviews?: ReviewsListRelationFilter
   }, "id" | "slug">
 
   export type bookingsOrderByWithAggregationInput = {
@@ -137004,9 +137209,15 @@ export namespace Prisma {
     star?: IntNullableFilter<"reviews"> | number | null
     review?: StringFilter<"reviews"> | string
     photos?: StringNullableFilter<"reviews"> | string | null
+    url?: StringNullableFilter<"reviews"> | string | null
+    url_reference?: StringNullableFilter<"reviews"> | string | null
+    booking_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
+    package_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
     created_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
     crew_reviews?: Crew_reviewsListRelationFilter
+    package?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
+    booking?: XOR<BookingsNullableScalarRelationFilter, bookingsWhereInput> | null
   }
 
   export type reviewsOrderByWithRelationInput = {
@@ -137018,9 +137229,15 @@ export namespace Prisma {
     star?: SortOrderInput | SortOrder
     review?: SortOrder
     photos?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    url_reference?: SortOrderInput | SortOrder
+    booking_id?: SortOrderInput | SortOrder
+    package_id?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     crew_reviews?: crew_reviewsOrderByRelationAggregateInput
+    package?: packagesOrderByWithRelationInput
+    booking?: bookingsOrderByWithRelationInput
   }
 
   export type reviewsWhereUniqueInput = Prisma.AtLeast<{
@@ -137035,9 +137252,15 @@ export namespace Prisma {
     star?: IntNullableFilter<"reviews"> | number | null
     review?: StringFilter<"reviews"> | string
     photos?: StringNullableFilter<"reviews"> | string | null
+    url?: StringNullableFilter<"reviews"> | string | null
+    url_reference?: StringNullableFilter<"reviews"> | string | null
+    booking_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
+    package_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
     created_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
     crew_reviews?: Crew_reviewsListRelationFilter
+    package?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
+    booking?: XOR<BookingsNullableScalarRelationFilter, bookingsWhereInput> | null
   }, "id">
 
   export type reviewsOrderByWithAggregationInput = {
@@ -137049,6 +137272,10 @@ export namespace Prisma {
     star?: SortOrderInput | SortOrder
     review?: SortOrder
     photos?: SortOrderInput | SortOrder
+    url?: SortOrderInput | SortOrder
+    url_reference?: SortOrderInput | SortOrder
+    booking_id?: SortOrderInput | SortOrder
+    package_id?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     _count?: reviewsCountOrderByAggregateInput
@@ -137070,6 +137297,10 @@ export namespace Prisma {
     star?: IntNullableWithAggregatesFilter<"reviews"> | number | null
     review?: StringWithAggregatesFilter<"reviews"> | string
     photos?: StringNullableWithAggregatesFilter<"reviews"> | string | null
+    url?: StringNullableWithAggregatesFilter<"reviews"> | string | null
+    url_reference?: StringNullableWithAggregatesFilter<"reviews"> | string | null
+    booking_id?: BigIntNullableWithAggregatesFilter<"reviews"> | bigint | number | null
+    package_id?: BigIntNullableWithAggregatesFilter<"reviews"> | bigint | number | null
     created_at?: DateTimeNullableWithAggregatesFilter<"reviews"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"reviews"> | Date | string | null
   }
@@ -140246,6 +140477,7 @@ export namespace Prisma {
     start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     package_assets?: Package_assetsListRelationFilter
     package_faqs?: Package_faqsListRelationFilter
+    reviews?: ReviewsListRelationFilter
   }
 
   export type packagesOrderByWithRelationInput = {
@@ -140307,6 +140539,7 @@ export namespace Prisma {
     start_destination?: destinationsOrderByWithRelationInput
     package_assets?: package_assetsOrderByRelationAggregateInput
     package_faqs?: package_faqsOrderByRelationAggregateInput
+    reviews?: reviewsOrderByRelationAggregateInput
   }
 
   export type packagesWhereUniqueInput = Prisma.AtLeast<{
@@ -140371,6 +140604,7 @@ export namespace Prisma {
     start_destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
     package_assets?: Package_assetsListRelationFilter
     package_faqs?: Package_faqsListRelationFilter
+    reviews?: ReviewsListRelationFilter
   }, "id" | "code" | "slug">
 
   export type packagesOrderByWithAggregationInput = {
@@ -144639,6 +144873,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateInput = {
@@ -144690,6 +144925,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUpdateInput = {
@@ -144741,6 +144977,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateInput = {
@@ -144792,6 +145029,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateManyInput = {
@@ -145875,9 +146113,13 @@ export namespace Prisma {
     star?: number | null
     review: string
     photos?: string | null
+    url?: string | null
+    url_reference?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     crew_reviews?: crew_reviewsCreateNestedManyWithoutReviewInput
+    package?: packagesCreateNestedOneWithoutReviewsInput
+    booking?: bookingsCreateNestedOneWithoutReviewsInput
   }
 
   export type reviewsUncheckedCreateInput = {
@@ -145889,6 +146131,10 @@ export namespace Prisma {
     star?: number | null
     review: string
     photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    booking_id?: bigint | number | null
+    package_id?: bigint | number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutReviewInput
@@ -145903,9 +146149,13 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     crew_reviews?: crew_reviewsUpdateManyWithoutReviewNestedInput
+    package?: packagesUpdateOneWithoutReviewsNestedInput
+    booking?: bookingsUpdateOneWithoutReviewsNestedInput
   }
 
   export type reviewsUncheckedUpdateInput = {
@@ -145917,6 +146167,10 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput
@@ -145931,6 +146185,10 @@ export namespace Prisma {
     star?: number | null
     review: string
     photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    booking_id?: bigint | number | null
+    package_id?: bigint | number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -145944,6 +146202,8 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -145957,6 +146217,10 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -149433,6 +149697,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateInput = {
@@ -149489,6 +149754,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUpdateInput = {
@@ -149545,6 +149811,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateInput = {
@@ -149601,6 +149868,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateManyInput = {
@@ -153429,6 +153697,12 @@ export namespace Prisma {
     none?: feedbackWhereInput
   }
 
+  export type ReviewsListRelationFilter = {
+    every?: reviewsWhereInput
+    some?: reviewsWhereInput
+    none?: reviewsWhereInput
+  }
+
   export type booking_crew_member_activitiesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -153490,6 +153764,10 @@ export namespace Prisma {
   }
 
   export type feedbackOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type reviewsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -154284,6 +154562,10 @@ export namespace Prisma {
     star?: SortOrder
     review?: SortOrder
     photos?: SortOrder
+    url?: SortOrder
+    url_reference?: SortOrder
+    booking_id?: SortOrder
+    package_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -154291,6 +154573,8 @@ export namespace Prisma {
   export type reviewsAvgOrderByAggregateInput = {
     id?: SortOrder
     star?: SortOrder
+    booking_id?: SortOrder
+    package_id?: SortOrder
   }
 
   export type reviewsMaxOrderByAggregateInput = {
@@ -154302,6 +154586,10 @@ export namespace Prisma {
     star?: SortOrder
     review?: SortOrder
     photos?: SortOrder
+    url?: SortOrder
+    url_reference?: SortOrder
+    booking_id?: SortOrder
+    package_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -154315,6 +154603,10 @@ export namespace Prisma {
     star?: SortOrder
     review?: SortOrder
     photos?: SortOrder
+    url?: SortOrder
+    url_reference?: SortOrder
+    booking_id?: SortOrder
+    package_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -154322,6 +154614,8 @@ export namespace Prisma {
   export type reviewsSumOrderByAggregateInput = {
     id?: SortOrder
     star?: SortOrder
+    booking_id?: SortOrder
+    package_id?: SortOrder
   }
 
   export type ReviewsScalarRelationFilter = {
@@ -159349,6 +159643,13 @@ export namespace Prisma {
     connect?: feedbackWhereUniqueInput | feedbackWhereUniqueInput[]
   }
 
+  export type reviewsCreateNestedManyWithoutBookingInput = {
+    create?: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput> | reviewsCreateWithoutBookingInput[] | reviewsUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutBookingInput | reviewsCreateOrConnectWithoutBookingInput[]
+    createMany?: reviewsCreateManyBookingInputEnvelope
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+  }
+
   export type booking_addonsUncheckedCreateNestedManyWithoutBookingsInput = {
     create?: XOR<booking_addonsCreateWithoutBookingsInput, booking_addonsUncheckedCreateWithoutBookingsInput> | booking_addonsCreateWithoutBookingsInput[] | booking_addonsUncheckedCreateWithoutBookingsInput[]
     connectOrCreate?: booking_addonsCreateOrConnectWithoutBookingsInput | booking_addonsCreateOrConnectWithoutBookingsInput[]
@@ -159494,6 +159795,13 @@ export namespace Prisma {
     connectOrCreate?: feedbackCreateOrConnectWithoutBookingsInput | feedbackCreateOrConnectWithoutBookingsInput[]
     createMany?: feedbackCreateManyBookingsInputEnvelope
     connect?: feedbackWhereUniqueInput | feedbackWhereUniqueInput[]
+  }
+
+  export type reviewsUncheckedCreateNestedManyWithoutBookingInput = {
+    create?: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput> | reviewsCreateWithoutBookingInput[] | reviewsUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutBookingInput | reviewsCreateOrConnectWithoutBookingInput[]
+    createMany?: reviewsCreateManyBookingInputEnvelope
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -159838,6 +160146,20 @@ export namespace Prisma {
     deleteMany?: feedbackScalarWhereInput | feedbackScalarWhereInput[]
   }
 
+  export type reviewsUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput> | reviewsCreateWithoutBookingInput[] | reviewsUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutBookingInput | reviewsCreateOrConnectWithoutBookingInput[]
+    upsert?: reviewsUpsertWithWhereUniqueWithoutBookingInput | reviewsUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: reviewsCreateManyBookingInputEnvelope
+    set?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    disconnect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    delete?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    update?: reviewsUpdateWithWhereUniqueWithoutBookingInput | reviewsUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: reviewsUpdateManyWithWhereWithoutBookingInput | reviewsUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
+  }
+
   export type booking_addonsUncheckedUpdateManyWithoutBookingsNestedInput = {
     create?: XOR<booking_addonsCreateWithoutBookingsInput, booking_addonsUncheckedCreateWithoutBookingsInput> | booking_addonsCreateWithoutBookingsInput[] | booking_addonsUncheckedCreateWithoutBookingsInput[]
     connectOrCreate?: booking_addonsCreateOrConnectWithoutBookingsInput | booking_addonsCreateOrConnectWithoutBookingsInput[]
@@ -160130,6 +160452,20 @@ export namespace Prisma {
     update?: feedbackUpdateWithWhereUniqueWithoutBookingsInput | feedbackUpdateWithWhereUniqueWithoutBookingsInput[]
     updateMany?: feedbackUpdateManyWithWhereWithoutBookingsInput | feedbackUpdateManyWithWhereWithoutBookingsInput[]
     deleteMany?: feedbackScalarWhereInput | feedbackScalarWhereInput[]
+  }
+
+  export type reviewsUncheckedUpdateManyWithoutBookingNestedInput = {
+    create?: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput> | reviewsCreateWithoutBookingInput[] | reviewsUncheckedCreateWithoutBookingInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutBookingInput | reviewsCreateOrConnectWithoutBookingInput[]
+    upsert?: reviewsUpsertWithWhereUniqueWithoutBookingInput | reviewsUpsertWithWhereUniqueWithoutBookingInput[]
+    createMany?: reviewsCreateManyBookingInputEnvelope
+    set?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    disconnect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    delete?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    update?: reviewsUpdateWithWhereUniqueWithoutBookingInput | reviewsUpdateWithWhereUniqueWithoutBookingInput[]
+    updateMany?: reviewsUpdateManyWithWhereWithoutBookingInput | reviewsUpdateManyWithWhereWithoutBookingInput[]
+    deleteMany?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
   }
 
   export type blogsCreateNestedManyWithoutCategoryInput = {
@@ -160772,6 +161108,18 @@ export namespace Prisma {
     connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
   }
 
+  export type packagesCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<packagesCreateWithoutReviewsInput, packagesUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: packagesCreateOrConnectWithoutReviewsInput
+    connect?: packagesWhereUniqueInput
+  }
+
+  export type bookingsCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<bookingsCreateWithoutReviewsInput, bookingsUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: bookingsCreateOrConnectWithoutReviewsInput
+    connect?: bookingsWhereUniqueInput
+  }
+
   export type crew_reviewsUncheckedCreateNestedManyWithoutReviewInput = {
     create?: XOR<crew_reviewsCreateWithoutReviewInput, crew_reviewsUncheckedCreateWithoutReviewInput> | crew_reviewsCreateWithoutReviewInput[] | crew_reviewsUncheckedCreateWithoutReviewInput[]
     connectOrCreate?: crew_reviewsCreateOrConnectWithoutReviewInput | crew_reviewsCreateOrConnectWithoutReviewInput[]
@@ -160791,6 +161139,26 @@ export namespace Prisma {
     update?: crew_reviewsUpdateWithWhereUniqueWithoutReviewInput | crew_reviewsUpdateWithWhereUniqueWithoutReviewInput[]
     updateMany?: crew_reviewsUpdateManyWithWhereWithoutReviewInput | crew_reviewsUpdateManyWithWhereWithoutReviewInput[]
     deleteMany?: crew_reviewsScalarWhereInput | crew_reviewsScalarWhereInput[]
+  }
+
+  export type packagesUpdateOneWithoutReviewsNestedInput = {
+    create?: XOR<packagesCreateWithoutReviewsInput, packagesUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: packagesCreateOrConnectWithoutReviewsInput
+    upsert?: packagesUpsertWithoutReviewsInput
+    disconnect?: packagesWhereInput | boolean
+    delete?: packagesWhereInput | boolean
+    connect?: packagesWhereUniqueInput
+    update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutReviewsInput, packagesUpdateWithoutReviewsInput>, packagesUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type bookingsUpdateOneWithoutReviewsNestedInput = {
+    create?: XOR<bookingsCreateWithoutReviewsInput, bookingsUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: bookingsCreateOrConnectWithoutReviewsInput
+    upsert?: bookingsUpsertWithoutReviewsInput
+    disconnect?: bookingsWhereInput | boolean
+    delete?: bookingsWhereInput | boolean
+    connect?: bookingsWhereUniqueInput
+    update?: XOR<XOR<bookingsUpdateToOneWithWhereWithoutReviewsInput, bookingsUpdateWithoutReviewsInput>, bookingsUncheckedUpdateWithoutReviewsInput>
   }
 
   export type crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput = {
@@ -163422,6 +163790,13 @@ export namespace Prisma {
     connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
   }
 
+  export type reviewsCreateNestedManyWithoutPackageInput = {
+    create?: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput> | reviewsCreateWithoutPackageInput[] | reviewsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutPackageInput | reviewsCreateOrConnectWithoutPackageInput[]
+    createMany?: reviewsCreateManyPackageInputEnvelope
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+  }
+
   export type bookingsUncheckedCreateNestedManyWithoutPackagesInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -163504,6 +163879,13 @@ export namespace Prisma {
     connectOrCreate?: package_faqsCreateOrConnectWithoutPackageInput | package_faqsCreateOrConnectWithoutPackageInput[]
     createMany?: package_faqsCreateManyPackageInputEnvelope
     connect?: package_faqsWhereUniqueInput | package_faqsWhereUniqueInput[]
+  }
+
+  export type reviewsUncheckedCreateNestedManyWithoutPackageInput = {
+    create?: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput> | reviewsCreateWithoutPackageInput[] | reviewsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutPackageInput | reviewsCreateOrConnectWithoutPackageInput[]
+    createMany?: reviewsCreateManyPackageInputEnvelope
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
   }
 
   export type packagesUpdateperfect_forInput = {
@@ -163774,6 +164156,20 @@ export namespace Prisma {
     deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
   }
 
+  export type reviewsUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput> | reviewsCreateWithoutPackageInput[] | reviewsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutPackageInput | reviewsCreateOrConnectWithoutPackageInput[]
+    upsert?: reviewsUpsertWithWhereUniqueWithoutPackageInput | reviewsUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: reviewsCreateManyPackageInputEnvelope
+    set?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    disconnect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    delete?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    update?: reviewsUpdateWithWhereUniqueWithoutPackageInput | reviewsUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: reviewsUpdateManyWithWhereWithoutPackageInput | reviewsUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
+  }
+
   export type bookingsUncheckedUpdateManyWithoutPackagesNestedInput = {
     create?: XOR<bookingsCreateWithoutPackagesInput, bookingsUncheckedCreateWithoutPackagesInput> | bookingsCreateWithoutPackagesInput[] | bookingsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: bookingsCreateOrConnectWithoutPackagesInput | bookingsCreateOrConnectWithoutPackagesInput[]
@@ -163940,6 +164336,20 @@ export namespace Prisma {
     update?: package_faqsUpdateWithWhereUniqueWithoutPackageInput | package_faqsUpdateWithWhereUniqueWithoutPackageInput[]
     updateMany?: package_faqsUpdateManyWithWhereWithoutPackageInput | package_faqsUpdateManyWithWhereWithoutPackageInput[]
     deleteMany?: package_faqsScalarWhereInput | package_faqsScalarWhereInput[]
+  }
+
+  export type reviewsUncheckedUpdateManyWithoutPackageNestedInput = {
+    create?: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput> | reviewsCreateWithoutPackageInput[] | reviewsUncheckedCreateWithoutPackageInput[]
+    connectOrCreate?: reviewsCreateOrConnectWithoutPackageInput | reviewsCreateOrConnectWithoutPackageInput[]
+    upsert?: reviewsUpsertWithWhereUniqueWithoutPackageInput | reviewsUpsertWithWhereUniqueWithoutPackageInput[]
+    createMany?: reviewsCreateManyPackageInputEnvelope
+    set?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    disconnect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    delete?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    connect?: reviewsWhereUniqueInput | reviewsWhereUniqueInput[]
+    update?: reviewsUpdateWithWhereUniqueWithoutPackageInput | reviewsUpdateWithWhereUniqueWithoutPackageInput[]
+    updateMany?: reviewsUpdateManyWithWhereWithoutPackageInput | reviewsUpdateManyWithWhereWithoutPackageInput[]
+    deleteMany?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
   }
 
   export type booking_payment_termsCreateNestedManyWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -167147,6 +167557,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_addonsInput = {
@@ -167197,6 +167608,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_addonsInput = {
@@ -167302,6 +167714,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_addonsInput = {
@@ -167352,6 +167765,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_crew_member_activitiesInput = {
@@ -167402,6 +167816,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_crew_member_activitiesInput = {
@@ -167452,6 +167867,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_crew_member_activitiesInput = {
@@ -167551,6 +167967,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_crew_member_activitiesInput = {
@@ -167601,6 +168018,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type crew_rolesUpsertWithoutBooking_crew_member_activitiesInput = {
@@ -167690,6 +168108,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_crew_membersInput = {
@@ -167740,6 +168159,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_crew_membersInput = {
@@ -167861,6 +168281,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_crew_membersInput = {
@@ -167911,6 +168332,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type crew_membersUpsertWithoutBooking_crew_membersInput = {
@@ -168022,6 +168444,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -168072,6 +168495,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -168324,6 +168748,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -168374,6 +168799,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type destination_activitiesUpsertWithoutBooking_destination_activitiesInput = {
@@ -168622,6 +169048,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_destination_schedulesInput = {
@@ -168672,6 +169099,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_destination_schedulesInput = {
@@ -168801,6 +169229,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_destination_schedulesInput = {
@@ -168851,6 +169280,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type hotelsUpsertWithoutBooking_destination_schedulesInput = {
@@ -168970,6 +169400,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_financesInput = {
@@ -169020,6 +169451,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_financesInput = {
@@ -169086,6 +169518,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_financesInput = {
@@ -169136,6 +169569,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type booking_hotelsCreateWithoutBooking_hotel_mealsInput = {
@@ -169233,6 +169667,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_hotel_mealsInput = {
@@ -169283,6 +169718,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_hotel_mealsInput = {
@@ -169465,6 +169901,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_hotel_mealsInput = {
@@ -169515,6 +169952,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type hotelsUpsertWithoutBooking_hotel_mealsInput = {
@@ -169681,6 +170119,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_hotel_roomsInput = {
@@ -169731,6 +170170,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_hotel_roomsInput = {
@@ -169924,6 +170364,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_hotel_roomsInput = {
@@ -169974,6 +170415,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type booking_itinerariesUpsertWithoutBooking_hotel_roomsInput = {
@@ -170182,6 +170624,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_hotelsInput = {
@@ -170232,6 +170675,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_hotelsInput = {
@@ -170468,6 +170912,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_hotelsInput = {
@@ -170518,6 +170963,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type booking_itinerariesUpsertWithoutBooking_hotelsInput = {
@@ -170838,6 +171284,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_itinerariesInput = {
@@ -170888,6 +171335,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_itinerariesInput = {
@@ -171087,6 +171535,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_itinerariesInput = {
@@ -171137,6 +171586,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_logisticsInput = {
@@ -171187,6 +171637,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_logisticsInput = {
@@ -171237,6 +171688,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_logisticsInput = {
@@ -171303,6 +171755,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_logisticsInput = {
@@ -171353,6 +171806,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_other_activitiesInput = {
@@ -171403,6 +171857,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_other_activitiesInput = {
@@ -171453,6 +171908,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_other_activitiesInput = {
@@ -171560,6 +172016,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_other_activitiesInput = {
@@ -171610,6 +172067,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type other_activitiesUpsertWithoutBooking_other_activitiesInput = {
@@ -171707,6 +172165,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_payment_historiesInput = {
@@ -171757,6 +172216,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_payment_historiesInput = {
@@ -171823,6 +172283,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_payment_historiesInput = {
@@ -171873,6 +172334,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_payment_termsInput = {
@@ -171923,6 +172385,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_payment_termsInput = {
@@ -171973,6 +172436,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_payment_termsInput = {
@@ -172132,6 +172596,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_payment_termsInput = {
@@ -172182,6 +172647,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type payment_methodsUpsertWithoutBooking_payment_terms_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -172343,6 +172809,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_police_escortInput = {
@@ -172393,6 +172860,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_police_escortInput = {
@@ -172459,6 +172927,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_police_escortInput = {
@@ -172509,6 +172978,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type crew_membersCreateWithoutBooking_review_crewsInput = {
@@ -172757,6 +173227,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_reviewsInput = {
@@ -172807,6 +173278,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_reviewsInput = {
@@ -172901,6 +173373,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_reviewsInput = {
@@ -172951,6 +173424,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_tshirtsInput = {
@@ -173001,6 +173475,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_tshirtsInput = {
@@ -173051,6 +173526,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_tshirtsInput = {
@@ -173117,6 +173593,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_tshirtsInput = {
@@ -173167,6 +173644,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsCreateWithoutBooking_vehicle_unitsInput = {
@@ -173217,6 +173695,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_vehicle_unitsInput = {
@@ -173267,6 +173746,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_vehicle_unitsInput = {
@@ -173362,6 +173842,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_vehicle_unitsInput = {
@@ -173412,6 +173893,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type vehicle_unitsUpsertWithoutBooking_vehicle_unitsInput = {
@@ -173497,6 +173979,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutBooking_whatsapp_logsInput = {
@@ -173547,6 +174030,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutBooking_whatsapp_logsInput = {
@@ -173613,6 +174097,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutBooking_whatsapp_logsInput = {
@@ -173663,6 +174148,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type booking_addonsCreateWithoutBookingsInput = {
@@ -174549,6 +175035,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutBookingsInput = {
@@ -174604,6 +175091,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutBookingsInput = {
@@ -174664,6 +175152,50 @@ export namespace Prisma {
 
   export type feedbackCreateManyBookingsInputEnvelope = {
     data: feedbackCreateManyBookingsInput | feedbackCreateManyBookingsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type reviewsCreateWithoutBookingInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutReviewInput
+    package?: packagesCreateNestedOneWithoutReviewsInput
+  }
+
+  export type reviewsUncheckedCreateWithoutBookingInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    package_id?: bigint | number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type reviewsCreateOrConnectWithoutBookingInput = {
+    where: reviewsWhereUniqueInput
+    create: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput>
+  }
+
+  export type reviewsCreateManyBookingInputEnvelope = {
+    data: reviewsCreateManyBookingInput | reviewsCreateManyBookingInput[]
     skipDuplicates?: boolean
   }
 
@@ -175402,6 +175934,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutBookingsInput = {
@@ -175457,6 +175990,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type crew_member_reviewsUpsertWithWhereUniqueWithoutBookingsInput = {
@@ -175515,6 +176049,42 @@ export namespace Prisma {
     nps_smallint?: IntNullableFilter<"feedback"> | number | null
     comments?: StringNullableFilter<"feedback"> | string | null
     created_at?: DateTimeNullableFilter<"feedback"> | Date | string | null
+  }
+
+  export type reviewsUpsertWithWhereUniqueWithoutBookingInput = {
+    where: reviewsWhereUniqueInput
+    update: XOR<reviewsUpdateWithoutBookingInput, reviewsUncheckedUpdateWithoutBookingInput>
+    create: XOR<reviewsCreateWithoutBookingInput, reviewsUncheckedCreateWithoutBookingInput>
+  }
+
+  export type reviewsUpdateWithWhereUniqueWithoutBookingInput = {
+    where: reviewsWhereUniqueInput
+    data: XOR<reviewsUpdateWithoutBookingInput, reviewsUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type reviewsUpdateManyWithWhereWithoutBookingInput = {
+    where: reviewsScalarWhereInput
+    data: XOR<reviewsUpdateManyMutationInput, reviewsUncheckedUpdateManyWithoutBookingInput>
+  }
+
+  export type reviewsScalarWhereInput = {
+    AND?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
+    OR?: reviewsScalarWhereInput[]
+    NOT?: reviewsScalarWhereInput | reviewsScalarWhereInput[]
+    id?: BigIntFilter<"reviews"> | bigint | number
+    customer_name?: StringFilter<"reviews"> | string
+    profile_photo?: StringNullableFilter<"reviews"> | string | null
+    platform?: StringFilter<"reviews"> | string
+    date?: DateTimeFilter<"reviews"> | Date | string
+    star?: IntNullableFilter<"reviews"> | number | null
+    review?: StringFilter<"reviews"> | string
+    photos?: StringNullableFilter<"reviews"> | string | null
+    url?: StringNullableFilter<"reviews"> | string | null
+    url_reference?: StringNullableFilter<"reviews"> | string | null
+    booking_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
+    package_id?: BigIntNullableFilter<"reviews"> | bigint | number | null
+    created_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
+    updated_at?: DateTimeNullableFilter<"reviews"> | Date | string | null
   }
 
   export type blogsCreateWithoutCategoryInput = {
@@ -175787,6 +176357,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutCombined_package_detailsInput = {
@@ -175842,6 +176413,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutCombined_package_detailsInput = {
@@ -175946,6 +176518,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutCombined_package_detailsInput = {
@@ -176001,6 +176574,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type combined_package_detailsCreateWithoutCombined_packagesInput = {
@@ -176105,6 +176679,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutBookingsInput
     packages?: packagesCreateNestedOneWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutCrew_member_reviewsInput = {
@@ -176155,6 +176730,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedCreateNestedManyWithoutBookingsInput
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutCrew_member_reviewsInput = {
@@ -176276,6 +176852,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutBookingsNestedInput
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutCrew_member_reviewsInput = {
@@ -176326,6 +176903,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedUpdateManyWithoutBookingsNestedInput
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type crew_membersUpsertWithoutCrew_member_reviewsInput = {
@@ -177249,6 +177827,230 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type packagesCreateWithoutReviewsInput = {
+    id?: bigint | number
+    uuid?: string | null
+    code?: string | null
+    slug?: string | null
+    name: string
+    description?: string | null
+    short_label?: string | null
+    key_highlights?: string | null
+    ideal_arrival?: string | null
+    physicality?: string | null
+    suitable_for?: string | null
+    is_publish?: boolean | null
+    total_breakfast?: number | null
+    total_lunch?: number | null
+    total_dinner?: number | null
+    google_merchant_product_id?: string | null
+    meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: number | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    bookings?: bookingsCreateNestedManyWithoutPackagesInput
+    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
+    package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
+    package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
+    package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
+    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
+    package_includes?: package_includesCreateNestedManyWithoutPackagesInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
+    package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
+    durations?: durationsCreateNestedOneWithoutPackagesInput
+    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
+    order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
+    package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
+    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
+    package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+  }
+
+  export type packagesUncheckedCreateWithoutReviewsInput = {
+    id?: bigint | number
+    uuid?: string | null
+    code?: string | null
+    slug?: string | null
+    name: string
+    description?: string | null
+    short_label?: string | null
+    duration_id?: bigint | number | null
+    order_channel_id?: bigint | number | null
+    package_category_id?: bigint | number | null
+    start_destination_id?: bigint | number | null
+    end_destination_id?: bigint | number | null
+    key_highlights?: string | null
+    ideal_arrival?: string | null
+    physicality?: string | null
+    suitable_for?: string | null
+    is_publish?: boolean | null
+    total_breakfast?: number | null
+    total_lunch?: number | null
+    total_dinner?: number | null
+    google_merchant_product_id?: string | null
+    meta_catalogue_id?: string | null
+    perfect_for?: packagesCreateperfect_forInput | string[]
+    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
+    safety_positioning?: string | null
+    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: number | null
+    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
+    tags?: packagesCreatetagsInput | string[]
+    operational_complexity_note?: string | null
+    first_day_last_pickup_guidance?: string | null
+    last_day_safe_flight_note?: string | null
+    health_requirements?: packagesCreatehealth_requirementsInput | string[]
+    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
+    handover_notes?: packagesCreatehandover_notesInput | string[]
+    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
+    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
+    package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
+    package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
+    package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
+    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
+    package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
+    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
+    package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
+    package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+  }
+
+  export type packagesCreateOrConnectWithoutReviewsInput = {
+    where: packagesWhereUniqueInput
+    create: XOR<packagesCreateWithoutReviewsInput, packagesUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type bookingsCreateWithoutReviewsInput = {
+    id?: bigint | number
+    booking_code?: string | null
+    booking_code_origin?: string | null
+    invoice_file_origin?: string | null
+    booking_date: Date | string
+    start_date: Date | string
+    end_date: Date | string
+    total_participants: number
+    booking_status?: string
+    trip_status?: string
+    payment_status?: string
+    is_shuttle_service?: boolean | null
+    slug?: string | null
+    trip_media_url?: string | null
+    special_requirement?: string | null
+    internal_note?: string | null
+    is_invoice_twt?: boolean | null
+    date_paid_invoiced_twt?: Date | string | null
+    is_police_escort?: boolean | null
+    is_send_whatsapp?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    booking_addons?: booking_addonsCreateNestedManyWithoutBookingsInput
+    booking_crew_member_activities?: booking_crew_member_activitiesCreateNestedManyWithoutBookingsInput
+    booking_crew_members?: booking_crew_membersCreateNestedManyWithoutBookingsInput
+    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutBookingsInput
+    booking_destination_schedules?: booking_destination_schedulesCreateNestedManyWithoutBookingsInput
+    booking_finances?: booking_financesCreateNestedManyWithoutBookingsInput
+    booking_hotel_meals?: booking_hotel_mealsCreateNestedManyWithoutBookingsInput
+    booking_hotel_rooms?: booking_hotel_roomsCreateNestedManyWithoutBookingsInput
+    booking_hotels?: booking_hotelsCreateNestedManyWithoutBookingsInput
+    booking_itineraries?: booking_itinerariesCreateNestedManyWithoutBookingsInput
+    booking_logistics?: booking_logisticsCreateNestedManyWithoutBookingsInput
+    booking_other_activities?: booking_other_activitiesCreateNestedManyWithoutBookingsInput
+    booking_payment_histories?: booking_payment_historiesCreateNestedManyWithoutBookingsInput
+    booking_payment_terms?: booking_payment_termsCreateNestedManyWithoutBookingsInput
+    booking_police_escort?: booking_police_escortCreateNestedManyWithoutBookingsInput
+    booking_reviews?: booking_reviewsCreateNestedManyWithoutBookingsInput
+    booking_tshirts?: booking_tshirtsCreateNestedManyWithoutBookingsInput
+    booking_vehicle_units?: booking_vehicle_unitsCreateNestedManyWithoutBookingsInput
+    booking_whatsapp_logs?: booking_whatsapp_logsCreateNestedManyWithoutBookingsInput
+    customer?: UserCreateNestedOneWithoutBookingsInput
+    durations?: durationsCreateNestedOneWithoutBookingsInput
+    order_channels?: order_channelsCreateNestedOneWithoutBookingsInput
+    packages?: packagesCreateNestedOneWithoutBookingsInput
+    crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
+    feedback?: feedbackCreateNestedManyWithoutBookingsInput
+  }
+
+  export type bookingsUncheckedCreateWithoutReviewsInput = {
+    id?: bigint | number
+    booking_code?: string | null
+    booking_code_origin?: string | null
+    invoice_file_origin?: string | null
+    customer_id?: bigint | number | null
+    package_id?: bigint | number | null
+    duration_id?: bigint | number | null
+    order_channel_id?: bigint | number | null
+    booking_date: Date | string
+    start_date: Date | string
+    end_date: Date | string
+    total_participants: number
+    booking_status?: string
+    trip_status?: string
+    payment_status?: string
+    is_shuttle_service?: boolean | null
+    slug?: string | null
+    trip_media_url?: string | null
+    special_requirement?: string | null
+    internal_note?: string | null
+    is_invoice_twt?: boolean | null
+    date_paid_invoiced_twt?: Date | string | null
+    is_police_escort?: boolean | null
+    is_send_whatsapp?: boolean | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    booking_addons?: booking_addonsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_crew_member_activities?: booking_crew_member_activitiesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_crew_members?: booking_crew_membersUncheckedCreateNestedManyWithoutBookingsInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_destination_schedules?: booking_destination_schedulesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_finances?: booking_financesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_hotel_meals?: booking_hotel_mealsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_hotel_rooms?: booking_hotel_roomsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_hotels?: booking_hotelsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_itineraries?: booking_itinerariesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_logistics?: booking_logisticsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_other_activities?: booking_other_activitiesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_payment_histories?: booking_payment_historiesUncheckedCreateNestedManyWithoutBookingsInput
+    booking_payment_terms?: booking_payment_termsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_police_escort?: booking_police_escortUncheckedCreateNestedManyWithoutBookingsInput
+    booking_reviews?: booking_reviewsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_tshirts?: booking_tshirtsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_vehicle_units?: booking_vehicle_unitsUncheckedCreateNestedManyWithoutBookingsInput
+    booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
+    crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
+    feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+  }
+
+  export type bookingsCreateOrConnectWithoutReviewsInput = {
+    where: bookingsWhereUniqueInput
+    create: XOR<bookingsCreateWithoutReviewsInput, bookingsUncheckedCreateWithoutReviewsInput>
+  }
+
   export type crew_reviewsUpsertWithWhereUniqueWithoutReviewInput = {
     where: crew_reviewsWhereUniqueInput
     update: XOR<crew_reviewsUpdateWithoutReviewInput, crew_reviewsUncheckedUpdateWithoutReviewInput>
@@ -177265,6 +178067,242 @@ export namespace Prisma {
     data: XOR<crew_reviewsUpdateManyMutationInput, crew_reviewsUncheckedUpdateManyWithoutReviewInput>
   }
 
+  export type packagesUpsertWithoutReviewsInput = {
+    update: XOR<packagesUpdateWithoutReviewsInput, packagesUncheckedUpdateWithoutReviewsInput>
+    create: XOR<packagesCreateWithoutReviewsInput, packagesUncheckedCreateWithoutReviewsInput>
+    where?: packagesWhereInput
+  }
+
+  export type packagesUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: packagesWhereInput
+    data: XOR<packagesUpdateWithoutReviewsInput, packagesUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type packagesUpdateWithoutReviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    uuid?: NullableStringFieldUpdateOperationsInput | string | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    short_label?: NullableStringFieldUpdateOperationsInput | string | null
+    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
+    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
+    physicality?: NullableStringFieldUpdateOperationsInput | string | null
+    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
+    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
+    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
+    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
+    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
+    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    bookings?: bookingsUpdateManyWithoutPackagesNestedInput
+    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
+    package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
+    package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
+    package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
+    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
+    package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
+    package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
+    durations?: durationsUpdateOneWithoutPackagesNestedInput
+    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
+    order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
+    package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
+    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
+    package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+  }
+
+  export type packagesUncheckedUpdateWithoutReviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    uuid?: NullableStringFieldUpdateOperationsInput | string | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    short_label?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    order_channel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    start_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    end_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
+    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
+    physicality?: NullableStringFieldUpdateOperationsInput | string | null
+    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
+    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
+    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
+    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
+    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
+    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
+    perfect_for?: packagesUpdateperfect_forInput | string[]
+    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
+    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
+    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
+    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
+    tags?: packagesUpdatetagsInput | string[]
+    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
+    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
+    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
+    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
+    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
+    handover_notes?: packagesUpdatehandover_notesInput | string[]
+    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
+    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
+    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
+    package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
+    package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+  }
+
+  export type bookingsUpsertWithoutReviewsInput = {
+    update: XOR<bookingsUpdateWithoutReviewsInput, bookingsUncheckedUpdateWithoutReviewsInput>
+    create: XOR<bookingsCreateWithoutReviewsInput, bookingsUncheckedCreateWithoutReviewsInput>
+    where?: bookingsWhereInput
+  }
+
+  export type bookingsUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: bookingsWhereInput
+    data: XOR<bookingsUpdateWithoutReviewsInput, bookingsUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type bookingsUpdateWithoutReviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    booking_code?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_code_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_file_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    total_participants?: IntFieldUpdateOperationsInput | number
+    booking_status?: StringFieldUpdateOperationsInput | string
+    trip_status?: StringFieldUpdateOperationsInput | string
+    payment_status?: StringFieldUpdateOperationsInput | string
+    is_shuttle_service?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    trip_media_url?: NullableStringFieldUpdateOperationsInput | string | null
+    special_requirement?: NullableStringFieldUpdateOperationsInput | string | null
+    internal_note?: NullableStringFieldUpdateOperationsInput | string | null
+    is_invoice_twt?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    booking_addons?: booking_addonsUpdateManyWithoutBookingsNestedInput
+    booking_crew_member_activities?: booking_crew_member_activitiesUpdateManyWithoutBookingsNestedInput
+    booking_crew_members?: booking_crew_membersUpdateManyWithoutBookingsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutBookingsNestedInput
+    booking_destination_schedules?: booking_destination_schedulesUpdateManyWithoutBookingsNestedInput
+    booking_finances?: booking_financesUpdateManyWithoutBookingsNestedInput
+    booking_hotel_meals?: booking_hotel_mealsUpdateManyWithoutBookingsNestedInput
+    booking_hotel_rooms?: booking_hotel_roomsUpdateManyWithoutBookingsNestedInput
+    booking_hotels?: booking_hotelsUpdateManyWithoutBookingsNestedInput
+    booking_itineraries?: booking_itinerariesUpdateManyWithoutBookingsNestedInput
+    booking_logistics?: booking_logisticsUpdateManyWithoutBookingsNestedInput
+    booking_other_activities?: booking_other_activitiesUpdateManyWithoutBookingsNestedInput
+    booking_payment_histories?: booking_payment_historiesUpdateManyWithoutBookingsNestedInput
+    booking_payment_terms?: booking_payment_termsUpdateManyWithoutBookingsNestedInput
+    booking_police_escort?: booking_police_escortUpdateManyWithoutBookingsNestedInput
+    booking_reviews?: booking_reviewsUpdateManyWithoutBookingsNestedInput
+    booking_tshirts?: booking_tshirtsUpdateManyWithoutBookingsNestedInput
+    booking_vehicle_units?: booking_vehicle_unitsUpdateManyWithoutBookingsNestedInput
+    booking_whatsapp_logs?: booking_whatsapp_logsUpdateManyWithoutBookingsNestedInput
+    customer?: UserUpdateOneWithoutBookingsNestedInput
+    durations?: durationsUpdateOneWithoutBookingsNestedInput
+    order_channels?: order_channelsUpdateOneWithoutBookingsNestedInput
+    packages?: packagesUpdateOneWithoutBookingsNestedInput
+    crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
+    feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+  }
+
+  export type bookingsUncheckedUpdateWithoutReviewsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    booking_code?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_code_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_file_origin?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    duration_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    order_channel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    booking_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    total_participants?: IntFieldUpdateOperationsInput | number
+    booking_status?: StringFieldUpdateOperationsInput | string
+    trip_status?: StringFieldUpdateOperationsInput | string
+    payment_status?: StringFieldUpdateOperationsInput | string
+    is_shuttle_service?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    trip_media_url?: NullableStringFieldUpdateOperationsInput | string | null
+    special_requirement?: NullableStringFieldUpdateOperationsInput | string | null
+    internal_note?: NullableStringFieldUpdateOperationsInput | string | null
+    is_invoice_twt?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    booking_addons?: booking_addonsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_crew_member_activities?: booking_crew_member_activitiesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_crew_members?: booking_crew_membersUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_destination_schedules?: booking_destination_schedulesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_finances?: booking_financesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_hotel_meals?: booking_hotel_mealsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_hotel_rooms?: booking_hotel_roomsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_hotels?: booking_hotelsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_itineraries?: booking_itinerariesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_logistics?: booking_logisticsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_other_activities?: booking_other_activitiesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_payment_histories?: booking_payment_historiesUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_payment_terms?: booking_payment_termsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_police_escort?: booking_police_escortUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_reviews?: booking_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_tshirts?: booking_tshirtsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_vehicle_units?: booking_vehicle_unitsUncheckedUpdateManyWithoutBookingsNestedInput
+    booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
+    crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
+    feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+  }
+
   export type reviewsCreateWithoutCrew_reviewsInput = {
     id?: bigint | number
     customer_name: string
@@ -177274,8 +178312,12 @@ export namespace Prisma {
     star?: number | null
     review: string
     photos?: string | null
+    url?: string | null
+    url_reference?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
+    package?: packagesCreateNestedOneWithoutReviewsInput
+    booking?: bookingsCreateNestedOneWithoutReviewsInput
   }
 
   export type reviewsUncheckedCreateWithoutCrew_reviewsInput = {
@@ -177287,6 +178329,10 @@ export namespace Prisma {
     star?: number | null
     review: string
     photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    booking_id?: bigint | number | null
+    package_id?: bigint | number | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
   }
@@ -177371,8 +178417,12 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    package?: packagesUpdateOneWithoutReviewsNestedInput
+    booking?: bookingsUpdateOneWithoutReviewsNestedInput
   }
 
   export type reviewsUncheckedUpdateWithoutCrew_reviewsInput = {
@@ -177384,6 +178434,10 @@ export namespace Prisma {
     star?: NullableIntFieldUpdateOperationsInput | number | null
     review?: StringFieldUpdateOperationsInput | string
     photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -177557,6 +178611,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutCustomerInput = {
@@ -177607,6 +178662,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutCustomerInput = {
@@ -178643,6 +179699,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutEnd_destinationInput = {
@@ -178698,6 +179755,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutEnd_destinationInput = {
@@ -178763,6 +179821,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutStart_destinationInput = {
@@ -178818,6 +179877,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutStart_destinationInput = {
@@ -179854,6 +180914,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutDurationsInput = {
@@ -179904,6 +180965,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutDurationsInput = {
@@ -179969,6 +181031,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutDurationsInput = {
@@ -180024,6 +181087,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutDurationsInput = {
@@ -180330,6 +181394,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutBookingsInput
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutFeedbackInput = {
@@ -180380,6 +181445,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedCreateNestedManyWithoutBookingsInput
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutFeedbackInput = {
@@ -180446,6 +181512,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutBookingsNestedInput
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutFeedbackInput = {
@@ -180496,6 +181563,7 @@ export namespace Prisma {
     booking_vehicle_units?: booking_vehicle_unitsUncheckedUpdateManyWithoutBookingsNestedInput
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type booking_destination_schedulesCreateWithoutHotelsInput = {
@@ -181367,6 +182435,7 @@ export namespace Prisma {
     packages?: packagesCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutOrder_channelsInput = {
@@ -181417,6 +182486,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutOrder_channelsInput = {
@@ -181550,6 +182620,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutOrder_channelsInput = {
@@ -181605,6 +182676,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutOrder_channelsInput = {
@@ -181954,6 +183026,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_addonsInput = {
@@ -182009,6 +183082,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_addonsInput = {
@@ -182119,6 +183193,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_addonsInput = {
@@ -182174,6 +183249,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateWithoutPackage_assetsInput = {
@@ -182229,6 +183305,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_assetsInput = {
@@ -182284,6 +183361,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_assetsInput = {
@@ -182398,6 +183476,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_assetsInput = {
@@ -182453,6 +183532,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type assetsUpsertWithoutPackage_assetsInput = {
@@ -182557,6 +183637,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_categoriesInput = {
@@ -182612,6 +183693,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_categoriesInput = {
@@ -182838,6 +183920,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_destinationsInput = {
@@ -182893,6 +183976,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_destinationsInput = {
@@ -183115,6 +184199,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -183170,6 +184255,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type item_excludesCreateWithoutPackage_excludesInput = {
@@ -183246,6 +184332,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_excludesInput = {
@@ -183301,6 +184388,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_excludesInput = {
@@ -183399,6 +184487,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_excludesInput = {
@@ -183454,6 +184543,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateWithoutPackage_faqsInput = {
@@ -183509,6 +184599,7 @@ export namespace Prisma {
     package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_faqsInput = {
@@ -183564,6 +184655,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_faqsInput = {
@@ -183666,6 +184758,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_faqsInput = {
@@ -183721,6 +184814,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type faqsUpsertWithoutPackage_faqsInput = {
@@ -183876,6 +184970,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_hotel_optionsInput = {
@@ -183931,6 +185026,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_hotel_optionsInput = {
@@ -184071,6 +185167,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_hotel_optionsInput = {
@@ -184126,6 +185223,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesCreateWithoutPackage_imagesInput = {
@@ -184181,6 +185279,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_imagesInput = {
@@ -184236,6 +185335,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_imagesInput = {
@@ -184307,6 +185407,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_imagesInput = {
@@ -184362,6 +185463,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type item_includesCreateWithoutPackage_includesInput = {
@@ -184438,6 +185540,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_includesInput = {
@@ -184493,6 +185596,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_includesInput = {
@@ -184591,6 +185695,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_includesInput = {
@@ -184646,6 +185751,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type package_itinerary_day_detailsCreateWithoutLocations_fromInput = {
@@ -185202,6 +186308,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_itinerary_daysInput = {
@@ -185257,6 +186364,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_itinerary_daysInput = {
@@ -185536,6 +186644,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_itinerary_daysInput = {
@@ -185591,6 +186700,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type routesUpsertWithoutPackage_itinerary_daysInput = {
@@ -185697,6 +186807,7 @@ export namespace Prisma {
     start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
     package_assets?: package_assetsCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
+    reviews?: reviewsCreateNestedManyWithoutPackageInput
   }
 
   export type packagesUncheckedCreateWithoutPackage_pricesInput = {
@@ -185752,6 +186863,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
     package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
   }
 
   export type packagesCreateOrConnectWithoutPackage_pricesInput = {
@@ -185850,6 +186962,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_pricesInput = {
@@ -185905,6 +187018,7 @@ export namespace Prisma {
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type price_tiersUpsertWithoutPackage_pricesInput = {
@@ -185988,6 +187102,7 @@ export namespace Prisma {
     order_channels?: order_channelsCreateNestedOneWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsCreateNestedManyWithoutBookingsInput
     feedback?: feedbackCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsUncheckedCreateWithoutPackagesInput = {
@@ -186038,6 +187153,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedCreateNestedManyWithoutBookingsInput
     crew_member_reviews?: crew_member_reviewsUncheckedCreateNestedManyWithoutBookingsInput
     feedback?: feedbackUncheckedCreateNestedManyWithoutBookingsInput
+    reviews?: reviewsUncheckedCreateNestedManyWithoutBookingInput
   }
 
   export type bookingsCreateOrConnectWithoutPackagesInput = {
@@ -186749,6 +187865,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type reviewsCreateWithoutPackageInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsCreateNestedManyWithoutReviewInput
+    booking?: bookingsCreateNestedOneWithoutReviewsInput
+  }
+
+  export type reviewsUncheckedCreateWithoutPackageInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    booking_id?: bigint | number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    crew_reviews?: crew_reviewsUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type reviewsCreateOrConnectWithoutPackageInput = {
+    where: reviewsWhereUniqueInput
+    create: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput>
+  }
+
+  export type reviewsCreateManyPackageInputEnvelope = {
+    data: reviewsCreateManyPackageInput | reviewsCreateManyPackageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type bookingsUpsertWithWhereUniqueWithoutPackagesInput = {
     where: bookingsWhereUniqueInput
     update: XOR<bookingsUpdateWithoutPackagesInput, bookingsUncheckedUpdateWithoutPackagesInput>
@@ -187388,6 +188548,22 @@ export namespace Prisma {
   export type package_faqsUpdateManyWithWhereWithoutPackageInput = {
     where: package_faqsScalarWhereInput
     data: XOR<package_faqsUpdateManyMutationInput, package_faqsUncheckedUpdateManyWithoutPackageInput>
+  }
+
+  export type reviewsUpsertWithWhereUniqueWithoutPackageInput = {
+    where: reviewsWhereUniqueInput
+    update: XOR<reviewsUpdateWithoutPackageInput, reviewsUncheckedUpdateWithoutPackageInput>
+    create: XOR<reviewsCreateWithoutPackageInput, reviewsUncheckedCreateWithoutPackageInput>
+  }
+
+  export type reviewsUpdateWithWhereUniqueWithoutPackageInput = {
+    where: reviewsWhereUniqueInput
+    data: XOR<reviewsUpdateWithoutPackageInput, reviewsUncheckedUpdateWithoutPackageInput>
+  }
+
+  export type reviewsUpdateManyWithWhereWithoutPackageInput = {
+    where: reviewsScalarWhereInput
+    data: XOR<reviewsUpdateManyMutationInput, reviewsUncheckedUpdateManyWithoutPackageInput>
   }
 
   export type booking_payment_termsCreateWithoutPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {
@@ -191789,6 +192965,22 @@ export namespace Prisma {
     created_at?: Date | string | null
   }
 
+  export type reviewsCreateManyBookingInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    package_id?: bigint | number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
   export type booking_addonsUpdateWithoutBookingsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     price?: NullableIntFieldUpdateOperationsInput | number | null
@@ -192648,6 +193840,56 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type reviewsUpdateWithoutBookingInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUpdateManyWithoutReviewNestedInput
+    package?: packagesUpdateOneWithoutReviewsNestedInput
+  }
+
+  export type reviewsUncheckedUpdateWithoutBookingInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type reviewsUncheckedUpdateManyWithoutBookingInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type blogsCreateManyCategoryInput = {
     id?: bigint | number
     title: string
@@ -193249,6 +194491,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutCustomerInput = {
@@ -193299,6 +194542,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateManyWithoutCustomerInput = {
@@ -193974,6 +195218,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutEnd_destinationInput = {
@@ -194029,6 +195274,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutEnd_destinationInput = {
@@ -194127,6 +195373,7 @@ export namespace Prisma {
     package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutStart_destinationInput = {
@@ -194182,6 +195429,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutStart_destinationInput = {
@@ -194576,6 +195824,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutDurationsInput = {
@@ -194626,6 +195875,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateManyWithoutDurationsInput = {
@@ -194710,6 +195960,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutDurationsInput = {
@@ -194765,6 +196016,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutDurationsInput = {
@@ -195503,6 +196755,7 @@ export namespace Prisma {
     packages?: packagesUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutOrder_channelsInput = {
@@ -195553,6 +196806,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateManyWithoutOrder_channelsInput = {
@@ -195706,6 +196960,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutOrder_channelsInput = {
@@ -195761,6 +197016,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutOrder_channelsInput = {
@@ -195984,6 +197240,7 @@ export namespace Prisma {
     start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
     package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateWithoutPackage_categoriesInput = {
@@ -196039,6 +197296,7 @@ export namespace Prisma {
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
     package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
   }
 
   export type packagesUncheckedUpdateManyWithoutPackage_categoriesInput = {
@@ -196375,6 +197633,22 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
+  export type reviewsCreateManyPackageInput = {
+    id?: bigint | number
+    customer_name: string
+    profile_photo?: string | null
+    platform: string
+    date: Date | string
+    star?: number | null
+    review: string
+    photos?: string | null
+    url?: string | null
+    url_reference?: string | null
+    booking_id?: bigint | number | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+  }
+
   export type bookingsUpdateWithoutPackagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     booking_code?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196423,6 +197697,7 @@ export namespace Prisma {
     order_channels?: order_channelsUpdateOneWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateWithoutPackagesInput = {
@@ -196473,6 +197748,7 @@ export namespace Prisma {
     booking_whatsapp_logs?: booking_whatsapp_logsUncheckedUpdateManyWithoutBookingsNestedInput
     crew_member_reviews?: crew_member_reviewsUncheckedUpdateManyWithoutBookingsNestedInput
     feedback?: feedbackUncheckedUpdateManyWithoutBookingsNestedInput
+    reviews?: reviewsUncheckedUpdateManyWithoutBookingNestedInput
   }
 
   export type bookingsUncheckedUpdateManyWithoutPackagesInput = {
@@ -196822,6 +198098,56 @@ export namespace Prisma {
     faq_id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type reviewsUpdateWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUpdateManyWithoutReviewNestedInput
+    booking?: bookingsUpdateOneWithoutReviewsNestedInput
+  }
+
+  export type reviewsUncheckedUpdateWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    crew_reviews?: crew_reviewsUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type reviewsUncheckedUpdateManyWithoutPackageInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    customer_name?: StringFieldUpdateOperationsInput | string
+    profile_photo?: NullableStringFieldUpdateOperationsInput | string | null
+    platform?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    star?: NullableIntFieldUpdateOperationsInput | number | null
+    review?: StringFieldUpdateOperationsInput | string
+    photos?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    url_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    booking_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type booking_payment_termsCreateManyPayment_methods_booking_payment_terms_deposit_payment_method_idTopayment_methodsInput = {

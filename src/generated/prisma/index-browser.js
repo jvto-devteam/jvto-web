@@ -660,6 +660,10 @@ exports.Prisma.ReviewsScalarFieldEnum = {
   star: 'star',
   review: 'review',
   photos: 'photos',
+  url: 'url',
+  url_reference: 'url_reference',
+  booking_id: 'booking_id',
+  package_id: 'package_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

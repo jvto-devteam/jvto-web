@@ -45,6 +45,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "user-images.trustpilot.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {
