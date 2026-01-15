@@ -12,6 +12,14 @@ function escapeXml(str?: string | null) {
     .replace(/'/g, "&apos;");
 }
 
+function cleanContent(str?: string | null) {
+  if (!str) return "";
+  return str
+    .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "") // Hapus Emoji
+    .replace(/\s+/g, " ") // Rapikan spasi berlebih
+    .trim();
+}
+
 export async function GET() {
   try {
     const reviews = await prisma.reviews.findMany({
@@ -46,7 +54,7 @@ export async function GET() {
 
     <review_timestamp>${r.date.toISOString()}</review_timestamp>
 
-    <content><![CDATA[${escapeXml(r.review)}]]></content>
+    <content><![CDATA[${cleanContent(r.review)}]]></content>
 
     <review_url type="singleton">https://javavolcano-touroperator.com/why-jvto/reviews/${reviewId}</review_url>
 
