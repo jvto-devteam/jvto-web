@@ -57,6 +57,9 @@ export async function GET() {
     <products>
       <product>
         <product_ids>
+          <mpns>
+            <mpn>${escapeXml(r.package?.code)}</mpn>
+          </mpns>
           <skus>
             <sku>${escapeXml(r.package?.code)}</sku>
           </skus>
