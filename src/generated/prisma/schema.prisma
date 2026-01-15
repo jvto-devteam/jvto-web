@@ -523,6 +523,7 @@ model bookings {
   packages                       packages?                        @relation(fields: [package_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_bookings_package_id")
   crew_member_reviews            crew_member_reviews[]
   feedback                       feedback[]
+  reviews                        reviews[]
 
   @@index([customer_id], map: "idx_bookings_customer_id")
   @@index([order_channel_id], map: "idx_bookings_order_channel_id")
@@ -705,18 +706,28 @@ model currency_exchange_rates {
 }
 
 model reviews {
-  id            BigInt    @id @default(autoincrement())
-  customer_name String    @db.VarChar(255)
-  profile_photo String?   @db.VarChar(255)
-  platform      String    @db.VarChar(255)
-  date          DateTime  @db.Date
-  star          Int?      @db.SmallInt
-  review        String    @db.Text
-  photos        String?   @db.Text
-  created_at    DateTime? @db.Timestamp(6)
-  updated_at    DateTime? @db.Timestamp(6)
+  id            BigInt   @id @default(autoincrement())
+  customer_name String   @db.VarChar(255)
+  profile_photo String?  @db.VarChar(255)
+  platform      String   @db.VarChar(255)
+  date          DateTime @db.Date
+  star          Int?     @db.SmallInt
+  review        String   @db.Text
+  photos        String?  @db.Text
+  url           String?  @db.Text
+  url_reference String?  @db.Text
+  booking_id    BigInt?
+  package_id    BigInt?
+
+  created_at DateTime? @db.Timestamp(6)
+  updated_at DateTime? @db.Timestamp(6)
 
   crew_reviews crew_reviews[]
+  package      packages?      @relation(fields: [package_id], references: [id])
+  booking      bookings?      @relation(fields: [booking_id], references: [id])
+
+  @@index([package_id])
+  @@index([booking_id])
 }
 
 model crew_reviews {
@@ -1466,6 +1477,7 @@ model packages {
   start_destination              destinations?              @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
   package_assets                 package_assets[]
   package_faqs                   package_faqs[]
+  reviews                        reviews[]
 
   @@index([name(ops: raw("gin_trgm_ops"))], map: "trgm_packages_name", type: Gin)
   @@index([slug(ops: raw("gin_trgm_ops"))], map: "trgm_packages_slug", type: Gin)
