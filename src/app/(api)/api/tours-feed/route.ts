@@ -46,7 +46,7 @@ export async function GET() {
       },
     });
 
-    const baseUrl = "https://javavolcano-touroperator.com"
+    const baseUrl = "https://javavolcano-touroperator.com";
 
     // Header XML dengan Namespace Google Merchant Center
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -65,18 +65,21 @@ export async function GET() {
       <g:title><![CDATA[${p.title}]]></g:title>
       <g:description><![CDATA[${p.description}]]></g:description>
       <g:link>${p.link}</g:link>
-      <g:image_link>${baseUrl+p.image_link}</g:image_link>
+      <g:image_link>${baseUrl + p.image_link}</g:image_link>
       ${p.additional_images
         .map(
           (img) =>
-            `<g:additional_image_link>${baseUrl+img.url}</g:additional_image_link>`
+            `<g:additional_image_link>${
+              baseUrl + img.url
+            }</g:additional_image_link>`
         )
         .join("")}
       <g:condition>new</g:condition>
       <g:availability>in_stock</g:availability>
       <g:price>${p.price}</g:price>
       <g:brand>JVTO</g:brand>
-      <g:identifier_exists>false</g:identifier_exists>
+      <g:mpn>${p.id}</g:mpn> 
+      <g:identifier_exists>true</g:identifier_exists>
       <g:google_product_category>8</g:google_product_category>
       <g:custom_label_0>${p.durationLabel}</g:custom_label_0>
       <g:custom_label_1>From ${p.startDestination}</g:custom_label_1>
