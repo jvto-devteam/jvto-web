@@ -773,6 +773,35 @@ export default function BookingInformationPage() {
                   us via official WhatsApp or email listed on this website.
                 </p>
               </div>
+              {/* Divider */}
+              <hr className="border-gray-300" />
+
+              {/* Section 9 */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4 text-foreground">
+                  9) Group Incentives (FOC) - JVTO Website Only
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                  We do offer FOC (Free of Charge) incentives based on group size.
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  Our current FOC scheme is as follows:
+                </p>
+                <ul className="list-disc pl-5 space-y-2 text-muted-foreground mb-6">
+                  <li>
+                    <strong>18 paying pax</strong> → 1 FOC
+                  </li>
+                  <li>
+                    <strong>35 paying pax</strong> → 2 FOC
+                  </li>
+                  <li>
+                    <strong>50 paying pax</strong> → 3 FOC
+                  </li>
+                </ul>
+                <p className="text-muted-foreground italic">
+                  “Pax” refers to paying guests only.
+                </p>
+              </div>
             </div>
           </div>
         </section>
