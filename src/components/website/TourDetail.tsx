@@ -298,7 +298,26 @@ export default function PackageDetailPage({ initialData }: Props) {
     localStorage.setItem("checkoutPayload", JSON.stringify(payload));
     router.push("/checkout");
   };
+  // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
+  const BLOCKED_RANGES = [
+    { start: "2026-03-16", end: "2026-03-20" },
+    { start: "2026-04-05", end: "2026-04-12" },
+    { start: "2026-05-30", end: "2026-06-02" },
+  ];
 
+  const isDateBlocked = (dateStr) => {
+    if (!dateStr) return false;
+    const target = new Date(dateStr);
+    target.setHours(0, 0, 0, 0);
+
+    return BLOCKED_RANGES.some((range) => {
+      const start = new Date(range.start);
+      const end = new Date(range.end);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+      return target >= start && target <= end;
+    });
+  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const numPax = Number(pax);
@@ -309,6 +328,12 @@ export default function PackageDetailPage({ initialData }: Props) {
       numPax < pkg.channelMetadata.minPaxOperational
     ) {
       alert("Please select a valid date and number of guests.");
+      return;
+    }
+    if (isDateBlocked(startDate)) {
+      alert(
+        "Sorry, registration for the selected date is fully booked or closed. Please choose another date."
+      );
       return;
     }
     const packageTotal = pricePerPerson ? pricePerPerson * pax : 0;
