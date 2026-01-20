@@ -1,3 +1,4 @@
+// src/app/(website)/policy/page.tsx
 import Link from "next/link";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
@@ -5,7 +6,7 @@ import StructuredData from "@/components/website/StructuredData";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Policies",
+  title: "JVTO Policies",
   description:
     "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions. Read these documents for binding terms and operational rules.",
   openGraph: {
@@ -49,7 +50,7 @@ export default function PolicyHubPage() {
         "@type": "WebPage",
         "@id": "https://javavolcano-touroperator.com/policy#webpage",
         url: "https://javavolcano-touroperator.com/policy",
-        name: "Policies",
+        name: "JVTO Policies",
         description:
           "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions.",
         inLanguage: "en",
@@ -70,8 +71,8 @@ export default function PolicyHubPage() {
           {
             "@type": "WebPage",
             "@id":
-              "https://javavolcano-touroperator.com/policy/booking-cancellation#webpage",
-            url: "https://javavolcano-touroperator.com/policy/booking-cancellation",
+              "https://javavolcano-touroperator.com/policy/booking-payment-cancellation#webpage",
+            url: "https://javavolcano-touroperator.com/policy/booking-payment-cancellation",
             name: "Booking, Payment & Cancellation Policy",
           },
           {
@@ -108,44 +109,44 @@ export default function PolicyHubPage() {
     {
       id: "privacy",
       title: "Privacy Policy",
-      desc:
-        "Explains what data JVTO collects, why it is collected, how it is used/shared, and what rights you have.",
+      desc: "Explains what personal data JVTO collects, why it is collected, how it is used, and when it may be shared to operate your tour booking and comply with applicable requirements.",
       bullets: [
-        "Data collection & usage for bookings and operations",
-        "Security and retention approach",
-        "Your rights and how to contact JVTO",
+        "Data collection categories for booking operations",
+        "When and why data is shared with partners",
+        "Payment security and data protection measures",
       ],
       href: "/policy/privacy",
       cta: "Read Privacy Policy",
       accent: "border-blue-400 bg-blue-50",
+      lastUpdated: "17 January 2026",
     },
     {
-      id: "booking-cancellation",
+      id: "booking-payment-cancellation",
       title: "Booking, Payment & Cancellation Policy",
-      desc:
-        "Defines how bookings become confirmed, payment rules, cancellation/amendment handling, and what documents are binding.",
+      desc: "Defines how bookings become confirmed, payment rules, cancellation policy with 48-hour cut-off, and operational terms for JVTO private tours.",
       bullets: [
-        "Booking confirmation rules and timelines",
-        "Payment & deposit handling",
-        "Cancellations, amendments, and operational constraints",
+        "20% deposit requirement and payment deadlines",
+        "48-hour cancellation cut-off for travel credit",
+        "Force majeure and operational adjustments",
       ],
       href: "/policy/booking-payment-cancellation",
       cta: "Read Booking Policy",
       accent: "border-yellow-400 bg-yellow-50",
+      lastUpdated: "17 January 2026",
     },
     {
       id: "inclusions-exclusions",
       title: "Inclusions & Exclusions Policy",
-      desc:
-        "Clarifies what is included vs not included, and how inclusions are determined for your specific booking.",
+      desc: "Clarifies what is included vs not included in JVTO private tour packages using the 'Write-it-to-bind-it' principle for contractual inclusions.",
       bullets: [
-        "What is typically included (and what is not)",
-        "Conditional inclusions (must be written on voucher)",
-        "Scope boundaries and responsibility lines",
+        "Standard inclusions (transport, accommodation, crew)",
+        "Conditional inclusions (only if written on voucher)",
+        "Simple exclusion principle",
       ],
       href: "/policy/inclusions-exclusions",
       cta: "Read Inclusions & Exclusions",
       accent: "border-green-400 bg-green-50",
+      lastUpdated: "17 January 2026",
     },
   ] as const;
 
@@ -169,12 +170,12 @@ export default function PolicyHubPage() {
             {/* Title */}
             <div className="text-center mb-10">
               <h1 className="font-black text-2xl md:text-5xl mb-4">
-                Policies
+                JVTO Policies
               </h1>
               <p className="text-muted-foreground max-w-3xl mx-auto">
                 This page is a navigation hub. For binding terms, open the
                 relevant policy below and refer to your booking-specific
-                documents (E-Voucher / Invoice / Receipt).
+                documents (Official E-Voucher / Invoice).
               </p>
             </div>
 
@@ -182,42 +183,43 @@ export default function PolicyHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left rounded-r-lg">
                 <p className="text-sm italic mb-2">
-                  Practical rule:
+                  Document precedence (if anything differs):
                 </p>
                 <p className="font-semibold text-foreground mb-2">
-                  If a policy and your booking documents conflict:
+                  Order of authority:
                 </p>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                <ol className="list-decimal pl-5 space-y-1 text-sm text-muted-foreground">
                   <li>
-                    Your booking-specific E-Voucher / Invoice (PDF) is the final
-                    reference for that booking.
+                    Your Official E‑Voucher / Invoice (for your confirmed
+                    booking)
                   </li>
-                  <li>
-                    These policies define the standard rules and definitions.
-                  </li>
-                </ul>
+                  <li>Booking, Payment & Cancellation Policy</li>
+                  <li>Inclusions & Exclusions Policy</li>
+                  <li>Official Booking Guide (How to Book)</li>
+                </ol>
               </div>
 
               <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
                 <p className="font-semibold text-foreground mb-2">
-                  Need help?
+                  Need help? Contact JVTO:
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  WhatsApp{" "}
+                <p className="text-sm text-muted-foreground mb-2">
+                  <strong>WhatsApp:</strong>{" "}
                   <a
                     href="https://wa.me/6282244788833"
                     className="text-primary hover:underline"
                   >
                     +62 822-4478-8833
-                  </a>{" "}
-                  or email{" "}
+                  </a>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Email:</strong>{" "}
                   <a
                     href="mailto:hello@javavolcano-touroperator.com"
                     className="text-primary hover:underline"
                   >
                     hello@javavolcano-touroperator.com
                   </a>
-                  .
                 </p>
               </div>
             </div>
@@ -231,12 +233,17 @@ export default function PolicyHubPage() {
               {policyCards.map((card) => (
                 <div
                   key={card.id}
-                  className={`rounded-2xl border shadow-sm overflow-hidden bg-card`}
+                  className={`rounded-2xl border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
                 >
                   <div className={`p-5 border-l-4 ${card.accent}`}>
-                    <h2 className="text-xl font-black text-foreground mb-2">
-                      {card.title}
-                    </h2>
+                    <div className="flex justify-between items-start mb-2">
+                      <h2 className="text-xl font-black text-foreground">
+                        {card.title}
+                      </h2>
+                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">
+                        Updated: {card.lastUpdated}
+                      </span>
+                    </div>
                     <p className="text-sm text-muted-foreground mb-4">
                       {card.desc}
                     </p>
@@ -258,10 +265,26 @@ export default function PolicyHubPage() {
               ))}
             </div>
 
+            {/* Important Note */}
+            <div className="mt-12 p-4 border border-border rounded-lg bg-accent">
+              <h3 className="font-bold text-foreground mb-2">
+                Important Note:
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                <strong>Write-it-to-Bind-it Principle:</strong> Only inclusions
+                explicitly listed on the official JVTO package page and/or your
+                Official E-Voucher / Invoice (PDF) are contractually binding. If
+                something is not written as included, it is excluded by default.
+              </p>
+            </div>
+
             {/* Optional: quick links */}
             <div className="mt-10 text-center text-sm text-muted-foreground">
               Looking for trip operations guidance? Visit{" "}
-              <Link href="/travel-guide" className="text-primary hover:underline">
+              <Link
+                href="/travel-guide"
+                className="text-primary hover:underline"
+              >
                 Travel Guide
               </Link>
               .
