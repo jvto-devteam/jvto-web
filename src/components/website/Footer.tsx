@@ -49,8 +49,8 @@ const Footer: React.FC = () => {
               <li><Link href="/travel-guide/faq" className="hover:text-jvto-green">FAQ</Link></li>
               <li><Link href="/travel-guide/booking-information" className="hover:text-jvto-green">Booking & Payments</Link></li>
               <li><Link href="/travel-guide/ijen-health-screening" className="hover:text-jvto-green">Ijen Health Screening</Link></li>
-              <li><Link href="/travel-guide/safety-on-tours" className="hover:text-jvto-green">Safety Policy</Link></li>
               <li><Link href="/isic/student-package" className="hover:text-jvto-green">Student Deals (ISIC)</Link></li>
+              <li><Link href="/policy" className="hover:text-jvto-green">Policy</Link></li>
             </ul>
           </div>
           <div>
