@@ -1,5 +1,4 @@
 // lib/prisma.ts
-// Sesuaikan dengan output di schema.prisma: output = "../src/generated/prisma"
 import { PrismaClient } from '@/generated/prisma';
 
 const globalForPrisma = globalThis as unknown as {

@@ -1823,3 +1823,66 @@ model destination_faqs {
 
   @@map("destination_faqs")
 }
+model eav_entity {
+  entity_id   String @id @db.Uuid
+  entity_type String @db.Text
+  entity_key  String @unique @db.Text
+
+  // Relations
+  values             eav_value[]
+  outgoing_relations eav_relation[] @relation("eav_relation_from_entity")
+  incoming_relations eav_relation[] @relation("eav_relation_to_entity")
+
+  @@index([entity_type])
+}
+
+model eav_attribute {
+  attribute_id  String @id @db.Uuid
+  attribute_key String @unique @db.Text
+  value_type    String @db.Text
+
+  // Relations
+  values eav_value[]
+}
+
+model eav_value {
+  value_id     String @id @db.Uuid
+  entity_id    String @db.Uuid
+  attribute_id String @db.Uuid
+
+  // Typed value columns (sesuai yang dipakai di query render)
+  value_string  String?  @db.Text
+  value_text    String?  @db.Text
+  value_url     String?  @db.Text
+  value_json    Json?    @db.JsonB
+  value_boolean Boolean?
+  value_date    DateTime? @db.Date
+
+  lang       String  @db.Text
+  source_ref String? @db.Text
+
+  // Relations
+  entity    eav_entity    @relation(fields: [entity_id], references: [entity_id], onDelete: Cascade)
+  attribute eav_attribute @relation(fields: [attribute_id], references: [attribute_id], onDelete: Cascade)
+
+  @@unique([entity_id, attribute_id, lang])
+  @@index([entity_id])
+  @@index([attribute_id])
+  @@index([lang])
+}
+
+model eav_relation {
+  relation_id    String @id @db.Uuid
+  from_entity_id String @db.Uuid
+  rel_type       String @db.Text
+  to_entity_id   String @db.Uuid
+  ord            Int?
+
+  from_entity eav_entity @relation("eav_relation_from_entity", fields: [from_entity_id], references: [entity_id], onDelete: Cascade)
+  to_entity   eav_entity @relation("eav_relation_to_entity", fields: [to_entity_id], references: [entity_id], onDelete: Cascade)
+
+  @@index([from_entity_id, rel_type])
+  @@index([to_entity_id, rel_type])
+  @@unique([from_entity_id, rel_type, to_entity_id])
+}
+

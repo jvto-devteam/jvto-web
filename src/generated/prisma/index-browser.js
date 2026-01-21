@@ -1410,6 +1410,40 @@ exports.Prisma.Destination_faqsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.Eav_entityScalarFieldEnum = {
+  entity_id: 'entity_id',
+  entity_type: 'entity_type',
+  entity_key: 'entity_key'
+};
+
+exports.Prisma.Eav_attributeScalarFieldEnum = {
+  attribute_id: 'attribute_id',
+  attribute_key: 'attribute_key',
+  value_type: 'value_type'
+};
+
+exports.Prisma.Eav_valueScalarFieldEnum = {
+  value_id: 'value_id',
+  entity_id: 'entity_id',
+  attribute_id: 'attribute_id',
+  value_string: 'value_string',
+  value_text: 'value_text',
+  value_url: 'value_url',
+  value_json: 'value_json',
+  value_boolean: 'value_boolean',
+  value_date: 'value_date',
+  lang: 'lang',
+  source_ref: 'source_ref'
+};
+
+exports.Prisma.Eav_relationScalarFieldEnum = {
+  relation_id: 'relation_id',
+  from_entity_id: 'from_entity_id',
+  rel_type: 'rel_type',
+  to_entity_id: 'to_entity_id',
+  ord: 'ord'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1561,7 +1595,11 @@ exports.Prisma.ModelName = {
   assets: 'assets',
   asset_tags: 'asset_tags',
   destination_assets: 'destination_assets',
-  destination_faqs: 'destination_faqs'
+  destination_faqs: 'destination_faqs',
+  eav_entity: 'eav_entity',
+  eav_attribute: 'eav_attribute',
+  eav_value: 'eav_value',
+  eav_relation: 'eav_relation'
 };
 
 /**
