@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Info } from "lucide-react";
 import Link from "next/link";
+import Button from "@/components/website/UI/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 
 const documentPriorityNote = {
   title: "Document Priority Reminder (Bottom of Page)",
@@ -29,7 +31,7 @@ export function DocumentPriorityNote() {
         <ol className="list-decimal pl-5 font-medium text-foreground">
           <li>
             {documentPriorityNote.paragraphs[1].substring(
-              documentPriorityNote.paragraphs[1].indexOf(".") + 2
+              documentPriorityNote.paragraphs[1].indexOf(".") + 2,
             )}
           </li>
           <li>
@@ -38,7 +40,7 @@ export function DocumentPriorityNote() {
               className="text-primary hover:text-lime-600"
             >
               {documentPriorityNote.paragraphs[2].substring(
-                documentPriorityNote.paragraphs[2].indexOf(".") + 2
+                documentPriorityNote.paragraphs[2].indexOf(".") + 2,
               )}
             </Link>
           </li>
@@ -48,13 +50,13 @@ export function DocumentPriorityNote() {
               className="text-primary hover:text-lime-600"
             >
               {documentPriorityNote.paragraphs[3].substring(
-                documentPriorityNote.paragraphs[3].indexOf(".") + 2
+                documentPriorityNote.paragraphs[3].indexOf(".") + 2,
               )}
             </Link>
           </li>
           <li>
             {documentPriorityNote.paragraphs[4].substring(
-              documentPriorityNote.paragraphs[4].indexOf(".") + 2
+              documentPriorityNote.paragraphs[4].indexOf(".") + 2,
             )}
           </li>
         </ol>

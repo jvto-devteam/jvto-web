@@ -520,6 +520,26 @@ export type destination_assets = $Result.DefaultSelection<Prisma.$destination_as
  * 
  */
 export type destination_faqs = $Result.DefaultSelection<Prisma.$destination_faqsPayload>
+/**
+ * Model eav_entity
+ * 
+ */
+export type eav_entity = $Result.DefaultSelection<Prisma.$eav_entityPayload>
+/**
+ * Model eav_attribute
+ * 
+ */
+export type eav_attribute = $Result.DefaultSelection<Prisma.$eav_attributePayload>
+/**
+ * Model eav_value
+ * 
+ */
+export type eav_value = $Result.DefaultSelection<Prisma.$eav_valuePayload>
+/**
+ * Model eav_relation
+ * 
+ */
+export type eav_relation = $Result.DefaultSelection<Prisma.$eav_relationPayload>
 
 /**
  * Enums
@@ -1684,6 +1704,46 @@ export class PrismaClient<
     * ```
     */
   get destination_faqs(): Prisma.destination_faqsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eav_entity`: Exposes CRUD operations for the **eav_entity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Eav_entities
+    * const eav_entities = await prisma.eav_entity.findMany()
+    * ```
+    */
+  get eav_entity(): Prisma.eav_entityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eav_attribute`: Exposes CRUD operations for the **eav_attribute** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Eav_attributes
+    * const eav_attributes = await prisma.eav_attribute.findMany()
+    * ```
+    */
+  get eav_attribute(): Prisma.eav_attributeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eav_value`: Exposes CRUD operations for the **eav_value** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Eav_values
+    * const eav_values = await prisma.eav_value.findMany()
+    * ```
+    */
+  get eav_value(): Prisma.eav_valueDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eav_relation`: Exposes CRUD operations for the **eav_relation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Eav_relations
+    * const eav_relations = await prisma.eav_relation.findMany()
+    * ```
+    */
+  get eav_relation(): Prisma.eav_relationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2223,7 +2283,11 @@ export namespace Prisma {
     assets: 'assets',
     asset_tags: 'asset_tags',
     destination_assets: 'destination_assets',
-    destination_faqs: 'destination_faqs'
+    destination_faqs: 'destination_faqs',
+    eav_entity: 'eav_entity',
+    eav_attribute: 'eav_attribute',
+    eav_value: 'eav_value',
+    eav_relation: 'eav_relation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2242,7 +2306,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -9572,6 +9636,302 @@ export namespace Prisma {
           }
         }
       }
+      eav_entity: {
+        payload: Prisma.$eav_entityPayload<ExtArgs>
+        fields: Prisma.eav_entityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.eav_entityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.eav_entityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          findFirst: {
+            args: Prisma.eav_entityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.eav_entityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          findMany: {
+            args: Prisma.eav_entityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>[]
+          }
+          create: {
+            args: Prisma.eav_entityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          createMany: {
+            args: Prisma.eav_entityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.eav_entityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>[]
+          }
+          delete: {
+            args: Prisma.eav_entityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          update: {
+            args: Prisma.eav_entityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          deleteMany: {
+            args: Prisma.eav_entityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.eav_entityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.eav_entityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>[]
+          }
+          upsert: {
+            args: Prisma.eav_entityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_entityPayload>
+          }
+          aggregate: {
+            args: Prisma.Eav_entityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEav_entity>
+          }
+          groupBy: {
+            args: Prisma.eav_entityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Eav_entityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.eav_entityCountArgs<ExtArgs>
+            result: $Utils.Optional<Eav_entityCountAggregateOutputType> | number
+          }
+        }
+      }
+      eav_attribute: {
+        payload: Prisma.$eav_attributePayload<ExtArgs>
+        fields: Prisma.eav_attributeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.eav_attributeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.eav_attributeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          findFirst: {
+            args: Prisma.eav_attributeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.eav_attributeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          findMany: {
+            args: Prisma.eav_attributeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>[]
+          }
+          create: {
+            args: Prisma.eav_attributeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          createMany: {
+            args: Prisma.eav_attributeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.eav_attributeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>[]
+          }
+          delete: {
+            args: Prisma.eav_attributeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          update: {
+            args: Prisma.eav_attributeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          deleteMany: {
+            args: Prisma.eav_attributeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.eav_attributeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.eav_attributeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>[]
+          }
+          upsert: {
+            args: Prisma.eav_attributeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_attributePayload>
+          }
+          aggregate: {
+            args: Prisma.Eav_attributeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEav_attribute>
+          }
+          groupBy: {
+            args: Prisma.eav_attributeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Eav_attributeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.eav_attributeCountArgs<ExtArgs>
+            result: $Utils.Optional<Eav_attributeCountAggregateOutputType> | number
+          }
+        }
+      }
+      eav_value: {
+        payload: Prisma.$eav_valuePayload<ExtArgs>
+        fields: Prisma.eav_valueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.eav_valueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.eav_valueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          findFirst: {
+            args: Prisma.eav_valueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.eav_valueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          findMany: {
+            args: Prisma.eav_valueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>[]
+          }
+          create: {
+            args: Prisma.eav_valueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          createMany: {
+            args: Prisma.eav_valueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.eav_valueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>[]
+          }
+          delete: {
+            args: Prisma.eav_valueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          update: {
+            args: Prisma.eav_valueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          deleteMany: {
+            args: Prisma.eav_valueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.eav_valueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.eav_valueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>[]
+          }
+          upsert: {
+            args: Prisma.eav_valueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_valuePayload>
+          }
+          aggregate: {
+            args: Prisma.Eav_valueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEav_value>
+          }
+          groupBy: {
+            args: Prisma.eav_valueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Eav_valueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.eav_valueCountArgs<ExtArgs>
+            result: $Utils.Optional<Eav_valueCountAggregateOutputType> | number
+          }
+        }
+      }
+      eav_relation: {
+        payload: Prisma.$eav_relationPayload<ExtArgs>
+        fields: Prisma.eav_relationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.eav_relationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.eav_relationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          findFirst: {
+            args: Prisma.eav_relationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.eav_relationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          findMany: {
+            args: Prisma.eav_relationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>[]
+          }
+          create: {
+            args: Prisma.eav_relationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          createMany: {
+            args: Prisma.eav_relationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.eav_relationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>[]
+          }
+          delete: {
+            args: Prisma.eav_relationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          update: {
+            args: Prisma.eav_relationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          deleteMany: {
+            args: Prisma.eav_relationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.eav_relationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.eav_relationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>[]
+          }
+          upsert: {
+            args: Prisma.eav_relationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$eav_relationPayload>
+          }
+          aggregate: {
+            args: Prisma.Eav_relationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEav_relation>
+          }
+          groupBy: {
+            args: Prisma.eav_relationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Eav_relationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.eav_relationCountArgs<ExtArgs>
+            result: $Utils.Optional<Eav_relationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -9767,6 +10127,10 @@ export namespace Prisma {
     asset_tags?: asset_tagsOmit
     destination_assets?: destination_assetsOmit
     destination_faqs?: destination_faqsOmit
+    eav_entity?: eav_entityOmit
+    eav_attribute?: eav_attributeOmit
+    eav_value?: eav_valueOmit
+    eav_relation?: eav_relationOmit
   }
 
   /* Types for Logging */
@@ -11879,6 +12243,86 @@ export namespace Prisma {
    */
   export type AssetsCountOutputTypeCountPackage_assetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_assetsWhereInput
+  }
+
+
+  /**
+   * Count Type Eav_entityCountOutputType
+   */
+
+  export type Eav_entityCountOutputType = {
+    values: number
+    outgoing_relations: number
+    incoming_relations: number
+  }
+
+  export type Eav_entityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | Eav_entityCountOutputTypeCountValuesArgs
+    outgoing_relations?: boolean | Eav_entityCountOutputTypeCountOutgoing_relationsArgs
+    incoming_relations?: boolean | Eav_entityCountOutputTypeCountIncoming_relationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Eav_entityCountOutputType without action
+   */
+  export type Eav_entityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Eav_entityCountOutputType
+     */
+    select?: Eav_entityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Eav_entityCountOutputType without action
+   */
+  export type Eav_entityCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_valueWhereInput
+  }
+
+  /**
+   * Eav_entityCountOutputType without action
+   */
+  export type Eav_entityCountOutputTypeCountOutgoing_relationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_relationWhereInput
+  }
+
+  /**
+   * Eav_entityCountOutputType without action
+   */
+  export type Eav_entityCountOutputTypeCountIncoming_relationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_relationWhereInput
+  }
+
+
+  /**
+   * Count Type Eav_attributeCountOutputType
+   */
+
+  export type Eav_attributeCountOutputType = {
+    values: number
+  }
+
+  export type Eav_attributeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | Eav_attributeCountOutputTypeCountValuesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Eav_attributeCountOutputType without action
+   */
+  export type Eav_attributeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Eav_attributeCountOutputType
+     */
+    select?: Eav_attributeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Eav_attributeCountOutputType without action
+   */
+  export type Eav_attributeCountOutputTypeCountValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_valueWhereInput
   }
 
 
@@ -131862,6 +132306,4390 @@ export namespace Prisma {
 
 
   /**
+   * Model eav_entity
+   */
+
+  export type AggregateEav_entity = {
+    _count: Eav_entityCountAggregateOutputType | null
+    _min: Eav_entityMinAggregateOutputType | null
+    _max: Eav_entityMaxAggregateOutputType | null
+  }
+
+  export type Eav_entityMinAggregateOutputType = {
+    entity_id: string | null
+    entity_type: string | null
+    entity_key: string | null
+  }
+
+  export type Eav_entityMaxAggregateOutputType = {
+    entity_id: string | null
+    entity_type: string | null
+    entity_key: string | null
+  }
+
+  export type Eav_entityCountAggregateOutputType = {
+    entity_id: number
+    entity_type: number
+    entity_key: number
+    _all: number
+  }
+
+
+  export type Eav_entityMinAggregateInputType = {
+    entity_id?: true
+    entity_type?: true
+    entity_key?: true
+  }
+
+  export type Eav_entityMaxAggregateInputType = {
+    entity_id?: true
+    entity_type?: true
+    entity_key?: true
+  }
+
+  export type Eav_entityCountAggregateInputType = {
+    entity_id?: true
+    entity_type?: true
+    entity_key?: true
+    _all?: true
+  }
+
+  export type Eav_entityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_entity to aggregate.
+     */
+    where?: eav_entityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_entities to fetch.
+     */
+    orderBy?: eav_entityOrderByWithRelationInput | eav_entityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: eav_entityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_entities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_entities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned eav_entities
+    **/
+    _count?: true | Eav_entityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Eav_entityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Eav_entityMaxAggregateInputType
+  }
+
+  export type GetEav_entityAggregateType<T extends Eav_entityAggregateArgs> = {
+        [P in keyof T & keyof AggregateEav_entity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEav_entity[P]>
+      : GetScalarType<T[P], AggregateEav_entity[P]>
+  }
+
+
+
+
+  export type eav_entityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_entityWhereInput
+    orderBy?: eav_entityOrderByWithAggregationInput | eav_entityOrderByWithAggregationInput[]
+    by: Eav_entityScalarFieldEnum[] | Eav_entityScalarFieldEnum
+    having?: eav_entityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Eav_entityCountAggregateInputType | true
+    _min?: Eav_entityMinAggregateInputType
+    _max?: Eav_entityMaxAggregateInputType
+  }
+
+  export type Eav_entityGroupByOutputType = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    _count: Eav_entityCountAggregateOutputType | null
+    _min: Eav_entityMinAggregateOutputType | null
+    _max: Eav_entityMaxAggregateOutputType | null
+  }
+
+  type GetEav_entityGroupByPayload<T extends eav_entityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Eav_entityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Eav_entityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Eav_entityGroupByOutputType[P]>
+            : GetScalarType<T[P], Eav_entityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type eav_entitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    entity_id?: boolean
+    entity_type?: boolean
+    entity_key?: boolean
+    values?: boolean | eav_entity$valuesArgs<ExtArgs>
+    outgoing_relations?: boolean | eav_entity$outgoing_relationsArgs<ExtArgs>
+    incoming_relations?: boolean | eav_entity$incoming_relationsArgs<ExtArgs>
+    _count?: boolean | Eav_entityCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_entity"]>
+
+  export type eav_entitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    entity_id?: boolean
+    entity_type?: boolean
+    entity_key?: boolean
+  }, ExtArgs["result"]["eav_entity"]>
+
+  export type eav_entitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    entity_id?: boolean
+    entity_type?: boolean
+    entity_key?: boolean
+  }, ExtArgs["result"]["eav_entity"]>
+
+  export type eav_entitySelectScalar = {
+    entity_id?: boolean
+    entity_type?: boolean
+    entity_key?: boolean
+  }
+
+  export type eav_entityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"entity_id" | "entity_type" | "entity_key", ExtArgs["result"]["eav_entity"]>
+  export type eav_entityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | eav_entity$valuesArgs<ExtArgs>
+    outgoing_relations?: boolean | eav_entity$outgoing_relationsArgs<ExtArgs>
+    incoming_relations?: boolean | eav_entity$incoming_relationsArgs<ExtArgs>
+    _count?: boolean | Eav_entityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type eav_entityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type eav_entityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $eav_entityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "eav_entity"
+    objects: {
+      values: Prisma.$eav_valuePayload<ExtArgs>[]
+      outgoing_relations: Prisma.$eav_relationPayload<ExtArgs>[]
+      incoming_relations: Prisma.$eav_relationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      entity_id: string
+      entity_type: string
+      entity_key: string
+    }, ExtArgs["result"]["eav_entity"]>
+    composites: {}
+  }
+
+  type eav_entityGetPayload<S extends boolean | null | undefined | eav_entityDefaultArgs> = $Result.GetResult<Prisma.$eav_entityPayload, S>
+
+  type eav_entityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<eav_entityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Eav_entityCountAggregateInputType | true
+    }
+
+  export interface eav_entityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['eav_entity'], meta: { name: 'eav_entity' } }
+    /**
+     * Find zero or one Eav_entity that matches the filter.
+     * @param {eav_entityFindUniqueArgs} args - Arguments to find a Eav_entity
+     * @example
+     * // Get one Eav_entity
+     * const eav_entity = await prisma.eav_entity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends eav_entityFindUniqueArgs>(args: SelectSubset<T, eav_entityFindUniqueArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Eav_entity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {eav_entityFindUniqueOrThrowArgs} args - Arguments to find a Eav_entity
+     * @example
+     * // Get one Eav_entity
+     * const eav_entity = await prisma.eav_entity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends eav_entityFindUniqueOrThrowArgs>(args: SelectSubset<T, eav_entityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_entity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityFindFirstArgs} args - Arguments to find a Eav_entity
+     * @example
+     * // Get one Eav_entity
+     * const eav_entity = await prisma.eav_entity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends eav_entityFindFirstArgs>(args?: SelectSubset<T, eav_entityFindFirstArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_entity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityFindFirstOrThrowArgs} args - Arguments to find a Eav_entity
+     * @example
+     * // Get one Eav_entity
+     * const eav_entity = await prisma.eav_entity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends eav_entityFindFirstOrThrowArgs>(args?: SelectSubset<T, eav_entityFindFirstOrThrowArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Eav_entities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Eav_entities
+     * const eav_entities = await prisma.eav_entity.findMany()
+     * 
+     * // Get first 10 Eav_entities
+     * const eav_entities = await prisma.eav_entity.findMany({ take: 10 })
+     * 
+     * // Only select the `entity_id`
+     * const eav_entityWithEntity_idOnly = await prisma.eav_entity.findMany({ select: { entity_id: true } })
+     * 
+     */
+    findMany<T extends eav_entityFindManyArgs>(args?: SelectSubset<T, eav_entityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Eav_entity.
+     * @param {eav_entityCreateArgs} args - Arguments to create a Eav_entity.
+     * @example
+     * // Create one Eav_entity
+     * const Eav_entity = await prisma.eav_entity.create({
+     *   data: {
+     *     // ... data to create a Eav_entity
+     *   }
+     * })
+     * 
+     */
+    create<T extends eav_entityCreateArgs>(args: SelectSubset<T, eav_entityCreateArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Eav_entities.
+     * @param {eav_entityCreateManyArgs} args - Arguments to create many Eav_entities.
+     * @example
+     * // Create many Eav_entities
+     * const eav_entity = await prisma.eav_entity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends eav_entityCreateManyArgs>(args?: SelectSubset<T, eav_entityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Eav_entities and returns the data saved in the database.
+     * @param {eav_entityCreateManyAndReturnArgs} args - Arguments to create many Eav_entities.
+     * @example
+     * // Create many Eav_entities
+     * const eav_entity = await prisma.eav_entity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Eav_entities and only return the `entity_id`
+     * const eav_entityWithEntity_idOnly = await prisma.eav_entity.createManyAndReturn({
+     *   select: { entity_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends eav_entityCreateManyAndReturnArgs>(args?: SelectSubset<T, eav_entityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Eav_entity.
+     * @param {eav_entityDeleteArgs} args - Arguments to delete one Eav_entity.
+     * @example
+     * // Delete one Eav_entity
+     * const Eav_entity = await prisma.eav_entity.delete({
+     *   where: {
+     *     // ... filter to delete one Eav_entity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends eav_entityDeleteArgs>(args: SelectSubset<T, eav_entityDeleteArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Eav_entity.
+     * @param {eav_entityUpdateArgs} args - Arguments to update one Eav_entity.
+     * @example
+     * // Update one Eav_entity
+     * const eav_entity = await prisma.eav_entity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends eav_entityUpdateArgs>(args: SelectSubset<T, eav_entityUpdateArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Eav_entities.
+     * @param {eav_entityDeleteManyArgs} args - Arguments to filter Eav_entities to delete.
+     * @example
+     * // Delete a few Eav_entities
+     * const { count } = await prisma.eav_entity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends eav_entityDeleteManyArgs>(args?: SelectSubset<T, eav_entityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_entities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Eav_entities
+     * const eav_entity = await prisma.eav_entity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends eav_entityUpdateManyArgs>(args: SelectSubset<T, eav_entityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_entities and returns the data updated in the database.
+     * @param {eav_entityUpdateManyAndReturnArgs} args - Arguments to update many Eav_entities.
+     * @example
+     * // Update many Eav_entities
+     * const eav_entity = await prisma.eav_entity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Eav_entities and only return the `entity_id`
+     * const eav_entityWithEntity_idOnly = await prisma.eav_entity.updateManyAndReturn({
+     *   select: { entity_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends eav_entityUpdateManyAndReturnArgs>(args: SelectSubset<T, eav_entityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Eav_entity.
+     * @param {eav_entityUpsertArgs} args - Arguments to update or create a Eav_entity.
+     * @example
+     * // Update or create a Eav_entity
+     * const eav_entity = await prisma.eav_entity.upsert({
+     *   create: {
+     *     // ... data to create a Eav_entity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Eav_entity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends eav_entityUpsertArgs>(args: SelectSubset<T, eav_entityUpsertArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Eav_entities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityCountArgs} args - Arguments to filter Eav_entities to count.
+     * @example
+     * // Count the number of Eav_entities
+     * const count = await prisma.eav_entity.count({
+     *   where: {
+     *     // ... the filter for the Eav_entities we want to count
+     *   }
+     * })
+    **/
+    count<T extends eav_entityCountArgs>(
+      args?: Subset<T, eav_entityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Eav_entityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Eav_entity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Eav_entityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Eav_entityAggregateArgs>(args: Subset<T, Eav_entityAggregateArgs>): Prisma.PrismaPromise<GetEav_entityAggregateType<T>>
+
+    /**
+     * Group by Eav_entity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_entityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends eav_entityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: eav_entityGroupByArgs['orderBy'] }
+        : { orderBy?: eav_entityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, eav_entityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEav_entityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the eav_entity model
+   */
+  readonly fields: eav_entityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for eav_entity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__eav_entityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    values<T extends eav_entity$valuesArgs<ExtArgs> = {}>(args?: Subset<T, eav_entity$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    outgoing_relations<T extends eav_entity$outgoing_relationsArgs<ExtArgs> = {}>(args?: Subset<T, eav_entity$outgoing_relationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    incoming_relations<T extends eav_entity$incoming_relationsArgs<ExtArgs> = {}>(args?: Subset<T, eav_entity$incoming_relationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the eav_entity model
+   */
+  interface eav_entityFieldRefs {
+    readonly entity_id: FieldRef<"eav_entity", 'String'>
+    readonly entity_type: FieldRef<"eav_entity", 'String'>
+    readonly entity_key: FieldRef<"eav_entity", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * eav_entity findUnique
+   */
+  export type eav_entityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_entity to fetch.
+     */
+    where: eav_entityWhereUniqueInput
+  }
+
+  /**
+   * eav_entity findUniqueOrThrow
+   */
+  export type eav_entityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_entity to fetch.
+     */
+    where: eav_entityWhereUniqueInput
+  }
+
+  /**
+   * eav_entity findFirst
+   */
+  export type eav_entityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_entity to fetch.
+     */
+    where?: eav_entityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_entities to fetch.
+     */
+    orderBy?: eav_entityOrderByWithRelationInput | eav_entityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_entities.
+     */
+    cursor?: eav_entityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_entities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_entities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_entities.
+     */
+    distinct?: Eav_entityScalarFieldEnum | Eav_entityScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity findFirstOrThrow
+   */
+  export type eav_entityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_entity to fetch.
+     */
+    where?: eav_entityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_entities to fetch.
+     */
+    orderBy?: eav_entityOrderByWithRelationInput | eav_entityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_entities.
+     */
+    cursor?: eav_entityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_entities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_entities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_entities.
+     */
+    distinct?: Eav_entityScalarFieldEnum | Eav_entityScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity findMany
+   */
+  export type eav_entityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_entities to fetch.
+     */
+    where?: eav_entityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_entities to fetch.
+     */
+    orderBy?: eav_entityOrderByWithRelationInput | eav_entityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing eav_entities.
+     */
+    cursor?: eav_entityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_entities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_entities.
+     */
+    skip?: number
+    distinct?: Eav_entityScalarFieldEnum | Eav_entityScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity create
+   */
+  export type eav_entityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a eav_entity.
+     */
+    data: XOR<eav_entityCreateInput, eav_entityUncheckedCreateInput>
+  }
+
+  /**
+   * eav_entity createMany
+   */
+  export type eav_entityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many eav_entities.
+     */
+    data: eav_entityCreateManyInput | eav_entityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_entity createManyAndReturn
+   */
+  export type eav_entityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * The data used to create many eav_entities.
+     */
+    data: eav_entityCreateManyInput | eav_entityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_entity update
+   */
+  export type eav_entityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a eav_entity.
+     */
+    data: XOR<eav_entityUpdateInput, eav_entityUncheckedUpdateInput>
+    /**
+     * Choose, which eav_entity to update.
+     */
+    where: eav_entityWhereUniqueInput
+  }
+
+  /**
+   * eav_entity updateMany
+   */
+  export type eav_entityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update eav_entities.
+     */
+    data: XOR<eav_entityUpdateManyMutationInput, eav_entityUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_entities to update
+     */
+    where?: eav_entityWhereInput
+    /**
+     * Limit how many eav_entities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_entity updateManyAndReturn
+   */
+  export type eav_entityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * The data used to update eav_entities.
+     */
+    data: XOR<eav_entityUpdateManyMutationInput, eav_entityUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_entities to update
+     */
+    where?: eav_entityWhereInput
+    /**
+     * Limit how many eav_entities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_entity upsert
+   */
+  export type eav_entityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the eav_entity to update in case it exists.
+     */
+    where: eav_entityWhereUniqueInput
+    /**
+     * In case the eav_entity found by the `where` argument doesn't exist, create a new eav_entity with this data.
+     */
+    create: XOR<eav_entityCreateInput, eav_entityUncheckedCreateInput>
+    /**
+     * In case the eav_entity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<eav_entityUpdateInput, eav_entityUncheckedUpdateInput>
+  }
+
+  /**
+   * eav_entity delete
+   */
+  export type eav_entityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+    /**
+     * Filter which eav_entity to delete.
+     */
+    where: eav_entityWhereUniqueInput
+  }
+
+  /**
+   * eav_entity deleteMany
+   */
+  export type eav_entityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_entities to delete
+     */
+    where?: eav_entityWhereInput
+    /**
+     * Limit how many eav_entities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_entity.values
+   */
+  export type eav_entity$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    where?: eav_valueWhereInput
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    cursor?: eav_valueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Eav_valueScalarFieldEnum | Eav_valueScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity.outgoing_relations
+   */
+  export type eav_entity$outgoing_relationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    where?: eav_relationWhereInput
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    cursor?: eav_relationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Eav_relationScalarFieldEnum | Eav_relationScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity.incoming_relations
+   */
+  export type eav_entity$incoming_relationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    where?: eav_relationWhereInput
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    cursor?: eav_relationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Eav_relationScalarFieldEnum | Eav_relationScalarFieldEnum[]
+  }
+
+  /**
+   * eav_entity without action
+   */
+  export type eav_entityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_entity
+     */
+    select?: eav_entitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_entity
+     */
+    omit?: eav_entityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_entityInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model eav_attribute
+   */
+
+  export type AggregateEav_attribute = {
+    _count: Eav_attributeCountAggregateOutputType | null
+    _min: Eav_attributeMinAggregateOutputType | null
+    _max: Eav_attributeMaxAggregateOutputType | null
+  }
+
+  export type Eav_attributeMinAggregateOutputType = {
+    attribute_id: string | null
+    attribute_key: string | null
+    value_type: string | null
+  }
+
+  export type Eav_attributeMaxAggregateOutputType = {
+    attribute_id: string | null
+    attribute_key: string | null
+    value_type: string | null
+  }
+
+  export type Eav_attributeCountAggregateOutputType = {
+    attribute_id: number
+    attribute_key: number
+    value_type: number
+    _all: number
+  }
+
+
+  export type Eav_attributeMinAggregateInputType = {
+    attribute_id?: true
+    attribute_key?: true
+    value_type?: true
+  }
+
+  export type Eav_attributeMaxAggregateInputType = {
+    attribute_id?: true
+    attribute_key?: true
+    value_type?: true
+  }
+
+  export type Eav_attributeCountAggregateInputType = {
+    attribute_id?: true
+    attribute_key?: true
+    value_type?: true
+    _all?: true
+  }
+
+  export type Eav_attributeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_attribute to aggregate.
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_attributes to fetch.
+     */
+    orderBy?: eav_attributeOrderByWithRelationInput | eav_attributeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: eav_attributeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_attributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_attributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned eav_attributes
+    **/
+    _count?: true | Eav_attributeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Eav_attributeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Eav_attributeMaxAggregateInputType
+  }
+
+  export type GetEav_attributeAggregateType<T extends Eav_attributeAggregateArgs> = {
+        [P in keyof T & keyof AggregateEav_attribute]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEav_attribute[P]>
+      : GetScalarType<T[P], AggregateEav_attribute[P]>
+  }
+
+
+
+
+  export type eav_attributeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_attributeWhereInput
+    orderBy?: eav_attributeOrderByWithAggregationInput | eav_attributeOrderByWithAggregationInput[]
+    by: Eav_attributeScalarFieldEnum[] | Eav_attributeScalarFieldEnum
+    having?: eav_attributeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Eav_attributeCountAggregateInputType | true
+    _min?: Eav_attributeMinAggregateInputType
+    _max?: Eav_attributeMaxAggregateInputType
+  }
+
+  export type Eav_attributeGroupByOutputType = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+    _count: Eav_attributeCountAggregateOutputType | null
+    _min: Eav_attributeMinAggregateOutputType | null
+    _max: Eav_attributeMaxAggregateOutputType | null
+  }
+
+  type GetEav_attributeGroupByPayload<T extends eav_attributeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Eav_attributeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Eav_attributeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Eav_attributeGroupByOutputType[P]>
+            : GetScalarType<T[P], Eav_attributeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type eav_attributeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    attribute_id?: boolean
+    attribute_key?: boolean
+    value_type?: boolean
+    values?: boolean | eav_attribute$valuesArgs<ExtArgs>
+    _count?: boolean | Eav_attributeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_attribute"]>
+
+  export type eav_attributeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    attribute_id?: boolean
+    attribute_key?: boolean
+    value_type?: boolean
+  }, ExtArgs["result"]["eav_attribute"]>
+
+  export type eav_attributeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    attribute_id?: boolean
+    attribute_key?: boolean
+    value_type?: boolean
+  }, ExtArgs["result"]["eav_attribute"]>
+
+  export type eav_attributeSelectScalar = {
+    attribute_id?: boolean
+    attribute_key?: boolean
+    value_type?: boolean
+  }
+
+  export type eav_attributeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"attribute_id" | "attribute_key" | "value_type", ExtArgs["result"]["eav_attribute"]>
+  export type eav_attributeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    values?: boolean | eav_attribute$valuesArgs<ExtArgs>
+    _count?: boolean | Eav_attributeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type eav_attributeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type eav_attributeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $eav_attributePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "eav_attribute"
+    objects: {
+      values: Prisma.$eav_valuePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      attribute_id: string
+      attribute_key: string
+      value_type: string
+    }, ExtArgs["result"]["eav_attribute"]>
+    composites: {}
+  }
+
+  type eav_attributeGetPayload<S extends boolean | null | undefined | eav_attributeDefaultArgs> = $Result.GetResult<Prisma.$eav_attributePayload, S>
+
+  type eav_attributeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<eav_attributeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Eav_attributeCountAggregateInputType | true
+    }
+
+  export interface eav_attributeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['eav_attribute'], meta: { name: 'eav_attribute' } }
+    /**
+     * Find zero or one Eav_attribute that matches the filter.
+     * @param {eav_attributeFindUniqueArgs} args - Arguments to find a Eav_attribute
+     * @example
+     * // Get one Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends eav_attributeFindUniqueArgs>(args: SelectSubset<T, eav_attributeFindUniqueArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Eav_attribute that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {eav_attributeFindUniqueOrThrowArgs} args - Arguments to find a Eav_attribute
+     * @example
+     * // Get one Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends eav_attributeFindUniqueOrThrowArgs>(args: SelectSubset<T, eav_attributeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_attribute that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeFindFirstArgs} args - Arguments to find a Eav_attribute
+     * @example
+     * // Get one Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends eav_attributeFindFirstArgs>(args?: SelectSubset<T, eav_attributeFindFirstArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_attribute that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeFindFirstOrThrowArgs} args - Arguments to find a Eav_attribute
+     * @example
+     * // Get one Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends eav_attributeFindFirstOrThrowArgs>(args?: SelectSubset<T, eav_attributeFindFirstOrThrowArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Eav_attributes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Eav_attributes
+     * const eav_attributes = await prisma.eav_attribute.findMany()
+     * 
+     * // Get first 10 Eav_attributes
+     * const eav_attributes = await prisma.eav_attribute.findMany({ take: 10 })
+     * 
+     * // Only select the `attribute_id`
+     * const eav_attributeWithAttribute_idOnly = await prisma.eav_attribute.findMany({ select: { attribute_id: true } })
+     * 
+     */
+    findMany<T extends eav_attributeFindManyArgs>(args?: SelectSubset<T, eav_attributeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Eav_attribute.
+     * @param {eav_attributeCreateArgs} args - Arguments to create a Eav_attribute.
+     * @example
+     * // Create one Eav_attribute
+     * const Eav_attribute = await prisma.eav_attribute.create({
+     *   data: {
+     *     // ... data to create a Eav_attribute
+     *   }
+     * })
+     * 
+     */
+    create<T extends eav_attributeCreateArgs>(args: SelectSubset<T, eav_attributeCreateArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Eav_attributes.
+     * @param {eav_attributeCreateManyArgs} args - Arguments to create many Eav_attributes.
+     * @example
+     * // Create many Eav_attributes
+     * const eav_attribute = await prisma.eav_attribute.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends eav_attributeCreateManyArgs>(args?: SelectSubset<T, eav_attributeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Eav_attributes and returns the data saved in the database.
+     * @param {eav_attributeCreateManyAndReturnArgs} args - Arguments to create many Eav_attributes.
+     * @example
+     * // Create many Eav_attributes
+     * const eav_attribute = await prisma.eav_attribute.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Eav_attributes and only return the `attribute_id`
+     * const eav_attributeWithAttribute_idOnly = await prisma.eav_attribute.createManyAndReturn({
+     *   select: { attribute_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends eav_attributeCreateManyAndReturnArgs>(args?: SelectSubset<T, eav_attributeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Eav_attribute.
+     * @param {eav_attributeDeleteArgs} args - Arguments to delete one Eav_attribute.
+     * @example
+     * // Delete one Eav_attribute
+     * const Eav_attribute = await prisma.eav_attribute.delete({
+     *   where: {
+     *     // ... filter to delete one Eav_attribute
+     *   }
+     * })
+     * 
+     */
+    delete<T extends eav_attributeDeleteArgs>(args: SelectSubset<T, eav_attributeDeleteArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Eav_attribute.
+     * @param {eav_attributeUpdateArgs} args - Arguments to update one Eav_attribute.
+     * @example
+     * // Update one Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends eav_attributeUpdateArgs>(args: SelectSubset<T, eav_attributeUpdateArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Eav_attributes.
+     * @param {eav_attributeDeleteManyArgs} args - Arguments to filter Eav_attributes to delete.
+     * @example
+     * // Delete a few Eav_attributes
+     * const { count } = await prisma.eav_attribute.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends eav_attributeDeleteManyArgs>(args?: SelectSubset<T, eav_attributeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_attributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Eav_attributes
+     * const eav_attribute = await prisma.eav_attribute.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends eav_attributeUpdateManyArgs>(args: SelectSubset<T, eav_attributeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_attributes and returns the data updated in the database.
+     * @param {eav_attributeUpdateManyAndReturnArgs} args - Arguments to update many Eav_attributes.
+     * @example
+     * // Update many Eav_attributes
+     * const eav_attribute = await prisma.eav_attribute.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Eav_attributes and only return the `attribute_id`
+     * const eav_attributeWithAttribute_idOnly = await prisma.eav_attribute.updateManyAndReturn({
+     *   select: { attribute_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends eav_attributeUpdateManyAndReturnArgs>(args: SelectSubset<T, eav_attributeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Eav_attribute.
+     * @param {eav_attributeUpsertArgs} args - Arguments to update or create a Eav_attribute.
+     * @example
+     * // Update or create a Eav_attribute
+     * const eav_attribute = await prisma.eav_attribute.upsert({
+     *   create: {
+     *     // ... data to create a Eav_attribute
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Eav_attribute we want to update
+     *   }
+     * })
+     */
+    upsert<T extends eav_attributeUpsertArgs>(args: SelectSubset<T, eav_attributeUpsertArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Eav_attributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeCountArgs} args - Arguments to filter Eav_attributes to count.
+     * @example
+     * // Count the number of Eav_attributes
+     * const count = await prisma.eav_attribute.count({
+     *   where: {
+     *     // ... the filter for the Eav_attributes we want to count
+     *   }
+     * })
+    **/
+    count<T extends eav_attributeCountArgs>(
+      args?: Subset<T, eav_attributeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Eav_attributeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Eav_attribute.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Eav_attributeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Eav_attributeAggregateArgs>(args: Subset<T, Eav_attributeAggregateArgs>): Prisma.PrismaPromise<GetEav_attributeAggregateType<T>>
+
+    /**
+     * Group by Eav_attribute.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_attributeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends eav_attributeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: eav_attributeGroupByArgs['orderBy'] }
+        : { orderBy?: eav_attributeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, eav_attributeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEav_attributeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the eav_attribute model
+   */
+  readonly fields: eav_attributeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for eav_attribute.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__eav_attributeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    values<T extends eav_attribute$valuesArgs<ExtArgs> = {}>(args?: Subset<T, eav_attribute$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the eav_attribute model
+   */
+  interface eav_attributeFieldRefs {
+    readonly attribute_id: FieldRef<"eav_attribute", 'String'>
+    readonly attribute_key: FieldRef<"eav_attribute", 'String'>
+    readonly value_type: FieldRef<"eav_attribute", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * eav_attribute findUnique
+   */
+  export type eav_attributeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_attribute to fetch.
+     */
+    where: eav_attributeWhereUniqueInput
+  }
+
+  /**
+   * eav_attribute findUniqueOrThrow
+   */
+  export type eav_attributeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_attribute to fetch.
+     */
+    where: eav_attributeWhereUniqueInput
+  }
+
+  /**
+   * eav_attribute findFirst
+   */
+  export type eav_attributeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_attribute to fetch.
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_attributes to fetch.
+     */
+    orderBy?: eav_attributeOrderByWithRelationInput | eav_attributeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_attributes.
+     */
+    cursor?: eav_attributeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_attributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_attributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_attributes.
+     */
+    distinct?: Eav_attributeScalarFieldEnum | Eav_attributeScalarFieldEnum[]
+  }
+
+  /**
+   * eav_attribute findFirstOrThrow
+   */
+  export type eav_attributeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_attribute to fetch.
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_attributes to fetch.
+     */
+    orderBy?: eav_attributeOrderByWithRelationInput | eav_attributeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_attributes.
+     */
+    cursor?: eav_attributeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_attributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_attributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_attributes.
+     */
+    distinct?: Eav_attributeScalarFieldEnum | Eav_attributeScalarFieldEnum[]
+  }
+
+  /**
+   * eav_attribute findMany
+   */
+  export type eav_attributeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_attributes to fetch.
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_attributes to fetch.
+     */
+    orderBy?: eav_attributeOrderByWithRelationInput | eav_attributeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing eav_attributes.
+     */
+    cursor?: eav_attributeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_attributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_attributes.
+     */
+    skip?: number
+    distinct?: Eav_attributeScalarFieldEnum | Eav_attributeScalarFieldEnum[]
+  }
+
+  /**
+   * eav_attribute create
+   */
+  export type eav_attributeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a eav_attribute.
+     */
+    data: XOR<eav_attributeCreateInput, eav_attributeUncheckedCreateInput>
+  }
+
+  /**
+   * eav_attribute createMany
+   */
+  export type eav_attributeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many eav_attributes.
+     */
+    data: eav_attributeCreateManyInput | eav_attributeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_attribute createManyAndReturn
+   */
+  export type eav_attributeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * The data used to create many eav_attributes.
+     */
+    data: eav_attributeCreateManyInput | eav_attributeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_attribute update
+   */
+  export type eav_attributeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a eav_attribute.
+     */
+    data: XOR<eav_attributeUpdateInput, eav_attributeUncheckedUpdateInput>
+    /**
+     * Choose, which eav_attribute to update.
+     */
+    where: eav_attributeWhereUniqueInput
+  }
+
+  /**
+   * eav_attribute updateMany
+   */
+  export type eav_attributeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update eav_attributes.
+     */
+    data: XOR<eav_attributeUpdateManyMutationInput, eav_attributeUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_attributes to update
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * Limit how many eav_attributes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_attribute updateManyAndReturn
+   */
+  export type eav_attributeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * The data used to update eav_attributes.
+     */
+    data: XOR<eav_attributeUpdateManyMutationInput, eav_attributeUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_attributes to update
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * Limit how many eav_attributes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_attribute upsert
+   */
+  export type eav_attributeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the eav_attribute to update in case it exists.
+     */
+    where: eav_attributeWhereUniqueInput
+    /**
+     * In case the eav_attribute found by the `where` argument doesn't exist, create a new eav_attribute with this data.
+     */
+    create: XOR<eav_attributeCreateInput, eav_attributeUncheckedCreateInput>
+    /**
+     * In case the eav_attribute was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<eav_attributeUpdateInput, eav_attributeUncheckedUpdateInput>
+  }
+
+  /**
+   * eav_attribute delete
+   */
+  export type eav_attributeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+    /**
+     * Filter which eav_attribute to delete.
+     */
+    where: eav_attributeWhereUniqueInput
+  }
+
+  /**
+   * eav_attribute deleteMany
+   */
+  export type eav_attributeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_attributes to delete
+     */
+    where?: eav_attributeWhereInput
+    /**
+     * Limit how many eav_attributes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_attribute.values
+   */
+  export type eav_attribute$valuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    where?: eav_valueWhereInput
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    cursor?: eav_valueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Eav_valueScalarFieldEnum | Eav_valueScalarFieldEnum[]
+  }
+
+  /**
+   * eav_attribute without action
+   */
+  export type eav_attributeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_attribute
+     */
+    select?: eav_attributeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_attribute
+     */
+    omit?: eav_attributeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_attributeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model eav_value
+   */
+
+  export type AggregateEav_value = {
+    _count: Eav_valueCountAggregateOutputType | null
+    _min: Eav_valueMinAggregateOutputType | null
+    _max: Eav_valueMaxAggregateOutputType | null
+  }
+
+  export type Eav_valueMinAggregateOutputType = {
+    value_id: string | null
+    entity_id: string | null
+    attribute_id: string | null
+    value_string: string | null
+    value_text: string | null
+    value_url: string | null
+    value_boolean: boolean | null
+    value_date: Date | null
+    lang: string | null
+    source_ref: string | null
+  }
+
+  export type Eav_valueMaxAggregateOutputType = {
+    value_id: string | null
+    entity_id: string | null
+    attribute_id: string | null
+    value_string: string | null
+    value_text: string | null
+    value_url: string | null
+    value_boolean: boolean | null
+    value_date: Date | null
+    lang: string | null
+    source_ref: string | null
+  }
+
+  export type Eav_valueCountAggregateOutputType = {
+    value_id: number
+    entity_id: number
+    attribute_id: number
+    value_string: number
+    value_text: number
+    value_url: number
+    value_json: number
+    value_boolean: number
+    value_date: number
+    lang: number
+    source_ref: number
+    _all: number
+  }
+
+
+  export type Eav_valueMinAggregateInputType = {
+    value_id?: true
+    entity_id?: true
+    attribute_id?: true
+    value_string?: true
+    value_text?: true
+    value_url?: true
+    value_boolean?: true
+    value_date?: true
+    lang?: true
+    source_ref?: true
+  }
+
+  export type Eav_valueMaxAggregateInputType = {
+    value_id?: true
+    entity_id?: true
+    attribute_id?: true
+    value_string?: true
+    value_text?: true
+    value_url?: true
+    value_boolean?: true
+    value_date?: true
+    lang?: true
+    source_ref?: true
+  }
+
+  export type Eav_valueCountAggregateInputType = {
+    value_id?: true
+    entity_id?: true
+    attribute_id?: true
+    value_string?: true
+    value_text?: true
+    value_url?: true
+    value_json?: true
+    value_boolean?: true
+    value_date?: true
+    lang?: true
+    source_ref?: true
+    _all?: true
+  }
+
+  export type Eav_valueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_value to aggregate.
+     */
+    where?: eav_valueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_values to fetch.
+     */
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: eav_valueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_values from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_values.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned eav_values
+    **/
+    _count?: true | Eav_valueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Eav_valueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Eav_valueMaxAggregateInputType
+  }
+
+  export type GetEav_valueAggregateType<T extends Eav_valueAggregateArgs> = {
+        [P in keyof T & keyof AggregateEav_value]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEav_value[P]>
+      : GetScalarType<T[P], AggregateEav_value[P]>
+  }
+
+
+
+
+  export type eav_valueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_valueWhereInput
+    orderBy?: eav_valueOrderByWithAggregationInput | eav_valueOrderByWithAggregationInput[]
+    by: Eav_valueScalarFieldEnum[] | Eav_valueScalarFieldEnum
+    having?: eav_valueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Eav_valueCountAggregateInputType | true
+    _min?: Eav_valueMinAggregateInputType
+    _max?: Eav_valueMaxAggregateInputType
+  }
+
+  export type Eav_valueGroupByOutputType = {
+    value_id: string
+    entity_id: string
+    attribute_id: string
+    value_string: string | null
+    value_text: string | null
+    value_url: string | null
+    value_json: JsonValue | null
+    value_boolean: boolean | null
+    value_date: Date | null
+    lang: string
+    source_ref: string | null
+    _count: Eav_valueCountAggregateOutputType | null
+    _min: Eav_valueMinAggregateOutputType | null
+    _max: Eav_valueMaxAggregateOutputType | null
+  }
+
+  type GetEav_valueGroupByPayload<T extends eav_valueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Eav_valueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Eav_valueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Eav_valueGroupByOutputType[P]>
+            : GetScalarType<T[P], Eav_valueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type eav_valueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    value_id?: boolean
+    entity_id?: boolean
+    attribute_id?: boolean
+    value_string?: boolean
+    value_text?: boolean
+    value_url?: boolean
+    value_json?: boolean
+    value_boolean?: boolean
+    value_date?: boolean
+    lang?: boolean
+    source_ref?: boolean
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_value"]>
+
+  export type eav_valueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    value_id?: boolean
+    entity_id?: boolean
+    attribute_id?: boolean
+    value_string?: boolean
+    value_text?: boolean
+    value_url?: boolean
+    value_json?: boolean
+    value_boolean?: boolean
+    value_date?: boolean
+    lang?: boolean
+    source_ref?: boolean
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_value"]>
+
+  export type eav_valueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    value_id?: boolean
+    entity_id?: boolean
+    attribute_id?: boolean
+    value_string?: boolean
+    value_text?: boolean
+    value_url?: boolean
+    value_json?: boolean
+    value_boolean?: boolean
+    value_date?: boolean
+    lang?: boolean
+    source_ref?: boolean
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_value"]>
+
+  export type eav_valueSelectScalar = {
+    value_id?: boolean
+    entity_id?: boolean
+    attribute_id?: boolean
+    value_string?: boolean
+    value_text?: boolean
+    value_url?: boolean
+    value_json?: boolean
+    value_boolean?: boolean
+    value_date?: boolean
+    lang?: boolean
+    source_ref?: boolean
+  }
+
+  export type eav_valueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"value_id" | "entity_id" | "attribute_id" | "value_string" | "value_text" | "value_url" | "value_json" | "value_boolean" | "value_date" | "lang" | "source_ref", ExtArgs["result"]["eav_value"]>
+  export type eav_valueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }
+  export type eav_valueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }
+  export type eav_valueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    attribute?: boolean | eav_attributeDefaultArgs<ExtArgs>
+  }
+
+  export type $eav_valuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "eav_value"
+    objects: {
+      entity: Prisma.$eav_entityPayload<ExtArgs>
+      attribute: Prisma.$eav_attributePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      value_id: string
+      entity_id: string
+      attribute_id: string
+      value_string: string | null
+      value_text: string | null
+      value_url: string | null
+      value_json: Prisma.JsonValue | null
+      value_boolean: boolean | null
+      value_date: Date | null
+      lang: string
+      source_ref: string | null
+    }, ExtArgs["result"]["eav_value"]>
+    composites: {}
+  }
+
+  type eav_valueGetPayload<S extends boolean | null | undefined | eav_valueDefaultArgs> = $Result.GetResult<Prisma.$eav_valuePayload, S>
+
+  type eav_valueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<eav_valueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Eav_valueCountAggregateInputType | true
+    }
+
+  export interface eav_valueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['eav_value'], meta: { name: 'eav_value' } }
+    /**
+     * Find zero or one Eav_value that matches the filter.
+     * @param {eav_valueFindUniqueArgs} args - Arguments to find a Eav_value
+     * @example
+     * // Get one Eav_value
+     * const eav_value = await prisma.eav_value.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends eav_valueFindUniqueArgs>(args: SelectSubset<T, eav_valueFindUniqueArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Eav_value that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {eav_valueFindUniqueOrThrowArgs} args - Arguments to find a Eav_value
+     * @example
+     * // Get one Eav_value
+     * const eav_value = await prisma.eav_value.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends eav_valueFindUniqueOrThrowArgs>(args: SelectSubset<T, eav_valueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_value that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueFindFirstArgs} args - Arguments to find a Eav_value
+     * @example
+     * // Get one Eav_value
+     * const eav_value = await prisma.eav_value.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends eav_valueFindFirstArgs>(args?: SelectSubset<T, eav_valueFindFirstArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_value that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueFindFirstOrThrowArgs} args - Arguments to find a Eav_value
+     * @example
+     * // Get one Eav_value
+     * const eav_value = await prisma.eav_value.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends eav_valueFindFirstOrThrowArgs>(args?: SelectSubset<T, eav_valueFindFirstOrThrowArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Eav_values that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Eav_values
+     * const eav_values = await prisma.eav_value.findMany()
+     * 
+     * // Get first 10 Eav_values
+     * const eav_values = await prisma.eav_value.findMany({ take: 10 })
+     * 
+     * // Only select the `value_id`
+     * const eav_valueWithValue_idOnly = await prisma.eav_value.findMany({ select: { value_id: true } })
+     * 
+     */
+    findMany<T extends eav_valueFindManyArgs>(args?: SelectSubset<T, eav_valueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Eav_value.
+     * @param {eav_valueCreateArgs} args - Arguments to create a Eav_value.
+     * @example
+     * // Create one Eav_value
+     * const Eav_value = await prisma.eav_value.create({
+     *   data: {
+     *     // ... data to create a Eav_value
+     *   }
+     * })
+     * 
+     */
+    create<T extends eav_valueCreateArgs>(args: SelectSubset<T, eav_valueCreateArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Eav_values.
+     * @param {eav_valueCreateManyArgs} args - Arguments to create many Eav_values.
+     * @example
+     * // Create many Eav_values
+     * const eav_value = await prisma.eav_value.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends eav_valueCreateManyArgs>(args?: SelectSubset<T, eav_valueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Eav_values and returns the data saved in the database.
+     * @param {eav_valueCreateManyAndReturnArgs} args - Arguments to create many Eav_values.
+     * @example
+     * // Create many Eav_values
+     * const eav_value = await prisma.eav_value.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Eav_values and only return the `value_id`
+     * const eav_valueWithValue_idOnly = await prisma.eav_value.createManyAndReturn({
+     *   select: { value_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends eav_valueCreateManyAndReturnArgs>(args?: SelectSubset<T, eav_valueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Eav_value.
+     * @param {eav_valueDeleteArgs} args - Arguments to delete one Eav_value.
+     * @example
+     * // Delete one Eav_value
+     * const Eav_value = await prisma.eav_value.delete({
+     *   where: {
+     *     // ... filter to delete one Eav_value
+     *   }
+     * })
+     * 
+     */
+    delete<T extends eav_valueDeleteArgs>(args: SelectSubset<T, eav_valueDeleteArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Eav_value.
+     * @param {eav_valueUpdateArgs} args - Arguments to update one Eav_value.
+     * @example
+     * // Update one Eav_value
+     * const eav_value = await prisma.eav_value.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends eav_valueUpdateArgs>(args: SelectSubset<T, eav_valueUpdateArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Eav_values.
+     * @param {eav_valueDeleteManyArgs} args - Arguments to filter Eav_values to delete.
+     * @example
+     * // Delete a few Eav_values
+     * const { count } = await prisma.eav_value.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends eav_valueDeleteManyArgs>(args?: SelectSubset<T, eav_valueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Eav_values
+     * const eav_value = await prisma.eav_value.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends eav_valueUpdateManyArgs>(args: SelectSubset<T, eav_valueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_values and returns the data updated in the database.
+     * @param {eav_valueUpdateManyAndReturnArgs} args - Arguments to update many Eav_values.
+     * @example
+     * // Update many Eav_values
+     * const eav_value = await prisma.eav_value.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Eav_values and only return the `value_id`
+     * const eav_valueWithValue_idOnly = await prisma.eav_value.updateManyAndReturn({
+     *   select: { value_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends eav_valueUpdateManyAndReturnArgs>(args: SelectSubset<T, eav_valueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Eav_value.
+     * @param {eav_valueUpsertArgs} args - Arguments to update or create a Eav_value.
+     * @example
+     * // Update or create a Eav_value
+     * const eav_value = await prisma.eav_value.upsert({
+     *   create: {
+     *     // ... data to create a Eav_value
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Eav_value we want to update
+     *   }
+     * })
+     */
+    upsert<T extends eav_valueUpsertArgs>(args: SelectSubset<T, eav_valueUpsertArgs<ExtArgs>>): Prisma__eav_valueClient<$Result.GetResult<Prisma.$eav_valuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Eav_values.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueCountArgs} args - Arguments to filter Eav_values to count.
+     * @example
+     * // Count the number of Eav_values
+     * const count = await prisma.eav_value.count({
+     *   where: {
+     *     // ... the filter for the Eav_values we want to count
+     *   }
+     * })
+    **/
+    count<T extends eav_valueCountArgs>(
+      args?: Subset<T, eav_valueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Eav_valueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Eav_value.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Eav_valueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Eav_valueAggregateArgs>(args: Subset<T, Eav_valueAggregateArgs>): Prisma.PrismaPromise<GetEav_valueAggregateType<T>>
+
+    /**
+     * Group by Eav_value.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_valueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends eav_valueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: eav_valueGroupByArgs['orderBy'] }
+        : { orderBy?: eav_valueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, eav_valueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEav_valueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the eav_value model
+   */
+  readonly fields: eav_valueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for eav_value.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__eav_valueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    entity<T extends eav_entityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eav_entityDefaultArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    attribute<T extends eav_attributeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eav_attributeDefaultArgs<ExtArgs>>): Prisma__eav_attributeClient<$Result.GetResult<Prisma.$eav_attributePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the eav_value model
+   */
+  interface eav_valueFieldRefs {
+    readonly value_id: FieldRef<"eav_value", 'String'>
+    readonly entity_id: FieldRef<"eav_value", 'String'>
+    readonly attribute_id: FieldRef<"eav_value", 'String'>
+    readonly value_string: FieldRef<"eav_value", 'String'>
+    readonly value_text: FieldRef<"eav_value", 'String'>
+    readonly value_url: FieldRef<"eav_value", 'String'>
+    readonly value_json: FieldRef<"eav_value", 'Json'>
+    readonly value_boolean: FieldRef<"eav_value", 'Boolean'>
+    readonly value_date: FieldRef<"eav_value", 'DateTime'>
+    readonly lang: FieldRef<"eav_value", 'String'>
+    readonly source_ref: FieldRef<"eav_value", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * eav_value findUnique
+   */
+  export type eav_valueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_value to fetch.
+     */
+    where: eav_valueWhereUniqueInput
+  }
+
+  /**
+   * eav_value findUniqueOrThrow
+   */
+  export type eav_valueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_value to fetch.
+     */
+    where: eav_valueWhereUniqueInput
+  }
+
+  /**
+   * eav_value findFirst
+   */
+  export type eav_valueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_value to fetch.
+     */
+    where?: eav_valueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_values to fetch.
+     */
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_values.
+     */
+    cursor?: eav_valueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_values from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_values.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_values.
+     */
+    distinct?: Eav_valueScalarFieldEnum | Eav_valueScalarFieldEnum[]
+  }
+
+  /**
+   * eav_value findFirstOrThrow
+   */
+  export type eav_valueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_value to fetch.
+     */
+    where?: eav_valueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_values to fetch.
+     */
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_values.
+     */
+    cursor?: eav_valueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_values from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_values.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_values.
+     */
+    distinct?: Eav_valueScalarFieldEnum | Eav_valueScalarFieldEnum[]
+  }
+
+  /**
+   * eav_value findMany
+   */
+  export type eav_valueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_values to fetch.
+     */
+    where?: eav_valueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_values to fetch.
+     */
+    orderBy?: eav_valueOrderByWithRelationInput | eav_valueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing eav_values.
+     */
+    cursor?: eav_valueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_values from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_values.
+     */
+    skip?: number
+    distinct?: Eav_valueScalarFieldEnum | Eav_valueScalarFieldEnum[]
+  }
+
+  /**
+   * eav_value create
+   */
+  export type eav_valueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a eav_value.
+     */
+    data: XOR<eav_valueCreateInput, eav_valueUncheckedCreateInput>
+  }
+
+  /**
+   * eav_value createMany
+   */
+  export type eav_valueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many eav_values.
+     */
+    data: eav_valueCreateManyInput | eav_valueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_value createManyAndReturn
+   */
+  export type eav_valueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * The data used to create many eav_values.
+     */
+    data: eav_valueCreateManyInput | eav_valueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * eav_value update
+   */
+  export type eav_valueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a eav_value.
+     */
+    data: XOR<eav_valueUpdateInput, eav_valueUncheckedUpdateInput>
+    /**
+     * Choose, which eav_value to update.
+     */
+    where: eav_valueWhereUniqueInput
+  }
+
+  /**
+   * eav_value updateMany
+   */
+  export type eav_valueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update eav_values.
+     */
+    data: XOR<eav_valueUpdateManyMutationInput, eav_valueUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_values to update
+     */
+    where?: eav_valueWhereInput
+    /**
+     * Limit how many eav_values to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_value updateManyAndReturn
+   */
+  export type eav_valueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * The data used to update eav_values.
+     */
+    data: XOR<eav_valueUpdateManyMutationInput, eav_valueUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_values to update
+     */
+    where?: eav_valueWhereInput
+    /**
+     * Limit how many eav_values to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * eav_value upsert
+   */
+  export type eav_valueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the eav_value to update in case it exists.
+     */
+    where: eav_valueWhereUniqueInput
+    /**
+     * In case the eav_value found by the `where` argument doesn't exist, create a new eav_value with this data.
+     */
+    create: XOR<eav_valueCreateInput, eav_valueUncheckedCreateInput>
+    /**
+     * In case the eav_value was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<eav_valueUpdateInput, eav_valueUncheckedUpdateInput>
+  }
+
+  /**
+   * eav_value delete
+   */
+  export type eav_valueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+    /**
+     * Filter which eav_value to delete.
+     */
+    where: eav_valueWhereUniqueInput
+  }
+
+  /**
+   * eav_value deleteMany
+   */
+  export type eav_valueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_values to delete
+     */
+    where?: eav_valueWhereInput
+    /**
+     * Limit how many eav_values to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_value without action
+   */
+  export type eav_valueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_value
+     */
+    select?: eav_valueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_value
+     */
+    omit?: eav_valueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_valueInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model eav_relation
+   */
+
+  export type AggregateEav_relation = {
+    _count: Eav_relationCountAggregateOutputType | null
+    _avg: Eav_relationAvgAggregateOutputType | null
+    _sum: Eav_relationSumAggregateOutputType | null
+    _min: Eav_relationMinAggregateOutputType | null
+    _max: Eav_relationMaxAggregateOutputType | null
+  }
+
+  export type Eav_relationAvgAggregateOutputType = {
+    ord: number | null
+  }
+
+  export type Eav_relationSumAggregateOutputType = {
+    ord: number | null
+  }
+
+  export type Eav_relationMinAggregateOutputType = {
+    relation_id: string | null
+    from_entity_id: string | null
+    rel_type: string | null
+    to_entity_id: string | null
+    ord: number | null
+  }
+
+  export type Eav_relationMaxAggregateOutputType = {
+    relation_id: string | null
+    from_entity_id: string | null
+    rel_type: string | null
+    to_entity_id: string | null
+    ord: number | null
+  }
+
+  export type Eav_relationCountAggregateOutputType = {
+    relation_id: number
+    from_entity_id: number
+    rel_type: number
+    to_entity_id: number
+    ord: number
+    _all: number
+  }
+
+
+  export type Eav_relationAvgAggregateInputType = {
+    ord?: true
+  }
+
+  export type Eav_relationSumAggregateInputType = {
+    ord?: true
+  }
+
+  export type Eav_relationMinAggregateInputType = {
+    relation_id?: true
+    from_entity_id?: true
+    rel_type?: true
+    to_entity_id?: true
+    ord?: true
+  }
+
+  export type Eav_relationMaxAggregateInputType = {
+    relation_id?: true
+    from_entity_id?: true
+    rel_type?: true
+    to_entity_id?: true
+    ord?: true
+  }
+
+  export type Eav_relationCountAggregateInputType = {
+    relation_id?: true
+    from_entity_id?: true
+    rel_type?: true
+    to_entity_id?: true
+    ord?: true
+    _all?: true
+  }
+
+  export type Eav_relationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_relation to aggregate.
+     */
+    where?: eav_relationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_relations to fetch.
+     */
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: eav_relationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned eav_relations
+    **/
+    _count?: true | Eav_relationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Eav_relationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Eav_relationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Eav_relationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Eav_relationMaxAggregateInputType
+  }
+
+  export type GetEav_relationAggregateType<T extends Eav_relationAggregateArgs> = {
+        [P in keyof T & keyof AggregateEav_relation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEav_relation[P]>
+      : GetScalarType<T[P], AggregateEav_relation[P]>
+  }
+
+
+
+
+  export type eav_relationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: eav_relationWhereInput
+    orderBy?: eav_relationOrderByWithAggregationInput | eav_relationOrderByWithAggregationInput[]
+    by: Eav_relationScalarFieldEnum[] | Eav_relationScalarFieldEnum
+    having?: eav_relationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Eav_relationCountAggregateInputType | true
+    _avg?: Eav_relationAvgAggregateInputType
+    _sum?: Eav_relationSumAggregateInputType
+    _min?: Eav_relationMinAggregateInputType
+    _max?: Eav_relationMaxAggregateInputType
+  }
+
+  export type Eav_relationGroupByOutputType = {
+    relation_id: string
+    from_entity_id: string
+    rel_type: string
+    to_entity_id: string
+    ord: number | null
+    _count: Eav_relationCountAggregateOutputType | null
+    _avg: Eav_relationAvgAggregateOutputType | null
+    _sum: Eav_relationSumAggregateOutputType | null
+    _min: Eav_relationMinAggregateOutputType | null
+    _max: Eav_relationMaxAggregateOutputType | null
+  }
+
+  type GetEav_relationGroupByPayload<T extends eav_relationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Eav_relationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Eav_relationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Eav_relationGroupByOutputType[P]>
+            : GetScalarType<T[P], Eav_relationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type eav_relationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    relation_id?: boolean
+    from_entity_id?: boolean
+    rel_type?: boolean
+    to_entity_id?: boolean
+    ord?: boolean
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_relation"]>
+
+  export type eav_relationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    relation_id?: boolean
+    from_entity_id?: boolean
+    rel_type?: boolean
+    to_entity_id?: boolean
+    ord?: boolean
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_relation"]>
+
+  export type eav_relationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    relation_id?: boolean
+    from_entity_id?: boolean
+    rel_type?: boolean
+    to_entity_id?: boolean
+    ord?: boolean
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["eav_relation"]>
+
+  export type eav_relationSelectScalar = {
+    relation_id?: boolean
+    from_entity_id?: boolean
+    rel_type?: boolean
+    to_entity_id?: boolean
+    ord?: boolean
+  }
+
+  export type eav_relationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"relation_id" | "from_entity_id" | "rel_type" | "to_entity_id" | "ord", ExtArgs["result"]["eav_relation"]>
+  export type eav_relationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }
+  export type eav_relationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }
+  export type eav_relationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    from_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+    to_entity?: boolean | eav_entityDefaultArgs<ExtArgs>
+  }
+
+  export type $eav_relationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "eav_relation"
+    objects: {
+      from_entity: Prisma.$eav_entityPayload<ExtArgs>
+      to_entity: Prisma.$eav_entityPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      relation_id: string
+      from_entity_id: string
+      rel_type: string
+      to_entity_id: string
+      ord: number | null
+    }, ExtArgs["result"]["eav_relation"]>
+    composites: {}
+  }
+
+  type eav_relationGetPayload<S extends boolean | null | undefined | eav_relationDefaultArgs> = $Result.GetResult<Prisma.$eav_relationPayload, S>
+
+  type eav_relationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<eav_relationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Eav_relationCountAggregateInputType | true
+    }
+
+  export interface eav_relationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['eav_relation'], meta: { name: 'eav_relation' } }
+    /**
+     * Find zero or one Eav_relation that matches the filter.
+     * @param {eav_relationFindUniqueArgs} args - Arguments to find a Eav_relation
+     * @example
+     * // Get one Eav_relation
+     * const eav_relation = await prisma.eav_relation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends eav_relationFindUniqueArgs>(args: SelectSubset<T, eav_relationFindUniqueArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Eav_relation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {eav_relationFindUniqueOrThrowArgs} args - Arguments to find a Eav_relation
+     * @example
+     * // Get one Eav_relation
+     * const eav_relation = await prisma.eav_relation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends eav_relationFindUniqueOrThrowArgs>(args: SelectSubset<T, eav_relationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_relation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationFindFirstArgs} args - Arguments to find a Eav_relation
+     * @example
+     * // Get one Eav_relation
+     * const eav_relation = await prisma.eav_relation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends eav_relationFindFirstArgs>(args?: SelectSubset<T, eav_relationFindFirstArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Eav_relation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationFindFirstOrThrowArgs} args - Arguments to find a Eav_relation
+     * @example
+     * // Get one Eav_relation
+     * const eav_relation = await prisma.eav_relation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends eav_relationFindFirstOrThrowArgs>(args?: SelectSubset<T, eav_relationFindFirstOrThrowArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Eav_relations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Eav_relations
+     * const eav_relations = await prisma.eav_relation.findMany()
+     * 
+     * // Get first 10 Eav_relations
+     * const eav_relations = await prisma.eav_relation.findMany({ take: 10 })
+     * 
+     * // Only select the `relation_id`
+     * const eav_relationWithRelation_idOnly = await prisma.eav_relation.findMany({ select: { relation_id: true } })
+     * 
+     */
+    findMany<T extends eav_relationFindManyArgs>(args?: SelectSubset<T, eav_relationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Eav_relation.
+     * @param {eav_relationCreateArgs} args - Arguments to create a Eav_relation.
+     * @example
+     * // Create one Eav_relation
+     * const Eav_relation = await prisma.eav_relation.create({
+     *   data: {
+     *     // ... data to create a Eav_relation
+     *   }
+     * })
+     * 
+     */
+    create<T extends eav_relationCreateArgs>(args: SelectSubset<T, eav_relationCreateArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Eav_relations.
+     * @param {eav_relationCreateManyArgs} args - Arguments to create many Eav_relations.
+     * @example
+     * // Create many Eav_relations
+     * const eav_relation = await prisma.eav_relation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends eav_relationCreateManyArgs>(args?: SelectSubset<T, eav_relationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Eav_relations and returns the data saved in the database.
+     * @param {eav_relationCreateManyAndReturnArgs} args - Arguments to create many Eav_relations.
+     * @example
+     * // Create many Eav_relations
+     * const eav_relation = await prisma.eav_relation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Eav_relations and only return the `relation_id`
+     * const eav_relationWithRelation_idOnly = await prisma.eav_relation.createManyAndReturn({
+     *   select: { relation_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends eav_relationCreateManyAndReturnArgs>(args?: SelectSubset<T, eav_relationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Eav_relation.
+     * @param {eav_relationDeleteArgs} args - Arguments to delete one Eav_relation.
+     * @example
+     * // Delete one Eav_relation
+     * const Eav_relation = await prisma.eav_relation.delete({
+     *   where: {
+     *     // ... filter to delete one Eav_relation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends eav_relationDeleteArgs>(args: SelectSubset<T, eav_relationDeleteArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Eav_relation.
+     * @param {eav_relationUpdateArgs} args - Arguments to update one Eav_relation.
+     * @example
+     * // Update one Eav_relation
+     * const eav_relation = await prisma.eav_relation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends eav_relationUpdateArgs>(args: SelectSubset<T, eav_relationUpdateArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Eav_relations.
+     * @param {eav_relationDeleteManyArgs} args - Arguments to filter Eav_relations to delete.
+     * @example
+     * // Delete a few Eav_relations
+     * const { count } = await prisma.eav_relation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends eav_relationDeleteManyArgs>(args?: SelectSubset<T, eav_relationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Eav_relations
+     * const eav_relation = await prisma.eav_relation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends eav_relationUpdateManyArgs>(args: SelectSubset<T, eav_relationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Eav_relations and returns the data updated in the database.
+     * @param {eav_relationUpdateManyAndReturnArgs} args - Arguments to update many Eav_relations.
+     * @example
+     * // Update many Eav_relations
+     * const eav_relation = await prisma.eav_relation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Eav_relations and only return the `relation_id`
+     * const eav_relationWithRelation_idOnly = await prisma.eav_relation.updateManyAndReturn({
+     *   select: { relation_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends eav_relationUpdateManyAndReturnArgs>(args: SelectSubset<T, eav_relationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Eav_relation.
+     * @param {eav_relationUpsertArgs} args - Arguments to update or create a Eav_relation.
+     * @example
+     * // Update or create a Eav_relation
+     * const eav_relation = await prisma.eav_relation.upsert({
+     *   create: {
+     *     // ... data to create a Eav_relation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Eav_relation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends eav_relationUpsertArgs>(args: SelectSubset<T, eav_relationUpsertArgs<ExtArgs>>): Prisma__eav_relationClient<$Result.GetResult<Prisma.$eav_relationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Eav_relations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationCountArgs} args - Arguments to filter Eav_relations to count.
+     * @example
+     * // Count the number of Eav_relations
+     * const count = await prisma.eav_relation.count({
+     *   where: {
+     *     // ... the filter for the Eav_relations we want to count
+     *   }
+     * })
+    **/
+    count<T extends eav_relationCountArgs>(
+      args?: Subset<T, eav_relationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Eav_relationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Eav_relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Eav_relationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Eav_relationAggregateArgs>(args: Subset<T, Eav_relationAggregateArgs>): Prisma.PrismaPromise<GetEav_relationAggregateType<T>>
+
+    /**
+     * Group by Eav_relation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {eav_relationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends eav_relationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: eav_relationGroupByArgs['orderBy'] }
+        : { orderBy?: eav_relationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, eav_relationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEav_relationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the eav_relation model
+   */
+  readonly fields: eav_relationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for eav_relation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__eav_relationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    from_entity<T extends eav_entityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eav_entityDefaultArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    to_entity<T extends eav_entityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eav_entityDefaultArgs<ExtArgs>>): Prisma__eav_entityClient<$Result.GetResult<Prisma.$eav_entityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the eav_relation model
+   */
+  interface eav_relationFieldRefs {
+    readonly relation_id: FieldRef<"eav_relation", 'String'>
+    readonly from_entity_id: FieldRef<"eav_relation", 'String'>
+    readonly rel_type: FieldRef<"eav_relation", 'String'>
+    readonly to_entity_id: FieldRef<"eav_relation", 'String'>
+    readonly ord: FieldRef<"eav_relation", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * eav_relation findUnique
+   */
+  export type eav_relationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_relation to fetch.
+     */
+    where: eav_relationWhereUniqueInput
+  }
+
+  /**
+   * eav_relation findUniqueOrThrow
+   */
+  export type eav_relationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_relation to fetch.
+     */
+    where: eav_relationWhereUniqueInput
+  }
+
+  /**
+   * eav_relation findFirst
+   */
+  export type eav_relationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_relation to fetch.
+     */
+    where?: eav_relationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_relations to fetch.
+     */
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_relations.
+     */
+    cursor?: eav_relationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_relations.
+     */
+    distinct?: Eav_relationScalarFieldEnum | Eav_relationScalarFieldEnum[]
+  }
+
+  /**
+   * eav_relation findFirstOrThrow
+   */
+  export type eav_relationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_relation to fetch.
+     */
+    where?: eav_relationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_relations to fetch.
+     */
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for eav_relations.
+     */
+    cursor?: eav_relationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_relations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eav_relations.
+     */
+    distinct?: Eav_relationScalarFieldEnum | Eav_relationScalarFieldEnum[]
+  }
+
+  /**
+   * eav_relation findMany
+   */
+  export type eav_relationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter, which eav_relations to fetch.
+     */
+    where?: eav_relationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of eav_relations to fetch.
+     */
+    orderBy?: eav_relationOrderByWithRelationInput | eav_relationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing eav_relations.
+     */
+    cursor?: eav_relationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` eav_relations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` eav_relations.
+     */
+    skip?: number
+    distinct?: Eav_relationScalarFieldEnum | Eav_relationScalarFieldEnum[]
+  }
+
+  /**
+   * eav_relation create
+   */
+  export type eav_relationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a eav_relation.
+     */
+    data: XOR<eav_relationCreateInput, eav_relationUncheckedCreateInput>
+  }
+
+  /**
+   * eav_relation createMany
+   */
+  export type eav_relationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many eav_relations.
+     */
+    data: eav_relationCreateManyInput | eav_relationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * eav_relation createManyAndReturn
+   */
+  export type eav_relationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * The data used to create many eav_relations.
+     */
+    data: eav_relationCreateManyInput | eav_relationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * eav_relation update
+   */
+  export type eav_relationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a eav_relation.
+     */
+    data: XOR<eav_relationUpdateInput, eav_relationUncheckedUpdateInput>
+    /**
+     * Choose, which eav_relation to update.
+     */
+    where: eav_relationWhereUniqueInput
+  }
+
+  /**
+   * eav_relation updateMany
+   */
+  export type eav_relationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update eav_relations.
+     */
+    data: XOR<eav_relationUpdateManyMutationInput, eav_relationUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_relations to update
+     */
+    where?: eav_relationWhereInput
+    /**
+     * Limit how many eav_relations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_relation updateManyAndReturn
+   */
+  export type eav_relationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * The data used to update eav_relations.
+     */
+    data: XOR<eav_relationUpdateManyMutationInput, eav_relationUncheckedUpdateManyInput>
+    /**
+     * Filter which eav_relations to update
+     */
+    where?: eav_relationWhereInput
+    /**
+     * Limit how many eav_relations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * eav_relation upsert
+   */
+  export type eav_relationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the eav_relation to update in case it exists.
+     */
+    where: eav_relationWhereUniqueInput
+    /**
+     * In case the eav_relation found by the `where` argument doesn't exist, create a new eav_relation with this data.
+     */
+    create: XOR<eav_relationCreateInput, eav_relationUncheckedCreateInput>
+    /**
+     * In case the eav_relation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<eav_relationUpdateInput, eav_relationUncheckedUpdateInput>
+  }
+
+  /**
+   * eav_relation delete
+   */
+  export type eav_relationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+    /**
+     * Filter which eav_relation to delete.
+     */
+    where: eav_relationWhereUniqueInput
+  }
+
+  /**
+   * eav_relation deleteMany
+   */
+  export type eav_relationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which eav_relations to delete
+     */
+    where?: eav_relationWhereInput
+    /**
+     * Limit how many eav_relations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * eav_relation without action
+   */
+  export type eav_relationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the eav_relation
+     */
+    select?: eav_relationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the eav_relation
+     */
+    omit?: eav_relationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: eav_relationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -133460,6 +138288,52 @@ export namespace Prisma {
   };
 
   export type Destination_faqsScalarFieldEnum = (typeof Destination_faqsScalarFieldEnum)[keyof typeof Destination_faqsScalarFieldEnum]
+
+
+  export const Eav_entityScalarFieldEnum: {
+    entity_id: 'entity_id',
+    entity_type: 'entity_type',
+    entity_key: 'entity_key'
+  };
+
+  export type Eav_entityScalarFieldEnum = (typeof Eav_entityScalarFieldEnum)[keyof typeof Eav_entityScalarFieldEnum]
+
+
+  export const Eav_attributeScalarFieldEnum: {
+    attribute_id: 'attribute_id',
+    attribute_key: 'attribute_key',
+    value_type: 'value_type'
+  };
+
+  export type Eav_attributeScalarFieldEnum = (typeof Eav_attributeScalarFieldEnum)[keyof typeof Eav_attributeScalarFieldEnum]
+
+
+  export const Eav_valueScalarFieldEnum: {
+    value_id: 'value_id',
+    entity_id: 'entity_id',
+    attribute_id: 'attribute_id',
+    value_string: 'value_string',
+    value_text: 'value_text',
+    value_url: 'value_url',
+    value_json: 'value_json',
+    value_boolean: 'value_boolean',
+    value_date: 'value_date',
+    lang: 'lang',
+    source_ref: 'source_ref'
+  };
+
+  export type Eav_valueScalarFieldEnum = (typeof Eav_valueScalarFieldEnum)[keyof typeof Eav_valueScalarFieldEnum]
+
+
+  export const Eav_relationScalarFieldEnum: {
+    relation_id: 'relation_id',
+    from_entity_id: 'from_entity_id',
+    rel_type: 'rel_type',
+    to_entity_id: 'to_entity_id',
+    ord: 'ord'
+  };
+
+  export type Eav_relationScalarFieldEnum = (typeof Eav_relationScalarFieldEnum)[keyof typeof Eav_relationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -142260,6 +147134,252 @@ export namespace Prisma {
     faq_id?: BigIntWithAggregatesFilter<"destination_faqs"> | bigint | number
     createdAt?: DateTimeWithAggregatesFilter<"destination_faqs"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"destination_faqs"> | Date | string
+  }
+
+  export type eav_entityWhereInput = {
+    AND?: eav_entityWhereInput | eav_entityWhereInput[]
+    OR?: eav_entityWhereInput[]
+    NOT?: eav_entityWhereInput | eav_entityWhereInput[]
+    entity_id?: UuidFilter<"eav_entity"> | string
+    entity_type?: StringFilter<"eav_entity"> | string
+    entity_key?: StringFilter<"eav_entity"> | string
+    values?: Eav_valueListRelationFilter
+    outgoing_relations?: Eav_relationListRelationFilter
+    incoming_relations?: Eav_relationListRelationFilter
+  }
+
+  export type eav_entityOrderByWithRelationInput = {
+    entity_id?: SortOrder
+    entity_type?: SortOrder
+    entity_key?: SortOrder
+    values?: eav_valueOrderByRelationAggregateInput
+    outgoing_relations?: eav_relationOrderByRelationAggregateInput
+    incoming_relations?: eav_relationOrderByRelationAggregateInput
+  }
+
+  export type eav_entityWhereUniqueInput = Prisma.AtLeast<{
+    entity_id?: string
+    entity_key?: string
+    AND?: eav_entityWhereInput | eav_entityWhereInput[]
+    OR?: eav_entityWhereInput[]
+    NOT?: eav_entityWhereInput | eav_entityWhereInput[]
+    entity_type?: StringFilter<"eav_entity"> | string
+    values?: Eav_valueListRelationFilter
+    outgoing_relations?: Eav_relationListRelationFilter
+    incoming_relations?: Eav_relationListRelationFilter
+  }, "entity_id" | "entity_key">
+
+  export type eav_entityOrderByWithAggregationInput = {
+    entity_id?: SortOrder
+    entity_type?: SortOrder
+    entity_key?: SortOrder
+    _count?: eav_entityCountOrderByAggregateInput
+    _max?: eav_entityMaxOrderByAggregateInput
+    _min?: eav_entityMinOrderByAggregateInput
+  }
+
+  export type eav_entityScalarWhereWithAggregatesInput = {
+    AND?: eav_entityScalarWhereWithAggregatesInput | eav_entityScalarWhereWithAggregatesInput[]
+    OR?: eav_entityScalarWhereWithAggregatesInput[]
+    NOT?: eav_entityScalarWhereWithAggregatesInput | eav_entityScalarWhereWithAggregatesInput[]
+    entity_id?: UuidWithAggregatesFilter<"eav_entity"> | string
+    entity_type?: StringWithAggregatesFilter<"eav_entity"> | string
+    entity_key?: StringWithAggregatesFilter<"eav_entity"> | string
+  }
+
+  export type eav_attributeWhereInput = {
+    AND?: eav_attributeWhereInput | eav_attributeWhereInput[]
+    OR?: eav_attributeWhereInput[]
+    NOT?: eav_attributeWhereInput | eav_attributeWhereInput[]
+    attribute_id?: UuidFilter<"eav_attribute"> | string
+    attribute_key?: StringFilter<"eav_attribute"> | string
+    value_type?: StringFilter<"eav_attribute"> | string
+    values?: Eav_valueListRelationFilter
+  }
+
+  export type eav_attributeOrderByWithRelationInput = {
+    attribute_id?: SortOrder
+    attribute_key?: SortOrder
+    value_type?: SortOrder
+    values?: eav_valueOrderByRelationAggregateInput
+  }
+
+  export type eav_attributeWhereUniqueInput = Prisma.AtLeast<{
+    attribute_id?: string
+    attribute_key?: string
+    AND?: eav_attributeWhereInput | eav_attributeWhereInput[]
+    OR?: eav_attributeWhereInput[]
+    NOT?: eav_attributeWhereInput | eav_attributeWhereInput[]
+    value_type?: StringFilter<"eav_attribute"> | string
+    values?: Eav_valueListRelationFilter
+  }, "attribute_id" | "attribute_key">
+
+  export type eav_attributeOrderByWithAggregationInput = {
+    attribute_id?: SortOrder
+    attribute_key?: SortOrder
+    value_type?: SortOrder
+    _count?: eav_attributeCountOrderByAggregateInput
+    _max?: eav_attributeMaxOrderByAggregateInput
+    _min?: eav_attributeMinOrderByAggregateInput
+  }
+
+  export type eav_attributeScalarWhereWithAggregatesInput = {
+    AND?: eav_attributeScalarWhereWithAggregatesInput | eav_attributeScalarWhereWithAggregatesInput[]
+    OR?: eav_attributeScalarWhereWithAggregatesInput[]
+    NOT?: eav_attributeScalarWhereWithAggregatesInput | eav_attributeScalarWhereWithAggregatesInput[]
+    attribute_id?: UuidWithAggregatesFilter<"eav_attribute"> | string
+    attribute_key?: StringWithAggregatesFilter<"eav_attribute"> | string
+    value_type?: StringWithAggregatesFilter<"eav_attribute"> | string
+  }
+
+  export type eav_valueWhereInput = {
+    AND?: eav_valueWhereInput | eav_valueWhereInput[]
+    OR?: eav_valueWhereInput[]
+    NOT?: eav_valueWhereInput | eav_valueWhereInput[]
+    value_id?: UuidFilter<"eav_value"> | string
+    entity_id?: UuidFilter<"eav_value"> | string
+    attribute_id?: UuidFilter<"eav_value"> | string
+    value_string?: StringNullableFilter<"eav_value"> | string | null
+    value_text?: StringNullableFilter<"eav_value"> | string | null
+    value_url?: StringNullableFilter<"eav_value"> | string | null
+    value_json?: JsonNullableFilter<"eav_value">
+    value_boolean?: BoolNullableFilter<"eav_value"> | boolean | null
+    value_date?: DateTimeNullableFilter<"eav_value"> | Date | string | null
+    lang?: StringFilter<"eav_value"> | string
+    source_ref?: StringNullableFilter<"eav_value"> | string | null
+    entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+    attribute?: XOR<Eav_attributeScalarRelationFilter, eav_attributeWhereInput>
+  }
+
+  export type eav_valueOrderByWithRelationInput = {
+    value_id?: SortOrder
+    entity_id?: SortOrder
+    attribute_id?: SortOrder
+    value_string?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    value_url?: SortOrderInput | SortOrder
+    value_json?: SortOrderInput | SortOrder
+    value_boolean?: SortOrderInput | SortOrder
+    value_date?: SortOrderInput | SortOrder
+    lang?: SortOrder
+    source_ref?: SortOrderInput | SortOrder
+    entity?: eav_entityOrderByWithRelationInput
+    attribute?: eav_attributeOrderByWithRelationInput
+  }
+
+  export type eav_valueWhereUniqueInput = Prisma.AtLeast<{
+    value_id?: string
+    entity_id_attribute_id_lang?: eav_valueEntity_idAttribute_idLangCompoundUniqueInput
+    AND?: eav_valueWhereInput | eav_valueWhereInput[]
+    OR?: eav_valueWhereInput[]
+    NOT?: eav_valueWhereInput | eav_valueWhereInput[]
+    entity_id?: UuidFilter<"eav_value"> | string
+    attribute_id?: UuidFilter<"eav_value"> | string
+    value_string?: StringNullableFilter<"eav_value"> | string | null
+    value_text?: StringNullableFilter<"eav_value"> | string | null
+    value_url?: StringNullableFilter<"eav_value"> | string | null
+    value_json?: JsonNullableFilter<"eav_value">
+    value_boolean?: BoolNullableFilter<"eav_value"> | boolean | null
+    value_date?: DateTimeNullableFilter<"eav_value"> | Date | string | null
+    lang?: StringFilter<"eav_value"> | string
+    source_ref?: StringNullableFilter<"eav_value"> | string | null
+    entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+    attribute?: XOR<Eav_attributeScalarRelationFilter, eav_attributeWhereInput>
+  }, "value_id" | "entity_id_attribute_id_lang">
+
+  export type eav_valueOrderByWithAggregationInput = {
+    value_id?: SortOrder
+    entity_id?: SortOrder
+    attribute_id?: SortOrder
+    value_string?: SortOrderInput | SortOrder
+    value_text?: SortOrderInput | SortOrder
+    value_url?: SortOrderInput | SortOrder
+    value_json?: SortOrderInput | SortOrder
+    value_boolean?: SortOrderInput | SortOrder
+    value_date?: SortOrderInput | SortOrder
+    lang?: SortOrder
+    source_ref?: SortOrderInput | SortOrder
+    _count?: eav_valueCountOrderByAggregateInput
+    _max?: eav_valueMaxOrderByAggregateInput
+    _min?: eav_valueMinOrderByAggregateInput
+  }
+
+  export type eav_valueScalarWhereWithAggregatesInput = {
+    AND?: eav_valueScalarWhereWithAggregatesInput | eav_valueScalarWhereWithAggregatesInput[]
+    OR?: eav_valueScalarWhereWithAggregatesInput[]
+    NOT?: eav_valueScalarWhereWithAggregatesInput | eav_valueScalarWhereWithAggregatesInput[]
+    value_id?: UuidWithAggregatesFilter<"eav_value"> | string
+    entity_id?: UuidWithAggregatesFilter<"eav_value"> | string
+    attribute_id?: UuidWithAggregatesFilter<"eav_value"> | string
+    value_string?: StringNullableWithAggregatesFilter<"eav_value"> | string | null
+    value_text?: StringNullableWithAggregatesFilter<"eav_value"> | string | null
+    value_url?: StringNullableWithAggregatesFilter<"eav_value"> | string | null
+    value_json?: JsonNullableWithAggregatesFilter<"eav_value">
+    value_boolean?: BoolNullableWithAggregatesFilter<"eav_value"> | boolean | null
+    value_date?: DateTimeNullableWithAggregatesFilter<"eav_value"> | Date | string | null
+    lang?: StringWithAggregatesFilter<"eav_value"> | string
+    source_ref?: StringNullableWithAggregatesFilter<"eav_value"> | string | null
+  }
+
+  export type eav_relationWhereInput = {
+    AND?: eav_relationWhereInput | eav_relationWhereInput[]
+    OR?: eav_relationWhereInput[]
+    NOT?: eav_relationWhereInput | eav_relationWhereInput[]
+    relation_id?: UuidFilter<"eav_relation"> | string
+    from_entity_id?: UuidFilter<"eav_relation"> | string
+    rel_type?: StringFilter<"eav_relation"> | string
+    to_entity_id?: UuidFilter<"eav_relation"> | string
+    ord?: IntNullableFilter<"eav_relation"> | number | null
+    from_entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+    to_entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+  }
+
+  export type eav_relationOrderByWithRelationInput = {
+    relation_id?: SortOrder
+    from_entity_id?: SortOrder
+    rel_type?: SortOrder
+    to_entity_id?: SortOrder
+    ord?: SortOrderInput | SortOrder
+    from_entity?: eav_entityOrderByWithRelationInput
+    to_entity?: eav_entityOrderByWithRelationInput
+  }
+
+  export type eav_relationWhereUniqueInput = Prisma.AtLeast<{
+    relation_id?: string
+    from_entity_id_rel_type_to_entity_id?: eav_relationFrom_entity_idRel_typeTo_entity_idCompoundUniqueInput
+    AND?: eav_relationWhereInput | eav_relationWhereInput[]
+    OR?: eav_relationWhereInput[]
+    NOT?: eav_relationWhereInput | eav_relationWhereInput[]
+    from_entity_id?: UuidFilter<"eav_relation"> | string
+    rel_type?: StringFilter<"eav_relation"> | string
+    to_entity_id?: UuidFilter<"eav_relation"> | string
+    ord?: IntNullableFilter<"eav_relation"> | number | null
+    from_entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+    to_entity?: XOR<Eav_entityScalarRelationFilter, eav_entityWhereInput>
+  }, "relation_id" | "from_entity_id_rel_type_to_entity_id">
+
+  export type eav_relationOrderByWithAggregationInput = {
+    relation_id?: SortOrder
+    from_entity_id?: SortOrder
+    rel_type?: SortOrder
+    to_entity_id?: SortOrder
+    ord?: SortOrderInput | SortOrder
+    _count?: eav_relationCountOrderByAggregateInput
+    _avg?: eav_relationAvgOrderByAggregateInput
+    _max?: eav_relationMaxOrderByAggregateInput
+    _min?: eav_relationMinOrderByAggregateInput
+    _sum?: eav_relationSumOrderByAggregateInput
+  }
+
+  export type eav_relationScalarWhereWithAggregatesInput = {
+    AND?: eav_relationScalarWhereWithAggregatesInput | eav_relationScalarWhereWithAggregatesInput[]
+    OR?: eav_relationScalarWhereWithAggregatesInput[]
+    NOT?: eav_relationScalarWhereWithAggregatesInput | eav_relationScalarWhereWithAggregatesInput[]
+    relation_id?: UuidWithAggregatesFilter<"eav_relation"> | string
+    from_entity_id?: UuidWithAggregatesFilter<"eav_relation"> | string
+    rel_type?: StringWithAggregatesFilter<"eav_relation"> | string
+    to_entity_id?: UuidWithAggregatesFilter<"eav_relation"> | string
+    ord?: IntNullableWithAggregatesFilter<"eav_relation"> | number | null
   }
 
   export type activitiesCreateInput = {
@@ -151659,6 +156779,256 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type eav_entityCreateInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueCreateNestedManyWithoutEntityInput
+    outgoing_relations?: eav_relationCreateNestedManyWithoutFrom_entityInput
+    incoming_relations?: eav_relationCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityUncheckedCreateInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueUncheckedCreateNestedManyWithoutEntityInput
+    outgoing_relations?: eav_relationUncheckedCreateNestedManyWithoutFrom_entityInput
+    incoming_relations?: eav_relationUncheckedCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityUpdateInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUpdateManyWithoutEntityNestedInput
+    outgoing_relations?: eav_relationUpdateManyWithoutFrom_entityNestedInput
+    incoming_relations?: eav_relationUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_entityUncheckedUpdateInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUncheckedUpdateManyWithoutEntityNestedInput
+    outgoing_relations?: eav_relationUncheckedUpdateManyWithoutFrom_entityNestedInput
+    incoming_relations?: eav_relationUncheckedUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_entityCreateManyInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+  }
+
+  export type eav_entityUpdateManyMutationInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_entityUncheckedUpdateManyInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_attributeCreateInput = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+    values?: eav_valueCreateNestedManyWithoutAttributeInput
+  }
+
+  export type eav_attributeUncheckedCreateInput = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+    values?: eav_valueUncheckedCreateNestedManyWithoutAttributeInput
+  }
+
+  export type eav_attributeUpdateInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUpdateManyWithoutAttributeNestedInput
+  }
+
+  export type eav_attributeUncheckedUpdateInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUncheckedUpdateManyWithoutAttributeNestedInput
+  }
+
+  export type eav_attributeCreateManyInput = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+  }
+
+  export type eav_attributeUpdateManyMutationInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_attributeUncheckedUpdateManyInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_valueCreateInput = {
+    value_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+    entity: eav_entityCreateNestedOneWithoutValuesInput
+    attribute: eav_attributeCreateNestedOneWithoutValuesInput
+  }
+
+  export type eav_valueUncheckedCreateInput = {
+    value_id: string
+    entity_id: string
+    attribute_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_valueUpdateInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: eav_entityUpdateOneRequiredWithoutValuesNestedInput
+    attribute?: eav_attributeUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type eav_valueUncheckedUpdateInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    entity_id?: StringFieldUpdateOperationsInput | string
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_valueCreateManyInput = {
+    value_id: string
+    entity_id: string
+    attribute_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_valueUpdateManyMutationInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_valueUncheckedUpdateManyInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    entity_id?: StringFieldUpdateOperationsInput | string
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_relationCreateInput = {
+    relation_id: string
+    rel_type: string
+    ord?: number | null
+    from_entity: eav_entityCreateNestedOneWithoutOutgoing_relationsInput
+    to_entity: eav_entityCreateNestedOneWithoutIncoming_relationsInput
+  }
+
+  export type eav_relationUncheckedCreateInput = {
+    relation_id: string
+    from_entity_id: string
+    rel_type: string
+    to_entity_id: string
+    ord?: number | null
+  }
+
+  export type eav_relationUpdateInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+    from_entity?: eav_entityUpdateOneRequiredWithoutOutgoing_relationsNestedInput
+    to_entity?: eav_entityUpdateOneRequiredWithoutIncoming_relationsNestedInput
+  }
+
+  export type eav_relationUncheckedUpdateInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    from_entity_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    to_entity_id?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_relationCreateManyInput = {
+    relation_id: string
+    from_entity_id: string
+    rel_type: string
+    to_entity_id: string
+    ord?: number | null
+  }
+
+  export type eav_relationUpdateManyMutationInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_relationUncheckedUpdateManyInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    from_entity_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    to_entity_id?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -158174,6 +163544,156 @@ export namespace Prisma {
     id?: SortOrder
     destination_id?: SortOrder
     faq_id?: SortOrder
+  }
+
+  export type Eav_valueListRelationFilter = {
+    every?: eav_valueWhereInput
+    some?: eav_valueWhereInput
+    none?: eav_valueWhereInput
+  }
+
+  export type Eav_relationListRelationFilter = {
+    every?: eav_relationWhereInput
+    some?: eav_relationWhereInput
+    none?: eav_relationWhereInput
+  }
+
+  export type eav_valueOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type eav_relationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type eav_entityCountOrderByAggregateInput = {
+    entity_id?: SortOrder
+    entity_type?: SortOrder
+    entity_key?: SortOrder
+  }
+
+  export type eav_entityMaxOrderByAggregateInput = {
+    entity_id?: SortOrder
+    entity_type?: SortOrder
+    entity_key?: SortOrder
+  }
+
+  export type eav_entityMinOrderByAggregateInput = {
+    entity_id?: SortOrder
+    entity_type?: SortOrder
+    entity_key?: SortOrder
+  }
+
+  export type eav_attributeCountOrderByAggregateInput = {
+    attribute_id?: SortOrder
+    attribute_key?: SortOrder
+    value_type?: SortOrder
+  }
+
+  export type eav_attributeMaxOrderByAggregateInput = {
+    attribute_id?: SortOrder
+    attribute_key?: SortOrder
+    value_type?: SortOrder
+  }
+
+  export type eav_attributeMinOrderByAggregateInput = {
+    attribute_id?: SortOrder
+    attribute_key?: SortOrder
+    value_type?: SortOrder
+  }
+
+  export type Eav_entityScalarRelationFilter = {
+    is?: eav_entityWhereInput
+    isNot?: eav_entityWhereInput
+  }
+
+  export type Eav_attributeScalarRelationFilter = {
+    is?: eav_attributeWhereInput
+    isNot?: eav_attributeWhereInput
+  }
+
+  export type eav_valueEntity_idAttribute_idLangCompoundUniqueInput = {
+    entity_id: string
+    attribute_id: string
+    lang: string
+  }
+
+  export type eav_valueCountOrderByAggregateInput = {
+    value_id?: SortOrder
+    entity_id?: SortOrder
+    attribute_id?: SortOrder
+    value_string?: SortOrder
+    value_text?: SortOrder
+    value_url?: SortOrder
+    value_json?: SortOrder
+    value_boolean?: SortOrder
+    value_date?: SortOrder
+    lang?: SortOrder
+    source_ref?: SortOrder
+  }
+
+  export type eav_valueMaxOrderByAggregateInput = {
+    value_id?: SortOrder
+    entity_id?: SortOrder
+    attribute_id?: SortOrder
+    value_string?: SortOrder
+    value_text?: SortOrder
+    value_url?: SortOrder
+    value_boolean?: SortOrder
+    value_date?: SortOrder
+    lang?: SortOrder
+    source_ref?: SortOrder
+  }
+
+  export type eav_valueMinOrderByAggregateInput = {
+    value_id?: SortOrder
+    entity_id?: SortOrder
+    attribute_id?: SortOrder
+    value_string?: SortOrder
+    value_text?: SortOrder
+    value_url?: SortOrder
+    value_boolean?: SortOrder
+    value_date?: SortOrder
+    lang?: SortOrder
+    source_ref?: SortOrder
+  }
+
+  export type eav_relationFrom_entity_idRel_typeTo_entity_idCompoundUniqueInput = {
+    from_entity_id: string
+    rel_type: string
+    to_entity_id: string
+  }
+
+  export type eav_relationCountOrderByAggregateInput = {
+    relation_id?: SortOrder
+    from_entity_id?: SortOrder
+    rel_type?: SortOrder
+    to_entity_id?: SortOrder
+    ord?: SortOrder
+  }
+
+  export type eav_relationAvgOrderByAggregateInput = {
+    ord?: SortOrder
+  }
+
+  export type eav_relationMaxOrderByAggregateInput = {
+    relation_id?: SortOrder
+    from_entity_id?: SortOrder
+    rel_type?: SortOrder
+    to_entity_id?: SortOrder
+    ord?: SortOrder
+  }
+
+  export type eav_relationMinOrderByAggregateInput = {
+    relation_id?: SortOrder
+    from_entity_id?: SortOrder
+    rel_type?: SortOrder
+    to_entity_id?: SortOrder
+    ord?: SortOrder
+  }
+
+  export type eav_relationSumOrderByAggregateInput = {
+    ord?: SortOrder
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -165538,6 +171058,230 @@ export namespace Prisma {
     upsert?: faqsUpsertWithoutDestination_faqsInput
     connect?: faqsWhereUniqueInput
     update?: XOR<XOR<faqsUpdateToOneWithWhereWithoutDestination_faqsInput, faqsUpdateWithoutDestination_faqsInput>, faqsUncheckedUpdateWithoutDestination_faqsInput>
+  }
+
+  export type eav_valueCreateNestedManyWithoutEntityInput = {
+    create?: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput> | eav_valueCreateWithoutEntityInput[] | eav_valueUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutEntityInput | eav_valueCreateOrConnectWithoutEntityInput[]
+    createMany?: eav_valueCreateManyEntityInputEnvelope
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+  }
+
+  export type eav_relationCreateNestedManyWithoutFrom_entityInput = {
+    create?: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput> | eav_relationCreateWithoutFrom_entityInput[] | eav_relationUncheckedCreateWithoutFrom_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutFrom_entityInput | eav_relationCreateOrConnectWithoutFrom_entityInput[]
+    createMany?: eav_relationCreateManyFrom_entityInputEnvelope
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+  }
+
+  export type eav_relationCreateNestedManyWithoutTo_entityInput = {
+    create?: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput> | eav_relationCreateWithoutTo_entityInput[] | eav_relationUncheckedCreateWithoutTo_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutTo_entityInput | eav_relationCreateOrConnectWithoutTo_entityInput[]
+    createMany?: eav_relationCreateManyTo_entityInputEnvelope
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+  }
+
+  export type eav_valueUncheckedCreateNestedManyWithoutEntityInput = {
+    create?: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput> | eav_valueCreateWithoutEntityInput[] | eav_valueUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutEntityInput | eav_valueCreateOrConnectWithoutEntityInput[]
+    createMany?: eav_valueCreateManyEntityInputEnvelope
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+  }
+
+  export type eav_relationUncheckedCreateNestedManyWithoutFrom_entityInput = {
+    create?: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput> | eav_relationCreateWithoutFrom_entityInput[] | eav_relationUncheckedCreateWithoutFrom_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutFrom_entityInput | eav_relationCreateOrConnectWithoutFrom_entityInput[]
+    createMany?: eav_relationCreateManyFrom_entityInputEnvelope
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+  }
+
+  export type eav_relationUncheckedCreateNestedManyWithoutTo_entityInput = {
+    create?: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput> | eav_relationCreateWithoutTo_entityInput[] | eav_relationUncheckedCreateWithoutTo_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutTo_entityInput | eav_relationCreateOrConnectWithoutTo_entityInput[]
+    createMany?: eav_relationCreateManyTo_entityInputEnvelope
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+  }
+
+  export type eav_valueUpdateManyWithoutEntityNestedInput = {
+    create?: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput> | eav_valueCreateWithoutEntityInput[] | eav_valueUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutEntityInput | eav_valueCreateOrConnectWithoutEntityInput[]
+    upsert?: eav_valueUpsertWithWhereUniqueWithoutEntityInput | eav_valueUpsertWithWhereUniqueWithoutEntityInput[]
+    createMany?: eav_valueCreateManyEntityInputEnvelope
+    set?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    disconnect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    delete?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    update?: eav_valueUpdateWithWhereUniqueWithoutEntityInput | eav_valueUpdateWithWhereUniqueWithoutEntityInput[]
+    updateMany?: eav_valueUpdateManyWithWhereWithoutEntityInput | eav_valueUpdateManyWithWhereWithoutEntityInput[]
+    deleteMany?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+  }
+
+  export type eav_relationUpdateManyWithoutFrom_entityNestedInput = {
+    create?: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput> | eav_relationCreateWithoutFrom_entityInput[] | eav_relationUncheckedCreateWithoutFrom_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutFrom_entityInput | eav_relationCreateOrConnectWithoutFrom_entityInput[]
+    upsert?: eav_relationUpsertWithWhereUniqueWithoutFrom_entityInput | eav_relationUpsertWithWhereUniqueWithoutFrom_entityInput[]
+    createMany?: eav_relationCreateManyFrom_entityInputEnvelope
+    set?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    disconnect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    delete?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    update?: eav_relationUpdateWithWhereUniqueWithoutFrom_entityInput | eav_relationUpdateWithWhereUniqueWithoutFrom_entityInput[]
+    updateMany?: eav_relationUpdateManyWithWhereWithoutFrom_entityInput | eav_relationUpdateManyWithWhereWithoutFrom_entityInput[]
+    deleteMany?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+  }
+
+  export type eav_relationUpdateManyWithoutTo_entityNestedInput = {
+    create?: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput> | eav_relationCreateWithoutTo_entityInput[] | eav_relationUncheckedCreateWithoutTo_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutTo_entityInput | eav_relationCreateOrConnectWithoutTo_entityInput[]
+    upsert?: eav_relationUpsertWithWhereUniqueWithoutTo_entityInput | eav_relationUpsertWithWhereUniqueWithoutTo_entityInput[]
+    createMany?: eav_relationCreateManyTo_entityInputEnvelope
+    set?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    disconnect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    delete?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    update?: eav_relationUpdateWithWhereUniqueWithoutTo_entityInput | eav_relationUpdateWithWhereUniqueWithoutTo_entityInput[]
+    updateMany?: eav_relationUpdateManyWithWhereWithoutTo_entityInput | eav_relationUpdateManyWithWhereWithoutTo_entityInput[]
+    deleteMany?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+  }
+
+  export type eav_valueUncheckedUpdateManyWithoutEntityNestedInput = {
+    create?: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput> | eav_valueCreateWithoutEntityInput[] | eav_valueUncheckedCreateWithoutEntityInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutEntityInput | eav_valueCreateOrConnectWithoutEntityInput[]
+    upsert?: eav_valueUpsertWithWhereUniqueWithoutEntityInput | eav_valueUpsertWithWhereUniqueWithoutEntityInput[]
+    createMany?: eav_valueCreateManyEntityInputEnvelope
+    set?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    disconnect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    delete?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    update?: eav_valueUpdateWithWhereUniqueWithoutEntityInput | eav_valueUpdateWithWhereUniqueWithoutEntityInput[]
+    updateMany?: eav_valueUpdateManyWithWhereWithoutEntityInput | eav_valueUpdateManyWithWhereWithoutEntityInput[]
+    deleteMany?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+  }
+
+  export type eav_relationUncheckedUpdateManyWithoutFrom_entityNestedInput = {
+    create?: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput> | eav_relationCreateWithoutFrom_entityInput[] | eav_relationUncheckedCreateWithoutFrom_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutFrom_entityInput | eav_relationCreateOrConnectWithoutFrom_entityInput[]
+    upsert?: eav_relationUpsertWithWhereUniqueWithoutFrom_entityInput | eav_relationUpsertWithWhereUniqueWithoutFrom_entityInput[]
+    createMany?: eav_relationCreateManyFrom_entityInputEnvelope
+    set?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    disconnect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    delete?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    update?: eav_relationUpdateWithWhereUniqueWithoutFrom_entityInput | eav_relationUpdateWithWhereUniqueWithoutFrom_entityInput[]
+    updateMany?: eav_relationUpdateManyWithWhereWithoutFrom_entityInput | eav_relationUpdateManyWithWhereWithoutFrom_entityInput[]
+    deleteMany?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+  }
+
+  export type eav_relationUncheckedUpdateManyWithoutTo_entityNestedInput = {
+    create?: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput> | eav_relationCreateWithoutTo_entityInput[] | eav_relationUncheckedCreateWithoutTo_entityInput[]
+    connectOrCreate?: eav_relationCreateOrConnectWithoutTo_entityInput | eav_relationCreateOrConnectWithoutTo_entityInput[]
+    upsert?: eav_relationUpsertWithWhereUniqueWithoutTo_entityInput | eav_relationUpsertWithWhereUniqueWithoutTo_entityInput[]
+    createMany?: eav_relationCreateManyTo_entityInputEnvelope
+    set?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    disconnect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    delete?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    connect?: eav_relationWhereUniqueInput | eav_relationWhereUniqueInput[]
+    update?: eav_relationUpdateWithWhereUniqueWithoutTo_entityInput | eav_relationUpdateWithWhereUniqueWithoutTo_entityInput[]
+    updateMany?: eav_relationUpdateManyWithWhereWithoutTo_entityInput | eav_relationUpdateManyWithWhereWithoutTo_entityInput[]
+    deleteMany?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+  }
+
+  export type eav_valueCreateNestedManyWithoutAttributeInput = {
+    create?: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput> | eav_valueCreateWithoutAttributeInput[] | eav_valueUncheckedCreateWithoutAttributeInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutAttributeInput | eav_valueCreateOrConnectWithoutAttributeInput[]
+    createMany?: eav_valueCreateManyAttributeInputEnvelope
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+  }
+
+  export type eav_valueUncheckedCreateNestedManyWithoutAttributeInput = {
+    create?: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput> | eav_valueCreateWithoutAttributeInput[] | eav_valueUncheckedCreateWithoutAttributeInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutAttributeInput | eav_valueCreateOrConnectWithoutAttributeInput[]
+    createMany?: eav_valueCreateManyAttributeInputEnvelope
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+  }
+
+  export type eav_valueUpdateManyWithoutAttributeNestedInput = {
+    create?: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput> | eav_valueCreateWithoutAttributeInput[] | eav_valueUncheckedCreateWithoutAttributeInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutAttributeInput | eav_valueCreateOrConnectWithoutAttributeInput[]
+    upsert?: eav_valueUpsertWithWhereUniqueWithoutAttributeInput | eav_valueUpsertWithWhereUniqueWithoutAttributeInput[]
+    createMany?: eav_valueCreateManyAttributeInputEnvelope
+    set?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    disconnect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    delete?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    update?: eav_valueUpdateWithWhereUniqueWithoutAttributeInput | eav_valueUpdateWithWhereUniqueWithoutAttributeInput[]
+    updateMany?: eav_valueUpdateManyWithWhereWithoutAttributeInput | eav_valueUpdateManyWithWhereWithoutAttributeInput[]
+    deleteMany?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+  }
+
+  export type eav_valueUncheckedUpdateManyWithoutAttributeNestedInput = {
+    create?: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput> | eav_valueCreateWithoutAttributeInput[] | eav_valueUncheckedCreateWithoutAttributeInput[]
+    connectOrCreate?: eav_valueCreateOrConnectWithoutAttributeInput | eav_valueCreateOrConnectWithoutAttributeInput[]
+    upsert?: eav_valueUpsertWithWhereUniqueWithoutAttributeInput | eav_valueUpsertWithWhereUniqueWithoutAttributeInput[]
+    createMany?: eav_valueCreateManyAttributeInputEnvelope
+    set?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    disconnect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    delete?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    connect?: eav_valueWhereUniqueInput | eav_valueWhereUniqueInput[]
+    update?: eav_valueUpdateWithWhereUniqueWithoutAttributeInput | eav_valueUpdateWithWhereUniqueWithoutAttributeInput[]
+    updateMany?: eav_valueUpdateManyWithWhereWithoutAttributeInput | eav_valueUpdateManyWithWhereWithoutAttributeInput[]
+    deleteMany?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+  }
+
+  export type eav_entityCreateNestedOneWithoutValuesInput = {
+    create?: XOR<eav_entityCreateWithoutValuesInput, eav_entityUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutValuesInput
+    connect?: eav_entityWhereUniqueInput
+  }
+
+  export type eav_attributeCreateNestedOneWithoutValuesInput = {
+    create?: XOR<eav_attributeCreateWithoutValuesInput, eav_attributeUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: eav_attributeCreateOrConnectWithoutValuesInput
+    connect?: eav_attributeWhereUniqueInput
+  }
+
+  export type eav_entityUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<eav_entityCreateWithoutValuesInput, eav_entityUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutValuesInput
+    upsert?: eav_entityUpsertWithoutValuesInput
+    connect?: eav_entityWhereUniqueInput
+    update?: XOR<XOR<eav_entityUpdateToOneWithWhereWithoutValuesInput, eav_entityUpdateWithoutValuesInput>, eav_entityUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type eav_attributeUpdateOneRequiredWithoutValuesNestedInput = {
+    create?: XOR<eav_attributeCreateWithoutValuesInput, eav_attributeUncheckedCreateWithoutValuesInput>
+    connectOrCreate?: eav_attributeCreateOrConnectWithoutValuesInput
+    upsert?: eav_attributeUpsertWithoutValuesInput
+    connect?: eav_attributeWhereUniqueInput
+    update?: XOR<XOR<eav_attributeUpdateToOneWithWhereWithoutValuesInput, eav_attributeUpdateWithoutValuesInput>, eav_attributeUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type eav_entityCreateNestedOneWithoutOutgoing_relationsInput = {
+    create?: XOR<eav_entityCreateWithoutOutgoing_relationsInput, eav_entityUncheckedCreateWithoutOutgoing_relationsInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutOutgoing_relationsInput
+    connect?: eav_entityWhereUniqueInput
+  }
+
+  export type eav_entityCreateNestedOneWithoutIncoming_relationsInput = {
+    create?: XOR<eav_entityCreateWithoutIncoming_relationsInput, eav_entityUncheckedCreateWithoutIncoming_relationsInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutIncoming_relationsInput
+    connect?: eav_entityWhereUniqueInput
+  }
+
+  export type eav_entityUpdateOneRequiredWithoutOutgoing_relationsNestedInput = {
+    create?: XOR<eav_entityCreateWithoutOutgoing_relationsInput, eav_entityUncheckedCreateWithoutOutgoing_relationsInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutOutgoing_relationsInput
+    upsert?: eav_entityUpsertWithoutOutgoing_relationsInput
+    connect?: eav_entityWhereUniqueInput
+    update?: XOR<XOR<eav_entityUpdateToOneWithWhereWithoutOutgoing_relationsInput, eav_entityUpdateWithoutOutgoing_relationsInput>, eav_entityUncheckedUpdateWithoutOutgoing_relationsInput>
+  }
+
+  export type eav_entityUpdateOneRequiredWithoutIncoming_relationsNestedInput = {
+    create?: XOR<eav_entityCreateWithoutIncoming_relationsInput, eav_entityUncheckedCreateWithoutIncoming_relationsInput>
+    connectOrCreate?: eav_entityCreateOrConnectWithoutIncoming_relationsInput
+    upsert?: eav_entityUpsertWithoutIncoming_relationsInput
+    connect?: eav_entityWhereUniqueInput
+    update?: XOR<XOR<eav_entityUpdateToOneWithWhereWithoutIncoming_relationsInput, eav_entityUpdateWithoutIncoming_relationsInput>, eav_entityUncheckedUpdateWithoutIncoming_relationsInput>
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {
@@ -191956,6 +197700,402 @@ export namespace Prisma {
     package_faqs?: package_faqsUncheckedUpdateManyWithoutFaqNestedInput
   }
 
+  export type eav_valueCreateWithoutEntityInput = {
+    value_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+    attribute: eav_attributeCreateNestedOneWithoutValuesInput
+  }
+
+  export type eav_valueUncheckedCreateWithoutEntityInput = {
+    value_id: string
+    attribute_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_valueCreateOrConnectWithoutEntityInput = {
+    where: eav_valueWhereUniqueInput
+    create: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput>
+  }
+
+  export type eav_valueCreateManyEntityInputEnvelope = {
+    data: eav_valueCreateManyEntityInput | eav_valueCreateManyEntityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type eav_relationCreateWithoutFrom_entityInput = {
+    relation_id: string
+    rel_type: string
+    ord?: number | null
+    to_entity: eav_entityCreateNestedOneWithoutIncoming_relationsInput
+  }
+
+  export type eav_relationUncheckedCreateWithoutFrom_entityInput = {
+    relation_id: string
+    rel_type: string
+    to_entity_id: string
+    ord?: number | null
+  }
+
+  export type eav_relationCreateOrConnectWithoutFrom_entityInput = {
+    where: eav_relationWhereUniqueInput
+    create: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput>
+  }
+
+  export type eav_relationCreateManyFrom_entityInputEnvelope = {
+    data: eav_relationCreateManyFrom_entityInput | eav_relationCreateManyFrom_entityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type eav_relationCreateWithoutTo_entityInput = {
+    relation_id: string
+    rel_type: string
+    ord?: number | null
+    from_entity: eav_entityCreateNestedOneWithoutOutgoing_relationsInput
+  }
+
+  export type eav_relationUncheckedCreateWithoutTo_entityInput = {
+    relation_id: string
+    from_entity_id: string
+    rel_type: string
+    ord?: number | null
+  }
+
+  export type eav_relationCreateOrConnectWithoutTo_entityInput = {
+    where: eav_relationWhereUniqueInput
+    create: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput>
+  }
+
+  export type eav_relationCreateManyTo_entityInputEnvelope = {
+    data: eav_relationCreateManyTo_entityInput | eav_relationCreateManyTo_entityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type eav_valueUpsertWithWhereUniqueWithoutEntityInput = {
+    where: eav_valueWhereUniqueInput
+    update: XOR<eav_valueUpdateWithoutEntityInput, eav_valueUncheckedUpdateWithoutEntityInput>
+    create: XOR<eav_valueCreateWithoutEntityInput, eav_valueUncheckedCreateWithoutEntityInput>
+  }
+
+  export type eav_valueUpdateWithWhereUniqueWithoutEntityInput = {
+    where: eav_valueWhereUniqueInput
+    data: XOR<eav_valueUpdateWithoutEntityInput, eav_valueUncheckedUpdateWithoutEntityInput>
+  }
+
+  export type eav_valueUpdateManyWithWhereWithoutEntityInput = {
+    where: eav_valueScalarWhereInput
+    data: XOR<eav_valueUpdateManyMutationInput, eav_valueUncheckedUpdateManyWithoutEntityInput>
+  }
+
+  export type eav_valueScalarWhereInput = {
+    AND?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+    OR?: eav_valueScalarWhereInput[]
+    NOT?: eav_valueScalarWhereInput | eav_valueScalarWhereInput[]
+    value_id?: UuidFilter<"eav_value"> | string
+    entity_id?: UuidFilter<"eav_value"> | string
+    attribute_id?: UuidFilter<"eav_value"> | string
+    value_string?: StringNullableFilter<"eav_value"> | string | null
+    value_text?: StringNullableFilter<"eav_value"> | string | null
+    value_url?: StringNullableFilter<"eav_value"> | string | null
+    value_json?: JsonNullableFilter<"eav_value">
+    value_boolean?: BoolNullableFilter<"eav_value"> | boolean | null
+    value_date?: DateTimeNullableFilter<"eav_value"> | Date | string | null
+    lang?: StringFilter<"eav_value"> | string
+    source_ref?: StringNullableFilter<"eav_value"> | string | null
+  }
+
+  export type eav_relationUpsertWithWhereUniqueWithoutFrom_entityInput = {
+    where: eav_relationWhereUniqueInput
+    update: XOR<eav_relationUpdateWithoutFrom_entityInput, eav_relationUncheckedUpdateWithoutFrom_entityInput>
+    create: XOR<eav_relationCreateWithoutFrom_entityInput, eav_relationUncheckedCreateWithoutFrom_entityInput>
+  }
+
+  export type eav_relationUpdateWithWhereUniqueWithoutFrom_entityInput = {
+    where: eav_relationWhereUniqueInput
+    data: XOR<eav_relationUpdateWithoutFrom_entityInput, eav_relationUncheckedUpdateWithoutFrom_entityInput>
+  }
+
+  export type eav_relationUpdateManyWithWhereWithoutFrom_entityInput = {
+    where: eav_relationScalarWhereInput
+    data: XOR<eav_relationUpdateManyMutationInput, eav_relationUncheckedUpdateManyWithoutFrom_entityInput>
+  }
+
+  export type eav_relationScalarWhereInput = {
+    AND?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+    OR?: eav_relationScalarWhereInput[]
+    NOT?: eav_relationScalarWhereInput | eav_relationScalarWhereInput[]
+    relation_id?: UuidFilter<"eav_relation"> | string
+    from_entity_id?: UuidFilter<"eav_relation"> | string
+    rel_type?: StringFilter<"eav_relation"> | string
+    to_entity_id?: UuidFilter<"eav_relation"> | string
+    ord?: IntNullableFilter<"eav_relation"> | number | null
+  }
+
+  export type eav_relationUpsertWithWhereUniqueWithoutTo_entityInput = {
+    where: eav_relationWhereUniqueInput
+    update: XOR<eav_relationUpdateWithoutTo_entityInput, eav_relationUncheckedUpdateWithoutTo_entityInput>
+    create: XOR<eav_relationCreateWithoutTo_entityInput, eav_relationUncheckedCreateWithoutTo_entityInput>
+  }
+
+  export type eav_relationUpdateWithWhereUniqueWithoutTo_entityInput = {
+    where: eav_relationWhereUniqueInput
+    data: XOR<eav_relationUpdateWithoutTo_entityInput, eav_relationUncheckedUpdateWithoutTo_entityInput>
+  }
+
+  export type eav_relationUpdateManyWithWhereWithoutTo_entityInput = {
+    where: eav_relationScalarWhereInput
+    data: XOR<eav_relationUpdateManyMutationInput, eav_relationUncheckedUpdateManyWithoutTo_entityInput>
+  }
+
+  export type eav_valueCreateWithoutAttributeInput = {
+    value_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+    entity: eav_entityCreateNestedOneWithoutValuesInput
+  }
+
+  export type eav_valueUncheckedCreateWithoutAttributeInput = {
+    value_id: string
+    entity_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_valueCreateOrConnectWithoutAttributeInput = {
+    where: eav_valueWhereUniqueInput
+    create: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput>
+  }
+
+  export type eav_valueCreateManyAttributeInputEnvelope = {
+    data: eav_valueCreateManyAttributeInput | eav_valueCreateManyAttributeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type eav_valueUpsertWithWhereUniqueWithoutAttributeInput = {
+    where: eav_valueWhereUniqueInput
+    update: XOR<eav_valueUpdateWithoutAttributeInput, eav_valueUncheckedUpdateWithoutAttributeInput>
+    create: XOR<eav_valueCreateWithoutAttributeInput, eav_valueUncheckedCreateWithoutAttributeInput>
+  }
+
+  export type eav_valueUpdateWithWhereUniqueWithoutAttributeInput = {
+    where: eav_valueWhereUniqueInput
+    data: XOR<eav_valueUpdateWithoutAttributeInput, eav_valueUncheckedUpdateWithoutAttributeInput>
+  }
+
+  export type eav_valueUpdateManyWithWhereWithoutAttributeInput = {
+    where: eav_valueScalarWhereInput
+    data: XOR<eav_valueUpdateManyMutationInput, eav_valueUncheckedUpdateManyWithoutAttributeInput>
+  }
+
+  export type eav_entityCreateWithoutValuesInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    outgoing_relations?: eav_relationCreateNestedManyWithoutFrom_entityInput
+    incoming_relations?: eav_relationCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityUncheckedCreateWithoutValuesInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    outgoing_relations?: eav_relationUncheckedCreateNestedManyWithoutFrom_entityInput
+    incoming_relations?: eav_relationUncheckedCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityCreateOrConnectWithoutValuesInput = {
+    where: eav_entityWhereUniqueInput
+    create: XOR<eav_entityCreateWithoutValuesInput, eav_entityUncheckedCreateWithoutValuesInput>
+  }
+
+  export type eav_attributeCreateWithoutValuesInput = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+  }
+
+  export type eav_attributeUncheckedCreateWithoutValuesInput = {
+    attribute_id: string
+    attribute_key: string
+    value_type: string
+  }
+
+  export type eav_attributeCreateOrConnectWithoutValuesInput = {
+    where: eav_attributeWhereUniqueInput
+    create: XOR<eav_attributeCreateWithoutValuesInput, eav_attributeUncheckedCreateWithoutValuesInput>
+  }
+
+  export type eav_entityUpsertWithoutValuesInput = {
+    update: XOR<eav_entityUpdateWithoutValuesInput, eav_entityUncheckedUpdateWithoutValuesInput>
+    create: XOR<eav_entityCreateWithoutValuesInput, eav_entityUncheckedCreateWithoutValuesInput>
+    where?: eav_entityWhereInput
+  }
+
+  export type eav_entityUpdateToOneWithWhereWithoutValuesInput = {
+    where?: eav_entityWhereInput
+    data: XOR<eav_entityUpdateWithoutValuesInput, eav_entityUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type eav_entityUpdateWithoutValuesInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    outgoing_relations?: eav_relationUpdateManyWithoutFrom_entityNestedInput
+    incoming_relations?: eav_relationUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_entityUncheckedUpdateWithoutValuesInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    outgoing_relations?: eav_relationUncheckedUpdateManyWithoutFrom_entityNestedInput
+    incoming_relations?: eav_relationUncheckedUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_attributeUpsertWithoutValuesInput = {
+    update: XOR<eav_attributeUpdateWithoutValuesInput, eav_attributeUncheckedUpdateWithoutValuesInput>
+    create: XOR<eav_attributeCreateWithoutValuesInput, eav_attributeUncheckedCreateWithoutValuesInput>
+    where?: eav_attributeWhereInput
+  }
+
+  export type eav_attributeUpdateToOneWithWhereWithoutValuesInput = {
+    where?: eav_attributeWhereInput
+    data: XOR<eav_attributeUpdateWithoutValuesInput, eav_attributeUncheckedUpdateWithoutValuesInput>
+  }
+
+  export type eav_attributeUpdateWithoutValuesInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_attributeUncheckedUpdateWithoutValuesInput = {
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    attribute_key?: StringFieldUpdateOperationsInput | string
+    value_type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type eav_entityCreateWithoutOutgoing_relationsInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueCreateNestedManyWithoutEntityInput
+    incoming_relations?: eav_relationCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityUncheckedCreateWithoutOutgoing_relationsInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueUncheckedCreateNestedManyWithoutEntityInput
+    incoming_relations?: eav_relationUncheckedCreateNestedManyWithoutTo_entityInput
+  }
+
+  export type eav_entityCreateOrConnectWithoutOutgoing_relationsInput = {
+    where: eav_entityWhereUniqueInput
+    create: XOR<eav_entityCreateWithoutOutgoing_relationsInput, eav_entityUncheckedCreateWithoutOutgoing_relationsInput>
+  }
+
+  export type eav_entityCreateWithoutIncoming_relationsInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueCreateNestedManyWithoutEntityInput
+    outgoing_relations?: eav_relationCreateNestedManyWithoutFrom_entityInput
+  }
+
+  export type eav_entityUncheckedCreateWithoutIncoming_relationsInput = {
+    entity_id: string
+    entity_type: string
+    entity_key: string
+    values?: eav_valueUncheckedCreateNestedManyWithoutEntityInput
+    outgoing_relations?: eav_relationUncheckedCreateNestedManyWithoutFrom_entityInput
+  }
+
+  export type eav_entityCreateOrConnectWithoutIncoming_relationsInput = {
+    where: eav_entityWhereUniqueInput
+    create: XOR<eav_entityCreateWithoutIncoming_relationsInput, eav_entityUncheckedCreateWithoutIncoming_relationsInput>
+  }
+
+  export type eav_entityUpsertWithoutOutgoing_relationsInput = {
+    update: XOR<eav_entityUpdateWithoutOutgoing_relationsInput, eav_entityUncheckedUpdateWithoutOutgoing_relationsInput>
+    create: XOR<eav_entityCreateWithoutOutgoing_relationsInput, eav_entityUncheckedCreateWithoutOutgoing_relationsInput>
+    where?: eav_entityWhereInput
+  }
+
+  export type eav_entityUpdateToOneWithWhereWithoutOutgoing_relationsInput = {
+    where?: eav_entityWhereInput
+    data: XOR<eav_entityUpdateWithoutOutgoing_relationsInput, eav_entityUncheckedUpdateWithoutOutgoing_relationsInput>
+  }
+
+  export type eav_entityUpdateWithoutOutgoing_relationsInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUpdateManyWithoutEntityNestedInput
+    incoming_relations?: eav_relationUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_entityUncheckedUpdateWithoutOutgoing_relationsInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUncheckedUpdateManyWithoutEntityNestedInput
+    incoming_relations?: eav_relationUncheckedUpdateManyWithoutTo_entityNestedInput
+  }
+
+  export type eav_entityUpsertWithoutIncoming_relationsInput = {
+    update: XOR<eav_entityUpdateWithoutIncoming_relationsInput, eav_entityUncheckedUpdateWithoutIncoming_relationsInput>
+    create: XOR<eav_entityCreateWithoutIncoming_relationsInput, eav_entityUncheckedCreateWithoutIncoming_relationsInput>
+    where?: eav_entityWhereInput
+  }
+
+  export type eav_entityUpdateToOneWithWhereWithoutIncoming_relationsInput = {
+    where?: eav_entityWhereInput
+    data: XOR<eav_entityUpdateWithoutIncoming_relationsInput, eav_entityUncheckedUpdateWithoutIncoming_relationsInput>
+  }
+
+  export type eav_entityUpdateWithoutIncoming_relationsInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUpdateManyWithoutEntityNestedInput
+    outgoing_relations?: eav_relationUpdateManyWithoutFrom_entityNestedInput
+  }
+
+  export type eav_entityUncheckedUpdateWithoutIncoming_relationsInput = {
+    entity_id?: StringFieldUpdateOperationsInput | string
+    entity_type?: StringFieldUpdateOperationsInput | string
+    entity_key?: StringFieldUpdateOperationsInput | string
+    values?: eav_valueUncheckedUpdateManyWithoutEntityNestedInput
+    outgoing_relations?: eav_relationUncheckedUpdateManyWithoutFrom_entityNestedInput
+  }
+
   export type package_itinerary_day_detailsCreateManyActivitiesInput = {
     id?: bigint | number
     itinerary_day_id?: bigint | number | null
@@ -199194,6 +205334,166 @@ export namespace Prisma {
     is_primary?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type eav_valueCreateManyEntityInput = {
+    value_id: string
+    attribute_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_relationCreateManyFrom_entityInput = {
+    relation_id: string
+    rel_type: string
+    to_entity_id: string
+    ord?: number | null
+  }
+
+  export type eav_relationCreateManyTo_entityInput = {
+    relation_id: string
+    from_entity_id: string
+    rel_type: string
+    ord?: number | null
+  }
+
+  export type eav_valueUpdateWithoutEntityInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    attribute?: eav_attributeUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type eav_valueUncheckedUpdateWithoutEntityInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_valueUncheckedUpdateManyWithoutEntityInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    attribute_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_relationUpdateWithoutFrom_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+    to_entity?: eav_entityUpdateOneRequiredWithoutIncoming_relationsNestedInput
+  }
+
+  export type eav_relationUncheckedUpdateWithoutFrom_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    to_entity_id?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_relationUncheckedUpdateManyWithoutFrom_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    to_entity_id?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_relationUpdateWithoutTo_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+    from_entity?: eav_entityUpdateOneRequiredWithoutOutgoing_relationsNestedInput
+  }
+
+  export type eav_relationUncheckedUpdateWithoutTo_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    from_entity_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_relationUncheckedUpdateManyWithoutTo_entityInput = {
+    relation_id?: StringFieldUpdateOperationsInput | string
+    from_entity_id?: StringFieldUpdateOperationsInput | string
+    rel_type?: StringFieldUpdateOperationsInput | string
+    ord?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type eav_valueCreateManyAttributeInput = {
+    value_id: string
+    entity_id: string
+    value_string?: string | null
+    value_text?: string | null
+    value_url?: string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: boolean | null
+    value_date?: Date | string | null
+    lang: string
+    source_ref?: string | null
+  }
+
+  export type eav_valueUpdateWithoutAttributeInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    entity?: eav_entityUpdateOneRequiredWithoutValuesNestedInput
+  }
+
+  export type eav_valueUncheckedUpdateWithoutAttributeInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    entity_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type eav_valueUncheckedUpdateManyWithoutAttributeInput = {
+    value_id?: StringFieldUpdateOperationsInput | string
+    entity_id?: StringFieldUpdateOperationsInput | string
+    value_string?: NullableStringFieldUpdateOperationsInput | string | null
+    value_text?: NullableStringFieldUpdateOperationsInput | string | null
+    value_url?: NullableStringFieldUpdateOperationsInput | string | null
+    value_json?: NullableJsonNullValueInput | InputJsonValue
+    value_boolean?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    value_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lang?: StringFieldUpdateOperationsInput | string
+    source_ref?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
