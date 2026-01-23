@@ -9,6 +9,24 @@ const TrustpilotWidget = () => {
 
   const reviews = [
     {
+      name: "Evan",
+      date: "2026-01-22",
+      url: "https://www.trustpilot.com/reviews/6970d23d258b40bcc409827e",
+      stars: 5,
+      title: "Ahboy was an amazing guide",
+      text: "Ahboy was an amazing guide- knowledgeable, caring and fun. Wr're so glad he showed us ljen.",
+      verified: true,
+    },
+    {
+      name: "Patarachai Sereerat",
+      date: "2026-01-18",
+      url: "https://www.trustpilot.com/reviews/696ccc50a8dcb95a58473ac5",
+      stars: 5,
+      title: "Amazing trip",
+      text: "Had an amazing trip visiting Bromo, Ijen Crater, and Tumpak Sewu Waterfall! Everything was well organized and the price was really good. The staff were super kind and helpful — special thanks to Yandi (our driver who’s been staying with us the whole trip) and Boy (our guide to Ijen crater). They were so friendly and shared lots of useful info. Even though we had to wake up in the middle of the night, it was totally worth it! Highly recommended",
+      verified: true,
+    },
+    {
       name: "Jiang Tianjian",
       date: "2026-01-04",
       url: "https://www.trustpilot.com/reviews/695a253c9aedd5ee816d03ff",
@@ -542,7 +560,7 @@ const TrustpilotWidget = () => {
               <span className="block text-[13px] leading-4 mb-4 font-light">
                 Based on{" "}
                 <strong className="border-b border-[rgba(25,25,25,0.6)] font-medium hover:border-transparent">
-                  34 reviews
+                  36 reviews
                 </strong>
               </span>
 
