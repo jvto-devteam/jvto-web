@@ -531,17 +531,6 @@ const TrustpilotWidget = () => {
   };
 
   return (
-    <div className="bg-jvto-green/5 pt-20 pb-20">
-      <div className="w-full container mx-auto ">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-black text-center uppercase mb-3 text-jvto-dark">
-            What Our Guests Say
-          </h2>
-          <p className="text-lg text-center">
-            Real experiences from travelers who trusted us with their East Java
-            adventure.
-          </p>
-        </div>
         <div className="mt-10 min-h-[150px] min-w-[300px] relative font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-xs text-[#191919]">
           {/* Left Section */}
           <div className="text-center sm:float-left sm:w-[200px] z-[100]">
@@ -623,8 +612,6 @@ const TrustpilotWidget = () => {
           </div>
           <div className="clear-both"></div>
         </div>
-      </div>
-    </div>
   );
 };
 
