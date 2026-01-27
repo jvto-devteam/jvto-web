@@ -302,7 +302,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
   const BLOCKED_RANGES = [
     { start: "2026-03-16", end: "2026-03-20" },
-    { start: "2026-04-05", end: "2026-04-12" },
+    { start: "2026-04-05", end: "2026-04-11" },
     { start: "2026-05-30", end: "2026-06-02" },
   ];
 
