@@ -1584,7 +1584,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\xampp\\htdocs\\jvto-web\\src\\generated\\prisma",
+      "value": "/Users/macbook/Code/jvto-web/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -1593,12 +1593,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\xampp\\htdocs\\jvto-web\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/macbook/Code/jvto-web/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

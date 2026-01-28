@@ -209,7 +209,22 @@ const Home = async () => {
       <WhyJVTO />
 
       {/* <Testimonials /> */}
-      <Reviews />
+      <div className="bg-jvto-green/5 pt-20 pb-20">
+        <div className="w-full container mx-auto ">
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-black text-center uppercase mb-3 text-jvto-dark">
+              What Our Guests Say
+            </h2>
+            <p className="text-lg text-center">
+              Real experiences from travelers who trusted us with their East
+              Java adventure.
+            </p>
+          </div>
+
+          <Reviews />
+        </div>
+      </div>
+
       <IjenHealthScreeningSection />
       {/* <Destinations /> */}
       <IsicSection />

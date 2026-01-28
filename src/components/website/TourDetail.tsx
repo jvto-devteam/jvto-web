@@ -8,6 +8,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
 import Image from "next/image";
+import Reviews from "@/components/website/Home/Reviews";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -200,7 +201,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   const [heroImage, setHeroImage] = useState(pkg.imageUrl || pkg.gallery[0]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isInclusionsExpanded, setIsInclusionsExpanded] = useState(false); // <--- STATE KHUSUS INI
-
+  const [showTravelersPicker, setShowTravelersPicker] = useState(false);
   const [isItineraryModalOpen, setIsItineraryModalOpen] = useState(false);
   const [modalOpenDay, setModalOpenDay] = useState<number>(1); // Tab aktif di dalam modal
 
@@ -212,7 +213,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   const [openDay, setOpenDay] = useState<number | null>(1);
   const [startDate, setStartDate] = useState("");
   const [pax, setPax] = useState<number | string>(
-    pkg.channelMetadata.minPaxOperational
+    pkg.channelMetadata.minPaxOperational,
   );
   const [searchTerm, setSearchTerm] = useState(""); // State untuk pencarian
   const isTransportItem = (type: string | null | undefined) =>
@@ -227,7 +228,7 @@ export default function PackageDetailPage({ initialData }: Props) {
         setPhotoIndex((prev) => (prev + 1) % pkg.gallery.length);
       if (e.key === "ArrowLeft")
         setPhotoIndex(
-          (prev) => (prev - 1 + pkg.gallery.length) % pkg.gallery.length
+          (prev) => (prev - 1 + pkg.gallery.length) % pkg.gallery.length,
         );
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -242,13 +243,13 @@ export default function PackageDetailPage({ initialData }: Props) {
 
   const pricePerPerson = useMemo(
     () => getPriceForPax(Number(pax), pkg.offers.tiers),
-    [pax, pkg.offers.tiers]
+    [pax, pkg.offers.tiers],
   );
   const total = pricePerPerson ? pricePerPerson * Number(pax) : 0;
   // --- ADD-ON LOGIC ---
   const [showAddOnModal, setShowAddOnModal] = useState(false);
   const [pendingBasePayload, setPendingBasePayload] = useState<any | null>(
-    null
+    null,
   );
   const [addOnSelections, setAddOnSelections] = useState(
     pkg.addOns?.map((a: any) => ({
@@ -259,7 +260,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       type: a.type,
       transportType: a.transportType,
       transportDestination: a.transportDestination,
-    })) ?? []
+    })) ?? [],
   );
 
   const todayISO = useMemo(() => new Date().toISOString().split("T")[0], []);
@@ -274,7 +275,7 @@ export default function PackageDetailPage({ initialData }: Props) {
       price: number;
       subtotal: number;
       type?: string | null;
-    }[]
+    }[],
   ) => {
     const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
     const grandTotal = basePayload.packageTotal + addOnTotal;
@@ -301,7 +302,7 @@ export default function PackageDetailPage({ initialData }: Props) {
   // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
   const BLOCKED_RANGES = [
     { start: "2026-03-16", end: "2026-03-20" },
-    { start: "2026-04-05", end: "2026-04-12" },
+    { start: "2026-04-05", end: "2026-04-11" },
     { start: "2026-05-30", end: "2026-06-02" },
   ];
 
@@ -332,7 +333,7 @@ export default function PackageDetailPage({ initialData }: Props) {
     }
     if (isDateBlocked(startDate)) {
       alert(
-        "Sorry, registration for the selected date is fully booked or closed. Please choose another date."
+        "Sorry, registration for the selected date is fully booked or closed. Please choose another date.",
       );
       return;
     }
@@ -439,7 +440,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                   <div
                     className={`w-2 h-2 rounded-full ${
                       ["moderate", "hard"].includes(
-                        pkg.physicalDifficulty.toLowerCase()
+                        pkg.physicalDifficulty.toLowerCase(),
                       )
                         ? "bg-lime-400"
                         : "bg-slate-600"
@@ -564,7 +565,7 @@ export default function PackageDetailPage({ initialData }: Props) {
             onClick={(e) => {
               e.stopPropagation();
               setPhotoIndex(
-                (prev) => (prev - 1 + pkg.gallery.length) % pkg.gallery.length
+                (prev) => (prev - 1 + pkg.gallery.length) % pkg.gallery.length,
               );
             }}
             className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all z-50"
@@ -694,7 +695,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                             {point}
                           </span>
                         </li>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>
@@ -840,7 +841,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                                     </span>
                                     <span>{status as string}</span>
                                   </div>
-                                )
+                                ),
                               )}
                             </div>
                           </div>
@@ -1001,7 +1002,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                                           {status as string}
                                         </span>
                                       </div>
-                                    )
+                                    ),
                                   )}
                                 </div>
                               </div>
@@ -1160,13 +1161,13 @@ export default function PackageDetailPage({ initialData }: Props) {
                                     >
                                       {feat}
                                     </span>
-                                  )
+                                  ),
                                 )}
                               </div>
                             </div>
                           </div>
                         </SwiperSlide>
-                      )
+                      ),
                     )}
 
                     {/* Jeep Special Card (Added as the last slide) */}
@@ -1366,20 +1367,18 @@ export default function PackageDetailPage({ initialData }: Props) {
             </div>
             {pkg.route.includes("Ijen Crater") && <TourRequirements />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
-            <div className="py-12 border-t border-slate-200 mt-12">
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+            <div className="md:py-12 border-t border-slate-200 mt-12">
+              <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
                 <span className="w-8 h-1 bg-lime-500 block"></span>
                 Why Travel With Us?
               </h2>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                {/* LEFT COLUMN: PART 1 - GUEST REVIEWS (SWIPER) */}
+              <Reviews />
+              {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                 <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm flex flex-col">
                   <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
                     Guest Reviews
                   </h3>
 
-                  {/* Rating Big Display */}
                   <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                     <span className="text-6xl font-black text-slate-900 tracking-tighter">
                       4.9
@@ -1406,7 +1405,6 @@ export default function PackageDetailPage({ initialData }: Props) {
                     </div>
                   </div>
 
-                  {/* SWIPER TESTIMONIALS */}
                   <div className="w-full">
                     <Swiper
                       modules={[Pagination, Autoplay]}
@@ -1414,7 +1412,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                       slidesPerView={1}
                       pagination={{ clickable: true, dynamicBullets: true }}
                       autoplay={{ delay: 5000, disableOnInteraction: false }}
-                      className="pb-10" // Padding bawah untuk dots pagination
+                      className="pb-10"
                     >
                       {[
                         {
@@ -1484,7 +1482,6 @@ export default function PackageDetailPage({ initialData }: Props) {
                   </div>
                 </div>
 
-                {/* RIGHT COLUMN: PART 2 & 3 */}
                 <div className="flex flex-col gap-8">
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
@@ -1538,7 +1535,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -1546,7 +1543,7 @@ export default function PackageDetailPage({ initialData }: Props) {
           <div className="lg:col-span-1 relative">
             <div
               id="booking-card"
-              className="sticky top-32 h-fit z-10 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl"
+              className="sticky top-32 h-fit z-10 overflow-auto rounded-xl border border-slate-200 bg-white shadow-xl"
             >
               <div className="bg-slate-900 p-6 text-white">
                 <p className="text-xs font-bold uppercase tracking-widest text-lime-400">
@@ -1592,46 +1589,145 @@ export default function PackageDetailPage({ initialData }: Props) {
                       required
                     />
                   </div>
-                  <div>
-                    <label
-                      htmlFor="pax"
-                      className="block text-xs font-bold uppercase text-slate-900 mb-1"
-                    >
-                      Travelers{" "}
-                      <span className="text-slate-400 font-normal capitalize">
-                        (Min {pkg.channelMetadata.minPaxOperational})
-                      </span>
+                  {/* UBAH BAGIAN INPUT TRAVELERS - FIX Z-INDEX */}
+                  <div className="relative z-50">
+                    <label className="block text-xs font-bold uppercase text-slate-900 mb-2">
+                      Travelers
                     </label>
-                    <input
-                      id="pax"
-                      type="number"
-                      min={pkg.channelMetadata.minPaxOperational}
-                      max={pkg.channelMetadata.maxPaxRecommended}
-                      value={pax}
-                      // UBAH 4: onChange hanya update value, jangan divalidasi dulu
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        // Izinkan string kosong agar bisa dihapus
-                        if (val === "") {
-                          setPax("");
-                        } else {
-                          setPax(Number(val));
-                        }
-                      }}
-                      // UBAH 5: Validasi minPax dilakukan saat onBlur (user klik keluar/selesai ngetik)
-                      onBlur={() => {
-                        const currentVal = Number(pax);
-                        if (
-                          currentVal < pkg.channelMetadata.minPaxOperational
-                        ) {
-                          setPax(pkg.channelMetadata.minPaxOperational);
-                        }
-                      }}
-                      className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-lime-500 focus:outline-none focus:ring-2 focus:ring-lime-200"
-                      required
-                    />
-                  </div>
 
+                    {/* Trigger Button */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowTravelersPicker(!showTravelersPicker)
+                      }
+                      className="w-full rounded-lg border-2 border-slate-200 bg-white px-3 py-2.5 text-left flex items-center justify-between hover:border-slate-300 transition-all relative z-10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Users size={16} className="text-slate-400" />
+                        <div>
+                          <span className="text-sm font-bold text-slate-900">
+                            {pax} Travelers
+                          </span>
+                        </div>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`text-slate-400 transition-transform ${showTravelersPicker ? "rotate-180" : ""}`}
+                      />
+                    </button>
+
+                    {/* Dropdown Panel - FIX POSITIONING */}
+                    {showTravelersPicker && (
+                      <>
+                        {/* Backdrop - Optional */}
+                        <div
+                          className="fixed inset-0 z-40"
+                          onClick={() => setShowTravelersPicker(false)}
+                        />
+
+                        <div className="absolute left-0 right-0 mt-2 rounded-lg border-2 border-slate-200 bg-white shadow-xl p-2 space-y-2 z-50">
+                          {pkg.offers.tiers.map((tier, idx) => {
+                            const isInRange =
+                              Number(pax) >= tier.paxMin &&
+                              (tier.paxMax === 0 || Number(pax) <= tier.paxMax);
+                            const tierPax = isInRange ? Number(pax) : 0;
+
+                            return (
+                              <div
+                                key={idx}
+                                className={`rounded-lg p-3 transition-all ${
+                                  isInRange
+                                    ? "bg-lime-50 border-2 border-lime-400"
+                                    : "bg-slate-50 border-2 border-slate-100"
+                                }`}
+                              >
+                                {/* Header */}
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <h4 className="text-xs text-slate-900">
+                                      {tier.paxMin}
+                                      {tier.paxMax === 0
+                                        ? "+"
+                                        : `-${tier.paxMax}`}{" "}
+                                      Travelers
+                                    </h4>
+                                  </div>
+                                </div>
+
+                                {/* Price & Counter */}
+                                <div className="flex items-center justify-between">
+                                  <div className="text-sm font-bold text-slate-900">
+                                    {formatCurrency(tier.pricePerPerson)}
+                                  </div>
+
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newVal = tierPax - 1;
+                                        if (newVal >= tier.paxMin) {
+                                          setPax(newVal);
+                                        } else if (tierPax > 0) {
+                                          setPax(
+                                            pkg.channelMetadata
+                                              .minPaxOperational,
+                                          );
+                                        }
+                                      }}
+                                      disabled={tierPax === 0}
+                                      className="w-6 h-6 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                    >
+                                      −
+                                    </button>
+
+                                    <div className="w-12 text-center font-bold text-slate-900">
+                                      {tierPax}
+                                    </div>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newVal =
+                                          tierPax === 0
+                                            ? tier.paxMin
+                                            : tierPax + 1;
+                                        const maxLimit =
+                                          tier.paxMax === 0
+                                            ? pkg.channelMetadata
+                                                .maxPaxRecommended
+                                            : tier.paxMax;
+                                        if (
+                                          newVal <= maxLimit &&
+                                          newVal <=
+                                            pkg.channelMetadata
+                                              .maxPaxRecommended
+                                        ) {
+                                          setPax(newVal);
+                                        }
+                                      }}
+                                      className="w-6 h-6 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {/* Done Button */}
+                          <button
+                            type="button"
+                            onClick={() => setShowTravelersPicker(false)}
+                            className="w-full bg-lime-500 hover:bg-lime-600 text-slate-900 font-bold text-sm uppercase py-2 rounded-lg transition-all mt-2"
+                          >
+                            Done
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <div className="bg-slate-50 p-4 rounded-lg text-sm space-y-2 border border-slate-100">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Price per person:</span>
@@ -1756,7 +1852,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                 // 3. Map items yang sudah difilter
                 return filteredItems.map((item) => {
                   const originalIndex = addOnSelections.findIndex(
-                    (a) => a.addOnId === item.addOnId
+                    (a) => a.addOnId === item.addOnId,
                   );
 
                   // Logika Pemilihan Gambar Transport
@@ -1819,8 +1915,8 @@ export default function PackageDetailPage({ initialData }: Props) {
                               prev.map((p, i) =>
                                 i === originalIndex
                                   ? { ...p, selected: checked }
-                                  : p
-                              )
+                                  : p,
+                              ),
                             );
                           }}
                           className="peer sr-only"
@@ -1849,7 +1945,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                       if (!a.selected) return sum;
                       const qty = a.type === "transport" ? 1 : Number(pax);
                       return sum + qty * a.price;
-                    }, 0)
+                    }, 0),
                   )}
                 </span>
               </div>
