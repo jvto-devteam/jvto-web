@@ -76,44 +76,6 @@
               "link": "/why-jvto/partners-verification/"
             }
           ]
-        },
-        {
-          "title": "How to verify us in 60 seconds",
-          "paragraphs": [
-            "Open our Proof Library. Check the legal documents first, then the safety and history artifacts."
-          ],
-          "bullets": [
-            "Start here: /why-jvto/proof-transparency/",
-            "If you prefer a quick checklist: /why-jvto/proof-transparency/#how-proof-works"
-          ]
-        },
-        {
-          "title": "Quick answers (with the right link)",
-          "paragraphs": [
-            "Short answers here. Full details live on the owner page or policy page."
-          ],
-          "qa": [
-            {
-              "q": "Do you mix strangers into one car?",
-              "a": "No. JVTO runs private tours only. Details: /travel-guide/booking-information"
-            },
-            {
-              "q": "What if weather or closures change the plan?",
-              "a": "We adapt early and communicate clearly. Safety approach: /why-jvto/safety-leadership/ • Practical rules: /travel-guide"
-            },
-            {
-              "q": "Where can I verify legality and proof?",
-              "a": "Proof Library: /why-jvto/proof-transparency/"
-            },
-            {
-              "q": "Where are your booking/payment terms?",
-              "a": "Booking & payment policy: /policy/booking-payment-cancellation/"
-            },
-            {
-              "q": "How do you handle personal data?",
-              "a": "Privacy policy: /policy/privacy"
-            }
-          ]
         }
       ]
     },
