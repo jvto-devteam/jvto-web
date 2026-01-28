@@ -1,284 +1,231 @@
-import Link from "next/link";
-import { Check } from "lucide-react";
-import Button from "@/components/website/UI/Button";
-import { type Metadata } from "next";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import {
+  ButtonLink,
+  Container,
+  Divider,
+  Grid,
+  Grid3,
+  H1,
+  Lead,
+  Card,
+  Section,
+  Notice,
+} from "@/components/ui";
+import {
+  buildBreadcrumbJsonLd,
+  buildOrganizationJsonLd,
+  buildWebPageJsonLd,
+} from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title:
-    "The JVTO Difference – Tourist Police-Led, Private & Transparent Tours",
+  title: "The JVTO Difference — Three Pillars of Unrivaled Trust",
   description:
-    "The standards behind JVTO: tourist police-led safety culture, registered Indonesian travel company, private all-inclusive tours, real Ijen health screening, local guides and student fairness.",
-  openGraph: {
-    title: "The JVTO Difference – Tourist Police-Led, Private & Transparent Tours",
-    description:
-      "The standards behind JVTO: tourist police-led safety culture, registered Indonesian travel company, private all-inclusive tours, real Ijen health screening, local guides and student fairness.",
-    url: `${siteUrl}/why-jvto/the-jvto-difference`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: siteUrl + "/assets/img/og/the-jvto-difference.webp",
-        width: 1200,
-        height: 630,
-        alt: "The JVTO Difference",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "The JVTO Difference – Tourist Police-Led, Private & Transparent Tours",
-    description:
-      "The standards behind JVTO: tourist police-led safety culture, registered Indonesian travel company, private all-inclusive tours, real Ijen health screening, local guides and student fairness.",
-    images: [siteUrl + "/assets/img/og/the-jvto-difference.webp"],
-  },
+    "Consolidated narrative: protection & legitimacy, no hidden fees, and local DMC execution. Includes safety gear, transport configs, accommodation rules, and Ijen health certificate service details.",
 };
 
-export default function JvtoDifferencePage() {
+export default function DifferencePage() {
+  const pathname = "/why-jvto/the-jvto-difference";
+
+  const jsonLd = [
+    buildOrganizationJsonLd(),
+    buildWebPageJsonLd({
+      pathname,
+      title: metadata.title as string,
+      description: metadata.description as string,
+    }),
+    buildBreadcrumbJsonLd({
+      pathname,
+      items: [
+        { name: "Home", path: "/" },
+        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "The JVTO Difference", path: "/why-jvto/the-jvto-difference" },
+      ],
+    }),
+  ];
+
+  // Extracted from: the-jvto-difference.docx.pdf (kept as-is in meaning/data)
   const pillars = [
     {
-      number: "01",
-      title: "Tourist Police-Led Safety Culture",
-      description:
-        "JVTO is founded and led by an active tourist police officer in East Java. This influences our work in concrete ways:",
-      points: [
-        "Routes and timings are chosen considering real safety, traffic and local rules, not just social media trends.",
-        "We stay aligned with official information about road conditions, volcanic activity and local regulations.",
-        "For suitable large groups, we help coordinate official traffic police escort for specific segments, requested through proper channels and confirmed in writing.",
-      ],
-      links: [
-        {
-          text: "Police escort for groups",
-          href: "/travel-guide/police-escort-for-groups",
-        },
-        { text: "Safety on tours", href: "/travel-guide/safety-on-tours" },
-        {
-          text: "Weather and closures",
-          href: "/travel-guide/weather-and-closures",
-        },
+      title: "Pillar 1 — Total Protection & Official Legitimacy",
+      bullets: [
+        "JVTO is a legally established PT (Limited Company) and holds an official Tourism Business Registration License (TDUP) from the Government of the Republic of Indonesia. This verifies compliance, stability, and accountability.",
+        "JVTO maintains a brick-and-mortar office in East Java. The physical office serves as an operational hub and a place where clients can visit to discuss travel plans, ask questions, or resolve issues in person.",
+        "VVIP Police Escort (premium upgrade): an exclusive upgrade available only to existing volcano tour customers. Benefits include unquestionable security, priority access (optimized routes), and emergency response capability. Named security officers include SONNY and ROCKY.",
+        "Complimentary Police Escort (large groups): provided at no additional cost for large groups; generally offered for groups of 20 passengers and above to improve traffic flow and logistics.",
       ],
     },
     {
-      number: "02",
-      title: "Registered & Verifiable Travel Company",
-      description:
-        "JVTO operates as a registered Indonesian travel company based in Bondowoso. You can verify:",
-      points: [
-        "Business registration and tourism licence documents.",
-        "Our office address on Jl. Khairil Anwar No.102 A, Bondowoso.",
-        "Membership and approvals from relevant tourism bodies.",
-        "Selected police and tourism assignment letters related to our operations.",
-      ],
-      links: [{ text: "Verify all documents", href: "/verify-jvto" }],
-      note: "If you are comparing operators, we encourage you to ask everyone for this level of proof.",
-    },
-    {
-      number: "03",
-      title: "Private Tours Only, All-Inclusive by Design",
-      description:
-        "All JVTO itineraries are private only. We design programs to be all-inclusive and transparent, with typical inclusions such as:",
-      points: [
-        "Private vehicle and driver.",
-        "Private 4WD jeep at Bromo where required.",
-        "Listed park entrance tickets and permits.",
-        "Ijen health screening for Ijen tours.",
-        "Hotel breakfasts and selected main meals written in each itinerary.",
-        "Bottled water, essential gear for Ijen, and a JVTO travel t-shirt.",
-      ],
-      links: [
-        {
-          text: "What's included and excluded",
-          href: "/policy/inclusions-exclusions",
-        },
-      ],
-      note: "Anything not included (for example travel insurance or personal expenses) is clearly stated.",
-    },
-    {
-      number: "04",
-      title: "Real Ijen Health Screening & Digital Proof",
-      description:
-        "We treat Ijen as a serious hike, not a casual walk. For tours that include Ijen, JVTO:",
-      points: [
-        "Includes pre-ascent health screening in the itinerary.",
-        "Works with trained medical staff to perform checks before the hike.",
-        "Uses a digital system so staff can verify that a real screening has taken place.",
-      ],
-      links: [
-        {
-          text: "Ijen health screening explained",
-          href: "/travel-guide/ijen-health-screening",
-        },
-      ],
-      note: "We also support the same digital process for non-JVTO guests through a public web tool, helping to reduce fake letters and improve safety for everyone.",
-    },
-    {
-      number: "05",
-      title: "Local Guides & Real Community Impact",
-      description:
-        "We hire and train local guides, drivers and staff from the communities along the Bromo–Ijen–Tumpak Sewu corridor. Our standards include:",
-      points: [
-        "Ongoing training in safety procedures, guest communication and environmental respect.",
-        "Preference for accommodations and suppliers that align with responsible practices.",
-        "Participation in community and network initiatives that focus on fair, sustainable tourism.",
-      ],
-      links: [
-        { text: "Community standards", href: "/why-jvto/community-standards" },
-        { text: "Safety on tours", href: "/travel-guide/safety-on-tours" },
+      title: "Pillar 2 — Transparency, No Hidden Fees",
+      bullets: [
+        "JVTO enforces a No Hidden Costs policy. Quoted prices include essential items so customers know exactly what they pay for.",
+        "All park entrance fees (e.g., Bromo, Ijen) with no weekend surcharges.",
+        "Mandatory safety equipment (gas masks, trekking poles) and Ijen Volcano Health Certificate Service (Regulatory Compliance & JVTO Offerings)",
+        "All ground logistics: private transport, accommodation, tolls, and parking.",
+        "Complimentary mineral water and travel T-shirts.",
       ],
     },
     {
-      number: "06",
-      title: "Fairness for Students & Future Travellers",
-      description:
-        "With ISIC, we support eligible international students who face higher park and travel costs:",
-      points: [
-        "Dedicated information and verification flow for ISIC cardholders.",
-        "Access to safe, all-inclusive tours with transparent student-friendly structures, without cutting safety or quality.",
+      title: "Pillar 3 — Local DMC Expertise & Community Empowerment",
+      bullets: [
+        "JVTO operates as a DMC with deep local knowledge that enables authentic itineraries and complex logistical management that other operators may not provide.",
+        "The team is intentionally staffed by “local boys” from communities near Mount Ijen. JVTO’s founder, Mr. Sam, provides professional training and stable careers for local staff, making these guides both economic beneficiaries and authentic cultural ambassadors.",
+        "When customers travel with JVTO, they directly support local livelihoods.",
       ],
-      links: [
-        { text: "ISIC student package", href: "/isic/student-package" },
-        { text: "FAQ", href: "/travel-guide/faq" },
-      ],
-    },
-    {
-      number: "07",
-      title: "Clear Rules, Written in One Place",
-      description:
-        "We keep all practical rules in one place so there is no guesswork:",
-      points: [
-        "Booking steps, deposits, payment methods.",
-        "Travel Credit and reschedules.",
-        "What is included and excluded.",
-        "Health and fitness expectations.",
-        "Escort for groups.",
-        "Weather and closures.",
-      ],
-      links: [
-        { text: "Travel Guide", href: "/travel-guide" },
-        {
-          text: "Booking information",
-          href: "/travel-guide/booking-information",
-        },
-      ],
-      note: "JVTO's promise is simple: no hidden rules, no last-minute surprises.",
     },
   ];
 
+  const transportConfigs = [
+    {
+      title: "MPV — 1–3 Pax (7 Seat Capacity)",
+      text: "Licensed driver, ideal for small groups.",
+    },
+    {
+      title: "Toyota Hiace — 4–9 Pax (16 Seat Capacity)",
+      text: "Professional guide, spacious for medium groups.",
+    },
+    {
+      title: "Hiace + MPV — 10–11 Pax (23 Total Seat Capacity)",
+      text: "Additional vehicle for larger groups.",
+    },
+    {
+      title: "4WD Jeep (Bromo Access) — 4 Passenger Capacity",
+      text: "Specialized for crater access, all-terrain vehicle (ATV).",
+    },
+  ];
+
+  const accommodationRules = [
+    "Included amenities: Daily Breakfast, Air Conditioning, Hot Shower, and Wi-Fi.",
+    "Bed options: King beds (couples) or Twin beds (singles/friends).",
+    "Room allocation rules: even party sizes receive 1 room per 2 pax (King or Twin); odd party sizes receive 1 room per 2 pax plus 1 extra bed.",
+    "Upgrade option: replace an extra bed with a separate room for IDR 275,000 per room per night.",
+  ];
+
+  const ijenRegulatory = [
+    "Effective date: Starting January 6, 2024, all hikers must present an official health certificate before accessing Ijen Crater Nature Park.",
+    "Legal basis: BBKSDA Circular No. SE.35/K2/BIDTEK.1/KSA/1/2024.",
+    "Verification point: Certificate checked at the Paltuding Basecamp entrance.",
+    "Note on foreign certificates: Foreign health certificates are generally not accepted; certificates must be issued by Indonesian medical professionals or approved local health services.",
+  ];
+
+  const ijenService = [
+    "The medical checkup fee is included in tour packages.",
+    "Professional medical screening performed at the hotel the night before the tour to avoid queues and Paltuding delays. Estimated time ~5 minutes per person.",
+    "Recommended booking 24–48 hours in advance (or 3–5 days during peak season: June–August).",
+    "Typically between 6–9 PM the evening before the Ijen tour.",
+    "Assessment components: vital signs, medical history review, physical fitness evaluation, cardiovascular check (blood pressure, heart rate), and respiratory function (lung check, important for sulfur gas exposure).",
+    "Medical risk exclusions: Severe heart disease, uncontrolled asthma, severe respiratory conditions, or uncontrolled high blood pressure may prevent certification. If serious conditions are found, JVTO will advise against the hike.",
+    "Required items for check: passport or ID card, current medications, and records of existing medical conditions (especially heart or respiratory issues).",
+    "Consequences of no certificate: long waiting times, risk of missing the blue flame viewing, or potential entry denial at Paltuding checkpoint.",
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <main className="flex-grow pt-24">
-        <section className="py-12 md:py-16 bg-accent border-b">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
-            <nav className="mb-8 text-sm text-muted-foreground">
-              <Link href="/why-jvto" className="hover:text-primary">
-                Why JVTO
-              </Link>
-              <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">
-                The JVTO Difference
-              </span>
-            </nav>
-            <h1 className="font-black text-2xl md:text-5xl">
-              The JVTO Difference – Tourist Police-Led, Private & Transparent
-            </h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-              This page turns our story into clear standards. These are the
-              rules we operate by so you know what to expect before you book.
-            </p>
-            <div className="mt-6 bg-primary/10 border border-primary/20 rounded-sm p-4 inline-block">
-              <p className="text-primary font-medium text-sm md:text-base">
-                Whenever you need detailed rules or conditions, please refer to
-                our{" "}
-                <Link
-                  href="/travel-guide"
-                  className="underline hover:text-primary/80"
-                >
-                  Travel Guide
-                </Link>
-                .
-              </p>
-            </div>
-          </div>
-        </section>
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <div className="space-y-12">
-              {pillars.map((pillar) => (
-                <div key={pillar.number} className="relative">
-                  <div className="absolute -left-4 md:-left-16 top-0">
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-lime-400 text-black rounded-sm flex items-center justify-center text-lg md:text-xl font-bold">
-                      {pillar.number}
-                    </div>
-                  </div>
+    <Container>
+      <JsonLd data={jsonLd} />
 
-                  <div className="pl-12 md:pl-0">
-                    <h2 className="font-black text-xl md:text-3xl mb-4">
-                      {pillar.title}
-                    </h2>
+      <H1>The JVTO Difference: Three Pillars of Unrivaled Trust.</H1>
+      <Lead>
+        In a travel market crowded with virtual operators and hidden costs, JVTO
+        provides tangible proof of commitment to safety, financial transparency,
+        and community impact.
+      </Lead>
 
-                    <div className="prose mb-4 max-w-none text-muted-foreground">
-                      <p>{pillar.description}</p>
-                    </div>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <ButtonLink href="/why-jvto/proof-transparency/">
+          Open Proof Library
+        </ButtonLink>
+        <ButtonLink
+          variant="secondary"
+          href="/travel-guide/ijen-health-screening"
+        >
+          Ijen health screening (digital innovation)
+        </ButtonLink>
+      </div>
 
-                    {pillar.points && (
-                      <ul className="space-y-2 mb-6">
-                        {pillar.points.map((point, index) => (
-                          <li key={index} className="flex items-start">
-                            <Check className="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" />
-                            <span className="text-muted-foreground">
-                              {point}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+      <Divider />
 
-                    {pillar.links && pillar.links.length > 0 && (
-                      <div className="mb-4">
-                        <div className="flex flex-wrap gap-2">
-                          {pillar.links.map((link, index) => (
-                            <Button key={index} variant="outline" size="sm">
-                              <Link href={link.href}>{link.text}</Link>
-                            </Button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+      <Section title="The three pillars">
+        <Grid>
+          {pillars.map((p, i) => (
+            <Card key={i} title={p.title}>
+              <ul className="mt-2 list-disc space-y-2 pl-5">
+                {p.bullets.map((b, j) => (
+                  <li key={j}>{b}</li>
+                ))}
+              </ul>
+            </Card>
+          ))}
+        </Grid>
+      </Section>
 
-                    {pillar.note && (
-                      <div className="bg-accent border-l-4 border-border p-4 mt-4">
-                        <p className="text-muted-foreground text-sm">
-                          {pillar.note}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section className="py-16 bg-accent border-t">
-          <div className="container mx-auto px-4 text-center max-w-3xl">
-            <h2 className="font-black text-2xl md:text-5xl mb-4">
-              Ready to Experience the Difference?
-            </h2>
-            <p className="text-muted-foreground mb-8 text-lg">
-              Book a private tour with a company you can verify — tourist
-              police-led, registered, and community-rooted.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button size="lg">
-                <Link href="/tours">Browse Private Tours</Link>
-              </Button>
-              <Button variant="outline" size="lg">
-                <Link href="/verify-jvto">Verify JVTO First</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+      <Section title="All-Inclusive Features and Details">
+        <Grid3>
+          <Card title="Safety gear (included)">
+            Trekking pole — stability support for hikes. Medical aid kit — basic
+            first aid supplies. Gas mask — protection against volcanic fumes
+            (noted specifically for Ijen Crater).
+          </Card>
+          <Card title="Entrance fees (included)">
+            All entrance/admission fees to included destinations are covered by
+            JVTO (weekdays, weekends, public holidays as listed).
+          </Card>
+          <Card title="Travel T-shirt (included)">
+            High-quality cotton blend, breathable and comfortable for tropical
+            trekking; regular fit (sizing up suggested for looser fit). Sizes XS
+            → XXL; size preference collected during booking.
+          </Card>
+        </Grid3>
+      </Section>
+
+      <Section title="Transportation — Vehicle Configurations (as listed)">
+        <Grid>
+          {transportConfigs.map((c, i) => (
+            <Card key={i} title={c.title}>
+              {c.text}
+            </Card>
+          ))}
+        </Grid>
+      </Section>
+
+      <Section title="Accommodation (standards & upgrade)">
+        <Card>
+          <ul className="list-disc space-y-2 pl-5">
+            {accommodationRules.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        </Card>
+      </Section>
+
+      <Section title="Ijen Volcano Health Certificate Service (Regulatory Compliance & JVTO Offerings)">
+        <Notice title="Official Requirement (regulation)">
+          <ul className="mt-2 list-disc space-y-2 pl-5">
+            {ijenRegulatory.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        </Notice>
+
+        <Notice title="JVTO’s Hotel Health Check Service (what JVTO provides)">
+          <ul className="mt-2 list-disc space-y-2 pl-5">
+            {ijenService.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        </Notice>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          <ButtonLink href="/travel-guide/ijen-health-screening">
+            See the digital screening page
+          </ButtonLink>
+          <ButtonLink
+            variant="secondary"
+            href="/why-jvto/proof-transparency/police-safety/"
+          >
+            Police & safety proof
+          </ButtonLink>
+        </div>
+      </Section>
+    </Container>
   );
 }

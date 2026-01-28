@@ -1,13 +1,18 @@
-
-import React from 'react';
-
-const JsonLd: React.FC<{ schema: object }> = ({ schema }) => {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema, null, 2) }}
-    />
-  );
+type Props = {
+  data: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
-export default JsonLd;
+export default function JsonLd({ data }: Props) {
+  const payload = Array.isArray(data) ? data : [data];
+  return (
+    <>
+      {payload.map((obj, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(obj) }}
+        />
+      ))}
+    </>
+  );
+}
