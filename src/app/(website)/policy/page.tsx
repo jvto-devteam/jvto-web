@@ -151,147 +151,220 @@ export default function PolicyHubPage() {
   ] as const;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <StructuredData data={pageSchema} />
-
-      <main className="flex-grow pt-24">
-        {/* Header */}
-        <section className="py-12 md:py-16 bg-accent border-b">
-          <div className="container mx-auto px-4 max-w-5xl">
-            {/* Breadcrumb */}
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-primary">
-                Home
-              </Link>
-              <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">Policy</span>
-            </nav>
-
-            {/* Title */}
-            <div className="text-center mb-10">
-              <h1 className="font-black text-2xl md:text-5xl mb-4">
-                JVTO Policies
-              </h1>
-              <p className="text-muted-foreground max-w-3xl mx-auto">
-                This page is a navigation hub. For binding terms, open the
-                relevant policy below and refer to your booking-specific
-                documents (Official E-Voucher / Invoice).
-              </p>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <aside class="w-full lg:w-1/4 space-y-6">
+          <div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 sticky top-24">
+            <div class="flex items-center gap-2 mb-4 text-gray-900 dark:text-white font-bold">
+              <span class="material-symbols-outlined text-primary">gavel</span>
+              <h2>Policy Index</h2>
             </div>
-
-            {/* Notice: precedence + contact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left rounded-r-lg">
-                <p className="text-sm italic mb-2">
-                  Document precedence (if anything differs):
-                </p>
-                <p className="font-semibold text-foreground mb-2">
-                  Order of authority:
-                </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm text-muted-foreground">
-                  <li>
-                    Your Official E‑Voucher / Invoice (for your confirmed
-                    booking)
-                  </li>
-                  <li>Booking, Payment & Cancellation Policy</li>
-                  <li>Inclusions & Exclusions Policy</li>
-                  <li>Official Booking Guide (How to Book)</li>
-                </ol>
-              </div>
-
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
-                <p className="font-semibold text-foreground mb-2">
-                  Need help? Contact JVTO:
-                </p>
-                <p className="text-sm text-muted-foreground mb-2">
-                  <strong>WhatsApp:</strong>{" "}
-                  <a
-                    href="https://wa.me/6282244788833"
-                    className="text-primary hover:underline"
-                  >
-                    +62 822-4478-8833
-                  </a>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  <strong>Email:</strong>{" "}
-                  <a
-                    href="mailto:hello@javavolcano-touroperator.com"
-                    className="text-primary hover:underline"
-                  >
-                    hello@javavolcano-touroperator.com
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Cards */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {policyCards.map((card) => (
-                <div
-                  key={card.id}
-                  className={`rounded-2xl border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
-                >
-                  <div className={`p-5 border-l-4 ${card.accent}`}>
-                    <div className="flex justify-between items-start mb-2">
-                      <h2 className="text-xl font-black text-foreground">
-                        {card.title}
-                      </h2>
-                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">
-                        Updated: {card.lastUpdated}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {card.desc}
-                    </p>
-
-                    <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground mb-5">
-                      {card.bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
-
-                    <Link
-                      href={card.href}
-                      className="inline-flex items-center justify-center w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
-                    >
-                      {card.cta}
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Important Note */}
-            <div className="mt-12 p-4 border border-border rounded-lg bg-accent">
-              <h3 className="font-bold text-foreground mb-2">
-                Important Note:
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                <strong>Write-it-to-Bind-it Principle:</strong> Only inclusions
-                explicitly listed on the official JVTO package page and/or your
-                Official E-Voucher / Invoice (PDF) are contractually binding. If
-                something is not written as included, it is excluded by default.
-              </p>
-            </div>
-
-            {/* Optional: quick links */}
-            <div className="mt-10 text-center text-sm text-muted-foreground">
-              Looking for trip operations guidance? Visit{" "}
-              <Link
-                href="/travel-guide"
-                className="text-primary hover:underline"
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 -mt-3">
+              Legal Documents
+            </p>
+            <nav class="space-y-1">
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-800 dark:text-gray-100 bg-green-50 dark:bg-green-900/20 border-l-4 border-primary rounded-r-md transition"
+                href="#"
               >
-                Travel Guide
-              </Link>
-              .
+                <span class="material-symbols-outlined text-primary text-lg">
+                  hub
+                </span>
+                Policy Hub
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg">
+                  privacy_tip
+                </span>
+                Privacy Policy
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg">
+                  receipt_long
+                </span>
+                Booking &amp; Payments
+              </a>
+              <a
+                class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-lg">list_alt</span>
+                Inclusions &amp; Exclusions
+              </a>
+            </nav>
+          </div>
+          <div class="bg-gray-900 dark:bg-gray-800 text-white rounded-2xl p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+              <span class="material-symbols-outlined text-8xl">
+                headset_mic
+              </span>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Need Help?</h3>
+            <p class="text-gray-400 text-sm mb-4">
+              Our team is available 24/7 for your questions.
+            </p>
+            <a
+              class="inline-flex items-center justify-center w-full bg-primary text-gray-900 font-bold py-2.5 px-4 rounded-lg hover:bg-lime-400 transition"
+              href="#"
+            >
+              <span class="material-symbols-outlined mr-2 text-lg">chat</span>
+              Chat on WhatsApp
+            </a>
+          </div>
+        </aside>
+        <main class="w-full lg:w-3/4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-2">
+            <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white">
+              Legal &amp; Policies Hub
+            </h1>
+            <a
+              class="mt-4 md:mt-0 inline-flex items-center justify-center bg-transparent border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold py-2 px-4 rounded-lg hover:border-primary hover:text-primary transition group"
+              href="#"
+            >
+              <span class="material-symbols-outlined mr-2 text-xl text-red-500 group-hover:text-primary transition-colors">
+                picture_as_pdf
+              </span>
+              Download PDF
+            </a>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl leading-relaxed">
+            Transparency is key to a smooth journey. Here you can access all our
+            official policies regarding privacy, booking terms, payments,
+            cancellations, and exactly what is included in your tour package.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 hover:shadow-md transition flex flex-col h-full">
+              <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4">
+                <span class="material-symbols-outlined text-2xl">
+                  privacy_tip
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Privacy Policy
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+                We value your privacy. Learn how we collect, use, and protect
+                your personal data, from your initial inquiry to the completion
+                of your tour. We are committed to GDPR compliance and data
+                security.
+              </p>
+              <a
+                class="inline-flex items-center text-primary font-bold text-sm hover:underline mt-auto"
+                href="#"
+              >
+                Read Policy
+                <span class="material-symbols-outlined text-sm ml-1">
+                  arrow_forward
+                </span>
+              </a>
+            </div>
+            <div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 hover:shadow-md transition flex flex-col h-full">
+              <div class="w-12 h-12 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400 mb-4">
+                <span class="material-symbols-outlined text-2xl">
+                  receipt_long
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Booking &amp; Payments
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+                Understand our booking process, deposit requirements, payment
+                methods, cancellation policies, and refund terms. This policy
+                ensures clarity on financial transactions for your peace of
+                mind.
+              </p>
+              <a
+                class="inline-flex items-center text-primary font-bold text-sm hover:underline mt-auto"
+                href="#"
+              >
+                Read Policy
+                <span class="material-symbols-outlined text-sm ml-1">
+                  arrow_forward
+                </span>
+              </a>
+            </div>
+            <div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 hover:shadow-md transition flex flex-col h-full">
+              <div class="w-12 h-12 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400 mb-4">
+                <span class="material-symbols-outlined text-2xl">list_alt</span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Inclusions &amp; Exclusions
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+                Avoid surprises by knowing exactly what is covered in your tour
+                package. We detail everything from transportation and
+                accommodation to entrance fees and meals, as well as what
+                remains your responsibility.
+              </p>
+              <a
+                class="inline-flex items-center text-primary font-bold text-sm hover:underline mt-auto"
+                href="#"
+              >
+                Read Policy
+                <span class="material-symbols-outlined text-sm ml-1">
+                  arrow_forward
+                </span>
+              </a>
+            </div>
+            <div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 hover:shadow-md transition flex flex-col h-full">
+              <div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 mb-4">
+                <span class="material-symbols-outlined text-2xl">gavel</span>
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                General Terms of Service
+              </h3>
+              <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+                The overarching agreement governing the use of our website and
+                services. This document outlines the legal relationship between
+                you (the client) and PT Java Volcano Rendezvous.
+              </p>
+              <a
+                class="inline-flex items-center text-primary font-bold text-sm hover:underline mt-auto"
+                href="#"
+              >
+                Read Policy
+                <span class="material-symbols-outlined text-sm ml-1">
+                  arrow_forward
+                </span>
+              </a>
             </div>
           </div>
-        </section>
-      </main>
+          <div class="mt-12 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800/30 rounded-2xl p-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <div class="flex-shrink-0">
+                <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                  <span class="material-symbols-outlined text-3xl">mail</span>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Have specific legal questions?
+                </h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                  If you cannot find the answer you are looking for in our
+                  policy documents, please contact our legal compliance team
+                  directly.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                  <a
+                    class="inline-flex items-center gap-2 text-sm font-medium text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200"
+                    href="mailto:legal@javavolcano-touroperator.com"
+                  >
+                    <span class="material-symbols-outlined text-lg">send</span>
+                    legal@javavolcano-touroperator.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

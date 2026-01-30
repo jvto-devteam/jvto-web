@@ -40,7 +40,7 @@ export default function BankTransferUploadPage() {
       try {
         const legacyDomain = process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN;
         const res = await fetch(
-          `${legacyDomain}/bookings/details/${slug}?json=true`
+          `${legacyDomain}/bookings/details/${slug}?json=true`,
         );
         const data = await res.json();
         setBooking(data.booking);
@@ -73,10 +73,13 @@ export default function BankTransferUploadPage() {
     formData.append("sender_name", senderName);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout/bank-transfer`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout/bank-transfer`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
       if (response.ok) {
         setIsSuccess(true);
@@ -116,7 +119,6 @@ export default function BankTransferUploadPage() {
         </p>
       </div>
     );
- 
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24 pt-20">
@@ -151,6 +153,49 @@ export default function BankTransferUploadPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 space-y-8">
+                        <div className="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+              <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
+                Bank Transfer Information
+              </p>
+              <div className="space-y-3">
+                <div className="bg-white p-4 rounded-xl border border-slate-200">
+                  <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
+                    Bank BRI
+                  </p>
+                  <p className="font-black text-slate-900">
+                    PT Java Volcano Rendezvous
+                  </p>
+                  <p className="text-sm font-bold text-slate-700 mt-1">
+                    001301001779564
+                  </p>
+                  <p className="text-xs text-slate-500">SWIFT: BRINIDJAXXX</p>
+                </div>
+                <div className="bg-white p-4 rounded-xl border border-slate-200">
+                  <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
+                    Bank BCA
+                  </p>
+                  <p className="font-black text-slate-900">
+                    PT Java Volcano Rendezvous
+                  </p>
+                  <p className="text-sm font-bold text-slate-700 mt-1">
+                    1200944352
+                  </p>
+                  <p className="text-xs text-slate-500">SWIFT: CENAIDJAXXX</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 mt-4 text-center">
+                For detailed payment terms, please check our{" "}
+                <a
+                  href="https://javavolcano-touroperator.com/policy/booking-payment-cancellation"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lime-600 hover:text-lime-700 font-bold underline"
+                >
+                  Booking & Payment Policy
+                </a>
+              </p>
+            </div>
+
             {/* SENDER NAME */}
             <div>
               <label className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
