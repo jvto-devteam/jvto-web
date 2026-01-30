@@ -73,6 +73,60 @@ const TravelGuideContent = () => {
     }));
   };
 
+  // JSON-LD Schema untuk SEO
+  const travelGuideSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Comprehensive Travel Guide - Java Volcano Tour Operator",
+    description:
+      "Complete travel guide for Bromo, Ijen, and Tumpak Sewu tours. Includes booking information, safety guidelines, packing lists, and frequently asked questions.",
+    url: "https://www.javavolcano-touroperator.com/travel-guide",
+    mainEntity: {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "How to book a private tour with JVTO?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Book through website secure checkout or contact WhatsApp +62 822-4478-8833. 20% deposit required, full payment due 5 days before tour.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is included in JVTO tour packages?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Private transport, Bromo jeep, entrance tickets, accommodation when included, Ijen safety gear and health screening.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the Travel Credit policy?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "JVTO uses Travel Credit instead of cash refunds. Cancellations 48+ hours before get 100% Travel Credit, valid indefinitely and transferable.",
+          },
+        },
+      ],
+    },
+    publisher: {
+      "@type": "TravelAgency",
+      name: "Java Volcano Tour Operator",
+      description:
+        "Specializing in sustainable eco-tourism across East Java's volcanic landscapes since 2010.",
+      url: "https://javavolcano-touroperator.com",
+      telephone: "+62 822-4478-8833",
+      email: "hello@javavolcano-touroperator.com",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "Indonesia",
+      },
+    },
+    datePublished: "2026-01-19",
+    dateModified: "2026-01-19",
+    inLanguage: "en",
+  };
 
   const faqData = [
     {
@@ -139,6 +193,11 @@ const TravelGuideContent = () => {
 
   return (
     <>
+      {/* JSON-LD Schema untuk SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(travelGuideSchema) }}
+      />
 
       <div className="bg-background-light py-30 dark:bg-background-dark font-display text-[#111811] dark:text-gray-100 min-h-screen">
         <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-10 py-8 lg:py-12">
