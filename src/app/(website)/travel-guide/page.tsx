@@ -43,7 +43,7 @@ import {
   Lock,
   CheckCircle,
 } from "lucide-react";
-import  Link from "next/link";
+import Link from "next/link";
 
 const TravelGuideContent = () => {
   const [openSections, setOpenSections] = useState({
@@ -199,22 +199,20 @@ const TravelGuideContent = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(travelGuideSchema) }}
       />
 
-      <div className="bg-background-light py-30 dark:bg-background-dark font-display text-[#111811] dark:text-gray-100 min-h-screen">
+      <div className="bg-background-light py-30 font-display text-[#111811] min-h-screen">
         <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-10 py-8 lg:py-12">
           <div className="flex flex-col lg:flex-row gap-10">
             {/* Sidebar */}
             <aside className="hidden lg:block w-72 shrink-0">
               <div className="sticky top-32 flex flex-col gap-6">
-                <div className="bg-white dark:bg-[#1a2e1b] p-6 rounded-xl border border-gray-100 dark:border-[#2a452b] shadow-sm">
+                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-3 mb-6">
                     <BookOpen className="text-[#9fce33]" size={20} />
                     <div>
-                      <h3 className="text-base font-bold text-[#1a1a1a] dark:text-white">
+                      <h3 className="text-base font-bold text-[#1a1a1a]">
                         Table of Contents
                       </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        Quick Navigation
-                      </p>
+                      <p className="text-xs text-gray-500">Quick Navigation</p>
                     </div>
                   </div>
                   <nav className="flex flex-col gap-1">
@@ -227,49 +225,49 @@ const TravelGuideContent = () => {
                     </a>
                     <a
                       href="#booking"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <ReceiptText size={20} />
                       <span className="text-sm">Booking & Payments</span>
                     </a>
                     <a
                       href="#faq"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <HelpCircle size={20} />
                       <span className="text-sm">FAQ</span>
                     </a>
                     <a
                       href="#ijen"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <Filter size={20} />
                       <span className="text-sm">Ijen Health Screening</span>
                     </a>
                     <a
                       href="#safety"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <Shield size={20} />
                       <span className="text-sm">Safety on Tours</span>
                     </a>
                     <a
                       href="#packing"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <Backpack size={20} />
                       <span className="text-sm">Packing & Fitness</span>
                     </a>
                     <a
                       href="#weather"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <CloudSun size={20} />
                       <span className="text-sm">Weather & Closures</span>
                     </a>
                     <a
                       href="#police"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 font-medium transition-colors"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
                     >
                       <ShieldAlert size={20} />
                       <span className="text-sm">Police Escort for Groups</span>
@@ -285,7 +283,11 @@ const TravelGuideContent = () => {
                   <p className="text-sm text-gray-300 mb-4 relative z-10">
                     Our team is available 24/7 for your questions.
                   </p>
-                  <Link target="_blank" href="https://wa.me/6282244788833" className="w-full py-2 bg-[#9fce33] text-[#1a1a1a] font-bold text-sm rounded-lg relative z-10 hover:bg-white transition-colors shadow-md flex items-center justify-center gap-2">
+                  <Link
+                    target="_blank"
+                    href="https://wa.me/6282244788833"
+                    className="w-full py-2 bg-[#9fce33] text-[#1a1a1a] font-bold text-sm rounded-lg relative z-10 hover:bg-white transition-colors shadow-md flex items-center justify-center gap-2"
+                  >
                     <MessageCircle size={16} />
                     Chat on WhatsApp
                   </Link>
@@ -296,10 +298,10 @@ const TravelGuideContent = () => {
             {/* Main Content */}
             <main className="flex-1 min-w-0">
               <div className="mb-10">
-                <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] dark:text-white tracking-tight mb-3">
+                <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] tracking-tight mb-3">
                   Comprehensive Travel Guide
                 </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+                <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
                   Everything you need to know for your journey with JVTO. Please
                   read through carefully to ensure a safe and memorable
                   adventure.
@@ -310,18 +312,18 @@ const TravelGuideContent = () => {
                 {/* Section 1: Travel Guide Hub */}
                 <section
                   id="hub"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("hub")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                      <div className="size-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
                         <MapPin size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Travel Guide — Booking, Safety & Practical Info
                         </h2>
                       </div>
@@ -333,9 +335,9 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.hub ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.hub ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         This Travel Guide is your practical handbook for
                         traveling with Java Volcano Tour Operator (JVTO). Here
@@ -346,38 +348,47 @@ const TravelGuideContent = () => {
                       </p>
                       <p>
                         For binding legal terms, please refer to:
-                        <Link href="/policy/booking-payment-cancellation/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1">
+                        <Link
+                          href="/policy/booking-payment-cancellation/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                        >
                           /policy/booking-payment-cancellation/
                         </Link>
                         ,
-                        <Link href="/policy/inclusions-exclusions/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1">
+                        <Link
+                          href="/policy/inclusions-exclusions/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                        >
                           /policy/inclusions-exclusions/
                         </Link>
                         , and{" "}
-                        <Link href="/policy/privacy/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1">
+                        <Link
+                          href="/policy/privacy/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                        >
                           /policy/privacy
                         </Link>
                         .
                       </p>
-                      <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800">
-                        <p className="font-bold text-blue-800 dark:text-blue-200 mb-2">
+                      <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <p className="font-bold text-blue-800 mb-2">
                           Official channels:
                         </p>
                         <div className="flex flex-col gap-2">
                           <div className="flex items-center gap-2">
-                            <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <Globe className="w-4 h-4 text-blue-600" />
                             <span className="text-sm">
                               Website: https://javavolcano-touroperator.com
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <MessageCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <MessageCircle className="w-4 h-4 text-blue-600" />
                             <span className="text-sm">
                               WhatsApp: +62 822-4478-8833
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                            <Mail className="w-4 h-4 text-blue-600" />
                             <span className="text-sm">
                               Email: hello@javavolcano-touroperator.com
                             </span>
@@ -386,7 +397,7 @@ const TravelGuideContent = () => {
                       </div>
                     </div>
 
-                    <h3 className="font-bold text-lg text-[#1a1a1a] dark:text-white mb-4">
+                    <h3 className="font-bold text-lg text-[#1a1a1a] mb-4">
                       Topics
                     </h3>
                     <div className="grid md:grid-cols-2 gap-4">
@@ -422,12 +433,12 @@ const TravelGuideContent = () => {
                       ].map((topic, index) => (
                         <div
                           key={index}
-                          className="p-4 border border-gray-200 dark:border-[#2a452b] rounded-lg hover:border-[#9fce33] transition-colors"
+                          className="p-4 border border-gray-200 rounded-lg hover:border-[#9fce33] transition-colors"
                         >
-                          <h4 className="font-bold text-[#1a1a1a] dark:text-white mb-2">
+                          <h4 className="font-bold text-[#1a1a1a] mb-2">
                             {topic.title}
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                          <p className="text-sm text-gray-600 mb-2">
                             {topic.desc}
                           </p>
                         </div>
@@ -439,18 +450,18 @@ const TravelGuideContent = () => {
                 {/* Section 2: Booking Information */}
                 <section
                   id="booking"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("booking")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                      <div className="size-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                         <ReceiptText size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Booking Information — Payments, Changes & Travel
                           Credit
                         </h2>
@@ -463,14 +474,18 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.booking ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.booking ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
-                        This section explains how bookings, payments, changes, and
-                        Travel Credit work for private tours with JVTO. It is a
-                        plain-language summary. For the full legal policy, see{" "}
-                        <Link href="/policy/booking-payment-cancellation/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                        This section explains how bookings, payments, changes,
+                        and Travel Credit work for private tours with JVTO. It
+                        is a plain-language summary. For the full legal policy,
+                        see{" "}
+                        <Link
+                          href="/policy/booking-payment-cancellation/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                        >
                           /policy/booking-payment-cancellation/
                         </Link>
                         .
@@ -480,13 +495,13 @@ const TravelGuideContent = () => {
                     <div className="space-y-8">
                       {/* 2.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.1
                           </span>
                           How to Book a Private Tour
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             JVTO operates private tours only. We do not sell
                             shared-group or "seat-in-coach" trips.
@@ -521,13 +536,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.2
                           </span>
                           Deposits & Final Payment
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <div>
                             <p className="font-bold">Deposit</p>
                             <ul className="list-disc pl-5 space-y-1">
@@ -572,8 +587,8 @@ const TravelGuideContent = () => {
                             </ul>
                           </div>
 
-                          <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                            <h4 className="font-bold text-yellow-800 dark:text-yellow-200 mb-2">
+                          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h4 className="font-bold text-yellow-800 mb-2">
                               Bank transfer details (balance payments only)
                             </h4>
                             <p className="text-sm mb-2">
@@ -582,14 +597,14 @@ const TravelGuideContent = () => {
                             </p>
                             <div className="space-y-2 text-sm">
                               <div className="flex items-center gap-2">
-                                <Banknote className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+                                <Banknote className="w-4 h-4 text-yellow-600" />
                                 <span>
                                   Bank BRI — PT Java Volcano Rendezvous —
                                   001301001779564 — SWIFT: BRINIDJAXXX
                                 </span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Banknote className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+                                <Banknote className="w-4 h-4 text-yellow-600" />
                                 <span>
                                   Bank BCA — PT Java Volcano Rendezvous —
                                   1200944352 — SWIFT: CENAIDJAXXX
@@ -598,8 +613,8 @@ const TravelGuideContent = () => {
                             </div>
                           </div>
 
-                          <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
-                            <h4 className="font-bold text-red-800 dark:text-red-200 mb-2">
+                          <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <h4 className="font-bold text-red-800 mb-2">
                               Payment security & anti-fraud
                             </h4>
                             <ul className="list-disc pl-5 space-y-1 text-sm">
@@ -624,13 +639,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.3
                           </span>
                           What's Included in the Tour Price
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Your Official E‑Voucher / Invoice (PDF) is the
                             binding reference for what is included in your
@@ -676,13 +691,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.4
                           </span>
                           What's Not Included
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Unless clearly stated otherwise on your program, the
                             tour price does <strong>not</strong> include:
@@ -723,13 +738,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.5
                           </span>
                           Travel Credit (No Cash Refund Policy)
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             JVTO uses a <strong>Travel Credit</strong> system
                             instead of cash refunds.
@@ -765,13 +780,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.6 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.6
                           </span>
                           Changes & Reschedules
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Where possible, JVTO may allow a date change for the
                             same package if requested 48 hours or more before
@@ -798,13 +813,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.7 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.7
                           </span>
                           Cancellations & No-Shows
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>If you decide to cancel:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -824,13 +839,13 @@ const TravelGuideContent = () => {
                             </li>
                           </ul>
 
-                          <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
-                            <h4 className="font-bold text-amber-800 dark:text-amber-200 mb-2">
+                          <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                            <h4 className="font-bold text-amber-800 mb-2">
                               48-hour cut-off (local Indonesia time)
                             </h4>
                             <div className="space-y-2">
                               <div className="flex items-start gap-2">
-                                <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" />
+                                <CheckCircle className="w-4 h-4 text-green-600 mt-1 flex-shrink-0" />
                                 <span>
                                   If you cancel{" "}
                                   <strong>48 hours or more before Day 1</strong>
@@ -844,7 +859,7 @@ const TravelGuideContent = () => {
                                 </span>
                               </div>
                               <div className="flex items-start gap-2">
-                                <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 mt-1 flex-shrink-0" />
+                                <AlertCircle className="w-4 h-4 text-red-600 mt-1 flex-shrink-0" />
                                 <span>
                                   If you cancel{" "}
                                   <strong>
@@ -872,7 +887,10 @@ const TravelGuideContent = () => {
                           </ul>
                           <p>
                             Full details:{" "}
-                            <Link href="/policy/booking-payment-cancellation/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                            <Link
+                              href="/policy/booking-payment-cancellation/"
+                              className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                            >
                               /policy/booking-payment-cancellation/
                             </Link>
                           </p>
@@ -881,14 +899,14 @@ const TravelGuideContent = () => {
 
                       {/* 2.8 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.8
                           </span>
                           Changes Caused by Weather, Volcano Alerts, or Other
                           External Factors
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Some elements of your itinerary depend on local
                             conditions and official regulations (weather,
@@ -910,13 +928,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.9 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.9
                           </span>
                           Your Responsibilities as a Guest
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             To keep the tour smooth and safe, we ask you to:
                           </p>
@@ -951,13 +969,13 @@ const TravelGuideContent = () => {
 
                       {/* 2.10 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             2.10
                           </span>
                           After Checkout: My Booking Portal
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             After payment success, you can access{" "}
                             <strong>My Booking Portal</strong> to manage your
@@ -1017,18 +1035,18 @@ const TravelGuideContent = () => {
                 {/* Section 3: FAQ */}
                 <section
                   id="faq"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("faq")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                      <div className="size-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
                         <HelpCircle size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Frequently Asked Questions
                         </h2>
                       </div>
@@ -1040,9 +1058,9 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.faq ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.faq ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         This FAQ covers the most common questions about private
                         tours with JVTO. For detailed rules, please check the
@@ -1050,11 +1068,17 @@ const TravelGuideContent = () => {
                       </p>
                       <p>
                         For binding terms, see{" "}
-                        <Link href="/policy/booking-payment-cancellation/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                        <Link
+                          href="/policy/booking-payment-cancellation/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                        >
                           /policy/booking-payment-cancellation/
                         </Link>
                         and{" "}
-                        <Link href="/policy/inclusions-exclusions/" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                        <Link
+                          href="/policy/inclusions-exclusions/"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                        >
                           /policy/inclusions-exclusions/
                         </Link>
                         .
@@ -1065,13 +1089,13 @@ const TravelGuideContent = () => {
                       {faqData.map((item, index) => (
                         <div
                           key={index}
-                          className="border border-gray-200 dark:border-[#2a452b] rounded-lg overflow-hidden"
+                          className="border border-gray-200 rounded-lg overflow-hidden"
                         >
                           <div
-                            className="flex items-center justify-between px-4 py-3 cursor-pointer bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                            className="flex items-center justify-between px-4 py-3 cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
                             onClick={() => toggleFaq(index)}
                           >
-                            <span className="font-bold text-[#1a1a1a] dark:text-white">
+                            <span className="font-bold text-[#1a1a1a]">
                               {item.q}
                             </span>
                             <ChevronDown
@@ -1080,7 +1104,7 @@ const TravelGuideContent = () => {
                             />
                           </div>
                           <div
-                            className={`px-4 pb-4 pt-2 text-gray-600 dark:text-gray-300 ${openFaqItems[index] ? "block" : "hidden"}`}
+                            className={`px-4 pb-4 pt-2 text-gray-600 ${openFaqItems[index] ? "block" : "hidden"}`}
                           >
                             {item.a}
                           </div>
@@ -1093,18 +1117,18 @@ const TravelGuideContent = () => {
                 {/* Section 4: Ijen Health Screening */}
                 <section
                   id="ijen"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("ijen")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+                      <div className="size-12 rounded-full bg-red-100 flex items-center justify-center text-red-600">
                         <Filter size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Ijen Health Screening — Real Checks, Digital Proof
                         </h2>
                       </div>
@@ -1116,16 +1140,19 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.ijen ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.ijen ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         Kawah Ijen is a demanding night hike with steep sections
                         and potential sulfur gas exposure. This section explains
                         health screening requirements for Ijen tours and what
                         guests need to prepare. For data handling related to
                         screening, see{" "}
-                        <Link href="/policy/privacy" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                        <Link
+                          href="/policy/privacy"
+                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                        >
                           /policy/privacy
                         </Link>
                         .
@@ -1135,13 +1162,13 @@ const TravelGuideContent = () => {
                     <div className="space-y-8">
                       {/* 4.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.1
                           </span>
                           Why Health Screening Is Necessary
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Health screening may be required by local
                             authorities or park/permit conditions for access to
@@ -1156,13 +1183,13 @@ const TravelGuideContent = () => {
 
                       {/* 4.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.2
                           </span>
                           What JVTO Includes for Its Guests
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             If your confirmed JVTO tour includes an Ijen night
                             hike, required health screening is arranged as part
@@ -1173,13 +1200,13 @@ const TravelGuideContent = () => {
 
                       {/* 4.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.3
                           </span>
                           Digital System & QR Verification
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Screening results are stored in a digital system
                             that allows:
@@ -1211,13 +1238,13 @@ const TravelGuideContent = () => {
 
                       {/* 4.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.4
                           </span>
                           For Non-JVTO Travelers
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             The same digital system is also available to
                             travelers who are <strong>not</strong> touring with
@@ -1242,13 +1269,13 @@ const TravelGuideContent = () => {
 
                       {/* 4.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.5
                           </span>
                           What Screening Does Not Do
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>Health screening:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>helps reduce risk,</li>
@@ -1277,13 +1304,13 @@ const TravelGuideContent = () => {
 
                       {/* 4.6 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             4.6
                           </span>
                           Data & Privacy (Short Summary)
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>Health data collected during screening is:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1297,7 +1324,10 @@ const TravelGuideContent = () => {
                             <li>
                               handled according to our Privacy & Data Protection
                               Policy:{" "}
-                              <Link href="/policy/privacy" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                              <Link
+                                href="/policy/privacy"
+                                className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                              >
                                 /policy/privacy
                               </Link>
                               .
@@ -1306,7 +1336,10 @@ const TravelGuideContent = () => {
                           <p>
                             For how we handle personal data related to permits
                             and health screening, see{" "}
-                            <Link href="/policy/privacy" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
+                            <Link
+                              href="/policy/privacy"
+                              className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                            >
                               /policy/privacy
                             </Link>
                             .
@@ -1320,18 +1353,18 @@ const TravelGuideContent = () => {
                 {/* Section 5: Safety on Tours */}
                 <section
                   id="safety"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("safety")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+                      <div className="size-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
                         <Shield size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Safety on Tours — How We Make Decisions
                         </h2>
                       </div>
@@ -1343,26 +1376,26 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.safety ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.safety ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
-                        This section explains how JVTO thinks about safety across
-                        all tours — on the road, at viewpoints, on trails, and
-                        around volcanoes.
+                        This section explains how JVTO thinks about safety
+                        across all tours — on the road, at viewpoints, on
+                        trails, and around volcanoes.
                       </p>
                     </div>
 
                     <div className="space-y-8">
                       {/* 5.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.1
                           </span>
                           Responsibility & Roles
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
                               JVTO is a registered Indonesian travel company
@@ -1396,13 +1429,13 @@ const TravelGuideContent = () => {
 
                       {/* 5.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.2
                           </span>
                           Before the Tour
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>Before your trip starts, we:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1426,13 +1459,13 @@ const TravelGuideContent = () => {
 
                       {/* 5.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.3
                           </span>
                           During the Tour
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>During your tour, our crew:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1468,13 +1501,13 @@ const TravelGuideContent = () => {
 
                       {/* 5.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.4
                           </span>
                           When Plans Need to Change
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Sometimes, the safest decision is to change or
                             cancel part of the plan. Reasons can include:
@@ -1499,12 +1532,18 @@ const TravelGuideContent = () => {
                           </ul>
                           <p>
                             See:{" "}
-                            <Link href="/travel-guide#weather" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
-                            Weather & Closures
+                            <Link
+                              href="/travel-guide#weather"
+                              className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                            >
+                              Weather & Closures
                             </Link>{" "}
                             and{" "}
-                            <Link href="/travel-guide#booking" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
-                            Booking Information
+                            <Link
+                              href="/travel-guide#booking"
+                              className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                            >
+                              Booking Information
                             </Link>
                             .
                           </p>
@@ -1513,13 +1552,13 @@ const TravelGuideContent = () => {
 
                       {/* 5.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.5
                           </span>
                           Your Role as a Guest
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Safety works best when everyone plays their part. We
                             ask you to:
@@ -1527,8 +1566,11 @@ const TravelGuideContent = () => {
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
                               Wear appropriate clothing and footwear (see{" "}
-                              <Link href="/travel-guide#packing" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
-                              Packing & Fitness
+                              <Link
+                                href="/travel-guide#packing"
+                                className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                              >
+                                Packing & Fitness
                               </Link>
                               ).
                             </li>
@@ -1555,13 +1597,13 @@ const TravelGuideContent = () => {
 
                       {/* 5.6 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             5.6
                           </span>
                           Alcohol, Substances & Risky Behaviour
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>For safety reasons:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1588,18 +1630,18 @@ const TravelGuideContent = () => {
                 {/* Section 6: Packing & Fitness */}
                 <section
                   id="packing"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("packing")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600 dark:text-teal-400">
+                      <div className="size-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
                         <Backpack size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Packing & Fitness — Bromo, Ijen & Tumpak Sewu
                         </h2>
                       </div>
@@ -1611,9 +1653,9 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.packing ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.packing ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         This page helps you prepare realistically for your
                         private tour. We cover what to pack, how fit you should
@@ -1625,13 +1667,13 @@ const TravelGuideContent = () => {
                     <div className="space-y-8">
                       {/* 6.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.1
                           </span>
                           General Clothing & Essentials
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             For all routes (Bromo, Ijen, waterfalls), we
                             recommend:
@@ -1672,13 +1714,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.2
                           </span>
                           Bromo — Packing & Fitness
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p className="font-bold">Packing</p>
                           <ul className="list-disc pl-5 space-y-1">
                             <li>
@@ -1707,13 +1749,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.3
                           </span>
                           Ijen — Packing & Fitness
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p className="font-bold">Packing</p>
                           <ul className="list-disc pl-5 space-y-1">
                             <li>
@@ -1763,13 +1805,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.4
                           </span>
                           Tumpak Sewu — Packing & Fitness
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p className="font-bold">Packing</p>
                           <ul className="list-disc pl-5 space-y-1">
                             <li>
@@ -1805,13 +1847,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.5
                           </span>
                           Private Tour & Crew Support
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Because your tour is private, your JVTO crew (driver
                             and local guides) are focused on your group only:
@@ -1836,13 +1878,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.6 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.6
                           </span>
                           Valuables & Jewellery
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             We recommend minimizing valuables on outdoor days:
                           </p>
@@ -1868,13 +1910,13 @@ const TravelGuideContent = () => {
 
                       {/* 6.7 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             6.7
                           </span>
                           Special Note for Silver Items at Ijen
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>At Ijen, volcanic gases can tarnish silver:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1907,18 +1949,18 @@ const TravelGuideContent = () => {
                 {/* Section 7: Weather & Closures */}
                 <section
                   id="weather"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("weather")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600 dark:text-yellow-400">
+                      <div className="size-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
                         <CloudSun size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Weather, Volcanic Activity & Closures
                         </h2>
                       </div>
@@ -1930,28 +1972,29 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.weather ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.weather ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         East Java's volcano and waterfall routes are dynamic.
                         Weather and volcanic activity can change quickly, and
                         local authorities may issue temporary restrictions or
-                        closures. This section explains how we monitor conditions
-                        and what happens to your tour when plans must change.
+                        closures. This section explains how we monitor
+                        conditions and what happens to your tour when plans must
+                        change.
                       </p>
                     </div>
 
                     <div className="space-y-8">
                       {/* 7.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             7.1
                           </span>
                           Weather Patterns on Our Routes
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p className="font-bold">Bromo & Ijen</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -1983,13 +2026,13 @@ const TravelGuideContent = () => {
 
                       {/* 7.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             7.2
                           </span>
                           Volcanic Activity & Official Alerts
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Our destinations are part of the{" "}
                             <strong>Ring of Fire</strong>. Low-level activity
@@ -2020,13 +2063,13 @@ const TravelGuideContent = () => {
 
                       {/* 7.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             7.3
                           </span>
                           Types of Changes You Might Experience
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>Depending on conditions, we might need to:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -2055,13 +2098,13 @@ const TravelGuideContent = () => {
 
                       {/* 7.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             7.4
                           </span>
                           If a Key Activity Cannot Run
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Sometimes, despite planning, a core activity may be
                             fully closed by authorities or unsafe to attempt.
@@ -2076,8 +2119,10 @@ const TravelGuideContent = () => {
                               If no meaningful alternative is possible, we apply
                               our <strong>Travel Credit</strong> policy for the
                               affected part of your program, as described in{" "}
-                              <Link href="/travel-guide#booking" className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded">
-
+                              <Link
+                                href="/travel-guide#booking"
+                                className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded"
+                              >
                                 Booking Information
                               </Link>
                               .
@@ -2093,13 +2138,13 @@ const TravelGuideContent = () => {
 
                       {/* 7.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             7.5
                           </span>
                           Communication During Disruptions
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>When conditions change:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -2127,18 +2172,18 @@ const TravelGuideContent = () => {
                 {/* Section 8: Police Escort */}
                 <section
                   id="police"
-                  className="bg-white dark:bg-[#1a2e1b] border border-gray-200 dark:border-[#2a452b] rounded-xl shadow-sm overflow-hidden"
+                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
                 >
                   <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white dark:bg-[#1a2e1b] transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
+                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
                     onClick={() => toggleSection("police")}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                      <div className="size-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
                         <ShieldAlert size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a] dark:text-white">
+                        <h2 className="text-xl font-bold text-[#1a1a1a]">
                           Police Escort for Tourist Groups in East Java
                         </h2>
                       </div>
@@ -2150,9 +2195,9 @@ const TravelGuideContent = () => {
                   </div>
 
                   <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 dark:border-[#2a452b] ${openSections.police ? "block" : "hidden"}`}
+                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.police ? "block" : "hidden"}`}
                   >
-                    <div className="text-gray-600 dark:text-gray-300 mb-6 mt-2 space-y-4">
+                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
                       <p>
                         In some situations, large tourist groups may benefit
                         from official traffic police escort — when moving
@@ -2165,13 +2210,13 @@ const TravelGuideContent = () => {
                     <div className="space-y-8">
                       {/* 8.1 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             8.1
                           </span>
                           When Escort May Be Considered
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             Official traffic police escort may be relevant for:
                           </p>
@@ -2198,13 +2243,13 @@ const TravelGuideContent = () => {
 
                       {/* 8.2 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             8.2
                           </span>
                           How Escort Is Arranged
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             JVTO does <strong>not</strong> provide escort
                             vehicles ourselves. Instead:
@@ -2234,13 +2279,13 @@ const TravelGuideContent = () => {
 
                       {/* 8.3 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             8.3
                           </span>
                           What Escort Is Not
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>Police escort:</p>
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
@@ -2264,13 +2309,13 @@ const TravelGuideContent = () => {
 
                       {/* 8.4 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             8.4
                           </span>
                           Costs & Confirmation
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <ul className="list-disc pl-5 space-y-2">
                             <li>
                               If your group is eligible and escort is approved,
@@ -2292,13 +2337,13 @@ const TravelGuideContent = () => {
 
                       {/* 8.5 */}
                       <div>
-                        <h3 className="text-lg font-bold text-[#1a1a1a] dark:text-white mb-3 flex items-center gap-2">
+                        <h3 className="text-lg font-bold text-[#1a1a1a] mb-3 flex items-center gap-2">
                           <span className="bg-[#9fce33] text-white text-sm font-bold px-2 py-1 rounded">
                             8.5
                           </span>
                           How to Request Escort Consideration
                         </h3>
-                        <div className="text-gray-600 dark:text-gray-300 space-y-3 ml-8">
+                        <div className="text-gray-600 space-y-3 ml-8">
                           <p>
                             If you are planning a large group program and wish
                             to explore the possibility of official escort:

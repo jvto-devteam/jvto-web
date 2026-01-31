@@ -433,6 +433,23 @@ export function middleware(req: NextRequest) {
     return new NextResponse("410 Gone", { status: 410 });
   }
 
+    const redirectPaths = [
+    "/travel-guide/faq",
+    "/travel-guide/safety-on-tours",
+    "/travel-guide/weather-and-closures",
+    "/travel-guide/packing-and-fitness",
+    "/travel-guide/booking-information",
+    "/travel-guide/police-escort-for-groups",
+    "/travel-guide/ijen-health-screening",
+  ];
+
+    if (redirectPaths.includes(pathname)) {
+    return NextResponse.redirect(
+      new URL("/travel-guide", url),
+      301
+    );
+  }
+
   return NextResponse.next();
 }
 export const config = {
