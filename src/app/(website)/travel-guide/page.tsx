@@ -1,7 +1,7 @@
 // components/TravelGuideContent.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BookOpen,
   MapPin,
@@ -42,6 +42,7 @@ import {
   AlertCircle,
   Lock,
   CheckCircle,
+  ChevronRight
 } from "lucide-react";
 import Link from "next/link";
 
@@ -58,6 +59,7 @@ const TravelGuideContent = () => {
   });
 
   const [openFaqItems, setOpenFaqItems] = useState<Record<number, boolean>>({});
+  const [activeSection, setActiveSection] = useState("hub");
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({
@@ -190,7 +192,60 @@ const TravelGuideContent = () => {
       a: "During your private tour, you will be accompanied by a dedicated driver and, on some segments, local guides. For any serious concern, the contact number on your confirmation remains active.",
     },
   ];
+  // ADD: Scrollspy effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        "hub",
+        "booking",
+        "faq",
+        "ijen",
+        "safety",
+        "packing",
+        "weather",
+        "police",
+      ];
 
+      // Navbar height (top bar 36px + main bar 80px + offset 20px)
+      const navbarHeight = 136;
+      const scrollPosition = window.scrollY + navbarHeight;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section) {
+          const sectionTop = section.offsetTop;
+          if (scrollPosition >= sectionTop) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Call once on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // ADD: Smooth scroll dengan offset navbar
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const navbarHeight = 136; // top bar + main bar + padding
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - navbarHeight;
+      setOpenSections((prev) => ({
+        ...prev,
+        [sectionId]: true,
+      }));
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <>
       {/* JSON-LD Schema untuk SEO */}
@@ -199,82 +254,104 @@ const TravelGuideContent = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(travelGuideSchema) }}
       />
 
-      <div className="bg-background-light py-30 font-display text-[#111811] min-h-screen">
+      <div className="bg-background-light font-display text-[#111811] pt-20">
         <div className="flex-1 max-w-[1280px] w-full mx-auto px-4 lg:px-10 py-8 lg:py-12">
           <div className="flex flex-col lg:flex-row gap-10">
             {/* Sidebar */}
             <aside className="hidden lg:block w-72 shrink-0">
               <div className="sticky top-32 flex flex-col gap-6">
                 <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                  <div className="flex items-center gap-3 mb-6">
-                    <BookOpen className="text-[#9fce33]" size={20} />
-                    <div>
-                      <h3 className="text-base font-bold text-[#1a1a1a]">
-                        Table of Contents
-                      </h3>
-                      <p className="text-xs text-gray-500">Quick Navigation</p>
-                    </div>
-                  </div>
                   <nav className="flex flex-col gap-1">
-                    <a
-                      href="#hub"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#9fce33]/10 text-[#9fce33] font-bold border-l-4 border-[#9fce33] hover:bg-[#9fce33]/20 transition-colors"
+                    <button
+                      onClick={() => scrollToSection("hub")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-bold text-left transition-colors ${
+                        activeSection === "hub"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <MapPin size={20} />
                       <span className="text-sm">Travel Guide Hub</span>
-                    </a>
-                    <a
-                      href="#booking"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("booking")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "booking"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <ReceiptText size={20} />
                       <span className="text-sm">Booking & Payments</span>
-                    </a>
-                    <a
-                      href="#faq"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("faq")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "faq"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <HelpCircle size={20} />
                       <span className="text-sm">FAQ</span>
-                    </a>
-                    <a
-                      href="#ijen"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("ijen")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "ijen"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <Filter size={20} />
                       <span className="text-sm">Ijen Health Screening</span>
-                    </a>
-                    <a
-                      href="#safety"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("safety")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "safety"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <Shield size={20} />
                       <span className="text-sm">Safety on Tours</span>
-                    </a>
-                    <a
-                      href="#packing"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("packing")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "packing"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <Backpack size={20} />
                       <span className="text-sm">Packing & Fitness</span>
-                    </a>
-                    <a
-                      href="#weather"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("weather")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "weather"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <CloudSun size={20} />
                       <span className="text-sm">Weather & Closures</span>
-                    </a>
-                    <a
-                      href="#police"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors"
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("police")}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-left transition-colors ${
+                        activeSection === "police"
+                          ? "bg-[#9fce33] text-white"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
                     >
                       <ShieldAlert size={20} />
                       <span className="text-sm">Police Escort for Groups</span>
-                    </a>
+                    </button>
                   </nav>
                 </div>
-
                 <div className="bg-[#1a1a1a] text-white p-6 rounded-xl relative overflow-hidden shadow-lg">
                   <div className="absolute -right-4 -top-4 text-white/5">
                     <Headphones size={120} />
@@ -297,157 +374,173 @@ const TravelGuideContent = () => {
 
             {/* Main Content */}
             <main className="flex-1 min-w-0">
-              <div className="mb-10">
+              <div
+                className="mb-10 border border-gray-200 p-6 rounded-lg shadow-sm bg-[#9fce33]/5"
+                id="hub"
+              >
                 <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a1a] tracking-tight mb-3">
                   Comprehensive Travel Guide
                 </h1>
-                <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+                <p className=" text-gray-600">
                   Everything you need to know for your journey with JVTO. Please
                   read through carefully to ensure a safe and memorable
                   adventure.
                 </p>
+                <div className="text-gray-600 mb-6 mt-2 space-y-4">
+                  <p>
+                    This Travel Guide is your practical handbook for traveling
+                    with Java Volcano Tour Operator (JVTO). Here you'll find
+                    clear information on bookings, payments, reschedules, health
+                    screening for Ijen, safety on tours, packing,
+                    weather-related closures, and when police escort can be
+                    arranged for groups.
+                  </p>
+                  <p>
+                    For binding legal terms, please refer to:
+                    <Link
+                      href="/policy/booking-payment-cancellation/"
+                      className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                    >
+                      /policy/booking-payment-cancellation/
+                    </Link>
+                    ,
+                    <Link
+                      href="/policy/inclusions-exclusions/"
+                      className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                    >
+                      /policy/inclusions-exclusions/
+                    </Link>
+                    , and{" "}
+                    <Link
+                      href="/policy/privacy/"
+                      className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
+                    >
+                      /policy/privacy
+                    </Link>
+                    .
+                  </p>
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <p className="font-bold text-blue-800 mb-2">
+                      Official channels:
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex md:items-center gap-2">
+                        <Globe className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm">
+                          Website: https://javavolcano-touroperator.com
+                        </span>
+                      </div>
+                      <div className="flex md:items-center gap-2">
+                        <MessageCircle className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm">
+                          WhatsApp: +62 822-4478-8833
+                        </span>
+                      </div>
+                      <div className="flex md:items-center gap-2">
+                        <Mail className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm">
+                          Email: hello@javavolcano-touroperator.com
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lg:hidden mt-10">
+                    <h2 className="text-lg font-bold text-[#1a1a1a] mb-4 flex items-center gap-2">
+                      <BookOpen size={20} />
+                      Table of Contents
+                    </h2>
+                    <nav className="space-y-2">
+                      <button
+                        onClick={() => scrollToSection("booking")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "booking"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">Booking & Payments</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("faq")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "faq"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">FAQ</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("ijen")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "ijen"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">Ijen Health Screening</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("safety")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "safety"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">Safety on Tours</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("packing")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "packing"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">Packing & Fitness</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("weather")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "weather"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">Weather & Closures</span>
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection("police")}
+                        className={`flex items-center border-b border-gray-200 gap-3 w-full text-left py-4 transition-colors ${
+                          activeSection === "police"
+                            ? "text-[#9fce33] font-bold"
+                            : "text-gray-600 hover:text-[#9fce33]"
+                        }`}
+                      >
+                        <ChevronRight size={18} className="flex-shrink-0" />
+                        <span className="text-sm">
+                          Police Escort for Groups
+                        </span>
+                      </button>
+                    </nav>
+                  </div>
+                </div>
               </div>
 
               <div className="flex flex-col gap-6">
-                {/* Section 1: Travel Guide Hub */}
-                <section
-                  id="hub"
-                  className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
-                >
-                  <div
-                    className="flex items-center justify-between p-6 cursor-pointer select-none bg-white transition-colors hover:bg-gray-50"
-                    onClick={() => toggleSection("hub")}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="size-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                        <MapPin size={24} />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
-                          Travel Guide — Booking, Safety & Practical Info
-                        </h2>
-                      </div>
-                    </div>
-                    <ChevronDown
-                      className={`text-gray-400 transition-transform duration-300 ${openSections.hub ? "rotate-180" : ""}`}
-                      size={28}
-                    />
-                  </div>
-
-                  <div
-                    className={`px-6 pb-6 pt-2 border-t border-gray-100 ${openSections.hub ? "block" : "hidden"}`}
-                  >
-                    <div className="text-gray-600 mb-6 mt-2 space-y-4">
-                      <p>
-                        This Travel Guide is your practical handbook for
-                        traveling with Java Volcano Tour Operator (JVTO). Here
-                        you'll find clear information on bookings, payments,
-                        reschedules, health screening for Ijen, safety on tours,
-                        packing, weather-related closures, and when police
-                        escort can be arranged for groups.
-                      </p>
-                      <p>
-                        For binding legal terms, please refer to:
-                        <Link
-                          href="/policy/booking-payment-cancellation/"
-                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
-                        >
-                          /policy/booking-payment-cancellation/
-                        </Link>
-                        ,
-                        <Link
-                          href="/policy/inclusions-exclusions/"
-                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
-                        >
-                          /policy/inclusions-exclusions/
-                        </Link>
-                        , and{" "}
-                        <Link
-                          href="/policy/privacy/"
-                          className="underline font-mono text-[#9fce33] text-sm bg-[#9fce33]/10 px-1 rounded mx-1"
-                        >
-                          /policy/privacy
-                        </Link>
-                        .
-                      </p>
-                      <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                        <p className="font-bold text-blue-800 mb-2">
-                          Official channels:
-                        </p>
-                        <div className="flex flex-col gap-2">
-                          <div className="flex items-center gap-2">
-                            <Globe className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm">
-                              Website: https://javavolcano-touroperator.com
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <MessageCircle className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm">
-                              WhatsApp: +62 822-4478-8833
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-blue-600" />
-                            <span className="text-sm">
-                              Email: hello@javavolcano-touroperator.com
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <h3 className="font-bold text-lg text-[#1a1a1a] mb-4">
-                      Topics
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {[
-                        {
-                          title: "FAQ — Short Answers to Common Questions",
-                          desc: "Start here if you're not sure where to look. We answer the most common questions about private tours, what's included, payments, reschedules, and safety.",
-                        },
-                        {
-                          title: "Booking & Payments",
-                          desc: "Details on how to book, deposits, final payments, Travel Credit, and why we don't offer cash refunds.",
-                        },
-                        {
-                          title: "Ijen Health Screening",
-                          desc: "How our health checks work for Ijen night hikes, what is included for JVTO guests, and how the digital system helps prevent fake certificates.",
-                        },
-                        {
-                          title: "Safety on Tours",
-                          desc: "How we make decisions about safety on the road, at viewpoints, and on the mountain, including how we monitor conditions and when we change plans.",
-                        },
-                        {
-                          title: "Packing & Fitness",
-                          desc: "What to pack for Bromo, Ijen and Tumpak Sewu, what kind of fitness you need, and a few tips to keep your belongings safe.",
-                        },
-                        {
-                          title: "Weather & Closures",
-                          desc: "How rain, fog, or volcanic activity can affect your itinerary, which sources we follow, and what happens to your booking if part of the tour is closed.",
-                        },
-                        {
-                          title: "Police Escort for Groups",
-                          desc: "When and how official traffic police escort can be arranged for large groups, and why it is always done through formal channels.",
-                        },
-                      ].map((topic, index) => (
-                        <div
-                          key={index}
-                          className="p-4 border border-gray-200 rounded-lg hover:border-[#9fce33] transition-colors"
-                        >
-                          <h4 className="font-bold text-[#1a1a1a] mb-2">
-                            {topic.title}
-                          </h4>
-                          <p className="text-sm text-gray-600 mb-2">
-                            {topic.desc}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </section>
-
-                {/* Section 2: Booking Information */}
                 <section
                   id="booking"
                   className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"
@@ -461,7 +554,7 @@ const TravelGuideContent = () => {
                         <ReceiptText size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Booking Information — Payments, Changes & Travel
                           Credit
                         </h2>
@@ -1046,7 +1139,7 @@ const TravelGuideContent = () => {
                         <HelpCircle size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Frequently Asked Questions
                         </h2>
                       </div>
@@ -1128,7 +1221,7 @@ const TravelGuideContent = () => {
                         <Filter size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Ijen Health Screening — Real Checks, Digital Proof
                         </h2>
                       </div>
@@ -1364,7 +1457,7 @@ const TravelGuideContent = () => {
                         <Shield size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Safety on Tours — How We Make Decisions
                         </h2>
                       </div>
@@ -1641,7 +1734,7 @@ const TravelGuideContent = () => {
                         <Backpack size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Packing & Fitness — Bromo, Ijen & Tumpak Sewu
                         </h2>
                       </div>
@@ -1960,7 +2053,7 @@ const TravelGuideContent = () => {
                         <CloudSun size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Weather, Volcanic Activity & Closures
                         </h2>
                       </div>
@@ -2183,7 +2276,7 @@ const TravelGuideContent = () => {
                         <ShieldAlert size={24} />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#1a1a1a]">
+                        <h2 className="md:text-xl text-lg font-bold text-[#1a1a1a]">
                           Police Escort for Tourist Groups in East Java
                         </h2>
                       </div>
