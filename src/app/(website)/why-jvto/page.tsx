@@ -200,7 +200,6 @@ export default function WhyJvtoPage() {
           ],
         },
 
-
         priceRange: "IDR 1.000.000 - IDR 9.050.000",
         openingHoursSpecification: [
           {
