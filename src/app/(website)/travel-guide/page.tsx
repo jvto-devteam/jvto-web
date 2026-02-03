@@ -42,7 +42,7 @@ import {
   AlertCircle,
   Lock,
   CheckCircle,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -75,61 +75,1060 @@ const TravelGuideContent = () => {
     }));
   };
 
-  // JSON-LD Schema untuk SEO
   const travelGuideSchema = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Comprehensive Travel Guide - Java Volcano Tour Operator",
-    description:
-      "Complete travel guide for Bromo, Ijen, and Tumpak Sewu tours. Includes booking information, safety guidelines, packing lists, and frequently asked questions.",
-    url: "https://www.javavolcano-touroperator.com/travel-guide",
-    mainEntity: {
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "How to book a private tour with JVTO?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Book through website secure checkout or contact WhatsApp +62 822-4478-8833. 20% deposit required, full payment due 5 days before tour.",
-          },
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": "https://javavolcano-touroperator.com/#organization",
+        name: "Java Volcano Tour Operator (JVTO)",
+        alternateName: "JVTO",
+        url: "https://javavolcano-touroperator.com",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        image: [
+          "https://javavolcano-touroperator.com/_next/image?url=%2Fassets%2Fimg%2Fjvto-color.png&w=256&q=75",
+        ],
+        email: "hello@javavolcano-touroperator.com",
+        telephone: "+62 822-4478-8833",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress:
+            "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
+          postalCode: "68214",
+          addressLocality: "Bondowoso",
+          addressRegion: "East Java",
+          addressCountry: "ID",
         },
-        {
-          "@type": "Question",
-          name: "What is included in JVTO tour packages?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Private transport, Bromo jeep, entrance tickets, accommodation when included, Ijen safety gear and health screening.",
+        areaServed: [
+          {
+            "@type": "AdministrativeArea",
+            name: "East Java",
           },
-        },
-        {
-          "@type": "Question",
-          name: "What is the Travel Credit policy?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "JVTO uses Travel Credit instead of cash refunds. Cancellations 48+ hours before get 100% Travel Credit, valid indefinitely and transferable.",
+          {
+            "@type": "Country",
+            name: "Indonesia",
           },
+          {
+            "@type": "City",
+            name: "Surabaya",
+          },
+          {
+            "@type": "Place",
+            name: "Bali",
+          },
+        ],
+        identifier: [
+          {
+            "@type": "PropertyValue",
+            name: "Business and tourism licence number",
+            value: "1102230032918",
+          },
+        ],
+        sameAs: [
+          "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
+          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
+        ],
+        founder: {
+          "@type": "Person",
+          name: "Agung Sambuko",
+          alternateName: "Mr. Sam",
+          jobTitle: "Founder & CEO",
+          knowsAbout: [
+            "TouristSafety",
+            "EastJavaTourism",
+            "VolcanoTrekking",
+            "LogisticsManagement",
+          ],
+          description:
+            "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
         },
-      ],
-    },
-    publisher: {
-      "@type": "TravelAgency",
-      name: "Java Volcano Tour Operator",
-      description:
-        "Specializing in sustainable eco-tourism across East Java's volcanic landscapes since 2010.",
-      url: "https://javavolcano-touroperator.com",
-      telephone: "+62 822-4478-8833",
-      email: "hello@javavolcano-touroperator.com",
-      address: {
-        "@type": "PostalAddress",
-        addressCountry: "Indonesia",
+        priceRange: "IDR 1.000.000 - IDR 9.050.000",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Saturday",
+            opens: "07:30",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Sunday",
+            opens: "08:00",
+            closes: "17:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Monday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Tuesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Wednesday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Thursday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Friday",
+            opens: "08:00",
+            closes: "21:00",
+          },
+        ],
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -7.9161788,
+          longitude: 113.8085868,
+        },
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+62 822-4478-8833",
+            email: "hello@javavolcano-touroperator.com",
+            contactType: "customer support",
+          },
+        ],
+        foundingDate: "2016-01-01",
+        currenciesAccepted: "IDR",
+        paymentAccepted: ["Credit Card", "Bank Transfer"],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.9",
+          reviewCount: "102",
+        },
       },
-    },
-    datePublished: "2026-01-19",
-    dateModified: "2026-01-19",
-    inLanguage: "en",
+      {
+        "@type": "WebSite",
+        "@id": "https://javavolcano-touroperator.com/#website",
+        url: "https://javavolcano-touroperator.com",
+        name: "Java Volcano Tour Operator (JVTO)",
+        description:
+          "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        inLanguage: "en",
+        hasPart: [
+          {
+            "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+          },
+        ],
+      },
+      {
+        "@type": ["WebPage", "CollectionPage"],
+        "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        url: "https://javavolcano-touroperator.com/travel-guide",
+        name: "Travel Guide — Booking, Safety & Practical Info",
+        description:
+          "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you’ll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/#website",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        breadcrumb: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#breadcrumb",
+        },
+        mainEntity: {
+          "@id":
+            "https://javavolcano-touroperator.com/travel-guide#help-topics",
+        },
+        datePublished: "2026-01-19T00:00:00+07:00",
+        dateModified: "2026-01-19T00:00:00+07:00",
+        hasPart: [
+          {
+            "@id": "https://javavolcano-touroperator.com/travel-guide#faq",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+          },
+          {
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+          },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://javavolcano-touroperator.com/travel-guide#help-topics",
+        name: "What do you need help with?",
+        itemListOrder: "ItemListOrderAscending",
+        numberOfItems: 7,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Frequently Asked Questions — Short Answers to Common Questions",
+            item: {
+              "@type": "WebPage",
+              "@id": "https://javavolcano-touroperator.com/travel-guide#faq",
+              url: "https://javavolcano-touroperator.com/travel-guide#faq",
+              name: "Frequently Asked Questions — Short Answers to Common Questions",
+              description:
+                "Clear answers to the most common questions about private Bromo, Ijen and Tumpak Sewu tours with JVTO – bookings, payments, Travel Credit, health screening, safety, packing and groups.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Booking Information",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#booking-information",
+              url: "https://javavolcano-touroperator.com/travel-guide#booking-information",
+              name: "Booking Information",
+              description:
+                "This page is a plain-language summary of the official JVTO Booking, Payment & Cancellation Policy and the Inclusions & Exclusions Policy. Your Official E-Voucher / Invoice is always the primary contract for your specific booking.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Ijen Health Screening",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+              url: "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+              name: "Ijen Health Screening",
+              description:
+                "Learn how JVTO includes real health screening for Ijen night hikes and supports digital, QR-verified health clearance to reduce fake certificates and avoid preventable incidents.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: "Safety on Tours",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+              url: "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+              name: "Safety on Tours",
+              description:
+                "Understand how safety is built into JVTO’s private tours, what you can expect from us, and what we expect from you as a guest.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 5,
+            name: "Packing & Fitness",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+              url: "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+              name: "Packing & Fitness",
+              description:
+                "What to pack and how fit you should realistically be for private tours to Bromo, Ijen and Tumpak Sewu with JVTO. Clothing layers, footwear, fitness levels and practical tips for safer, more comfortable trips.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 6,
+            name: "Weather & Closures",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+              url: "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+              name: "Weather & Closures",
+              description:
+                "How weather and volcanic activity can affect your Bromo, Ijen and Tumpak Sewu tour with JVTO, and how we handle timetable changes, reroutes, closures and Travel Credit.",
+            },
+          },
+          {
+            "@type": "ListItem",
+            position: 7,
+            name: "Police Escort for Groups",
+            item: {
+              "@type": "WebPage",
+              "@id":
+                "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+              url: "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+              name: "Police Escort for Groups",
+              description:
+                "Learn when and how JVTO can coordinate official traffic police escort for large groups in East Java, and what this service does and does not include.",
+            },
+          },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://javavolcano-touroperator.com/travel-guide#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://javavolcano-touroperator.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Travel Guide",
+            item: "https://javavolcano-touroperator.com/travel-guide",
+          },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://javavolcano-touroperator.com/travel-guide#faq",
+        url: "https://javavolcano-touroperator.com/travel-guide#faq",
+        name: "Frequently Asked Questions",
+        headline: "Frequently Asked Questions",
+        description:
+          "Clear answers to the most common questions about private Bromo, Ijen and Tumpak Sewu tours with JVTO – bookings, payments, Travel Credit, health screening, safety, packing and groups.",
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Are your tours private or shared?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "All JVTO tours are private only. We do not mix your booking with other guests or sell “seat in coach” options. Your vehicle, driver and guide are arranged for your party alone.\n\nFor examples of private itineraries from Surabaya or Bali, see our Tours pages.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is included in the price?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Each tour page shows a clear list of Inclusions and Exclusions. In general, our private, all-inclusive packages cover:\n\nPrivate vehicle and driver\n\nBromo 4WD jeep where listed\n\nStated park entrance tickets and permits\n\nAll hotel breakfasts\n\nSelected lunches and dinners (especially during the Bondowoso / Ijen segment)\n\nMineral water\n\nEssential gear for Ijen (gas mask and trekking pole) on tours that include Ijen\n\nJVTO travel T-shirt (where listed)\n\nAnything not listed under “Included” is treated as not included. For full details, please see Booking Information and the Inclusions & Exclusions section of your chosen tour.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How do I book and confirm a tour?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "The usual steps are:\n\nYou send us your dates, origin (for example Surabaya or Bali), group size and preferred route.\n\nWe send you a tailored proposal with itinerary and price.\n\nYou confirm in writing and pay the booking deposit (normally 20% of the total).\n\nWe send you an official JVTO E-Voucher with your booking details.\n\nYour booking is considered confirmed when the deposit has been received and the E-Voucher has been issued. Full details are on the Booking Information page.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How do payments, deposits and deadlines work?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "In most cases:\n\nA deposit is required to secure your booking.\n\nThe remaining balance is due a few days before Day 1 of your tour, depending on the payment method (for example card vs bank transfer).\n\nIf payment deadlines are missed, your booking may be at risk.\n\nThe exact amounts and dates are always stated in your E-Voucher and explained on our Booking Information page. That page and your E-Voucher together act as the official reference.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is Travel Credit and do you offer cash refunds?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "JVTO uses a Travel Credit system instead of standard cash refunds for most guest-initiated cancellations. In general:\n\nIf you cancel far enough in advance (before the stated cutoff), we convert your paid amounts into Travel Credit.\n\nTravel Credit can be used for future JVTO tours, and may be transferable under the rules stated in our policy.\n\nTravel Credit does not normally expire.\n\nCash refunds are not normally provided except in specially defined situations.\n\nExact timing thresholds, percentages and special cases are described in detail on the Booking Information page and in the Booking & Cancellation Policy.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How does the Ijen health screening work?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "For tours that include the Ijen night hike, JVTO includes a mandatory health screening run by approved medical staff. The aim is to reduce the risk of sending unfit guests into a demanding environment with sulphur gas and steep trails.\n\nKey points:\n\nScreening takes place before the hike, often at your accommodation or a partner clinic.\n\nBasic checks are done (for example blood pressure, oxygen saturation and relevant medical history).\n\nResults are recorded and can be used to confirm whether the hike is appropriate.\n\nA digital system with QR verification is used to help prevent fake certificates.\n\nFull details, including what happens if you are not cleared, are explained on Ijen Health Screening.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What happens if I do not pass the Ijen health screening?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "If screening staff or our team advise that you should not attempt the hike, we will follow that decision. It is made to protect your safety and others on the trail.\n\nIn these cases, we may:\n\nOffer alternative low-risk activities or rest time, where practical\n\nContinue the rest of your itinerary as planned\n\nFinancial treatment (for example how costs for the Ijen segment are handled) follows the rules set in our Booking Information and policy. Please read that page carefully before you book.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do I need travel insurance?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes, we strongly recommend that all guests hold valid travel insurance that covers:\n\nMedical emergencies\n\nEvacuation and repatriation\n\nTrip interruption and cancellations\n\nJVTO operates as a licensed Indonesian tour operator, but we cannot act as an insurance provider and cannot cover costs that fall under personal insurance.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can children or older travellers join JVTO tours?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Many families and older travellers have joined our tours safely and comfortably. The key is matching itinerary difficulty to the real fitness and health of the guests:\n\nSome routes (for example Tumpak Sewu and the full Ijen hike) are physically demanding.\n\nOthers can be adapted with more viewpoints and less intense trails.\n\nPlease tell us clearly about ages and relevant conditions when you first contact us. We may suggest a slower or gentler plan based on your group’s needs.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What if I feel unwell during the tour?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Tell your driver or guide as soon as you notice it – do not wait until it becomes an emergency. Because your tour is private, we have more flexibility to:\n\nAdjust the pace\n\nAdd extra rest stops\n\nChange or skip certain activities when it is safer to do so\n\nFor serious symptoms, we will prioritise getting you to appropriate medical support. Always follow the instructions of your crew in such situations.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What happens if Bromo or Ijen is closed on my dates?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We follow official instructions from Indonesian authorities and park management. Depending on the situation:\n\nWe may adjust timings or use alternative viewpoints\n\nWe may replace certain stops with other available local visits\n\nIn more serious cases, specific segments (such as a night hike) may be cancelled while other parts of the tour continue.\n\nHow this affects your booking financially is explained in the Weather & Closures and Booking Information pages. External closures are handled differently from voluntary cancellations.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can you guarantee sunrise views or blue fire?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Weather, cloud, volcanic gas and other natural factors are outside our control.\n\nWe design our itineraries to maximise the chance of good conditions.\n\nWe cannot promise specific colours, light or blue fire visibility on any given night.\n\nOur commitment is to honest briefings and to acting quickly if conditions become unsafe.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "If it rains, will our tour be cancelled?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Light or normal rain rarely cancels an entire tour, but it can:\n\nMake trails more slippery\n\nReduce visibility\n\nRequire changes in timing or route\n\nSevere weather, landslides or dangerous conditions can lead to partial or full cancellations for safety. Our Weather & Closures page explains how we respond and how this links to Travel Credit and itinerary changes.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How much luggage can I bring?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "In most cases, standard airline-style luggage is fine:\n\nOne main suitcase or backpack per person\n\nOne small daypack\n\nIf you plan to travel with unusually large or heavy items, please tell us in advance so we can plan the right vehicle. On days with hikes, we recommend leaving your main luggage in the car or accommodation and carrying only what you need in a daypack.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What should I wear and bring for these tours?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "The key is layering, grip and simplicity:\n\nLayered clothing for cold pre-dawn starts and warmer later hours\n\nClosed shoes with good grip (hiking shoes recommended for Ijen and Tumpak Sewu)\n\nSmall backpack, personal headlamp or torch, waterproof cover for electronics\n\nEssential personal medication\n\nWe recommend keeping non-essential valuables and jewellery to a minimum, and avoiding silver items during Ijen days due to sulphur. For full details, see Packing & Fitness.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do you offer ISIC student deals?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. Through our collaboration with ISIC, verified international students may access adapted rates on selected packages. The goal is to keep travel fair for students facing higher foreign entrance fees, without reducing safety or quality.\n\nThe exact conditions and eligible tours are explained on our ISIC / Student Deals page.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can you arrange an official police escort for our group?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "For large groups (typically around 18 guests or more), JVTO can help coordinate an official traffic police escort on certain road segments (for example from a toll exit to Bondowoso), if approved by the relevant Traffic Police unit.\n\nKey points:\n\nEscorts are based on formal written orders from the authorities\n\nRoutes and times are clearly defined\n\nThe aim is safe convoy management, not speeding or bypassing laws\n\nThis is not automatic and not a marketing gimmick. Full details are on Police Escort for Groups.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How can we contact JVTO before and during the tour?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Before and during your tour, our official channels are:\n\nWhatsApp (primary)\n\nEmail\n\nThese details appear on your E-Voucher and on the Contact page. Please make sure your phone number (including country code) and email address are correct so we can reach you with any important updates.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Which documents should I keep with me?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We recommend keeping the following easily accessible:\n\nPassport and required visas\n\nTravel insurance information\n\nYour JVTO E-Voucher and contact details (printed or on your phone)\n\nAny relevant medical information you may need to show in an emergency",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Where can I read the full legal policy?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "The full legal text of our booking and cancellation terms is available on:\n\nBooking Information (web page summary)\n\nBooking & Cancellation Policy (document)\n\nIn any confusion, the combination of your JVTO E-Voucher, the Booking Information page and the official policy document is treated as the final reference.",
+            },
+          },
+        ],
+        hasPart: [
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#booking-information",
+            url: "https://javavolcano-touroperator.com/travel-guide#booking-information",
+            name: "Booking Information – payments, deposits, Travel Credit and cancellations",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+            url: "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+            name: "Ijen Health Screening – how screening works and what results mean",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+            url: "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+            name: "Safety on Tours – our approach to risk and guest responsibilities",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+            url: "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+            name: "Packing & Fitness – what to bring and how fit you should be",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+            url: "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+            name: "Weather & Closures – how natural conditions affect your itinerary",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+            url: "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+            name: "Police Escort for Groups – how official escorts work for large groups",
+          },
+        ],
+      },
+      {
+        "@type": "CreativeWork",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+        url: "https://javavolcano-touroperator.com/travel-guide#booking-information",
+        name: "Booking Information & Travel Credit — How JVTO Private Tours Work",
+        description:
+          "This page is a plain-language summary of the official JVTO Booking, Payment & Cancellation Policy and the Inclusions & Exclusions Policy. Your Official E-Voucher / Invoice is always the primary contract for your specific booking.",
+        provider: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+        headline:
+          "Ijen Health Screening — Real Checks, Digital Proof for Safer Night Hikes",
+        description:
+          "Learn how JVTO includes real health screening for Ijen night hikes and supports digital, QR-verified health clearance to reduce fake certificates and avoid preventable incidents.",
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        articleSection: [
+          "Why Ijen Needs Real Health Screening",
+          "How Health Screening Works for JVTO Guests",
+          "Digital Health Clearance & QR Verification",
+          "Possible Outcomes & What Happens If You Are Not Cleared",
+          "What Screening Does Not Do",
+          "Data & Privacy (Short Summary)",
+          "Quick FAQ (On-Page)",
+          "Related Pages",
+        ],
+        articleBody: "{{PLACEHOLDER_ARTICLE_BODY}}",
+        inLanguage: "en",
+        url: "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+        about: {
+          "@id":
+            "https://javavolcano-touroperator.com/destinations/ijen-crater#destination",
+        },
+        relatedLink: [
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          "https://javavolcano-touroperator.com/travel-guide#faq",
+          "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+          "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+          "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+          "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        ],
+      },
+      {
+        "@type": "WebPage",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening-faq",
+        url: "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening-faq",
+        name: "Ijen Health Screening FAQ",
+        inLanguage: "en",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Is Ijen health screening optional if I travel with JVTO?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. For JVTO tours that include the Ijen night hike, health screening is part of our standard operating procedure. We will not run the hike for guests who are not cleared.",
+            },
+            inLanguage: "en",
+            dateModified: "2026-01-19T00:00:00+07:00",
+          },
+          {
+            "@type": "Question",
+            name: "Does a “cleared” result mean there is no risk?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. It means that, at the time of screening, there is no obvious reason to block you based on the checks used. Natural conditions and personal responses can still change.",
+            },
+            inLanguage: "en",
+            dateModified: "2026-01-19T00:00:00+07:00",
+          },
+          {
+            "@type": "Question",
+            name: "What if I refuse to be screened?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "If you refuse mandatory screening, you will not be allowed to join the Ijen hike. The relevant costs are treated as used, and our standard Travel Credit and late cancellation rules apply.",
+            },
+            inLanguage: "en",
+            dateModified: "2026-01-19T00:00:00+07:00",
+          },
+          {
+            "@type": "Question",
+            name: "Can I get a refund if I am not cleared?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No cash refund is provided when you are not cleared to hike after screening, because the related costs have been committed. Where possible, we may arrange alternative activities, but these depend on real-time conditions.",
+            },
+            inLanguage: "en",
+            dateModified: "2026-01-19T00:00:00+07:00",
+          },
+          {
+            "@type": "Question",
+            name: "I already have a letter from my doctor. Do I still need screening?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "In most cases, yes. Local implementation requires a recognised screening process on-site or through participating providers, not just a letter carried from overseas.",
+            },
+            inLanguage: "en",
+            dateModified: "2026-01-19T00:00:00+07:00",
+          },
+        ],
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+        headline: "Safety on Tours — How JVTO Plans and Manages Risk",
+        description:
+          "Understand how safety is built into JVTO’s private tours, what you can expect from us, and what we expect from you as a guest.",
+        inLanguage: "en",
+        url: "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        articleSection: [
+          "Our Safety Approach in One Look",
+          "Before Your Trip: Information & Fitness",
+          "During Your Tour: Crew, Vehicles & On-Site Decisions",
+          "Volcanoes, Weather & Closures",
+          "What You Can Expect from JVTO",
+          "What JVTO Expects from You",
+          "Related Safety Pages",
+        ],
+        articleBody: "{{PLACEHOLDER_ARTICLE_BODY_HTML_OR_TEXT}}",
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        datePublished: "2026-01-19T00:00:00+07:00",
+        dateModified: "2026-01-19T00:00:00+07:00",
+        relatedLink: [
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          "https://javavolcano-touroperator.com/travel-guide#faq",
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+          "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+          "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+          "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        ],
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+        headline: "Packing & Fitness Guide for Bromo, Ijen & Tumpak Sewu",
+        description:
+          "What to pack and how fit you should realistically be for private tours to Bromo, Ijen and Tumpak Sewu with JVTO. Clothing layers, footwear, fitness levels and practical tips for safer, more comfortable trips.",
+        inLanguage: "en",
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        datePublished: "2026-01-19T00:00:00+07:00",
+        dateModified: "2026-01-19T00:00:00+07:00",
+        articleSection: [
+          "Why This Guide Matters",
+          "Temperatures & Conditions in Short",
+          "Clothing: Layers Work Best",
+          "Footwear, Small Gear & Valuables",
+          "Special Note for Silver Jewellery at Ijen",
+          "Fitness Levels by Destination",
+          "Who Should Consider a Gentler Itinerary",
+          "During the Tour: Tell Your Crew How You Feel",
+          "Quick Packing Checklist",
+          "Related Pages",
+        ],
+        about: [
+          {
+            "@type": "TouristAttraction",
+            name: "Mount Bromo",
+            url: "https://javavolcano-touroperator.com/destinations/mount-bromo",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Ijen Crater",
+            url: "https://javavolcano-touroperator.com/destinations/ijen-crater",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Tumpak Sewu Waterfall",
+            url: "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+          },
+        ],
+        articleBody: "{{PLACEHOLDER_ARTICLE_BODY_HTML}}",
+        url: "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        relatedLink: [
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          "https://javavolcano-touroperator.com/travel-guide#faq",
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+          "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+          "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+          "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        ],
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+        headline: "Weather, Volcano Alerts & Closures",
+        description:
+          "How weather and volcanic activity can affect your Bromo, Ijen and Tumpak Sewu tour with JVTO, and how we handle timetable changes, reroutes, closures and Travel Credit.",
+        inLanguage: "en",
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        datePublished: "2026-01-19T00:00:00+07:00",
+        dateModified: "2026-01-19T00:00:00+07:00",
+        articleSection: [
+          "Why Conditions Can Change Quickly",
+          "Rain Patterns: What to Expect (Without Overpromising)",
+          "Volcano Activity & Official Alerts",
+          "Types of Changes You Might Experience",
+          "How This Links to Booking Information & Travel Credit",
+          "Your Role as a Guest",
+          "Quick FAQ",
+          "Related Pages",
+        ],
+        about: [
+          {
+            "@type": "TouristAttraction",
+            name: "Mount Bromo",
+            url: "https://javavolcano-touroperator.com/destinations/mount-bromo",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Ijen Crater",
+            url: "https://javavolcano-touroperator.com/destinations/ijen-crater",
+          },
+          {
+            "@type": "TouristAttraction",
+            name: "Tumpak Sewu Waterfall",
+            url: "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+          },
+        ],
+        articleBody: "{{PLACEHOLDER_ARTICLE_BODY_HTML}}",
+        url: "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        relatedLink: [
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          "https://javavolcano-touroperator.com/travel-guide#faq",
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+          "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+          "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+          "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        ],
+      },
+      {
+        "@type": "WebPage",
+        name: "Weather & Closures FAQ",
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "What happens if Bromo or Ijen is closed on my travel dates?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We follow official instructions. Where possible, we will reroute to alternative viewpoints or destinations, or adjust the pacing of your trip. The financial treatment (for example Travel Credit or partial adjustments) follows the rules in our Booking Information and policy.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "If the volcano is “on alert”, will you still run the tour?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "It depends on the alert level, hazard zones, and permissions. Some alerts allow controlled access; others require full closure. We decide based on official guidance, not marketing promises.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can you guarantee that we will see sunrise or blue fire?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Weather, visibility, and volcanic activity are outside our control. We design routes to maximise the chance of good conditions, but we cannot promise specific colours or phenomena.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "If it rains, will our tour be cancelled?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Light or normal rain rarely cancels an entire tour. It may change timings, viewpoints, or which activities feel comfortable. Severe weather, landslides, or dangerous conditions can lead to partial or full cancellations for safety.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can I get a full cash refund if a volcano is closed?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our Booking & Cancellation Policy explains how Travel Credit and refunds work in these situations. In many cases, we focus on rerouting and providing alternative experiences rather than offering full cash refunds for services impacted by external events.",
+            },
+          },
+        ],
+        url: "https://javavolcano-touroperator.com/travel-guide#weather-and-closures-faq",
+      },
+      {
+        "@type": "Article",
+        "@id":
+          "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        headline:
+          "Official Police Escort for Large Tourist Groups in East Java",
+        description:
+          "Learn when and how JVTO can coordinate official traffic police escort for large groups in East Java, and what this service does and does not include.",
+        inLanguage: "en",
+        url: "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups",
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        author: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        datePublished: "2026-01-19T00:00:00+07:00",
+        dateModified: "2026-01-19T00:00:00+07:00",
+        articleSection: [
+          "What “Police Escort” Means in Our Context",
+          "When Escort May Be Available",
+          "How the Request Process Works",
+          "Costs, Inclusions & Limitations",
+          "Cancellation, Changes & Force Majeure",
+          "Quick FAQ",
+        ],
+        articleBody: "{{PLACEHOLDER_ARTICLE_BODY_POLICE_ESCORT_FOR_GROUPS}}",
+        mentions: [
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+            name: "Ijen Health Screening",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+            name: "Packing & Fitness",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+            name: "Weather & Closures",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#booking-information",
+            name: "Booking Information",
+          },
+          {
+            "@type": "WebPage",
+            "@id":
+              "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+            name: "Safety On Tours",
+          },
+        ],
+        relatedLink: [
+          "https://javavolcano-touroperator.com/why-jvto/the-jvto-difference",
+          "https://javavolcano-touroperator.com/why-jvto/reviews",
+          "https://javavolcano-touroperator.com/travel-guide#booking-information",
+          "https://javavolcano-touroperator.com/travel-guide#faq",
+          "https://javavolcano-touroperator.com/travel-guide#ijen-health-screening",
+          "https://javavolcano-touroperator.com/travel-guide#packing-and-fitness",
+          "https://javavolcano-touroperator.com/travel-guide#safety-on-tours",
+          "https://javavolcano-touroperator.com/travel-guide#weather-and-closures",
+        ],
+      },
+      {
+        "@type": "WebPage",
+        name: "Police Escort for Groups FAQ",
+        url: "https://javavolcano-touroperator.com/travel-guide#police-escort-for-groups-faq",
+        inLanguage: "en",
+        isPartOf: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        about: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        mainEntityOfPage: {
+          "@id": "https://javavolcano-touroperator.com/travel-guide#webpage",
+        },
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Can every JVTO tour get a police escort?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Escort is reserved for specific large group programs and must be approved by the relevant Traffic Police unit. Regular private tours are not escorted.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can we decide to add escort at the last minute?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Normally no. Escort requires formal approvals, planning, and scheduling. Last-minute requests are unlikely to be accepted.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Is escort included in the standard tour price?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. If escort is approved and included, any cost is clearly shown as a separate line in your group proposal and invoice.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Does escort mean we can ignore normal road rules?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Escort is intended to improve convoy management and safety, not to bypass the law.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What happens if the police cancel our escort?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "If the escort is cancelled by the authorities, JVTO will still operate your tour using normal private vehicles. We will apply the same principles that we use for other external changes, as described in our Booking Information.",
+            },
+          },
+        ],
+      },
+      {
+        "@type": "TouristAttraction",
+        "@id":
+          "https://javavolcano-touroperator.com/destinations/ijen-crater#destination",
+        name: "Ijen Crater",
+      },
+    ],
   };
-
   const faqData = [
     {
       q: "Q1. Are your tours private or shared?",
