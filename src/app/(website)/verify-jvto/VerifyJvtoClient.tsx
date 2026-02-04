@@ -195,6 +195,7 @@ export default function VerifyJvtoClient() {
                           alt={doc.alt_text || doc.caption || doc.filename}
                           fill
                           className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                          unoptimized={true}
                         />
                         <div
                           className={`absolute top-3 right-3 px-2 py-1 text-[10px] font-bold rounded shadow-sm ${badgeColor}`}
