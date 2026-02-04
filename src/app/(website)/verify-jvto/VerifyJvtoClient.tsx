@@ -190,12 +190,10 @@ export default function VerifyJvtoClient() {
                       <div
                         className={`relative aspect-[4/3] w-full overflow-hidden group ${headerColor}`}
                       >
-                        <Image
+                        <img
                           src={displayImage}
                           alt={doc.alt_text || doc.caption || doc.filename}
-                          fill
-                          className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
-                          unoptimized={true}
+                          className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                         />
                         <div
                           className={`absolute top-3 right-3 px-2 py-1 text-[10px] font-bold rounded shadow-sm ${badgeColor}`}
@@ -258,7 +256,6 @@ export default function VerifyJvtoClient() {
                               ? "col-span-1 " + whiteButtonClass
                               : "col-span-2 " + greenButtonClass
                           }`}
-                          
                         >
                           <a
                             href={doc.url}
@@ -280,7 +277,6 @@ export default function VerifyJvtoClient() {
                         {hasExternalLink && (
                           <Button
                             className={`w-full text-xs font-bold col-span-1 ${greenButtonClass}`}
-                            
                           >
                             <a
                               href={doc.external_validation_url}
