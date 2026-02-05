@@ -1,3 +1,4 @@
+// src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
 import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v2.1.public.ready_to_copy.json";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 export default function VerifyJvtoPage() {
   const orgProfile = ssotData.organization_profile;
 
-  // 1. ORGANIZATION SCHEMA
+  // 1. ORGANIZATION SCHEMA (Dijaga Tetap Valid)
   const organizationSchema = {
     "@type": "TravelAgency",
     "@id": "https://javavolcano-touroperator.com/#organization",
@@ -91,7 +92,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 2. DOCUMENT COLLECTION SCHEMA (Dinamis dari SSOT dengan URL Lookup)
+  // 2. DOCUMENT COLLECTION SCHEMA
   const documentCollectionSchema = {
     "@type": "CollectionPage",
     "@id": `${siteUrl}/verify-jvto`,
@@ -104,20 +105,28 @@ export default function VerifyJvtoPage() {
     mainEntity: {
       "@type": "ItemList",
       itemListElement: ssotData.verification_credentials.map((cred, index) => {
-        // --- LOGIC BARU: LOOKUP URL ---
-        // Kita cari slug aset bukti pertama dari credential ini
+        // Logic Lookup URL Asli
         const primaryAssetSlug = cred.evidence_asset_slugs?.[0];
-
-        // Lalu kita cari objek asetnya di inventory untuk mendapatkan URL asli
         const asset = ssotData.assets_inventory.find(
           (a) => a.slug === primaryAssetSlug,
         );
 
-        // Jika ketemu, pakai URL asli (PDF/Gambar). Jika tidak, fallback ke halaman verify.
         const directFileUrl = asset ? asset.url : `${siteUrl}/verify-jvto`;
         const fileFormat = asset?.url.endsWith(".pdf")
           ? "application/pdf"
           : "image/jpeg";
+
+        // [ADD] ISBN INJECTION Logic
+        // Mencari apakah credential ini memiliki item bukti berupa Buku dengan ISBN
+        let finalDescription = cred.narrative;
+        if (cred.evidence_items) {
+          const bookItem = cred.evidence_items.find(
+            (item: any) => item.type === "Book",
+          );
+          if (bookItem && bookItem.bibliographic_metadata?.isbn_13) {
+            finalDescription = `${finalDescription} (Reference: ${bookItem.bibliographic_metadata.title}, ISBN-13: ${bookItem.bibliographic_metadata.isbn_13})`;
+          }
+        }
 
         return {
           "@type": "ListItem",
@@ -125,9 +134,9 @@ export default function VerifyJvtoPage() {
           item: {
             "@type": "DigitalDocument",
             name: cred.title,
-            description: cred.narrative,
-            url: directFileUrl, // <--- SEKARANG MENGARAH KE FILE ASLI
-            encodingFormat: fileFormat, // Memberitahu Google jenis filenya
+            description: finalDescription, // Menggunakan deskripsi yang sudah ada ISBN (jika ada)
+            url: directFileUrl,
+            encodingFormat: fileFormat,
             license:
               cred.identifiers?.registry_url ||
               cred.identifiers?.value ||
@@ -139,7 +148,6 @@ export default function VerifyJvtoPage() {
     },
   };
 
-  // 3. MERGE MENJADI SATU GRAPH
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [organizationSchema, documentCollectionSchema],
@@ -147,12 +155,10 @@ export default function VerifyJvtoPage() {
 
   return (
     <>
-      {/* Inject Combined Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
       <VerifyJvtoClient />
     </>
   );
