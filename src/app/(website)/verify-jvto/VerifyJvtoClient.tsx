@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+// Hapus import Image dari next/image karena kita pakai tag <img> biasa
 import Button from "@/components/website/UI/Button";
 import { getVerificationDocs, type Doc } from "@/lib/data-loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +18,7 @@ export default function VerifyJvtoClient() {
   const [activeTab, setActiveTab] = useState("all");
   const [showHash, setShowHash] = useState<Record<string, boolean>>({});
 
+  // Pastikan file data-loader.ts sudah ada di src/lib/
   const data = getVerificationDocs();
 
   const rawDocs: Doc[] = [
@@ -154,6 +155,9 @@ export default function VerifyJvtoClient() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredDocuments.map((doc, i) => {
                 const isPdf = doc.url.endsWith(".pdf");
+
+                // --- PENTING: DEFINISI VARIABEL DISPLAY IMAGE ---
+                // Ini mencegah Error 500 (ReferenceError)
                 const displayImage = doc.preview?.url || doc.url;
 
                 // Styling Logic
@@ -172,10 +176,9 @@ export default function VerifyJvtoClient() {
                 // Button Logic
                 const hasExternalLink = !!doc.external_validation_url;
 
-                // Definisi Kelas Warna (Hijau color-jvto-green sesuai screenshot)
-                // Jika ingin persis seperti screenshot (color-jvto-green Green):
+                // Definisi Kelas Warna (Hijau Lime)
                 const greenButtonClass =
-                  "bg-color-jvto-green-500 hover:bg-color-jvto-green-600 text-white border-color-jvto-green-600 shadow-sm";
+                  "bg-lime-500 hover:bg-lime-600 text-white border-lime-600 shadow-sm";
                 // Definisi Kelas Warna Putih/Outline
                 const whiteButtonClass =
                   "bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-50";
@@ -185,16 +188,22 @@ export default function VerifyJvtoClient() {
                     key={i}
                     className={`flex flex-col h-full border hover:shadow-xl transition-shadow duration-300 ${isHighAuthority ? "border-slate-300" : "border-gray-200"}`}
                   >
-                    {/* VISUAL PREVIEW */}
+                    {/* VISUAL PREVIEW AREA */}
                     <CardHeader className="p-0">
                       <div
                         className={`relative aspect-[4/3] w-full overflow-hidden group ${headerColor}`}
                       >
+                        {/* SOLUSI IMAGE ERROR 400:
+                           Gunakan tag <img> HTML biasa.
+                           Ini membypass pemrosesan server Next.js dan config remotePatterns.
+                        */}
                         <img
                           src={displayImage}
                           alt={doc.alt_text || doc.caption || doc.filename}
                           className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
                         />
+
                         <div
                           className={`absolute top-3 right-3 px-2 py-1 text-[10px] font-bold rounded shadow-sm ${badgeColor}`}
                         >
@@ -243,19 +252,16 @@ export default function VerifyJvtoClient() {
                         </div>
                       )}
 
-                      {/* ACTION BUTTONS: LOGIC PERBAIKAN */}
+                      {/* ACTION BUTTONS */}
                       <div className="mt-auto pt-5 grid grid-cols-2 gap-3">
-                        {/* 1. Tombol Download / View Image */}
-                        {/* Logic: 
-                            - Jika ada link eksternal (2 tombol), dia pakai outline (putih) & col-span-1. 
-                            - Jika TIDAK ada link eksternal (1 tombol), dia pakai primary (HIJAU) & col-span-2 (Full Width).
-                        */}
+                        {/* Tombol 1: Download/View */}
                         <Button
                           className={`w-full text-xs font-bold ${
                             hasExternalLink
                               ? "col-span-1 " + whiteButtonClass
                               : "col-span-2 " + greenButtonClass
                           }`}
+                          asChild
                         >
                           <a
                             href={doc.url}
@@ -272,11 +278,11 @@ export default function VerifyJvtoClient() {
                           </a>
                         </Button>
 
-                        {/* 2. Tombol Verify Source (Hanya muncul jika ada external link) */}
-                        {/* Logic: Selalu Hijau */}
+                        {/* Tombol 2: Verify Source (Muncul jika ada link eksternal) */}
                         {hasExternalLink && (
                           <Button
                             className={`w-full text-xs font-bold col-span-1 ${greenButtonClass}`}
+                            asChild
                           >
                             <a
                               href={doc.external_validation_url}
