@@ -1,5 +1,5 @@
 // src/lib/data-loader.ts
-import ssotData from "./Master_Dataset_JVTO.SSOT.v3.0.json";
+import ssotData from "./Master_Dataset_JVTO.SSOT.v3.0";
 
 export type Doc = {
   filename: string;
