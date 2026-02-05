@@ -100,7 +100,7 @@ function mapAssetToDoc(asset: any, allAssets: any[]): Doc {
   };
 }
 
-export default const getVerificationDocs = () => {
+const getVerificationDocs = () => {
   const inventory = ssotData.assets_inventory;
 
   // Filter: Kita tidak ingin menampilkan file "-preview-" sebagai entry utama di UI
@@ -122,3 +122,5 @@ export default const getVerificationDocs = () => {
     membership: process(["Membership"]),
   };
 };
+
+export default getVerificationDocs;
