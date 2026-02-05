@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function VerifyJvtoPage() {
   const orgProfile = ssotData.organization_profile;
 
-  // 1. ORGANIZATION SCHEMA
+  // 1. ORGANIZATION SCHEMA (ENRICHED / DIPERKAYA)
   const organizationSchema = {
     "@type": "TravelAgency",
     "@id": "https://javavolcano-touroperator.com/#organization",
@@ -40,8 +40,14 @@ export default function VerifyJvtoPage() {
     legalName: "PT Java Volcano Rendezvous",
     alternateName: "JVTO",
     description:
-      "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Recognized by Stefan Loose Guidebook and Booking.com Awards.",
+      "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Known for operational certainty, safety standards, and transparent pricing.",
     foundingDate: "2015",
+    // [BARU] Identifier NIB untuk Validasi Mesin
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "NIB",
+      value: "1102230032918",
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: "Jl. Khairil Anwar No.102 A",
@@ -52,10 +58,22 @@ export default function VerifyJvtoPage() {
     },
     image: "https://javavolcano-touroperator.com/assets/img/office-hq.jpg",
     priceRange: "$$",
+    // [BARU] Aggregate Rating untuk Rich Snippets
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "200",
+      bestRating: "5",
+      worstRating: "1",
+      description:
+        "Consolidated rating from Trustpilot, Google, and TripAdvisor.",
+    },
     founder: {
       "@type": "Person",
       name: "Agung Sambuko",
-      jobTitle: "Active Tourist Police Officer", // UPDATE: Menambahkan "Active" sesuai strategi
+      alternateName: "Mr. Sam", // [BARU] Untuk pencarian "Mr. Sam Bromo"
+      honorificPrefix: "Bripka", // [BARU] Title Kepolisian
+      jobTitle: "Active Tourist Police Officer",
       memberOf: {
         "@type": "GovernmentOrganization",
         name: "Indonesian National Police (Polri)",
@@ -63,7 +81,25 @@ export default function VerifyJvtoPage() {
       },
       knowsAbout: ["Tourism Safety", "Risk Management", "Volcano Rescue"],
     },
-    // FIX: Menggunakan Array of Strings agar valid di Schema Validator
+    // [BARU] Fasilitas Utama (Amenities)
+    amenityFeature: [
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Daily Bottled Water",
+        value: "True",
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Proper Breakfast Included",
+        value: "True",
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Digital Health Screening",
+        value: "Mandatory for Ijen",
+      },
+    ],
+    // Tetap gunakan Array of Strings agar Valid 100% (Google Friendly)
     award: [
       "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
       "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
@@ -93,7 +129,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 2. DOCUMENT COLLECTION SCHEMA
+  // 2. DOCUMENT COLLECTION SCHEMA (Tetap Dinamis)
   const documentCollectionSchema = {
     "@type": "CollectionPage",
     "@id": `${siteUrl}/verify-jvto`,
@@ -106,7 +142,6 @@ export default function VerifyJvtoPage() {
     mainEntity: {
       "@type": "ItemList",
       itemListElement: ssotData.verification_credentials.map((cred, index) => {
-        // Logic Lookup URL Asli
         const primaryAssetSlug = cred.evidence_asset_slugs?.[0];
         const asset = ssotData.assets_inventory.find(
           (a) => a.slug === primaryAssetSlug,
@@ -117,8 +152,7 @@ export default function VerifyJvtoPage() {
           ? "application/pdf"
           : "image/jpeg";
 
-        // ISBN INJECTION Logic
-        // Mencari apakah credential ini memiliki item bukti berupa Buku dengan ISBN
+        // ISBN Injection Logic
         let finalDescription = cred.narrative;
         if (cred.evidence_items) {
           const bookItem = cred.evidence_items.find(
@@ -135,7 +169,7 @@ export default function VerifyJvtoPage() {
           item: {
             "@type": "DigitalDocument",
             name: cred.title,
-            description: finalDescription, // Menggunakan deskripsi yang sudah ada ISBN (jika ada)
+            description: finalDescription,
             url: directFileUrl,
             encodingFormat: fileFormat,
             license:
