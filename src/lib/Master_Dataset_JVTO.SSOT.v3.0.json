@@ -1,4 +1,4 @@
-const ssotData = {
+{
   "meta": {
     "dataset_version": "2026-01-15.GEO-Enhanced",
     "status": "SSOT Public (Website-ready)",
@@ -597,5 +597,3 @@ const ssotData = {
     }
   ]
 }
-
-export default ssotData;
