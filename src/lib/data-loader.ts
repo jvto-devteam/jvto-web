@@ -3,7 +3,7 @@ import ssotData from "./Master_Dataset_JVTO.SSOT.v3.0.json";
 
 export type Doc = {
   filename: string;
-  caption?: string;
+  caption: string; // Teks pendek untuk manusia
   alt_text?: string;
   url: string;
   size_mb: number;
@@ -12,62 +12,75 @@ export type Doc = {
   category: string;
   preview?: { url: string; format: string };
   external_validation_url?: string;
-  // Field GEO untuk AI
-  official_title: string;
-  narrative_context: string;
+  
+  // Field Khusus GEO (Untuk Mesin Pencari/AI)
+  official_title: string;    // Judul Resmi (misal: "Tourist Police Authority")
+  narrative_context: string; // Paragraf Penjelas (misal: "Part of Ditpamobvit...")
 };
 
-// Helper: Mencari Konteks Kredensial untuk URL Eksternal & Judul
+// Helper: Mencari Parent Credential / Press Coverage untuk mengambil Konteks
 function getContextMeta(assetSlug: string) {
-  // Cari di Credentials (Legal/Safety/dll)
+  // 1. Cari di Credentials (Legal, Safety, History, Membership)
   const credential = ssotData.verification_credentials.find((cred) =>
-    cred.evidence_asset_slugs?.includes(assetSlug) // Perhatikan nama field di JSON baru: evidence_asset_slugs
+    cred.evidence_asset_slugs?.includes(assetSlug)
   );
+  
   if (credential) {
     return {
       title: credential.title,
-      // Ambil URL registry jika ada
+      // Ambil URL registrasi pemerintah jika ada
       external_url: credential.identifiers?.registry_url,
-      // Jika aset tidak punya geo_context spesifik, pakai geo_narrative credential
+      // Fallback narrative jika di level asset tidak ada geo_context
       fallback_narrative: credential.geo_narrative || credential.narrative
     };
   }
 
-  // Cari di Press Coverage
+  // 2. Cari di Press Coverage (Media)
+  // Perhatikan: Di JSON Anda, slug aset ada di dalam objek `evidence`
   const press = ssotData.organization_profile.press_coverage?.find((p) =>
-    p.evidence_slug === assetSlug
+    p.evidence?.proof_asset_slug === assetSlug
   );
+
   if (press) {
     return {
-      title: `Media: ${press.publisher}`,
+      title: `Media Verification: ${press.publisher}`,
       external_url: press.url,
       fallback_narrative: `Coverage: "${press.title}". Independent verification by third-party press.`
     };
   }
+
   return null;
 }
 
-function mapAssetToDoc(asset: any): Doc {
+function mapAssetToDoc(asset: any, allAssets: any[]): Doc {
   let preview = undefined;
 
-  // LOGIC BARU: Ambil preview langsung dari properti 'variants' di JSON v4.0
-  if (asset.variants) {
-    if (asset.variants.preview_webp) {
-      preview = { url: asset.variants.preview_webp, format: "WebP" };
-    } else if (asset.variants.preview_png) {
-      preview = { url: asset.variants.preview_png, format: "PNG" };
+  // LOGIC: Mencari file preview secara manual karena struktur Flat
+  // Kita cari aset lain yang slug-nya = "slug-asli" + "-preview-webp"
+  if (asset.url.endsWith(".pdf")) {
+    const previewSlugWebP = asset.slug + "-preview-webp";
+    const previewAssetWebP = allAssets.find((a) => a.slug === previewSlugWebP);
+
+    if (previewAssetWebP) {
+      preview = { url: previewAssetWebP.url, format: "WebP" };
+    } else {
+      // Fallback ke PNG
+      const previewSlugPng = asset.slug + "-preview-png";
+      const previewAssetPng = allAssets.find((a) => a.slug === previewSlugPng);
+      if (previewAssetPng)
+        preview = { url: previewAssetPng.url, format: "PNG" };
     }
   }
 
-  // AMBIL KONTEKS
+  // AMBIL KONTEKS GEO
   const meta = getContextMeta(asset.slug);
 
   // 1. Teks Penjelas (GEO Narrative)
-  // Prioritas: Asset 'geo_context' (Paling Spesifik) -> Credential 'geo_narrative' -> Caption Asli
+  // Prioritas: Asset 'geo_context' (Spesifik Gambar) -> Credential 'geo_narrative' (Umum) -> Caption Asli
   const finalNarrative = asset.geo_context || meta?.fallback_narrative || asset.caption;
 
   // 2. Judul Resmi
-  // Prioritas: Title dari Credential -> Caption Asli
+  // Prioritas: Title Credential -> Caption Asli
   const finalTitle = meta?.title || asset.caption;
 
   // 3. Link Validasi Eksternal
@@ -76,16 +89,16 @@ function mapAssetToDoc(asset: any): Doc {
   return {
     filename: asset.filename,
     caption: asset.caption,
-    alt_text: asset.caption, // Gunakan caption jika alt_text kosong
+    alt_text: asset.alt_text || asset.caption,
     url: asset.url,
-    size_mb: asset.size_mb || 0,
-    last_verified: "2025-11-01", // Default jika tidak ada di JSON
+    size_mb: asset.size_mb || (asset.size_bytes ? asset.size_bytes / 1024 / 1024 : 0),
+    last_verified: asset.last_verified_iso || "2025-01-01",
     sha256: asset.sha256,
     category: asset.category,
     preview: preview,
     external_validation_url: externalUrl,
     
-    // Data "Pintar" untuk UI & AI
+    // Data Siap Pakai untuk UI
     official_title: finalTitle,
     narrative_context: finalNarrative
   };
@@ -94,13 +107,18 @@ function mapAssetToDoc(asset: any): Doc {
 export const getVerificationDocs = () => {
   const inventory = ssotData.assets_inventory;
   
-  // Karena JSON v4.0 sudah bersih dari duplikat, kita tidak perlu filter "-preview-" lagi!
-  // Kita ambil langsung semua asset yang sesuai kategori.
+  // Filter 1: Ambil aset utama saja (bukan file preview -preview-png/webp)
+  // File preview hanya digunakan sebagai thumbnail, bukan entitas utama.
+  const mainAssets = inventory.filter((a) => !a.slug.includes("-preview-"));
   
+  // Reference ke semua aset (termasuk preview) untuk lookup
+  const allAssets = inventory;
+
+  // Helper mapping
   const process = (categories: string[]) => 
-    inventory
+    mainAssets
       .filter((a) => categories.includes(a.category))
-      .map(mapAssetToDoc);
+      .map((a) => mapAssetToDoc(a, allAssets));
 
   return {
     company_registration: process(["BusinessID", "License"]),
