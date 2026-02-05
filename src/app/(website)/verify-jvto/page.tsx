@@ -63,18 +63,8 @@ export default function VerifyJvtoPage() {
       knowsAbout: ["Tourism Safety", "Risk Management", "Volcano Rescue"],
     },
     award: [
-      {
-        "@type": "Award",
-        name: "Booking.com Guest Review Award 2016",
-        description: "Score 9.2/10 (Homestay Era)",
-      },
-      {
-        "@type": "Award",
-        name: "Stefan Loose Travel Handbuch Recommendation",
-        datePublished: "2018",
-        description:
-          "Featured in Stefan Loose Indonesien Guidebook as a trusted local operator.",
-      },
+      "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
+      "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
     ],
     memberOf: [
       {
