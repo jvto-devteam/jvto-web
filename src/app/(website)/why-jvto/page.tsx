@@ -428,8 +428,8 @@ export default function WhyJvtoPage() {
                 </Link>
               </Button>
               <Button variant="outline">
-                <Link href="/verify-jvto">
-                  Verify JVTO
+                <Link href="/travel-guide/booking-information">
+                  How to Book
                 </Link>
               </Button>
             </div>
