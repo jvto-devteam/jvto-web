@@ -1,7 +1,7 @@
 // src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
 import VerifyJvtoClient from "./VerifyJvtoClient";
-import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v2.1.public.ready_to_copy.json";
+import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function VerifyJvtoPage() {
   const orgProfile = ssotData.organization_profile;
 
-  // 1. ORGANIZATION SCHEMA (Dijaga Tetap Valid)
+  // 1. ORGANIZATION SCHEMA
   const organizationSchema = {
     "@type": "TravelAgency",
     "@id": "https://javavolcano-touroperator.com/#organization",
@@ -55,14 +55,15 @@ export default function VerifyJvtoPage() {
     founder: {
       "@type": "Person",
       name: "Agung Sambuko",
-      jobTitle: "Tourist Police Officer",
+      jobTitle: "Active Tourist Police Officer", // UPDATE: Menambahkan "Active" sesuai strategi
       memberOf: {
         "@type": "GovernmentOrganization",
         name: "Indonesian National Police (Polri)",
-        department: "Polisi Pariwisata (Tourist Police)",
+        department: "Ditpamobvit (Tourist Police)",
       },
       knowsAbout: ["Tourism Safety", "Risk Management", "Volcano Rescue"],
     },
+    // FIX: Menggunakan Array of Strings agar valid di Schema Validator
     award: [
       "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
       "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
@@ -116,7 +117,7 @@ export default function VerifyJvtoPage() {
           ? "application/pdf"
           : "image/jpeg";
 
-        // [ADD] ISBN INJECTION Logic
+        // ISBN INJECTION Logic
         // Mencari apakah credential ini memiliki item bukti berupa Buku dengan ISBN
         let finalDescription = cred.narrative;
         if (cred.evidence_items) {
