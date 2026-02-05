@@ -1,4 +1,3 @@
-// src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
 import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v2.1.public.ready_to_copy.json";
@@ -30,8 +29,9 @@ export const metadata: Metadata = {
 };
 
 export default function VerifyJvtoPage() {
-  // 1. ORGANIZATION SCHEMA (Dari Script yang Anda Berikan)
-  // Ini adalah definisi statis yang kuat untuk entitas "TravelAgency"
+  const orgProfile = ssotData.organization_profile;
+
+  // 1. ORGANIZATION SCHEMA
   const organizationSchema = {
     "@type": "TravelAgency",
     "@id": "https://javavolcano-touroperator.com/#organization",
@@ -101,8 +101,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 2. DOCUMENT COLLECTION SCHEMA (Dinamis dari SSOT)
-  // Bagian ini tetap mengambil data dari file JSON SSOT agar daftar dokumen selalu update otomatis
+  // 2. DOCUMENT COLLECTION SCHEMA (Dinamis dari SSOT dengan URL Lookup)
   const documentCollectionSchema = {
     "@type": "CollectionPage",
     "@id": `${siteUrl}/verify-jvto`,
@@ -114,22 +113,39 @@ export default function VerifyJvtoPage() {
     },
     mainEntity: {
       "@type": "ItemList",
-      itemListElement: ssotData.verification_credentials.map((cred, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "DigitalDocument",
-          name: cred.title,
-          description: cred.narrative,
-          url: `${siteUrl}/verify-jvto`,
-          license:
-            cred.identifiers?.registry_url ||
-            cred.identifiers?.value ||
-            "Public Verification",
-          accessMode: "public",
-          fileFormat: "application/pdf",
-        },
-      })),
+      itemListElement: ssotData.verification_credentials.map((cred, index) => {
+        // --- LOGIC BARU: LOOKUP URL ---
+        // Kita cari slug aset bukti pertama dari credential ini
+        const primaryAssetSlug = cred.evidence_asset_slugs?.[0];
+
+        // Lalu kita cari objek asetnya di inventory untuk mendapatkan URL asli
+        const asset = ssotData.assets_inventory.find(
+          (a) => a.slug === primaryAssetSlug,
+        );
+
+        // Jika ketemu, pakai URL asli (PDF/Gambar). Jika tidak, fallback ke halaman verify.
+        const directFileUrl = asset ? asset.url : `${siteUrl}/verify-jvto`;
+        const fileFormat = asset?.url.endsWith(".pdf")
+          ? "application/pdf"
+          : "image/jpeg";
+
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "DigitalDocument",
+            name: cred.title,
+            description: cred.narrative,
+            url: directFileUrl, // <--- SEKARANG MENGARAH KE FILE ASLI
+            encodingFormat: fileFormat, // Memberitahu Google jenis filenya
+            license:
+              cred.identifiers?.registry_url ||
+              cred.identifiers?.value ||
+              "Public Verification",
+            accessMode: "public",
+          },
+        };
+      }),
     },
   };
 
