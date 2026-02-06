@@ -183,9 +183,73 @@ export default function VerifyJvtoPage() {
     },
   };
 
+  // 3. BREADCRUMB SCHEMA (BARU - Ditambahkan untuk Navigasi Google)
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Verification Locker",
+        item: `${siteUrl}/verify-jvto`,
+      },
+    ],
+  };
+
+  // 4. FAQ SCHEMA (BARU - AEO/GEO Optimized)
+  // Pertanyaan ini dirancang agar Google bisa langsung menampilkan jawaban ("Direct Answers")
+  const faqSchema = {
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Is Java Volcano Tour Operator a legal business in Indonesia?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. JVTO is a registered Limited Company (PT Java Volcano Rendezvous) under NIB 1102230032918. We hold valid Tourism Business Licenses (TDUP) for Travel Agency (KBLI 79120) and Tour Guiding (KBLI 79921), verifiable via the Indonesian Investment Coordinating Board (BKPM).",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does JVTO have official Police authority?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. JVTO is founded by an active Tourist Police officer (Ditpamobvit). We maintain official coordination for safety patrols and VVIP escorts, evidenced by our SPRIN (Assignment Orders) documents available in our Verification Locker.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How can I verify the documents provided by JVTO?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "All documents in our Evidence Locker are digitally signed with a SHA256 hash. You can download the original files and verify them against official government registries (OSS/BKPM) using the QR codes provided on the documents.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What safety standards does JVTO follow for Ijen Crater tours?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "We follow strict 'No Screening, No Go' protocols. Every climber undergoes a mandatory digital health screening (Blood Pressure & SpO2) before ascent. Our guides are certified by HPWKI (Ijen Special Tourism Association) in SAR and First Aid.",
+        },
+      },
+    ],
+  };
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@graph": [organizationSchema, documentCollectionSchema],
+    "@graph": [
+      organizationSchema,
+      documentCollectionSchema,
+      breadcrumbSchema, // [BARU] Ditambahkan ke Graph
+      faqSchema, // [BARU] Ditambahkan ke Graph
+    ],
   };
 
   return (
