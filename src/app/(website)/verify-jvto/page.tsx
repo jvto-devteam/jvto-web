@@ -183,7 +183,7 @@ export default function VerifyJvtoPage() {
     },
   };
 
-  // 3. BREADCRUMB SCHEMA (BARU - Ditambahkan untuk Navigasi Google)
+  // 3. BREADCRUMB SCHEMA
   const breadcrumbSchema = {
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -202,8 +202,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 4. FAQ SCHEMA (BARU - AEO/GEO Optimized)
-  // Pertanyaan ini dirancang agar Google bisa langsung menampilkan jawaban ("Direct Answers")
+  // 4. FAQ SCHEMA
   const faqSchema = {
     "@type": "FAQPage",
     mainEntity: [
@@ -242,13 +241,46 @@ export default function VerifyJvtoPage() {
     ],
   };
 
+  // 5. HOW-TO SCHEMA (BARU - Ditambahkan untuk AEO)
+  // Menjelaskan langkah verifikasi dokumen kepada mesin pencari
+  const howToSchema = {
+    "@type": "HowTo",
+    name: "How to Verify JVTO Legal & Safety Documents",
+    description:
+      "Step-by-step guide to verifying Java Volcano Tour Operator's official NIB, Police Authority, and Safety Protocols using the Forensic Evidence Locker.",
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Access the Evidence Locker",
+        text: "Navigate to the official Verification Portal (verify-jvto) to view the immutable document repository.",
+        url: `${siteUrl}/verify-jvto`,
+      },
+      {
+        "@type": "HowToStep",
+        name: "Select Document Category",
+        text: "Filter documents by category such as 'Police Authority', 'Legal & NIB', or 'Health Protocols' to find specific evidence.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Inspect the Digital Signature",
+        text: "Click on any document to reveal its SHA256 cryptographic hash, ensuring the file has not been tampered with since issuance.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Cross-Reference with Government Registries",
+        text: "Use the 'Verify Source Live' button or scan the QR code on documents like the NIB or TDUP to confirm status directly on Indonesian government portals (OSS/BKPM).",
+      },
+    ],
+  };
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       organizationSchema,
       documentCollectionSchema,
-      breadcrumbSchema, // [BARU] Ditambahkan ke Graph
-      faqSchema, // [BARU] Ditambahkan ke Graph
+      breadcrumbSchema,
+      faqSchema,
+      howToSchema, // [BARU] Ditambahkan ke Graph
     ],
   };
 
