@@ -66,9 +66,9 @@ export default function WebsiteLayout({
     <Providers>
       <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
         {/* GA optional logic */}
-        {/* <Suspense>
+        <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
-        </Suspense> */}
+        </Suspense>
 
         <div className="min-h-screen flex flex-col bg-white">
           <header>
