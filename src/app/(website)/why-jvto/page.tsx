@@ -1278,6 +1278,109 @@ export default function WhyJvtoPage() {
                   description:
                     "Guest Review Score 9.2/10 for Ijen Miner Family Homestay (precursor to JVTO).",
                 },
+                [
+                  {
+                    "@type": "WebApplication",
+                    "@id": "http://health.mountijen.com/#app",
+                    name: "Mount Ijen Digital Health Screening",
+                    alternateName: "Ijen Health Screening",
+                    url: "http://health.mountijen.com/",
+                    applicationCategory: "HealthApplication",
+                    operatingSystem: "Web",
+                    isAccessibleForFree: true,
+                    publisher: {
+                      "@id":
+                        "https://javavolcano-touroperator.com/#organization",
+                    },
+                    about: [
+                      {
+                        "@type": "Thing",
+                        name: "Pre-ascent health screening (SpO₂ & Blood Pressure)",
+                      },
+                      {
+                        "@type": "Place",
+                        name: "Mount Ijen",
+                      },
+                    ],
+                    featureList: [
+                      "Digital recording of SpO₂ and blood pressure",
+                      "QR-based clearance flow",
+                      "Supports go/no-go safety decisions",
+                    ],
+                    inLanguage: "en",
+                  },
+                  {
+                    "@type": "ItemList",
+                    "@id": "https://javavolcano-touroperator.com/why-jvto#crew",
+                    name: "JVTO In-house Crew",
+                    description:
+                      "JVTO operates with in-house crew (not outsourced). Names appear in customer reviews across platforms.",
+                    itemListOrder: "https://schema.org/ItemListUnordered",
+                    numberOfItems: 4,
+                    itemListElement: [
+                      {
+                        "@type": "ListItem",
+                        position: 1,
+                        item: {
+                          "@type": "Person",
+                          "@id":
+                            "https://javavolcano-touroperator.com/why-jvto#crew-andi",
+                          name: "Andi",
+                          jobTitle: "Driver",
+                          worksFor: {
+                            "@id":
+                              "https://javavolcano-touroperator.com/#organization",
+                          },
+                        },
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 2,
+                        item: {
+                          "@type": "Person",
+                          "@id":
+                            "https://javavolcano-touroperator.com/why-jvto#crew-rina",
+                          name: "Rina",
+                          jobTitle: "Escort Guide",
+                          worksFor: {
+                            "@id":
+                              "https://javavolcano-touroperator.com/#organization",
+                          },
+                        },
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 3,
+                        item: {
+                          "@type": "Person",
+                          "@id":
+                            "https://javavolcano-touroperator.com/why-jvto#crew-bayu",
+                          name: "Bayu",
+                          jobTitle: "Ijen Local Guide",
+                          worksFor: {
+                            "@id":
+                              "https://javavolcano-touroperator.com/#organization",
+                          },
+                        },
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 4,
+                        item: {
+                          "@type": "Person",
+                          "@id":
+                            "https://javavolcano-touroperator.com/why-jvto#crew-dimas",
+                          name: "Dimas",
+                          jobTitle: "Operations Coordinator",
+                          worksFor: {
+                            "@id":
+                              "https://javavolcano-touroperator.com/#organization",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
               ],
             },
             null,
