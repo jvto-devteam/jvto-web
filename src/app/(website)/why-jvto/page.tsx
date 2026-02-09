@@ -1267,13 +1267,16 @@ export default function WhyJvtoPage() {
                   },
                 },
                 {
-                  "@type": "Award",
+                  "@type": "CreativeWork",
                   "@id":
-                    "https://javavolcano-touroperator.com/why-jvto#bookingAward",
+                    "https://javavolcano-touroperator.com/why-jvto#bookingComAward",
                   name: "Booking.com Guest Review Award",
-                  datePublished: "2016-01-01T00:00:00Z",
+                  datePublished: "2016-01-01",
+                  about: {
+                    "@id": "https://javavolcano-touroperator.com/#organization",
+                  },
                   description:
-                    "Guest Review Score 9.2/10 for Ijen Bondowoso Homestay (precursor to JVTO).",
+                    "Guest Review Score 9.2/10 for Ijen Miner Family Homestay (precursor to JVTO).",
                 },
               ],
             },
