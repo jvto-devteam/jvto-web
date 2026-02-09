@@ -86,17 +86,32 @@ export default function VerifyJvtoPage() {
       {
         "@type": "LocationFeatureSpecification",
         name: "Daily Bottled Water",
-        value: "True",
+        value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Proper Breakfast Included",
-        value: "True",
+        name: "Breakfast Included (Hotel)",
+        value: true,
       },
       {
         "@type": "LocationFeatureSpecification",
-        name: "Digital Health Screening",
-        value: "Mandatory for Ijen",
+        name: "Professional Gas Masks (Ijen)",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Headlamps (Ijen)",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Digital Health Screening (Ijen)",
+        value: "Mandatory prior to ascent",
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Prepaid Entrance & Local Fees",
+        value: true,
       },
     ],
     // Tetap gunakan Array of Strings agar Valid 100% (Google Friendly)
@@ -123,9 +138,9 @@ export default function VerifyJvtoPage() {
     ],
     sameAs: [
       "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-      "https://g.page/javavolcano",
-      "https://www.tripadvisor.com/Attraction_Review-g317070-d12836253-Reviews-Java_Volcano_Tour_Operator",
-      "https://www.instagram.com/javavolcano.tour/",
+      "https://share.google/QnZPeukNsBWg3sZaR",
+      "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+      "https://www.instagram.com/javavolcanotouroperator/",
     ],
   };
 
@@ -211,7 +226,7 @@ export default function VerifyJvtoPage() {
         name: "Is Java Volcano Tour Operator a legal business in Indonesia?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. JVTO is a registered Limited Company (PT Java Volcano Rendezvous) under NIB 1102230032918. We hold valid Tourism Business Licenses (TDUP) for Travel Agency (KBLI 79120) and Tour Guiding (KBLI 79921), verifiable via the Indonesian Investment Coordinating Board (BKPM).",
+          text: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918. The registered business activity codes listed in the NIB attachment are KBLI 79911, 62019, and 79121. Verification materials are available on the Verify JVTO page.",
         },
       },
       {

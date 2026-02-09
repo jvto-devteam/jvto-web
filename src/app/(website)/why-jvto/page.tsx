@@ -98,7 +98,7 @@ export default function WhyJvtoPage() {
                   <img
                     alt="Portrait of Bripka Agung Sambuko"
                     className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb_OPfT0wKvI-umHBcFnbSTp_50ueobnh2OeEoniFhX7AlCe2-lPCZQJpL1ToO_nhSlvmS81S4pfVzOmntD0PoK3xLjFOS1WTf3XBFKvtcq-yzBOH0vjP5Ny5psuI3UPngeTkC3AV1w53bpwPhg9pPkCF8Kv2drmxVTxQgn0pV-lQEVqKumxFep1j4zm4rrD00YblYKYGGhtCGMAeYtLX-Qw83sZf72Y5FwFgATjbzMvDb-iN5S1pD0LiHTZXMRplF4JYJfm3RM_u3"
+                    src="https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png"
                   />
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#111827] via-[#111827]/90 to-transparent p-8 pt-24">
                     <div className="flex items-center gap-2 text-[#A6CE39] mb-2">
@@ -343,7 +343,7 @@ export default function WhyJvtoPage() {
                   <img
                     alt="Exterior photo of Bondowoso headquarters with signage"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzv4FiPAAfEPMcoyzMIbFIJ1B8Ie1Jh4b8Ox392SuADlQSMrL0tKrE_hscRZOCzD0_0fTcgg4aeKKO2s96tyPV3LCL2rMTRTjX3PPp3wUiMpcGgJTmF-aorfulsjeFvp323IQjd6qLah3QwJmZG0_ZsRR_4dAnh6yxcsWYhrv7Sa0H12mvhxrkLm_zNsY_0EjoCikp5RvffrkJLfVLTQzH8qhmwn1tFlNibl59S1DGPIkCsC7n8NGlxhWp-PJUOvsgsdxW4h3xm1ur"
+                    src="https://javavolcano-touroperator.com/legal/office-photo.jpg"
                   />
                   <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm">
                     <span className="text-xs font-bold text-[#111827] flex items-center gap-1">
@@ -402,8 +402,9 @@ export default function WhyJvtoPage() {
                         1102230032918
                       </code>
                       <p className="text-[10px] text-slate-500 mt-1">
-                        Licensed Activities: 79120 (Travel Agency), 79921 (Tour
-                        Guide Services)
+                        Licensed Activities: 79121 (Travel Agency), 79911
+                        (Tourism Information Services), 62019 (Other Computer
+                        Programming Activities)
                       </p>
                     </div>
                   </div>
@@ -520,7 +521,7 @@ export default function WhyJvtoPage() {
                   <img
                     alt="Guest undergoing digital health check with oximeter"
                     className="w-full h-auto object-cover"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTV1acV_WPXiYuXB1yJoIoF6JXrUr_s0M3qmEfwVva6i1YWzZHTR19F8ipMGj42EfQKIfmaaTURxttpUd46WRAy46YiKqOfMxIBW8J46r1Yv14NI-I7trYLX62ms-RpWgiKYN0iwK-QGJ0VP1W7UmMtHqtN1MR6SVjIYe5fTNn-W0mUx1JU1ENm380uoxLQO1BAI7vIBWQbE9QDLKopmlHGlPki3cVE-9RgMqSD8PAZ1tKhA3NujCm14U_305zS78Sx0ozjQYsGFkT"
+                    src="https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-transparent to-transparent"></div>
                   <div className="absolute bottom-6 left-6 right-6">
@@ -804,12 +805,17 @@ export default function WhyJvtoPage() {
                     {
                       "@type": "PropertyValue",
                       propertyID: "KBLI",
-                      value: "79120",
+                      value: "79911",
                     },
                     {
                       "@type": "PropertyValue",
                       propertyID: "KBLI",
-                      value: "79921",
+                      value: "62019",
+                    },
+                    {
+                      "@type": "PropertyValue",
+                      propertyID: "KBLI",
+                      value: "79121",
                     },
                   ],
                   address: {
@@ -900,9 +906,9 @@ export default function WhyJvtoPage() {
                   },
                   sameAs: [
                     "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-                    "https://g.page/javavolcano",
-                    "https://www.tripadvisor.com/Attraction_Review-g317070-d12836253-Reviews-Java_Volcano_Tour_Operator",
-                    "https://www.instagram.com/javavolcano.tour/",
+                    "https://share.google/QnZPeukNsBWg3sZaR",
+                    "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+                    "https://www.instagram.com/javavolcanotouroperator/",
                   ],
                   contactPoint: [
                     {
@@ -932,7 +938,7 @@ export default function WhyJvtoPage() {
                     "Tourism security operations",
                   ],
                   sameAs: [
-                    "https://news.detik.com/berita-jawa-timur/d-5492690",
+                    "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin",
                   ],
                 },
                 {
@@ -986,17 +992,17 @@ export default function WhyJvtoPage() {
                   image: [
                     {
                       "@type": "ImageObject",
-                      url: "https://lh3.googleusercontent.com/aida-public/AB6AXuCb_OPfT0wKvI-umHBcFnbSTp_50ueobnh2OeEoniFhX7AlCe2-lPCZQJpL1ToO_nhSlvmS81S4pfVzOmntD0PoK3xLjFOS1WTf3XBFKvtcq-yzBOH0vjP5Ny5psuI3UPngeTkC3AV1w53bpwPhg9pPkCF8Kv2drmxVTxQgn0pV-lQEVqKumxFep1j4zm4rrD00YblYKYGGhtCGMAeYtLX-Qw83sZf72Y5FwFgATjbzMvDb-iN5S1pD0LiHTZXMRplF4JYJfm3RM_u3",
+                      url: "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
                       name: "Portrait of Bripka Agung Sambuko",
                     },
                     {
                       "@type": "ImageObject",
-                      url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBzv4FiPAAfEPMcoyzMIbFIJ1B8Ie1Jh4b8Ox392SuADlQSMrL0tKrE_hscRZOCzD0_0fTcgg4aeKKO2s96tyPV3LCL2rMTRTjX3PPp3wUiMpcGgJTmF-aorfulsjeFvp323IQjd6qLah3QwJmZG0_ZsRR_4dAnh6yxcsWYhrv7Sa0H12mvhxrkLm_zNsY_0EjoCikp5RvffrkJLfVLTQzH8qhmwn1tFlNibl59S1DGPIkCsC7n8NGlxhWp-PJUOvsgsdxW4h3xm1ur",
+                      url: "https://javavolcano-touroperator.com/legal/office-photo.jpg",
                       name: "JVTO Headquarters Exterior",
                     },
                     {
                       "@type": "ImageObject",
-                      url: "https://lh3.googleusercontent.com/aida-public/AB6AXuBTV1acV_WPXiYuXB1yJoIoF6JXrUr_s0M3qmEfwVva6i1YWzZHTR19F8ipMGj42EfQKIfmaaTURxttpUd46WRAy46YiKqOfMxIBW8J46r1Yv14NI-I7trYLX62ms-RpWgiKYN0iwK-QGJ0VP1W7UmMtHqtN1MR6SVjIYe5fTNn-W0mUx1JU1ENm380uoxLQO1BAI7vIBWQbE9QDLKopmlHGlPki3cVE-9RgMqSD8PAZ1tKhA3NujCm14U_305zS78Sx0ozjQYsGFkT",
+                      url: "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
                       name: "Ijen Digital Health Screening",
                     },
                   ],
@@ -1077,7 +1083,7 @@ export default function WhyJvtoPage() {
                       "@type": "ListItem",
                       position: 1,
                       name: "Google Business Profile",
-                      item: "https://g.page/javavolcano",
+                      item: "https://share.google/QnZPeukNsBWg3sZaR",
                     },
                     {
                       "@type": "ListItem",
@@ -1089,7 +1095,7 @@ export default function WhyJvtoPage() {
                       "@type": "ListItem",
                       position: 3,
                       name: "TripAdvisor",
-                      item: "https://www.tripadvisor.com/Attraction_Review-g317070-d12836253-Reviews-Java_Volcano_Tour_Operator",
+                      item: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
                     },
                   ],
                 },
@@ -1186,7 +1192,7 @@ export default function WhyJvtoPage() {
                       name: "Is JVTO a real company with legal standing in Indonesia?",
                       acceptedAnswer: {
                         "@type": "Answer",
-                        text: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918 and licensed tourism activities (KBLI 79120 and 79921). Verification materials are available on the Verify JVTO page.",
+                        text: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918. The registered business activity codes listed in the NIB attachment are KBLI 79911, 62019, and 79121. Verification materials are available on the Verify JVTO page.",
                       },
                     },
                     {
