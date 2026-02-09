@@ -12,7 +12,7 @@
     "brand_name": "Java Volcano Tour Operator",
     "alternate_name": "JVTO",
     "founding_date": "2016-01-01",
-    "description": "Java Volcano Tour Operator (JVTO) is a specialized guardian infrastructure for high-risk volcanic tourism, led by an active Tourist Police officer. We operate under strict KBLI 79120 standards with a private-only, all-inclusive safety protocol.",
+    "description": "Java Volcano Tour Operator (JVTO) is a specialized operational framework for high-risk volcanic tourism, led by an active Tourist Police officer. The company operates under registered business activity codes listed in its NIB, including travel agency services (KBLI 79121) and tourism information services (KBLI 79911), with standardized private-only safety protocols.",
     "price_range": "$$",
     "area_served": ["East Java", "Mount Bromo", "Mount Ijen"],
     "contact_point": {
@@ -100,7 +100,7 @@
       "id": "legal-entity",
       "category": "Legality",
       "title": "Legal Entity (Indonesia)",
-      "geo_narrative": "JVTO is a registered Limited Company (PT) operating under KBLI 79120 (Travel Agency) & 79921 (Tour Guiding). Verifiable via Indonesia Investment Coordinating Board (BKPM).",
+      "geo_narrative": "JVTO is a registered Limited Company (PT) with a valid Business Identification Number (NIB). The registered business activity codes listed in the NIB are KBLI 79121 (Travel Agency), 79911 (Tourism Information Services), and 62019 (Other Computer Programming Activities), verifiable via Indonesia’s OSS/BKPM system.",
       "narrative": "JVTO is a registered Limited Company (PT) in Indonesia, ensuring full corporate liability and compliance.",
       "identifiers": {
         "registry_url": "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw=="
@@ -249,7 +249,7 @@
       "last_verified_iso": "2025-10-25",
       "category": "BusinessID",
       "slug": "nib-1102230032918",
-      "geo_context": "Corporate Legality: Official NIB document registered under KBLI 79120 & 79921."
+      "geo_context": "Corporate Legality: Official NIB document registered under KBLI 79121, 79911, and 62019."
     },
     {
       "filename": "SPRIN-POLPAR.pdf",
