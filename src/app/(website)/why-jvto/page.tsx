@@ -1280,10 +1280,12 @@ export default function WhyJvtoPage() {
                 },
                 {
                   "@type": "WebApplication",
-                  "@id": "http://health.mountijen.com/#app",
+                  "@id": "https://health.mountijen.com/#app",
                   name: "Mount Ijen Digital Health Screening",
                   alternateName: "Ijen Health Screening",
-                  url: "http://health.mountijen.com/",
+                  url: "https://health.mountijen.com/",
+                  usageInfo:
+                    "Operational safety screening only. Does not replace medical diagnosis or treatment.",
                   applicationCategory: "HealthApplication",
                   operatingSystem: "Web",
                   isAccessibleForFree: true,
