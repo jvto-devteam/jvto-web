@@ -491,13 +491,20 @@ export default function PackageDetailPage({ initialData }: Props) {
             </div>
             <div className="lg:w-1/3 shrink-0 flex flex-col justify-between items-start lg:items-end border-t lg:border-t-0 lg:border-l border-slate-700 pt-8 lg:pt-0 lg:pl-12">
               <div className="text-left lg:text-right">
+                {/* Label Kecil di Atas */}
                 <p className="text-xs font-bold uppercase text-slate-400 tracking-widest mb-1">
-                  From
+                  Hassle-Free
                 </p>
-                <div className="text-5xl font-black text-white mb-2">
-                  {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
+
+                {/* Teks Utama Besar (Style Asli Dipertahankan) */}
+                <div className="text-5xl font-black text-white mb-2 tracking-tight">
+                  ALL INCLUSIVE
                 </div>
-                <p className="text-xs text-slate-500">excluding flights</p>
+
+                {/* Label Kecil di Bawah */}
+                <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
+                  Meals, Gear & Medical Checkup Covered
+                </p>
               </div>
               <button
                 onClick={scrollToBooking}
@@ -1545,19 +1552,17 @@ export default function PackageDetailPage({ initialData }: Props) {
               id="booking-card"
               className="sticky top-32 h-fit z-10 overflow-auto rounded-xl border border-slate-200 bg-white shadow-xl"
             >
-              <div className="bg-slate-900 p-6 text-white">
-                <p className="text-xs font-bold uppercase tracking-widest text-lime-400">
-                  Private Expedition
-                </p>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-xs text-slate-400">from</span>
-                  <span className="text-3xl font-black text-white">
-                    {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
-                  </span>
-                  <span className="text-xs text-slate-400">/person</span>
-                </div>
-              </div>
-
+<div className="bg-slate-900 p-6 text-white">
+  <p className="text-xs font-bold uppercase tracking-widest text-lime-400">
+    Private Expedition
+  </p>
+  <div className="mt-2 flex items-baseline gap-1">
+    <span className="text-xs text-slate-400">Total</span>
+    <span className="text-3xl font-black text-white">
+      {formatCurrency(total)}
+    </span>
+  </div>
+</div>
               <div className="p-6">
                 <div className="flex gap-4 mb-6 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-1">
