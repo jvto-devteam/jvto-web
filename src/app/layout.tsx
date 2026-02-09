@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Tag Manager - Script (Head) */}
+        {/* Pastikan menggunakan komponen Script dari next/script */}
         {gtmId && (
           <Script
             id="gtm-script"
@@ -34,19 +34,20 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className={`${inter.className} antialiased`}>
-        {/* Google Tag Manager (noscript) - Script (Body) */}
+      {/* Tambahkan suppressHydrationWarning di body jika masih error */}
+      <body
+        className={`${inter.className} antialiased`}
+        suppressHydrationWarning
+      >
         {gtmId && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            />
-          </noscript>
+          <noscript
+            suppressHydrationWarning // Kunci utama menghindari error hydration
+            dangerouslySetInnerHTML={{
+              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+            }}
+          />
         )}
-
         {children}
       </body>
     </html>
