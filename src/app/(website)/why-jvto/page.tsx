@@ -203,10 +203,6 @@ export default function WhyJvtoPage() {
             <div className="relative">
               <div className="absolute top-0 bottom-0 left-6 md:left-1/2 md:transform md:-translate-x-1/2 w-0.5 bg-slate-200 z-0"></div>
 
-              {/* ... (TIMELINE CONTENT UNCHANGED) ... */}
-              {/* NOTE: I’m keeping everything else as-is. */}
-              {/* Your existing timeline blocks remain here exactly the same. */}
-
               {/* 2015 block */}
               <div className="relative md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 mb-16 items-center group">
                 <div className="hidden md:flex flex-col items-end text-right">
@@ -220,11 +216,11 @@ export default function WhyJvtoPage() {
                     JVTO began as Ijen Miner Family Homestay, serving European
                     guests individually from a private residence.
                   </p>
-                  <div className="w-48 h-32 rounded-lg overflow-hidden shadow-md border-2 border-white transform rotate-2 hover:rotate-0 transition-transform">
+                  <div className="w-48 h-50 rounded-lg overflow-hidden shadow-md border-2 border-white transform rotate-2 hover:rotate-0 transition-transform">
                     <img
                       alt="Cozy homestay photo from 2015"
                       className="w-full h-full object-cover"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN4bbepF4xRl7fW6GZfGR6EUMrH1y3aojQPjuKIghZFajW6-3ezcJKXlMJHKlklq9zf4nrrrmQk1_aQMQ4QMCHBbHkCXnjRYZ19KJxJZoEFnt8RXQHQUtUvCGmBu0RUW_NeK4fnXjG9_9vd0LrEiJFexAF11hHT_QxTK_sjKF2Zt1RRAKrFHBlDZa0GEM8iBSl1ktOdCKkYXujNIu8HS5l3w7Md3zArVDrAa9wpVKm1V3V70ste3V9VARSfs1HbQeoTLExNH5_8YzF"
+                      src="https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg"
                     />
                   </div>
                 </div>
@@ -240,11 +236,11 @@ export default function WhyJvtoPage() {
                     <h3 className="text-[#111827] font-bold text-lg">
                       The Roots
                     </h3>
-                    <div className="w-full max-w-xs h-40 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3">
+                    <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3">
                       <img
                         alt="Cozy homestay photo from 2015"
                         className="w-full h-full object-cover"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW7qqBfj8c-C17M0dEHFCB-4RtcoePx_v0MnA7Qzkf9sRJBebPxxESvic8t5e2XNW43I2mRaZATi8BIelgpJi69EES6hNuX1kZtooEqCTxgOng04ff6DBtuuJlIsxVVguUpQZZrPEbwxzHqcfdoPAv0GmRL4Sq5zgpXgWwk7tih5vEJgERzoqRwBqpjLrAmPaLOViruwqJcTG1vDfopoawkE83TrkFozmMTJN0kzCGuVx26ob6-CeZVjLjAL-owyVmmHUAXZ3Cj4yX"
+                        src="https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg"
                       />
                     </div>
                   </div>
@@ -276,11 +272,11 @@ export default function WhyJvtoPage() {
                     <h3 className="text-[#111827] font-bold text-lg">
                       Early Validation
                     </h3>
-                    <div className="w-full max-w-xs h-40 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3">
+                    <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3">
                       <img
                         alt="Booking.com Award Plaque"
                         className="w-full h-full object-cover"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7C2EdjpKbMQ_hQaU0hQnxlSJ0kKdC89XgMFIcLljxywMd4ozVjAKDDfdBXX-CWUmtHNETKEE0put1wyBIn9RHvq-A_orV4rsxwyzIMoBZlcRMncrhzT0w4_Qzw_fHzxsW3qkzAu8CH-Ow8zm6DmHOGHGYLCNu7yCNWk9EMztfVoPDV2ljc__BLTa_gbEX3s3Q8gzBqjMAGKzTjmUzKz8VfooQ1ll5c9_ZD42uZmxEM5GTYUKTa-G58sAPl4SOvsEMHInAD92Fpd9J"
+                        src="https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg"
                       />
                     </div>
                   </div>
@@ -298,19 +294,224 @@ export default function WhyJvtoPage() {
                     award plaque remains preserved as a historical anchor of
                     service quality.
                   </p>
-                  <div className="w-48 h-32 rounded-lg overflow-hidden shadow-md border-2 border-white transform -rotate-2 hover:rotate-0 transition-transform">
+                  <div className="w-48 h-50 rounded-lg overflow-hidden shadow-md border-2 border-white transform -rotate-2 hover:rotate-0 transition-transform">
                     <img
                       alt="Booking.com Award Plaque"
                       className="w-full h-full object-cover"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjbxpYVXPP_CLJ5JgTn0-SpmSB5LjDKWosDL_Z9jRR50vbIuzgiPMDQ97bs7XdZ-6ko4O7VDix4keM2hvW1qKwn2lmGVSnj9Mo-9WHE-UrLeRDex4AQLLLVplyqwQJDvDpfkGEL54c3AHFVzMxI1w6T6a6zYKfc1-AtB_WkynZeg2Qdtgly6E9TVgl0fHLTMGRtA637yntnn1xm-bLXRLw4uoefP2L2qBOqstIOLI7DCk4kfYivVSEtym2ujrm63qr_4wK35lfdDA7"
+                      src="https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* 2018 + Today blocks unchanged (as in your file) */}
-              {/* Keep the rest exactly as you already have it */}
-              {/* ... */}
+              {/* 2018 block */}
+              <div className="relative md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 mb-16 items-center group">
+                <div className="hidden md:flex flex-col items-end text-right">
+                  <span className="text-[#8ab51a] font-black text-3xl mb-1">
+                    2018
+                  </span>
+                  <h3 className="text-[#111827] font-bold text-xl">
+                    International Guidebook Recognition
+                  </h3>
+                  <p className="text-slate-600 mt-2 text-sm leading-relaxed mb-4">
+                    Featured as a trusted local operator in Stefan Loose
+                    Reiseführer Indonesien (2018). This acts as an external
+                    trust signal beyond owned media.
+                  </p>
+                  <div className="w-48 h-50 rounded-lg overflow-hidden shadow-md border-2 border-white transform -rotate-2 hover:rotate-0 transition-transform bg-slate-100 flex items-center justify-center">
+                    <img
+                      src="https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg"
+                      alt="Stefan Loose Reiseführer Indonesien Guidebook"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-center md:py-2 pl-12 md:pl-0 relative">
+                  <div className="absolute left-0 top-0 md:static w-12 h-12 rounded-full bg-[#A6CE39] text-[#111827] border-4 border-white shadow-lg flex items-center justify-center z-10">
+                    <MenuBook className="w-5 h-5" />
+                  </div>
+
+                  <div className="md:hidden">
+                    <span className="text-[#8ab51a] font-bold text-sm">
+                      2018
+                    </span>
+                    <h3 className="text-[#111827] font-bold text-lg">
+                      International Guidebook Recognition
+                    </h3>
+                    <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                      Featured in Stefan Loose Reiseführer Indonesien (2018) as
+                      a trusted local operator.
+                    </p>
+                    <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3 bg-slate-100 flex items-center justify-center">
+                      <img
+                        src="https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg"
+                        alt="Stefan Loose Reiseführer Indonesien Guidebook"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hidden md:block">
+                  <p className="text-slate-400 text-sm italic">
+                    Third-party publication signal (non-owned media).
+                  </p>
+                </div>
+              </div>
+
+              {/* 2021 block */}
+              <div className="relative md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 mb-16 items-center group">
+                <div className="hidden md:block text-right">
+                  <p className="text-slate-400 text-sm italic">
+                    Public-facing enforcement & operational discipline.
+                  </p>
+                </div>
+
+                <div className="flex justify-center md:py-2 pl-12 md:pl-0 relative">
+                  <div className="absolute left-0 top-0 md:static w-12 h-12 rounded-full bg-white text-[#8ab51a] border-4 border-[#A6CE39] shadow-lg flex items-center justify-center z-10">
+                    <LocalPolice className="w-5 h-5" />
+                  </div>
+
+                  <div className="md:hidden">
+                    <span className="text-[#8ab51a] font-bold text-sm">
+                      2021
+                    </span>
+                    <h3 className="text-[#111827] font-bold text-lg">
+                      Tourist Police-led Operations (Public Record)
+                    </h3>
+                    <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                      Press recognition documenting operational discipline in
+                      extreme conditions and safety enforcement.
+                    </p>
+                    <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3 bg-slate-100 flex items-center justify-center">
+                      <img
+                        src="https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg"
+                        alt="JVTO Office Group Photo with Tourist Police"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hidden md:block">
+                  <span className="text-[#8ab51a] font-black text-3xl mb-1 block">
+                    2021
+                  </span>
+                  <h3 className="text-[#111827] font-bold text-xl">
+                    Tourist Police-led Operations (Public Record)
+                  </h3>
+                  <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Public verification through press coverage that reflects
+                    real-world enforcement, not “marketing-only” claims.
+                  </p>
+                  <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3 bg-slate-100 flex items-center justify-center">
+                    <img
+                      src="https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg"
+                      alt="JVTO Office Group Photo with Tourist Police"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 2023 block */}
+              <div className="relative md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 mb-16 items-center group">
+                <div className="hidden md:flex flex-col items-end text-right">
+                  <span className="text-[#8ab51a] font-black text-3xl mb-1">
+                    2023
+                  </span>
+                  <h3 className="text-[#111827] font-bold text-xl">
+                    Formal Business Legality (NIB)
+                  </h3>
+                  <p className="text-slate-600 mt-2 text-sm leading-relaxed mb-4">
+                    Company legality strengthened and verifiable via NIB
+                    documentation. Registered business activity codes: 79911,
+                    62019, and 79121.
+                  </p>
+                  <div className="w-48 h-50 rounded-lg overflow-hidden shadow-md border-2 border-white transform -rotate-2 hover:rotate-0 transition-transform">
+                    <img
+                      alt="NIB document attachment preview"
+                      className="w-full h-full object-cover"
+                      src="https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.webp"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-center md:py-2 pl-12 md:pl-0 relative">
+                  <div className="absolute left-0 top-0 md:static w-12 h-12 rounded-full bg-[#A6CE39] text-[#111827] border-4 border-white shadow-lg flex items-center justify-center z-10">
+                    <Gavel className="w-5 h-5" />
+                  </div>
+
+                  <div className="md:hidden">
+                    <span className="text-[#8ab51a] font-bold text-sm">
+                      2023
+                    </span>
+                    <h3 className="text-[#111827] font-bold text-lg">
+                      Formal Business Legality (NIB)
+                    </h3>
+                    <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                      Verified NIB attachment with registered KBLI: 79911,
+                      62019, 79121.
+                    </p>
+                    <div className="w-full max-w-xs h-50 rounded-lg overflow-hidden shadow-md border-2 border-white mt-3">
+                      <img
+                        alt="NIB document attachment preview"
+                        className="w-full h-full object-cover"
+                        src="https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.webp"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hidden md:block">
+                  <p className="text-slate-400 text-sm italic">
+                    Legal identity that guests can verify.
+                  </p>
+                </div>
+              </div>
+
+              {/* Today block */}
+              <div className="relative md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 mb-4 items-center group">
+                <div className="hidden md:block text-right">
+                  <p className="text-slate-400 text-sm italic">
+                    Standardization + measurable execution.
+                  </p>
+                </div>
+
+                <div className="flex justify-center md:py-2 pl-12 md:pl-0 relative">
+                  <div className="absolute left-0 top-0 md:static w-12 h-12 rounded-full bg-white text-[#8ab51a] border-4 border-[#A6CE39] shadow-lg flex items-center justify-center z-10">
+                    <Shield className="w-5 h-5" />
+                  </div>
+
+                  <div className="md:hidden">
+                    <span className="text-[#8ab51a] font-bold text-sm">
+                      Today
+                    </span>
+                    <h3 className="text-[#111827] font-bold text-lg">
+                      Operational Certainty System
+                    </h3>
+                    <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                      Private-only operations with risk protocols, in-house crew
+                      execution, and an evolving verification locker.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="hidden md:block">
+                  <span className="text-[#8ab51a] font-black text-3xl mb-1 block">
+                    Today
+                  </span>
+                  <h3 className="text-[#111827] font-bold text-xl">
+                    Operational Certainty System
+                  </h3>
+                  <p className="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Private-only operations with disciplined go/no-go
+                    decision-making, in-house crew execution, and verifiable
+                    documents via the Verification Locker.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -455,7 +656,9 @@ export default function WhyJvtoPage() {
               </h2>
               <p className="text-slate-600 text-lg">
                 Real guest feedback across three platforms — with crew names
-                that show we operate in-house, not outsourced.
+                that show we operate in-house, not outsourced. The easiest way
+                to verify it is simple: guests repeatedly mention our team
+                members by name in their reviews.
               </p>
             </div>
 
@@ -514,6 +717,22 @@ export default function WhyJvtoPage() {
                     </span>
                   </li>
                 </ul>
+                <div className="mt-8 flex flex-col gap-3">
+                  <Link
+                    href="https://health.mountijen.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="h-12 px-6 bg-[#A6CE39] hover:bg-white text-[#111827] rounded-xl font-bold transition-all inline-flex items-center justify-center gap-2 shadow-lg shadow-[#A6CE39]/20"
+                  >
+                    Open Health Screening System
+                    <ArrowDown className="w-4 h-4" />
+                  </Link>
+
+                  <p className="text-xs text-slate-500">
+                    Access the official health screening web app used before
+                    Mount Ijen ascent.
+                  </p>
+                </div>
               </div>
 
               <div className="w-full md:w-7/12">
@@ -759,6 +978,7 @@ export default function WhyJvtoPage() {
                   },
                   significantLink: [
                     "https://javavolcano-touroperator.com/verify-jvto",
+                    "https://health.mountijen.com/",
                   ],
                 },
                 {
@@ -1029,7 +1249,7 @@ export default function WhyJvtoPage() {
                         "https://javavolcano-touroperator.com/why-jvto#timeline",
                       name: "The Timeline — Proven History (2015–Now)",
                       description:
-                        "2015 homestay roots, 2016 Booking.com award, 2018 Stefan Loose listing, and today as PT Java Volcano Rendezvous.",
+                        "2015 homestay roots, 2016 Booking.com award, 2018 Stefan Loose guidebook recognition, 2021 public verification of tourist-police-led discipline, 2023 NIB attachment with registered KBLI codes, and today’s standardized private operations.",
                     },
                     {
                       "@type": "WebPageElement",

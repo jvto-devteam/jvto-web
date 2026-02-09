@@ -155,35 +155,6 @@ export default function TriangulationReviews() {
 
   return (
     <div>
-      {/* Narrative: in-house crew proof */}
-      <div className="max-w-4xl mx-auto text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-bold uppercase tracking-widest text-slate-600">
-          <ShieldCheck className="w-4 h-4 text-[#A6CE39]" />
-          Proof via independent reviews
-        </div>
-
-        <p className="mt-5 text-slate-600 text-lg leading-relaxed">
-          We operate with{" "}
-          <span className="font-bold text-[#111827]">in-house JVTO crew</span> —
-          not outsourced rotations. The easiest way to verify it is simple:
-          guests repeatedly mention our team members by name in their reviews.
-        </p>
-
-        {crewNames.length > 0 && (
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {crewNames.map((n) => (
-              <span
-                key={n}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700"
-              >
-                <Users className="w-3.5 h-3.5 text-[#8ab51a]" />
-                {n}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Tabs */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm w-full md:w-auto">
