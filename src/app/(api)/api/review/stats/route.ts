@@ -9,21 +9,21 @@ export async function GET() {
       prisma.reviews.count({
         where: {
           platform: "Google",
-          review: { not: { equals: null } },,
+          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
       prisma.reviews.count({
         where: {
           platform: "Trustpilot",
-          review: { not: { equals: null } },,
+          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
       prisma.reviews.count({
         where: {
           platform: "TripAdvisor",
-          review: { not: { equals: null } },,
+          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
