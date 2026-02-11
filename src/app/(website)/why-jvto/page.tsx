@@ -64,7 +64,7 @@ async function getData(): Promise<ApiResponse> {
 }
 async function getReviewStats() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL || "https://javavolcano-touroperator.com"}/api/review/stats`,
+    `${process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com"}/api/review/stats`,
     {
       next: { revalidate: 86400 }, // Cache 24 jam
     },
