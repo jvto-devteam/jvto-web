@@ -19,7 +19,159 @@ import {
 import Link from "next/link";
 import TriangulationReviews from "./TriangulationReviews";
 
-export default function WhyJvtoPage() {
+type Crew = {
+  id: string;
+  name: string;
+  full_name: string | null;
+  type: string;
+  photo_url: string | null;
+  tags: string;
+  year_of_joining: number | null;
+};
+
+type Review = {
+  id: string;
+  customer_name: string;
+  platform: "Google" | "Trustpilot" | "TripAdvisor";
+  date: string;
+  star: number;
+  review: string;
+  url?: string;
+  profile_photo: string | null;
+  package_id: string | null;
+  crews: Crew[];
+  has_internal_crew: boolean;
+};
+
+type ApiResponse = {
+  reviews: Review[];
+  crews: Crew[];
+};
+
+async function getData(): Promise<ApiResponse> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com"}/api/review/preview`,
+    {
+      next: { revalidate: 3600 },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+async function getReviewStats() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL || "https://javavolcano-touroperator.com"}/api/review/stats`,
+    {
+      next: { revalidate: 86400 }, // Cache 24 jam
+    },
+  );
+
+  if (!res.ok) {
+    return {
+      total: 0,
+      platforms: { google: 0, trustpilot: 0, tripadvisor: 0 },
+      average_rating: 0,
+    };
+  }
+
+  return res.json();
+}
+
+export default async function WhyJvtoPage() {
+  const { reviews, crews } = await getData();
+  const stats = await getReviewStats(); // TOTAL semua review
+
+  // Rating dari 30 review terbaru (fresh, relevan)
+  const avgRating = (
+    reviews.reduce((acc, r) => acc + r.star, 0) / reviews.length
+  ).toFixed(1);
+
+  // Transform reviews untuk JSON-LD
+  const reviewSchemas = reviews.map((review: Review) => ({
+    "@type": "Review",
+    "@id": `https://javavolcano-touroperator.com/why-jvto#review-${review.platform.toLowerCase()}-${review.id}`,
+    itemReviewed: {
+      "@id": "https://javavolcano-touroperator.com/#organization",
+    },
+    reviewBody: review.review,
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.star.toString(),
+      bestRating: "5",
+      worstRating: "1",
+    },
+    author: {
+      "@type": "Person",
+      name: review.customer_name,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: review.platform,
+    },
+    datePublished: review.date,
+    ...(review.url && { url: review.url }),
+  }));
+
+  // Transform ALL crew members untuk JSON-LD (bukan hanya dari review)
+  const crewSchemas = crews.map((crew: Crew) => ({
+    "@type": "Person",
+    "@id": `https://javavolcano-touroperator.com/#crew-${crew.name.toLowerCase()}`,
+    name: crew.full_name || crew.name,
+    alternateName: crew.name,
+    jobTitle: crew.type === "driver" ? "Driver" : "Tour Guide",
+    worksFor: {
+      "@id": "https://javavolcano-touroperator.com/#organization",
+    },
+    description: `In-house JVTO ${crew.type} since ${crew.year_of_joining || "2015"}. Part of the permanent crew, not outsourced.`,
+    knowsAbout:
+      crew.type === "driver"
+        ? [
+            "East Java mountain routes",
+            "Night driving in volcanic areas",
+            "Tour logistics safety",
+          ]
+        : [
+            "Mount Ijen crater conditions",
+            "Sulfur gas risk mitigation",
+            "Volcano tour safety briefings",
+            "Bromo and Ijen itineraries",
+          ],
+    ...(crew.photo_url && {
+      image: {
+        "@type": "ImageObject",
+        url: `https://legacy.javavolcano-touroperator.com/assets${crew.photo_url}`,
+      },
+    }),
+    ...(crew.year_of_joining && {
+      knowsAbout: [
+        ...(crew.type === "driver"
+          ? [
+              "East Java mountain routes",
+              "Night driving in volcanic areas",
+              "Tour logistics safety",
+            ]
+          : [
+              "Mount Ijen crater conditions",
+              "Sulfur gas risk mitigation",
+              "Volcano tour safety briefings",
+              "Bromo and Ijen itineraries",
+            ]),
+        `Joined JVTO in ${crew.year_of_joining}`,
+      ],
+    }),
+  }));
+
+  // Hitung rating rata-rata per platform
+  const googleReviews = reviews.filter((r) => r.platform === "Google");
+  const trustpilotReviews = reviews.filter((r) => r.platform === "Trustpilot");
+  const tripadvisorReviews = reviews.filter(
+    (r) => r.platform === "TripAdvisor",
+  );
+
   return (
     <>
       <main className="pt-[74px]">
@@ -47,7 +199,6 @@ export default function WhyJvtoPage() {
               2015.
             </p>
 
-            {/* FIX: No event handlers in a Server Component. Keep exact style. */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/verify-jvto"
@@ -523,8 +674,6 @@ export default function WhyJvtoPage() {
             </h2>
 
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-              {/* ... FORTRESS UNCHANGED ... */}
-
               <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-[0_4px_20px_-2px_rgba(17,24,39,0.05)] hover:shadow-[0_20px_40px_-5px_rgba(17,24,39,0.1)] transition-shadow duration-300 flex flex-col h-full">
                 <div className="flex items-center gap-5 mb-8">
                   <div className="w-14 h-14 bg-slate-50 text-[#8ab51a] rounded-xl flex items-center justify-center shrink-0">
@@ -581,7 +730,6 @@ export default function WhyJvtoPage() {
                 </div>
 
                 <div className="flex flex-col gap-4 grow">
-                  {/* ... LEGAL UNCHANGED ... */}
                   <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-[#A6CE39]/30 transition-colors group">
                     <div className="w-16 h-20 bg-slate-100 rounded shrink-0 overflow-hidden border border-slate-200">
                       <img
@@ -647,7 +795,6 @@ export default function WhyJvtoPage() {
           </div>
         </section>
 
-        {/* ✅ TRIANGULATION REPLACED (style wrapper unchanged) */}
         <section className="py-24 px-6 bg-slate-50 border-y border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
@@ -662,7 +809,7 @@ export default function WhyJvtoPage() {
               </p>
             </div>
 
-            <TriangulationReviews />
+            <TriangulationReviews reviews={reviews} />
           </div>
         </section>
 
@@ -764,8 +911,6 @@ export default function WhyJvtoPage() {
           </div>
         </section>
 
-        {/* ... REST OF YOUR FILE UNCHANGED (VALUE, PARTNERS, CTA, JSON-LD) ... */}
-
         <section className="py-24 px-6 bg-slate-50 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">
@@ -778,7 +923,6 @@ export default function WhyJvtoPage() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {/* ... VALUE CARDS UNCHANGED ... */}
               <div className="bg-white p-4 rounded-2xl border border-slate-200 hover:border-[#A6CE39] hover:shadow-lg transition-all flex flex-col items-center text-center gap-3 group cursor-default h-full">
                 <div className="w-full aspect-square rounded-lg overflow-hidden mb-2 bg-slate-100">
                   <img
@@ -866,7 +1010,6 @@ export default function WhyJvtoPage() {
           </div>
         </section>
 
-        {/* Partners unchanged */}
         <section className="py-16 px-6 bg-white border-b border-slate-200">
           <h2 className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-10">
             Partners &amp; Ecosystem — External Trust Signals
@@ -933,7 +1076,7 @@ export default function WhyJvtoPage() {
         </section>
       </main>
 
-      {/* JSON-LD unchanged (you can optionally add Review schema later) */}
+      {/* JSON-LD dengan data REAL dari API */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -1117,12 +1260,11 @@ export default function WhyJvtoPage() {
                   ],
                   aggregateRating: {
                     "@type": "AggregateRating",
-                    ratingValue: "4.9",
-                    reviewCount: "200",
+                    ratingValue: avgRating,
+                    reviewCount: stats.total.toString(),
                     bestRating: "5",
                     worstRating: "1",
-                    description:
-                      "Consolidated rating from Google, Trustpilot, and TripAdvisor.",
+                    description: `Based on ${stats.total.toLocaleString()} verified reviews from Google (${stats.platforms.google.toLocaleString()}+), Trustpilot (${stats.platforms.trustpilot.toLocaleString()}+), and TripAdvisor (${stats.platforms.tripadvisor.toLocaleString()}+). Showing 30 most recent reviews.`,
                   },
                   sameAs: [
                     "https://www.trustpilot.com/review/javavolcano-touroperator.com",
@@ -1319,81 +1461,10 @@ export default function WhyJvtoPage() {
                     },
                   ],
                 },
-                {
-                  "@type": "Review",
-                  "@id":
-                    "https://javavolcano-touroperator.com/why-jvto#review-google-001",
-                  itemReviewed: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  author: {
-                    "@type": "Person",
-                    name: "Daniel K. (Dummy)",
-                  },
-                  publisher: {
-                    "@type": "Organization",
-                    name: "Google",
-                  },
-                  reviewRating: {
-                    "@type": "Rating",
-                    ratingValue: "5",
-                    bestRating: "5",
-                    worstRating: "1",
-                  },
-                  reviewBody:
-                    "Our driver Pak Eko and escort guide Rani (JVTO crew) were professional and consistent from pickup to drop-off. Clear briefings, no improvisation, and everything matched the plan. This did not feel outsourced.",
-                  datePublished: "2026-01-15T00:00:00Z",
-                },
-                {
-                  "@type": "Review",
-                  "@id":
-                    "https://javavolcano-touroperator.com/why-jvto#review-trustpilot-001",
-                  itemReviewed: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  author: {
-                    "@type": "Person",
-                    name: "Sophie M. (Dummy)",
-                  },
-                  publisher: {
-                    "@type": "Organization",
-                    name: "Trustpilot",
-                  },
-                  reviewRating: {
-                    "@type": "Rating",
-                    ratingValue: "5",
-                    bestRating: "5",
-                    worstRating: "1",
-                  },
-                  reviewBody:
-                    "We met the same JVTO team for the whole route—driver Pak Hadi and Ijen guide Pak Andi. No switching crews mid-trip. Their protocol around timing and safety felt standardized, not casual.",
-                  datePublished: "2026-01-20T00:00:00Z",
-                },
-                {
-                  "@type": "Review",
-                  "@id":
-                    "https://javavolcano-touroperator.com/why-jvto#review-tripadvisor-001",
-                  itemReviewed: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  author: {
-                    "@type": "Person",
-                    name: "Wei Lin (Dummy)",
-                  },
-                  publisher: {
-                    "@type": "Organization",
-                    name: "TripAdvisor",
-                  },
-                  reviewRating: {
-                    "@type": "Rating",
-                    ratingValue: "5",
-                    bestRating: "5",
-                    worstRating: "1",
-                  },
-                  reviewBody:
-                    "Our guide Pak Budi explained the route clearly and managed the pace well. The team’s coordination looked like an internal crew system, not freelance outsourcing. The itinerary execution was precise.",
-                  datePublished: "2026-01-28T00:00:00Z",
-                },
+                // REVIEW REAL DARI API - 10 TERBARU PER PLATFORM
+                ...reviewSchemas,
+                // CREW REAL DARI TABEL crew_members
+                ...crewSchemas,
                 {
                   "@type": "FAQPage",
                   "@id": "https://javavolcano-touroperator.com/why-jvto#faq",
@@ -1428,7 +1499,7 @@ export default function WhyJvtoPage() {
                       name: "Do you use outsourced crews?",
                       acceptedAnswer: {
                         "@type": "Answer",
-                        text: "JVTO is built around consistent internal crew execution for operational reliability. Guest reviews often mention named JVTO crew members (drivers and guides), which helps validate continuity and service accountability.",
+                        text: "No. JVTO is built around consistent internal crew execution for operational reliability. All drivers and guides are permanent JVTO team members, not outsourced freelancers. Guest reviews often mention named JVTO crew members by name, validating our in-house model.",
                       },
                     },
                     {
@@ -1437,6 +1508,14 @@ export default function WhyJvtoPage() {
                       acceptedAnswer: {
                         "@type": "Answer",
                         text: "A mandatory pre-ascent screening for SpO2 and blood pressure. Results are digitally recorded and used for go/no-go decisions before entering high-risk volcanic zones.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name: "How many reviews does JVTO have?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: `JVTO has ${stats.total.toLocaleString()}+ verified reviews across Google, Trustpilot, and TripAdvisor with an average rating of ${avgRating}/5. We display the 30 most recent reviews on our website to ensure freshness and relevance.`,
                       },
                     },
                   ],
@@ -1534,67 +1613,6 @@ export default function WhyJvtoPage() {
                     "Supports go/no-go safety decisions",
                   ],
                   inLanguage: "en",
-                },
-                {
-                  "@type": "Person",
-                  "@id": "https://javavolcano-touroperator.com/#crew-arif",
-                  name: "Arif",
-                  jobTitle: "Driver",
-                  affiliation: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  worksFor: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  description:
-                    "In-house JVTO driver. Regularly mentioned by name in verified guest reviews for punctuality and route safety. Not an outsourced freelancer.",
-                  knowsAbout: [
-                    "East Java mountain routes",
-                    "Night driving in volcanic areas",
-                    "Tour logistics safety",
-                  ],
-                },
-                {
-                  "@type": "Person",
-                  "@id": "https://javavolcano-touroperator.com/#crew-rizal",
-                  name: "Rizal",
-                  jobTitle: "Escort Guide",
-                  affiliation: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  worksFor: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  description:
-                    "In-house JVTO escort guide. Frequently referenced by name in multi-platform reviews, indicating consistent crew assignment rather than outsourcing.",
-                  knowsAbout: [
-                    "Guest coordination",
-                    "Volcano tour safety briefings",
-                    "Bromo and Ijen itineraries",
-                  ],
-                },
-                {
-                  "@type": "Person",
-                  "@id": "https://javavolcano-touroperator.com/#crew-bayu",
-                  name: "Bayu",
-                  jobTitle: "Ijen Local Guide",
-                  affiliation: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  worksFor: {
-                    "@id": "https://javavolcano-touroperator.com/#organization",
-                  },
-                  memberOf: {
-                    "@type": "Organization",
-                    name: "HPWKI",
-                  },
-                  description:
-                    "Certified Ijen guide working as part of JVTO’s internal crew. Named in guest reviews for calm handling of sulfur gas and night ascent conditions.",
-                  knowsAbout: [
-                    "Mount Ijen crater conditions",
-                    "Sulfur gas risk mitigation",
-                    "Emergency response on volcanic terrain",
-                  ],
                 },
               ],
             },
