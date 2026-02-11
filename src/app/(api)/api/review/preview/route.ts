@@ -11,7 +11,6 @@ export async function GET() {
       // AMBIL DULU REVIEW YANG MENTION CREW
       const reviewsWithCrew = await prisma.reviews.findMany({
         where: {
-          package_id: { not: null },
           platform: platform,
           star: { gte: 4 },
           crew_reviews: { some: {} },
@@ -43,7 +42,6 @@ export async function GET() {
       if (remaining > 0) {
         reviewsWithoutCrew = await prisma.reviews.findMany({
           where: {
-            package_id: { not: null },
             platform: platform,
             star: { gte: 4 },
             crew_reviews: { none: {} }, // TIDAK mention crew
