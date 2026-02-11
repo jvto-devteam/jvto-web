@@ -52,13 +52,12 @@ async function getData(): Promise<ApiResponse> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com"}/api/review/preview`,
     {
-       cache: 'force-cache',
       next: { revalidate: 3600 },
     },
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    return { reviews: [], crews: [] };
   }
 
   return res.json();
@@ -67,7 +66,6 @@ async function getReviewStats() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com"}/api/review/stats`,
     {
-       cache: 'force-cache',
       next: { revalidate: 86400 }, // Cache 24 jam
     },
   );
