@@ -84,11 +84,10 @@ async function getReviewStats() {
 export default async function WhyJvtoPage() {
   const { reviews, crews } = await getData();
   const stats = await getReviewStats(); // TOTAL semua review
+  
 
   // Rating dari 30 review terbaru (fresh, relevan)
-  const avgRating = (
-    reviews.reduce((acc, r) => acc + r.star, 0) / reviews.length
-  ).toFixed(1);
+  const avgRating = stats.average_rating;  
 
   // Transform reviews untuk JSON-LD
   const reviewSchemas = reviews.map((review: Review) => ({
