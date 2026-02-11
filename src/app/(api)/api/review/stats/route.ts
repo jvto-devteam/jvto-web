@@ -9,21 +9,18 @@ export async function GET() {
       prisma.reviews.count({
         where: {
           platform: "Google",
-          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
       prisma.reviews.count({
         where: {
           platform: "Trustpilot",
-          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
       prisma.reviews.count({
         where: {
           platform: "TripAdvisor",
-          review: { not: { equals: null } },
           star: { gte: 1 },
         },
       }),
@@ -33,7 +30,6 @@ export async function GET() {
     const avgRating = await prisma.reviews.aggregate({
       where: {
         platform: { in: ["Google", "Trustpilot", "TripAdvisor"] },
-        review: { not: { equals: null } },
         star: { gte: 1 },
       },
       _avg: {
