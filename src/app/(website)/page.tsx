@@ -177,33 +177,6 @@ const Home = async () => {
         ],
       },
       {
-        "@type": "Service",
-        "@id": "https://javavolcano-touroperator.com/why-jvto#tourService",
-        name: "Private Volcano Tour Operations (Mount Bromo & Mount Ijen)",
-        provider: {
-          "@id": "https://javavolcano-touroperator.com/#organization",
-        },
-        serviceType: [
-          "Private tour",
-          "Volcano tour",
-          "Tour guiding service",
-          "Travel agency service",
-        ],
-        areaServed: [
-          {
-            "@type": "AdministrativeArea",
-            name: "East Java",
-          },
-          {
-            "@type": "Country",
-            name: "Indonesia",
-          },
-        ],
-        description:
-          "Standardized private operations for active-volcano environments, with disciplined risk protocols, own crew execution (not outsourced), and pre-ascent health screening for Mount Ijen when applicable.",
-        termsOfService: "https://javavolcano-touroperator.com/verify-jvto",
-      },
-      {
         "@type": "BreadcrumbList",
         "@id": siteUrl + "/#breadcrumb",
         itemListElement: [
