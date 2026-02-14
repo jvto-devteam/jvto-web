@@ -101,24 +101,6 @@ const Home = async () => {
           },
         },
         areaServed: ["East Java", "Mount Bromo", "Mount Ijen"],
-        memberOf: {
-          "@type": "Organization",
-          name: "Himpunan Pelaku Wisata Khusus Ijen (HPWKI)",
-          url: "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyaSAyMDI0",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Bondowoso",
-            addressRegion: "Jawa Timur",
-            addressCountry: "ID",
-          },
-          identifier: [
-            {
-              "@type": "PropertyValue",
-              propertyID: "AHU-Decree",
-              value: "AHU-0001072.AH.01.07.TAHUN 2024",
-            },
-          ],
-        },
         identifier: [
           {
             "@type": "PropertyValue",
@@ -132,11 +114,60 @@ const Home = async () => {
           },
           {
             "@type": "PropertyValue",
+            propertyID: "KBLI",
+            value: "79911",
+          },
+          {
+            "@type": "PropertyValue",
+            propertyID: "KBLI",
+            value: "62019",
+          },
+          {
+            "@type": "PropertyValue",
+            propertyID: "KBLI",
+            value: "79121",
+          },
+          {
+            "@type": "PropertyValue",
             propertyID: "AHU-Company-Profile",
             value:
               "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
           },
         ],
+        memberOf: [
+          {
+            "@type": "Organization",
+            name: "Himpunan Pelaku Wisata Khusus Ijen (HPWKI)",
+            url: "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyaSAyMDI0",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Bondowoso",
+              addressRegion: "Jawa Timur",
+              addressCountry: "ID",
+            },
+            identifier: [
+              {
+                "@type": "PropertyValue",
+                propertyID: "AHU-Decree",
+                value: "AHU-0001072.AH.01.07.TAHUN 2024",
+              },
+            ],
+            description:
+              "Professional guides association trained in SAR and volcanic risk mitigation.",
+          },
+          {
+            "@type": "Organization",
+            name: "ISIC",
+            description:
+              "International Student Identity Card provider (digital verification).",
+          },
+          {
+            "@type": "Organization",
+            name: "INDECON",
+            description: "Indonesia ecotourism network.",
+          },
+        ],
+
         sameAs: [
           "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
           "https://trustpilot.com/review/javavolcano-touroperator.com",
@@ -144,6 +175,33 @@ const Home = async () => {
           "https://www.isic.org/discounts/?providerId=259268",
           "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
         ],
+      },
+      {
+        "@type": "Service",
+        "@id": "https://javavolcano-touroperator.com/why-jvto#tourService",
+        name: "Private Volcano Tour Operations (Mount Bromo & Mount Ijen)",
+        provider: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        serviceType: [
+          "Private tour",
+          "Volcano tour",
+          "Tour guiding service",
+          "Travel agency service",
+        ],
+        areaServed: [
+          {
+            "@type": "AdministrativeArea",
+            name: "East Java",
+          },
+          {
+            "@type": "Country",
+            name: "Indonesia",
+          },
+        ],
+        description:
+          "Standardized private operations for active-volcano environments, with disciplined risk protocols, own crew execution (not outsourced), and pre-ascent health screening for Mount Ijen when applicable.",
+        termsOfService: "https://javavolcano-touroperator.com/verify-jvto",
       },
       {
         "@type": "BreadcrumbList",
@@ -192,6 +250,37 @@ const Home = async () => {
             text: faq.answer,
           },
         })),
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://health.mountijen.com/#app",
+        name: "Mount Ijen Digital Health Screening",
+        alternateName: "Ijen Health Screening",
+        url: "https://health.mountijen.com/",
+        usageInfo:
+          "Operational safety screening only. Does not replace medical diagnosis or treatment.",
+        applicationCategory: "HealthApplication",
+        operatingSystem: "Web",
+        isAccessibleForFree: true,
+        publisher: {
+          "@id": "https://javavolcano-touroperator.com/#organization",
+        },
+        about: [
+          {
+            "@type": "Thing",
+            name: "Pre-ascent health screening (SpO₂ & Blood Pressure)",
+          },
+          {
+            "@type": "Place",
+            name: "Mount Ijen",
+          },
+        ],
+        featureList: [
+          "Digital recording of SpO₂ and blood pressure",
+          "QR-based clearance flow",
+          "Supports go/no-go safety decisions",
+        ],
+        inLanguage: "en",
       },
     ],
   };
