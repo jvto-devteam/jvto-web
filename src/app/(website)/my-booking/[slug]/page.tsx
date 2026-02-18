@@ -40,7 +40,7 @@ async function getBookingData(slug: string): Promise<BookingData | null> {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
-
+    console.log(data);
     return data.booking;
   } catch (error) {
     console.error("Error fetching booking:", error);
@@ -402,9 +402,12 @@ export default async function MyBookingPage({
             {booking.channel != "KLOOK" && (
               <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
                 <div className="absolute top-0 right-0 p-10 bg-lime-500 blur-3xl opacity-20 rounded-full pointer-events-none"></div>
-                <h3 className="font-bold uppercase tracking-widest mb-6 text-lime-400 text-xs relative z-10">
+                <h3 className="font-bold uppercase tracking-widest mb-2 text-lime-400 text-xs relative z-10">
                   Documents
                 </h3>
+                <p className="text-white/60 text-xs mb-4 relative z-10 font-mono">
+                  Invoice #<span id="invoiceCode">{booking.booking_code}</span>
+                </p>
                 <div className="space-y-3 relative z-10">
                   <a
                     href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice/${booking.url}`}
@@ -450,7 +453,10 @@ export default async function MyBookingPage({
                   Grand Total
                 </h3>
                 <div className="relative z-10">
-                  <p id="grandTotal" className="text-3xl font-black tracking-tight">
+                  <p
+                    id="grandTotal"
+                    className="text-3xl font-black tracking-tight"
+                  >
                     {formatIDR(booking.finance.grand_total)}
                   </p>
                   <p className="text-sm text-white/80 mt-1">
