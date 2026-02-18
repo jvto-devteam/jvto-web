@@ -19,13 +19,9 @@ import {
 } from "lucide-react";
 
 // --- HELPERS ---
-const formatIDR = (num: number) =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(num);
-
+const formatIDR = (num: number) => {
+  return `IDR ${num.toLocaleString("id-ID").replace(/\./g, ",")}`;
+};
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString("en-US", {
     day: "numeric",
@@ -44,6 +40,7 @@ async function getBookingData(slug: string): Promise<BookingData | null> {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
+
     return data.booking;
   } catch (error) {
     console.error("Error fetching booking:", error);
@@ -118,7 +115,7 @@ export default async function MyBookingPage({
           </h2>
           <p className="text-slate-500 mt-2">
             Here is your personal dashboard for the{" "}
-            <span className="font-bold text-slate-700">
+            <span id="packageName" className="font-bold text-slate-700">
               {booking.package_name}
             </span>{" "}
             trip.
@@ -165,9 +162,9 @@ export default async function MyBookingPage({
                                 {booking.finance.balance_payment_method === "cc"
                                   ? "Credit Card (Xendit)"
                                   : booking.finance.balance_payment_method ===
-                                    "wise"
-                                  ? "Wise / Bank Transfer"
-                                  : "Cash on Arrival"}
+                                      "wise"
+                                    ? "Wise / Bank Transfer"
+                                    : "Cash on Arrival"}
                               </p>
                             </div>
                           )}
@@ -443,6 +440,22 @@ export default async function MyBookingPage({
                       />
                     </a>
                   )}
+                </div>
+              </div>
+            )}
+            {booking.channel != "KLOOK" && (
+              <div className="bg-gradient-to-br from-lime-500 to-green-600 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-10 bg-white blur-3xl opacity-20 rounded-full pointer-events-none"></div>
+                <h3 className="font-bold uppercase tracking-widest mb-4 text-white/80 text-xs relative z-10">
+                  Grand Total
+                </h3>
+                <div className="relative z-10">
+                  <p id="grandTotal" className="text-3xl font-black tracking-tight">
+                    {formatIDR(booking.finance.grand_total)}
+                  </p>
+                  <p className="text-sm text-white/80 mt-1">
+                    Total overall trip cost
+                  </p>
                 </div>
               </div>
             )}
