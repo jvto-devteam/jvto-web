@@ -20,72 +20,74 @@ import {
   Lock,
   CalendarCheck,
   FileText,
-  Search,
   Filter,
   Grid,
   Gavel,
   CheckCircle2,
-  FileCheck,
 } from "lucide-react";
 import Button from "@/components/website/UI/Button";
 
 export default function VerifyJvtoClient() {
   const [activeTab, setActiveTab] = useState("all");
   const [showHash, setShowHash] = useState<Record<string, boolean>>({});
-
-  // State untuk Modal Preview
   const [selectedDoc, setSelectedDoc] = useState<Doc | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   // Ambil Data
   const data = getVerificationDocs();
-  const rawDocs: Doc[] = [
+  const allDocs: Doc[] = [
     ...data.company_registration,
-    ...data.membership,
     ...data.police_clearances,
     ...data.operations,
     ...data.health_safety,
     ...data.company_history,
     ...data.press_coverage,
+    ...data.membership,
+    ...(data.founder || []),
+    ...(data.credentials || []),
   ];
 
-  // Filter dokumen valid
-  const documents = rawDocs.filter((doc) => {
-    const isImageFile = doc.url.match(/\.(jpg|jpeg|png|webp)$/i);
-    const hasPreview = doc.preview?.url;
-    return isImageFile || hasPreview;
-  });
+  const documents = allDocs;
 
   const categories = [
     { id: "all", label: "All Documents" },
+    { id: "founder", label: "Founder" },
     { id: "police_clearances", label: "Police Authority" },
     { id: "company_registration", label: "Legal & NIB" },
     { id: "operations", label: "Operations" },
     { id: "health_safety", label: "Health & Safety" },
     { id: "press_coverage", label: "Media Proof" },
     { id: "company_history", label: "History" },
+    { id: "credentials", label: "Guide Credentials" },
   ];
 
   const filteredDocuments =
     activeTab === "all"
       ? documents
       : documents.filter((doc) => {
-          if (activeTab === "company_registration")
-            return ["BusinessID", "License", "Membership"].includes(
-              doc.category,
-            );
-          if (activeTab === "police_clearances")
-            return doc.category === "PoliceDocs";
-          if (activeTab === "operations")
-            return ["OpsPhoto", "Facility"].includes(doc.category);
-          if (activeTab === "health_safety")
-            return doc.category === "Screening";
-          if (activeTab === "press_coverage") return doc.category === "Press";
-          if (activeTab === "company_history")
-            return doc.category === "History";
-          return true;
+          switch (activeTab) {
+            case "founder":
+              return doc.category === "Founder";
+            case "police_clearances":
+              return doc.category === "PoliceDocs";
+            case "company_registration":
+              return ["BusinessID", "License", "Membership"].includes(
+                doc.category,
+              );
+            case "operations":
+              return ["OpsPhoto", "Facility"].includes(doc.category);
+            case "health_safety":
+              return doc.category === "Screening";
+            case "press_coverage":
+              return doc.category === "Press";
+            case "company_history":
+              return doc.category === "History";
+            case "credentials":
+              return doc.category === "Credentials";
+            default:
+              return false;
+          }
         });
-      
 
   const toggleHash = (filename: string) => {
     setShowHash((prev) => ({ ...prev, [filename]: !prev[filename] }));
@@ -111,26 +113,17 @@ export default function VerifyJvtoClient() {
   };
 
   useEffect(() => {
-    if (selectedDoc) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = selectedDoc ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
-    
   }, [selectedDoc]);
 
   return (
     <div className="flex py-30 flex-col min-h-screen bg-[#f6f6f8] font-sans text-slate-800">
-
-
       <main className="flex-grow p-6 md:p-8 max-w-[1600px] mx-auto w-full">
-        {/* 2. HERO SECTION (AEO & GEO OPTIMIZED) */}
-        {/* Bagian ini dirancang agar AI membaca ringkasan otoritas JVTO */}
+        {/* HERO SECTION */}
         <section className="mb-10 bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm relative overflow-hidden group">
-          {/* Background Decoration */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full -mr-16 -mt-16 pointer-events-none"></div>
           <div className="absolute bottom-0 right-20 w-32 h-32 bg-yellow-50/50 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -150,8 +143,6 @@ export default function VerifyJvtoClient() {
                 (NIB 1102230032918), <strong>Tourist Police authority</strong>{" "}
                 (Ditpamobvit), and operational history in East Java.
               </p>
-
-              {/* GEO Bullet Points for AI Snippets */}
               <div className="flex flex-wrap gap-y-2 gap-x-6 text-sm text-slate-700 font-medium">
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
@@ -167,8 +158,6 @@ export default function VerifyJvtoClient() {
                 </span>
               </div>
             </div>
-
-            {/* Stats Box */}
             <div className="hidden lg:flex gap-4">
               <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 text-center min-w-[140px]">
                 <p className="text-3xl font-black text-[#1445b8] mb-1">
@@ -194,7 +183,7 @@ export default function VerifyJvtoClient() {
           </div>
         </section>
 
-        {/* 3. FILTERS & TOOLS */}
+        {/* FILTERS */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 sticky top-20 z-20 py-2 bg-[#f6f6f8]/95 backdrop-blur-sm">
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
@@ -221,7 +210,7 @@ export default function VerifyJvtoClient() {
           </div>
         </div>
 
-        {/* 4. DOCUMENTS GRID (Card Design) */}
+        {/* DOCUMENTS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredDocuments.map((doc, i) => {
             const isPdf = doc.url.endsWith(".pdf");
@@ -237,7 +226,7 @@ export default function VerifyJvtoClient() {
                 key={i}
                 className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 flex flex-col h-full"
               >
-                {/* Thumbnail Area */}
+                {/* Thumbnail */}
                 <div
                   className="relative aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer"
                   onClick={() => setSelectedDoc(doc)}
@@ -250,15 +239,11 @@ export default function VerifyJvtoClient() {
                       loading="lazy"
                     />
                   </div>
-
-                  {/* Overlay on Hover */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
                     <button className="bg-white/90 p-2.5 rounded-full text-slate-900 hover:bg-white hover:scale-110 transition-all shadow-lg">
                       <Maximize2 className="w-5 h-5" />
                     </button>
                   </div>
-
-                  {/* Badge */}
                   <div className="absolute top-3 left-3">
                     <span
                       className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider shadow-sm ${
@@ -274,7 +259,7 @@ export default function VerifyJvtoClient() {
                   </div>
                 </div>
 
-                {/* Content Area */}
+                {/* Content */}
                 <div className="p-5 flex flex-col flex-grow">
                   <div className="mb-3">
                     <div className="flex items-start justify-between gap-2">
@@ -284,7 +269,7 @@ export default function VerifyJvtoClient() {
                       >
                         {doc.official_title}
                       </h3>
-                      {doc.url.endsWith(".pdf") && (
+                      {isPdf && (
                         <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
                       )}
                     </div>
@@ -318,9 +303,7 @@ export default function VerifyJvtoClient() {
                       </Button>
 
                       {doc.external_validation_url && (
-                        <Button
-                          className="flex-1 bg-[#1445b8] text-white hover:bg-blue-800 text-xs h-9 font-bold shadow-sm border-transparent"                          
-                        >
+                        <Button className="flex-1 bg-[#1445b8] text-white hover:bg-blue-800 text-xs h-9 font-bold shadow-sm border-transparent">
                           <a
                             href={doc.external_validation_url}
                             target="_blank"
@@ -340,10 +323,9 @@ export default function VerifyJvtoClient() {
         </div>
       </main>
 
-      {/* 5. PREVIEW MODAL (Sama dengan preview HTML sebelumnya) */}
+      {/* PREVIEW MODAL */}
       {selectedDoc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111621]/90 backdrop-blur-sm p-0 md:p-6 overflow-hidden animate-in fade-in duration-200">
-          {/* Navigation Buttons (Desktop) */}
           <button
             onClick={handlePrev}
             className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border border-white/10 z-50 backdrop-blur-md"
@@ -357,9 +339,7 @@ export default function VerifyJvtoClient() {
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Modal Container */}
           <div className="relative w-full max-w-7xl bg-white dark:bg-[#111621] rounded-none md:rounded-xl shadow-2xl overflow-hidden flex flex-col h-full md:h-[95vh] border border-gray-200 dark:border-gray-800">
-            {/* Mobile Header */}
             <div className="md:hidden p-4 bg-white border-b flex justify-between items-center">
               <h3 className="font-bold text-sm truncate pr-4">
                 {selectedDoc.official_title}
@@ -373,10 +353,9 @@ export default function VerifyJvtoClient() {
             </div>
 
             <div className="flex flex-col lg:flex-row flex-1 min-h-0">
-              {/* SIDEBAR: Metadata & Verification */}
+              {/* Sidebar */}
               <div className="w-full lg:w-[35%] border-b lg:border-b-0 lg:border-r border-gray-200 bg-slate-50/80 p-6 lg:p-8 overflow-y-auto">
                 <div className="flex flex-col gap-6">
-                  {/* Title Section */}
                   <div>
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-green-100 text-green-700 mb-3 border border-green-200 shadow-sm">
                       <ShieldCheck className="w-3.5 h-3.5 mr-1.5" />
@@ -390,18 +369,15 @@ export default function VerifyJvtoClient() {
                     </p>
                   </div>
 
-                  {/* External Verification Box */}
                   {selectedDoc.external_validation_url ? (
                     <div className="p-5 bg-white rounded-xl border border-blue-100 shadow-sm relative overflow-hidden group">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
-
                       <div className="flex items-center gap-2 mb-4 relative z-10">
                         <Landmark className="w-4 h-4 text-blue-700" />
                         <p className="text-[10px] font-bold text-blue-800 uppercase tracking-widest">
                           Official Registry Verification
                         </p>
                       </div>
-
                       <div className="flex gap-4 items-center relative z-10">
                         <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 shrink-0">
                           <Shield className="w-8 h-8 text-blue-600" />
@@ -410,6 +386,7 @@ export default function VerifyJvtoClient() {
                           <a
                             href={selectedDoc.external_validation_url}
                             target="_blank"
+                            rel="noopener noreferrer"
                             className="flex items-center justify-center rounded-lg h-9 px-4 bg-blue-600 text-white font-bold text-xs gap-2 hover:bg-blue-700 transition-all shadow-md shadow-blue-200"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
@@ -421,7 +398,6 @@ export default function VerifyJvtoClient() {
                           </p>
                         </div>
                       </div>
-
                       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between relative z-10">
                         <span className="text-[10px] text-slate-400 uppercase font-bold">
                           Status
@@ -454,7 +430,6 @@ export default function VerifyJvtoClient() {
                         {selectedDoc.narrative_context}
                       </p>
                     </div>
-
                     <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                       <div>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
@@ -476,7 +451,6 @@ export default function VerifyJvtoClient() {
                         </p>
                       </div>
                     </div>
-
                     <div className="p-4">
                       <button
                         onClick={() => toggleHash(selectedDoc.filename)}
@@ -501,9 +475,8 @@ export default function VerifyJvtoClient() {
                 </div>
               </div>
 
-              {/* MAIN PREVIEW AREA */}
+              {/* Main Preview */}
               <div className="w-full lg:w-[65%] bg-slate-200 relative flex flex-col overflow-hidden">
-                {/* Floating Toolbar */}
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-4 z-20 flex gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-lg shadow-lg border border-white/50">
                   <button
                     onClick={() => setZoomLevel((z) => Math.min(z + 0.25, 3))}
@@ -536,9 +509,7 @@ export default function VerifyJvtoClient() {
                   </button>
                 </div>
 
-                {/* Document Canvas */}
                 <div className="flex-1 overflow-auto p-4 lg:p-12 flex justify-center items-center bg-slate-200/50 relative">
-                  {/* Grid Pattern Background */}
                   <div
                     className="absolute inset-0 opacity-10 pointer-events-none"
                     style={{
@@ -556,7 +527,6 @@ export default function VerifyJvtoClient() {
                       maxHeight: "100%",
                     }}
                   >
-                    {/* Document Header Line */}
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 z-10"></div>
 
                     <img
@@ -565,7 +535,6 @@ export default function VerifyJvtoClient() {
                       className="max-w-full md:max-w-[650px] h-auto object-contain block mx-auto bg-white min-h-[400px]"
                     />
 
-                    {/* Official Stamp Overlay */}
                     <div className="absolute bottom-6 right-6 opacity-90 pointer-events-none mix-blend-multiply">
                       <div className="border-[3px] border-blue-900/20 rounded-full px-4 py-1.5 -rotate-12 bg-white/50 backdrop-blur-sm">
                         <p className="text-[10px] font-black text-blue-900/40 uppercase tracking-widest flex items-center gap-1">
@@ -578,7 +547,7 @@ export default function VerifyJvtoClient() {
               </div>
             </div>
 
-            {/* MODAL FOOTER */}
+            {/* Footer */}
             <footer className="p-4 bg-white border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 px-6 lg:px-8 z-10">
               <div className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wide">
                 <Lock className="w-3.5 h-3.5 mr-2 text-[#1445b8]" />

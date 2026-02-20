@@ -42,7 +42,6 @@ export default function VerifyJvtoPage() {
     description:
       "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Known for operational certainty, safety standards, and transparent pricing.",
     foundingDate: "2015",
-    // [BARU] Identifier NIB untuk Validasi Mesin
     identifier: {
       "@type": "PropertyValue",
       propertyID: "NIB",
@@ -58,7 +57,6 @@ export default function VerifyJvtoPage() {
     },
     image: "https://javavolcano-touroperator.com/assets/img/office-hq.jpg",
     priceRange: "$$",
-    // [BARU] Aggregate Rating untuk Rich Snippets
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
@@ -71,8 +69,8 @@ export default function VerifyJvtoPage() {
     founder: {
       "@type": "Person",
       name: "Agung Sambuko",
-      alternateName: "Mr. Sam", // [BARU] Untuk pencarian "Mr. Sam Bromo"
-      honorificPrefix: "Bripka", // [BARU] Title Kepolisian
+      alternateName: "Mr. Sam",
+      honorificPrefix: "Bripka",
       jobTitle: "Active Tourist Police Officer",
       memberOf: {
         "@type": "GovernmentOrganization",
@@ -81,7 +79,6 @@ export default function VerifyJvtoPage() {
       },
       knowsAbout: ["Tourism Safety", "Risk Management", "Volcano Rescue"],
     },
-    // [BARU] Fasilitas Utama (Amenities)
     amenityFeature: [
       {
         "@type": "LocationFeatureSpecification",
@@ -114,7 +111,6 @@ export default function VerifyJvtoPage() {
         value: true,
       },
     ],
-    // Tetap gunakan Array of Strings agar Valid 100% (Google Friendly)
     award: [
       "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
       "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
@@ -162,10 +158,14 @@ export default function VerifyJvtoPage() {
           (a) => a.slug === primaryAssetSlug,
         );
 
-        const directFileUrl = asset ? asset.url : `${siteUrl}/verify-jvto`;
-        const fileFormat = asset?.url.endsWith(".pdf")
-          ? "application/pdf"
-          : "image/jpeg";
+        // Perbaikan: cek keberadaan asset dan asset.url sebelum menggunakan endsWith
+        const directFileUrl = asset?.url || `${siteUrl}/verify-jvto`;
+        let fileFormat = "application/octet-stream"; // default
+        if (asset?.url) {
+          fileFormat = asset.url.endsWith(".pdf")
+            ? "application/pdf"
+            : "image/jpeg";
+        }
 
         // ISBN Injection Logic
         let finalDescription = cred.narrative;
@@ -256,8 +256,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 5. HOW-TO SCHEMA (BARU - Ditambahkan untuk AEO)
-  // Menjelaskan langkah verifikasi dokumen kepada mesin pencari
+  // 5. HOW-TO SCHEMA
   const howToSchema = {
     "@type": "HowTo",
     name: "How to Verify JVTO Legal & Safety Documents",
@@ -295,7 +294,7 @@ export default function VerifyJvtoPage() {
       documentCollectionSchema,
       breadcrumbSchema,
       faqSchema,
-      howToSchema, // [BARU] Ditambahkan ke Graph
+      howToSchema,
     ],
   };
 
