@@ -31,8 +31,241 @@ export const metadata: Metadata = {
 
 export default function VerifyJvtoPage() {
   const orgProfile = ssotData.organization_profile;
+  const visibleAssets = ssotData.assets_inventory.filter(
+    (a) => a.is_show === true,
+  );
 
-  // 1. ORGANIZATION SCHEMA (ENRICHED / DIPERKAYA)
+  // Buat mapping asset slug ke credential yang memuatnya
+  const credentialByAssetSlug = new Map();
+  ssotData.verification_credentials.forEach((cred) => {
+    cred.evidence_asset_slugs?.forEach((slug) => {
+      credentialByAssetSlug.set(slug, cred);
+    });
+  });
+
+  // Fungsi untuk menentukan tipe schema dan properti tambahan per aset
+  function getSchemaForAsset(asset: any) {
+    const cred = credentialByAssetSlug.get(asset.slug);
+    const fileUrl = asset.file_url || asset.url;
+    const baseProps = {
+      "@id": `${siteUrl}/verify-jvto#asset-${asset.slug}`,
+      name: cred?.title || asset.caption,
+      description:
+        asset.geo_context ||
+        cred?.geo_narrative ||
+        cred?.narrative ||
+        asset.caption,
+      uploadDate: asset.last_verified_iso || "2025-01-01",
+      creditText: "PT Java Volcano Rendezvous",
+    };
+
+    // 1. Buku Stefan Loose (ISBN)
+    if (
+      asset.slug.includes("stefan-loose") ||
+      cred?.evidence_items?.some((item: any) => item.type === "Book")
+    ) {
+      const bookItem = cred?.evidence_items?.find(
+        (item: any) => item.type === "Book",
+      );
+      return {
+        "@type": "Book",
+        ...baseProps,
+        isbn: bookItem?.bibliographic_metadata?.isbn_13,
+        bookEdition: bookItem?.bibliographic_metadata?.title,
+        image: asset.preview || asset.url, // gambar halaman buku
+        url: cred?.identifiers?.registry_url || "https://amzn.eu/d/08rBSWja", // tautan Amazon
+      };
+    }
+
+    // 2. Foto Founder (Mr. Sam)
+    if (asset.slug === "mr-sam-tourist-police-portrait-png") {
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/png",
+        sha256: asset.sha256,
+        about: {
+          "@type": "Person",
+          name: "Agung Sambuko (Mr. Sam)",
+          jobTitle: "Active Tourist Police Officer",
+          memberOf: "Ditpamobvit",
+        },
+      };
+    }
+
+    // 3. Kartu Izin Pemandu (KTA) – masing-masing untuk person berbeda
+    if (asset.category === "Credentials") {
+      const nameMap: Record<string, string> = {
+        "kta-anjas": "Anjas Setyawan R.",
+        "kta-gufron": "Gufron",
+        "kta-kiki": "Ahmad Lutfi Hagi (Kiki)",
+        "kta-rendi": "Rendi Rivaldi",
+        "kta-taufik": "Mohammad Taufik",
+      };
+      const personName = nameMap[asset.slug] || "Ijen Guide";
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/jpeg",
+        sha256: asset.sha256,
+        about: {
+          "@type": "Person",
+          name: personName,
+          description: "Licensed Ijen crater guide",
+        },
+      };
+    }
+
+    // 4. Screenshot SIP Dokter
+    if (asset.slug === "screenshot-sip-dr-ahmad-irwandanu-2026") {
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/png",
+        sha256: asset.sha256,
+        about: {
+          "@type": "Physician",
+          name: "dr. Ahmad Irwandanu",
+          identifier: "QN00001073380217",
+          url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
+        },
+      };
+    }
+
+    // 5. Screenshot artikel berita (Press)
+    if (asset.category === "Press") {
+      const pressItem = ssotData.organization_profile.press_coverage?.find(
+        (p) => p.evidence?.proof_asset_slug === asset.slug,
+      );
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: asset.url.match(/\.png$/i) ? "image/png" : "image/jpeg",
+        sha256: asset.sha256,
+        about: {
+          "@type": "NewsArticle",
+          headline: pressItem?.title || asset.caption,
+          url: pressItem?.url,
+          publisher: pressItem?.publisher,
+          datePublished: pressItem?.date,
+        },
+      };
+    }
+
+    // 6. Screenshot tiket BBKSDA
+    if (asset.slug === "bbksda-ticket-terms-screenshot") {
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/jpeg",
+        sha256: asset.sha256,
+        about: {
+          "@type": "WebPage",
+          name: "tiket.bbksdajatim.org - Terms & Conditions",
+          url: "https://tiket.bbksdajatim.org",
+        },
+      };
+    }
+
+    // 7. Preview dokumen legal (NIB, TDUP, HPWKI, SPRIN, dll.)
+    if (
+      ["BusinessID", "License", "Membership", "PoliceDocs"].includes(
+        asset.category,
+      )
+    ) {
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/webp",
+        sha256: asset.sha256,
+        about: {
+          "@type": "DigitalDocument",
+          name: cred?.title || asset.caption,
+          ...(cred?.identifiers?.registry_url && {
+            url: cred.identifiers.registry_url,
+          }),
+        },
+      };
+    }
+
+    // 8. Foto operasional (OpsPhoto) – dokumentasi kegiatan
+    if (asset.category === "OpsPhoto") {
+      return {
+        "@type": "Photograph",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: asset.url.match(/\.png$/i) ? "image/png" : "image/jpeg",
+        sha256: asset.sha256,
+      };
+    }
+
+    // 9. Foto screening kesehatan (bukan screenshot)
+    if (
+      asset.category === "Screening" &&
+      !asset.slug.includes("screenshot") &&
+      !asset.slug.includes("print-surat")
+    ) {
+      return {
+        "@type": "Photograph",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: asset.url.match(/\.jpe?g$/i)
+          ? "image/jpeg"
+          : "image/png",
+        sha256: asset.sha256,
+      };
+    }
+
+    // 10. Preview form kesehatan (print-surat-sehat-preview)
+    if (asset.slug === "print-surat-sehat-preview") {
+      return {
+        "@type": "ImageObject",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/png",
+        sha256: asset.sha256,
+        about: {
+          "@type": "DigitalDocument",
+          name: "Health Clearance Form (Surat Sehat)",
+        },
+      };
+    }
+
+    // 11. Foto sejarah (Booking awards, kunjungan)
+    if (asset.category === "History") {
+      return {
+        "@type": "Photograph",
+        ...baseProps,
+        contentUrl: fileUrl,
+        encodingFormat: "image/jpeg",
+        sha256: asset.sha256,
+      };
+    }
+
+    // Default: ImageObject umum
+    return {
+      "@type": "ImageObject",
+      ...baseProps,
+      contentUrl: fileUrl,
+      encodingFormat: fileUrl.toLowerCase().endsWith(".pdf")
+        ? "application/pdf"
+        : "image/jpeg",
+      sha256: asset.sha256,
+    };
+  }
+
+  // Buat daftar item untuk setiap aset
+  const assetItems = visibleAssets.map((asset, index) =>
+    getSchemaForAsset(asset),
+  );
+
+  // 1. ORGANIZATION SCHEMA
   const organizationSchema = {
     "@type": "TravelAgency",
     "@id": "https://javavolcano-touroperator.com/#organization",
@@ -140,65 +373,15 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 2. DOCUMENT COLLECTION SCHEMA - DIPERBAIKI
-  const documentCollectionSchema = {
+  // 2. COLLECTION PAGE SCHEMA (berisi semua aset)
+  const collectionPageSchema = {
     "@type": "CollectionPage",
     "@id": `${siteUrl}/verify-jvto`,
     name: "JVTO Verification Locker",
     description:
       "Repository of official legal, police, and operational safety documents.",
-    publisher: {
-      "@id": "https://javavolcano-touroperator.com/#organization",
-    },
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: ssotData.verification_credentials.map((cred, index) => {
-        const primaryAssetSlug = cred.evidence_asset_slugs?.[0];
-        const asset = ssotData.assets_inventory.find(
-          (a) => a.slug === primaryAssetSlug,
-        );
-
-        // PERBAIKAN: Gunakan file_url untuk file asli, fallback ke url jika tidak ada
-        const directFileUrl =
-          asset?.file_url || asset?.url || `${siteUrl}/verify-jvto`;
-
-        // Tentukan format file berdasarkan URL file asli
-        let fileFormat = "application/octet-stream";
-        if (directFileUrl) {
-          fileFormat = directFileUrl.endsWith(".pdf")
-            ? "application/pdf"
-            : "image/jpeg";
-        }
-
-        // ISBN Injection Logic
-        let finalDescription = cred.narrative;
-        if (cred.evidence_items) {
-          const bookItem = cred.evidence_items.find(
-            (item: any) => item.type === "Book",
-          );
-          if (bookItem && bookItem.bibliographic_metadata?.isbn_13) {
-            finalDescription = `${finalDescription} (Reference: ${bookItem.bibliographic_metadata.title}, ISBN-13: ${bookItem.bibliographic_metadata.isbn_13})`;
-          }
-        }
-
-        return {
-          "@type": "ListItem",
-          position: index + 1,
-          item: {
-            "@type": "DigitalDocument",
-            name: cred.title,
-            description: finalDescription,
-            url: directFileUrl,
-            encodingFormat: fileFormat,
-            license:
-              cred.identifiers?.registry_url ||
-              cred.identifiers?.value ||
-              "Public Verification",
-            accessMode: "public",
-          },
-        };
-      }),
-    },
+    publisher: { "@id": "https://javavolcano-touroperator.com/#organization" },
+    hasPart: assetItems,
   };
 
   // 3. BREADCRUMB SCHEMA
@@ -294,7 +477,7 @@ export default function VerifyJvtoPage() {
     "@context": "https://schema.org",
     "@graph": [
       organizationSchema,
-      documentCollectionSchema,
+      collectionPageSchema,
       breadcrumbSchema,
       faqSchema,
       howToSchema,
