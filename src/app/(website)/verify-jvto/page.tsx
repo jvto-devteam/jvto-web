@@ -46,7 +46,8 @@ export default function VerifyJvtoPage() {
   // Fungsi untuk menentukan tipe schema dan properti tambahan per aset
   function getSchemaForAsset(asset: any) {
     const cred = credentialByAssetSlug.get(asset.slug);
-    const fileUrl = asset.file_url || asset.url;
+    // Gunakan file_url jika ada, fallback ke url, atau string kosong
+    const fileUrl = asset.file_url || asset.url || "";
     const baseProps = {
       "@id": `${siteUrl}/verify-jvto#asset-${asset.slug}`,
       name: cred?.title || asset.caption,
@@ -72,8 +73,8 @@ export default function VerifyJvtoPage() {
         ...baseProps,
         isbn: bookItem?.bibliographic_metadata?.isbn_13,
         bookEdition: bookItem?.bibliographic_metadata?.title,
-        image: asset.preview || asset.url, // gambar halaman buku
-        url: cred?.identifiers?.registry_url || "https://amzn.eu/d/08rBSWja", // tautan Amazon
+        image: asset.preview || asset.url,
+        url: cred?.identifiers?.registry_url || "https://amzn.eu/d/08rBSWja",
       };
     }
 
@@ -83,7 +84,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/png",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "Person",
@@ -108,7 +111,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/jpeg",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "Person",
@@ -124,7 +129,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/png",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "Physician",
@@ -144,7 +151,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: asset.url.match(/\.png$/i) ? "image/png" : "image/jpeg",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "NewsArticle",
@@ -162,7 +171,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/jpeg",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".jpeg")
+          ? "image/jpeg"
+          : "image/png",
         sha256: asset.sha256,
         about: {
           "@type": "WebPage",
@@ -182,7 +193,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/webp",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".webp")
+          ? "image/webp"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "DigitalDocument",
@@ -194,13 +207,15 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 8. Foto operasional (OpsPhoto) – dokumentasi kegiatan
+    // 8. Foto operasional (OpsPhoto)
     if (asset.category === "OpsPhoto") {
       return {
         "@type": "Photograph",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: asset.url.match(/\.png$/i) ? "image/png" : "image/jpeg",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
       };
     }
@@ -215,9 +230,11 @@ export default function VerifyJvtoPage() {
         "@type": "Photograph",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: asset.url.match(/\.jpe?g$/i)
-          ? "image/jpeg"
-          : "image/png",
+        encodingFormat:
+          fileUrl.toLowerCase().endsWith(".jpeg") ||
+          fileUrl.toLowerCase().endsWith(".jpg")
+            ? "image/jpeg"
+            : "image/png",
         sha256: asset.sha256,
       };
     }
@@ -228,7 +245,9 @@ export default function VerifyJvtoPage() {
         "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
-        encodingFormat: "image/png",
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "DigitalDocument",
@@ -248,7 +267,7 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // Default: ImageObject umum
+    // Default: ImageObject umum (termasuk PDF preview dll.)
     return {
       "@type": "ImageObject",
       ...baseProps,
@@ -260,10 +279,8 @@ export default function VerifyJvtoPage() {
     };
   }
 
-  // Buat daftar item untuk setiap aset
-  const assetItems = visibleAssets.map((asset, index) =>
-    getSchemaForAsset(asset),
-  );
+  // Buat daftar item untuk setiap aset (hanya yang is_show = true)
+  const assetItems = visibleAssets.map((asset) => getSchemaForAsset(asset));
 
   // 1. ORGANIZATION SCHEMA
   const organizationSchema = {
