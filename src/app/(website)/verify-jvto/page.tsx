@@ -16,6 +16,16 @@ export const metadata: Metadata = {
 
 type AnyRecord = Record<string, any>;
 
+/**
+ * IMPORTANT FIXES (based on your validator screenshots):
+ * 1) DO NOT use `additionalProperty` broadly. Many validators treat it as invalid on NewsArticle/Person/Credential/etc.
+ *    Use `identifier` with PropertyValue entries instead (identifier is valid on Thing).
+ * 2) Only include assets where is_show === true (you asked).
+ * 3) Keep schema-safe mapping for SSOT fields:
+ *    - native_name -> alternateName
+ *    - sub_organization -> subOrganization (as real Organization nodes)
+ */
+
 function toAbsoluteUrl(u?: string | null): string | null {
   if (!u) return null;
   try {
@@ -26,6 +36,15 @@ function toAbsoluteUrl(u?: string | null): string | null {
     if (u.startsWith("/")) return `${siteUrl}${u}`;
     return `${siteUrl}/${u}`;
   }
+}
+
+function safeDateIso(d?: string | null): string | undefined {
+  if (!d) return undefined;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+  if (/^\d{4}-\d{2}-\d{2}T/.test(d)) return d;
+  const t = Date.parse(d);
+  if (Number.isNaN(t)) return undefined;
+  return new Date(t).toISOString();
 }
 
 function mimeFromUrl(url?: string | null): string | undefined {
@@ -40,48 +59,47 @@ function mimeFromUrl(url?: string | null): string | undefined {
   return undefined;
 }
 
-function assetSchemaTypeFromMime(mime?: string): "ImageObject" | "MediaObject" {
+function schemaTypeForAssetMime(mime?: string): "ImageObject" | "MediaObject" {
   if (mime?.startsWith("image/")) return "ImageObject";
   return "MediaObject";
 }
 
-function safeDateIso(d?: string | null): string | undefined {
-  if (!d) return undefined;
-  if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
-  if (/^\d{4}-\d{2}-\d{2}T/.test(d)) return d;
-  const t = Date.parse(d);
-  if (Number.isNaN(t)) return undefined;
-  return new Date(t).toISOString();
+function toSlug(input: string): string {
+  return String(input || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
-function pv(name: string, value: any): AnyRecord {
-  const v =
-    value === null || value === undefined
-      ? undefined
-      : typeof value === "object"
-        ? JSON.stringify(value)
-        : value;
-  return { "@type": "PropertyValue", name, value: v };
-}
-
-function objectToAdditionalProperty(obj: AnyRecord, prefix = ""): AnyRecord[] {
+/** PropertyValue packer into `identifier` (validator-friendly) */
+function toPropertyValues(obj: AnyRecord, prefix = ""): AnyRecord[] {
   const out: AnyRecord[] = [];
   for (const [k, v] of Object.entries(obj || {})) {
     const key = prefix ? `${prefix}.${k}` : k;
     if (v === null || v === undefined) continue;
+
     if (Array.isArray(v)) {
-      out.push(pv(key, JSON.stringify(v)));
+      out.push({
+        "@type": "PropertyValue",
+        name: key,
+        value: JSON.stringify(v),
+      });
       continue;
     }
+
     if (typeof v === "object") {
-      out.push(...objectToAdditionalProperty(v as AnyRecord, key));
+      out.push(...toPropertyValues(v as AnyRecord, key));
       continue;
     }
-    out.push(pv(key, v));
+
+    out.push({ "@type": "PropertyValue", name: key, value: v });
   }
   return out;
 }
 
+function orgId(slug: string): string {
+  return `${siteUrl}/verify-jvto/org/${encodeURIComponent(slug)}#org`;
+}
 function assetId(slug: string): string {
   return `${siteUrl}/verify-jvto/assets/${encodeURIComponent(slug)}#media`;
 }
@@ -93,16 +111,6 @@ function personId(slug: string): string {
 }
 function pressId(slug: string): string {
   return `${siteUrl}/verify-jvto/press/${encodeURIComponent(slug)}#news`;
-}
-function orgId(slug: string): string {
-  return `${siteUrl}/verify-jvto/org/${encodeURIComponent(slug)}#org`;
-}
-
-function toSlug(input: string): string {
-  return String(input || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
 }
 
 function getAssetContentUrl(asset: AnyRecord): string | null {
@@ -123,34 +131,28 @@ function buildAssetNode(asset: AnyRecord): AnyRecord | null {
 
   const previewUrl = toAbsoluteUrl(asset.preview);
   const mime = mimeFromUrl(contentUrl) || mimeFromUrl(previewUrl);
-  const type = assetSchemaTypeFromMime(mime);
+  const type = schemaTypeForAssetMime(mime);
 
   const node: AnyRecord = {
     "@id": assetId(slug),
     "@type": type,
-    url: contentUrl,
     name: asset.caption || asset.filename || slug,
     description: asset.geo_context || asset.caption || undefined,
     contentUrl,
     encodingFormat: mime,
     uploadDate: safeDateIso(asset.last_verified_iso),
-    sha256: asset.sha256 || undefined, // valid for MediaObject/ImageObject in schema.org
+    dateModified: safeDateIso(asset.last_verified_iso),
+    sha256: asset.sha256 || undefined,
     isPartOf: { "@id": `${siteUrl}/verify-jvto#page` },
-    additionalProperty: objectToAdditionalProperty(asset, "ssot.asset"),
+    // SSOT preservation (validator-friendly)
+    identifier: toPropertyValues(asset, "ssot.asset"),
   };
 
-  // Thumbnail only if different and available
   if (previewUrl && previewUrl !== contentUrl) node.thumbnailUrl = previewUrl;
 
-  // Content size (schema.org MediaObject/ImageObject supports contentSize)
   const sizeBytes = asset.size_bytes ?? null;
   if (typeof sizeBytes === "number" && Number.isFinite(sizeBytes)) {
     node.contentSize = `${sizeBytes} bytes`;
-  }
-
-  // Optional: label PDFs as documents without breaking validator
-  if (mime === "application/pdf") {
-    node.additionalProperty.push(pv("schema.hint", "DigitalDocument"));
   }
 
   return node;
@@ -171,18 +173,6 @@ function buildCredentialNode(
     .filter((s) => assetSlugSet.has(s))
     .map((s) => ({ "@id": assetId(s) }));
 
-  const node: AnyRecord = {
-    "@id": credentialId(id),
-    "@type": "EducationalOccupationalCredential",
-    name: cred.title || id,
-    description: cred.geo_narrative || cred.narrative || undefined,
-    credentialCategory: cred.category || undefined,
-    recognizedBy: { "@id": `${siteUrl}/#organization` },
-    subjectOf: subjectOf.length ? subjectOf : undefined,
-    additionalProperty: objectToAdditionalProperty(cred, "ssot.credential"),
-  };
-
-  // Keep registry URL as a safe identifier (not inventing schema props)
   const registryUrl =
     typeof cred?.identifiers?.registry_url === "string"
       ? cred.identifiers.registry_url
@@ -192,8 +182,31 @@ function buildCredentialNode(
       ? cred.identifiers.value
       : undefined;
 
-  if (registryUrl) node.identifier = registryUrl;
-  if (!node.identifier && valueId) node.identifier = valueId;
+  const node: AnyRecord = {
+    "@id": credentialId(id),
+    "@type": "EducationalOccupationalCredential",
+    name: cred.title || id,
+    description: cred.geo_narrative || cred.narrative || undefined,
+    credentialCategory: cred.category || undefined,
+    recognizedBy: { "@id": `${siteUrl}/#organization` },
+    subjectOf: subjectOf.length ? subjectOf : undefined,
+    url: registryUrl || undefined,
+    identifier: [
+      ...(registryUrl
+        ? [
+            {
+              "@type": "PropertyValue",
+              name: "registry_url",
+              value: registryUrl,
+            },
+          ]
+        : []),
+      ...(valueId
+        ? [{ "@type": "PropertyValue", name: "value", value: valueId }]
+        : []),
+      ...toPropertyValues(cred, "ssot.credential"),
+    ],
+  };
 
   return node;
 }
@@ -206,7 +219,7 @@ function buildGuidePersonFromKtaAsset(
   const m = slug.match(/^kta-(.+)$/);
   if (!m) return null;
 
-  const raw = m[1]; // e.g. "kiki"
+  const raw = m[1];
   const name = raw
     .split("-")
     .filter(Boolean)
@@ -222,7 +235,7 @@ function buildGuidePersonFromKtaAsset(
     description: asset.geo_context || undefined,
     recognizedBy: { "@id": `${siteUrl}/#organization` },
     subjectOf: { "@id": assetId(slug) },
-    additionalProperty: objectToAdditionalProperty(asset, "ssot.asset"),
+    identifier: toPropertyValues(asset, "ssot.asset"),
   };
 
   const personNode: AnyRecord = {
@@ -233,9 +246,13 @@ function buildGuidePersonFromKtaAsset(
     jobTitle: "Licensed Ijen Guide",
     image: { "@id": assetId(slug) },
     hasCredential: [{ "@id": credentialNode["@id"] }],
-    additionalProperty: [
-      pv("ssot.source", "assets_inventory"),
-      pv("ssot.asset_slug", slug),
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        name: "ssot.source",
+        value: "assets_inventory",
+      },
+      { "@type": "PropertyValue", name: "ssot.asset_slug", value: slug },
     ],
   };
 
@@ -243,16 +260,14 @@ function buildGuidePersonFromKtaAsset(
 }
 
 /**
- * Fix TravelAgency errors:
- * - SSOT founder.member_of contains non-schema keys: native_name, sub_organization
- * - Convert them into schema-valid Organization props:
- *   - native_name -> alternateName
- *   - sub_organization -> subOrganization (Organization node)
+ * Convert SSOT founder.member_of object (contains non-schema keys)
+ * to schema-safe Organization nodes:
+ * - native_name -> alternateName
+ * - sub_organization -> subOrganization (node)
  */
 function buildFounderAffiliationNodes(founder: AnyRecord): AnyRecord[] {
   const out: AnyRecord[] = [];
   const memberOf = founder?.member_of;
-
   if (!memberOf || typeof memberOf !== "object") return out;
 
   const type = memberOf["@type"] || "Organization";
@@ -272,10 +287,7 @@ function buildFounderAffiliationNodes(founder: AnyRecord): AnyRecord[] {
     "@type": type,
     name,
     alternateName: nativeName,
-    additionalProperty: objectToAdditionalProperty(
-      memberOf,
-      "ssot.founder.member_of",
-    ),
+    identifier: toPropertyValues(memberOf, "ssot.founder.member_of"),
   };
 
   if (subOrgName) {
@@ -285,8 +297,12 @@ function buildFounderAffiliationNodes(founder: AnyRecord): AnyRecord[] {
       "@type": "Organization",
       name: subOrgName,
       parentOrganization: { "@id": parent["@id"] },
-      additionalProperty: [
-        pv("ssot.founder.member_of.sub_organization", subOrgName),
+      identifier: [
+        {
+          "@type": "PropertyValue",
+          name: "ssot.founder.member_of.sub_organization",
+          value: subOrgName,
+        },
       ],
     };
 
@@ -313,7 +329,6 @@ function buildFounderNode(
       ? { "@id": assetId(linkedSlug) }
       : undefined;
 
-  // memberOf MUST be schema-safe; do not pass raw SSOT object directly
   const memberOfObj = f.member_of;
   const memberOfName = memberOfObj?.name;
   const memberOfId =
@@ -330,13 +345,9 @@ function buildFounderNode(
     worksFor: { "@id": `${siteUrl}/#organization` },
     image,
     memberOf: memberOfId ? [{ "@id": memberOfId }] : undefined,
-    additionalProperty: objectToAdditionalProperty(
-      f,
-      "ssot.organization_profile.founder",
-    ),
+    identifier: toPropertyValues(f, "ssot.organization_profile.founder"),
   };
 
-  // keep knowsAbout as plain values only (safe)
   if (Array.isArray(f.knows_about)) {
     node.knowsAbout = f.knows_about.filter((x: any) => typeof x === "string");
   }
@@ -394,16 +405,13 @@ function buildOrganizationNode(orgProfile: AnyRecord): AnyRecord {
       availableLanguage: contact.available_languages,
     },
     sameAs: sameAs.length ? Array.from(new Set(sameAs)) : undefined,
-    additionalProperty: objectToAdditionalProperty(
-      orgProfile,
-      "ssot.organization_profile",
-    ),
+    identifier: toPropertyValues(orgProfile, "ssot.organization_profile"),
   };
 }
 
 function buildPressNodes(
   orgProfile: AnyRecord,
-  assetSlugSet: Set<string>,
+  assetBySlug: Map<string, AnyRecord>,
 ): AnyRecord[] {
   const press = Array.isArray(orgProfile?.press_coverage)
     ? orgProfile.press_coverage
@@ -417,22 +425,39 @@ function buildPressNodes(
 
     const slug = toSlug(`${p.publisher || "press"}-${p.title || url}`);
     const evidenceSlug = p?.evidence?.proof_asset_slug;
+    const evidenceAsset =
+      typeof evidenceSlug === "string"
+        ? assetBySlug.get(evidenceSlug)
+        : undefined;
+
+    // Provide image if the proof asset is an image (helps some validators)
+    let image: AnyRecord | undefined;
+    if (evidenceAsset) {
+      const cu = getAssetContentUrl(evidenceAsset);
+      const pu = toAbsoluteUrl(evidenceAsset.preview);
+      const mime = mimeFromUrl(pu) || mimeFromUrl(cu);
+      if (mime?.startsWith("image/")) {
+        image = { "@id": assetId(evidenceAsset.slug) };
+      }
+    }
 
     out.push({
       "@id": pressId(slug),
       "@type": "NewsArticle",
-      headline: p.title,
+      headline: p.title || url,
       url,
+      mainEntityOfPage: url,
       datePublished: safeDateIso(p.date),
       publisher: p.publisher
         ? { "@type": "Organization", name: p.publisher }
         : undefined,
       about: { "@id": `${siteUrl}/#organization` },
+      image,
       subjectOf:
-        typeof evidenceSlug === "string" && assetSlugSet.has(evidenceSlug)
-          ? { "@id": assetId(evidenceSlug) }
+        evidenceAsset && typeof evidenceAsset.slug === "string"
+          ? { "@id": assetId(evidenceAsset.slug) }
           : undefined,
-      additionalProperty: objectToAdditionalProperty(p, "ssot.press_coverage"),
+      identifier: toPropertyValues(p, "ssot.press_coverage"),
     });
   }
 
@@ -448,18 +473,22 @@ export default function VerifyJvtoPage() {
     : [];
   const assetsShown = assetsAll.filter((a) => a?.is_show === true);
 
+  // Build lookup maps (useful for press proof mapping)
+  const assetSlugSet = new Set<string>();
+  const assetBySlug = new Map<string, AnyRecord>();
+  for (const a of assetsAll) {
+    if (typeof a?.slug === "string") {
+      assetSlugSet.add(a.slug);
+      assetBySlug.set(a.slug, a);
+    }
+  }
+
   const credentials: AnyRecord[] = Array.isArray(ssot.verification_credentials)
     ? ssot.verification_credentials
     : [];
 
-  const assetSlugSet = new Set<string>();
-  for (const a of assetsAll)
-    if (typeof a?.slug === "string") assetSlugSet.add(a.slug);
-
   const organizationNode = buildOrganizationNode(orgProfile);
   const founderNode = buildFounderNode(orgProfile, assetSlugSet);
-
-  // Fix TravelAgency errors by converting member_of object → schema-safe org nodes
   const founderAffiliationNodes = buildFounderAffiliationNodes(
     orgProfile?.founder,
   );
@@ -480,18 +509,20 @@ export default function VerifyJvtoPage() {
     description: String(metadata.description),
     isPartOf: { "@id": `${siteUrl}/#website` },
     about: { "@id": `${siteUrl}/#organization` },
+    // ONLY is_show === true
     hasPart: assetsShown
       .filter((a) => typeof a?.slug === "string")
       .map((a) => ({ "@id": assetId(a.slug) })),
   };
 
-  // Assets: ONLY is_show === true
+  // Assets: ONLY is_show === true (34 in your SSOT)
   const assetNodes: AnyRecord[] = [];
   for (const a of assetsShown) {
     const node = buildAssetNode(a);
     if (node) assetNodes.push(node);
   }
 
+  // Credentials
   const credentialNodes: AnyRecord[] = [];
   for (const c of credentials) {
     const node = buildCredentialNode(c, assetSlugSet);
@@ -508,11 +539,10 @@ export default function VerifyJvtoPage() {
     if (built?.credential) guideCreds.push(built.credential);
   }
 
-  const pressNodes = buildPressNodes(orgProfile, assetSlugSet);
+  // Press
+  const pressNodes = buildPressNodes(orgProfile, assetBySlug);
 
-  // Attach "about" references for each shown asset:
-  // - Organization
-  // - If evidence maps to credential IDs
+  // Link asset.about to org + related credentials/people (ONLY for shown assets)
   const credentialByEvidence: Map<string, string[]> = new Map();
   for (const c of credentials) {
     const id = c?.id;
@@ -538,7 +568,6 @@ export default function VerifyJvtoPage() {
     const credIds = credentialByEvidence.get(slug) || [];
     for (const cid of credIds) about.push({ "@id": credentialId(cid) });
 
-    // KTA -> link to person node
     if (/^kta-/.test(slug)) {
       const raw = slug.replace(/^kta-/, "");
       const personSlug = `guide-${toSlug(raw)}`;
@@ -571,7 +600,7 @@ export default function VerifyJvtoPage() {
         name: "What is this page?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "This page publishes primary-source evidence assets (documents and proof media) intended for verification against original registries and references.",
+          text: "This page publishes primary-source evidence assets (documents and proof media) intended for verification against original references.",
         },
       },
       {
@@ -579,7 +608,7 @@ export default function VerifyJvtoPage() {
         name: "How do I verify an evidence asset?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Open the evidence item, follow any registry/verification reference provided, and optionally verify file integrity using published SHA-256.",
+          text: "Open the evidence item, follow any listed reference links (if present), and optionally verify file integrity using SHA-256.",
         },
       },
     ],
@@ -598,7 +627,7 @@ export default function VerifyJvtoPage() {
       {
         "@type": "HowToStep",
         name: "Check the issuing reference",
-        text: "Use the listed registry reference (if any) to verify authenticity.",
+        text: "Use the listed reference (if any) to verify authenticity.",
       },
       {
         "@type": "HowToStep",
@@ -614,13 +643,17 @@ export default function VerifyJvtoPage() {
       websiteNode,
       organizationNode,
       ...(founderNode ? [founderNode] : []),
-      ...founderAffiliationNodes, // fixes native_name/sub_organization errors
+      ...founderAffiliationNodes,
       pageNode,
+
       ...credentialNodes,
       ...guidePeople,
       ...guideCreds,
       ...pressNodes,
+
+      // IMPORTANT: These should now be detected (34 assets)
       ...assetNodes,
+
       breadcrumbSchema,
       faqSchema,
       howToSchema,
