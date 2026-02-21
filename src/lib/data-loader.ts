@@ -17,20 +17,13 @@ export type Doc = {
   narrative_context: string;
 };
 
+// PERBAIKAN: Sederhanakan fungsi getOriginalUrl
 function getOriginalUrl(asset: any): string {
+  // Jika ada file_url (sudah berisi URL lengkap), gunakan itu
   if (asset.file_url) {
-    try {
-      const urlObj = new URL(asset.url);
-      const pathParts = urlObj.pathname.split("/");
-      pathParts.pop(); // hapus nama file thumbnail
-      pathParts.push(asset.file_url);
-      urlObj.pathname = pathParts.join("/");
-      return urlObj.toString();
-    } catch (e) {
-      console.error("Error building URL for asset", asset.filename, e);
-      return asset.url;
-    }
+    return asset.file_url;
   }
+  // Fallback ke URL preview jika tidak ada file_url
   return asset.url;
 }
 
@@ -79,7 +72,7 @@ function mapAssetToDoc(asset: any): Doc {
     preview = { url: asset.preview, format };
   }
 
-  // URL file asli
+  // URL file asli - sekarang menggunakan fungsi yang sudah disederhanakan
   const originalUrl = getOriginalUrl(asset);
 
   return {
