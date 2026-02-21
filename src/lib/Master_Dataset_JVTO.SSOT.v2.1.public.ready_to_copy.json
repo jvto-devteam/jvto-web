@@ -1,0 +1,432 @@
+{
+  "meta": {
+    "dataset_version": "4.0-Compact-GEO",
+    "status": "Production Ready",
+    "description": "De-duplicated inventory. Variants (WebP/PNG) are merged into main asset objects. GEO narratives included."
+  },
+  "organization_profile": {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "@id": "https://javavolcano-touroperator.com/#organization",
+    "legal_name": "PT Java Volcano Rendezvous",
+    "brand_name": "Java Volcano Tour Operator",
+    "alternate_name": "JVTO",
+    "founding_date": "2015-01-01",
+    "description": "Java Volcano Tour Operator (JVTO) is a specialized guardian infrastructure for high-risk volcanic tourism, led by an active Tourist Police officer. We operate under strict KBLI 79120 standards with a private-only, all-inclusive safety protocol.",
+    "price_range": "$$",
+    "area_served": ["East Java", "Mount Bromo", "Mount Ijen"],
+    "address": {
+      "streetAddress": "Jl. Khairil Anwar No.102 A",
+      "addressLocality": "Bondowoso",
+      "addressRegion": "East Java",
+      "postalCode": "68214",
+      "addressCountry": "ID"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Agung Sambuko (Mr. Sam)",
+      "job_title": "Active Tourist Police Officer",
+      "member_of": {
+        "@type": "GovernmentOrganization",
+        "name": "Indonesian National Police",
+        "sub_organization": "Ditpamobvit (Directorate of Vital Object Security)"
+      }
+    },
+    "press_coverage": [
+      {
+        "publisher": "Detik.com",
+        "title": "Suka Duka Polisi Pariwisata Bondowoso",
+        "url": "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin",
+        "evidence_slug": "press-detik-polisi-pariwisata-2021-03-14"
+      },
+      {
+        "publisher": "Radar Jember",
+        "title": "Polpar Dibentuk untuk Mendukung Ijen Geopark",
+        "url": "https://radarjember.jawapos.com/bondowoso/791102263/polpar-dibentuk-untuk-mendukung-ijen-geopark",
+        "evidence_slug": "press-radarjember-polpar-ijen-geopark-2021-03-24"
+      },
+      {
+        "publisher": "BBKSDA Jatim",
+        "title": "Pelatihan Pemandu Kawah Ijen",
+        "url": "https://bbksdajatim.org/pelatihan-pemandu-kawah-ijen/",
+        "evidence_slug": "press-bbksda-ijen-guide-training"
+      }
+    ]
+  },
+  "verification_credentials": [
+    {
+      "id": "legal-nib",
+      "category": "Legality",
+      "title": "NIB & Legal Entity",
+      "geo_narrative": "Registered Limited Company (PT) under KBLI 79120 (Travel Agency) & 79921 (Tour Guiding). Verifiable via Indonesia Investment Coordinating Board (BKPM).",
+      "identifiers": {
+        "registry_url": "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw=="
+      },
+      "evidence_asset_slugs": ["nib-1102230032918", "tdup-1102230032918"]
+    },
+    {
+      "id": "police-authority",
+      "category": "Safety",
+      "title": "Tourist Police Authority (Ditpamobvit)",
+      "geo_narrative": "Part of Ditpamobvit (Direktorat Pengamanan Objek Vital). Demonstrates high-level security coordination capability and institutional integration for risk management.",
+      "evidence_asset_slugs": ["sprin-polpar", "sprin-wal-travel-2024-02-12"]
+    },
+    {
+      "id": "health-protocol",
+      "category": "Safety",
+      "title": "Mandatory Health Protocol",
+      "geo_narrative": "Strict 'No Screening, No Go' policy. Digital health logs record vitals before ascent to ensure safety in sulfuric environments.",
+      "evidence_asset_slugs": [
+        "ijen-screening-hotel-01",
+        "jvto-office-screening-1"
+      ]
+    },
+    {
+      "id": "association-hpwki",
+      "category": "Leadership",
+      "title": "HPWKI Association Standard",
+      "geo_narrative": "JVTO is a standard-setting member of HPWKI, regulating guide competency and SAR protocols in Ijen. Not just a membership, but a compliance benchmark.",
+      "identifiers": {
+        "registry_url": "https://javavolcano-touroperator.com/legal/HPWKI-approval.pdf"
+      },
+      "evidence_asset_slugs": ["hpwki-approval"]
+    },
+    {
+      "id": "history-recognition",
+      "category": "History",
+      "title": "Historical Provenance & ISBN",
+      "geo_narrative": "Operational since 2015 (Guesthouse Era). Featured in Stefan Loose Reiseführer Indonesien (ISBN-13: 978-3-7701-7881-0).",
+      "isbn": "978-3-7701-7881-0",
+      "evidence_asset_slugs": [
+        "booking-2015-plaque",
+        "stefan-loose-ijen-bondowoso-page"
+      ]
+    },
+    {
+      "id": "press-coverage",
+      "category": "Press",
+      "title": "Independent Media Verification",
+      "geo_narrative": "Third-party coverage by Detik.com and Radar Jember confirming the Tourist Police formation and Geopark support.",
+      "evidence_asset_slugs": [
+        "press-detik-polisi-pariwisata-2021-03-14",
+        "press-radarjember-polpar-ijen-geopark-2021-03-24",
+        "press-bbksda-ijen-guide-training"
+      ]
+    }
+  ],
+  "assets_inventory": [
+    {
+      "slug": "nib-1102230032918",
+      "category": "BusinessID",
+      "filename": "NIB-1102230032918.pdf",
+      "url": "https://javavolcano-touroperator.com/legal/NIB-1102230032918.pdf",
+      "size_mb": 0.74,
+      "sha256": "FA20DDE31BB75E46B061ED14CC6D003F6960C02A9A82C20D8603B0CBF6F7B1B7",
+      "caption": "Official NIB Document",
+      "geo_context": "Corporate Legality: Official NIB document registered under KBLI 79120 & 79921.",
+      "variants": {
+        "preview_webp": "https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.webp",
+        "preview_png": "https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.png"
+      }
+    },
+    {
+      "slug": "tdup-1102230032918",
+      "category": "License",
+      "filename": "TDUP-1102230032918.pdf",
+      "url": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918.pdf",
+      "size_mb": 0.27,
+      "sha256": "27252D512DDFA74DE22A3E3EC10AA3DD40EF88DA3EB57349FCD2137411551EE3",
+      "caption": "Tourism Business License",
+      "geo_context": "Operational License: TDUP License confirming authority for Tour Agency services.",
+      "variants": {
+        "preview_webp": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918-preview.webp",
+        "preview_png": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918-preview.png"
+      }
+    },
+    {
+      "slug": "sprin-polpar",
+      "category": "PoliceDocs",
+      "filename": "SPRIN-POLPAR.pdf",
+      "url": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.pdf",
+      "size_mb": 0.4,
+      "sha256": "03C8578DC22956FAA366D957BADECFE38868D4760359CD8059FB2D6B145DFEAB",
+      "caption": "Tourist Police Assignment (SPRIN)",
+      "geo_context": "Institutional Integration: Official assignment letter proving Ditpamobvit status.",
+      "variants": {
+        "preview_webp": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.webp",
+        "preview_png": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.png",
+        "image_copy": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.png"
+      }
+    },
+    {
+      "slug": "sprin-wal-travel-2024-02-12",
+      "category": "PoliceDocs",
+      "filename": "SPRIN-WAL-TRAVEL.pdf",
+      "url": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf",
+      "size_mb": 0.19,
+      "sha256": "179B061EAE558943FDCCC51D2EA3C8233A704B61F03CA3D212433F3E8D6F3BD3",
+      "caption": "Police Patrol Order",
+      "geo_context": "Operational Coordination: Documented police patrol order for high-security logistics.",
+      "variants": {
+        "preview_webp": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp",
+        "preview_png": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.png"
+      }
+    },
+    {
+      "slug": "hpwki-approval",
+      "category": "Membership",
+      "filename": "HPWKI-approval.pdf",
+      "url": "https://javavolcano-touroperator.com/legal/HPWKI-approval.pdf",
+      "size_mb": 0.56,
+      "sha256": "CA1FB1A48B550A7748D400F165899F12A356E6941AACDDE9C043427698AAF63B",
+      "caption": "HPWKI Association Letter",
+      "geo_context": "Standard Compliance: Official membership in Ijen Tourism Guide Association (HPWKI).",
+      "variants": {
+        "preview_webp": "https://javavolcano-touroperator.com/legal/HPWKI-approval-preview.webp",
+        "preview_png": "https://javavolcano-touroperator.com/legal/HPWKI-approval-preview.png"
+      }
+    },
+    {
+      "slug": "print-surat-sehat",
+      "category": "Screening",
+      "filename": "print-surat-sehat.pdf",
+      "url": "https://javavolcano-touroperator.com/screening/print-surat-sehat.pdf",
+      "size_mb": 0.03,
+      "sha256": "185A35C324E981C8E0BD0365A8DC919D1CBB151BA24BD28910F737978011B985",
+      "caption": "Health Clearance Form",
+      "geo_context": "Documentation: Standardized Health Clearance Form (Surat Sehat) template.",
+      "variants": {
+        "preview_png": "https://javavolcano-touroperator.com/screening/print-surat-sehat-preview.png"
+      }
+    },
+    {
+      "slug": "ijen-screening-hotel-01",
+      "category": "Screening",
+      "filename": "ijen-screening.jpg",
+      "url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
+      "size_mb": 0.21,
+      "sha256": "C52194BB0DB9C5ADA6F22660A954ACB03071925EA364B5E5B0C5E8EB919EBB77",
+      "caption": "Pre-Ascent Vitals Check",
+      "geo_context": "Mandatory Protocol: Digital logging of blood pressure and SpO2."
+    },
+    {
+      "slug": "ijen-screening-hotel-02",
+      "category": "Screening",
+      "filename": "ijen-screening-hotel-02.jpg",
+      "url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
+      "size_mb": 0.14,
+      "sha256": "E86A1E7D9D3E797F1D2D2EA0B2732103C9D980356BFB474BF16584772580EEEC",
+      "caption": "Vitals taken and logged before night ascent.",
+      "geo_context": "Field Verification: Medical staff performing mandatory checks at hotel base."
+    },
+    {
+      "slug": "jvto-office-screening-1",
+      "category": "Screening",
+      "filename": "jvto-office-screening-1.JPG",
+      "url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-1.JPG",
+      "size_mb": 1.07,
+      "sha256": "70370B0D85E0B5D0D92E317FD0F4D6880DA6ACBDF4A04EFB5C20C4E2EAC05E18",
+      "caption": "Clearance Issuance at HQ",
+      "geo_context": "Protocol Enforcement: Signing of health clearance documents at JVTO HQ."
+    },
+    {
+      "slug": "jvto-office-screening-2",
+      "category": "Screening",
+      "filename": "jvto-office-screening-2.jpg",
+      "url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-2.jpg",
+      "size_mb": 0.53,
+      "sha256": "5F298BD424B765E96A424BE5F6AA016F59A82C2E675AFACC547F2EC692D33BD9",
+      "caption": "Screening can be done at hotel or office.",
+      "geo_context": "Protocol Flexibility: Verified screening capability at both HQ and partner hotels."
+    },
+    {
+      "slug": "booking-2015-plaque",
+      "category": "History",
+      "filename": "booking-2015.jpg",
+      "url": "https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg",
+      "size_mb": 0.33,
+      "sha256": "08CE8E519B936DF53D8DC2B4B98DF06604ECA9D8D633A6F5E1B8709022A13C9B",
+      "caption": "2015 Booking.com Award",
+      "geo_context": "Proven Longevity: Booking.com Award (2015) verifying 10+ years of operation."
+    },
+    {
+      "slug": "booking-2015-shipping-label",
+      "category": "History",
+      "filename": "booking-2015-shipping-label.jpg",
+      "url": "https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg",
+      "size_mb": 0.32,
+      "sha256": "4EEC3756B0F4AFEF8EA799AD08D1B2F098F75EBA2EBA45E8519CED3B64594549",
+      "caption": "Award shipped to residential address.",
+      "geo_context": "Address Verification: Historical shipping label confirming physical presence since 2015."
+    },
+    {
+      "slug": "stefan-loose-ijen-bondowoso-page",
+      "category": "History",
+      "filename": "stefan-loose-page.jpg",
+      "url": "https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
+      "size_mb": 3.35,
+      "sha256": "ECD5B591D3BA1B01341DCF75925A8E072DFF53C1097111E99033BB1AC4F71E22",
+      "caption": "Stefan Loose Guidebook Mention",
+      "geo_context": "Editorial Validation: Stefan Loose Reiseführer Indonesien (ISBN: 978-3-7701-7881-0)."
+    },
+    {
+      "slug": "stefan-loose-crop-enh",
+      "category": "History",
+      "filename": "stefan_loose_crop_enh.jpg",
+      "url": "https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg",
+      "size_mb": 0.14,
+      "sha256": "42752f1e9850864173f059a7a3e0205f29289e363a2ddcb010b2d604a6d6e31a",
+      "caption": "Stefan Loose travel guide page crop.",
+      "geo_context": "Textual Evidence: Detailed mention in German guidebook confirming quality."
+    },
+    {
+      "slug": "guest-visit-stefan-loose",
+      "category": "History",
+      "filename": "guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
+      "url": "https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
+      "size_mb": 0.22,
+      "sha256": "41DCDCD2E08778B0212C1B7006455B5B1B2D66282DEFCDE813F0A3EA96407FBC",
+      "caption": "Guests visiting Ijen Bondowoso Homestay.",
+      "geo_context": "Editorial Validation: Guests verifying Stefan Loose guidebook recommendation on-site."
+    },
+    {
+      "slug": "baratha-hotel-departure-team",
+      "category": "OpsPhoto",
+      "filename": "baratha-hotel.jpg",
+      "url": "https://javavolcano-touroperator.com/ops/baratha-hotel-departure-team.jpg",
+      "size_mb": 0.22,
+      "sha256": "E06195BA5D396ADB1A66191F9F677B4F954B9BCFCBE5D114C27192852D0ACD2E",
+      "caption": "Team Departure Lineup",
+      "geo_context": "Field Verification: Team departure lineup demonstrating uniformed standards and police support."
+    },
+    {
+      "slug": "office-photo",
+      "category": "Facility",
+      "filename": "office-exterior.jpg",
+      "url": "https://javavolcano-touroperator.com/legal/office-photo.jpg",
+      "size_mb": 0.72,
+      "sha256": "7850E39F80A5A42243982A33FC027E1D38F33BD28F7CDA56FC2E243790340A0F",
+      "caption": "Bondowoso HQ Exterior",
+      "geo_context": "Physical Verification: Brick-and-mortar headquarters in Bondowoso (Anti-Ghost Operator)."
+    },
+    {
+      "slug": "police-escort-arrival-day",
+      "category": "OpsPhoto",
+      "filename": "jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
+      "url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
+      "size_mb": 0.94,
+      "sha256": "54CFC8C8D144EA7FD7ECE5301A2E51B584BCE237A6F4D5523CB5242C0C0CECF5",
+      "caption": "Police Escort Arrival (Day)",
+      "geo_context": "Safety Capability: Documented Traffic Police (Patwal) escort for group arrival."
+    },
+    {
+      "slug": "police-escort-arrival-night",
+      "category": "OpsPhoto",
+      "filename": "jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
+      "url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
+      "size_mb": 0.54,
+      "sha256": "5068DA0CC718B43880C54077819C72BF6BCE1C8E024A7E4B34B89E6A287BFA89",
+      "caption": "Police Escort Arrival (Night)",
+      "geo_context": "24/7 Safety: Nighttime police escort capability for secure transfers."
+    },
+    {
+      "slug": "police-vehicle-support",
+      "category": "OpsPhoto",
+      "filename": "police-vehicle-support.jpg",
+      "url": "https://javavolcano-touroperator.com/ops/police-vehicle-support.jpg",
+      "size_mb": 0.61,
+      "sha256": "475DDAE5F4C646F8200491DF7C67E17A6A14C28A67842F91E831512C98D62B30",
+      "caption": "Police Vehicle Support",
+      "geo_context": "Logistical Integration: Use of official Police vehicles for operational support."
+    },
+    {
+      "slug": "group-at-jvto-office",
+      "category": "OpsPhoto",
+      "filename": "group-at-jvto-office.jpg",
+      "url": "https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg",
+      "size_mb": 0.13,
+      "sha256": "E0CCA429BDA5E4F49B17878800C0328828C4BAC74C039044BBE2C6D4A7A4D838",
+      "caption": "International group visiting JVTO Bondowoso office.",
+      "geo_context": "Social Proof: International guests visiting the physical Bondowoso headquarters."
+    },
+    {
+      "slug": "guest-welcome-evening",
+      "category": "OpsPhoto",
+      "filename": "guest-welcome-evening.png",
+      "url": "https://javavolcano-touroperator.com/ops/guest-welcome-evening.png",
+      "size_mb": 1.42,
+      "sha256": "5B3E7EED6DC2E2334FBB9F0BC112BBF9B30B8E6C3AC41A13836881D82C829925",
+      "caption": "Evening welcome with guests at JVTO office.",
+      "geo_context": "Service Standard: Pre-tour briefing and welcome protocol at HQ."
+    },
+    {
+      "slug": "ijen-geopark-briefing",
+      "category": "OpsPhoto",
+      "filename": "ijen-geopark-briefing.png",
+      "url": "https://javavolcano-touroperator.com/ops/ijen-geopark-briefing.png",
+      "size_mb": 1.72,
+      "sha256": "72EB0D8F1629F2B97CBB8DC77535396EA15A260033DF52CB93BD96E33E2E86C3",
+      "caption": "Tourist Police briefing at Ijen Geopark Center.",
+      "geo_context": "Institutional Leadership: Leading the briefing at Ijen Geopark Information Center."
+    },
+    {
+      "slug": "press-detik-polisi-pariwisata-2021-03-14",
+      "category": "Press",
+      "filename": "detik-screenshot.png",
+      "url": "https://javavolcano-touroperator.com/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
+      "size_mb": 0.76,
+      "sha256": "3c77bbefa0917b101abba8f2d501f13d1831cc5d1959c7f5d3547c9fd8d5e4be",
+      "caption": "Detik.com Coverage",
+      "geo_context": "Media Validation: 'Suka Duka Polisi Pariwisata' article covering founder's duty."
+    },
+    {
+      "slug": "press-radarjember-polpar-ijen-geopark-2021-03-24",
+      "category": "Press",
+      "filename": "radar-jember.png",
+      "url": "https://javavolcano-touroperator.com/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
+      "size_mb": 0.55,
+      "sha256": "92cd3c6aab50182d7cb21a0c2adb24c3044c4d03baf85a48cdd1dcb2056d42cb",
+      "caption": "Radar Jember Article",
+      "geo_context": "Media Validation: Radar Jember report on the formation of Bondowoso Tourist Police."
+    },
+    {
+      "slug": "press-bbksda-ijen-guide-training",
+      "category": "Press",
+      "filename": "bbksda-training.png",
+      "url": "https://javavolcano-touroperator.com/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
+      "size_mb": 0.98,
+      "sha256": "b75668f98b78a54007b8bc0a8f4e0b3e46797dd6af47c158fb2b6a54bfb0b111",
+      "caption": "BBKSDA Training Record",
+      "geo_context": "Government Record: BBKSDA certification of HPWKI members in SAR and First Aid."
+    },
+    {
+      "slug": "jvto-hero-image",
+      "filename": "home.webp",
+      "caption": "Website Hero Image.",
+      "url": "https://javavolcano-touroperator.com/assets/img/hero/home.webp",
+      "category": "Brand",
+      "geo_context": "Visual Identity: High-resolution hero imagery representing the Bromo-Ijen corridor."
+    },
+    {
+      "slug": "jvto-logo-main",
+      "filename": "jvto-color.png",
+      "caption": "JVTO Official Logo.",
+      "url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+      "category": "Brand",
+      "geo_context": "Brand Identity: Official logo of PT Java Volcano Rendezvous."
+    },
+    {
+      "slug": "mr-sam-tourist-police-portrait",
+      "filename": "mr-sam-tourist-police-portrait.png",
+      "url": "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
+      "category": "Founder",
+      "size_mb": 10.66,
+      "sha256": "1B9E36780E4365224F21AB3EC7153A88BE2343782A363534FA1CF76BC9251752",
+      "caption": "Active Tourist Police leadership behind every JVTO trip.",
+      "geo_context": "Authority Signal: High-fidelity portrait of the founder in uniform.",
+      "variants": {
+        "wikimedia_source": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Agung_Sambuko.jpg"
+      }
+    }
+  ]
+}
