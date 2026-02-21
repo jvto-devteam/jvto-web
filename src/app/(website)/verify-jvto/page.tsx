@@ -55,11 +55,10 @@ export default function VerifyJvtoPage() {
         cred?.geo_narrative ||
         cred?.narrative ||
         asset.caption,
-      uploadDate: asset.last_verified_iso || "2025-01-01",
       creditText: "PT Java Volcano Rendezvous",
     };
 
-    // 1. Buku Stefan Loose (ISBN)
+    // 1. Buku Stefan Loose (ISBN) - tanpa uploadDate
     if (
       asset.slug.includes("stefan-loose") ||
       cred?.evidence_items?.some((item: any) => item.type === "Book")
@@ -77,11 +76,17 @@ export default function VerifyJvtoPage() {
       };
     }
 
+    // Untuk semua tipe selain Book, tambahkan uploadDate
+    const propsWithDate = {
+      ...baseProps,
+      uploadDate: asset.last_verified_iso || "2025-01-01",
+    };
+
     // 2. Foto Founder (Mr. Sam)
     if (asset.slug === "mr-sam-tourist-police-portrait-png") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -108,7 +113,7 @@ export default function VerifyJvtoPage() {
       const personName = nameMap[asset.slug] || "Ijen Guide";
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -126,7 +131,7 @@ export default function VerifyJvtoPage() {
     if (asset.slug === "screenshot-sip-dr-ahmad-irwandanu-2026") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -148,7 +153,7 @@ export default function VerifyJvtoPage() {
       );
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -168,7 +173,7 @@ export default function VerifyJvtoPage() {
     if (asset.slug === "bbksda-ticket-terms-screenshot") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".jpeg")
           ? "image/jpeg"
@@ -190,7 +195,7 @@ export default function VerifyJvtoPage() {
     ) {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".webp")
           ? "image/webp"
@@ -206,11 +211,11 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 8. Foto operasional (OpsPhoto) - diperbaiki dari Photograph menjadi ImageObject
+    // 8. Foto operasional (OpsPhoto)
     if (asset.category === "OpsPhoto") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -219,7 +224,7 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 9. Foto screening kesehatan (bukan screenshot) - diperbaiki dari Photograph menjadi ImageObject
+    // 9. Foto screening kesehatan (bukan screenshot)
     if (
       asset.category === "Screening" &&
       !asset.slug.includes("screenshot") &&
@@ -227,7 +232,7 @@ export default function VerifyJvtoPage() {
     ) {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat:
           fileUrl.toLowerCase().endsWith(".jpeg") ||
@@ -242,7 +247,7 @@ export default function VerifyJvtoPage() {
     if (asset.slug === "print-surat-sehat-preview") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
           ? "image/png"
@@ -255,11 +260,11 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 11. Foto sejarah (Booking awards, kunjungan) - diperbaiki dari Photograph menjadi ImageObject
+    // 11. Foto sejarah (Booking awards, kunjungan)
     if (asset.category === "History") {
       return {
         "@type": "ImageObject",
-        ...baseProps,
+        ...propsWithDate,
         contentUrl: fileUrl,
         encodingFormat: "image/jpeg",
         sha256: asset.sha256,
@@ -269,7 +274,7 @@ export default function VerifyJvtoPage() {
     // Default: ImageObject umum
     return {
       "@type": "ImageObject",
-      ...baseProps,
+      ...propsWithDate,
       contentUrl: fileUrl,
       encodingFormat: fileUrl.toLowerCase().endsWith(".pdf")
         ? "application/pdf"
