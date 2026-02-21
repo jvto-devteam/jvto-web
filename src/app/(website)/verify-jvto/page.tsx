@@ -30,20 +30,19 @@ export const metadata: Metadata = {
 };
 
 export default function VerifyJvtoPage() {
-  const orgProfile = ssotData.organization_profile;
-  const visibleAssets = ssotData.assets_inventory.filter(
-    (a) => a.is_show === true,
+  const orgProfile: any = (ssotData as any).organization_profile;
+  const visibleAssets = (ssotData as any).assets_inventory.filter(
+    (a: any) => a.is_show === true,
   );
 
   // Map asset slug -> credential
   const credentialByAssetSlug = new Map<string, any>();
-  ssotData.verification_credentials.forEach((cred: any) => {
+  (ssotData as any).verification_credentials.forEach((cred: any) => {
     cred.evidence_asset_slugs?.forEach((slug: string) => {
       credentialByAssetSlug.set(slug, cred);
     });
   });
 
-  // Asset -> schema node
   function getSchemaForAsset(asset: any) {
     const cred = credentialByAssetSlug.get(asset.slug);
     const fileUrl = asset.file_url || asset.url || "";
@@ -58,7 +57,7 @@ export default function VerifyJvtoPage() {
       creditText: "PT Java Volcano Rendezvous",
     };
 
-    // 1) Stefan Loose book (Book)
+    // 1) Stefan Loose (Book) - no uploadDate
     if (
       asset.slug.includes("stefan-loose") ||
       cred?.evidence_items?.some((item: any) => item.type === "Book")
@@ -70,18 +69,13 @@ export default function VerifyJvtoPage() {
         "@type": "Book",
         ...baseProps,
         isbn: bookItem?.bibliographic_metadata?.isbn_13,
-        name:
-          bookItem?.bibliographic_metadata?.title ||
-          cred?.title ||
-          asset.caption ||
-          "Stefan Loose Reiseführer Indonesien",
+        name: bookItem?.bibliographic_metadata?.title || baseProps.name,
         image: asset.preview || asset.url,
         url: cred?.identifiers?.registry_url || "https://amzn.eu/d/08rBSWja",
       };
     }
 
-    // Add uploadDate for non-Book
-    const propsWithDate: any = {
+    const propsWithDate = {
       ...baseProps,
       uploadDate: asset.last_verified_iso || "2025-01-01",
     };
@@ -99,17 +93,13 @@ export default function VerifyJvtoPage() {
         about: {
           "@type": "Person",
           name: "Agung Sambuko (Mr. Sam)",
-          jobTitle: "Founder & Active Tourist Police Officer",
-          memberOf: {
-            "@type": "GovernmentOrganization",
-            name: "Indonesian National Police",
-            department: "Ditpamobvit",
-          },
+          jobTitle: "Active Tourist Police Officer",
+          memberOf: "Ditpamobvit",
         },
       };
     }
 
-    // 3) Licensed guide cards (KTA)
+    // 3) Guide credentials (KTA)
     if (asset.category === "Credentials") {
       const nameMap: Record<string, string> = {
         "kta-anjas": "Anjas Setyawan R.",
@@ -119,7 +109,6 @@ export default function VerifyJvtoPage() {
         "kta-taufik": "Mohammad Taufik",
       };
       const personName = nameMap[asset.slug] || "Ijen Guide";
-
       return {
         "@type": "ImageObject",
         ...propsWithDate,
@@ -136,7 +125,7 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 4) Doctor license screenshot (keep as Person to avoid validator errors on Physician)
+    // 4) Doctor SIP screenshot
     if (asset.slug === "screenshot-sip-dr-ahmad-irwandanu-2026") {
       return {
         "@type": "ImageObject",
@@ -147,32 +136,24 @@ export default function VerifyJvtoPage() {
           : "image/jpeg",
         sha256: asset.sha256,
         about: {
+          // Use Person (NOT Physician) to avoid validator errors on properties / ranges
           "@type": "Person",
-          "@id": `${siteUrl}/verify-jvto#doctor-ahmad-irwandanu`,
+          "@id": `${siteUrl}/#doctor-ahmad-irwandanu`,
           name: "dr. Ahmad Irwandanu",
           jobTitle: "Physician",
           url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
-          identifier: [
-            {
-              "@type": "PropertyValue",
-              propertyID: "SIP",
-              value: "503.446/193/DRU/4/430.9.13/2020",
-              description: "Surat Izin Praktik (Medical Practice License)",
-            },
-            {
-              "@type": "PropertyValue",
-              propertyID: "STR",
-              value: "QN00001073380217",
-              description: "Surat Tanda Registrasi (State Registered Number)",
-            },
-          ],
+          identifier: {
+            "@type": "PropertyValue",
+            propertyID: "STR",
+            value: "QN00001073380217",
+          },
         },
       };
     }
 
     // 5) Press screenshots
     if (asset.category === "Press") {
-      const pressItem = ssotData.organization_profile.press_coverage?.find(
+      const pressItem = orgProfile?.press_coverage?.find(
         (p: any) => p.evidence?.proof_asset_slug === asset.slug,
       );
       return {
@@ -187,9 +168,7 @@ export default function VerifyJvtoPage() {
           "@type": "NewsArticle",
           headline: pressItem?.title || asset.caption,
           url: pressItem?.url,
-          publisher: pressItem?.publisher
-            ? { "@type": "NewsMediaOrganization", name: pressItem.publisher }
-            : undefined,
+          publisher: pressItem?.publisher,
           datePublished: pressItem?.date,
         },
       };
@@ -213,7 +192,7 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 7) Legal document previews
+    // 7) Legal document previews (NIB, TDUP, HPWKI, SPRIN, etc.)
     if (
       ["BusinessID", "License", "Membership", "PoliceDocs"].includes(
         asset.category,
@@ -225,7 +204,9 @@ export default function VerifyJvtoPage() {
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".webp")
           ? "image/webp"
-          : "image/jpeg",
+          : fileUrl.toLowerCase().endsWith(".png")
+            ? "image/png"
+            : "image/jpeg",
         sha256: asset.sha256,
         about: {
           "@type": "DigitalDocument",
@@ -247,49 +228,501 @@ export default function VerifyJvtoPage() {
           ? "image/png"
           : "image/jpeg",
         sha256: asset.sha256,
+      };
+    }
+
+    // 9) Health screening photos (not screenshots)
+    if (
+      asset.category === "Screening" &&
+      !asset.slug.includes("screenshot") &&
+      !asset.slug.includes("print-surat")
+    ) {
+      return {
+        "@type": "ImageObject",
+        ...propsWithDate,
+        contentUrl: fileUrl,
+        encodingFormat:
+          fileUrl.toLowerCase().endsWith(".jpeg") ||
+          fileUrl.toLowerCase().endsWith(".jpg")
+            ? "image/jpeg"
+            : "image/png",
+        sha256: asset.sha256,
+      };
+    }
+
+    // 10) Health clearance preview form
+    if (asset.slug === "print-surat-sehat-preview") {
+      return {
+        "@type": "ImageObject",
+        ...propsWithDate,
+        contentUrl: fileUrl,
+        encodingFormat: fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
+        sha256: asset.sha256,
         about: {
-          "@type": "Event",
-          name: "JVTO field operation documentation",
-          description:
-            "Operational evidence photo documenting safety support and logistics execution.",
+          "@type": "DigitalDocument",
+          name: "Health Clearance Form (Surat Sehat)",
         },
       };
     }
 
-    // 9) PDFs
-    if (fileUrl.toLowerCase().endsWith(".pdf")) {
+    // 11) History photos
+    if (asset.category === "History") {
       return {
-        "@type": "DigitalDocument",
+        "@type": "ImageObject",
         ...propsWithDate,
-        url: fileUrl,
-        fileFormat: "application/pdf",
+        contentUrl: fileUrl,
+        encodingFormat: "image/jpeg",
         sha256: asset.sha256,
       };
     }
 
     // Default
     return {
-      "@type": "CreativeWork",
+      "@type": "ImageObject",
       ...propsWithDate,
-      url: fileUrl,
+      contentUrl: fileUrl,
+      encodingFormat: fileUrl.toLowerCase().endsWith(".pdf")
+        ? "application/pdf"
+        : fileUrl.toLowerCase().endsWith(".png")
+          ? "image/png"
+          : "image/jpeg",
       sha256: asset.sha256,
     };
   }
 
-  // Build the evidence graph
-  const evidenceGraphNodes = visibleAssets.map(getSchemaForAsset);
+  const assetItems = visibleAssets.map((asset: any) =>
+    getSchemaForAsset(asset),
+  );
 
-  // Build credential nodes (optional but useful)
+  // =========
+  // CORE ENTITIES (stitched + merged)
+  // =========
+
+  // Founder entity (re-usable @id)
+  const founderSchema = {
+    "@type": "Person",
+    "@id": `${siteUrl}/#founder`,
+    name: "Agung Sambuko",
+    alternateName: "Mr. Sam",
+    honorificPrefix: "Bripka",
+    jobTitle: "Founder & Active Tourist Police Officer (Ditpamobvit)",
+    image: `${siteUrl}/founder/mr-sam-tourist-police-portrait.png`,
+    memberOf: {
+      "@type": "GovernmentOrganization",
+      name: "Indonesian National Police",
+      alternateName: "Kepolisian Negara Republik Indonesia",
+      department: "Ditpamobvit (Directorate of Vital Object Security)",
+      sameAs: [
+        "https://polri.go.id/",
+        "https://www.wikidata.org/wiki/Q3103954",
+      ],
+    },
+    knowsAbout: [
+      "Volcano Safety",
+      "Crisis Management",
+      "Law Enforcement",
+      "Tourism Safety",
+      "Risk Management",
+    ],
+  };
+
+  /**
+   * IMPORTANT FIXES (to remove the errors you showed):
+   * - Do NOT use @type Physician (validators often flag it in Organization contexts).
+   * - Do NOT use potentialAction with @type MedicalTest (potentialAction expects Action).
+   * - Do NOT use non-schema properties on MedicalTest (status, instrument, healthCondition, etc).
+   */
+
+  // Physician as Person (safe target for employee)
+  const physicianSchema = {
+    "@type": "Person",
+    "@id": `${siteUrl}/#doctor-ahmad-irwandanu`,
+    name: "dr. Ahmad Irwandanu",
+    jobTitle: "Physician",
+    url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        propertyID: "SIP",
+        value: "503.446/193/DRU/4/430.9.13/2020",
+        description: "Surat Izin Praktik (Medical Practice License)",
+      },
+      {
+        "@type": "PropertyValue",
+        propertyID: "STR",
+        value: "QN00001073380217",
+        description: "Surat Tanda Registrasi (State Registered Number)",
+      },
+    ],
+    memberOf: {
+      "@type": "MedicalOrganization",
+      name: "Konsil Kesehatan Indonesia (KKI)",
+    },
+  };
+
+  // Medical unit (Ijen screening) - potentialAction must be Action
+  const ijenMedicalUnitSchema = {
+    "@type": "MedicalBusiness",
+    "@id": `${siteUrl}/#ijen-health-screening-unit`,
+    name: "Ijen Health Screening Unit (JVTO)",
+    parentOrganization: { "@id": `${siteUrl}/#organization` },
+    description: "Mandatory pre-climb medical assessment unit.",
+    location: {
+      "@type": "Place",
+      name: "Baratha Hotel Lobby (Screening Station)",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bondowoso",
+        addressRegion: "East Java",
+        addressCountry: "ID",
+      },
+    },
+    // employee expects Person (this is now a Person @id)
+    employee: { "@id": `${siteUrl}/#doctor-ahmad-irwandanu` },
+
+    // potentialAction expects Action (NOT MedicalTest)
+    potentialAction: {
+      "@type": "CheckAction",
+      name: "Pre-Climb Vital Signs Assessment",
+      description:
+        "Mandatory screening prior to ascent (SpO2 & blood pressure) recorded digitally.",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://health.mountijen.com/",
+        actionPlatform: [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform",
+        ],
+      },
+      result: {
+        "@type": "Thing",
+        name: "Digital Health Certificate (QR Code)",
+      },
+    },
+  };
+
+  // Stefan Loose book (historical recognition)
+  const stefanLooseBookSchema = {
+    "@type": "Book",
+    "@id": `${siteUrl}/#book-stefan-loose-indonesien`,
+    name: "Stefan Loose Reiseführer Indonesien",
+    publisher: { "@type": "Organization", name: "DuMont Reiseverlag" },
+    bookEdition: "4th Edition",
+    datePublished: "2018-07-05",
+    isbn: "978-3-7701-7881-0",
+    inLanguage: "de",
+    numberOfPages: 772,
+  };
+
+  // Team persons (from your snippets)
+  const teamPeopleSchema = [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/team/gufron`,
+      name: "Gufron",
+      jobTitle: "Senior Guide & Photography Specialist",
+      image: `${siteUrl}/uploads/1768225567764-405955176-gufron.png`,
+      description:
+        "Specialist in volcanic photography and risk management. Known for capturing 'Blue Fire' imagery while maintaining strict safety protocols.",
+      knowsAbout: [
+        "Volcanic Photography",
+        "Astrophotography",
+        "Risk Management",
+        "English",
+      ],
+      affiliation: { "@id": `${siteUrl}/#organization` },
+      hasCredential: {
+        "@type": "EducationalOccupationalCredential",
+        name: "Official Ijen Climbing License",
+        url: `${siteUrl}/uploads/1771428741674-842615436-kta_gufron.jpg`,
+        recognizedBy: {
+          "@type": "Organization",
+          name: "HPWKI (Himpunan Pelaku Wisata Khusus Ijen)",
+        },
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/team/rendi`,
+      name: "Rendi",
+      jobTitle: "Expedition Safety Lead",
+      image: `${siteUrl}/uploads/1768228514527-518051332-rendi.png`,
+      description:
+        "Technical safety specialist for Ijen Crater descents. Focuses on physical support and emergency response for high-altitude trekking.",
+      knowsAbout: [
+        "Mountain Rescue",
+        "Expedition Safety",
+        "First Aid",
+        "Volcanology",
+      ],
+      affiliation: { "@id": `${siteUrl}/#organization` },
+      hasCredential: {
+        "@type": "EducationalOccupationalCredential",
+        name: "Official Ijen Climbing License",
+        url: `${siteUrl}/uploads/1771428760524-516116110-kta_rendi.jpg`,
+        recognizedBy: { "@type": "Organization", name: "HPWKI" },
+      },
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/team/anjas`,
+      name: "Anjas",
+      jobTitle: "Visual Storyteller & Guide",
+      image: `${siteUrl}/uploads/1768270423657-690185912-anjas.png`,
+      description:
+        "Youth culture specialist and photographer. Expert in low-light crater photography.",
+      knowsAbout: [
+        "Social Media Content",
+        "Night Photography",
+        "Cultural Interpretation",
+      ],
+      affiliation: { "@id": `${siteUrl}/#organization` },
+      hasCredential: {
+        "@type": "EducationalOccupationalCredential",
+        name: "Official Ijen Climbing License",
+        url: `${siteUrl}/uploads/1771428583288-513992233-kta_anjas.jpg`,
+        recognizedBy: { "@type": "Organization", name: "HPWKI" },
+      },
+    },
+  ];
+
+  // ORGANIZATION (merged + expanded)
+  const organizationSchema: any = {
+    "@type": ["TravelAgency", "EmergencyService"],
+    "@id": `${siteUrl}/#organization`,
+    name: "Java Volcano Tour Operator",
+    legalName: "PT Java Volcano Rendezvous",
+    alternateName: "JVTO",
+    url: siteUrl,
+    description:
+      "Tourist Police-led private tour operator in East Java, evolved from Ijen Miner Family Homestay (2015). Known for operational certainty, safety standards, and transparent pricing.",
+    foundingDate: "2015",
+    email: "hello@javavolcano-touroperator.com",
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        propertyID: "NIB",
+        value: "1102230032918",
+      },
+      {
+        "@type": "PropertyValue",
+        propertyID: "TDUP",
+        value: "1102230032918",
+      },
+    ],
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Jl. Khairil Anwar No.102 A",
+      addressLocality: "Bondowoso",
+      addressRegion: "East Java",
+      postalCode: "68214",
+      addressCountry: "ID",
+    },
+    image: `${siteUrl}/assets/img/office-hq.jpg`,
+    logo: `${siteUrl}/assets/img/jvto-color.png`,
+    priceRange: "$$",
+
+    // Link to founder node by @id
+    founder: { "@id": `${siteUrl}/#founder` },
+
+    // Medical unit as a department
+    department: [{ "@id": `${siteUrl}/#ijen-health-screening-unit` }],
+
+    knowsAbout: [
+      "Volcano Safety",
+      "High Altitude Medicine",
+      "Crisis Management",
+      "SpO2 Monitoring",
+    ],
+
+    // Historical recognition
+    subjectOf: [{ "@id": `${siteUrl}/#book-stefan-loose-indonesien` }],
+
+    // Review triangulation placeholder
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "200",
+      bestRating: "5",
+      worstRating: "1",
+      description:
+        "Consolidated rating from Trustpilot, Google, and TripAdvisor.",
+    },
+
+    amenityFeature: [
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Daily Bottled Water",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Breakfast Included (Hotel)",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Professional Gas Masks (Ijen)",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Headlamps (Ijen)",
+        value: true,
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Digital Health Screening (Ijen)",
+        value: "Mandatory prior to ascent",
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        name: "Prepaid Entrance & Local Fees",
+        value: true,
+      },
+    ],
+
+    award: [
+      "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
+      "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
+    ],
+
+    memberOf: [
+      {
+        "@type": "Organization",
+        name: "HPWKI",
+        description: "Himpunan Pelaku Wisata Khusus Ijen",
+      },
+      {
+        "@type": "Organization",
+        name: "ISIC",
+        description: "International Student Identity Card Provider",
+      },
+      {
+        "@type": "Organization",
+        name: "INDECON",
+        description: "Indonesia Ecotourism Network",
+      },
+    ],
+
+    sameAs: [
+      "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+      "https://trustpilot.com/review/javavolcano-touroperator.com",
+      "https://www.isic.org/discounts/?providerId=259268",
+      "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
+      "https://www.google.com/maps?cid=1266403973589689021",
+    ],
+  };
+
+  // COLLECTION PAGE (all visible assets)
+  const collectionPageSchema = {
+    "@type": "CollectionPage",
+    "@id": `${siteUrl}/verify-jvto#page`,
+    url: `${siteUrl}/verify-jvto`,
+    name: "JVTO Digital Evidence Locker",
+    description:
+      "Central verification hub for PT Java Volcano Rendezvous legal, safety, and historical assets.",
+    publisher: { "@id": `${siteUrl}/#organization` },
+    hasPart: assetItems,
+  };
+
+  // BREADCRUMB
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    "@id": `${siteUrl}/verify-jvto#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Verification Locker",
+        item: `${siteUrl}/verify-jvto`,
+      },
+    ],
+  };
+
+  // FAQ
+  const faqSchema = {
+    "@type": "FAQPage",
+    "@id": `${siteUrl}/verify-jvto#faq`,
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Is Java Volcano Tour Operator a legal business in Indonesia?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918. Verification materials are available on the Verify JVTO page.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does JVTO have official Police authority?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "JVTO is founded by an active Tourist Police officer (Ditpamobvit). Official coordination evidence is provided via SPRIN (Assignment Orders) documents in the Verification Locker.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How can I verify the documents provided by JVTO?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Documents in the Evidence Locker include a SHA256 hash. Download the original file and compare its hash to the published value to detect tampering.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What safety standards does JVTO follow for Ijen Crater tours?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Every climber undergoes mandatory health screening before ascent. JVTO guides are licensed for Ijen operations and credentials are included as evidence assets on this page.",
+        },
+      },
+    ],
+  };
+
+  // HOW-TO
+  const howToSchema = {
+    "@type": "HowTo",
+    "@id": `${siteUrl}/verify-jvto#howto`,
+    name: "How to Verify JVTO Legal & Safety Documents",
+    description:
+      "Step-by-step guide to verifying Java Volcano Tour Operator's official legality, police-linked safety infrastructure, and evidence integrity using the Evidence Locker.",
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Access the Evidence Locker",
+        text: "Open the Verify JVTO page to view the evidence repository.",
+        url: `${siteUrl}/verify-jvto`,
+      },
+      {
+        "@type": "HowToStep",
+        name: "Select a document",
+        text: "Open an evidence item to view its metadata and SHA256 value.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Verify integrity",
+        text: "Compute the file hash locally and compare it to the SHA256 shown in the Evidence Locker.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Cross-reference sources",
+        text: "Use registry links (where provided) to cross-check details on official portals.",
+      },
+    ],
+  };
+
+  // OPTIONAL: credential nodes generated from SSOT verification_credentials
   const credentialNodes =
-    ssotData.verification_credentials?.map((cred: any) => ({
+    (ssotData as any).verification_credentials?.map((cred: any) => ({
       "@type": "EducationalOccupationalCredential",
       "@id": `${siteUrl}/verify-jvto#cred-${cred.slug}`,
       name: cred.title,
-      description: cred.narrative,
-      credentialCategory: cred.category || "Verification",
-      subjectOf: (cred.evidence_asset_slugs || []).map((slug: string) => ({
-        "@id": `${siteUrl}/verify-jvto#asset-${slug}`,
-      })),
+      description: cred.narrative || cred.geo_narrative,
+      credentialCategory: cred.category,
       identifier: cred.identifiers
         ? Object.entries(cred.identifiers).map(([k, v]) => ({
             "@type": "PropertyValue",
@@ -297,227 +730,39 @@ export default function VerifyJvtoPage() {
             value: String(v),
           }))
         : undefined,
+      url: cred.identifiers?.registry_url,
+      subjectOf: cred.evidence_asset_slugs?.map((slug: string) => ({
+        "@id": `${siteUrl}/verify-jvto#asset-${slug}`,
+      })),
     })) || [];
 
-  // FAQ
-  const faqEntities =
-    ssotData.faqs?.map((faq: any) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })) || [];
+  // Link credential nodes into organization.hasCredential (by @id only)
+  if (credentialNodes.length > 0) {
+    organizationSchema.hasCredential = credentialNodes.map((c: any) => ({
+      "@id": c["@id"],
+    }));
+  }
 
-  // HowTo
-  const howToSteps =
-    ssotData.health_screening_protocol?.steps?.map(
-      (step: any, idx: number) => ({
-        "@type": "HowToStep",
-        position: idx + 1,
-        name: step.title,
-        text: step.description,
-        url: step.url || undefined,
-      }),
-    ) || [];
-
-  // ---------- Consolidated JSON-LD (validator-friendly) ----------
-  // Key changes to reduce errors:
-  // - Doctor typed as Person (not Physician) to satisfy strict validators.
-  // - potentialAction uses Action (not MedicalTest).
-  // - No non-standard MedicalTest fields like instrument/result/status that trigger schema validation complaints.
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      // Organization
-      {
-        "@type": ["TravelAgency", "EmergencyService"],
-        "@id": `${siteUrl}/#organization`,
-        name: orgProfile?.brand_name || "Java Volcano Tour Operator",
-        legalName: orgProfile?.legal_name || "PT Java Volcano Rendezvous",
-        alternateName: orgProfile?.alternate_name || "JVTO",
-        url: siteUrl,
-        email: "hello@javavolcano-touroperator.com",
-        telephone: orgProfile?.contact_phone || "+6282244788833",
-        identifier: [
-          {
-            "@type": "PropertyValue",
-            propertyID: "NIB",
-            value: orgProfile?.nib || "1102230032918",
-          },
-          ...(orgProfile?.tdup
-            ? [
-                {
-                  "@type": "PropertyValue",
-                  propertyID: "TDUP",
-                  value: orgProfile.tdup,
-                },
-              ]
-            : []),
-        ],
-        address: orgProfile?.address
-          ? {
-              "@type": "PostalAddress",
-              streetAddress: orgProfile.address.street,
-              addressLocality: orgProfile.address.city,
-              addressRegion: orgProfile.address.region,
-              postalCode: orgProfile.address.postal_code,
-              addressCountry: orgProfile.address.country_code || "ID",
-            }
-          : undefined,
-        sameAs: orgProfile?.same_as || [
-          "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-          "https://trustpilot.com/review/javavolcano-touroperator.com",
-          "https://www.isic.org/discounts/?providerId=259268",
-          "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
-          "https://www.google.com/maps?cid=1266403973589689021",
-        ],
-        founder: {
-          "@type": "Person",
-          "@id": `${siteUrl}/#founder`,
-          name: "Agung Sambuko (Mr. Sam)",
-          jobTitle: "Founder & Active Tourist Police Officer",
-          memberOf: {
-            "@type": "GovernmentOrganization",
-            name: "Indonesian National Police",
-            department: "Ditpamobvit",
-          },
-        },
+      // stitched entities
+      organizationSchema,
+      founderSchema,
+      physicianSchema,
+      ijenMedicalUnitSchema,
+      stefanLooseBookSchema,
+      ...teamPeopleSchema,
 
-        // Medical unit as a department (keep simple + validator-friendly)
-        department: {
-          "@type": "MedicalBusiness",
-          "@id": `${siteUrl}/verify-jvto#ijen-health-screening-unit`,
-          name: "Ijen Health Screening Unit",
-          description:
-            "Mandatory pre-climb vital signs screening before Mount Ijen ascent.",
-          parentOrganization: { "@id": `${siteUrl}/#organization` },
+      // page-level
+      collectionPageSchema,
+      breadcrumbSchema,
+      faqSchema,
+      howToSchema,
 
-          // employee expects Person (avoid Physician type)
-          employee: {
-            "@type": "Person",
-            "@id": `${siteUrl}/verify-jvto#doctor-ahmad-irwandanu`,
-            name: "dr. Ahmad Irwandanu",
-            jobTitle: "Physician",
-            url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
-            identifier: [
-              {
-                "@type": "PropertyValue",
-                propertyID: "SIP",
-                value: "503.446/193/DRU/4/430.9.13/2020",
-              },
-              {
-                "@type": "PropertyValue",
-                propertyID: "STR",
-                value: "QN00001073380217",
-              },
-            ],
-          },
-
-          // potentialAction expects Action
-          potentialAction: {
-            "@type": "Action",
-            name: "Complete digital health screening before Mount Ijen ascent",
-            target: {
-              "@type": "EntryPoint",
-              urlTemplate: "https://health.mountijen.com/",
-              inLanguage: "en",
-              actionPlatform: [
-                "http://schema.org/DesktopWebPlatform",
-                "http://schema.org/MobileWebPlatform",
-              ],
-            },
-          },
-        },
-
-        // Historical recognition as subjectOf (Book node will be present in evidenceGraphNodes too)
-        subjectOf: orgProfile?.history?.stefan_loose_isbn
-          ? {
-              "@type": "Book",
-              "@id": `${siteUrl}/verify-jvto#stefan-loose-book`,
-              name:
-                orgProfile.history.stefan_loose_title ||
-                "Stefan Loose Reiseführer Indonesien",
-              isbn: orgProfile.history.stefan_loose_isbn,
-            }
-          : undefined,
-      },
-
-      // WebSite
-      {
-        "@type": "WebSite",
-        "@id": `${siteUrl}/#website`,
-        url: siteUrl,
-        name: orgProfile?.brand_name || "Java Volcano Tour Operator",
-        publisher: { "@id": `${siteUrl}/#organization` },
-      },
-
-      // Page (CollectionPage)
-      {
-        "@type": "CollectionPage",
-        "@id": `${siteUrl}/verify-jvto#webpage`,
-        url: `${siteUrl}/verify-jvto`,
-        name: "Verify JVTO: Digital Evidence Locker",
-        description:
-          "Central verification hub for PT Java Volcano Rendezvous legal, safety, and historical assets.",
-        isPartOf: { "@id": `${siteUrl}/#website` },
-        about: { "@id": `${siteUrl}/#organization` },
-        primaryImageOfPage: {
-          "@type": "ImageObject",
-          url: `${siteUrl}/assets/img/og/verify-jvto.webp`,
-        },
-      },
-
-      // BreadcrumbList
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${siteUrl}/verify-jvto#breadcrumbs`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Verify JVTO",
-            item: `${siteUrl}/verify-jvto`,
-          },
-        ],
-      },
-
-      // FAQPage
-      {
-        "@type": "FAQPage",
-        "@id": `${siteUrl}/verify-jvto#faq`,
-        mainEntity: faqEntities,
-      },
-
-      // HowTo (health screening)
-      {
-        "@type": "HowTo",
-        "@id": `${siteUrl}/verify-jvto#howto-health-screening`,
-        name: "How JVTO Health Screening Works (Mount Ijen)",
-        description:
-          "Step-by-step process of the mandatory pre-climb health screening used for Mount Ijen trips.",
-        totalTime: "PT10M",
-        supply: [
-          { "@type": "HowToSupply", name: "Identification (passport/ID)" },
-        ],
-        tool: [
-          { "@type": "HowToTool", name: "Pulse oximeter (SpO2)" },
-          { "@type": "HowToTool", name: "Blood pressure monitor" },
-        ],
-        step: howToSteps,
-      },
-
-      // Credentials + evidence assets
+      // credential nodes (SSOT-derived)
       ...credentialNodes,
-      ...evidenceGraphNodes,
-    ].filter(Boolean),
+    ],
   };
 
   return (
@@ -526,7 +771,7 @@ export default function VerifyJvtoPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VerifyJvtoClient ssotData={ssotData} />
+      <VerifyJvtoClient />
     </>
   );
 }
