@@ -140,7 +140,7 @@ export default function VerifyJvtoPage() {
     ],
   };
 
-  // 2. DOCUMENT COLLECTION SCHEMA (Tetap Dinamis)
+  // 2. DOCUMENT COLLECTION SCHEMA - DIPERBAIKI
   const documentCollectionSchema = {
     "@type": "CollectionPage",
     "@id": `${siteUrl}/verify-jvto`,
@@ -158,11 +158,14 @@ export default function VerifyJvtoPage() {
           (a) => a.slug === primaryAssetSlug,
         );
 
-        // Perbaikan: cek keberadaan asset dan asset.url sebelum menggunakan endsWith
-        const directFileUrl = asset?.url || `${siteUrl}/verify-jvto`;
-        let fileFormat = "application/octet-stream"; // default
-        if (asset?.url) {
-          fileFormat = asset.url.endsWith(".pdf")
+        // PERBAIKAN: Gunakan file_url untuk file asli, fallback ke url jika tidak ada
+        const directFileUrl =
+          asset?.file_url || asset?.url || `${siteUrl}/verify-jvto`;
+
+        // Tentukan format file berdasarkan URL file asli
+        let fileFormat = "application/octet-stream";
+        if (directFileUrl) {
+          fileFormat = directFileUrl.endsWith(".pdf")
             ? "application/pdf"
             : "image/jpeg";
         }

@@ -119,6 +119,12 @@ export default function VerifyJvtoClient() {
     };
   }, [selectedDoc]);
 
+  // Fungsi untuk memotong SHA256 agar tampil rapi di card
+  const formatSha256 = (sha: string | undefined) => {
+    if (!sha) return "";
+    return `${sha.substring(0, 8)}...${sha.substring(sha.length - 8)}`;
+  };
+
   return (
     <div className="flex py-30 flex-col min-h-screen bg-[#f6f6f8] font-sans text-slate-800">
       <main className="flex-grow p-6 md:p-8 max-w-[1600px] mx-auto w-full">
@@ -277,6 +283,14 @@ export default function VerifyJvtoClient() {
                       {doc.narrative_context}
                     </p>
                   </div>
+
+                  {/* SHA256 langsung ditampilkan di card */}
+                  {doc.sha256 && (
+                    <div className="mb-2 bg-slate-50 p-2 rounded border border-slate-200 font-mono text-[8px] text-slate-600 break-all">
+                      <span className="font-bold text-slate-400">SHA256: </span>
+                      {doc.sha256}
+                    </div>
+                  )}
 
                   <div className="mt-auto pt-4 border-t border-slate-100">
                     <div className="flex justify-between items-center mb-3">
@@ -547,7 +561,7 @@ export default function VerifyJvtoClient() {
               </div>
             </div>
 
-            {/* Footer */}
+            {/* Footer - Ganti teks dari "Download" menjadi "Open Original" */}
             <footer className="p-4 bg-white border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 px-6 lg:px-8 z-10">
               <div className="flex items-center text-xs font-bold text-slate-400 uppercase tracking-wide">
                 <Lock className="w-3.5 h-3.5 mr-2 text-[#1445b8]" />
@@ -566,8 +580,8 @@ export default function VerifyJvtoClient() {
                   rel="noopener noreferrer"
                   className="flex-1 md:flex-none flex items-center justify-center rounded-lg h-10 px-8 bg-[#1445b8] text-white font-bold text-sm gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/20"
                 >
-                  <Download className="w-4 h-4" />
-                  Download Original
+                  <Eye className="w-4 h-4" />
+                  Open Original
                 </a>
               </div>
             </footer>
