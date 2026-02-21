@@ -46,7 +46,6 @@ export default function VerifyJvtoPage() {
   // Fungsi untuk menentukan tipe schema dan properti tambahan per aset
   function getSchemaForAsset(asset: any) {
     const cred = credentialByAssetSlug.get(asset.slug);
-    // Gunakan file_url jika ada, fallback ke url, atau string kosong
     const fileUrl = asset.file_url || asset.url || "";
     const baseProps = {
       "@id": `${siteUrl}/verify-jvto#asset-${asset.slug}`,
@@ -207,10 +206,10 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 8. Foto operasional (OpsPhoto)
+    // 8. Foto operasional (OpsPhoto) - diperbaiki dari Photograph menjadi ImageObject
     if (asset.category === "OpsPhoto") {
       return {
-        "@type": "Photograph",
+        "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
         encodingFormat: fileUrl.toLowerCase().endsWith(".png")
@@ -220,14 +219,14 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 9. Foto screening kesehatan (bukan screenshot)
+    // 9. Foto screening kesehatan (bukan screenshot) - diperbaiki dari Photograph menjadi ImageObject
     if (
       asset.category === "Screening" &&
       !asset.slug.includes("screenshot") &&
       !asset.slug.includes("print-surat")
     ) {
       return {
-        "@type": "Photograph",
+        "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
         encodingFormat:
@@ -256,10 +255,10 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // 11. Foto sejarah (Booking awards, kunjungan)
+    // 11. Foto sejarah (Booking awards, kunjungan) - diperbaiki dari Photograph menjadi ImageObject
     if (asset.category === "History") {
       return {
-        "@type": "Photograph",
+        "@type": "ImageObject",
         ...baseProps,
         contentUrl: fileUrl,
         encodingFormat: "image/jpeg",
@@ -267,7 +266,7 @@ export default function VerifyJvtoPage() {
       };
     }
 
-    // Default: ImageObject umum (termasuk PDF preview dll.)
+    // Default: ImageObject umum
     return {
       "@type": "ImageObject",
       ...baseProps,
