@@ -12,6 +12,7 @@ import {
   CheckCircle,
   AlertTriangle,
 } from "lucide-react";
+import Image from "next/image";
 
 // Helper: dapatkan semua aset yang ditampilkan (is_show = true)
 const visibleAssets = ssotData.assets_inventory.filter(
@@ -254,7 +255,7 @@ export default function VerifyJvtoClient() {
                     </a>
                   </>
                 )}
-              </div>{" "}
+              </div>
             </div>
 
             {/* Main Viewer Canvas */}
@@ -266,10 +267,13 @@ export default function VerifyJvtoClient() {
                     className="relative shadow-2xl max-h-full max-w-full transition-transform duration-200"
                     style={{ transform: `scale(${zoomLevel})` }}
                   >
-                    <img
+                    <Image
+                      key={selectedAsset.slug} 
                       src={selectedAsset.preview}
                       alt={selectedAsset.caption}
-                      className="max-h-[600px] object-contain bg-white p-2"
+                      width={800}
+                      height={600}
+                      className="max-h-[600px] w-auto h-auto object-contain bg-white p-2"
                     />
                     {(() => {
                       try {
