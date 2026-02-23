@@ -245,7 +245,7 @@
     {
       "filename": "home.webp",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/assets/img/hero/home.webp",
+      "preview": "/assets/img/hero/home.webp",
       "file_url": "",
       "caption": "Website Hero Image.",
       "category": "Brand",
@@ -259,7 +259,7 @@
     {
       "filename": "jvto-color.png",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+      "preview": "/assets/img/jvto-color.png",
       "file_url": "",
       "caption": "JVTO Official Logo.",
       "category": "Brand",
@@ -273,7 +273,7 @@
     {
       "filename": "NIB-1102230032918.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/legal/NIB-1102230032918.pdf",
+      "preview": "/legal/NIB-1102230032918.pdf",
       "file_url": "",
       "caption": "Business Identification Number (NIB) 1102230032918 official registration.",
       "category": "BusinessID",
@@ -287,7 +287,7 @@
     {
       "filename": "NIB-1102230032918-preview.webp",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.webp",
+      "preview": "/legal/NIB-1102230032918-preview.webp",
       "file_url": "https://javavolcano-touroperator.com/legal/NIB-1102230032918.pdf",
       "caption": "NIB 1102230032918 preview image (WebP).",
       "category": "BusinessID",
@@ -301,7 +301,7 @@
     {
       "filename": "mr-sam-tourist-police-portrait.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
+      "preview": "/founder/mr-sam-tourist-police-portrait.png",
       "file_url": "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
       "caption": "Active Tourist Police leadership behind every JVTO trip.",
       "category": "Founder",
@@ -315,7 +315,7 @@
     {
       "filename": "stefan-loose-ijen-bondowoso-page.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
+      "preview": "/history/stefan-loose-ijen-bondowoso-page.png",
       "file_url": "https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
       "caption": "Early third-party mention in a European travel guide.",
       "category": "History",
@@ -329,7 +329,7 @@
     {
       "filename": "TDUP-1102230032918.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918.pdf",
+      "preview": "/legal/TDUP-1102230032918.pdf",
       "file_url": "",
       "caption": "Tourism Business Licence (TDUP) official registration document.",
       "category": "License",
@@ -343,7 +343,7 @@
     {
       "filename": "TDUP-1102230032918-preview.webp",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918-preview.webp",
+      "preview": "/legal/TDUP-1102230032918-preview.webp",
       "file_url": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918.pdf",
       "caption": "TDUP licence preview image (WebP).",
       "category": "License",
@@ -357,7 +357,7 @@
     {
       "filename": "HPWKI-approval.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/legal/HPWKI-approval.pdf",
+      "preview": "/legal/HPWKI-approval.pdf",
       "file_url": "",
       "caption": "HPWKI membership approval letter (official PDF).",
       "category": "Membership",
@@ -371,7 +371,7 @@
     {
       "filename": "HPWKI-approval-preview.webp",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/HPWKI-approval-preview.webp",
+      "preview": "/legal/HPWKI-approval-preview.webp",
       "file_url": "https://javavolcano-touroperator.com/legal/HPWKI-approval.pdf",
       "caption": "HPWKI approval letter preview image (WebP).",
       "category": "Membership",
@@ -385,7 +385,7 @@
     {
       "filename": "baratha-hotel-departure-team.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/baratha-hotel-departure-team.jpg",
+      "preview": "/ops/baratha-hotel-departure-team.jpg",
       "file_url": "https://javavolcano-touroperator.com/ops/baratha-hotel-departure-team.jpg",
       "caption": "Pre-ascent lineup at Baratha Hotel with Tourist Police support.",
       "category": "OpsPhoto",
@@ -399,7 +399,7 @@
     {
       "filename": "group-at-jvto-office.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg",
+      "preview": "/ops/group-at-jvto-office.jpg",
       "file_url": "https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg",
       "caption": "International group visiting JVTO Bondowoso operations office.",
       "category": "OpsPhoto",
@@ -413,7 +413,7 @@
     {
       "filename": "guest-welcome-evening.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/guest-welcome-evening.png",
+      "preview": "/ops/guest-welcome-evening.png",
       "file_url": "https://javavolcano-touroperator.com/ops/guest-welcome-evening.png",
       "caption": "Evening welcome with guests at JVTO office.",
       "category": "OpsPhoto",
@@ -427,7 +427,7 @@
     {
       "filename": "ijen-geopark-briefing.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/ijen-geopark-briefing.png",
+      "preview": "/ops/ijen-geopark-briefing.png",
       "file_url": "https://javavolcano-touroperator.com/ops/ijen-geopark-briefing.png",
       "caption": "Tourist Police briefing at Ijen Geopark Information Center with local miners present.",
       "category": "OpsPhoto",
@@ -441,7 +441,7 @@
     {
       "filename": "office-photo.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/office-photo.jpg",
+      "preview": "/legal/office-photo.jpg",
       "file_url": "https://javavolcano-touroperator.com/legal/office-photo.jpg",
       "caption": "JVTO Bondowoso operations office.",
       "category": "OpsPhoto",
@@ -455,7 +455,7 @@
     {
       "filename": "jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
+      "preview": "/ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
       "file_url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
       "caption": "Traffic Police escorted arrival at the hotel in Bondowoso group photo with the patrol car.",
       "category": "OpsPhoto",
@@ -469,7 +469,7 @@
     {
       "filename": "jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
+      "preview": "/ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
       "file_url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
       "caption": "Arriving in Bondowoso with a Traffic Police escort group photo at the hotel after the journey.",
       "category": "OpsPhoto",
@@ -483,7 +483,7 @@
     {
       "filename": "police-vehicle-support.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/ops/police-vehicle-support.jpg",
+      "preview": "/ops/police-vehicle-support.jpg",
       "file_url": "https://javavolcano-touroperator.com/ops/police-vehicle-support.jpg",
       "caption": "Police support vehicle and group prior to departure.",
       "category": "OpsPhoto",
@@ -497,7 +497,7 @@
     {
       "filename": "SPRIN-POLPAR.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.pdf",
+      "preview": "/legal/SPRIN-POLPAR.pdf",
       "file_url": "",
       "caption": "Tourist Police assignment letter (SPRIN POLPAR) official PDF.",
       "category": "PoliceDocs",
@@ -511,7 +511,7 @@
     {
       "filename": "SPRIN-POLPAR.webp",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.webp",
+      "preview": "/legal/SPRIN-POLPAR.webp",
       "file_url": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.webp",
       "caption": "Tourist Police assignment letter (SPRIN POLPAR) preview image.",
       "category": "PoliceDocs",
@@ -525,7 +525,7 @@
     {
       "filename": "SPRIN-WAL-TRAVEL-2024-02-12.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf",
+      "preview": "/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf",
       "file_url": "",
       "caption": "Police travel order (SPRIN WAL-TRAVEL), 12 Feb 2024 official PDF.",
       "category": "PoliceDocs",
@@ -539,7 +539,7 @@
     {
       "filename": "SPRIN-WAL-TRAVEL-2024-02-12.webp",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp",
+      "preview": "/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp",
       "file_url": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf",
       "caption": "Police travel order (SPRIN WAL-TRAVEL), 12 Feb 2024 preview image.",
       "category": "PoliceDocs",
@@ -553,7 +553,7 @@
     {
       "filename": "screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
+      "preview": "/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
       "file_url": "https://javavolcano-touroperator.com/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
       "caption": "BBKSDA Jatim official training article: HPWKI members participate in Ijen guide safety training (SAR & emergency first aid).",
       "category": "Press",
@@ -567,7 +567,7 @@
     {
       "filename": "screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
+      "preview": "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
       "file_url": "https://javavolcano-touroperator.com/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
       "caption": "Press mention screenshot (Detik.com) with founder name variant in Tourist Police context.",
       "category": "Press",
@@ -581,7 +581,7 @@
     {
       "filename": "screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
+      "preview": "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
       "file_url": "https://javavolcano-touroperator.com/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
       "caption": "Press mention screenshot (Radar Jember) about Tourist Police formation for Ijen Geopark.",
       "category": "Press",
@@ -595,7 +595,7 @@
     {
       "filename": "ijen-screening-hotel-01.jpeg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
+      "preview": "/screening/ijen-screening-hotel-01.jpeg",
       "file_url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
       "caption": "Pre-ascent health screening at partner hotel.",
       "category": "Screening",
@@ -609,7 +609,7 @@
     {
       "filename": "ijen-screening-hotel-02.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
+      "preview": "/screening/ijen-screening-hotel-02.jpg",
       "file_url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
       "caption": "Vitals taken and logged before night ascent.",
       "category": "Screening",
@@ -623,7 +623,7 @@
     {
       "filename": "jvto-office-screening-1.JPG",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/jvto-office-screening-1.JPG",
+      "preview": "/screening/jvto-office-screening-1.JPG",
       "file_url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-1.JPG",
       "caption": "Digitally recorded, signed clearance issuance.",
       "category": "Screening",
@@ -637,7 +637,7 @@
     {
       "filename": "jvto-office-screening-2.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/jvto-office-screening-2.jpg",
+      "preview": "/screening/jvto-office-screening-2.jpg",
       "file_url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-2.jpg",
       "caption": "Screening can be done at hotel or office.",
       "category": "Screening",
@@ -651,7 +651,7 @@
     {
       "filename": "Print_Surat_Sehat_2026.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/screening/Print_Surat_Sehat_2026.pdf",
+      "preview": "/screening/Print_Surat_Sehat_2026.pdf",
       "file_url": "",
       "caption": "Health clearance (surat sehat) printable PDF.",
       "category": "Screening",
@@ -665,7 +665,7 @@
     {
       "filename": "print-surat-sehat-preview-2026.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/print-surat-sehat-preview-2026.png",
+      "preview": "/screening/print-surat-sehat-preview-2026.png",
       "file_url": "https://javavolcano-touroperator.com/screening/Print_Surat_Sehat_2026.pdf",
       "caption": "Sample printout of health clearance (surat sehat) preview image.",
       "category": "Screening",
@@ -679,7 +679,7 @@
     {
       "filename": "1771428583288-513992233-kta_anjas.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/uploads/1771428583288-513992233-kta_anjas.jpg",
+      "preview": "/uploads/1771428583288-513992233-kta_anjas.jpg",
       "file_url": "https://javavolcano-touroperator.com/uploads/1771428583288-513992233-kta_anjas.jpg",
       "caption": "Official Ijen climbing license for Anjas.",
       "category": "Credentials",
@@ -693,7 +693,7 @@
     {
       "filename": "1771428741674-842615436-kta_gufron.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/uploads/1771428741674-842615436-kta_gufron.jpg",
+      "preview": "/uploads/1771428741674-842615436-kta_gufron.jpg",
       "file_url": "https://javavolcano-touroperator.com/uploads/1771428741674-842615436-kta_gufron.jpg",
       "caption": "Official Ijen climbing license for Gufron.",
       "category": "Credentials",
@@ -707,7 +707,7 @@
     {
       "filename": "1771428489070-55145932-kta_kiki.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/uploads/1771428489070-55145932-kta_kiki.jpg",
+      "preview": "/uploads/1771428489070-55145932-kta_kiki.jpg",
       "file_url": "https://javavolcano-touroperator.com/uploads/1771428489070-55145932-kta_kiki.jpg",
       "caption": "Official Ijen climbing license for Kiki.",
       "category": "Credentials",
@@ -721,7 +721,7 @@
     {
       "filename": "1771428760524-516116110-kta_rendi.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/uploads/1771428760524-516116110-kta_rendi.jpg",
+      "preview": "/uploads/1771428760524-516116110-kta_rendi.jpg",
       "file_url": "https://javavolcano-touroperator.com/uploads/1771428760524-516116110-kta_rendi.jpg",
       "caption": "Official Ijen climbing license for Rendi.",
       "category": "Credentials",
@@ -735,7 +735,7 @@
     {
       "filename": "1771428704448-911506028-kta_taufik.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/uploads/1771428704448-911506028-kta_taufik.jpg",
+      "preview": "/uploads/1771428704448-911506028-kta_taufik.jpg",
       "file_url": "https://javavolcano-touroperator.com/uploads/1771428704448-911506028-kta_taufik.jpg",
       "caption": "Official Ijen climbing license for Taufik.",
       "category": "Credentials",
@@ -749,7 +749,7 @@
     {
       "filename": "guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
+      "preview": "/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
       "file_url": "https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
       "caption": "Founder with Guests Holding Stefan Loose Guidebook (Homestad Era)",
       "category": "History",
@@ -763,7 +763,7 @@
     {
       "filename": "booking-2015-shipping-label.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg",
+      "preview": "/history/booking-2015-shipping-label.jpg",
       "file_url": "https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg",
       "caption": "Booking.com Guest Review Award 2015 — Shipping Label (box)",
       "category": "History",
@@ -777,7 +777,7 @@
     {
       "filename": "booking-2015-plaque.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg",
+      "preview": "/history/booking-2015-plaque.jpg",
       "file_url": "https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg",
       "caption": "Booking.com Guest Review Award 2015 — Plaque + Award Letter",
       "category": "History",
@@ -791,7 +791,7 @@
     {
       "filename": "stefan_loose_crop_enh.jpg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg",
+      "preview": "/history/stefan_loose_crop_enh.jpg",
       "file_url": "https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg",
       "caption": "Stefan Loose Reiseführer Indonesien, Ost-JAVA | Ijen-Massiv, page 287.",
       "category": "History",
@@ -805,7 +805,7 @@
     {
       "filename": "05012024_Edaran_Pembukaan_TWA_Kawah_Ijen.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/screening/bbksda/05012024_Edaran_Pembukaan_TWA_Kawah_Ijen.pdf",
+      "preview": "/screening/bbksda/05012024_Edaran_Pembukaan_TWA_Kawah_Ijen.pdf",
       "file_url": "",
       "caption": "BBKSDA East Java Circular Letter — Opening of TWA Kawah Ijen (SE.1658/K2/BIDTEK.1/KSA/9/2024)",
       "category": "Screening",
@@ -819,7 +819,7 @@
     {
       "filename": "bbksda-ticket-terms-screenshot.jpeg",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/bbksda/bbksda-ticket-terms-screenshot.jpeg",
+      "preview": "/screening/bbksda/bbksda-ticket-terms-screenshot.jpeg",
       "file_url": "https://javavolcano-touroperator.com/screening/bbksda/bbksda-ticket-terms-screenshot.jpeg",
       "caption": "tiket.bbksdajatim.org — Terms & Conditions (screenshot): health requirements and doctor certificate",
       "category": "Screening",
@@ -833,7 +833,7 @@
     {
       "filename": "SIP_DOKTER_AHMAD_IRWANDANU_2026.pdf",
       "is_show": false,
-      "preview": "https://javavolcano-touroperator.com/screening/SIP_DOKTER_AHMAD_IRWANDANU_2026.pdf",
+      "preview": "/screening/SIP_DOKTER_AHMAD_IRWANDANU_2026.pdf",
       "file_url": "",
       "caption": "Surat Izin Praktik (SIP) — dr. Ahmad Irwandanu (Bondowoso)",
       "category": "Screening",
@@ -847,7 +847,7 @@
     {
       "filename": "SCREENSHOT_SIP_DOKTER_AHMAD_IRWANDANU_2026.png",
       "is_show": true,
-      "preview": "https://javavolcano-touroperator.com/screening/SCREENSHOT_SIP_DOKTER_AHMAD_IRWANDANU_2026.png",
+      "preview": "/screening/SCREENSHOT_SIP_DOKTER_AHMAD_IRWANDANU_2026.png",
       "file_url": "https://javavolcano-touroperator.com/screening/SIP_DOKTER_AHMAD_IRWANDANU_2026.pdf",
       "caption": "Surat Izin Praktik (SIP) — dr. Ahmad Irwandanu (Bondowoso)",
       "category": "Screening",
