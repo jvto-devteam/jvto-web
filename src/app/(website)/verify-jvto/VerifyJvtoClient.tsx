@@ -136,9 +136,9 @@ export default function VerifyJvtoClient() {
                             >
                               {asset.sha256}
                             </span>
-                              <span className="flex items-center gap-1 text-[8px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-emerald-200">
-                                <CheckCircle className="size-2.5" /> Verified
-                              </span>
+                            <span className="flex items-center gap-1 text-[8px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-emerald-200">
+                              <CheckCircle className="size-2.5" /> Verified
+                            </span>
                           </div>
                           <h4
                             className={`text-sm font-bold leading-tight transition-colors ${
@@ -212,7 +212,6 @@ export default function VerifyJvtoClient() {
                   )}
                 </div>
               </div>
-
               <div className="flex items-center gap-2">
                 <button
                   className="p-1.5 hover:bg-white/10 rounded-sm text-slate-300 hover:text-white transition-colors"
@@ -242,16 +241,27 @@ export default function VerifyJvtoClient() {
                     <Download className="size-3" /> Open File
                   </a>
                 )}
-              </div>
+                {selectedAsset && externalUrl && (
+                  <>
+                    <div className="h-4 w-px bg-slate-600 mx-2"></div>
+                    <a
+                      href={externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-sm font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                    >
+                      <ExternalLink className="size-3" /> Verify
+                    </a>
+                  </>
+                )}
+              </div>{" "}
             </div>
 
             {/* Main Viewer Canvas */}
             <div className="bg-slate-200 flex-1 relative  max-h-[600px] overflow-y-auto border-x border-slate-300 technical-grid flex items-center justify-center p-8 overflow-hidden group/viewer">
               {selectedAsset ? (
                 // Tampilkan aset yang dipilih
-                (selectedAsset.preview)?.match(
-                  /\.(jpg|jpeg|png|webp)$/i,
-                ) ? (
+                selectedAsset.preview?.match(/\.(jpg|jpeg|png|webp)$/i) ? (
                   <div
                     className="relative shadow-2xl max-h-full max-w-full transition-transform duration-200"
                     style={{ transform: `scale(${zoomLevel})` }}
@@ -263,9 +273,7 @@ export default function VerifyJvtoClient() {
                     />
                     {(() => {
                       try {
-                        const url = new URL(
-                          selectedAsset.preview,
-                        );
+                        const url = new URL(selectedAsset.preview);
                         return (
                           <div className="absolute bottom-4 right-4 bg-black/70 text-white text-[10px] font-mono px-2 py-1 rounded-sm">
                             SOURCE: {url.hostname}
