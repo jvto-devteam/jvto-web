@@ -26,6 +26,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Button from "@/components/website/UI/Button";
+import Image from "next/image";
 
 export default function VerifyJvtoClient() {
   const [activeTab, setActiveTab] = useState("all");
@@ -238,10 +239,12 @@ export default function VerifyJvtoClient() {
                   onClick={() => setSelectedDoc(doc)}
                 >
                   <div className="absolute inset-0 flex items-center justify-center p-6">
-                    <img
+                    <Image
                       src={displayImage}
                       alt={doc.caption}
-                      className="w-full h-full object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      className="object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       loading="lazy"
                     />
                   </div>
@@ -534,7 +537,7 @@ export default function VerifyJvtoClient() {
                   ></div>
 
                   <div
-                    className="relative bg-white shadow-2xl rounded-sm transition-transform duration-200 ease-out origin-top border border-slate-200"
+                    className="relative bg-white shadow-2xl rounded-sm transition-transform duration-200 ease-out origin-top border border-slate-200 flex justify-center items-center"
                     style={{
                       transform: `scale(${zoomLevel})`,
                       maxWidth: "100%",
@@ -543,12 +546,18 @@ export default function VerifyJvtoClient() {
                   >
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 z-10"></div>
 
-                    <img
-                      src={selectedDoc.preview?.url || selectedDoc.url}
-                      alt={selectedDoc.caption}
-                      className="max-w-full md:max-w-[650px] h-auto object-contain block mx-auto bg-white min-h-[400px]"
-                    />
-
+                    <div className="relative w-full h-full min-h-[400px] flex justify-center items-center">
+                      <Image
+                        src={selectedDoc.preview?.url || selectedDoc.url}
+                        alt={selectedDoc.caption}
+                        width={800}
+                        height={600}
+                        className="max-w-full md:max-w-[650px] h-auto object-contain bg-white"
+                        style={{ width: "auto", height: "auto" }}
+                        sizes="(max-width: 768px) 100vw, 650px"
+                        priority
+                      />
+                    </div>
                     <div className="absolute bottom-6 right-6 opacity-90 pointer-events-none mix-blend-multiply">
                       <div className="border-[3px] border-blue-900/20 rounded-full px-4 py-1.5 -rotate-12 bg-white/50 backdrop-blur-sm">
                         <p className="text-[10px] font-black text-blue-900/40 uppercase tracking-widest flex items-center gap-1">
