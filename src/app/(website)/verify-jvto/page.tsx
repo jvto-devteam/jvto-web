@@ -717,7 +717,7 @@ export default function VerifyJvtoPage() {
   const credentialNodes =
     (ssotData as any).verification_credentials?.map((cred: any) => ({
       "@type": "EducationalOccupationalCredential",
-      "@id": `${siteUrl}/verify-jvto#cred-${cred.slug}`,
+      "@id": `${siteUrl}/verify-jvto#cred-${cred.id}`,
       name: cred.title,
       description: cred.narrative || cred.geo_narrative,
       credentialCategory: cred.category,
