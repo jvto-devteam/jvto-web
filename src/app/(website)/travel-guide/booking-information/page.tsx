@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: siteUrl + "/assets/img/og/travel-guide.webp",
+        url: siteUrl + "/assets/img/og/booking-information.webp",
         width: 1200,
         height: 630,
         alt: "Booking Information",

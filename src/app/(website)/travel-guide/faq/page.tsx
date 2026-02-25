@@ -11,10 +11,19 @@ import { generateFaqSchema } from "@/lib/generateFaqSchema";
 import Link from "next/link";
 import Sidebar from "../sidebar";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
   description:
     "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
+  images: [
+    {
+      url: siteUrl + "/assets/img/og/travel-guide.webp",
+      width: 1200,
+      height: 630,
+      alt: "Travel Guide",
+    },
+  ],
 };
 
 async function getFaqData() {
@@ -90,7 +99,7 @@ export default async function FaqPage() {
     <div className="flex min-h-screen bg-background">
       <StructuredData data={generateFaqSchema(allFaqsForSeo)} />
       <Sidebar />
-        <main className="flex-1 pt-24 md:pt-36 pb-20">
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section>
           <div className="container mx-auto px-4 max-w-4xl">
             <nav className="mb-4  text-sm text-muted-foreground">
