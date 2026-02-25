@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: siteUrl + "/assets/img/og/travel-guide.webp",
+        url: siteUrl + "/assets/img/og/ijen-health-screening.webp",
         width: 1200,
         height: 630,
         alt: "Ijen Health Screening",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
       "Ijen Health Screening – Real Checks, Digital Proof & QR | Java Volcano Tour Operator",
     description:
       "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
-    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+    images: [siteUrl + "/assets/img/og/ijen-health-screening.webp"],
   },
 };
 
