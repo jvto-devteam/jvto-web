@@ -368,6 +368,64 @@ export default function TravelGuideHubPage() {
         breadcrumb: {
           "@id": siteUrl + "/travel-guide#breadcrumb",
         },
+        hasPart: [
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#faq`,
+            name: "FAQ — Short Answers to Common Questions",
+            description:
+              "Answers to common questions about private tours, inclusions, and payments.",
+            url: `${siteUrl}/travel-guide/faq`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#booking-information`,
+            name: "Booking & Payments",
+            description:
+              "Details on booking processes, deposits, and why we use Travel Credit.",
+            url: `${siteUrl}/travel-guide/booking-information`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#ijen-health-screening`,
+            name: "Ijen Health Screening",
+            description:
+              "Information on mandatory health checks and QR-verified clearance for Ijen night hikes.",
+            url: `${siteUrl}/travel-guide/ijen-health-screening`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#safety-on-tours`,
+            name: "Safety on Tours",
+            description:
+              "JVTO safety protocols for road travel, viewpoints, and mountain conditions.",
+            url: `${siteUrl}/travel-guide/safety-on-tours`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#packing-and-fitness`,
+            name: "Packing & Fitness",
+            description:
+              "Practical advice on what to wear and fitness requirements for Bromo and Ijen.",
+            url: `${siteUrl}/travel-guide/packing-and-fitness`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#weather-and-closures`,
+            name: "Weather & Closures",
+            description:
+              "How volcanic activity and weather affects itineraries and re-routing policies.",
+            url: `${siteUrl}/travel-guide/weather-and-closures`,
+          },
+          {
+            "@type": "WebPageElement",
+            "@id": `${siteUrl}/travel-guide#police-escort-for-groups`,
+            name: "Police Escort for Groups",
+            description:
+              "Information on official traffic police escort for large tourist groups.",
+            url: `${siteUrl}/travel-guide/police-escort-for-groups`,
+          },
+        ],
         mainEntity: {
           "@id": siteUrl + "/travel-guide#help-topics",
         },
@@ -510,9 +568,7 @@ export default function TravelGuideHubPage() {
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">
-                Travel Guide
-              </span>
+              <span className="text-foreground font-medium">Travel Guide</span>
             </nav>
 
             <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
