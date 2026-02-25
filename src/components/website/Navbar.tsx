@@ -12,12 +12,15 @@ import {
   LogIn,
   LogOut,
   LayoutDashboard,
-  Mail, Loader2
+  Mail,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import SidebarTravelGuide from "@/app/(website)/travel-guide/sidebar";
+import SidebarPolicy from "@/app/(website)/policy/sidebar";
 
 // --- 1. HELPER COMPONENTS ---
 
@@ -402,6 +405,34 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const [mobileMenuView, setMobileMenuView] = useState<
+    "main" | "travel" | "policy"
+  >("main");
+  const isTravelGuidePath = pathname.startsWith("/travel-guide");
+  const isPolicyPath = pathname.startsWith("/policy");
+
+  // Logic: Reset menu view saat menu ditutup atau path berubah
+  useEffect(() => {
+    if (!isMenuOpen) {
+      if (isTravelGuidePath) setMobileMenuView("travel");
+      else if (isPolicyPath) setMobileMenuView("policy");
+      else setMobileMenuView("main");
+    }
+  }, [isMenuOpen, isTravelGuidePath, isPolicyPath]);
+
+  const toggleMenu = () => {
+    if (!isMenuOpen) {
+      // Tentukan tampilan awal saat menu dibuka berdasarkan path URL
+      if (isTravelGuidePath) {
+        setMobileMenuView("travel");
+      } else if (isPolicyPath) {
+        setMobileMenuView("policy");
+      } else {
+        setMobileMenuView("main");
+      }
+    }
+    setIsMenuOpen(!isMenuOpen);
+  };
   // State Modals
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -429,8 +460,8 @@ const Navbar: React.FC = () => {
       (tour) =>
         tour.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tour.tags.some((tag: string) =>
-          tag.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+          tag.toLowerCase().includes(searchQuery.toLowerCase()),
+        ),
     );
   }, [searchQuery, allTours]);
 
@@ -481,8 +512,8 @@ const Navbar: React.FC = () => {
   const finalMenuIconClass = isMenuOpen
     ? "text-jvto-dark"
     : isHome && !isScrolled
-    ? "text-white"
-    : "text-jvto-dark";
+      ? "text-white"
+      : "text-jvto-dark";
 
   return (
     <>
@@ -513,7 +544,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-6">
             <button
               className="lg:hidden p-2 z-50 relative"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => toggleMenu()}
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
@@ -577,7 +608,7 @@ const Navbar: React.FC = () => {
               // 2. BELUM LOGIN -> Tombol Log In Saja
               <button
                 onClick={() => setIsLoginOpen(true)}
-                className='hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors'
+                className="hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
               >
                 <User size={20} className={finalMenuIconClass} />
               </button>
@@ -588,79 +619,100 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="fixed inset-0 bg-white z-40 pt-24 px-6 lg:hidden flex flex-col animate-fade-in-up h-screen overflow-y-auto">
-            <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
-              {/* --- AUTH LOGIC (MOBILE) --- */}
-              {session ? (
-                <>
-                  {/* Tampilkan Menu User Jika Login */}
+            {/* VIEW 1: SIDEBAR TRAVEL GUIDE */}
+            {mobileMenuView === "travel" && (
+              <SidebarTravelGuide
+                isMobile
+                onBack={() => setMobileMenuView("main")}
+              />
+            )}
+
+            {/* VIEW 2: SIDEBAR POLICY */}
+            {mobileMenuView === "policy" && (
+              <SidebarPolicy
+                isMobile
+                onBack={() => setMobileMenuView("main")}
+              />
+            )}
+
+            {/* VIEW 3: MAIN MENU */}
+            {mobileMenuView === "main" && (
+              <>
+                <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
+                  {/* --- AUTH LOGIC (MOBILE) --- */}
+                  {session ? (
+                    <>
+                      {/* Tampilkan Menu User Jika Login */}
+                      <Link
+                        href="/my-booking"
+                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
+                      >
+                        <LayoutDashboard size={20} /> My Booking
+                      </Link>
+                      <button
+                        onClick={() => signOut()}
+                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-red-600 hover:text-red-800 transition-colors text-left"
+                      >
+                        <LogOut size={20} /> Log Out
+                      </button>
+                    </>
+                  ) : (
+                    // Tampilkan Tombol Login Jika Guest
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        setIsLoginOpen(true);
+                      }}
+                      className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark hover:text-jvto-green transition-colors text-left"
+                    >
+                      <LogIn size={20} /> Log In
+                    </button>
+                  )}
+
                   <Link
-                    href="/my-booking"
-                    className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
+                    href="/tours"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
-                    <LayoutDashboard size={20} /> My Booking
+                    Private Tours
                   </Link>
-                  <button
-                    onClick={() => signOut()}
-                    className="flex items-center gap-3 border-b border-gray-100 pb-4 text-red-600 hover:text-red-800 transition-colors text-left"
+                  <Link
+                    href="/destinations"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
-                    <LogOut size={20} /> Log Out
-                  </button>
-                </>
-              ) : (
-                // Tampilkan Tombol Login Jika Guest
-                <button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsLoginOpen(true);
-                  }}
-                  className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark hover:text-jvto-green transition-colors text-left"
-                >
-                  <LogIn size={20} /> Log In
-                </button>
-              )}
+                    Destinations
+                  </Link>
+                  <Link
+                    href="/why-jvto"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                  >
+                    Why JVTO
+                  </Link>
+                  <Link
+                    href="/travel-guide"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                  >
+                    Travel Guide
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
+                  >
+                    Contact
+                  </Link>
+                </div>
 
-              <Link
-                href="/tours"
-                className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
-              >
-                Private Tours
-              </Link>
-              <Link
-                href="/destinations"
-                className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
-              >
-                Destinations
-              </Link>
-              <Link
-                href="/why-jvto"
-                className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
-              >
-                Why JVTO
-              </Link>
-              <Link
-                href="/travel-guide"
-                className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
-              >
-                Travel Guide
-              </Link>
-              <Link
-                href="/contact"
-                className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
-
-            <div className="mt-auto mb-10 pt-8 border-t border-gray-100 text-sm text-gray-500">
-              <p className="font-bold mb-2 text-jvto-dark uppercase tracking-wider">
-                Official Contact
-              </p>
-              <p className="mb-1">WhatsApp: +62 822-4478-8833</p>
-              <div className="mt-6 flex items-center gap-2 text-xs bg-gray-50 p-3 rounded-sm border border-gray-200">
-                <ShieldCheck size={16} className="text-jvto-green" />
-                <span>Licensed Operator No. 1102230032918</span>
-              </div>
-            </div>
+                <div className="mt-auto mb-10 pt-8 border-t border-gray-100 text-sm text-gray-500">
+                  <p className="font-bold mb-2 text-jvto-dark uppercase tracking-wider">
+                    Official Contact
+                  </p>
+                  <p className="mb-1">WhatsApp: +62 822-4478-8833</p>
+                  <div className="mt-6 flex items-center gap-2 text-xs bg-gray-50 p-3 rounded-sm border border-gray-200">
+                    <ShieldCheck size={16} className="text-jvto-green" />
+                    <span>Licensed Operator No. 1102230032918</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
       </nav>
