@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
+import Sidebar from "./sidebar";
+
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -151,15 +153,16 @@ export default function PolicyHubPage() {
   ] as const;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <StructuredData data={pageSchema} />
+      <Sidebar />
 
-      <main className="flex-grow pt-24">
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
         {/* Header */}
-        <section className="py-12 md:py-16 bg-accent border-b">
+        <section className="bg-accent border-b pb-12">
           <div className="container mx-auto px-4 max-w-5xl">
             {/* Breadcrumb */}
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
+            <nav className="mb-4  text-sm text-muted-foreground">
               <Link href="/" className="hover:text-primary">
                 Home
               </Link>
@@ -168,11 +171,11 @@ export default function PolicyHubPage() {
             </nav>
 
             {/* Title */}
-            <div className="text-center mb-10">
+            <div className=" mb-10">
               <h1 className="font-black text-2xl md:text-5xl mb-4">
                 JVTO Policies
               </h1>
-              <p className="text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-muted-foreground max-w-3xl">
                 This page is a navigation hub. For binding terms, open the
                 relevant policy below and refer to your booking-specific
                 documents (Official E-Voucher / Invoice).
@@ -283,7 +286,7 @@ export default function PolicyHubPage() {
               Looking for trip operations guidance? Visit{" "}
               <Link
                 href="/travel-guide"
-                className="text-primary hover:underline"
+                className="text-[var(--color-jvto-green)] hover:underline"
               >
                 Travel Guide
               </Link>

@@ -1,6 +1,7 @@
 // src/app/(website)/policy/inclusions-exclusions/page.tsx
 import Link from "next/link";
 import { type Metadata } from "next";
+import Sidebar from "../sidebar";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -36,12 +37,13 @@ export const metadata: Metadata = {
 
 export default function InclusionsExclusionsPolicyPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <main className="flex-grow pt-24">
-        <section className="py-12 md:py-16">
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
+        <section>
           <div className="container mx-auto px-4 max-w-4xl">
             {/* Breadcrumb Navigation */}
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
+            <nav className="mb-4  text-sm text-muted-foreground">
               <Link href="/" className="hover:text-primary">
                 Home
               </Link>
@@ -56,7 +58,7 @@ export default function InclusionsExclusionsPolicyPage() {
             </nav>
 
             {/* Header Section */}
-            <div className="text-center mb-12">
+            <div className=" mb-12">
               <h1 className="font-black text-2xl md:text-5xl">
                 JVTO — Inclusions & Exclusions Policy
               </h1>

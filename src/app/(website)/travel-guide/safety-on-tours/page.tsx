@@ -1,6 +1,7 @@
 import StructuredData from "@/components/website/StructuredData";
 import Link from "next/link";
 import { type Metadata } from "next";
+import Sidebar from "../sidebar";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -336,14 +337,15 @@ export default function SafetyOnToursPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <StructuredData data={pageSchema} />
+      <Sidebar />
 
-      <main className="flex-grow pt-24">
-        <section className="py-12 md:py-16 bg-accent border-b">
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
+        <section className="bg-accent border-b">
           <div className="container mx-auto px-4 max-w-4xl">
             {/* Breadcrumb Navigation */}
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
+            <nav className="mb-4 text-sm text-muted-foreground">
               <Link href="/" className="hover:text-primary">
                 Home
               </Link>
@@ -358,7 +360,7 @@ export default function SafetyOnToursPage() {
             </nav>
 
             {/* Main Header */}
-            <div className="text-center mb-12">
+            <div className=" mb-12">
               <h1 className="font-black text-2xl md:text-5xl mb-6">
                 Safety on JVTO Tours
               </h1>
@@ -378,7 +380,7 @@ export default function SafetyOnToursPage() {
           </div>
         </section>
 
-        <section className="py-12 md:py-16">
+        <section>
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="prose max-w-none space-y-12">
               {/* Section 1 */}
