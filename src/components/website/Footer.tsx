@@ -1,6 +1,7 @@
 import React from 'react';
 import { Instagram, Facebook, Twitter, Shield, MapPin, FileCheck } from 'lucide-react';
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   return (
@@ -80,8 +81,16 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
-            <span className="font-black text-2xl italic tracking-tighter">JVTO</span>
-            <span className="text-xs text-gray-500">© 2025 PT Java Volcano Rendezvous. License No. 1102230032918.</span>
+              <Image
+                src="/assets/img/jvto-color.png"
+                alt="JVTO Logo Footer"
+                width={70}
+                height={70}
+                priority
+                className="object-contain"
+              />
+            {/* <span className="font-black text-2xl italic tracking-tighter">JVTO</span> */}
+            <span className="text-xs text-gray-500">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous I All Rights Reserved | <Link href="/policy/privacy" className="text-jvto-green underline">Privacy Policy</Link></span>
           </div>
           
           <div className="flex gap-4">
