@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 
 const documentPriorityNote = {
-  title: "Document Priority Reminder (Bottom of Page)",
+  title: "Document Priority Reminder",
   paragraphs: [
     "Treat your Official E-Voucher / Invoice as the highest authority for your specific booking. If there is ever a difference between website wording and booking documents, the order of priority is:",
     "1. Official E-Voucher / Invoice (specific booking)",
@@ -20,8 +20,8 @@ export function DocumentPriorityNote() {
   return (
     <Card className="mt-16 bg-accent border-2">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-black">
-          <Info className="w-5 h-5" /> {documentPriorityNote.title}
+        <CardTitle className="flex gap-2 font-black">
+          <Info className="w-7 h-7" /> {documentPriorityNote.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="prose prose-sm max-w-none text-muted-foreground">
