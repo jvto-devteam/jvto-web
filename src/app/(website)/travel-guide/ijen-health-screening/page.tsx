@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import StructuredData from "@/components/website/StructuredData";
+import Sidebar from "../sidebar";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: siteUrl + "/assets/img/og/travel-guide.webp",
+        url: siteUrl + "/assets/img/og/ijen-health-screening.webp",
         width: 1200,
         height: 630,
         alt: "Ijen Health Screening",
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
       "Ijen Health Screening – Real Checks, Digital Proof & QR | Java Volcano Tour Operator",
     description:
       "Learn how Ijen health screening works with JVTO: real checks by trained staff, digital records with QR codes, and a public tool for non-JVTO travellers.",
-    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+    images: [siteUrl + "/assets/img/og/ijen-health-screening.webp"],
   },
 };
 
@@ -407,14 +408,16 @@ export default function IjenHealthScreeningPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background">
       <StructuredData data={pageSchema} />
 
-      <main className="flex-grow pt-24">
-        <section className="py-12 md:py-16 bg-accent border-b">
+      <Sidebar />
+
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
+        <section className="bg-accent border-b">
           <div className="container mx-auto px-4 max-w-4xl">
             {/* Breadcrumb Navigation */}
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
+            <nav className="mb-4 text-sm text-muted-foreground">
               <Link href="/" className="hover:text-primary">
                 Home
               </Link>
@@ -429,7 +432,7 @@ export default function IjenHealthScreeningPage() {
             </nav>
 
             {/* Main Header */}
-            <div className="text-center mb-12">
+            <div className=" mb-12">
               <h1 className="font-black text-2xl md:text-5xl mb-6">
                 Ijen Health Screening – Real Checks, Digital Proof
               </h1>
@@ -449,7 +452,7 @@ export default function IjenHealthScreeningPage() {
           </div>
         </section>
 
-        <section className="py-12 md:py-16">
+        <section>
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="prose max-w-none space-y-12">
               {/* Section 1 */}

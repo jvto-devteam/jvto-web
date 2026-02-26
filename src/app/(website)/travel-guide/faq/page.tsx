@@ -9,11 +9,21 @@ import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { generateFaqSchema } from "@/lib/generateFaqSchema";
 import Link from "next/link";
+import Sidebar from "../sidebar";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 export const metadata: Metadata = {
   title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
   description:
     "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
+  images: [
+    {
+      url: siteUrl + "/assets/img/og/travel-guide.webp",
+      width: 1200,
+      height: 630,
+      alt: "Travel Guide",
+    },
+  ],
 };
 
 async function getFaqData() {
@@ -82,16 +92,21 @@ export default async function FaqPage() {
     cat.faqs.map((faq) => ({
       question: faq.question,
       answer: faq.answer,
-    }))
+    })),
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-background py-20">
+    <div className="flex min-h-screen bg-background">
       <StructuredData data={generateFaqSchema(allFaqsForSeo)} />
-      <main className="flex-grow">
-        <section className="py-12 md:py-16">
+      <Sidebar />
+      <main className="flex-1 pt-24 md:pt-36 pb-20">
+        <section>
           <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-8 text-center text-sm text-muted-foreground">
+            <nav className="mb-4  text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
                 Travel Guide
               </Link>
@@ -99,24 +114,24 @@ export default async function FaqPage() {
               <span className="text-foreground font-medium">FAQ</span>
             </nav>
 
-            <div className="text-center mb-12">
+            <div className=" mb-12">
               <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
                 Frequently Asked Questions
               </h1>
-              <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+              <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
                 Have questions? We have the answers. Here are some of the most
                 frequently asked questions from our travelers.
               </p>
             </div>
 
             {categories.length === 0 ? (
-              <div className="text-center text-muted-foreground py-10 bg-slate-50/50 rounded-lg border border-dashed">
+              <div className=" text-muted-foreground py-10 bg-slate-50/50 rounded-lg border border-dashed">
                 <p>No questions are available at the moment.</p>
               </div>
             ) : (
               categories.map((category) => (
                 <div key={category.id} className="mb-12">
-                  <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-6 text-center md:text-left border-b pb-2">
+                  <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-6  md:text-left border-b pb-2">
                     {category.name}
                   </h2>
                   <Accordion type="single" collapsible className="w-full">
