@@ -576,7 +576,7 @@ const TrustpilotWidget = () => {
           <span className="block text-[13px] leading-4 mb-4 font-light">
             Based on{" "}
             <strong className="border-b border-[rgba(25,25,25,0.6)] font-medium hover:border-transparent">
-              36 reviews
+              {reviews.length} reviews
             </strong>
           </span>
 
