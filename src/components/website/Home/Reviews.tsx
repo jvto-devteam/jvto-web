@@ -36,6 +36,15 @@ const TrustpilotWidget = () => {
       verified: true,
     },
     {
+      name: "Nazeem Nasir",
+      date: "2026-10-26",
+      url: "https://www.trustpilot.com/reviews/698b10cb0e1e99398ef7ec1d",
+      stars: 5,
+      title: "Well organized from pick-up to send",
+      text: "Well organized from pick-up to send off. Great assistance from both Yandi and Boy throughout the trip. The visit to Mt Ijen, Mt Bromo and especially Madakaripura was well organized and a must see for all travelers to Surabaya/Bromo.",
+      verified: true,
+    },
+    {
       name: "Evan",
       date: "2026-01-22",
       url: "https://www.trustpilot.com/reviews/6970d23d258b40bcc409827e",
