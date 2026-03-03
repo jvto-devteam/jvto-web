@@ -1552,17 +1552,17 @@ export default function PackageDetailPage({ initialData }: Props) {
               id="booking-card"
               className="sticky top-32 h-fit z-10 overflow-auto rounded-xl border border-slate-200 bg-white shadow-xl"
             >
-<div className="bg-slate-900 p-6 text-white">
-  <p className="text-xs font-bold uppercase tracking-widest text-lime-400">
-    Private Expedition
-  </p>
-  <div className="mt-2 flex items-baseline gap-1">
-    <span className="text-xs text-slate-400">Total</span>
-    <span className="text-3xl font-black text-white">
-      {formatCurrency(total)}
-    </span>
-  </div>
-</div>
+              <div className="bg-slate-900 p-6 text-white">
+                <p className="text-xs font-bold uppercase tracking-widest text-lime-400">
+                  Private Expedition
+                </p>
+                <div className="mt-2 flex items-baseline gap-1">
+                  <span className="text-xs text-slate-400">Total</span>
+                  <span className="text-3xl font-black text-white">
+                    {formatCurrency(total)}
+                  </span>
+                </div>
+              </div>
               <div className="p-6">
                 <div className="flex gap-4 mb-6 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
                   <div className="flex items-center gap-1">
