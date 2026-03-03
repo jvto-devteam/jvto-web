@@ -998,7 +998,21 @@ model category_faqs {
   @@map("category_faqs")
   @@unique([slug])
 }
+model content_pages {
+  id             BigInt   @id @default(autoincrement())
+  route          String
+  lang           String   @default("en")
+  schema_version Int      @default(1)
+  seo            Json     @default("{}")
+  content        Json
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @default(now()) @db.Timestamptz(6)
 
+  @@unique([route, lang])
+  @@index([route])
+  @@index([is_active])
+}
 model faqs {
   id           BigInt    @id @default(autoincrement())
   question     String
@@ -1211,6 +1225,25 @@ model other_activities {
   deleted_at               DateTime?                  @db.Timestamp(6)
   booking_other_activities booking_other_activities[]
   vendors                  vendors?                   @relation(fields: [vendor_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_other_activities_vendor_id")
+}
+model organization_profile {
+  id                  BigInt   @id @default(autoincrement())
+  legal_name          String?
+  brand_name          String?
+  alternate_name      String?
+  founding_date       DateTime? @db.Date
+  description         String?
+  price_range         String?
+  contact_email       String?
+  contact_phone       String?
+  available_languages String[]  @default([])
+  address_json        Json?
+  same_as_urls        String[]  @default([])
+  website_url         String?
+  logo_url            String?
+  hero_image_url      String?
+  schema_json         Json?
+  updated_at          DateTime  @default(now()) @db.Timestamptz(6)
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments

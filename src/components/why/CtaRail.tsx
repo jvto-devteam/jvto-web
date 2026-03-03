@@ -1,5 +1,5 @@
 const ORDER = [
-  "/why-jvto/",
+  "/why-jvto",
   "/why-jvto/safety-leadership/",
   "/why-jvto/proof-transparency/",
   "/why-jvto/guest-voices-reviews/",

@@ -21,7 +21,7 @@ export default function ProofPressPage() {
       pathname,
       items: [
         { name: "Home", path: "/" },
-        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
         { name: "Press & Recognition", path: "/why-jvto/proof-transparency/press-recognition/" },
       ],

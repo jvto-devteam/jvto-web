@@ -21,7 +21,7 @@ export default function ProofTransparencyHub() {
       pathname,
       items: [
         { name: "Home", path: "/" },
-        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
       ],
     }),

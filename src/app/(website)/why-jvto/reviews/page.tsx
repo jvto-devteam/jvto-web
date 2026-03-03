@@ -305,7 +305,7 @@ export default function ReviewsPage() {
         },
         relatedLink: [
           "https://javavolcano-touroperator.com/verify-jvto",
-          "https://javavolcano-touroperator.com/travel-guide/",
+          "https://javavolcano-touroperator.com/travel-guide",
           "https://javavolcano-touroperator.com/travel-guide/booking-information/",
           "https://javavolcano-touroperator.com/travel-guide/safety-on-tours/",
         ],
