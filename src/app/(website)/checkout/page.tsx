@@ -107,7 +107,7 @@ interface CheckoutPayload {
 
 function recalculateTotals(
   payload: CheckoutPayload,
-  newPax: number
+  newPax: number,
 ): CheckoutPayload {
   const newPricePerPerson = getPriceForPax(newPax, payload.priceTiers);
   const newPackageTotal = newPricePerPerson ? newPricePerPerson * newPax : 0;
@@ -140,7 +140,7 @@ function recalculateTotals(
   // 3. Grand Total (dikurangi diskon, tidak boleh minus)
   const newGrandTotal = Math.max(
     0,
-    newPackageTotal + newAddonTotal - discountAmount
+    newPackageTotal + newAddonTotal - discountAmount,
   );
 
   const newDownPayment = calculateDownPayment(payload.date, newGrandTotal);
@@ -304,9 +304,6 @@ const StickyOrderSummary = ({
               {formatCurrency(payload.grandTotal)}
             </span>
           </div>
-          <p className="mt-1 text-right text-xs text-slate-500">
-            Included taxes & fees
-          </p>
         </div>
       </div>
     </div>
@@ -328,7 +325,7 @@ const StepOneDetails = ({
 }) => {
   const { data: session } = useSession();
   const [customerName, setCustomerName] = useState(
-    payload.contact?.customerName || ""
+    payload.contact?.customerName || "",
   );
   const [email, setEmail] = useState(payload.contact?.email || "");
   const [phone, setPhone] = useState(payload.contact?.phone || "");
@@ -337,7 +334,7 @@ const StepOneDetails = ({
   const [isicCodes, setIsicCodes] = useState<string[]>(
     payload.isicCodes && payload.isicCodes.length === payload.pax
       ? payload.isicCodes
-      : Array(payload.pax).fill("")
+      : Array(payload.pax).fill(""),
   );
 
   useEffect(() => {
@@ -432,7 +429,7 @@ const StepOneDetails = ({
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ codes: isicCodes }), // Kirim Array ['A', 'B']
-          }
+          },
         );
 
         const data = await res.json();
@@ -858,7 +855,7 @@ const StepTwoPayment = ({
     try {
       const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
       console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
-      
+
       const response = await fetch(internalApiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
