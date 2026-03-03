@@ -26,8 +26,10 @@ const SITE_URL = "https://javavolcano-touroperator.com";
  */
 export async function PageJsonLdCombined({
   pageRow,
+  extraSchemas,
 }: {
-  pageRow: PageRowLike;
+  pageRow: PageRow;
+  extraSchemas?: any[]; // optional override from page code
 }) {
   const org = await getOrganizationProfile();
 
@@ -37,7 +39,7 @@ export async function PageJsonLdCombined({
   const webPageJson = buildWebPageJsonLd(pageRow as any, org as any, SITE_URL);
 
   // Gabungkan jadi 1 JSON-LD agar ringkas + stabil
-  const graph = [orgJson, webPageJson, breadcrumbJson, faqJson].filter(Boolean);
+  const graph = [orgJson, webPageJson, breadcrumbJson, faqJson, ...(extraSchemas || [])].filter(Boolean);
 
   const combined = {
     "@context": "https://schema.org",
