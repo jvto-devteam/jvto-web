@@ -26,7 +26,7 @@ export default function PressRecognitionPage() {
       pathname,
       items: [
         { name: "Home", path: "/" },
-        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "Why JVTO", path: "/why-jvto" },
         { name: "Press & Recognition", path: "/why-jvto/press-recognition" },
       ],
     }),

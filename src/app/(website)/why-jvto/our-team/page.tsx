@@ -25,7 +25,7 @@ export default function OurTeamPage() {
       pathname,
       items: [
         { name: "Home", path: "/" },
-        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "Why JVTO", path: "/why-jvto" },
         { name: "Our Team", path: "/why-jvto/our-team" },
       ],
     }),

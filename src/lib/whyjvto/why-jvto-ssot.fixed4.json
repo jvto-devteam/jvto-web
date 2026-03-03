@@ -2185,7 +2185,7 @@
   "page_architecture": {
     "SSOT_Pages": [
       {
-        "route": "/why-jvto/",
+        "route": "/why-jvto",
         "h1": "Why Choose Java Volcano Tour Operator?",
         "hero_subhead": "Built on safety discipline, backed by proof, and delivered by a local East Java team—not just marketing promises.",
         "primary_cta_label": "How to Book & Pay",
@@ -2370,7 +2370,7 @@
     "Registry_Pages": [
       {
         "registry_section": "Why JVTO Hub",
-        "route": "/why-jvto/",
+        "route": "/why-jvto",
         "h1": "Why Choose Java Volcano Tour Operator?",
         "primary_job": "Route visitors to the right trust pillar fast.",
         "owned_topics": "“Trust Stack” overview only (no deep dives).",
@@ -2512,8 +2512,8 @@
       },
       {
         "Hub": "Why JVTO",
-        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto/",
-        "Route": "/why-jvto/",
+        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto",
+        "Route": "/why-jvto",
         "Page Type": "Hub",
         "H1 / Page Heading": "Why Choose Java Volcano Tour Operator?",
         "Primary Intent": "Explain JVTO’s differentiators (trust stack) with proof paths.",
@@ -2863,7 +2863,7 @@
         {
           "type": "page",
           "label": "Travel Guide (safety & screening)",
-          "route": "/travel-guide/"
+          "route": "/travel-guide"
         },
         {
           "type": "page",
@@ -2949,7 +2949,7 @@
         {
           "type": "page",
           "label": "Travel Guide (how to book)",
-          "route": "/travel-guide/"
+          "route": "/travel-guide"
         }
       ],
       "nlp_variants": {
@@ -3207,7 +3207,7 @@
   "content_deltas": {
     "deepseek_pages": [
       {
-        "route": "/why-jvto/",
+        "route": "/why-jvto",
         "h1": "Why Choose Java Volcano Tour Operator?",
         "hero_subhead": "Built on safety discipline, backed by proof, and delivered by a local East Java team—not just marketing promises.",
         "primary_cta": {

@@ -414,7 +414,7 @@ export default function CommunityStandardsPage() {
             "@type": "ListItem",
             position: 2,
             name: "Why JVTO",
-            item: "https://javavolcano-touroperator.com/why-jvto/",
+            item: "https://javavolcano-touroperator.com/why-jvto",
           },
           {
             "@type": "ListItem",
