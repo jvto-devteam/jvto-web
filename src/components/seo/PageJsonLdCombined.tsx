@@ -1,53 +1,48 @@
-import prisma from "@/lib/prisma";
+// components/seo/PageJsonLdCombined.tsx
+import React from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageJsonLd } from "@/lib/seo/buildPageJsonLd";
+import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  buildOrganizationJsonLd,
+  buildBreadcrumbJsonLd,
+  buildFaqJsonLdFromContent,
+  buildWebPageJsonLd,
+} from "@/lib/seo/jsonld/builders";
 
-function dedupeById(schemas: Record<string, any>[]) {
-  const seen = new Set<string>();
-  const out: Record<string, any>[] = [];
+type PageRowLike = {
+  route: string;
+  lang: string;
+  seo: any;
+  content: any;
+  created_at?: Date;
+  updated_at?: Date;
+};
 
-  for (const s of schemas) {
-    const id = typeof s?.["@id"] === "string" ? s["@id"] : "";
-    const key = id || JSON.stringify([s["@type"], s.url, s.name]).slice(0, 200);
-
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(s);
-  }
-
-  return out;
-}
+const SITE_URL = "https://javavolcano-touroperator.com";
 
 /**
- * ONE script tag containing:
- * - Organization schema from organization_profile.schema_json
- * - WebPage + Breadcrumb + optional FAQ (+ optional extras)
+ * Server Component.
+ * Output: 1 script berisi @graph (Organization + WebPage + Breadcrumb + FAQ)
  */
 export async function PageJsonLdCombined({
   pageRow,
 }: {
-  pageRow: {
-    route: string;
-    lang: string;
-    seo: any;
-    content: any;
-    created_at: Date;
-    updated_at: Date;
-  };
+  pageRow: PageRowLike;
 }) {
-  const org = await prisma.organization_profile.findUnique({
-    where: { id: 1n },
-    select: { schema_json: true },
-  });
+  const org = await getOrganizationProfile();
 
-  const orgSchema = (org?.schema_json as any) ?? null;
-  const pageSchemas = buildPageJsonLd(pageRow);
+  const orgJson = buildOrganizationJsonLd(org as any, SITE_URL);
+  const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
+  const faqJson = buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
+  const webPageJson = buildWebPageJsonLd(pageRow as any, org as any, SITE_URL);
 
-  // Flatten org schema (object or array) + page schemas into one array
-  const combined: Record<string, any>[] = [
-    ...(Array.isArray(orgSchema) ? orgSchema : orgSchema ? [orgSchema] : []),
-    ...pageSchemas,
-  ];
+  // Gabungkan jadi 1 JSON-LD agar ringkas + stabil
+  const graph = [orgJson, webPageJson, breadcrumbJson, faqJson].filter(Boolean);
 
-  return <JsonLd data={dedupeById(combined)} />;
+  const combined = {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+
+  return <JsonLd data={combined} />;
 }
