@@ -1,112 +1,30 @@
 // src/app/(website)/policy/page.tsx
 import Link from "next/link";
 import { type Metadata } from "next";
-import StructuredData from "@/components/website/StructuredData";
 import Sidebar from "./sidebar";
-
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { getContentPage } from "@/lib/content/getContentPage";
+import { Faq } from "@/components/content/Faq";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
-export const metadata: Metadata = {
-  title: "JVTO Policies",
-  description:
-    "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions. Read these documents for binding terms and operational rules.",
-  openGraph: {
-    title: "JVTO Policies",
-    description:
-      "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions. Read these documents for binding terms and operational rules.",
-    url: `${siteUrl}/policy`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: siteUrl + "/assets/img/hero/home.webp",
-        width: 1200,
-        height: 630,
-        alt: "JVTO Policies",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "JVTO Policies",
-    description:
-      "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions. Read these documents for binding terms and operational rules.",
-    images: [siteUrl + "/assets/img/hero/home.webp"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const row = await getContentPage(`/policy`, "en");
 
-export default function PolicyHubPage() {
-  const pageSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://javavolcano-touroperator.com/#website",
-        url: "https://javavolcano-touroperator.com",
-        name: "Java Volcano Tour Operator",
-        inLanguage: "en",
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://javavolcano-touroperator.com/policy#webpage",
-        url: "https://javavolcano-touroperator.com/policy",
-        name: "JVTO Policies",
-        description:
-          "Official JVTO policies: Privacy, Booking/Payment/Cancellation, and Inclusions/Exclusions.",
-        inLanguage: "en",
-        isPartOf: {
-          "@id": "https://javavolcano-touroperator.com/#website",
-        },
-        breadcrumb: {
-          "@id": "https://javavolcano-touroperator.com/policy#breadcrumb",
-        },
-        hasPart: [
-          {
-            "@type": "WebPage",
-            "@id":
-              "https://javavolcano-touroperator.com/policy/privacy#webpage",
-            url: "https://javavolcano-touroperator.com/policy/privacy",
-            name: "Privacy Policy",
-          },
-          {
-            "@type": "WebPage",
-            "@id":
-              "https://javavolcano-touroperator.com/policy/booking-payment-cancellation#webpage",
-            url: "https://javavolcano-touroperator.com/policy/booking-payment-cancellation",
-            name: "Booking, Payment & Cancellation Policy",
-          },
-          {
-            "@type": "WebPage",
-            "@id":
-              "https://javavolcano-touroperator.com/policy/inclusions-exclusions#webpage",
-            url: "https://javavolcano-touroperator.com/policy/inclusions-exclusions",
-            name: "Inclusions & Exclusions Policy",
-          },
-        ],
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://javavolcano-touroperator.com/policy#breadcrumb",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://javavolcano-touroperator.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Policy",
-            item: "https://javavolcano-touroperator.com/policy",
-          },
-        ],
-      },
-    ],
+  if (!row) {
+    return {
+      title: "Page Not Found",
+    };
+  }
+
+  const seo = row.seo ?? {};
+
+  return {
+    title: seo?.title,
+    description: seo?.description,
   };
-
+}
+export default async function PolicyHubPage() {
   const policyCards = [
     {
       id: "privacy",
@@ -151,11 +69,23 @@ export default function PolicyHubPage() {
       lastUpdated: "17 January 2026",
     },
   ] as const;
+  const row = await getContentPage(`/policy`, "en");
+  const content = row.content as any;
 
   return (
     <div className="flex min-h-screen bg-background">
-      <StructuredData data={pageSchema} />
       <Sidebar />
+      <PageJsonLdCombined
+        pageRow={{
+          route: row.route,
+          lang: row.lang,
+          seo: row.seo,
+          content: row.content,
+          created_at: row.created_at,
+          updated_at: row.updated_at,
+        }}
+        extraSchemas={row.seo?.schema_json}
+      />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         {/* Header */}
@@ -267,31 +197,9 @@ export default function PolicyHubPage() {
                 </div>
               ))}
             </div>
-
-            {/* Important Note */}
-            <div className="mt-12 p-4 border border-border rounded-lg bg-accent">
-              <h3 className="font-bold text-foreground mb-2">
-                Important Note:
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                <strong>Write-it-to-Bind-it Principle:</strong> Only inclusions
-                explicitly listed on the official JVTO package page and/or your
-                Official E-Voucher / Invoice (PDF) are contractually binding. If
-                something is not written as included, it is excluded by default.
-              </p>
-            </div>
-
-            {/* Optional: quick links */}
-            <div className="mt-10 text-center text-sm text-muted-foreground">
-              Looking for trip operations guidance? Visit{" "}
-              <Link
-                href="/travel-guide"
-                className="text-[var(--color-jvto-green)] hover:underline"
-              >
-                Travel Guide
-              </Link>
-              .
-            </div>
+            {content?.faq && (
+              <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+            )}
           </div>
         </section>
       </main>
