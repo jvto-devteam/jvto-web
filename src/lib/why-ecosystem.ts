@@ -11,7 +11,7 @@ export const WHY_JVTO_ECOSYSTEM_LINKS: EcosystemLink[] = [
     group: "Core",
     title: "Why JVTO (Hub)",
     description: "Overview: operational certainty and the trust stack.",
-    href: "/why-jvto/",
+    href: "/why-jvto",
   },
   {
     group: "Core",

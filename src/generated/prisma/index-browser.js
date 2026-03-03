@@ -859,6 +859,18 @@ exports.Prisma.Category_faqsScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.Content_pagesScalarFieldEnum = {
+  id: 'id',
+  route: 'route',
+  lang: 'lang',
+  schema_version: 'schema_version',
+  seo: 'seo',
+  content: 'content',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.FaqsScalarFieldEnum = {
   id: 'id',
   question: 'question',
@@ -1001,6 +1013,26 @@ exports.Prisma.Other_activitiesScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
+};
+
+exports.Prisma.Organization_profileScalarFieldEnum = {
+  id: 'id',
+  legal_name: 'legal_name',
+  brand_name: 'brand_name',
+  alternate_name: 'alternate_name',
+  founding_date: 'founding_date',
+  description: 'description',
+  price_range: 'price_range',
+  contact_email: 'contact_email',
+  contact_phone: 'contact_phone',
+  available_languages: 'available_languages',
+  address_json: 'address_json',
+  same_as_urls: 'same_as_urls',
+  website_url: 'website_url',
+  logo_url: 'logo_url',
+  hero_image_url: 'hero_image_url',
+  schema_json: 'schema_json',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.Package_addonsScalarFieldEnum = {
@@ -1550,6 +1582,7 @@ exports.Prisma.ModelName = {
   documents: 'documents',
   durations: 'durations',
   category_faqs: 'category_faqs',
+  content_pages: 'content_pages',
   faqs: 'faqs',
   policy_documents: 'policy_documents',
   site_identity: 'site_identity',
@@ -1561,6 +1594,7 @@ exports.Prisma.ModelName = {
   knowledge_bases: 'knowledge_bases',
   order_channels: 'order_channels',
   other_activities: 'other_activities',
+  organization_profile: 'organization_profile',
   package_addons: 'package_addons',
   package_assets: 'package_assets',
   package_categories: 'package_categories',
