@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const platform = searchParams.get("platform");
+
   try {
     const reviews = await prisma.reviews.findMany({
       where: {
@@ -10,6 +13,7 @@ export async function GET() {
         },
         platform: {
           notIn: ["Klook"],
+          ...(platform ? { equals: platform } : {}),
         },
       },
       include: {
