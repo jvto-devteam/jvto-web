@@ -21,7 +21,7 @@ export default function ProofPoliceSafetyPage() {
       pathname,
       items: [
         { name: "Home", path: "/" },
-        { name: "Why JVTO", path: "/why-jvto/" },
+        { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
         { name: "Police & Safety", path: "/why-jvto/proof-transparency/police-safety/" },
       ],

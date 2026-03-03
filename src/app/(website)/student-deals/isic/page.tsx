@@ -37,7 +37,7 @@ export default function ISICStudentDealsPage() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <ButtonLink href="/why-jvto/strategic-partners">Why this partnership exists</ButtonLink>
-        <ButtonLink variant="secondary" href="/why-jvto/">
+        <ButtonLink variant="secondary" href="/why-jvto">
           Back to Why JVTO hub
         </ButtonLink>
       </div>

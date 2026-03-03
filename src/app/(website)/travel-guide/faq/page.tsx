@@ -134,7 +134,23 @@ export default async function FaqPage() {
                   <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-6  md:text-left border-b pb-2">
                     {category.name}
                   </h2>
-                  <Accordion type="single" collapsible className="w-full">
+                  <div className="mt-4 space-y-3">
+                    {category.faqs.map((it, idx) => (
+                      <details
+                        key={`${idx}-${it.question}`}
+                        className="rounded-lg border border-neutral-200 p-4"
+                      >
+                        <summary className="cursor-pointer list-none font-medium">
+                          {it.question}
+                        </summary>
+                        <div className="mt-3 whitespace-pre-wrap text-neutral-800">
+                          {it.answer}
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+
+                  {/* <Accordion type="single" collapsible className="w-full">
                     {category.faqs.map((item) => (
                       <AccordionItem
                         value={`item-${category.id}-${item.id}`}
@@ -151,7 +167,7 @@ export default async function FaqPage() {
                         </AccordionContent>
                       </AccordionItem>
                     ))}
-                  </Accordion>
+                  </Accordion> */}
                 </div>
               ))
             )}

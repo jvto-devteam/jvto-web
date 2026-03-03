@@ -289,6 +289,11 @@ export type durations = $Result.DefaultSelection<Prisma.$durationsPayload>
  */
 export type category_faqs = $Result.DefaultSelection<Prisma.$category_faqsPayload>
 /**
+ * Model content_pages
+ * 
+ */
+export type content_pages = $Result.DefaultSelection<Prisma.$content_pagesPayload>
+/**
  * Model faqs
  * 
  */
@@ -344,6 +349,11 @@ export type order_channels = $Result.DefaultSelection<Prisma.$order_channelsPayl
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
 export type other_activities = $Result.DefaultSelection<Prisma.$other_activitiesPayload>
+/**
+ * Model organization_profile
+ * 
+ */
+export type organization_profile = $Result.DefaultSelection<Prisma.$organization_profilePayload>
 /**
  * Model package_addons
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -1246,6 +1256,16 @@ export class PrismaClient<
   get category_faqs(): Prisma.category_faqsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.content_pages`: Exposes CRUD operations for the **content_pages** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Content_pages
+    * const content_pages = await prisma.content_pages.findMany()
+    * ```
+    */
+  get content_pages(): Prisma.content_pagesDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.faqs`: Exposes CRUD operations for the **faqs** model.
     * Example usage:
     * ```ts
@@ -1354,6 +1374,16 @@ export class PrismaClient<
     * ```
     */
   get other_activities(): Prisma.other_activitiesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.organization_profile`: Exposes CRUD operations for the **organization_profile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Organization_profiles
+    * const organization_profiles = await prisma.organization_profile.findMany()
+    * ```
+    */
+  get organization_profile(): Prisma.organization_profileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.package_addons`: Exposes CRUD operations for the **package_addons** model.
@@ -2238,6 +2268,7 @@ export namespace Prisma {
     documents: 'documents',
     durations: 'durations',
     category_faqs: 'category_faqs',
+    content_pages: 'content_pages',
     faqs: 'faqs',
     policy_documents: 'policy_documents',
     site_identity: 'site_identity',
@@ -2249,6 +2280,7 @@ export namespace Prisma {
     knowledge_bases: 'knowledge_bases',
     order_channels: 'order_channels',
     other_activities: 'other_activities',
+    organization_profile: 'organization_profile',
     package_addons: 'package_addons',
     package_assets: 'package_assets',
     package_categories: 'package_categories',
@@ -2306,7 +2338,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6232,6 +6264,80 @@ export namespace Prisma {
           }
         }
       }
+      content_pages: {
+        payload: Prisma.$content_pagesPayload<ExtArgs>
+        fields: Prisma.content_pagesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.content_pagesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.content_pagesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          findFirst: {
+            args: Prisma.content_pagesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.content_pagesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          findMany: {
+            args: Prisma.content_pagesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>[]
+          }
+          create: {
+            args: Prisma.content_pagesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          createMany: {
+            args: Prisma.content_pagesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.content_pagesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>[]
+          }
+          delete: {
+            args: Prisma.content_pagesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          update: {
+            args: Prisma.content_pagesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          deleteMany: {
+            args: Prisma.content_pagesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.content_pagesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.content_pagesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>[]
+          }
+          upsert: {
+            args: Prisma.content_pagesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$content_pagesPayload>
+          }
+          aggregate: {
+            args: Prisma.Content_pagesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContent_pages>
+          }
+          groupBy: {
+            args: Prisma.content_pagesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Content_pagesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.content_pagesCountArgs<ExtArgs>
+            result: $Utils.Optional<Content_pagesCountAggregateOutputType> | number
+          }
+        }
+      }
       faqs: {
         payload: Prisma.$faqsPayload<ExtArgs>
         fields: Prisma.faqsFieldRefs
@@ -7043,6 +7149,80 @@ export namespace Prisma {
           count: {
             args: Prisma.other_activitiesCountArgs<ExtArgs>
             result: $Utils.Optional<Other_activitiesCountAggregateOutputType> | number
+          }
+        }
+      }
+      organization_profile: {
+        payload: Prisma.$organization_profilePayload<ExtArgs>
+        fields: Prisma.organization_profileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.organization_profileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.organization_profileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          findFirst: {
+            args: Prisma.organization_profileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.organization_profileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          findMany: {
+            args: Prisma.organization_profileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>[]
+          }
+          create: {
+            args: Prisma.organization_profileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          createMany: {
+            args: Prisma.organization_profileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.organization_profileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>[]
+          }
+          delete: {
+            args: Prisma.organization_profileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          update: {
+            args: Prisma.organization_profileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          deleteMany: {
+            args: Prisma.organization_profileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.organization_profileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.organization_profileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>[]
+          }
+          upsert: {
+            args: Prisma.organization_profileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$organization_profilePayload>
+          }
+          aggregate: {
+            args: Prisma.Organization_profileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrganization_profile>
+          }
+          groupBy: {
+            args: Prisma.organization_profileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Organization_profileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.organization_profileCountArgs<ExtArgs>
+            result: $Utils.Optional<Organization_profileCountAggregateOutputType> | number
           }
         }
       }
@@ -10081,6 +10261,7 @@ export namespace Prisma {
     documents?: documentsOmit
     durations?: durationsOmit
     category_faqs?: category_faqsOmit
+    content_pages?: content_pagesOmit
     faqs?: faqsOmit
     policy_documents?: policy_documentsOmit
     site_identity?: site_identityOmit
@@ -10092,6 +10273,7 @@ export namespace Prisma {
     knowledge_bases?: knowledge_basesOmit
     order_channels?: order_channelsOmit
     other_activities?: other_activitiesOmit
+    organization_profile?: organization_profileOmit
     package_addons?: package_addonsOmit
     package_assets?: package_assetsOmit
     package_categories?: package_categoriesOmit
@@ -77586,6 +77768,1083 @@ export namespace Prisma {
 
 
   /**
+   * Model content_pages
+   */
+
+  export type AggregateContent_pages = {
+    _count: Content_pagesCountAggregateOutputType | null
+    _avg: Content_pagesAvgAggregateOutputType | null
+    _sum: Content_pagesSumAggregateOutputType | null
+    _min: Content_pagesMinAggregateOutputType | null
+    _max: Content_pagesMaxAggregateOutputType | null
+  }
+
+  export type Content_pagesAvgAggregateOutputType = {
+    id: number | null
+    schema_version: number | null
+  }
+
+  export type Content_pagesSumAggregateOutputType = {
+    id: bigint | null
+    schema_version: number | null
+  }
+
+  export type Content_pagesMinAggregateOutputType = {
+    id: bigint | null
+    route: string | null
+    lang: string | null
+    schema_version: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Content_pagesMaxAggregateOutputType = {
+    id: bigint | null
+    route: string | null
+    lang: string | null
+    schema_version: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Content_pagesCountAggregateOutputType = {
+    id: number
+    route: number
+    lang: number
+    schema_version: number
+    seo: number
+    content: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Content_pagesAvgAggregateInputType = {
+    id?: true
+    schema_version?: true
+  }
+
+  export type Content_pagesSumAggregateInputType = {
+    id?: true
+    schema_version?: true
+  }
+
+  export type Content_pagesMinAggregateInputType = {
+    id?: true
+    route?: true
+    lang?: true
+    schema_version?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Content_pagesMaxAggregateInputType = {
+    id?: true
+    route?: true
+    lang?: true
+    schema_version?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Content_pagesCountAggregateInputType = {
+    id?: true
+    route?: true
+    lang?: true
+    schema_version?: true
+    seo?: true
+    content?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Content_pagesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which content_pages to aggregate.
+     */
+    where?: content_pagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of content_pages to fetch.
+     */
+    orderBy?: content_pagesOrderByWithRelationInput | content_pagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: content_pagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` content_pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` content_pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned content_pages
+    **/
+    _count?: true | Content_pagesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Content_pagesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Content_pagesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Content_pagesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Content_pagesMaxAggregateInputType
+  }
+
+  export type GetContent_pagesAggregateType<T extends Content_pagesAggregateArgs> = {
+        [P in keyof T & keyof AggregateContent_pages]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContent_pages[P]>
+      : GetScalarType<T[P], AggregateContent_pages[P]>
+  }
+
+
+
+
+  export type content_pagesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: content_pagesWhereInput
+    orderBy?: content_pagesOrderByWithAggregationInput | content_pagesOrderByWithAggregationInput[]
+    by: Content_pagesScalarFieldEnum[] | Content_pagesScalarFieldEnum
+    having?: content_pagesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Content_pagesCountAggregateInputType | true
+    _avg?: Content_pagesAvgAggregateInputType
+    _sum?: Content_pagesSumAggregateInputType
+    _min?: Content_pagesMinAggregateInputType
+    _max?: Content_pagesMaxAggregateInputType
+  }
+
+  export type Content_pagesGroupByOutputType = {
+    id: bigint
+    route: string
+    lang: string
+    schema_version: number
+    seo: JsonValue
+    content: JsonValue
+    is_active: boolean
+    created_at: Date
+    updated_at: Date
+    _count: Content_pagesCountAggregateOutputType | null
+    _avg: Content_pagesAvgAggregateOutputType | null
+    _sum: Content_pagesSumAggregateOutputType | null
+    _min: Content_pagesMinAggregateOutputType | null
+    _max: Content_pagesMaxAggregateOutputType | null
+  }
+
+  type GetContent_pagesGroupByPayload<T extends content_pagesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Content_pagesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Content_pagesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Content_pagesGroupByOutputType[P]>
+            : GetScalarType<T[P], Content_pagesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type content_pagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    route?: boolean
+    lang?: boolean
+    schema_version?: boolean
+    seo?: boolean
+    content?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["content_pages"]>
+
+  export type content_pagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    route?: boolean
+    lang?: boolean
+    schema_version?: boolean
+    seo?: boolean
+    content?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["content_pages"]>
+
+  export type content_pagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    route?: boolean
+    lang?: boolean
+    schema_version?: boolean
+    seo?: boolean
+    content?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["content_pages"]>
+
+  export type content_pagesSelectScalar = {
+    id?: boolean
+    route?: boolean
+    lang?: boolean
+    schema_version?: boolean
+    seo?: boolean
+    content?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type content_pagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route" | "lang" | "schema_version" | "seo" | "content" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["content_pages"]>
+
+  export type $content_pagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "content_pages"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      route: string
+      lang: string
+      schema_version: number
+      seo: Prisma.JsonValue
+      content: Prisma.JsonValue
+      is_active: boolean
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["content_pages"]>
+    composites: {}
+  }
+
+  type content_pagesGetPayload<S extends boolean | null | undefined | content_pagesDefaultArgs> = $Result.GetResult<Prisma.$content_pagesPayload, S>
+
+  type content_pagesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<content_pagesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Content_pagesCountAggregateInputType | true
+    }
+
+  export interface content_pagesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['content_pages'], meta: { name: 'content_pages' } }
+    /**
+     * Find zero or one Content_pages that matches the filter.
+     * @param {content_pagesFindUniqueArgs} args - Arguments to find a Content_pages
+     * @example
+     * // Get one Content_pages
+     * const content_pages = await prisma.content_pages.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends content_pagesFindUniqueArgs>(args: SelectSubset<T, content_pagesFindUniqueArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Content_pages that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {content_pagesFindUniqueOrThrowArgs} args - Arguments to find a Content_pages
+     * @example
+     * // Get one Content_pages
+     * const content_pages = await prisma.content_pages.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends content_pagesFindUniqueOrThrowArgs>(args: SelectSubset<T, content_pagesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Content_pages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesFindFirstArgs} args - Arguments to find a Content_pages
+     * @example
+     * // Get one Content_pages
+     * const content_pages = await prisma.content_pages.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends content_pagesFindFirstArgs>(args?: SelectSubset<T, content_pagesFindFirstArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Content_pages that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesFindFirstOrThrowArgs} args - Arguments to find a Content_pages
+     * @example
+     * // Get one Content_pages
+     * const content_pages = await prisma.content_pages.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends content_pagesFindFirstOrThrowArgs>(args?: SelectSubset<T, content_pagesFindFirstOrThrowArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Content_pages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Content_pages
+     * const content_pages = await prisma.content_pages.findMany()
+     * 
+     * // Get first 10 Content_pages
+     * const content_pages = await prisma.content_pages.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const content_pagesWithIdOnly = await prisma.content_pages.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends content_pagesFindManyArgs>(args?: SelectSubset<T, content_pagesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Content_pages.
+     * @param {content_pagesCreateArgs} args - Arguments to create a Content_pages.
+     * @example
+     * // Create one Content_pages
+     * const Content_pages = await prisma.content_pages.create({
+     *   data: {
+     *     // ... data to create a Content_pages
+     *   }
+     * })
+     * 
+     */
+    create<T extends content_pagesCreateArgs>(args: SelectSubset<T, content_pagesCreateArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Content_pages.
+     * @param {content_pagesCreateManyArgs} args - Arguments to create many Content_pages.
+     * @example
+     * // Create many Content_pages
+     * const content_pages = await prisma.content_pages.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends content_pagesCreateManyArgs>(args?: SelectSubset<T, content_pagesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Content_pages and returns the data saved in the database.
+     * @param {content_pagesCreateManyAndReturnArgs} args - Arguments to create many Content_pages.
+     * @example
+     * // Create many Content_pages
+     * const content_pages = await prisma.content_pages.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Content_pages and only return the `id`
+     * const content_pagesWithIdOnly = await prisma.content_pages.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends content_pagesCreateManyAndReturnArgs>(args?: SelectSubset<T, content_pagesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Content_pages.
+     * @param {content_pagesDeleteArgs} args - Arguments to delete one Content_pages.
+     * @example
+     * // Delete one Content_pages
+     * const Content_pages = await prisma.content_pages.delete({
+     *   where: {
+     *     // ... filter to delete one Content_pages
+     *   }
+     * })
+     * 
+     */
+    delete<T extends content_pagesDeleteArgs>(args: SelectSubset<T, content_pagesDeleteArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Content_pages.
+     * @param {content_pagesUpdateArgs} args - Arguments to update one Content_pages.
+     * @example
+     * // Update one Content_pages
+     * const content_pages = await prisma.content_pages.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends content_pagesUpdateArgs>(args: SelectSubset<T, content_pagesUpdateArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Content_pages.
+     * @param {content_pagesDeleteManyArgs} args - Arguments to filter Content_pages to delete.
+     * @example
+     * // Delete a few Content_pages
+     * const { count } = await prisma.content_pages.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends content_pagesDeleteManyArgs>(args?: SelectSubset<T, content_pagesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Content_pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Content_pages
+     * const content_pages = await prisma.content_pages.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends content_pagesUpdateManyArgs>(args: SelectSubset<T, content_pagesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Content_pages and returns the data updated in the database.
+     * @param {content_pagesUpdateManyAndReturnArgs} args - Arguments to update many Content_pages.
+     * @example
+     * // Update many Content_pages
+     * const content_pages = await prisma.content_pages.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Content_pages and only return the `id`
+     * const content_pagesWithIdOnly = await prisma.content_pages.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends content_pagesUpdateManyAndReturnArgs>(args: SelectSubset<T, content_pagesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Content_pages.
+     * @param {content_pagesUpsertArgs} args - Arguments to update or create a Content_pages.
+     * @example
+     * // Update or create a Content_pages
+     * const content_pages = await prisma.content_pages.upsert({
+     *   create: {
+     *     // ... data to create a Content_pages
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Content_pages we want to update
+     *   }
+     * })
+     */
+    upsert<T extends content_pagesUpsertArgs>(args: SelectSubset<T, content_pagesUpsertArgs<ExtArgs>>): Prisma__content_pagesClient<$Result.GetResult<Prisma.$content_pagesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Content_pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesCountArgs} args - Arguments to filter Content_pages to count.
+     * @example
+     * // Count the number of Content_pages
+     * const count = await prisma.content_pages.count({
+     *   where: {
+     *     // ... the filter for the Content_pages we want to count
+     *   }
+     * })
+    **/
+    count<T extends content_pagesCountArgs>(
+      args?: Subset<T, content_pagesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Content_pagesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Content_pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Content_pagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Content_pagesAggregateArgs>(args: Subset<T, Content_pagesAggregateArgs>): Prisma.PrismaPromise<GetContent_pagesAggregateType<T>>
+
+    /**
+     * Group by Content_pages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {content_pagesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends content_pagesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: content_pagesGroupByArgs['orderBy'] }
+        : { orderBy?: content_pagesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, content_pagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContent_pagesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the content_pages model
+   */
+  readonly fields: content_pagesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for content_pages.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__content_pagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the content_pages model
+   */
+  interface content_pagesFieldRefs {
+    readonly id: FieldRef<"content_pages", 'BigInt'>
+    readonly route: FieldRef<"content_pages", 'String'>
+    readonly lang: FieldRef<"content_pages", 'String'>
+    readonly schema_version: FieldRef<"content_pages", 'Int'>
+    readonly seo: FieldRef<"content_pages", 'Json'>
+    readonly content: FieldRef<"content_pages", 'Json'>
+    readonly is_active: FieldRef<"content_pages", 'Boolean'>
+    readonly created_at: FieldRef<"content_pages", 'DateTime'>
+    readonly updated_at: FieldRef<"content_pages", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * content_pages findUnique
+   */
+  export type content_pagesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter, which content_pages to fetch.
+     */
+    where: content_pagesWhereUniqueInput
+  }
+
+  /**
+   * content_pages findUniqueOrThrow
+   */
+  export type content_pagesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter, which content_pages to fetch.
+     */
+    where: content_pagesWhereUniqueInput
+  }
+
+  /**
+   * content_pages findFirst
+   */
+  export type content_pagesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter, which content_pages to fetch.
+     */
+    where?: content_pagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of content_pages to fetch.
+     */
+    orderBy?: content_pagesOrderByWithRelationInput | content_pagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for content_pages.
+     */
+    cursor?: content_pagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` content_pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` content_pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of content_pages.
+     */
+    distinct?: Content_pagesScalarFieldEnum | Content_pagesScalarFieldEnum[]
+  }
+
+  /**
+   * content_pages findFirstOrThrow
+   */
+  export type content_pagesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter, which content_pages to fetch.
+     */
+    where?: content_pagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of content_pages to fetch.
+     */
+    orderBy?: content_pagesOrderByWithRelationInput | content_pagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for content_pages.
+     */
+    cursor?: content_pagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` content_pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` content_pages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of content_pages.
+     */
+    distinct?: Content_pagesScalarFieldEnum | Content_pagesScalarFieldEnum[]
+  }
+
+  /**
+   * content_pages findMany
+   */
+  export type content_pagesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter, which content_pages to fetch.
+     */
+    where?: content_pagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of content_pages to fetch.
+     */
+    orderBy?: content_pagesOrderByWithRelationInput | content_pagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing content_pages.
+     */
+    cursor?: content_pagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` content_pages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` content_pages.
+     */
+    skip?: number
+    distinct?: Content_pagesScalarFieldEnum | Content_pagesScalarFieldEnum[]
+  }
+
+  /**
+   * content_pages create
+   */
+  export type content_pagesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * The data needed to create a content_pages.
+     */
+    data: XOR<content_pagesCreateInput, content_pagesUncheckedCreateInput>
+  }
+
+  /**
+   * content_pages createMany
+   */
+  export type content_pagesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many content_pages.
+     */
+    data: content_pagesCreateManyInput | content_pagesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * content_pages createManyAndReturn
+   */
+  export type content_pagesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * The data used to create many content_pages.
+     */
+    data: content_pagesCreateManyInput | content_pagesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * content_pages update
+   */
+  export type content_pagesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * The data needed to update a content_pages.
+     */
+    data: XOR<content_pagesUpdateInput, content_pagesUncheckedUpdateInput>
+    /**
+     * Choose, which content_pages to update.
+     */
+    where: content_pagesWhereUniqueInput
+  }
+
+  /**
+   * content_pages updateMany
+   */
+  export type content_pagesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update content_pages.
+     */
+    data: XOR<content_pagesUpdateManyMutationInput, content_pagesUncheckedUpdateManyInput>
+    /**
+     * Filter which content_pages to update
+     */
+    where?: content_pagesWhereInput
+    /**
+     * Limit how many content_pages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * content_pages updateManyAndReturn
+   */
+  export type content_pagesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * The data used to update content_pages.
+     */
+    data: XOR<content_pagesUpdateManyMutationInput, content_pagesUncheckedUpdateManyInput>
+    /**
+     * Filter which content_pages to update
+     */
+    where?: content_pagesWhereInput
+    /**
+     * Limit how many content_pages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * content_pages upsert
+   */
+  export type content_pagesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * The filter to search for the content_pages to update in case it exists.
+     */
+    where: content_pagesWhereUniqueInput
+    /**
+     * In case the content_pages found by the `where` argument doesn't exist, create a new content_pages with this data.
+     */
+    create: XOR<content_pagesCreateInput, content_pagesUncheckedCreateInput>
+    /**
+     * In case the content_pages was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<content_pagesUpdateInput, content_pagesUncheckedUpdateInput>
+  }
+
+  /**
+   * content_pages delete
+   */
+  export type content_pagesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+    /**
+     * Filter which content_pages to delete.
+     */
+    where: content_pagesWhereUniqueInput
+  }
+
+  /**
+   * content_pages deleteMany
+   */
+  export type content_pagesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which content_pages to delete
+     */
+    where?: content_pagesWhereInput
+    /**
+     * Limit how many content_pages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * content_pages without action
+   */
+  export type content_pagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the content_pages
+     */
+    select?: content_pagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the content_pages
+     */
+    omit?: content_pagesOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model faqs
    */
 
@@ -90478,6 +91737,1175 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: other_activitiesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model organization_profile
+   */
+
+  export type AggregateOrganization_profile = {
+    _count: Organization_profileCountAggregateOutputType | null
+    _avg: Organization_profileAvgAggregateOutputType | null
+    _sum: Organization_profileSumAggregateOutputType | null
+    _min: Organization_profileMinAggregateOutputType | null
+    _max: Organization_profileMaxAggregateOutputType | null
+  }
+
+  export type Organization_profileAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Organization_profileSumAggregateOutputType = {
+    id: bigint | null
+  }
+
+  export type Organization_profileMinAggregateOutputType = {
+    id: bigint | null
+    legal_name: string | null
+    brand_name: string | null
+    alternate_name: string | null
+    founding_date: Date | null
+    description: string | null
+    price_range: string | null
+    contact_email: string | null
+    contact_phone: string | null
+    website_url: string | null
+    logo_url: string | null
+    hero_image_url: string | null
+    updated_at: Date | null
+  }
+
+  export type Organization_profileMaxAggregateOutputType = {
+    id: bigint | null
+    legal_name: string | null
+    brand_name: string | null
+    alternate_name: string | null
+    founding_date: Date | null
+    description: string | null
+    price_range: string | null
+    contact_email: string | null
+    contact_phone: string | null
+    website_url: string | null
+    logo_url: string | null
+    hero_image_url: string | null
+    updated_at: Date | null
+  }
+
+  export type Organization_profileCountAggregateOutputType = {
+    id: number
+    legal_name: number
+    brand_name: number
+    alternate_name: number
+    founding_date: number
+    description: number
+    price_range: number
+    contact_email: number
+    contact_phone: number
+    available_languages: number
+    address_json: number
+    same_as_urls: number
+    website_url: number
+    logo_url: number
+    hero_image_url: number
+    schema_json: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Organization_profileAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Organization_profileSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Organization_profileMinAggregateInputType = {
+    id?: true
+    legal_name?: true
+    brand_name?: true
+    alternate_name?: true
+    founding_date?: true
+    description?: true
+    price_range?: true
+    contact_email?: true
+    contact_phone?: true
+    website_url?: true
+    logo_url?: true
+    hero_image_url?: true
+    updated_at?: true
+  }
+
+  export type Organization_profileMaxAggregateInputType = {
+    id?: true
+    legal_name?: true
+    brand_name?: true
+    alternate_name?: true
+    founding_date?: true
+    description?: true
+    price_range?: true
+    contact_email?: true
+    contact_phone?: true
+    website_url?: true
+    logo_url?: true
+    hero_image_url?: true
+    updated_at?: true
+  }
+
+  export type Organization_profileCountAggregateInputType = {
+    id?: true
+    legal_name?: true
+    brand_name?: true
+    alternate_name?: true
+    founding_date?: true
+    description?: true
+    price_range?: true
+    contact_email?: true
+    contact_phone?: true
+    available_languages?: true
+    address_json?: true
+    same_as_urls?: true
+    website_url?: true
+    logo_url?: true
+    hero_image_url?: true
+    schema_json?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Organization_profileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which organization_profile to aggregate.
+     */
+    where?: organization_profileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of organization_profiles to fetch.
+     */
+    orderBy?: organization_profileOrderByWithRelationInput | organization_profileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: organization_profileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` organization_profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` organization_profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned organization_profiles
+    **/
+    _count?: true | Organization_profileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Organization_profileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Organization_profileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Organization_profileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Organization_profileMaxAggregateInputType
+  }
+
+  export type GetOrganization_profileAggregateType<T extends Organization_profileAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrganization_profile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrganization_profile[P]>
+      : GetScalarType<T[P], AggregateOrganization_profile[P]>
+  }
+
+
+
+
+  export type organization_profileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: organization_profileWhereInput
+    orderBy?: organization_profileOrderByWithAggregationInput | organization_profileOrderByWithAggregationInput[]
+    by: Organization_profileScalarFieldEnum[] | Organization_profileScalarFieldEnum
+    having?: organization_profileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Organization_profileCountAggregateInputType | true
+    _avg?: Organization_profileAvgAggregateInputType
+    _sum?: Organization_profileSumAggregateInputType
+    _min?: Organization_profileMinAggregateInputType
+    _max?: Organization_profileMaxAggregateInputType
+  }
+
+  export type Organization_profileGroupByOutputType = {
+    id: bigint
+    legal_name: string | null
+    brand_name: string | null
+    alternate_name: string | null
+    founding_date: Date | null
+    description: string | null
+    price_range: string | null
+    contact_email: string | null
+    contact_phone: string | null
+    available_languages: string[]
+    address_json: JsonValue | null
+    same_as_urls: string[]
+    website_url: string | null
+    logo_url: string | null
+    hero_image_url: string | null
+    schema_json: JsonValue | null
+    updated_at: Date
+    _count: Organization_profileCountAggregateOutputType | null
+    _avg: Organization_profileAvgAggregateOutputType | null
+    _sum: Organization_profileSumAggregateOutputType | null
+    _min: Organization_profileMinAggregateOutputType | null
+    _max: Organization_profileMaxAggregateOutputType | null
+  }
+
+  type GetOrganization_profileGroupByPayload<T extends organization_profileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Organization_profileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Organization_profileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Organization_profileGroupByOutputType[P]>
+            : GetScalarType<T[P], Organization_profileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type organization_profileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legal_name?: boolean
+    brand_name?: boolean
+    alternate_name?: boolean
+    founding_date?: boolean
+    description?: boolean
+    price_range?: boolean
+    contact_email?: boolean
+    contact_phone?: boolean
+    available_languages?: boolean
+    address_json?: boolean
+    same_as_urls?: boolean
+    website_url?: boolean
+    logo_url?: boolean
+    hero_image_url?: boolean
+    schema_json?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["organization_profile"]>
+
+  export type organization_profileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legal_name?: boolean
+    brand_name?: boolean
+    alternate_name?: boolean
+    founding_date?: boolean
+    description?: boolean
+    price_range?: boolean
+    contact_email?: boolean
+    contact_phone?: boolean
+    available_languages?: boolean
+    address_json?: boolean
+    same_as_urls?: boolean
+    website_url?: boolean
+    logo_url?: boolean
+    hero_image_url?: boolean
+    schema_json?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["organization_profile"]>
+
+  export type organization_profileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    legal_name?: boolean
+    brand_name?: boolean
+    alternate_name?: boolean
+    founding_date?: boolean
+    description?: boolean
+    price_range?: boolean
+    contact_email?: boolean
+    contact_phone?: boolean
+    available_languages?: boolean
+    address_json?: boolean
+    same_as_urls?: boolean
+    website_url?: boolean
+    logo_url?: boolean
+    hero_image_url?: boolean
+    schema_json?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["organization_profile"]>
+
+  export type organization_profileSelectScalar = {
+    id?: boolean
+    legal_name?: boolean
+    brand_name?: boolean
+    alternate_name?: boolean
+    founding_date?: boolean
+    description?: boolean
+    price_range?: boolean
+    contact_email?: boolean
+    contact_phone?: boolean
+    available_languages?: boolean
+    address_json?: boolean
+    same_as_urls?: boolean
+    website_url?: boolean
+    logo_url?: boolean
+    hero_image_url?: boolean
+    schema_json?: boolean
+    updated_at?: boolean
+  }
+
+  export type organization_profileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "legal_name" | "brand_name" | "alternate_name" | "founding_date" | "description" | "price_range" | "contact_email" | "contact_phone" | "available_languages" | "address_json" | "same_as_urls" | "website_url" | "logo_url" | "hero_image_url" | "schema_json" | "updated_at", ExtArgs["result"]["organization_profile"]>
+
+  export type $organization_profilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "organization_profile"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      legal_name: string | null
+      brand_name: string | null
+      alternate_name: string | null
+      founding_date: Date | null
+      description: string | null
+      price_range: string | null
+      contact_email: string | null
+      contact_phone: string | null
+      available_languages: string[]
+      address_json: Prisma.JsonValue | null
+      same_as_urls: string[]
+      website_url: string | null
+      logo_url: string | null
+      hero_image_url: string | null
+      schema_json: Prisma.JsonValue | null
+      updated_at: Date
+    }, ExtArgs["result"]["organization_profile"]>
+    composites: {}
+  }
+
+  type organization_profileGetPayload<S extends boolean | null | undefined | organization_profileDefaultArgs> = $Result.GetResult<Prisma.$organization_profilePayload, S>
+
+  type organization_profileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<organization_profileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Organization_profileCountAggregateInputType | true
+    }
+
+  export interface organization_profileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['organization_profile'], meta: { name: 'organization_profile' } }
+    /**
+     * Find zero or one Organization_profile that matches the filter.
+     * @param {organization_profileFindUniqueArgs} args - Arguments to find a Organization_profile
+     * @example
+     * // Get one Organization_profile
+     * const organization_profile = await prisma.organization_profile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends organization_profileFindUniqueArgs>(args: SelectSubset<T, organization_profileFindUniqueArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Organization_profile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {organization_profileFindUniqueOrThrowArgs} args - Arguments to find a Organization_profile
+     * @example
+     * // Get one Organization_profile
+     * const organization_profile = await prisma.organization_profile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends organization_profileFindUniqueOrThrowArgs>(args: SelectSubset<T, organization_profileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Organization_profile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileFindFirstArgs} args - Arguments to find a Organization_profile
+     * @example
+     * // Get one Organization_profile
+     * const organization_profile = await prisma.organization_profile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends organization_profileFindFirstArgs>(args?: SelectSubset<T, organization_profileFindFirstArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Organization_profile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileFindFirstOrThrowArgs} args - Arguments to find a Organization_profile
+     * @example
+     * // Get one Organization_profile
+     * const organization_profile = await prisma.organization_profile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends organization_profileFindFirstOrThrowArgs>(args?: SelectSubset<T, organization_profileFindFirstOrThrowArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Organization_profiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Organization_profiles
+     * const organization_profiles = await prisma.organization_profile.findMany()
+     * 
+     * // Get first 10 Organization_profiles
+     * const organization_profiles = await prisma.organization_profile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const organization_profileWithIdOnly = await prisma.organization_profile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends organization_profileFindManyArgs>(args?: SelectSubset<T, organization_profileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Organization_profile.
+     * @param {organization_profileCreateArgs} args - Arguments to create a Organization_profile.
+     * @example
+     * // Create one Organization_profile
+     * const Organization_profile = await prisma.organization_profile.create({
+     *   data: {
+     *     // ... data to create a Organization_profile
+     *   }
+     * })
+     * 
+     */
+    create<T extends organization_profileCreateArgs>(args: SelectSubset<T, organization_profileCreateArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Organization_profiles.
+     * @param {organization_profileCreateManyArgs} args - Arguments to create many Organization_profiles.
+     * @example
+     * // Create many Organization_profiles
+     * const organization_profile = await prisma.organization_profile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends organization_profileCreateManyArgs>(args?: SelectSubset<T, organization_profileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Organization_profiles and returns the data saved in the database.
+     * @param {organization_profileCreateManyAndReturnArgs} args - Arguments to create many Organization_profiles.
+     * @example
+     * // Create many Organization_profiles
+     * const organization_profile = await prisma.organization_profile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Organization_profiles and only return the `id`
+     * const organization_profileWithIdOnly = await prisma.organization_profile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends organization_profileCreateManyAndReturnArgs>(args?: SelectSubset<T, organization_profileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Organization_profile.
+     * @param {organization_profileDeleteArgs} args - Arguments to delete one Organization_profile.
+     * @example
+     * // Delete one Organization_profile
+     * const Organization_profile = await prisma.organization_profile.delete({
+     *   where: {
+     *     // ... filter to delete one Organization_profile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends organization_profileDeleteArgs>(args: SelectSubset<T, organization_profileDeleteArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Organization_profile.
+     * @param {organization_profileUpdateArgs} args - Arguments to update one Organization_profile.
+     * @example
+     * // Update one Organization_profile
+     * const organization_profile = await prisma.organization_profile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends organization_profileUpdateArgs>(args: SelectSubset<T, organization_profileUpdateArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Organization_profiles.
+     * @param {organization_profileDeleteManyArgs} args - Arguments to filter Organization_profiles to delete.
+     * @example
+     * // Delete a few Organization_profiles
+     * const { count } = await prisma.organization_profile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends organization_profileDeleteManyArgs>(args?: SelectSubset<T, organization_profileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Organization_profiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Organization_profiles
+     * const organization_profile = await prisma.organization_profile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends organization_profileUpdateManyArgs>(args: SelectSubset<T, organization_profileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Organization_profiles and returns the data updated in the database.
+     * @param {organization_profileUpdateManyAndReturnArgs} args - Arguments to update many Organization_profiles.
+     * @example
+     * // Update many Organization_profiles
+     * const organization_profile = await prisma.organization_profile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Organization_profiles and only return the `id`
+     * const organization_profileWithIdOnly = await prisma.organization_profile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends organization_profileUpdateManyAndReturnArgs>(args: SelectSubset<T, organization_profileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Organization_profile.
+     * @param {organization_profileUpsertArgs} args - Arguments to update or create a Organization_profile.
+     * @example
+     * // Update or create a Organization_profile
+     * const organization_profile = await prisma.organization_profile.upsert({
+     *   create: {
+     *     // ... data to create a Organization_profile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Organization_profile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends organization_profileUpsertArgs>(args: SelectSubset<T, organization_profileUpsertArgs<ExtArgs>>): Prisma__organization_profileClient<$Result.GetResult<Prisma.$organization_profilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Organization_profiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileCountArgs} args - Arguments to filter Organization_profiles to count.
+     * @example
+     * // Count the number of Organization_profiles
+     * const count = await prisma.organization_profile.count({
+     *   where: {
+     *     // ... the filter for the Organization_profiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends organization_profileCountArgs>(
+      args?: Subset<T, organization_profileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Organization_profileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Organization_profile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Organization_profileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Organization_profileAggregateArgs>(args: Subset<T, Organization_profileAggregateArgs>): Prisma.PrismaPromise<GetOrganization_profileAggregateType<T>>
+
+    /**
+     * Group by Organization_profile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {organization_profileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends organization_profileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: organization_profileGroupByArgs['orderBy'] }
+        : { orderBy?: organization_profileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, organization_profileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrganization_profileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the organization_profile model
+   */
+  readonly fields: organization_profileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for organization_profile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__organization_profileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the organization_profile model
+   */
+  interface organization_profileFieldRefs {
+    readonly id: FieldRef<"organization_profile", 'BigInt'>
+    readonly legal_name: FieldRef<"organization_profile", 'String'>
+    readonly brand_name: FieldRef<"organization_profile", 'String'>
+    readonly alternate_name: FieldRef<"organization_profile", 'String'>
+    readonly founding_date: FieldRef<"organization_profile", 'DateTime'>
+    readonly description: FieldRef<"organization_profile", 'String'>
+    readonly price_range: FieldRef<"organization_profile", 'String'>
+    readonly contact_email: FieldRef<"organization_profile", 'String'>
+    readonly contact_phone: FieldRef<"organization_profile", 'String'>
+    readonly available_languages: FieldRef<"organization_profile", 'String[]'>
+    readonly address_json: FieldRef<"organization_profile", 'Json'>
+    readonly same_as_urls: FieldRef<"organization_profile", 'String[]'>
+    readonly website_url: FieldRef<"organization_profile", 'String'>
+    readonly logo_url: FieldRef<"organization_profile", 'String'>
+    readonly hero_image_url: FieldRef<"organization_profile", 'String'>
+    readonly schema_json: FieldRef<"organization_profile", 'Json'>
+    readonly updated_at: FieldRef<"organization_profile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * organization_profile findUnique
+   */
+  export type organization_profileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter, which organization_profile to fetch.
+     */
+    where: organization_profileWhereUniqueInput
+  }
+
+  /**
+   * organization_profile findUniqueOrThrow
+   */
+  export type organization_profileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter, which organization_profile to fetch.
+     */
+    where: organization_profileWhereUniqueInput
+  }
+
+  /**
+   * organization_profile findFirst
+   */
+  export type organization_profileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter, which organization_profile to fetch.
+     */
+    where?: organization_profileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of organization_profiles to fetch.
+     */
+    orderBy?: organization_profileOrderByWithRelationInput | organization_profileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for organization_profiles.
+     */
+    cursor?: organization_profileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` organization_profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` organization_profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of organization_profiles.
+     */
+    distinct?: Organization_profileScalarFieldEnum | Organization_profileScalarFieldEnum[]
+  }
+
+  /**
+   * organization_profile findFirstOrThrow
+   */
+  export type organization_profileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter, which organization_profile to fetch.
+     */
+    where?: organization_profileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of organization_profiles to fetch.
+     */
+    orderBy?: organization_profileOrderByWithRelationInput | organization_profileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for organization_profiles.
+     */
+    cursor?: organization_profileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` organization_profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` organization_profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of organization_profiles.
+     */
+    distinct?: Organization_profileScalarFieldEnum | Organization_profileScalarFieldEnum[]
+  }
+
+  /**
+   * organization_profile findMany
+   */
+  export type organization_profileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter, which organization_profiles to fetch.
+     */
+    where?: organization_profileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of organization_profiles to fetch.
+     */
+    orderBy?: organization_profileOrderByWithRelationInput | organization_profileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing organization_profiles.
+     */
+    cursor?: organization_profileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` organization_profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` organization_profiles.
+     */
+    skip?: number
+    distinct?: Organization_profileScalarFieldEnum | Organization_profileScalarFieldEnum[]
+  }
+
+  /**
+   * organization_profile create
+   */
+  export type organization_profileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * The data needed to create a organization_profile.
+     */
+    data?: XOR<organization_profileCreateInput, organization_profileUncheckedCreateInput>
+  }
+
+  /**
+   * organization_profile createMany
+   */
+  export type organization_profileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many organization_profiles.
+     */
+    data: organization_profileCreateManyInput | organization_profileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * organization_profile createManyAndReturn
+   */
+  export type organization_profileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * The data used to create many organization_profiles.
+     */
+    data: organization_profileCreateManyInput | organization_profileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * organization_profile update
+   */
+  export type organization_profileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * The data needed to update a organization_profile.
+     */
+    data: XOR<organization_profileUpdateInput, organization_profileUncheckedUpdateInput>
+    /**
+     * Choose, which organization_profile to update.
+     */
+    where: organization_profileWhereUniqueInput
+  }
+
+  /**
+   * organization_profile updateMany
+   */
+  export type organization_profileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update organization_profiles.
+     */
+    data: XOR<organization_profileUpdateManyMutationInput, organization_profileUncheckedUpdateManyInput>
+    /**
+     * Filter which organization_profiles to update
+     */
+    where?: organization_profileWhereInput
+    /**
+     * Limit how many organization_profiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * organization_profile updateManyAndReturn
+   */
+  export type organization_profileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * The data used to update organization_profiles.
+     */
+    data: XOR<organization_profileUpdateManyMutationInput, organization_profileUncheckedUpdateManyInput>
+    /**
+     * Filter which organization_profiles to update
+     */
+    where?: organization_profileWhereInput
+    /**
+     * Limit how many organization_profiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * organization_profile upsert
+   */
+  export type organization_profileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * The filter to search for the organization_profile to update in case it exists.
+     */
+    where: organization_profileWhereUniqueInput
+    /**
+     * In case the organization_profile found by the `where` argument doesn't exist, create a new organization_profile with this data.
+     */
+    create: XOR<organization_profileCreateInput, organization_profileUncheckedCreateInput>
+    /**
+     * In case the organization_profile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<organization_profileUpdateInput, organization_profileUncheckedUpdateInput>
+  }
+
+  /**
+   * organization_profile delete
+   */
+  export type organization_profileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
+    /**
+     * Filter which organization_profile to delete.
+     */
+    where: organization_profileWhereUniqueInput
+  }
+
+  /**
+   * organization_profile deleteMany
+   */
+  export type organization_profileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which organization_profiles to delete
+     */
+    where?: organization_profileWhereInput
+    /**
+     * Limit how many organization_profiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * organization_profile without action
+   */
+  export type organization_profileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the organization_profile
+     */
+    select?: organization_profileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the organization_profile
+     */
+    omit?: organization_profileOmit<ExtArgs> | null
   }
 
 
@@ -137601,6 +140029,21 @@ export namespace Prisma {
   export type Category_faqsScalarFieldEnum = (typeof Category_faqsScalarFieldEnum)[keyof typeof Category_faqsScalarFieldEnum]
 
 
+  export const Content_pagesScalarFieldEnum: {
+    id: 'id',
+    route: 'route',
+    lang: 'lang',
+    schema_version: 'schema_version',
+    seo: 'seo',
+    content: 'content',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Content_pagesScalarFieldEnum = (typeof Content_pagesScalarFieldEnum)[keyof typeof Content_pagesScalarFieldEnum]
+
+
   export const FaqsScalarFieldEnum: {
     id: 'id',
     question: 'question',
@@ -137776,6 +140219,29 @@ export namespace Prisma {
   };
 
   export type Other_activitiesScalarFieldEnum = (typeof Other_activitiesScalarFieldEnum)[keyof typeof Other_activitiesScalarFieldEnum]
+
+
+  export const Organization_profileScalarFieldEnum: {
+    id: 'id',
+    legal_name: 'legal_name',
+    brand_name: 'brand_name',
+    alternate_name: 'alternate_name',
+    founding_date: 'founding_date',
+    description: 'description',
+    price_range: 'price_range',
+    contact_email: 'contact_email',
+    contact_phone: 'contact_phone',
+    available_languages: 'available_languages',
+    address_json: 'address_json',
+    same_as_urls: 'same_as_urls',
+    website_url: 'website_url',
+    logo_url: 'logo_url',
+    hero_image_url: 'hero_image_url',
+    schema_json: 'schema_json',
+    updated_at: 'updated_at'
+  };
+
+  export type Organization_profileScalarFieldEnum = (typeof Organization_profileScalarFieldEnum)[keyof typeof Organization_profileScalarFieldEnum]
 
 
   export const Package_addonsScalarFieldEnum: {
@@ -143406,6 +145872,81 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"category_faqs"> | Date | string
   }
 
+  export type content_pagesWhereInput = {
+    AND?: content_pagesWhereInput | content_pagesWhereInput[]
+    OR?: content_pagesWhereInput[]
+    NOT?: content_pagesWhereInput | content_pagesWhereInput[]
+    id?: BigIntFilter<"content_pages"> | bigint | number
+    route?: StringFilter<"content_pages"> | string
+    lang?: StringFilter<"content_pages"> | string
+    schema_version?: IntFilter<"content_pages"> | number
+    seo?: JsonFilter<"content_pages">
+    content?: JsonFilter<"content_pages">
+    is_active?: BoolFilter<"content_pages"> | boolean
+    created_at?: DateTimeFilter<"content_pages"> | Date | string
+    updated_at?: DateTimeFilter<"content_pages"> | Date | string
+  }
+
+  export type content_pagesOrderByWithRelationInput = {
+    id?: SortOrder
+    route?: SortOrder
+    lang?: SortOrder
+    schema_version?: SortOrder
+    seo?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type content_pagesWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    route_lang?: content_pagesRouteLangCompoundUniqueInput
+    AND?: content_pagesWhereInput | content_pagesWhereInput[]
+    OR?: content_pagesWhereInput[]
+    NOT?: content_pagesWhereInput | content_pagesWhereInput[]
+    route?: StringFilter<"content_pages"> | string
+    lang?: StringFilter<"content_pages"> | string
+    schema_version?: IntFilter<"content_pages"> | number
+    seo?: JsonFilter<"content_pages">
+    content?: JsonFilter<"content_pages">
+    is_active?: BoolFilter<"content_pages"> | boolean
+    created_at?: DateTimeFilter<"content_pages"> | Date | string
+    updated_at?: DateTimeFilter<"content_pages"> | Date | string
+  }, "id" | "route_lang">
+
+  export type content_pagesOrderByWithAggregationInput = {
+    id?: SortOrder
+    route?: SortOrder
+    lang?: SortOrder
+    schema_version?: SortOrder
+    seo?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: content_pagesCountOrderByAggregateInput
+    _avg?: content_pagesAvgOrderByAggregateInput
+    _max?: content_pagesMaxOrderByAggregateInput
+    _min?: content_pagesMinOrderByAggregateInput
+    _sum?: content_pagesSumOrderByAggregateInput
+  }
+
+  export type content_pagesScalarWhereWithAggregatesInput = {
+    AND?: content_pagesScalarWhereWithAggregatesInput | content_pagesScalarWhereWithAggregatesInput[]
+    OR?: content_pagesScalarWhereWithAggregatesInput[]
+    NOT?: content_pagesScalarWhereWithAggregatesInput | content_pagesScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"content_pages"> | bigint | number
+    route?: StringWithAggregatesFilter<"content_pages"> | string
+    lang?: StringWithAggregatesFilter<"content_pages"> | string
+    schema_version?: IntWithAggregatesFilter<"content_pages"> | number
+    seo?: JsonWithAggregatesFilter<"content_pages">
+    content?: JsonWithAggregatesFilter<"content_pages">
+    is_active?: BoolWithAggregatesFilter<"content_pages"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"content_pages"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"content_pages"> | Date | string
+  }
+
   export type faqsWhereInput = {
     AND?: faqsWhereInput | faqsWhereInput[]
     OR?: faqsWhereInput[]
@@ -144335,6 +146876,120 @@ export namespace Prisma {
     created_at?: DateTimeNullableWithAggregatesFilter<"other_activities"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"other_activities"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"other_activities"> | Date | string | null
+  }
+
+  export type organization_profileWhereInput = {
+    AND?: organization_profileWhereInput | organization_profileWhereInput[]
+    OR?: organization_profileWhereInput[]
+    NOT?: organization_profileWhereInput | organization_profileWhereInput[]
+    id?: BigIntFilter<"organization_profile"> | bigint | number
+    legal_name?: StringNullableFilter<"organization_profile"> | string | null
+    brand_name?: StringNullableFilter<"organization_profile"> | string | null
+    alternate_name?: StringNullableFilter<"organization_profile"> | string | null
+    founding_date?: DateTimeNullableFilter<"organization_profile"> | Date | string | null
+    description?: StringNullableFilter<"organization_profile"> | string | null
+    price_range?: StringNullableFilter<"organization_profile"> | string | null
+    contact_email?: StringNullableFilter<"organization_profile"> | string | null
+    contact_phone?: StringNullableFilter<"organization_profile"> | string | null
+    available_languages?: StringNullableListFilter<"organization_profile">
+    address_json?: JsonNullableFilter<"organization_profile">
+    same_as_urls?: StringNullableListFilter<"organization_profile">
+    website_url?: StringNullableFilter<"organization_profile"> | string | null
+    logo_url?: StringNullableFilter<"organization_profile"> | string | null
+    hero_image_url?: StringNullableFilter<"organization_profile"> | string | null
+    schema_json?: JsonNullableFilter<"organization_profile">
+    updated_at?: DateTimeFilter<"organization_profile"> | Date | string
+  }
+
+  export type organization_profileOrderByWithRelationInput = {
+    id?: SortOrder
+    legal_name?: SortOrderInput | SortOrder
+    brand_name?: SortOrderInput | SortOrder
+    alternate_name?: SortOrderInput | SortOrder
+    founding_date?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    price_range?: SortOrderInput | SortOrder
+    contact_email?: SortOrderInput | SortOrder
+    contact_phone?: SortOrderInput | SortOrder
+    available_languages?: SortOrder
+    address_json?: SortOrderInput | SortOrder
+    same_as_urls?: SortOrder
+    website_url?: SortOrderInput | SortOrder
+    logo_url?: SortOrderInput | SortOrder
+    hero_image_url?: SortOrderInput | SortOrder
+    schema_json?: SortOrderInput | SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type organization_profileWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: organization_profileWhereInput | organization_profileWhereInput[]
+    OR?: organization_profileWhereInput[]
+    NOT?: organization_profileWhereInput | organization_profileWhereInput[]
+    legal_name?: StringNullableFilter<"organization_profile"> | string | null
+    brand_name?: StringNullableFilter<"organization_profile"> | string | null
+    alternate_name?: StringNullableFilter<"organization_profile"> | string | null
+    founding_date?: DateTimeNullableFilter<"organization_profile"> | Date | string | null
+    description?: StringNullableFilter<"organization_profile"> | string | null
+    price_range?: StringNullableFilter<"organization_profile"> | string | null
+    contact_email?: StringNullableFilter<"organization_profile"> | string | null
+    contact_phone?: StringNullableFilter<"organization_profile"> | string | null
+    available_languages?: StringNullableListFilter<"organization_profile">
+    address_json?: JsonNullableFilter<"organization_profile">
+    same_as_urls?: StringNullableListFilter<"organization_profile">
+    website_url?: StringNullableFilter<"organization_profile"> | string | null
+    logo_url?: StringNullableFilter<"organization_profile"> | string | null
+    hero_image_url?: StringNullableFilter<"organization_profile"> | string | null
+    schema_json?: JsonNullableFilter<"organization_profile">
+    updated_at?: DateTimeFilter<"organization_profile"> | Date | string
+  }, "id">
+
+  export type organization_profileOrderByWithAggregationInput = {
+    id?: SortOrder
+    legal_name?: SortOrderInput | SortOrder
+    brand_name?: SortOrderInput | SortOrder
+    alternate_name?: SortOrderInput | SortOrder
+    founding_date?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    price_range?: SortOrderInput | SortOrder
+    contact_email?: SortOrderInput | SortOrder
+    contact_phone?: SortOrderInput | SortOrder
+    available_languages?: SortOrder
+    address_json?: SortOrderInput | SortOrder
+    same_as_urls?: SortOrder
+    website_url?: SortOrderInput | SortOrder
+    logo_url?: SortOrderInput | SortOrder
+    hero_image_url?: SortOrderInput | SortOrder
+    schema_json?: SortOrderInput | SortOrder
+    updated_at?: SortOrder
+    _count?: organization_profileCountOrderByAggregateInput
+    _avg?: organization_profileAvgOrderByAggregateInput
+    _max?: organization_profileMaxOrderByAggregateInput
+    _min?: organization_profileMinOrderByAggregateInput
+    _sum?: organization_profileSumOrderByAggregateInput
+  }
+
+  export type organization_profileScalarWhereWithAggregatesInput = {
+    AND?: organization_profileScalarWhereWithAggregatesInput | organization_profileScalarWhereWithAggregatesInput[]
+    OR?: organization_profileScalarWhereWithAggregatesInput[]
+    NOT?: organization_profileScalarWhereWithAggregatesInput | organization_profileScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"organization_profile"> | bigint | number
+    legal_name?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    brand_name?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    alternate_name?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    founding_date?: DateTimeNullableWithAggregatesFilter<"organization_profile"> | Date | string | null
+    description?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    price_range?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    contact_email?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    contact_phone?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    available_languages?: StringNullableListFilter<"organization_profile">
+    address_json?: JsonNullableWithAggregatesFilter<"organization_profile">
+    same_as_urls?: StringNullableListFilter<"organization_profile">
+    website_url?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    logo_url?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    hero_image_url?: StringNullableWithAggregatesFilter<"organization_profile"> | string | null
+    schema_json?: JsonNullableWithAggregatesFilter<"organization_profile">
+    updated_at?: DateTimeWithAggregatesFilter<"organization_profile"> | Date | string
   }
 
   export type package_addonsWhereInput = {
@@ -152762,6 +155417,90 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type content_pagesCreateInput = {
+    id?: bigint | number
+    route: string
+    lang?: string
+    schema_version?: number
+    seo?: JsonNullValueInput | InputJsonValue
+    content: JsonNullValueInput | InputJsonValue
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type content_pagesUncheckedCreateInput = {
+    id?: bigint | number
+    route: string
+    lang?: string
+    schema_version?: number
+    seo?: JsonNullValueInput | InputJsonValue
+    content: JsonNullValueInput | InputJsonValue
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type content_pagesUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    schema_version?: IntFieldUpdateOperationsInput | number
+    seo?: JsonNullValueInput | InputJsonValue
+    content?: JsonNullValueInput | InputJsonValue
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type content_pagesUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    schema_version?: IntFieldUpdateOperationsInput | number
+    seo?: JsonNullValueInput | InputJsonValue
+    content?: JsonNullValueInput | InputJsonValue
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type content_pagesCreateManyInput = {
+    id?: bigint | number
+    route: string
+    lang?: string
+    schema_version?: number
+    seo?: JsonNullValueInput | InputJsonValue
+    content: JsonNullValueInput | InputJsonValue
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type content_pagesUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    schema_version?: IntFieldUpdateOperationsInput | number
+    seo?: JsonNullValueInput | InputJsonValue
+    content?: JsonNullValueInput | InputJsonValue
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type content_pagesUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route?: StringFieldUpdateOperationsInput | string
+    lang?: StringFieldUpdateOperationsInput | string
+    schema_version?: IntFieldUpdateOperationsInput | number
+    seo?: JsonNullValueInput | InputJsonValue
+    content?: JsonNullValueInput | InputJsonValue
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type faqsCreateInput = {
     id?: bigint | number
     question: string
@@ -153829,6 +156568,146 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type organization_profileCreateInput = {
+    id?: bigint | number
+    legal_name?: string | null
+    brand_name?: string | null
+    alternate_name?: string | null
+    founding_date?: Date | string | null
+    description?: string | null
+    price_range?: string | null
+    contact_email?: string | null
+    contact_phone?: string | null
+    available_languages?: organization_profileCreateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileCreatesame_as_urlsInput | string[]
+    website_url?: string | null
+    logo_url?: string | null
+    hero_image_url?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: Date | string
+  }
+
+  export type organization_profileUncheckedCreateInput = {
+    id?: bigint | number
+    legal_name?: string | null
+    brand_name?: string | null
+    alternate_name?: string | null
+    founding_date?: Date | string | null
+    description?: string | null
+    price_range?: string | null
+    contact_email?: string | null
+    contact_phone?: string | null
+    available_languages?: organization_profileCreateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileCreatesame_as_urlsInput | string[]
+    website_url?: string | null
+    logo_url?: string | null
+    hero_image_url?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: Date | string
+  }
+
+  export type organization_profileUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    legal_name?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_name?: NullableStringFieldUpdateOperationsInput | string | null
+    alternate_name?: NullableStringFieldUpdateOperationsInput | string | null
+    founding_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price_range?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_email?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    available_languages?: organization_profileUpdateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileUpdatesame_as_urlsInput | string[]
+    website_url?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    hero_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type organization_profileUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    legal_name?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_name?: NullableStringFieldUpdateOperationsInput | string | null
+    alternate_name?: NullableStringFieldUpdateOperationsInput | string | null
+    founding_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price_range?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_email?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    available_languages?: organization_profileUpdateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileUpdatesame_as_urlsInput | string[]
+    website_url?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    hero_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type organization_profileCreateManyInput = {
+    id?: bigint | number
+    legal_name?: string | null
+    brand_name?: string | null
+    alternate_name?: string | null
+    founding_date?: Date | string | null
+    description?: string | null
+    price_range?: string | null
+    contact_email?: string | null
+    contact_phone?: string | null
+    available_languages?: organization_profileCreateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileCreatesame_as_urlsInput | string[]
+    website_url?: string | null
+    logo_url?: string | null
+    hero_image_url?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: Date | string
+  }
+
+  export type organization_profileUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    legal_name?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_name?: NullableStringFieldUpdateOperationsInput | string | null
+    alternate_name?: NullableStringFieldUpdateOperationsInput | string | null
+    founding_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price_range?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_email?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    available_languages?: organization_profileUpdateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileUpdatesame_as_urlsInput | string[]
+    website_url?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    hero_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type organization_profileUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    legal_name?: NullableStringFieldUpdateOperationsInput | string | null
+    brand_name?: NullableStringFieldUpdateOperationsInput | string | null
+    alternate_name?: NullableStringFieldUpdateOperationsInput | string | null
+    founding_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price_range?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_email?: NullableStringFieldUpdateOperationsInput | string | null
+    contact_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    available_languages?: organization_profileUpdateavailable_languagesInput | string[]
+    address_json?: NullableJsonNullValueInput | InputJsonValue
+    same_as_urls?: organization_profileUpdatesame_as_urlsInput | string[]
+    website_url?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    hero_image_url?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type package_addonsCreateInput = {
@@ -160965,6 +163844,102 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type content_pagesRouteLangCompoundUniqueInput = {
+    route: string
+    lang: string
+  }
+
+  export type content_pagesCountOrderByAggregateInput = {
+    id?: SortOrder
+    route?: SortOrder
+    lang?: SortOrder
+    schema_version?: SortOrder
+    seo?: SortOrder
+    content?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type content_pagesAvgOrderByAggregateInput = {
+    id?: SortOrder
+    schema_version?: SortOrder
+  }
+
+  export type content_pagesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    route?: SortOrder
+    lang?: SortOrder
+    schema_version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type content_pagesMinOrderByAggregateInput = {
+    id?: SortOrder
+    route?: SortOrder
+    lang?: SortOrder
+    schema_version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type content_pagesSumOrderByAggregateInput = {
+    id?: SortOrder
+    schema_version?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type Category_faqsNullableScalarRelationFilter = {
     is?: category_faqsWhereInput | null
@@ -161121,29 +164096,6 @@ export namespace Prisma {
     _min?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
     _max?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type site_identityCountOrderByAggregateInput = {
     id?: SortOrder
@@ -161183,32 +164135,6 @@ export namespace Prisma {
     google_business_profile_url?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type feedbackCountOrderByAggregateInput = {
@@ -161638,6 +164564,66 @@ export namespace Prisma {
     id?: SortOrder
     vendor_id?: SortOrder
     price?: SortOrder
+  }
+
+  export type organization_profileCountOrderByAggregateInput = {
+    id?: SortOrder
+    legal_name?: SortOrder
+    brand_name?: SortOrder
+    alternate_name?: SortOrder
+    founding_date?: SortOrder
+    description?: SortOrder
+    price_range?: SortOrder
+    contact_email?: SortOrder
+    contact_phone?: SortOrder
+    available_languages?: SortOrder
+    address_json?: SortOrder
+    same_as_urls?: SortOrder
+    website_url?: SortOrder
+    logo_url?: SortOrder
+    hero_image_url?: SortOrder
+    schema_json?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type organization_profileAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type organization_profileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    legal_name?: SortOrder
+    brand_name?: SortOrder
+    alternate_name?: SortOrder
+    founding_date?: SortOrder
+    description?: SortOrder
+    price_range?: SortOrder
+    contact_email?: SortOrder
+    contact_phone?: SortOrder
+    website_url?: SortOrder
+    logo_url?: SortOrder
+    hero_image_url?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type organization_profileMinOrderByAggregateInput = {
+    id?: SortOrder
+    legal_name?: SortOrder
+    brand_name?: SortOrder
+    alternate_name?: SortOrder
+    founding_date?: SortOrder
+    description?: SortOrder
+    price_range?: SortOrder
+    contact_email?: SortOrder
+    contact_phone?: SortOrder
+    website_url?: SortOrder
+    logo_url?: SortOrder
+    hero_image_url?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type organization_profileSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type package_addonsPackage_idAddon_idCompoundUniqueInput = {
@@ -168580,6 +171566,24 @@ export namespace Prisma {
     deleteMany?: booking_other_activitiesScalarWhereInput | booking_other_activitiesScalarWhereInput[]
   }
 
+  export type organization_profileCreateavailable_languagesInput = {
+    set: string[]
+  }
+
+  export type organization_profileCreatesame_as_urlsInput = {
+    set: string[]
+  }
+
+  export type organization_profileUpdateavailable_languagesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type organization_profileUpdatesame_as_urlsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type addonsCreateNestedOneWithoutPackage_addonsInput = {
     create?: XOR<addonsCreateWithoutPackage_addonsInput, addonsUncheckedCreateWithoutPackage_addonsInput>
     connectOrCreate?: addonsCreateOrConnectWithoutPackage_addonsInput
@@ -171634,6 +174638,29 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
@@ -171675,29 +174702,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
     _max?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
-  }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumasset_typeFilter<$PrismaModel = never> = {
