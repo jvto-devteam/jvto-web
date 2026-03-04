@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -410,17 +411,36 @@ export async function generateMetadata(
 }
 
 // --- 6. MAIN PAGE COMPONENT ---
+const getReviewsData = cache(async () => {
+  const raw = await prisma.reviews.findMany({
+    where: { platform: { equals: "Trustpilot" } },
+    orderBy: { date: "desc" },
+  });
+
+  return raw.map((r) => ({
+    name: r.customer_name,
+    date: r.date.toISOString(), // Ubah Date ke String
+    url: r.url || r.url_reference || "",
+    stars: Number(r.star),
+    title: r.review?.substring(0, 60) ?? "",
+    text: r.review ?? "",
+    verified: true,
+  }));
+});
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const data = await getTourData(slug);
-
+  const [data, reviews] = await Promise.all([
+    getTourData(slug),
+    getReviewsData(),
+  ]);
+  
   if (!data) notFound();
 
   return (
     <>
       <StructuredData data={data} />
-      <TourDetail initialData={data} />
+      <TourDetail initialData={data} reviews={reviews} />{" "}
     </>
   );
 }

@@ -8,7 +8,8 @@ import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
 import Image from "next/image";
-import Reviews from "@/components/website/Home/Reviews";
+import ReviewsClient from "@/components/website/Home/ReviewsClient";
+// import Reviews from "@/components/website/Home/Reviews";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -58,6 +59,7 @@ import {
 
 interface Props {
   initialData: TourPackageDetail;
+  reviews: any[];
 }
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
@@ -192,7 +194,7 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
-export default function PackageDetailPage({ initialData }: Props) {
+export default function PackageDetailPage({ initialData,reviews }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
 
@@ -1379,7 +1381,7 @@ export default function PackageDetailPage({ initialData }: Props) {
                 <span className="w-8 h-1 bg-lime-500 block"></span>
                 Why Travel With Us?
               </h2>
-              <Reviews />
+              <ReviewsClient reviews={reviews} />
               {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                 <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm flex flex-col">
                   <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -131,7 +132,7 @@ const getTourData = cache(async (slugParam: string[]) => {
   try {
     const res = await fetch(
       `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     if (!res.ok) return null;
@@ -189,7 +190,7 @@ function StructuredData({ data }: { data: TourPackageDetail }) {
       const arrivalTime = lastActivity
         ? calculateEndTime(
             lastActivity.timeWindow,
-            lastActivity.durationMinutes
+            lastActivity.durationMinutes,
           )
         : "18:00";
 
@@ -349,10 +350,26 @@ function StructuredData({ data }: { data: TourPackageDetail }) {
 }
 
 // --- 5. METADATA GENERATION ---
+const getReviewsData = cache(async () => {
+  const raw = await prisma.reviews.findMany({
+    where: { platform: { equals: "Trustpilot" } },
+    orderBy: { date: "desc" },
+  });
+
+  return raw.map((r) => ({
+    name: r.customer_name,
+    date: r.date.toISOString(), // Ubah Date ke String
+    url: r.url || r.url_reference || "",
+    stars: Number(r.star),
+    title: r.review?.substring(0, 60) ?? "",
+    text: r.review ?? "",
+    verified: true,
+  }));
+});
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { slug } = await params;
   const data = await getTourData(slug);
@@ -413,14 +430,17 @@ export async function generateMetadata(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const data = await getTourData(slug);
-
+  const [data, reviews] = await Promise.all([
+    getTourData(slug),
+    getReviewsData(),
+  ]);
+  
   if (!data) notFound();
 
   return (
     <>
       <StructuredData data={data} />
-      <TourDetail initialData={data} />
+      <TourDetail initialData={data} reviews={reviews} />{" "}
     </>
   );
 }
