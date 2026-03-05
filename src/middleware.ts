@@ -31,7 +31,7 @@ export function middleware(req: NextRequest) {
     "/all-inclusive/transport",
     "/assets/img/cars/${data}",
     "/assets/img/locations/${data.location.images}?0",
-    "/base-knowledge",
+    // "/base-knowledge",
     "/blog/2025-ijen-volcano-health-certificate-guide",
     "/blog/blue-fire-ijen-crater-hiking-guide-2025",
     "/blog/ijen-volcano-historical-activity-east-java",
@@ -369,7 +369,7 @@ export function middleware(req: NextRequest) {
     "/tours/3-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
     "/tours/3-day-taman-safari-prigen-and-bromo-and-madakaripura-waterfall-family-adventure-from-surabaya",
     "/tours/3-day-tumpak-sewu-waterfall-and-bromo-explorer-from-surabaya",
-    "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
+    // "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya",
     "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-bali-to-surabaya",
     "/tours/4-day-ijen-and-papuma-beach-and-tumpak-sewu-waterfall-and-bromo-from-surabaya",
     "/tours/4-day-tumpak-sewu-waterfall-and-bromo-and-ijen-adventure-from-surabaya-to-bali",
@@ -433,6 +433,24 @@ export function middleware(req: NextRequest) {
     return new NextResponse("410 Gone", { status: 410 });
   }
 
+  const redirectMap: Record<string, string> = {
+    "/faq": "/travel-guide/faq",
+    "/reviews": "/why-jvto/reviews",
+    "/about": "/why-jvto/our-story",
+    "/how-to-book": "/travel-guide/booking-information",
+    "/what-set-us-apart": "/why-jvto/the-jvto-difference",
+    "/base-knowledge": "/travel-guide",
+    "/office": "/contact",
+    "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya":
+      "/tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
+  };
+
+  const destination = redirectMap[pathname];
+
+  if (destination) {
+    // Gunakan 301 untuk SEO (Permanent Redirect)
+    return NextResponse.redirect(new URL(destination, req.url), 301);
+  }
 
   return NextResponse.next();
 }
