@@ -28,7 +28,7 @@ export async function sitemapToursFromSurabaya(
     url: url(`/${pkg.slug}`),
     lastModified: pkg.updated_at ?? t,
     changeFrequency: "weekly",
-    priority: 0.7,
+    priority: 0.8,
   }));
 
   return dynamicTours;
