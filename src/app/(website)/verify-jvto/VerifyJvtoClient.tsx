@@ -27,28 +27,42 @@ import {
 } from "lucide-react";
 import Button from "@/components/website/UI/Button";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-export default function VerifyJvtoClient() {
+export default function VerifyJvtoClient({
+  initialDocs,
+  groupTitle,
+}: {
+  initialDocs?: Doc[];
+  groupTitle?: string;
+}) {
   const [activeTab, setActiveTab] = useState("all");
+  const pathname = usePathname();
   const [showHash, setShowHash] = useState<Record<string, boolean>>({});
   const [selectedDoc, setSelectedDoc] = useState<Doc | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
-
-  // Ambil Data
-  const data = getVerificationDocs();
-  const allDocs: Doc[] = [
-    ...data.company_registration,
-    ...data.police_clearances,
-    ...data.operations,
-    ...data.health_safety,
-    ...data.company_history,
-    ...data.press_coverage,
-    ...data.membership,
-    ...(data.founder || []),
-    ...(data.credentials || []),
-  ];
-
-  const documents = allDocs;
+  const [documents, setDocuments] = useState<Doc[]>([]);
+  useEffect(() => {
+    if (initialDocs) {
+      setDocuments(initialDocs);
+    } else {
+      const data = getVerificationDocs();
+      const allDocs: Doc[] = [
+        ...data.company_registration,
+        ...data.police_clearances,
+        ...data.operations,
+        ...data.health_safety,
+        ...data.company_history,
+        ...data.press_coverage,
+        ...data.membership,
+        ...(data.founder || []),
+        ...(data.credentials || []),
+      ];
+      setDocuments(allDocs);
+    }
+  }, [initialDocs]);
+  const showTabs = !initialDocs;
 
   const categories = [
     { id: "all", label: "All Documents" },
@@ -62,8 +76,8 @@ export default function VerifyJvtoClient() {
     { id: "credentials", label: "Guide Credentials" },
   ];
 
-  const filteredDocuments =
-    activeTab === "all"
+  const filteredDocuments = showTabs
+    ? activeTab === "all"
       ? documents
       : documents.filter((doc) => {
           switch (activeTab) {
@@ -88,7 +102,8 @@ export default function VerifyJvtoClient() {
             default:
               return false;
           }
-        });
+        })
+    : documents;
 
   const toggleHash = (filename: string) => {
     setShowHash((prev) => ({ ...prev, [filename]: !prev[filename] }));
@@ -168,7 +183,7 @@ export default function VerifyJvtoClient() {
             <div className="hidden lg:flex gap-4">
               <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 text-center min-w-[140px]">
                 <p className="text-3xl font-black text-[#1445b8] mb-1">
-                  {documents.length}
+                  {filteredDocuments.length}
                 </p>
                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">
                   Verified Assets
@@ -189,34 +204,66 @@ export default function VerifyJvtoClient() {
             </div>
           </div>
         </section>
-
-        {/* FILTERS */}
+        {groupTitle && (
+          <section className="mb-8">
+            <h1 className="text-3xl font-bold">{groupTitle}</h1>
+          </section>
+        )}
+        {/* Tab navigasi untuk semua halaman */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 sticky top-20 z-20 py-2 bg-[#f6f6f8]/95 backdrop-blur-sm">
           <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveTab(cat.id)}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
-                  activeTab === cat.id
-                    ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
-                    : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+            <Link
+              href="/verify-jvto"
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                pathname === "/verify-jvto"
+                  ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+              }`}
+            >
+              All Documents
+            </Link>
+            <Link
+              href="/verify-jvto/legal"
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                pathname === "/verify-jvto/legal"
+                  ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+              }`}
+            >
+              Legal
+            </Link>
+            <Link
+              href="/verify-jvto/police-safety"
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                pathname === "/verify-jvto/police-safety"
+                  ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+              }`}
+            >
+              Police & Safety
+            </Link>
+            <Link
+              href="/verify-jvto/press-recognition"
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                pathname === "/verify-jvto/press-recognition"
+                  ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+              }`}
+            >
+              Press Recognition
+            </Link>
+            <Link
+              href="/verify-jvto/history-artifacts"
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                pathname === "/verify-jvto/history-artifacts"
+                  ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+              }`}
+            >
+              History Artifacts
+            </Link>
           </div>
-          <div className="flex gap-2">
-            <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-[#1445b8] hover:border-[#1445b8] transition-colors">
-              <Filter className="w-4 h-4" />
-            </button>
-            <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:text-[#1445b8] hover:border-[#1445b8] transition-colors">
-              <Grid className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
+        </div>{" "}
         {/* DOCUMENTS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredDocuments.map((doc, i) => {
