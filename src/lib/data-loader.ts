@@ -15,6 +15,7 @@ export type Doc = {
   // Field Khusus GEO
   official_title: string;
   narrative_context: string;
+  slug?: string;
 };
 
 // PERBAIKAN: Sederhanakan fungsi getOriginalUrl
@@ -91,7 +92,38 @@ function mapAssetToDoc(asset: any): Doc {
     narrative_context: finalNarrative,
   };
 }
-
+export const getAllDocs = (): Doc[] => {
+  const data = getVerificationDocs(); // dari kode sebelumnya
+  return [
+    ...data.company_registration,
+    ...data.police_clearances,
+    ...data.operations,
+    ...data.health_safety,
+    ...data.company_history,
+    ...data.press_coverage,
+    ...data.membership,
+    ...(data.founder || []),
+    ...(data.credentials || []),
+  ];
+};
+const groupCategoryMap: Record<string, string[]> = {
+  legal: ["BusinessID", "License", "Membership"],
+  policeSafety: [
+    "PoliceDocs",
+    "Screening",
+    "Founder",
+    "Credentials",
+    "OpsPhoto",
+  ],
+  pressRecognition: ["Press"],
+  historyArtifacts: ["History"],
+};
+export const getDocsByGroup = (group: string): Doc[] => {
+  const allDocs = getAllDocs();
+  const allowedCategories = groupCategoryMap[group];
+  if (!allowedCategories) return [];
+  return allDocs.filter((doc) => allowedCategories.includes(doc.category));
+};
 export const getVerificationDocs = () => {
   const inventory = ssotData.assets_inventory;
 

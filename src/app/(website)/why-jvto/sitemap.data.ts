@@ -10,5 +10,10 @@ export function sitemapWhyJvto(t: Date): MetadataRoute.Sitemap {
     { url: url("/why-jvto/our-team"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/why-jvto/community-standards"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
     { url: url("/verify-jvto"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/verify-jvto/legal"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/verify-jvto/press-recognition"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/verify-jvto/history-artifacts"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/verify-jvto/police-safety"), lastModified: t, changeFrequency: "monthly", priority: 0.8 },
+
   ];
 }
