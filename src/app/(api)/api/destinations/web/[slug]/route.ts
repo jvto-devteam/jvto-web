@@ -1,4 +1,3 @@
-// app/api/destinations/details/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";

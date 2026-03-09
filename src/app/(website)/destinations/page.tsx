@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 
 async function getAllDestinations(): Promise<Destination[]> {
   const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-    next: { revalidate: 3600 },
+    cache: "no-store", // Pastikan selalu ambil data terbaru
   });
   if (!res.ok) throw new Error("Failed to fetch destinations");
   return res.json();
