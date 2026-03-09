@@ -1,4 +1,4 @@
-// app/api/destinations/details/[id]/route.ts
+// app/api/destinations/web/[slug]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
@@ -10,7 +10,7 @@ export async function GET(
   try {
     const params = await context.params;
     const slug = params?.slug;
-        
+
     if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
       const mockDest = MOCK_DESTINATION_DETAILS.find((d) => d.slug === slug);
       if (mockDest) {
@@ -52,7 +52,7 @@ export async function GET(
       },
     );
   } catch (error) {
-    console.error("GET /api/destinations/details/[id] error:", error);
+    console.error("GET /api/destinations/web/[slug] error:", error);
     return NextResponse.json(
       { message: "Gagal mengambil detail paket" },
       { status: 500 },
