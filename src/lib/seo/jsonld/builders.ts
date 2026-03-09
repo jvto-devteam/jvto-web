@@ -319,7 +319,6 @@ export function buildDestinationsCollectionJsonLd(
         "@id": `${siteUrl}#east-java`,
       },
       touristType: "Adventure travelers, nature enthusiasts, photographers",
-      provider: { "@id": ORG_ID },
     };
 
     // GeoCoordinates — dari field geo yang sekarang di-expose API
