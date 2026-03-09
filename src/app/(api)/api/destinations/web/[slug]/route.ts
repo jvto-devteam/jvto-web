@@ -1,26 +1,15 @@
+// app/api/destinations/details/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
 
 export async function GET(
   _req: NextRequest,
-  context: { params: Promise<{ slug: string }> }, // Gunakan context
+  { params }: { params: { slug: string } }, // Tidak pakai Promise
 ) {
   try {
-    // 1. Await params dari context
-    const resolvedParams = await context.params;
+    const slug = params?.slug;
 
-    // 2. CEK APAKAH resolvedParams ADA (Ini penentu agar tidak error lagi)
-    if (!resolvedParams || !resolvedParams.slug) {
-      console.error("API Error: Slug tidak ditemukan di URL");
-      return NextResponse.json(
-        { message: "Slug is required" },
-        { status: 400 },
-      );
-    }
-
-    const { slug } = resolvedParams;
-    
     if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
       const mockDest = MOCK_DESTINATION_DETAILS.find((d) => d.slug === slug);
       if (mockDest) {
