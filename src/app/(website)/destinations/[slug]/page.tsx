@@ -11,7 +11,9 @@ import {
 } from "@/lib/seo/jsonld/builders";
 
 export const dynamic = "force-dynamic";
-
+interface Props {
+  params: { slug: string }; // Synchronous
+}
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -78,7 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const slug = params.slug;
 
   const [data, org] = await Promise.all([
     getDestination(slug),
