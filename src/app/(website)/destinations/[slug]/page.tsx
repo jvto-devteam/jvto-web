@@ -10,6 +10,8 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 
+export const dynamic = "force-dynamic";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -26,15 +28,6 @@ async function getDestination(slug: string): Promise<DestinationDetail | null> {
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);
   return res.json();
-}
-
-// ─── generateStaticParams ─────────────────────────────────────────────────────
-
-export async function generateStaticParams() {
-  const res = await fetch(`${SITE_URL}/api/destinations/web`);
-  if (!res.ok) return [];
-  const destinations: Array<{ slug: string }> = await res.json();
-  return destinations.map((d) => ({ slug: d.slug }));
 }
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
