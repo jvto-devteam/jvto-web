@@ -21,7 +21,7 @@ interface Props {
 
 async function getDestination(slug: string): Promise<DestinationDetail | null> {
   const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-    next: { revalidate: 3600 },
+    cache: "no-store", // Pastikan selalu ambil data terbaru
   });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);
