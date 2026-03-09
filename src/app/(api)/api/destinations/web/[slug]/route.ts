@@ -5,11 +5,11 @@ import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { slug: string } }, // Tidak pakai Promise
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
-    const slug = params?.slug;
-
+    const { slug } = await params;
+    
     if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
       const mockDest = MOCK_DESTINATION_DETAILS.find((d) => d.slug === slug);
       if (mockDest) {
