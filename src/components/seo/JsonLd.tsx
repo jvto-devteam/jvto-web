@@ -20,7 +20,12 @@ export function JsonLd({ data }: { data: JsonLdValue }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+      dangerouslySetInnerHTML={{
+        __html:
+          payload.length === 1
+            ? JSON.stringify(payload[0])
+            : JSON.stringify(payload),
+      }}
     />
   );
 }

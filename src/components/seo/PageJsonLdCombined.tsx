@@ -37,9 +37,23 @@ export async function PageJsonLdCombined({
   const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
   const faqJson = buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
   const webPageJson = buildWebPageJsonLd(pageRow as any, org as any, SITE_URL);
+  const webSiteJson = {
+    "@type": "WebSite",
+    "@id": `${SITE_URL}#website`,
+    url: SITE_URL,
+    name: "Java Volcano Tour Operator",
+    publisher: { "@id": `${SITE_URL}/#organization` },
+  };
 
   // Gabungkan jadi 1 JSON-LD agar ringkas + stabil
-  const graph = [orgJson, webPageJson, breadcrumbJson, faqJson, ...(extraSchemas || [])].filter(Boolean);
+  const graph = [
+    orgJson,
+    webSiteJson,
+    webPageJson,
+    breadcrumbJson,
+    faqJson,
+    ...(extraSchemas || []),
+  ].filter(Boolean);
 
   const combined = {
     "@context": "https://schema.org",

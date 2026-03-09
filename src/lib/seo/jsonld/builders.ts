@@ -108,7 +108,6 @@ export function buildBreadcrumbJsonLd(route: string, siteUrl = DEFAULT_SITE) {
   const items = buildBreadcrumbItems(route, siteUrl);
 
   return {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: items.map((it, idx) => ({
       "@type": "ListItem",
@@ -132,8 +131,8 @@ export function buildOrganizationJsonLd(
 
   // Jika kamu sudah menyimpan schema_json yang sudah final:
   if (org.schema_json && typeof org.schema_json === "object") {
-    // pastikan URL relatif jadi absolut bila perlu
-    return org.schema_json;
+    const { "@context": _, ...rest } = org.schema_json as any;
+    return rest;
   }
 
   const website = absUrl(siteUrl, org.website_url || "/");
@@ -152,7 +151,6 @@ export function buildOrganizationJsonLd(
   // - LocalBusiness / TourOperator bisa dipakai, tapi kalau kamu ragu, tetap Organization.
   // [Unverified] Saya tidak memverifikasi kategori bisnis kamu di schema.org; ini pilihan teknis.
   const jsonld: any = {
-    "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${website}#organization`,
     name,
@@ -201,8 +199,8 @@ export function buildFaqJsonLdFromContent(
   if (!mainEntity.length) return null;
 
   return {
-    "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${absUrl(siteUrl, page.route)}#faqpage`,
     mainEntity,
   };
 }
@@ -224,7 +222,6 @@ export function buildWebPageJsonLd(
     : `${website}#organization`;
 
   const jsonld: any = {
-    "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${pageUrl}#webpage`,
     url: pageUrl,

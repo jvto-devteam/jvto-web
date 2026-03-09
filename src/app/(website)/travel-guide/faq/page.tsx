@@ -143,9 +143,7 @@ export default async function FaqPage() {
                         <summary className="cursor-pointer list-none font-medium">
                           {it.question}
                         </summary>
-                        <div className="mt-3 whitespace-pre-wrap text-neutral-800">
-                          {it.answer}
-                        </div>
+                        <div dangerouslySetInnerHTML={{ __html: it.answer }} className="mt-3 text-neutral-800 prose prose-sm"/>
                       </details>
                     ))}
                   </div>
