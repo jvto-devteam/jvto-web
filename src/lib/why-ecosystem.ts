@@ -67,25 +67,25 @@ export const WHY_JVTO_ECOSYSTEM_LINKS: EcosystemLink[] = [
     group: "Proof & Transparency",
     title: "Legal Proof",
     description: "Legal entity, licenses, and accountability references.",
-    href: "/why-jvto/proof-transparency/legal/",
+    href: "verify-jvto/legal/",
   },
   {
     group: "Proof & Transparency",
     title: "Police & Safety Proof",
     description: "Police-led authority trail and safety documentation references.",
-    href: "/why-jvto/proof-transparency/police-safety/",
+    href: "/verify-jvto/police-safety/",
   },
   {
     group: "Proof & Transparency",
     title: "Press & Recognition Proof",
     description: "Proof assets for press items, media, and citations.",
-    href: "/why-jvto/proof-transparency/press-recognition/",
+    href: "/verify-jvto/press-recognition/",
   },
   {
     group: "Proof & Transparency",
     title: "History Artifacts Proof",
     description: "Heritage recognition and historical proof trail.",
-    href: "/why-jvto/proof-transparency/history-artifacts/",
+    href: "/verify-jvto/history-artifacts/",
   },
 
   // Related (still part of the ecosystem)

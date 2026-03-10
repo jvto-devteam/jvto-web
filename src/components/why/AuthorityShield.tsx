@@ -9,10 +9,10 @@ export default function AuthorityShield() {
 
           <ul className="mt-3 list-disc space-y-2 pl-5">
             <li>
-              Police &amp; safety documents: <PathLink href="/why-jvto/proof-transparency/police-safety/" />
+              Police &amp; safety documents: <PathLink href="/verify-jvto/police-safety/" />
             </li>
             <li>
-              Legal entity &amp; licenses: <PathLink href="/why-jvto/proof-transparency/legal/" />
+              Legal entity &amp; licenses: <PathLink href="verify-jvto/legal/" />
             </li>
             <li>
               Health screening evidence (Ijen): <PathLink href="/travel-guide/ijen-health-screening" />

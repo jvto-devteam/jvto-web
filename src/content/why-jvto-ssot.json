@@ -103,8 +103,8 @@
             "This is the fastest way to understand our trust claims. Each element links to proof."
           ],
           "bullets": [
-            "Police & safety documents: /why-jvto/proof-transparency/police-safety/",
-            "Legal entity & licenses: /why-jvto/proof-transparency/legal/",
+            "Police & safety documents: /verify-jvto/police-safety/",
+            "Legal entity & licenses: verify-jvto/legal/",
             "Health screening evidence (Ijen): /travel-guide/ijen-health-screening"
           ]
         },
@@ -152,22 +152,22 @@
             {
               "title": "Legal & Accountability",
               "summary": "PT registration, NIB, TDUP, office proof.",
-              "link": "/why-jvto/proof-transparency/legal/"
+              "link": "verify-jvto/legal/"
             },
             {
               "title": "Police & Safety",
               "summary": "Police-related documents and health screening evidence.",
-              "link": "/why-jvto/proof-transparency/police-safety/"
+              "link": "/verify-jvto/police-safety/"
             },
             {
               "title": "Press & Recognition",
               "summary": "Third-party publisher links with context.",
-              "link": "/why-jvto/proof-transparency/press-recognition/"
+              "link": "/verify-jvto/press-recognition/"
             },
             {
               "title": "History Artifacts",
               "summary": "Booking.com plaque, guidebook mention, and related artifacts.",
-              "link": "/why-jvto/proof-transparency/history-artifacts/"
+              "link": "/verify-jvto/history-artifacts/"
             }
           ]
         },
@@ -199,7 +199,7 @@
       ]
     },
     {
-      "route": "/why-jvto/proof-transparency/legal/",
+      "route": "verify-jvto/legal/",
       "h1": "Legal & Accountability Proof",
       "intro_paragraphs": [
         "These items support our core legality and accountability claims.",
@@ -252,7 +252,7 @@
       ]
     },
     {
-      "route": "/why-jvto/proof-transparency/police-safety/",
+      "route": "/verify-jvto/police-safety/",
       "h1": "Police & Safety Proof",
       "intro_paragraphs": [
         "These items provide context for safety discipline and screening practices.",
@@ -286,7 +286,7 @@
       ]
     },
     {
-      "route": "/why-jvto/proof-transparency/press-recognition/",
+      "route": "/verify-jvto/press-recognition/",
       "h1": "Press & Recognition Proof",
       "intro_paragraphs": [
         "These are third-party publisher links that mention JVTO context or related founder safety context.",
@@ -321,7 +321,7 @@
       ]
     },
     {
-      "route": "/why-jvto/proof-transparency/history-artifacts/",
+      "route": "/verify-jvto/history-artifacts/",
       "h1": "History Artifacts Proof",
       "intro_paragraphs": [
         "These artifacts show long-term continuity. They are not marketing claims—just traceable evidence.",
@@ -498,9 +498,9 @@
         {
           "title": "See the artifacts",
           "bullets": [
-            "History artifacts: /why-jvto/proof-transparency/history-artifacts/",
-            "Press links: /why-jvto/proof-transparency/press-recognition/",
-            "Legal docs: /why-jvto/proof-transparency/legal/"
+            "History artifacts: /verify-jvto/history-artifacts/",
+            "Press links: /verify-jvto/press-recognition/",
+            "Legal docs: verify-jvto/legal/"
           ]
         }
       ]

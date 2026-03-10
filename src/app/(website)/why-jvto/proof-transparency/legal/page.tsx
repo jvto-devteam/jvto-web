@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ProofLegalPage() {
-  const pathname = "/why-jvto/proof-transparency/legal/";
-  const page = getPageByRoute("/why-jvto/proof-transparency/legal/");
+  const pathname = "verify-jvto/legal/";
+  const page = getPageByRoute("verify-jvto/legal/");
 
   const jsonLd = [
     buildOrganizationJsonLd(),
@@ -23,7 +23,7 @@ export default function ProofLegalPage() {
         { name: "Home", path: "/" },
         { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
-        { name: "Legal", path: "/why-jvto/proof-transparency/legal/" },
+        { name: "Legal", path: "verify-jvto/legal/" },
       ],
     }),
   ];

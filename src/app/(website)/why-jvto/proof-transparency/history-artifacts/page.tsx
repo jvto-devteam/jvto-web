@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ProofHistoryArtifactsPage() {
-  const pathname = "/why-jvto/proof-transparency/history-artifacts/";
-  const page = getPageByRoute("/why-jvto/proof-transparency/history-artifacts/");
+  const pathname = "/verify-jvto/history-artifacts/";
+  const page = getPageByRoute("/verify-jvto/history-artifacts/");
 
   const jsonLd = [
     buildOrganizationJsonLd(),
@@ -23,7 +23,7 @@ export default function ProofHistoryArtifactsPage() {
         { name: "Home", path: "/" },
         { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
-        { name: "History Artifacts", path: "/why-jvto/proof-transparency/history-artifacts/" },
+        { name: "History Artifacts", path: "/verify-jvto/history-artifacts/" },
       ],
     }),
   ];

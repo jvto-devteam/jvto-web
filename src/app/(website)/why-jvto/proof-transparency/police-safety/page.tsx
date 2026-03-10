@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ProofPoliceSafetyPage() {
-  const pathname = "/why-jvto/proof-transparency/police-safety/";
-  const page = getPageByRoute("/why-jvto/proof-transparency/police-safety/");
+  const pathname = "/verify-jvto/police-safety/";
+  const page = getPageByRoute("/verify-jvto/police-safety/");
 
   const jsonLd = [
     buildOrganizationJsonLd(),
@@ -23,7 +23,7 @@ export default function ProofPoliceSafetyPage() {
         { name: "Home", path: "/" },
         { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
-        { name: "Police & Safety", path: "/why-jvto/proof-transparency/police-safety/" },
+        { name: "Police & Safety", path: "/verify-jvto/police-safety/" },
       ],
     }),
   ];
