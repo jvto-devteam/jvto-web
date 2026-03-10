@@ -6,6 +6,11 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
 
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    const clean = pathname.slice(0, -1);
+    return NextResponse.redirect(new URL(clean, req.url), 301);
+  }
+
   const rawHost = req.headers.get("host") || "";
   const host = rawHost.split(":")[0];
   const domain = "javavolcano-touroperator";
