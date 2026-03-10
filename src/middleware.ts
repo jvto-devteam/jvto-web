@@ -127,10 +127,6 @@ export function middleware(req: NextRequest) {
     "/tours/from-bali/5d4n",
     "/tours/from-surabaya/1d1n",
     "/tours/from-surabaya/7d6n",
-    "/tours/style",
-    "/tours/style/family-tours",
-    "/tours/style/photography-tours",
-    "/tours/style/romantic-gateway",
     "/tours/tours/from-surabaya/bromo-1d1n",
     "/tours/tours/from-surabaya/bromo-2d1n",
     "/tours/tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
@@ -191,7 +187,7 @@ export function middleware(req: NextRequest) {
   if (pathname.startsWith("/faq")) {
     return NextResponse.redirect(new URL("/travel-guide/faq", req.url), 301);
   }
-  if (pathname.startsWith("/packages")) {
+  if (pathname.startsWith("/packages") || pathname.startsWith("/tours/style")) {
     return NextResponse.redirect(new URL("/tours", req.url), 301);
   }
   const destination = redirectMap[pathname];
