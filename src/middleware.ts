@@ -443,6 +443,13 @@ export function middleware(req: NextRequest) {
     "/office": "/contact",
     "/tours/4-day-ijen-and-bromo-and-madakaripura-waterfall-from-surabaya":
       "/tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
+    "/student-deals/isic": "/isic/student-package",
+    "/why-jvto/proof-transparency/legal": "/verify-jvto/legal",
+    "/why-jvto/proof-transparency/press-recognition":
+      "/verify-jvto/press-recognition",
+    "/why-jvto/proof-transparency/police-safety": "/verify-jvto/police-safety",
+    "/why-jvto/proof-transparency/history-artifacts":
+      "/verify-jvto/history-artifacts",
   };
 
   const destination = redirectMap[pathname];

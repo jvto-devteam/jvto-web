@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ProofPressPage() {
-  const pathname = "/why-jvto/proof-transparency/press-recognition/";
-  const page = getPageByRoute("/why-jvto/proof-transparency/press-recognition/");
+  const pathname = "/verify-jvto/press-recognition/";
+  const page = getPageByRoute("/verify-jvto/press-recognition/");
 
   const jsonLd = [
     buildOrganizationJsonLd(),
@@ -23,7 +23,7 @@ export default function ProofPressPage() {
         { name: "Home", path: "/" },
         { name: "Why JVTO", path: "/why-jvto" },
         { name: "Proof & Transparency", path: "/why-jvto/proof-transparency/" },
-        { name: "Press & Recognition", path: "/why-jvto/proof-transparency/press-recognition/" },
+        { name: "Press & Recognition", path: "/verify-jvto/press-recognition/" },
       ],
     }),
   ];

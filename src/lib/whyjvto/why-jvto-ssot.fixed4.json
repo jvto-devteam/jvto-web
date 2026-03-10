@@ -2299,10 +2299,10 @@
         "intro_paragraphs_count": 3,
         "sections_count": 3,
         "links_out_count": 4,
-        "links_out_sample": "/why-jvto/proof-transparency/legal/, /why-jvto/proof-transparency/police-safety/, /why-jvto/proof-transparency/press-recognition/, /why-jvto/proof-transparency/history-artifacts/"
+        "links_out_sample": "verify-jvto/legal/, /verify-jvto/police-safety/, /verify-jvto/press-recognition/, /verify-jvto/history-artifacts/"
       },
       {
-        "route": "/why-jvto/proof-transparency/history-artifacts/",
+        "route": "/verify-jvto/history-artifacts/",
         "h1": "History Artifacts Proof",
         "hero_subhead": null,
         "primary_cta_label": null,
@@ -2315,7 +2315,7 @@
         "links_out_sample": null
       },
       {
-        "route": "/why-jvto/proof-transparency/legal/",
+        "route": "verify-jvto/legal/",
         "h1": "Legal & Accountability Proof",
         "hero_subhead": null,
         "primary_cta_label": null,
@@ -2328,7 +2328,7 @@
         "links_out_sample": null
       },
       {
-        "route": "/why-jvto/proof-transparency/police-safety/",
+        "route": "/verify-jvto/police-safety/",
         "h1": "Police & Safety Proof",
         "hero_subhead": null,
         "primary_cta_label": null,
@@ -2341,7 +2341,7 @@
         "links_out_sample": null
       },
       {
-        "route": "/why-jvto/proof-transparency/press-recognition/",
+        "route": "/verify-jvto/press-recognition/",
         "h1": "Press & Recognition Proof",
         "hero_subhead": null,
         "primary_cta_label": null,
@@ -2424,7 +2424,7 @@
         "h1": "Proof & Transparency: Verify Everything",
         "primary_job": null,
         "owned_topics": "Proof publishing rules\nEvidence categories + context pages\nExternal verification links",
-        "key_modules": "“How our proof works” (your audit checklist)\nEvidence categories grid\nEvidence item index (filterable)\n`/why-jvto/proof-transparency/legal/`\n`/why-jvto/proof-transparency/police-safety/`\n`/why-jvto/proof-transparency/press-recognition/`\n`/why-jvto/proof-transparency/history-artifacts/`",
+        "key_modules": "“How our proof works” (your audit checklist)\nEvidence categories grid\nEvidence item index (filterable)\n`verify-jvto/legal/`\n`/verify-jvto/police-safety/`\n`/verify-jvto/press-recognition/`\n`/verify-jvto/history-artifacts/`",
         "must_link_to": null,
         "links_out": null
       },
@@ -2638,8 +2638,8 @@
       },
       {
         "Hub": "Why JVTO",
-        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto/proof-transparency/history-artifacts/",
-        "Route": "/why-jvto/proof-transparency/history-artifacts/",
+        "Canonical URL": "https://javavolcano-touroperator.com/verify-jvto/history-artifacts/",
+        "Route": "/verify-jvto/history-artifacts/",
         "Page Type": "Leaf",
         "H1 / Page Heading": "History Artifacts Proof",
         "Primary Intent": "Explain JVTO’s differentiators (trust stack) with proof paths.",
@@ -2652,8 +2652,8 @@
       },
       {
         "Hub": "Why JVTO",
-        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto/proof-transparency/legal/",
-        "Route": "/why-jvto/proof-transparency/legal/",
+        "Canonical URL": "https://javavolcano-touroperator.comverify-jvto/legal/",
+        "Route": "verify-jvto/legal/",
         "Page Type": "Leaf",
         "H1 / Page Heading": "Legal & Accountability Proof",
         "Primary Intent": "Explain JVTO’s differentiators (trust stack) with proof paths.",
@@ -2666,8 +2666,8 @@
       },
       {
         "Hub": "Why JVTO",
-        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto/proof-transparency/police-safety/",
-        "Route": "/why-jvto/proof-transparency/police-safety/",
+        "Canonical URL": "https://javavolcano-touroperator.com/verify-jvto/police-safety/",
+        "Route": "/verify-jvto/police-safety/",
         "Page Type": "Leaf",
         "H1 / Page Heading": "Police & Safety Proof",
         "Primary Intent": "Explain JVTO’s differentiators (trust stack) with proof paths.",
@@ -2680,8 +2680,8 @@
       },
       {
         "Hub": "Why JVTO",
-        "Canonical URL": "https://javavolcano-touroperator.com/why-jvto/proof-transparency/press-recognition/",
-        "Route": "/why-jvto/proof-transparency/press-recognition/",
+        "Canonical URL": "https://javavolcano-touroperator.com/verify-jvto/press-recognition/",
+        "Route": "/verify-jvto/press-recognition/",
         "Page Type": "Leaf",
         "H1 / Page Heading": "Press & Recognition Proof",
         "Primary Intent": "Explain JVTO’s differentiators (trust stack) with proof paths.",
@@ -2756,7 +2756,7 @@
         "H1 / Page Heading": "Ijen Health Screening — Real Checks, Digital Proof",
         "Primary Intent": "Practical guidance to plan a trip and reduce uncertainty.",
         "CS Reference Use": "Share links for common questions (packing, weather, screening, booking).",
-        "Must-Link To": "/why-jvto/proof-transparency/police-safety/",
+        "Must-Link To": "/verify-jvto/police-safety/",
         "Avoid Duplicate Topics": "Do not restate contractual rules; link to Policy pages.",
         "SSOT Source": "JVTO_Travel_Guide_SSOT_EN_v2_fixed.json",
         "Publishable Copy": "JVTO_Travel_Guide_PUBLISHABLE_EN_2026-01-19_v2_fixed.md",
@@ -2784,7 +2784,7 @@
         "H1 / Page Heading": "Police Escort for Tourist Groups in East Java",
         "Primary Intent": "Practical guidance to plan a trip and reduce uncertainty.",
         "CS Reference Use": "Share links for common questions (packing, weather, screening, booking).",
-        "Must-Link To": "/why-jvto/safety-leadership/ ; /why-jvto/proof-transparency/police-safety/",
+        "Must-Link To": "/why-jvto/safety-leadership/ ; /verify-jvto/police-safety/",
         "Avoid Duplicate Topics": "Do not restate contractual rules; link to Policy pages.",
         "SSOT Source": "JVTO_Travel_Guide_SSOT_EN_v2_fixed.json",
         "Publishable Copy": "JVTO_Travel_Guide_PUBLISHABLE_EN_2026-01-19_v2_fixed.md",
@@ -2798,7 +2798,7 @@
         "H1 / Page Heading": "Safety on Tours — How We Make Decisions",
         "Primary Intent": "Practical guidance to plan a trip and reduce uncertainty.",
         "CS Reference Use": "Share links for common questions (packing, weather, screening, booking).",
-        "Must-Link To": "/why-jvto/safety-leadership/ ; /why-jvto/proof-transparency/police-safety/",
+        "Must-Link To": "/why-jvto/safety-leadership/ ; /verify-jvto/police-safety/",
         "Avoid Duplicate Topics": "Do not restate contractual rules; link to Policy pages.",
         "SSOT Source": "JVTO_Travel_Guide_SSOT_EN_v2_fixed.json",
         "Publishable Copy": "JVTO_Travel_Guide_PUBLISHABLE_EN_2026-01-19_v2_fixed.md",
@@ -3329,8 +3329,8 @@
               "This is the fastest way to understand our trust claims. Each element links to proof."
             ],
             "bullets": [
-              "Police & safety documents: /why-jvto/proof-transparency/police-safety/",
-              "Legal entity & licenses: /why-jvto/proof-transparency/legal/",
+              "Police & safety documents: /verify-jvto/police-safety/",
+              "Legal entity & licenses: verify-jvto/legal/",
               "Health screening evidence (Ijen): /travel-guide/ijen-health-screening"
             ]
           },
@@ -3378,22 +3378,22 @@
               {
                 "title": "Legal & Accountability",
                 "summary": "PT registration, NIB, TDUP, office proof.",
-                "link": "/why-jvto/proof-transparency/legal/"
+                "link": "verify-jvto/legal/"
               },
               {
                 "title": "Police & Safety",
                 "summary": "Police-related documents and health screening evidence.",
-                "link": "/why-jvto/proof-transparency/police-safety/"
+                "link": "/verify-jvto/police-safety/"
               },
               {
                 "title": "Press & Recognition",
                 "summary": "Third-party publisher links with context.",
-                "link": "/why-jvto/proof-transparency/press-recognition/"
+                "link": "/verify-jvto/press-recognition/"
               },
               {
                 "title": "History Artifacts",
                 "summary": "Booking.com plaque, guidebook mention, and related artifacts—including founder's name and tour services dating back to 2015.",
-                "link": "/why-jvto/proof-transparency/history-artifacts/"
+                "link": "/verify-jvto/history-artifacts/"
               }
             ]
           },
@@ -3428,7 +3428,7 @@
         ]
       },
       {
-        "route": "/why-jvto/proof-transparency/history-artifacts/",
+        "route": "/verify-jvto/history-artifacts/",
         "h1": "History Artifacts Proof",
         "intro_paragraphs": [
           "These artifacts show long-term continuity. They are not marketing claims—just traceable evidence.",
@@ -3676,9 +3676,9 @@
           {
             "title": "See the artifacts",
             "bullets": [
-              "History artifacts: /why-jvto/proof-transparency/history-artifacts/",
-              "Press links: /why-jvto/proof-transparency/press-recognition/",
-              "Legal docs: /why-jvto/proof-transparency/legal/"
+              "History artifacts: /verify-jvto/history-artifacts/",
+              "Press links: /verify-jvto/press-recognition/",
+              "Legal docs: verify-jvto/legal/"
             ]
           }
         ]
