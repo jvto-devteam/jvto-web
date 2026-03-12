@@ -21,6 +21,7 @@ import { usePathname } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import SidebarTravelGuide from "@/app/(website)/travel-guide/sidebar";
 import SidebarPolicy from "@/app/(website)/policy/sidebar";
+import SidebarWhy from "@/app/(website)/why-jvto/sidebar";
 
 // --- 1. HELPER COMPONENTS ---
 
@@ -406,19 +407,21 @@ const Navbar: React.FC = () => {
   const pathname = usePathname();
 
   const [mobileMenuView, setMobileMenuView] = useState<
-    "main" | "travel" | "policy"
+    "main" | "travel" | "policy" | "why-jvto"
   >("main");
   const isTravelGuidePath = pathname.startsWith("/travel-guide");
   const isPolicyPath = pathname.startsWith("/policy");
+  const isWhyJVTOPath = pathname.startsWith("/why-jvto");
 
   // Logic: Reset menu view saat menu ditutup atau path berubah
   useEffect(() => {
     if (!isMenuOpen) {
       if (isTravelGuidePath) setMobileMenuView("travel");
       else if (isPolicyPath) setMobileMenuView("policy");
+      else if (isWhyJVTOPath) setMobileMenuView("why-jvto");
       else setMobileMenuView("main");
     }
-  }, [isMenuOpen, isTravelGuidePath, isPolicyPath]);
+  }, [isMenuOpen, isTravelGuidePath, isPolicyPath, isWhyJVTOPath]);
 
   const toggleMenu = () => {
     if (!isMenuOpen) {
@@ -427,6 +430,8 @@ const Navbar: React.FC = () => {
         setMobileMenuView("travel");
       } else if (isPolicyPath) {
         setMobileMenuView("policy");
+      } else if (isWhyJVTOPath) {
+        setMobileMenuView("why-jvto");
       } else {
         setMobileMenuView("main");
       }
@@ -635,7 +640,12 @@ const Navbar: React.FC = () => {
               />
             )}
 
-            {/* VIEW 3: MAIN MENU */}
+            {/* VIEW 3: SIDEBAR WHY JVTO */}
+            {mobileMenuView === "why-jvto" && (
+              <SidebarWhy isMobile onBack={() => setMobileMenuView("main")} />
+            )}
+
+            {/* VIEW 4: MAIN MENU */}
             {mobileMenuView === "main" && (
               <>
                 <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
