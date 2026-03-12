@@ -1,6 +1,7 @@
 // components/content/Faq.tsx
 import React from "react";
 import { MessageCircleQuestion, ArrowRight } from "lucide-react";
+import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 
 type FaqItem = { q: string; a: string };
 
@@ -92,7 +93,7 @@ export function Faq({
                   marginTop: "0.05rem",
                 }}
               >
-                <MessageCircleQuestion size={14} color="#0c0e09" />
+                <MessageCircleQuestion size={14} />
               </div>
 
               {/* Question text */}
@@ -124,17 +125,8 @@ export function Faq({
             </summary>
 
             {/* Answer */}
-            <div
-              style={{
-                padding: "0 1.25rem 1.125rem 3.75rem",
-                fontSize: "0.85rem",
-                color: "#4a5a35",
-                lineHeight: 1.75,
-                fontFamily: "'DM Sans', sans-serif",
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {it.a}
+            <div className="jvto-faq-answer">
+              <MarkdownRenderer markdown={it.a} />
             </div>
           </details>
         ))}
@@ -149,19 +141,53 @@ export function Faq({
         .jvto-faq-item:not([open]):hover {
           border-color: rgba(159,206,51,0.25);
         }
+
+        /* Default: icon hitam di atas background hijau */
+        .jvto-faq-icon {
+          color: #0c0e09;
+        }
+
+        /* Open: background hitam, icon jadi hijau */
         .jvto-faq-item[open] .jvto-faq-icon {
-          background: #0c0e09;
+          background: #0c0e09 !important;
+          color: #9fce33;
         }
-        .jvto-faq-item[open] .jvto-faq-icon svg {
-          color: #9fce33 !important;
-          stroke: #9fce33 !important;
+        /* Pastikan SVG inherit color dari wrapper */
+        .jvto-faq-icon svg {
+          color: inherit;
+          stroke: currentColor;
         }
+
         .jvto-faq-item[open] .jvto-faq-chevron {
           transform: rotate(90deg);
           color: #9fce33 !important;
           stroke: #9fce33 !important;
         }
         .jvto-faq-item summary::-webkit-details-marker { display: none; }
+
+        /* Answer wrapper: padding + override prose size/color */
+        .jvto-faq-answer {
+          padding: 0 1.25rem 1.125rem 3.75rem;
+        }
+        .jvto-faq-answer .jvto-prose {
+          font-size: 0.85rem;
+          color: #4a5a35;
+          line-height: 1.75;
+        }
+        .jvto-faq-answer .jvto-prose p {
+          margin: 0 0 0.4rem;
+        }
+        .jvto-faq-answer .jvto-prose p:last-child {
+          margin-bottom: 0;
+        }
+        /* Heading di dalam answer tidak perlu besar */
+        .jvto-faq-answer .jvto-prose h1,
+        .jvto-faq-answer .jvto-prose h2,
+        .jvto-faq-answer .jvto-prose h3 {
+          font-size: 0.85rem;
+          margin-top: 0.5rem;
+          border-bottom: none;
+        }
       `}</style>
     </section>
   );
