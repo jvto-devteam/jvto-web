@@ -1,7 +1,3 @@
-// lib/seo/jsonld/builders.ts
-// Updated: @context dihapus dari semua builder — dihandle oleh @graph wrapper
-// Added: buildDestinationsCollectionJsonLd
-
 type Seo = {
   title?: string;
   description?: string;
