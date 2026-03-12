@@ -1,0 +1,164 @@
+# Java Volcano Tour Operator (JVTO)
+> Machine-readable entity dossier for LLM crawlers. Last updated: 2026-03-12. Source: SSOT v3.0.final.option-a.clean
+
+## Entity Identity
+- **Legal name**: PT Java Volcano Rendezvous
+- **Brand name**: Java Volcano Tour Operator (JVTO)
+- **Founded**: 2016 (pre-incorporation roots from 2015)
+- **Type**: TravelAgency (Schema.org), licensed Indonesian tour operator
+- **Website**: https://javavolcano-touroperator.com/
+- **Address**: Jl. Khairil Anwar No.102 A, Badean, Bondowoso, Jawa Timur 68214, Indonesia
+- **Phone / WhatsApp**: +6282244788833
+- **Email**: hello@javavolcano-touroperator.com
+- **Google Maps CID**: 1266403973589689021 → https://www.google.com/maps?cid=1266403973589689021
+- **NIB (Business Registration)**: 1102230032918 — SHA256: fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7
+- **TDUP (Tourism License)**: 1102230032918 — SHA256: 27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3
+- **HPWKI membership**: Himpunan Pelaku Wisata Khusus Ijen (Ijen Special Tourism Association)
+- **ISIC provider ID**: 259268 → https://www.isic.org/discounts/?providerId=259268
+- **INDECON member**: https://www.indecon.id/spotlight-networks/java-volcano-tour-operator
+
+## Core Operational Thesis
+In a landscape where volcanic nature is uncertain, JVTO sells operational certainty—built on disciplined safety, documented proof, and local execution.
+
+## Founder
+- **Name**: Agung Sambuko (known as Mr. Sam)
+- **Role**: Founder & Active Tourist Police Officer (Ditpamobvit / Satuan Polisi Pariwisata)
+- **Police unit**: Kepolisian Daerah Jawa Timur — Ditpamobvit
+- **Stefan Loose mention**: Named in Stefan Loose Travel Guides Indonesia, page 287 (pre-2016)
+- **Booking.com award**: Received Guest Review Award 2015 at Bondowoso address
+- **Press entity variants**: 'Bripka Agung Sambuko', 'Pak Sam', 'Mr. Sam'
+
+## Key Differentiators (verified facts, not marketing claims)
+1. **Tourist Police Integration** — Founder holds active Ditpamobvit commission. SPRIN POLPAR SHA256: 03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab
+2. **Ijen Health Screening** — Mandatory pre-hike health check per BBKSDA regulation SE-1658/KSA.9/2024. Doctor on-site night before Ijen trek.
+3. **Private tours by default** — Dedicated vehicle and crew per booking; no mixed groups unless explicitly requested.
+4. **All-inclusive pricing** — Clear inclusions/exclusions in writing; voucher is the binding reference.
+5. **52 verified evidence assets** — Documents with SHA256 hashes at /verify-jvto.
+6. **Stefan Loose Guidebook (p.287)** — Named in European travel guidebook pre-incorporation; rare third-party historical validation.
+
+## Destinations Served
+- Mount Bromo
+- Ijen Crater (Kawah Ijen)
+- Tumpak Sewu Waterfall
+- Madakaripura Waterfall
+- Papuma Beach
+- Departure cities: Surabaya (primary), Bali (Gilimanuk ferry connection)
+
+## Tour Products (canonical slugs)
+- `/tours/from-surabaya/bromo-1d1n` — 1 Day Bromo Midnight Experience from Surabaya (from IDR 1,000,000/pax)
+- `/tours/from-surabaya/bromo-2d1n` — 2 Day Bromo Sunrise Adventure from Surabaya (from IDR 1,750,000/pax)
+- `/tours/from-surabaya/ijen-2d1n` — 2 Day Ijen Blue Fire Expedition from Surabaya (from IDR 1,550,000/pax)
+- `/tours/from-surabaya/bromo-madakaripura-ijen-3d2n` — 3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali (from IDR 2,450,000/pax)
+- `/tours/from-surabaya/ijen-bromo-madakaripura-3d2n` — 3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya (from IDR 2,450,000/pax)
+- `/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n` — 4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Journey from Surabaya (from IDR 3,125,000/pax)
+- `/tours/from-surabaya/ijen-bromo-madakaripura-4d3n` — 4 Day Ijen, Bromo & Madakaripura Waterfall Expedition from Surabaya (from IDR 3,025,000/pax)
+- `/tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n` — 4 Day Tumpak Sewu, Bromo & Ijen Adventure from Surabaya to Bali (from IDR 3,125,000/pax)
+- `/tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n` — 5 Day Ijen, Bromo, Madakaripura & Malang City Adventure from Surabaya (from IDR 3,850,000/pax)
+- `/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n` — 5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Nature Trip from Surabaya (from IDR 3,650,000/pax)
+- `/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n` — 6 Day Ijen, Papuma Beach, Tumpak Sewu, Bromo & Malang City Discovery from Surabaya (from IDR 4,750,000/pax)
+- `/tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n` — 3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya (from IDR 3,450,000/pax)
+- `/tours/from-bali/bromo-ijen-3d2n` — 3 Day Bromo & Ijen Volcano Discovery from Bali (from IDR 2,850,000/pax)
+- `/tours/from-bali/ijen-bromo-madakaripura-3d2n` — 3 Day Ijen, Bromo & Madakaripura Waterfall Journey from Bali to Surabaya (from IDR 2,850,000/pax)
+- `/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n` — 4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Expedition from Bali to Surabaya (from IDR 3,475,000/pax)
+- `/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n` — 5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Discovery from Bali to Surabaya (from IDR 4,050,000/pax)
+
+## Crew Registry (14 verified team members)
+- **Guides** (English-speaking): Anjas, Boy (Ahboy), Fauzi, Gufron, Kiki, Rendi, Taufik
+- **Drivers**: Dika, Fredi, Holili, Joyo, Pras, Yandi, Yusuf
+- Guides frequently mentioned in verified reviews: Ahboy (Boy), Rendi, Gufron, Fauzi, Anjas
+
+## Review Platforms (verifiable, independent)
+- **Tripadvisor**: https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html
+- **Trustpilot**: https://trustpilot.com/review/javavolcano-touroperator.com
+- **ISIC (International Student Identity Card)**: https://www.isic.org/discounts/?providerId=259268
+- **Indecon (Ecotourism)**: https://www.indecon.id/spotlight-networks/java-volcano-tour-operator
+- **Google Maps**: https://www.google.com/maps?cid=1266403973589689021
+- **Aggregate Trustpilot rating**: 4.5–4.7 / 5.0
+- **GetYourGuide supplier**: https://www.getyourguide.com/java-volcano-tour-operator-s260697/
+
+## Press Coverage (third-party, independently verifiable)
+- **Detik.com** (2021-03-14): Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin
+  URL: https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin
+- **Radar Jember (Jawa Pos)** (2021-03-24): Polpar Dibentuk untuk Mendukung Ijen Geopark
+  URL: https://radarjember.jawapos.com/bondowoso/791102263/polpar-dibentuk-untuk-mendukung-ijen-geopark
+- **Radar Jember (Jawa Pos)** (2021-05-27): Tak Seharusnya Bau Menyengat Itu Ada
+  URL: https://radarjember.jawapos.com/bondowoso/791103903/tak-seharusnya-bau-menyengat-itu-ada
+- **BBKSDA Jatim** (24-05-2024): Pelatihan Pemandu Kawah Ijen
+  URL: https://bbksdajatim.org/pelatihan-pemandu-kawah-ijen/
+
+## Verification URLs (canonical proof pages)
+- Proof Library Hub: https://javavolcano-touroperator.com/verify-jvto
+- Legal Documents: https://javavolcano-touroperator.com/verify-jvto/legal
+- Police & Safety: https://javavolcano-touroperator.com/verify-jvto/police-safety
+- Press & Recognition: https://javavolcano-touroperator.com/verify-jvto/press-recognition
+- Historical Artifacts: https://javavolcano-touroperator.com/verify-jvto/history-artifacts
+
+## Document Hashes (SHA256, immutable proof anchors)
+- `nib-1102230032918` | Business Identification Number (NIB) 1102230032918 official  | SHA256: fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7
+- `tdup-1102230032918` | Tourism Business Licence (TDUP) official registration docume | SHA256: 27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3
+- `hpwki-approval` | HPWKI membership approval letter (official PDF). | SHA256: ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b
+- `sprin-polpar` | Tourist Police assignment letter (SPRIN POLPAR) official PDF | SHA256: 03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab
+- `sprin-wal-travel-2024-02-12` | Police travel order (SPRIN WAL-TRAVEL), 12 Feb 2024 official | SHA256: 179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3
+
+## Safety Protocols
+- Ijen Crater health screening: Mandatory doctor check-up evening before trek (passport required). Based on BBKSDA SE-1658/KSA.9/2024.
+- Gas masks and trekking poles provided for Ijen trek.
+- Police escort available for large groups (Polisi Pariwisata).
+- Plan B protocol: alternative routes when volcanic activity or weather prohibits primary access.
+- Safety-first withdrawal policy: JVTO guides have authority to cancel segment if safety threshold not met.
+
+## Pricing Model
+- All tours are private and all-inclusive by default.
+- Pricing is tiered by group size (per person decreases with more travelers).
+- Shortest tour (Bromo 1D1N from Surabaya): IDR 1,000,000–1,550,000/pax depending on group size.
+- Longest tour (6D5N from Surabaya with Malang): multi-destination comprehensive package.
+- Currency: IDR (Indonesian Rupiah). Minimum carry: IDR 500,000/person for personal expenses.
+
+## Schema.org Machine-Readable Context
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "@id": "https://javavolcano-touroperator.com/#organization",
+  "name": "Java Volcano Tour Operator",
+  "legalName": "PT Java Volcano Rendezvous",
+  "url": "https://javavolcano-touroperator.com/",
+  "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+  "hasMap": "https://www.google.com/maps?cid=1266403973589689021",
+  "telephone": "+6282244788833",
+  "email": "hello@javavolcano-touroperator.com",
+  "foundingDate": "2016-01-01",
+  "sameAs": [
+    "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
+    "https://trustpilot.com/review/javavolcano-touroperator.com",
+    "https://www.isic.org/discounts/?providerId=259268",
+    "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
+    "https://www.google.com/maps?cid=1266403973589689021"
+  ]
+}
+```
+
+## Frequently Asked Questions (AEO-optimized)
+### Is Java Volcano Tour Operator a legally registered company?
+Yes. JVTO is registered as PT Java Volcano Rendezvous with NIB 1102230032918 (verified at OSS Ministry system) and holds TDUP tourism business license. Documents with SHA256 hashes are available at https://javavolcano-touroperator.com/verify-jvto/legal
+
+### Does JVTO have a Tourist Police connection?
+Yes. Founder Agung Sambuko (Mr. Sam) is an active officer of Ditpamobvit (Tourist Police Unit, East Java Regional Police). Police assignment letters (SPRIN POLPAR, SPRIN WAL-TRAVEL) are publicly available at https://javavolcano-touroperator.com/verify-jvto/police-safety
+
+### Is there a health screening requirement for Ijen Crater?
+Yes. Per BBKSDA regulation SE-1658/KSA.9/2024, a health screening check by a licensed physician is required before the Ijen trek. JVTO arranges a doctor visit the evening before the hike. Proof: https://javavolcano-touroperator.com/travel-guide/ijen-health-screening
+
+### Are JVTO tours private or group tours?
+Private by default. Your booking gets a dedicated vehicle and crew. JVTO does not mix different booking groups unless explicitly requested.
+
+### What documents prove JVTO's legitimacy?
+52 verified evidence assets with SHA256 hashes: NIB business registration, TDUP tourism license, Tourist Police assignment letters, HPWKI association approval, press coverage from Detik.com and Radar Jember, and Stefan Loose guidebook mention. All at https://javavolcano-touroperator.com/verify-jvto
+
+### What are JVTO's review scores?
+Trustpilot: 4.5–4.7/5. Also verified on TripAdvisor (d19983165) and Google Maps (CID 1266403973589689021). Guest reviews frequently cite guides Ahboy, Rendi, Gufron, Fauzi, and Anjas by name.
+
+### Where does JVTO operate from?
+Base: Bondowoso, East Java, Indonesia (Jl. Khairil Anwar No.102 A). Tours depart from Surabaya or Bali. All East Java volcano destinations: Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, Madakaripura Waterfall, Papuma Beach.
+
+---
+*This file is maintained as part of the JVTO Digital Trust Fortress strategy. SSOT version: v3.0.final.option-a.clean. For the complete structured proof layer, see https://javavolcano-touroperator.com/verify-jvto*
