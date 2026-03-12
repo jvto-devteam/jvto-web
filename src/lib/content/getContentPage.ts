@@ -1,4 +1,3 @@
-// src/lib/ssot/getContentPage.ts
 import prisma from "@/lib/prisma";
 
 export async function getContentPage(route: string, lang = "en") {
