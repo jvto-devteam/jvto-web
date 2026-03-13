@@ -8,6 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    allowPrivateIpAddresses: process.env.NEXT_PUBLIC_ENV === "dev",
     remotePatterns: [
       {
         protocol: "https",
