@@ -1,4 +1,3 @@
-// src/lib/seo/jsonld.ts
 const BASE = "https://javavolcano-touroperator.com";
 
 export function buildWebPageSchema(args: {

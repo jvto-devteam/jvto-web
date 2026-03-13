@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { ArrowRight, ExternalLink } from "lucide-react";
+import { CrewGrid, type CrewMember } from "@/components/content/CrewGrid";
 
 type Block =
   | { type: "markdown"; body_md: string }
@@ -13,7 +14,8 @@ type Block =
       caption?: string | null;
       orientation?: "portrait" | "landscape" | null;
     }
-  | { type: "grid"; columns?: 2 | 3; items: CardItem[] };
+  | { type: "grid"; columns?: 2 | 3; items: CardItem[] }
+  | { type: "crew_grid"; items: CrewMember[] };
 
 type CardItem = {
   type: "card";
@@ -469,6 +471,12 @@ export function BlocksRenderer({
           ))}
         </div>,
       );
+      i += 1;
+      continue;
+    }
+
+    if (b.type === "crew_grid") {
+      out.push(<CrewGrid key={`crew-${out.length}`} items={b.items} />);
       i += 1;
       continue;
     }

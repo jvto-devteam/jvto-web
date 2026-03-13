@@ -72,7 +72,7 @@ const trustStackCards = [
   },
   {
     icon: Mountain,
-    title: "Our Team: 14 Local Crew",
+    title: "Our Team: Local Crew",
     desc: "A local operations team trained for real East Java logistics.",
     href: "/why-jvto/our-team",
   },
@@ -319,10 +319,10 @@ export default function WhyJvtoPage() {
           --border: #dde3d0;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
         .jvto-page { font-family: 'DM Sans', sans-serif; }
-        .jvto-page h1, .jvto-page h2, .jvto-page h3 { font-family: 'Syne', sans-serif; }
+        .jvto-page h1, .jvto-page h2, .jvto-page h3 { //font-family: 'Syne', sans-serif; }
         .jvto-page .mono { font-family: 'JetBrains Mono', monospace; }
 
         /* ── Hero ── */
@@ -394,7 +394,8 @@ export default function WhyJvtoPage() {
         .btn-primary {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          font-family: 'Syne', sans-serif; font-size: 0.9rem;
+          //font-family: 'Syne', sans-serif; 
+          font-size: 0.9rem;
           background: var(--brand); color: var(--ink);
           border: none; cursor: pointer; text-decoration: none;
           transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
@@ -404,7 +405,8 @@ export default function WhyJvtoPage() {
         .btn-ghost {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          font-family: 'Syne', sans-serif; font-size: 0.9rem;
+          // font-family: 'Syne', sans-serif; 
+          font-size: 0.9rem;
           background: transparent; color: #fff;
           border: 1px solid rgba(255,255,255,0.18); cursor: pointer; text-decoration: none;
           transition: background 0.2s, border-color 0.2s;
@@ -472,7 +474,8 @@ export default function WhyJvtoPage() {
         .trust-card:hover .trust-card-icon svg { color: var(--ink); }
 
         .trust-card-title {
-          font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+          // font-family: 'Syne', sans-serif; 
+          font-size: 0.95rem; font-weight: 700;
           color: var(--ink); margin-bottom: 0.5rem; line-height: 1.35;
           transition: color 0.2s;
         }
@@ -480,7 +483,8 @@ export default function WhyJvtoPage() {
         .trust-card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem; }
         .trust-card-cta {
           display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem;
-          font-weight: 700; color: var(--brand-dark); font-family: 'Syne', sans-serif;
+          font-weight: 700; color: var(--brand-dark); 
+          // font-family: 'Syne', sans-serif;
           letter-spacing: 0.02em; transition: gap 0.2s;
         }
         .trust-card:hover .trust-card-cta { gap: 0.5rem; }
@@ -517,7 +521,8 @@ export default function WhyJvtoPage() {
         .btn-outline-brand {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.8rem 1.5rem; border-radius: 0.75rem; font-weight: 700;
-          font-family: 'Syne', sans-serif; font-size: 0.875rem;
+          // font-family: 'Syne', sans-serif; 
+          font-size: 0.875rem;
           background: transparent; color: var(--brand);
           border: 1.5px solid var(--brand); cursor: pointer; text-decoration: none;
           transition: background 0.2s, color 0.2s;
@@ -579,7 +584,9 @@ export default function WhyJvtoPage() {
         .verify-link:hover { border-color: var(--brand-border); background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
         .verify-link-check { color: var(--brand); flex-shrink: 0; }
         .verify-link-text { flex: 1; }
-        .verify-link-title { font-weight: 700; font-size: 0.85rem; color: var(--ink); font-family: 'Syne', sans-serif; display: block; }
+        .verify-link-title { font-weight: 700; font-size: 0.85rem; color: var(--ink);
+        // font-family: 'Syne', sans-serif; 
+        display: block; }
         .verify-link-note { font-size: 0.75rem; color: var(--text-muted); }
         .verify-link-arrow { color: var(--text-muted); flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
         .verify-link:hover .verify-link-arrow { transform: translateX(3px); color: var(--brand-dark); }
@@ -592,7 +599,8 @@ export default function WhyJvtoPage() {
         .btn-sm-ghost {
           display: inline-flex; align-items: center; gap: 0.4rem;
           padding: 0.6rem 1.25rem; border-radius: 0.625rem; font-weight: 700;
-          font-family: 'Syne', sans-serif; font-size: 0.78rem;
+          // font-family: 'Syne', sans-serif; 
+          font-size: 0.78rem;
           background: var(--card-bg); border: 1px solid var(--border);
           color: var(--ink); text-decoration: none; white-space: nowrap;
           transition: border-color 0.2s, box-shadow 0.2s;
@@ -616,7 +624,9 @@ export default function WhyJvtoPage() {
         .proof-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.25s, transform 0.3s; }
         .proof-card:hover .proof-img-wrap img { opacity: 1; transform: scale(1.03); }
         .proof-img-placeholder { position: absolute; color: #b0bca0; }
-        .proof-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem; color: var(--ink); margin-bottom: 0.3rem; }
+        .proof-title { 
+        // font-family: 'Syne', sans-serif; 
+        font-weight: 700; font-size: 0.8rem; color: var(--ink); margin-bottom: 0.3rem; }
         .proof-hash { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); background: var(--surface); padding: 0.25rem 0.5rem; border-radius: 0.3rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         /* ── FAQ ── */
@@ -633,13 +643,17 @@ export default function WhyJvtoPage() {
           background: var(--brand); display: flex; align-items: center; justify-content: center;
         }
         .faq-icon-wrap svg { width: 1.1rem; height: 1.1rem; color: var(--ink); }
-        .faq-q { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.375rem; }
+        .faq-q { 
+        // font-family: 'Syne', sans-serif; 
+        font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.375rem; }
         .faq-a { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.875rem; line-height: 1.6; }
         .faq-links { display: flex; flex-wrap: wrap; gap: 0.625rem; }
         .faq-link {
           display: inline-flex; align-items: center; gap: 0.3rem;
           font-size: 0.75rem; font-weight: 700; color: var(--brand-dark);
-          text-decoration: none; font-family: 'Syne', sans-serif; letter-spacing: 0.01em;
+          text-decoration: none; 
+          // font-family: 'Syne', sans-serif; 
+          letter-spacing: 0.01em;
           transition: color 0.15s;
         }
         .faq-link:hover { color: var(--brand); }
@@ -665,7 +679,8 @@ export default function WhyJvtoPage() {
         .btn-dark {
           display: inline-flex; align-items: center; gap: 0.5rem;
           padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          font-family: 'Syne', sans-serif; font-size: 0.9rem;
+          // font-family: 'Syne', sans-serif; 
+          font-size: 0.9rem;
           background: rgba(255,255,255,0.07); color: #fff;
           border: 1px solid rgba(255,255,255,0.12); text-decoration: none;
           transition: background 0.2s;
