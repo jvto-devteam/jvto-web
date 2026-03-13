@@ -8,6 +8,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // Dev & production berjalan di server yang sama.
+    // javavolcano-touroperator.com di /etc/hosts resolve ke 127.0.0.1,
+    // sehingga Next.js image optimizer menolak fetch (private IP protection).
+    // allowPrivateIpAddresses mengizinkan ini — aman karena hanya aktif di dev.
+    unoptimized: process.env.NEXT_PUBLIC_ENV === "dev",
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +23,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "javavolcano-touroperator.com",
+        port: "",
+        pathname: "/**",
+      },
+      // ── Tambahan: izinkan semua subdomain *.javavolcano-touroperator.com ──
+      // Mencakup dev., staging., dan subdomain lain di masa depan
+      {
+        protocol: "https",
+        hostname: "*.javavolcano-touroperator.com",
         port: "",
         pathname: "/**",
       },
@@ -58,19 +71,14 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          // 1. WAJIB: HSTS (Supaya browser memaksa pakai HTTPS)
-          // Ini yang bikin nilaimu merah (-20 poin) sebelumnya
           {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
           },
-          // 2. WAJIB: Anti-Clickjacking
-          // Ini juga bikin merah (-20 poin) sebelumnya
           {
             key: "X-Frame-Options",
             value: "SAMEORIGIN",
           },
-          // 3. Tambahan keamanan standar
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
@@ -79,7 +87,6 @@ const nextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
-          // 4. Content Security Policy (Punya kamu)
           {
             key: "Content-Security-Policy",
             value: `
