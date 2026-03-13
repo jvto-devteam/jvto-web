@@ -13,6 +13,7 @@ const nextConfig = {
     // sehingga Next.js image optimizer menolak fetch (private IP protection).
     // allowPrivateIpAddresses mengizinkan ini — aman karena hanya aktif di dev.
     unoptimized: process.env.NEXT_PUBLIC_ENV === "dev",
+    allowPrivateIpAddresses: process.env.NEXT_PUBLIC_ENV === "dev",
     remotePatterns: [
       {
         protocol: "https",
