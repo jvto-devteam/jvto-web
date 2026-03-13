@@ -40,7 +40,7 @@ export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
         .jvto-sidebar {
           font-family: 'DM Sans', sans-serif;
@@ -153,7 +153,7 @@ export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
           color: #3a4a28;
         }
         .sidebar-back-title {
-          font-family: 'Syne', sans-serif;
+          // font-family: 'Syne', sans-serif;
           font-size: 0.8rem;
           font-weight: 700;
           letter-spacing: 0.1em;
