@@ -52,19 +52,35 @@ function CrewCard({ member }: { member: CrewMember }) {
         {/* Foto */}
         <div className="jvto-crew-photo-wrap">
           {member.photo_url ? (
-            <Image
-              src={member.photo_url}
-              alt={`${member.name} – JVTO ${member.role}`}
-              fill
-              className="jvto-crew-photo"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            />
+            member.photo_url.startsWith("/") ||
+            member.photo_url.includes("javavolcano-touroperator.com") ? (
+              <img
+                src={member.photo_url}
+                alt={`${member.name} – JVTO ${member.role}`}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                }}
+                className="jvto-crew-photo"
+              />
+            ) : (
+              <Image
+                src={member.photo_url}
+                alt={`${member.name} – JVTO ${member.role}`}
+                fill
+                className="jvto-crew-photo"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              />
+            )
           ) : (
             <div className="jvto-crew-photo-placeholder">
               {member.name.slice(0, 2).toUpperCase()}
             </div>
           )}
-
           {/* Overlay sosmed muncul saat hover */}
           <div className="jvto-crew-overlay">
             <div className="jvto-crew-social">
