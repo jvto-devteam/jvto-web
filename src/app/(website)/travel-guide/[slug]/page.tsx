@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getContentPage } from "@/lib/content/getContentPage";
-import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 import Sidebar from "../sidebar";
 import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
@@ -73,7 +73,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
             <h1 className="text-3xl font-semibold tracking-tight">{h1}</h1>
           </header>
 
-          <MarkdownRenderer markdown={body} />
+          <MarkdownRendererTravelGuide markdown={body} />
           {content?.faq && (
             <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
           )}
