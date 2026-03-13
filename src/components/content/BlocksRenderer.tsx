@@ -2,14 +2,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { CrewGrid, type CrewMember } from "@/components/content/CrewGrid";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 type Block =
   | { type: "markdown"; body_md: string }
-  | { type: "image"; src: string; alt: string; caption?: string | null }
-  | { type: "grid"; columns?: 2 | 3; items: CardItem[] }
-  | { type: "crew_grid"; items: CrewMember[] };
+  | {
+      type: "image";
+      src: string;
+      alt: string;
+      caption?: string | null;
+      orientation?: "portrait" | "landscape" | null;
+    }
+  | { type: "grid"; columns?: 2 | 3; items: CardItem[] };
 
 type CardItem = {
   type: "card";
@@ -246,11 +250,15 @@ function ImageFigure({
   src,
   alt,
   caption,
+  orientation,
 }: {
   src: string;
   alt: string;
   caption?: string | null;
+  orientation?: "portrait" | "landscape" | null;
 }) {
+  const aspectRatio = orientation === "portrait" ? "3/4" : "16/10";
+  const maxWidth = orientation === "portrait" ? "420px" : undefined;
   return (
     <figure
       style={{
@@ -258,12 +266,12 @@ function ImageFigure({
         border: "1px solid #dde3d0",
         overflow: "hidden",
         background: "#f5f7f0",
-        margin: 0,
+        margin: orientation === "portrait" ? "0 auto" : 0,
+        maxWidth,
+        width: "100%",
       }}
     >
-      <div
-        style={{ position: "relative", width: "100%", aspectRatio: "16/10" }}
-      >
+      <div style={{ position: "relative", width: "100%", aspectRatio }}>
         <Image
           src={src}
           alt={alt}
@@ -406,6 +414,7 @@ export function BlocksRenderer({
           src={img.src}
           alt={img.alt}
           caption={img.caption}
+          orientation={img.orientation}
         />
       ))}
     </div>
@@ -460,12 +469,6 @@ export function BlocksRenderer({
           ))}
         </div>,
       );
-      i += 1;
-      continue;
-    }
-
-    if (b.type === "crew_grid") {
-      out.push(<CrewGrid key={`crew-${out.length}`} items={b.items} />);
       i += 1;
       continue;
     }
