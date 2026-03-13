@@ -98,7 +98,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
     <>
       {/* Font import */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
         .jvto-lede .jvto-prose { font-size: 0.95rem; line-height: 1.75; color: #4a5a35; }
 .jvto-lede .jvto-prose p { margin: 0; }
       `}</style>
@@ -195,7 +195,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
               {/* H1 */}
               <h1
                 style={{
-                  fontFamily: "'Syne', sans-serif",
+                //   fontFamily: "'Syne', sans-serif",
                   fontSize: "clamp(1.65rem, 3.5vw, 2.5rem)",
                   fontWeight: 800,
                   letterSpacing: "-0.025em",
@@ -244,7 +244,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
                   {/* Section heading with brand-green underline */}
                   <h2
                     style={{
-                      fontFamily: "'Syne', sans-serif",
+                    //   fontFamily: "'Syne', sans-serif",
                       fontSize: "clamp(1.1rem, 2.2vw, 1.45rem)",
                       fontWeight: 700,
                       letterSpacing: "-0.015em",

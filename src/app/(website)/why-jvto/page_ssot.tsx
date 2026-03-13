@@ -63,7 +63,7 @@ const trustStackCards = [
     href: "/why-jvto/our-story",
   },
   {
-    title: "Our Team: 14 Local Crew",
+    title: "Our Team: Local Crew",
     summary: "A local operations team trained for real East Java logistics.",
     icon: Users,
     href: "/why-jvto/our-team",
