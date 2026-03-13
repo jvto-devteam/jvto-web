@@ -248,6 +248,14 @@ function ReviewLinksBlock({ md }: { md: string }) {
 // Image figure + Card link (existing)
 // ─────────────────────────────────────────────
 
+// Helper: deteksi apakah src dari domain sendiri
+function isOwnDomain(src: string): boolean {
+  return (
+    src.startsWith("/") ||
+    src.includes("javavolcano-touroperator.com")
+  );
+}
+
 function ImageFigure({
   src,
   alt,
@@ -261,6 +269,7 @@ function ImageFigure({
 }) {
   const aspectRatio = orientation === "portrait" ? "3/4" : "16/10";
   const maxWidth = orientation === "portrait" ? "420px" : undefined;
+
   return (
     <figure
       style={{
@@ -274,13 +283,29 @@ function ImageFigure({
       }}
     >
       <div style={{ position: "relative", width: "100%", aspectRatio }}>
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
+        {isOwnDomain(src) ? (
+          // Bypass Next.js image optimizer untuk gambar dari domain sendiri
+          // /_next/image gagal karena server fetch ke dirinya sendiri (loopback)
+          <img
+            src={src}
+            alt={alt}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        )}
       </div>
       {caption && (
         <figcaption
