@@ -12,7 +12,7 @@ const nextConfig = {
     // javavolcano-touroperator.com di /etc/hosts resolve ke 127.0.0.1,
     // sehingga Next.js image optimizer menolak fetch (private IP protection).
     // allowPrivateIpAddresses mengizinkan ini — aman karena hanya aktif di dev.
-    allowPrivateIpAddresses: process.env.NEXT_PUBLIC_ENV === "dev",
+    unoptimized: process.env.NEXT_PUBLIC_ENV === "dev",
     remotePatterns: [
       {
         protocol: "https",
