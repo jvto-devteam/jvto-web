@@ -4,7 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Private Tours From Bali to Java | Bromo & Ijen Crater | JVTO",
+  title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
   description:
     "Cross-island adventure from Bali to East Java. Includes ferry crossing, transport, and guided tours to Ijen Blue Fire and Mount Bromo. Drop-off in Bali or Surabaya.",
 };

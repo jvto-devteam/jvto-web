@@ -3,7 +3,7 @@ import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Press Recognition | JVTO Verification",
+  title: "Verify: Press Recognition",
   description:
     "Media coverage and recognition received by JVTO in various publications and platforms.",
 };

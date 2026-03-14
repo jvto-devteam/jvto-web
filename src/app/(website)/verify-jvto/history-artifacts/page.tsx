@@ -3,7 +3,7 @@ import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "History Artifacts | JVTO Verification",
+  title: "Verify: History Artifacts",
   description:
     "Historical records and artifacts related to JVTO's operations and legacy.",
 };

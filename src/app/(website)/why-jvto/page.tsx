@@ -28,11 +28,11 @@ const siteUrl = "https://javavolcano-touroperator.com";
 import Sidebar from "./sidebar";
 
 export const metadata: Metadata = {
-  title: "Why Choose Java Volcano Tour Operator (JVTO)",
+  title: "Why Choose Java Volcano Tour Operator",
   description:
     "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
   openGraph: {
-    title: "Why Choose Java Volcano Tour Operator (JVTO)",
+    title: "Why Choose Java Volcano Tour Operator",
     description:
       "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
     url: `${siteUrl}/why-jvto`,
