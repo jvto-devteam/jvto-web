@@ -587,10 +587,10 @@ const Navbar: React.FC = () => {
               className={`text-2xl font-black italic tracking-tighter flex items-center gap-1 ${finalLogoTextClass}`}
             >
               <Image
-                src="/assets/img/jvto-color.png"
+                src="/assets/img/jvto-logo.png"
                 alt="JVTO Logo"
-                width={100}
-                height={100}
+                width={80}
+                height={80}
                 priority
                 className="object-contain"
               />

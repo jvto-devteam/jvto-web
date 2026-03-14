@@ -54,7 +54,7 @@
     },
     "digital_presence": {
       "website": "https://javavolcano-touroperator.com/",
-      "logo_url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+      "logo_url": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
       "hero_image_url": "https://javavolcano-touroperator.com/assets/img/hero/home.webp"
     },
     "press_coverage": [
@@ -257,9 +257,9 @@
       "last_verified_iso": "2025-12-02"
     },
     {
-      "filename": "jvto-color.png",
+      "filename": "jvto-logo.png",
       "is_show": false,
-      "preview": "/assets/img/jvto-color.png",
+      "preview": "/assets/img/jvto-logo.png",
       "file_url": "",
       "caption": "JVTO Official Logo.",
       "category": "Brand",

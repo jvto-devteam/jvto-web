@@ -47,9 +47,9 @@ export default function PackingAndFitnessPage() {
         url: "https://javavolcano-touroperator.com",
         description:
           "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-        logo: "https://legacy.javavolcano-touroperator.com/assets/img/jvto-color.png",
+        logo: "https://legacy.javavolcano-touroperator.com/assets/img/jvto-logo.png",
         image: [
-          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/jvto-logo.png",
           siteUrl + "/assets/img/hero/home.webp",
         ],
         email: "hello@javavolcano-touroperator.com",
@@ -207,7 +207,7 @@ export default function PackingAndFitnessPage() {
           url: siteUrl + "/assets/img/hero/home.webp",
         },
         image: [
-          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/jvto-logo.png",
           siteUrl + "/assets/img/hero/home.webp",
         ],
         breadcrumb: {
@@ -288,7 +288,7 @@ export default function PackingAndFitnessPage() {
           "@id": "https://javavolcano-touroperator.com/#organization",
         },
         image: [
-          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/jvto-logo.png",
           siteUrl + "/assets/img/hero/home.webp",
         ],
         mainEntityOfPage: {

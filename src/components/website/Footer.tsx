@@ -82,7 +82,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
           <div className="flex items-center gap-2 mb-4 md:mb-0">
               <Image
-                src="/assets/img/jvto-color.png"
+                src="/assets/img/jvto-logo.png"
                 alt="JVTO Logo Footer"
                 width={70}
                 height={70}

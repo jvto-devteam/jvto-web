@@ -519,7 +519,7 @@ export default function VerifyJvtoPage() {
       addressCountry: "ID",
     },
     image: `${siteUrl}/assets/img/office-hq.jpg`,
-    logo: `${siteUrl}/assets/img/jvto-color.png`,
+    logo: `${siteUrl}/assets/img/jvto-logo.png`,
     priceRange: "$$",
 
     // Link to founder node by @id
