@@ -777,10 +777,10 @@
         "slug": "jvto-hero-image"
       },
       {
-        "filename": "jvto-color.png",
+        "filename": "jvto-logo.png",
         "caption": "JVTO Official Logo.",
         "alt_text": "Java Volcano Tour Operator Logo.",
-        "url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        "url": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
         "category": "Brand",
         "display_priority": 0,
         "slug": "jvto-logo-main"

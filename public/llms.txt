@@ -123,7 +123,7 @@ In a landscape where volcanic nature is uncertain, JVTO sells operational certai
   "name": "Java Volcano Tour Operator",
   "legalName": "PT Java Volcano Rendezvous",
   "url": "https://javavolcano-touroperator.com/",
-  "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+  "logo": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
   "hasMap": "https://www.google.com/maps?cid=1266403973589689021",
   "telephone": "+6282244788833",
   "email": "hello@javavolcano-touroperator.com",

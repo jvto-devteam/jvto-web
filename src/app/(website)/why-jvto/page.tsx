@@ -166,9 +166,9 @@ export default function WhyJvtoPage() {
         url: "https://javavolcano-touroperator.com",
         description:
           "Registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer.",
-        logo: "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        logo: "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
         image: [
-          siteUrl + "/assets/img/jvto-color.png",
+          siteUrl + "/assets/img/jvto-logo.png",
           siteUrl + "/assets/img/hero/home.webp",
         ],
         email: "hello@javavolcano-touroperator.com",

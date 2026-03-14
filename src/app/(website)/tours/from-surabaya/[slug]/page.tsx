@@ -226,7 +226,7 @@ function StructuredData({ data }: { data: TourPackageDetail }) {
     "@id": `${siteUrl}/#organization`,
     name: "Java Volcano Tour Operator (JVTO)",
     url: siteUrl,
-    logo: `${siteUrl}/assets/img/jvto-color.png`,
+    logo: `${siteUrl}/assets/img/jvto-logo.png`,
     image: [`${siteUrl}/assets/img/office-front.jpg`],
     email: "hello@javavolcano-touroperator.com",
     telephone: "+62 822-4478-8833",

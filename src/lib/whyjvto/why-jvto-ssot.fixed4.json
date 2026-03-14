@@ -95,7 +95,7 @@
     },
     "digital_presence": {
       "website": "https://javavolcano-touroperator.com/",
-      "logo_url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+      "logo_url": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
       "hero_image_url": "https://javavolcano-touroperator.com/assets/img/hero/home.webp",
       "whatsapp_url": "https://wa.me/6282244788833"
     },
@@ -920,18 +920,18 @@
       "preview": "/assets/img/hero/home.webp"
     },
     {
-      "filename": "jvto-color.png",
+      "filename": "jvto-logo.png",
       "caption": "JVTO Official Logo.",
       "alt_text": "Java Volcano Tour Operator Logo.",
-      "url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+      "url": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
       "category": "Brand",
       "display_priority": 0,
       "slug": "jvto-logo-main",
       "geo_context": "Brand Identity: Official logo of PT Java Volcano Rendezvous.",
       "sha256": "d4656af297a92e9f2a22a120e194b22106566d05da550226d1c52046b29caf0f",
       "last_verified_iso": "2025-12-02T00:00:00",
-      "file_url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-      "preview": "/assets/img/jvto-color.png"
+      "file_url": "https://javavolcano-touroperator.com/assets/img/jvto-logo.png",
+      "preview": "/assets/img/jvto-logo.png"
     },
     {
       "filename": "jvto-office-screening-1.JPG",

@@ -95,7 +95,7 @@ export async function GET() {
 
   <publisher>
     <name>Java Volcano Tour Operator</name>
-    <favicon>https://javavolcano-touroperator.com/assets/img/jvto-color.png</favicon>
+    <favicon>https://javavolcano-touroperator.com/assets/img/jvto-logo.png</favicon>
   </publisher>
 
   <reviews>
