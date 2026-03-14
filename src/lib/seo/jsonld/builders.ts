@@ -172,6 +172,15 @@ export function buildOrganizationJsonLd(
 
   // Jika schema_json sudah tersimpan di DB (sudah complete) — strip @context
   if (org.schema_json && typeof org.schema_json === "object") {
+    if (Array.isArray(org.schema_json)) {
+      return org.schema_json;
+    }
+    
+    // Fallback jika berupa objek yang punya @graph
+    if (Array.isArray(org.schema_json["@graph"])) {
+      return org.schema_json["@graph"];
+    }
+    
     const { "@context": _ctx, ...rest } = org.schema_json as any;
     return rest;
   }

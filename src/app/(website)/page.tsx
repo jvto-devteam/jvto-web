@@ -63,6 +63,8 @@ const Home = async () => {
   const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
   const siteNode = buildWebSiteJsonLd(SITE_URL);
 
+  const safeOrgNodes = Array.isArray(orgNode) ? orgNode : (orgNode ? [orgNode] : []);
+
   // ── WebPage homepage ──────────────────────────────────────────────────────
   const webPageNode = {
     "@type": "WebPage",
@@ -184,7 +186,7 @@ const Home = async () => {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      orgNode,
+      ...safeOrgNodes,
       siteNode,
       webPageNode,
       breadcrumbNode,
