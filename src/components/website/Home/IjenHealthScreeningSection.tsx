@@ -16,19 +16,19 @@ import {
 
 const IMAGES = [
   {
-    src: "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
+    src: "/screening/ijen-screening-hotel-01.jpeg",
     alt: "Nurse performing medical check at hotel",
   },
   {
-    src: "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
+    src: "/screening/ijen-screening-hotel-02.jpg",
     alt: "Health screening session at hotel lobby",
   },
   {
-    src: "https://javavolcano-touroperator.com/screening/jvto-office-screening-1.JPG",
+    src: "/screening/jvto-office-screening-1.JPG",
     alt: "Medical screening at JVTO office",
   },
   {
-    src: "https://javavolcano-touroperator.com/screening/jvto-office-screening-2.jpg",
+    src: "/screening/jvto-office-screening-2.jpg",
     alt: "Health check process at JVTO office",
   },
 ];
