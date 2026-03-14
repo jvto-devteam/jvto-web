@@ -374,9 +374,9 @@ export default function ToursPageClient({
     <div className="container mx-auto px-6">
       {/* HEADER */}
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
+        <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
           {destinationName} Tours
-        </h2>
+        </h1>
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {description}
         </p>

@@ -155,10 +155,10 @@ export default function VerifyJvtoClient({
                 <Gavel className="w-3.5 h-3.5" />
                 Forensic Verification Protocol
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 leading-tight tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 leading-tight tracking-tight">
                 Trust Through{" "}
                 <span className="text-[#1445b8]">Transparency.</span>
-              </h2>
+              </h1>
               <p className="text-slate-600 text-lg leading-relaxed max-w-2xl mb-6">
                 This locker serves as a digitally signed, immutable repository
                 of <strong>PT Java Volcano Rendezvous</strong>'s legal standing
