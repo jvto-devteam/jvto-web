@@ -4,7 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Private Tours | East Java & Bali Adventures | JVTO",
+  title: "All Private Tours | East Java & Bali Adventures",
   description:
     "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
 };

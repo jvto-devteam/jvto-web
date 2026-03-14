@@ -4,7 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu | JVTO",
+  title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
   description:
     "Explore East Java starting from Surabaya. Best private tours to Mount Bromo sunrise, Ijen Blue Fire, and Madakaripura Waterfall. All-inclusive & hassle-free.",
 };

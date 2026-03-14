@@ -18,14 +18,14 @@ const ROUTE = "/destinations";
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
+  title: "East Java Destinations | Bromo, Ijen & More",
   description:
     "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
   alternates: {
     canonical: `${SITE_URL}${ROUTE}`,
   },
   openGraph: {
-    title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
+    title: "East Java Destinations | Bromo, Ijen & More",
     description:
       "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
     url: `${SITE_URL}${ROUTE}`,

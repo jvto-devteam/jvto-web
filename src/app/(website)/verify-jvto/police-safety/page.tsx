@@ -3,7 +3,7 @@ import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Police Authority & Safety Protocols | JVTO Verification",
+  title: "Verify: Police Authority & Safety Protocols",
   description:
     "Forensic evidence of Tourist Police integration, health screening, and operational safety.",
 };

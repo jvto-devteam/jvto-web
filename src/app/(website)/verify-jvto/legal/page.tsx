@@ -4,7 +4,7 @@ import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Legal Documents & Business Licenses | JVTO Verification",
+  title: "Verify: Legal Documents",
   description:
     "Verify NIB, TDUP, and official business registrations of PT Java Volcano Rendezvous.",
 };

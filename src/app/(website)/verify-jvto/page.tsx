@@ -7,11 +7,11 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
 export const metadata: Metadata = {
-  title: "Verify JVTO: Forensic Evidence Locker & Legal Documents",
+  title: "Verify: Forensic Evidence Locker & Legal Documents",
   description:
     "Forensic verification of JVTO's Tourist Police authority, NIB legality, and operational safety protocols. Download official SHA256-signed documents.",
   openGraph: {
-    title: "Verify JVTO: Forensic Evidence Locker",
+    title: "Verify: Forensic Evidence Locker",
     description:
       "Access official Police Orders (SPRIN), Business Licenses (NIB), and Safety Protocols. Verified Single Source of Truth.",
     url: `${siteUrl}/verify-jvto`,
