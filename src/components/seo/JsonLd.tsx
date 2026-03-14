@@ -1,5 +1,4 @@
 import React from "react";
-import Script from "next/script";
 
 type JsonLdValue =
   | Record<string, any>[]
@@ -19,10 +18,9 @@ export function JsonLd({ data }: { data: JsonLdValue }) {
   if (!payload.length) return null;
 
   return (
-    <Script
-      id={`json-ld-${Math.random().toString(36).substring(2, 9)}`}
+    <script
       type="application/ld+json"
-      strategy="afterInteractive"
+      // Menggunakan tag HTML standar agar langsung tercetak di Server-Side
       dangerouslySetInnerHTML={{
         __html:
           payload.length === 1
