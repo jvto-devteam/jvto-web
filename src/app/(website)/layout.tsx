@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 // Pastikan path import komponen di bawah ini sesuai dengan struktur folder Anda
-import { GoogleAnalytics } from "@/components/GoogleAnalytics"; 
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
 import { contactInfo } from "@/constants";
@@ -9,7 +9,8 @@ import type { Metadata } from "next";
 import { Providers } from "../providers";
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
 export const metadata: Metadata = {
   // 1. MetadataBase sangat penting untuk mengubah link relative menjadi absolute secara otomatis
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
   title: {
     default: "JVTO Tours | Private East Java Adventures",
-    template: "%s | JVTO Tours" // Optional: Template untuk child pages
+    template: "%s | JVTO Tours", // Optional: Template untuk child pages
   },
   description:
     "Private all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu & more. 24/7 support from local experts.",
@@ -53,7 +54,17 @@ export const metadata: Metadata = {
     apple: "/assets/img/favicon/apple-touch-icon.png",
   },
 
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1, // Ini yang akan membuka gembok ekstraksi AI!
+    },
+  },
 };
 
 export default function WebsiteLayout({
@@ -63,23 +74,23 @@ export default function WebsiteLayout({
 }) {
   return (
     <>
-    <Providers>
-      <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
-        {/* GA optional logic */}
-        {/* <Suspense>
+      <Providers>
+        <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
+          {/* GA optional logic */}
+          {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
         </Suspense> */}
 
-        <div className="min-h-screen flex flex-col bg-white">
-          <header>
-            <Navbar />
-          </header>
+          <div className="min-h-screen flex flex-col bg-white">
+            <header>
+              <Navbar />
+            </header>
 
-          <main className="flex-1">{children}</main>
+            <main className="flex-1">{children}</main>
 
-          <Footer />
+            <Footer />
+          </div>
         </div>
-      </div>
       </Providers>
     </>
   );
