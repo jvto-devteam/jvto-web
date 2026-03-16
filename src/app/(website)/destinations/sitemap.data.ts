@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
 import { prisma } from "@/lib/prisma";
+import { getLastModified, type LastModifiedMap } from "@/app/sitemap-utils";
 
-export async function sitemapDestinations(t: Date): Promise<MetadataRoute.Sitemap> {
+export async function sitemapDestinations(
+  t: Date,
+  lastModifiedMap: LastModifiedMap,
+): Promise<MetadataRoute.Sitemap> {
   const destinations = await prisma.destinations.findMany({
     where: {
       id: {
@@ -28,7 +32,7 @@ export async function sitemapDestinations(t: Date): Promise<MetadataRoute.Sitema
   return [
     {
       url: url("/destinations"),
-      lastModified: t,
+      lastModified: getLastModified(lastModifiedMap, "/destinations", t),
       changeFrequency: "weekly", 
       priority: 0.9,
     },

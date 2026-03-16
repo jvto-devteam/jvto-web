@@ -2,34 +2,44 @@
 import type { Metadata } from "next";
 import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "Verify: Forensic Evidence Locker & Legal Documents",
+  h1: "Trust Through Transparency.",
   description:
     "Forensic verification of JVTO's Tourist Police authority, NIB legality, and operational safety protocols. Download official SHA256-signed documents.",
-  openGraph: {
-    title: "Verify: Forensic Evidence Locker",
-    description:
-      "Access official Police Orders (SPRIN), Business Licenses (NIB), and Safety Protocols. Verified Single Source of Truth.",
-    url: `${siteUrl}/verify-jvto`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: `${siteUrl}/assets/img/og/verify-jvto.webp`,
-        width: 1200,
-        height: 630,
-        alt: "JVTO Verification Shield",
-      },
-    ],
-  },
 };
 
-export default function VerifyJvtoPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: `${siteUrl}/verify-jvto`,
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: `${siteUrl}/assets/img/og/verify-jvto.webp`,
+          width: 1200,
+          height: 630,
+          alt: seo.h1,
+        },
+      ],
+    },
+  };
+}
+
+export default async function VerifyJvtoPage() {
+  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
   const orgProfile: any = (ssotData as any).organization_profile;
   const visibleAssets = (ssotData as any).assets_inventory.filter(
     (a: any) => a.is_show === true,
@@ -769,7 +779,10 @@ export default function VerifyJvtoPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VerifyJvtoClient />
+      <VerifyJvtoClient
+        heroTitle={seo.h1}
+        heroDescription={seo.description}
+      />
     </>
   );
 }

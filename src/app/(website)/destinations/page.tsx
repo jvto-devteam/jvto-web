@@ -10,6 +10,7 @@ import {
   buildBreadcrumbJsonLd,
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -17,38 +18,45 @@ const ROUTE = "/destinations";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "East Java Destinations | Bromo, Ijen & More",
+  h1: "Destinations",
   description:
     "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
-  alternates: {
-    canonical: `${SITE_URL}${ROUTE}`,
-  },
-  openGraph: {
-    title: "East Java Destinations | Bromo, Ijen & More",
-    description:
-      "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
-    url: `${SITE_URL}${ROUTE}`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: `${SITE_URL}/assets/img/og/destinations.webp`,
-        width: 1200,
-        height: 630,
-        alt: "East Java Destinations — Java Volcano Tour Operator",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "East Java Destinations | Bromo, Ijen & More | JVTO Tours",
-    description:
-      "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
-    images: [`${SITE_URL}/assets/img/og/destinations.webp`],
-  },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo(ROUTE, fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: {
+      canonical: `${SITE_URL}${ROUTE}`,
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: `${SITE_URL}${ROUTE}`,
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/assets/img/og/destinations.webp`,
+          width: 1200,
+          height: 630,
+          alt: seo.h1,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [`${SITE_URL}/assets/img/og/destinations.webp`],
+    },
+  };
+}
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
@@ -63,6 +71,7 @@ async function getAllDestinations(): Promise<Destination[]> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationsPage() {
+  const seo = await getPageSeo(ROUTE, fallbackSeo);
   const [destinations, org] = await Promise.all([
     getAllDestinations(),
     getOrganizationProfile(),
@@ -92,11 +101,10 @@ export default async function DestinationsPage() {
             <div>
               {/* h2 → h1: sebelumnya tidak ada h1 di halaman ini */}
               <h1 className="text-3xl md:text-4xl font-black uppercase mb-4">
-                Destinations
+                {seo.h1}
               </h1>
               <p className="text-gray-600 max-w-xl">
-                From the fires of Ijen to the waters of Tumpak Sewu. Discover
-                the elemental landscapes of East Java.
+                {seo.description}
               </p>
             </div>
           </div>

@@ -59,7 +59,7 @@ import {
 
 interface Props {
   initialData: TourPackageDetail;
-  reviews: any[];
+  reviews?: any[];
 }
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...

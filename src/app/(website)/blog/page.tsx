@@ -1,12 +1,24 @@
 import InsightsPage from "@/components/website/InsightsPage";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from 'next'
-export const metadata: Metadata = {
+import { getPageSeo } from "@/lib/content/getPageSeo";
+
+const fallbackSeo = {
   title: "Insights | JVTO's Blog on Safety, Planning & Community",
+  h1: "Insights & Explainers",
   description: "Explore our articles on choosing a legal operator, understanding Ijen health screening, and maximizing your East Java trip. Expert advice from a police-led team.",
 };
 
-export default function Insights() {
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/blog", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
+
+export default async function Insights() {
+  const seo = await getPageSeo("/blog", fallbackSeo);
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -33,7 +45,7 @@ export default function Insights() {
   return (
     <>
       <StructuredData data={schema} />
-      <InsightsPage />;
+      <InsightsPage title={seo.h1} description={seo.description} />;
     </>
   );
 }

@@ -23,6 +23,13 @@ export interface DestinationDetail {
   id: number;
   code: string;
   name: string;
+  seo_title?: string;
+  seo_description?: string;
+  schema_json?: Record<string, any> | null;
+  banner?: {
+    url: string;
+    alt: string;
+  };
   category: string;
   region: string;
   province: string;
@@ -131,6 +138,8 @@ interface _Product {
   packageId: string;
   slug: string;
   name: string;
+  seoTitle?: string;
+  seoDescription?: string;
   shortLabel: string;
   originCity: string;
   endCity: string;

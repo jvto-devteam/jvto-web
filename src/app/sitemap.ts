@@ -1,9 +1,9 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
 import { now } from "@/lib/site";
+import { getContentPageLastModifiedMap } from "./sitemap-utils";
 
 import { sitemapRoot } from "./sitemap.data";
-// import { sitemapBlog } from "./(website)/blog/sitemap.data";
 import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
 import { sitemapTravelGuide } from "./(website)/travel-guide/sitemap.data";
 import { sitemapDestinations } from "./(website)/destinations/sitemap.data";
@@ -13,9 +13,45 @@ import { sitemapToursFromBali } from "./(website)/tours/from-bali/sitemap.data";
 
 // Prisma butuh Node runtime
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const t = now();
+  const lastModifiedMap = await getContentPageLastModifiedMap(
+    [
+      "/",
+      "/contact",
+      "/destinations",
+      "/isic/student-package",
+      "/tours",
+      "/tours/from-surabaya",
+      "/tours/from-bali",
+      "/travel-guide",
+      "/travel-guide/faq",
+      "/travel-guide/safety-on-tours",
+      "/travel-guide/weather-and-closures",
+      "/travel-guide/packing-and-fitness",
+      "/travel-guide/booking-information",
+      "/travel-guide/police-escort-for-groups",
+      "/travel-guide/ijen-health-screening",
+      "/policy",
+      "/policy/privacy",
+      "/policy/inclusions-exclusions",
+      "/policy/booking-payment-cancellation",
+      "/why-jvto",
+      "/why-jvto/the-jvto-difference",
+      "/why-jvto/reviews",
+      "/why-jvto/our-story",
+      "/why-jvto/our-team",
+      "/why-jvto/community-standards",
+      "/verify-jvto",
+      "/verify-jvto/legal",
+      "/verify-jvto/press-recognition",
+      "/verify-jvto/history-artifacts",
+      "/verify-jvto/police-safety",
+    ],
+    t,
+  );
 
   const [
     root,
@@ -25,16 +61,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     toursIdx,
     fromSub,
     fromBali,
-    // blog,
   ] = await Promise.all([
-    sitemapRoot(t),
-    sitemapWhyJvto(t),
-    sitemapTravelGuide(t),
-    sitemapDestinations(t),
-    sitemapToursIndex(t),
+    sitemapRoot(t, lastModifiedMap),
+    sitemapWhyJvto(t, lastModifiedMap),
+    sitemapTravelGuide(t, lastModifiedMap),
+    sitemapDestinations(t, lastModifiedMap),
+    sitemapToursIndex(t, lastModifiedMap),
     sitemapToursFromSurabaya(t),
     sitemapToursFromBali(t),
-    // sitemapBlog(t),
   ]);
 
 
@@ -46,6 +80,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...toursIdx,
     ...fromSub,
     ...fromBali,
-    // ...blog,
   ];
 }

@@ -19,8 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const row = await getContentPage(`/why-jvto/${slug}`, "en");
   if (!row) return { title: "Page Not Found" };
-  const seo = row.seo ?? {};
-  return { title: seo.title, description: seo.description };
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const content = (row.content as Record<string, any> | null) ?? {};
+  return {
+    title: seo.title ?? content.h1 ?? row.route,
+    description: seo.description ?? undefined,
+  };
 }
 
 function SectionNav({
@@ -93,6 +97,8 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   if (!row) return notFound();
 
   const content = row.content as any;
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
 
   return (
     <>
@@ -162,7 +168,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
               </Link>
               <span style={{ color: "#c0cca8" }}>›</span>
               <span style={{ color: "#0c0e09", fontWeight: 600 }}>
-                {content?.h1}
+                {h1}
               </span>
             </nav>
 
@@ -205,7 +211,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
                   margin: "0 0 1.25rem 0",
                 }}
               >
-                {content?.h1}
+                {h1}
               </h1>
 
               {/* Hero subhead */}
