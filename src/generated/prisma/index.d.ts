@@ -108336,6 +108336,8 @@ export namespace Prisma {
     operational_complexity_note: string | null
     first_day_last_pickup_guidance: string | null
     last_day_safe_flight_note: string | null
+    seo_title: string | null
+    seo_meta: string | null
   }
 
   export type PackagesMaxAggregateOutputType = {
@@ -108370,6 +108372,8 @@ export namespace Prisma {
     operational_complexity_note: string | null
     first_day_last_pickup_guidance: string | null
     last_day_safe_flight_note: string | null
+    seo_title: string | null
+    seo_meta: string | null
   }
 
   export type PackagesCountAggregateOutputType = {
@@ -108414,6 +108418,8 @@ export namespace Prisma {
     safety_mitigation: number
     handover_notes: number
     emergency_protocols: number
+    seo_title: number
+    seo_meta: number
     _all: number
   }
 
@@ -108478,6 +108484,8 @@ export namespace Prisma {
     operational_complexity_note?: true
     first_day_last_pickup_guidance?: true
     last_day_safe_flight_note?: true
+    seo_title?: true
+    seo_meta?: true
   }
 
   export type PackagesMaxAggregateInputType = {
@@ -108512,6 +108520,8 @@ export namespace Prisma {
     operational_complexity_note?: true
     first_day_last_pickup_guidance?: true
     last_day_safe_flight_note?: true
+    seo_title?: true
+    seo_meta?: true
   }
 
   export type PackagesCountAggregateInputType = {
@@ -108556,6 +108566,8 @@ export namespace Prisma {
     safety_mitigation?: true
     handover_notes?: true
     emergency_protocols?: true
+    seo_title?: true
+    seo_meta?: true
     _all?: true
   }
 
@@ -108687,6 +108699,8 @@ export namespace Prisma {
     safety_mitigation: string[]
     handover_notes: string[]
     emergency_protocols: string[]
+    seo_title: string | null
+    seo_meta: string | null
     _count: PackagesCountAggregateOutputType | null
     _avg: PackagesAvgAggregateOutputType | null
     _sum: PackagesSumAggregateOutputType | null
@@ -108750,6 +108764,8 @@ export namespace Prisma {
     safety_mitigation?: boolean
     handover_notes?: boolean
     emergency_protocols?: boolean
+    seo_title?: boolean
+    seo_meta?: boolean
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
     combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
     package_addons?: boolean | packages$package_addonsArgs<ExtArgs>
@@ -108813,6 +108829,8 @@ export namespace Prisma {
     safety_mitigation?: boolean
     handover_notes?: boolean
     emergency_protocols?: boolean
+    seo_title?: boolean
+    seo_meta?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
     end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
@@ -108862,6 +108880,8 @@ export namespace Prisma {
     safety_mitigation?: boolean
     handover_notes?: boolean
     emergency_protocols?: boolean
+    seo_title?: boolean
+    seo_meta?: boolean
     durations?: boolean | packages$durationsArgs<ExtArgs>
     end_destination?: boolean | packages$end_destinationArgs<ExtArgs>
     order_channels?: boolean | packages$order_channelsArgs<ExtArgs>
@@ -108911,9 +108931,11 @@ export namespace Prisma {
     safety_mitigation?: boolean
     handover_notes?: boolean
     emergency_protocols?: boolean
+    seo_title?: boolean
+    seo_meta?: boolean
   }
 
-  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count" | "traveler_requirements" | "tags" | "operational_complexity_note" | "first_day_last_pickup_guidance" | "last_day_safe_flight_note" | "health_requirements" | "environmental_risks" | "safety_mitigation" | "handover_notes" | "emergency_protocols", ExtArgs["result"]["packages"]>
+  export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count" | "traveler_requirements" | "tags" | "operational_complexity_note" | "first_day_last_pickup_guidance" | "last_day_safe_flight_note" | "health_requirements" | "environmental_risks" | "safety_mitigation" | "handover_notes" | "emergency_protocols" | "seo_title" | "seo_meta", ExtArgs["result"]["packages"]>
   export type packagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
     combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
@@ -109014,6 +109036,8 @@ export namespace Prisma {
       safety_mitigation: string[]
       handover_notes: string[]
       emergency_protocols: string[]
+      seo_title: string | null
+      seo_meta: string | null
     }, ExtArgs["result"]["packages"]>
     composites: {}
   }
@@ -109496,6 +109520,8 @@ export namespace Prisma {
     readonly safety_mitigation: FieldRef<"packages", 'String[]'>
     readonly handover_notes: FieldRef<"packages", 'String[]'>
     readonly emergency_protocols: FieldRef<"packages", 'String[]'>
+    readonly seo_title: FieldRef<"packages", 'String'>
+    readonly seo_meta: FieldRef<"packages", 'String'>
   }
     
 
@@ -140459,7 +140485,9 @@ export namespace Prisma {
     environmental_risks: 'environmental_risks',
     safety_mitigation: 'safety_mitigation',
     handover_notes: 'handover_notes',
-    emergency_protocols: 'emergency_protocols'
+    emergency_protocols: 'emergency_protocols',
+    seo_title: 'seo_title',
+    seo_meta: 'seo_meta'
   };
 
   export type PackagesScalarFieldEnum = (typeof PackagesScalarFieldEnum)[keyof typeof PackagesScalarFieldEnum]
@@ -147989,6 +148017,8 @@ export namespace Prisma {
     safety_mitigation?: StringNullableListFilter<"packages">
     handover_notes?: StringNullableListFilter<"packages">
     emergency_protocols?: StringNullableListFilter<"packages">
+    seo_title?: StringNullableFilter<"packages"> | string | null
+    seo_meta?: StringNullableFilter<"packages"> | string | null
     bookings?: BookingsListRelationFilter
     combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
@@ -148051,6 +148081,8 @@ export namespace Prisma {
     safety_mitigation?: SortOrder
     handover_notes?: SortOrder
     emergency_protocols?: SortOrder
+    seo_title?: SortOrderInput | SortOrder
+    seo_meta?: SortOrderInput | SortOrder
     bookings?: bookingsOrderByRelationAggregateInput
     combined_package_details?: combined_package_detailsOrderByRelationAggregateInput
     package_addons?: package_addonsOrderByRelationAggregateInput
@@ -148116,6 +148148,8 @@ export namespace Prisma {
     safety_mitigation?: StringNullableListFilter<"packages">
     handover_notes?: StringNullableListFilter<"packages">
     emergency_protocols?: StringNullableListFilter<"packages">
+    seo_title?: StringNullableFilter<"packages"> | string | null
+    seo_meta?: StringNullableFilter<"packages"> | string | null
     bookings?: BookingsListRelationFilter
     combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
@@ -148178,6 +148212,8 @@ export namespace Prisma {
     safety_mitigation?: SortOrder
     handover_notes?: SortOrder
     emergency_protocols?: SortOrder
+    seo_title?: SortOrderInput | SortOrder
+    seo_meta?: SortOrderInput | SortOrder
     _count?: packagesCountOrderByAggregateInput
     _avg?: packagesAvgOrderByAggregateInput
     _max?: packagesMaxOrderByAggregateInput
@@ -148230,6 +148266,8 @@ export namespace Prisma {
     safety_mitigation?: StringNullableListFilter<"packages">
     handover_notes?: StringNullableListFilter<"packages">
     emergency_protocols?: StringNullableListFilter<"packages">
+    seo_title?: StringNullableWithAggregatesFilter<"packages"> | string | null
+    seo_meta?: StringNullableWithAggregatesFilter<"packages"> | string | null
   }
 
   export type page_contentsWhereInput = {
@@ -157679,6 +157717,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -157741,6 +157781,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -157793,6 +157835,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -157855,6 +157899,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -157912,6 +157958,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type packagesUpdateManyMutationInput = {
@@ -157951,6 +157999,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type packagesUncheckedUpdateManyInput = {
@@ -157995,6 +158045,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type page_contentsCreateInput = {
@@ -165355,6 +165407,8 @@ export namespace Prisma {
     safety_mitigation?: SortOrder
     handover_notes?: SortOrder
     emergency_protocols?: SortOrder
+    seo_title?: SortOrder
+    seo_meta?: SortOrder
   }
 
   export type packagesAvgOrderByAggregateInput = {
@@ -165403,6 +165457,8 @@ export namespace Prisma {
     operational_complexity_note?: SortOrder
     first_day_last_pickup_guidance?: SortOrder
     last_day_safe_flight_note?: SortOrder
+    seo_title?: SortOrder
+    seo_meta?: SortOrder
   }
 
   export type packagesMinOrderByAggregateInput = {
@@ -165437,6 +165493,8 @@ export namespace Prisma {
     operational_complexity_note?: SortOrder
     first_day_last_pickup_guidance?: SortOrder
     last_day_safe_flight_note?: SortOrder
+    seo_title?: SortOrder
+    seo_meta?: SortOrder
   }
 
   export type packagesSumOrderByAggregateInput = {
@@ -183767,6 +183825,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -183828,6 +183888,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -184666,6 +184728,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -184727,6 +184791,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -185089,6 +185155,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -185150,6 +185218,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -185250,6 +185320,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -185311,6 +185383,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -186612,6 +186686,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -186673,6 +186749,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -186863,6 +186941,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -186924,6 +187004,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -188431,6 +188513,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -188491,6 +188575,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -188553,6 +188639,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -188613,6 +188701,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -189005,6 +189095,8 @@ export namespace Prisma {
     safety_mitigation?: StringNullableListFilter<"packages">
     handover_notes?: StringNullableListFilter<"packages">
     emergency_protocols?: StringNullableListFilter<"packages">
+    seo_title?: StringNullableFilter<"packages"> | string | null
+    seo_meta?: StringNullableFilter<"packages"> | string | null
   }
 
   export type packagesUpsertWithWhereUniqueWithoutStart_destinationInput = {
@@ -189763,6 +189855,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -189823,6 +189917,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -191352,6 +191448,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -191412,6 +191510,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -191758,6 +191858,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
@@ -191819,6 +191921,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
@@ -191925,6 +192029,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
@@ -191986,6 +192092,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -192037,6 +192145,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -192098,6 +192208,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -192208,6 +192320,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -192269,6 +192383,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -192369,6 +192485,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -192429,6 +192547,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -192652,6 +192772,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -192713,6 +192835,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -192931,6 +193055,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -192992,6 +193118,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -193064,6 +193192,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -193125,6 +193255,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -193219,6 +193351,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -193280,6 +193414,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -193331,6 +193467,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -193392,6 +193530,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -193490,6 +193630,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -193551,6 +193693,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -193702,6 +193846,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -193763,6 +193909,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -193899,6 +194047,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -193960,6 +194110,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -194011,6 +194163,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -194072,6 +194226,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -194139,6 +194295,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -194200,6 +194358,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -194272,6 +194432,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -194333,6 +194495,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -194427,6 +194591,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -194488,6 +194654,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -195040,6 +195208,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -195101,6 +195271,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -195376,6 +195548,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -195437,6 +195611,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -195539,6 +195715,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
@@ -195600,6 +195778,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
     combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
@@ -195694,6 +195874,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -195755,6 +195937,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -203913,6 +204097,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type packagesCreateManyStart_destinationInput = {
@@ -203956,6 +204142,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type destination_assetsCreateManyDestinationInput = {
@@ -204346,6 +204534,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -204406,6 +204596,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -204462,6 +204654,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type packagesUpdateWithoutStart_destinationInput = {
@@ -204501,6 +204695,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -204561,6 +204757,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -204617,6 +204815,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type destination_assetsUpdateWithoutDestinationInput = {
@@ -204918,6 +205118,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type bookingsUpdateWithoutDurationsInput = {
@@ -205088,6 +205290,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -205148,6 +205352,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -205204,6 +205410,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type faqsCreateManyCategoryInput = {
@@ -205839,6 +206047,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type transport_crew_rulesCreateManyOrder_channelsInput = {
@@ -206088,6 +206298,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -206148,6 +206360,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -206204,6 +206418,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type transport_crew_rulesUpdateWithoutOrder_channelsInput = {
@@ -206329,6 +206545,8 @@ export namespace Prisma {
     safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
     handover_notes?: packagesCreatehandover_notesInput | string[]
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
+    seo_title?: string | null
+    seo_meta?: string | null
   }
 
   export type packagesUpdateWithoutPackage_categoriesInput = {
@@ -206368,6 +206586,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
@@ -206428,6 +206648,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
     combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
@@ -206484,6 +206706,8 @@ export namespace Prisma {
     safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
     handover_notes?: packagesUpdatehandover_notesInput | string[]
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type package_itinerary_day_detailsCreateManyLocations_fromInput = {

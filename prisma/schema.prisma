@@ -1487,6 +1487,8 @@ model packages {
   safety_mitigation               String[] @db.Text
   handover_notes                  String[] @db.Text
   emergency_protocols             String[] @db.Text
+  seo_title                       String?  @db.Text
+  seo_meta                        String?  @db.Text
   bookings                                                 bookings[]
   combined_package_details                                 combined_package_details[]
   package_addons                                           package_addons[]

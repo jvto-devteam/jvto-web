@@ -1211,7 +1211,9 @@ exports.Prisma.PackagesScalarFieldEnum = {
   environmental_risks: 'environmental_risks',
   safety_mitigation: 'safety_mitigation',
   handover_notes: 'handover_notes',
-  emergency_protocols: 'emergency_protocols'
+  emergency_protocols: 'emergency_protocols',
+  seo_title: 'seo_title',
+  seo_meta: 'seo_meta'
 };
 
 exports.Prisma.Page_contentsScalarFieldEnum = {
