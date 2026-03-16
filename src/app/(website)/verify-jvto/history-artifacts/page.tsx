@@ -2,6 +2,8 @@ import { getDocsByGroup } from "@/lib/data-loader";
 import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import StructuredData from "@/components/website/StructuredData";
+import { buildVerifySubpageSchema } from "../schema";
 
 const fallbackSeo = {
   title: "Verify: History Artifacts",
@@ -19,11 +21,22 @@ export default async function HistoryArtifactsPage() {
   const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   const docs = getDocsByGroup("historyArtifacts");
   return (
-    <VerifyJvtoClient
-      initialDocs={docs}
-      groupTitle={seo.h1}
-      heroTitle={seo.h1}
-      heroDescription={seo.description}
-    />
+    <>
+      <StructuredData
+        data={buildVerifySubpageSchema({
+          pathname: "/verify-jvto/history-artifacts",
+          title: seo.title,
+          description: seo.description,
+          breadcrumbLabel: seo.h1,
+          docs,
+        })}
+      />
+      <VerifyJvtoClient
+        initialDocs={docs}
+        groupTitle={seo.h1}
+        heroTitle={seo.h1}
+        heroDescription={seo.description}
+      />
+    </>
   );
 }

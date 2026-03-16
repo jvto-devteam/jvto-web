@@ -2,6 +2,8 @@ import { getDocsByGroup } from "@/lib/data-loader";
 import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import StructuredData from "@/components/website/StructuredData";
+import { buildVerifySubpageSchema } from "../schema";
 
 const fallbackSeo = {
   title: "Verify: Police Authority & Safety Protocols",
@@ -19,11 +21,22 @@ export default async function PoliceSafetyPage() {
   const seo = await getPageSeo("/verify-jvto/police-safety", fallbackSeo);
   const docs = getDocsByGroup("policeSafety");
   return (
-    <VerifyJvtoClient
-      initialDocs={docs}
-      groupTitle={seo.h1}
-      heroTitle={seo.h1}
-      heroDescription={seo.description}
-    />
+    <>
+      <StructuredData
+        data={buildVerifySubpageSchema({
+          pathname: "/verify-jvto/police-safety",
+          title: seo.title,
+          description: seo.description,
+          breadcrumbLabel: seo.h1,
+          docs,
+        })}
+      />
+      <VerifyJvtoClient
+        initialDocs={docs}
+        groupTitle={seo.h1}
+        heroTitle={seo.h1}
+        heroDescription={seo.description}
+      />
+    </>
   );
 }

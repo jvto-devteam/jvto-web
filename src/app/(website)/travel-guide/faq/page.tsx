@@ -10,21 +10,46 @@ import type { Metadata } from "next";
 import { generateFaqSchema } from "@/lib/generateFaqSchema";
 import Link from "next/link";
 import Sidebar from "../sidebar";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
+  h1: "Frequently Asked Questions",
   description:
     "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
-  images: [
-    {
-      url: siteUrl + "/assets/img/og/travel-guide.webp",
-      width: 1200,
-      height: 630,
-      alt: "Travel Guide",
-    },
-  ],
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      url: `${siteUrl}/travel-guide/faq`,
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: siteUrl + "/assets/img/og/travel-guide.webp",
+          width: 1200,
+          height: 630,
+          alt: seo.h1,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+    },
+  };
+}
 
 async function getFaqData() {
   // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
@@ -81,6 +106,7 @@ async function getFaqData() {
 }
 
 export default async function FaqPage() {
+  const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
   const categoriesData = await getFaqData();
 
   // 3. Safety Filter: Memastikan sekali lagi di level aplikasi (Defensive Programming)
@@ -111,16 +137,15 @@ export default async function FaqPage() {
                 Travel Guide
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">FAQ</span>
+              <span className="text-foreground font-medium">{seo.h1}</span>
             </nav>
 
             <div className=" mb-12">
               <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
-                Frequently Asked Questions
+                {seo.h1}
               </h1>
               <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-                Have questions? We have the answers. Here are some of the most
-                frequently asked questions from our travelers.
+                {seo.description}
               </p>
             </div>
 
