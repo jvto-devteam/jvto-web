@@ -37,6 +37,7 @@ async function getDestination(slug: string): Promise<DestinationDetail | null> {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = await getDestination(slug);
+  
   if (!data) return { title: "Destination Not Found" };
 
   const title = data.seo?.title ?? `${data.name} | JVTO Tours`;
@@ -80,12 +81,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationDetailPage({ params }: Props) {
-  const slug = params.slug;
+  const { slug } = await params;
 
   const [data, org] = await Promise.all([
     getDestination(slug),
     getOrganizationProfile(),
   ]);
+
+  console.log(org);
+  
 
   if (!data) notFound();
 
