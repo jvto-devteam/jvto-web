@@ -24,6 +24,7 @@ interface ToursPageClientProps {
   initialTours: ListTourPackage[];
   destinationName: string;
   description: string;
+  title?: string;
   showLocationFilter?: boolean; // <--- PROP BARU (Optional, default false)
 }
 
@@ -67,6 +68,7 @@ export default function ToursPageClient({
   initialTours,
   destinationName,
   description,
+  title,
   showLocationFilter = false, // Default false agar aman untuk halaman lain
 }: ToursPageClientProps) {
   
@@ -375,7 +377,7 @@ export default function ToursPageClient({
       {/* HEADER */}
       <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
-          {destinationName} Tours
+          {title ?? `${destinationName} Tours`}
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
           {description}

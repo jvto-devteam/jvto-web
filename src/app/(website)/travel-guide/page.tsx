@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
 import StructuredData from "@/components/website/StructuredData";
 import Sidebar from "./sidebar";
+import { getContentPage } from "@/lib/content/getContentPage";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -156,34 +157,46 @@ const travelGuideData = {
 };
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-export const metadata: Metadata = {
-  title: travelGuideData.seo.title,
-  description: travelGuideData.seo.metaDescription,
-  openGraph: {
-    title: travelGuideData.seo.title,
-    description: travelGuideData.seo.metaDescription,
-    url: `${siteUrl}/travel-guide`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: siteUrl + "/assets/img/og/travel-guide.webp",
-        width: 1200,
-        height: 630,
-        alt: "Travel Guide",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: travelGuideData.seo.title,
-    description: travelGuideData.seo.metaDescription,
-    images: [siteUrl + "/assets/img/og/travel-guide.webp"],
-  },
-};
 
-export default function TravelGuideHubPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const row = await getContentPage("/travel-guide", "en");
+  const seo = (row?.seo as Record<string, any> | null) ?? {};
+  const content = (row?.content as Record<string, any> | null) ?? {};
+  const title = seo.title ?? travelGuideData.seo.title;
+  const description =
+    seo.description ?? travelGuideData.seo.metaDescription;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${siteUrl}/travel-guide`,
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: siteUrl + "/assets/img/og/travel-guide.webp",
+          width: 1200,
+          height: 630,
+          alt: content.h1 ?? "Travel Guide",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [siteUrl + "/assets/img/og/travel-guide.webp"],
+    },
+  };
+}
+
+export default async function TravelGuideHubPage() {
+  const row = await getContentPage("/travel-guide", "en");
+  const content = (row?.content as Record<string, any> | null) ?? {};
   const travelGuideSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -553,8 +566,8 @@ export default function TravelGuideHubPage() {
     ],
   };
 
-  const { h1, hero, latestUpdate, operatingStatus, toc, panels } =
-    travelGuideData;
+  const { hero, latestUpdate, operatingStatus, toc, panels } = travelGuideData;
+  const h1 = content.h1 ?? travelGuideData.h1;
 
   return (
     <div className="flex min-h-screen bg-background">

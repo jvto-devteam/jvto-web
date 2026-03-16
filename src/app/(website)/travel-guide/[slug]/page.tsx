@@ -22,11 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const seo = row.seo ?? {};
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const content = (row.content as Record<string, any> | null) ?? {};
 
   return {
-    title: seo?.title,
-    description: seo?.description,
+    title: seo.title ?? content.h1 ?? row.route,
+    description: seo.description ?? undefined,
   };
 }
 
@@ -38,7 +39,8 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   if (!row) return notFound();
 
   const content = row.content as any;
-  const h1 = content?.h1;
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
   const body = content?.body_md ?? "";
 
   return (

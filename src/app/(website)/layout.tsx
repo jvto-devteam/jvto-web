@@ -15,13 +15,9 @@ const siteUrl =
 export const metadata: Metadata = {
   // 1. MetadataBase sangat penting untuk mengubah link relative menjadi absolute secara otomatis
   metadataBase: new URL(siteUrl),
-
-  title: {
-    default: "JVTO Tours | Private East Java Adventures",
-    template: "%s | JVTO Tours", // Optional: Template untuk child pages
+  alternates: {
+    canonical: "./",
   },
-  description:
-    "Private all-inclusive tours to Mount Bromo, Ijen Crater, Tumpak Sewu & more. 24/7 support from local experts.",
 
   // Open Graph global fallback (Akan dipakai jika halaman anak TIDAK mendefinisikan OG Image)
   openGraph: {

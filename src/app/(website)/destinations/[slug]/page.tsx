@@ -11,9 +11,6 @@ import {
 } from "@/lib/seo/jsonld/builders";
 
 export const dynamic = "force-dynamic";
-interface Props {
-  params: { slug: string }; // Synchronous
-}
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -37,12 +34,15 @@ async function getDestination(slug: string): Promise<DestinationDetail | null> {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = await getDestination(slug);
-  
+
   if (!data) return { title: "Destination Not Found" };
 
-  const title = data.seo?.title ?? `${data.name} | JVTO Tours`;
+  const title = data.seo_title?.trim() || `${data.name} | JVTO Tours`;
   const description =
-    data.seo?.description ?? data.summary ?? data.highlight ?? "";
+    data.seo_description?.trim() ||
+    data.summary ||
+    data.highlight ||
+    "";
   const imageUrl = data.banner?.url
     ? data.banner.url.startsWith("http")
       ? data.banner.url
@@ -88,9 +88,6 @@ export default async function DestinationDetailPage({ params }: Props) {
     getOrganizationProfile(),
   ]);
 
-  console.log(org);
-  
-
   if (!data) notFound();
 
   // ── Schema @graph ──────────────────────────────────────────────────────────
@@ -103,7 +100,7 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
   const siteNode = buildWebSiteJsonLd(SITE_URL);
-  const destNodes = extractDestinationNodes(data.schema_json);
+  const destNodes = extractDestinationNodes(data.schema_json ?? null);
 
   const schema = {
     "@context": "https://schema.org",

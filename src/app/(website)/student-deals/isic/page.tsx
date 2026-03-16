@@ -3,21 +3,32 @@ import JsonLd from "@/components/JsonLd";
 import { ButtonLink, Container, Divider, Grid, H1, Lead, Card, Section, Notice } from "@/components/ui";
 import { buildBreadcrumbJsonLd, buildOrganizationJsonLd, buildWebPageJsonLd } from "@/lib/jsonld";
 import { getReviewPlatforms } from "@/lib/why-ssot";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "ISIC Student Deals — JVTO",
+  h1: "ISIC Student Deals",
   description:
     "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it.",
 };
 
-export default function ISICStudentDealsPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/student-deals/isic", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
+
+export default async function ISICStudentDealsPage() {
+  const seo = await getPageSeo("/student-deals/isic", fallbackSeo);
   const pathname = "/student-deals/isic";
   const platforms = getReviewPlatforms();
   const isicListing = platforms.find((p) => p.platform.startsWith("ISIC"))?.url;
 
   const jsonLd = [
     buildOrganizationJsonLd(),
-    buildWebPageJsonLd({ pathname, title: metadata.title as string, description: metadata.description as string }),
+    buildWebPageJsonLd({ pathname, title: seo.title, description: seo.description }),
     buildBreadcrumbJsonLd({
       pathname,
       items: [
@@ -32,8 +43,8 @@ export default function ISICStudentDealsPage() {
     <Container>
       <JsonLd data={jsonLd} />
 
-      <H1>ISIC Student Deals</H1>
-      <Lead>Fair pricing for verified students, designed to be transparent and structured.</Lead>
+      <H1>{seo.h1}</H1>
+      <Lead>{seo.description}</Lead>
 
       <div className="mt-6 flex flex-wrap gap-3">
         <ButtonLink href="/why-jvto/strategic-partners">Why this partnership exists</ButtonLink>

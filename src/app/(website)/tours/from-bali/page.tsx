@@ -2,12 +2,22 @@ import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
+  h1: "Bali Tours",
   description:
     "Cross-island adventure from Bali to East Java. Includes ferry crossing, transport, and guided tours to Ijen Blue Fire and Mount Bromo. Drop-off in Bali or Surabaya.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -25,6 +35,7 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageBali() {
+  const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
   const initialTours = await getToursFromBali();
 
   const schema = {
@@ -57,7 +68,8 @@ export default async function ToursPageBali() {
         <ToursPageClient 
           initialTours={initialTours}
           destinationName="Bali"
-          description="Start your volcano adventure from the Island of Gods. We handle the ferry tickets and logistics for a seamless journey to witness Ijen's Blue Fire and Bromo's Sunrise."
+          title={seo.h1}
+          description={seo.description}
         />
       </section>
     </>

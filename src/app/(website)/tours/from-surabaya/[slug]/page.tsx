@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
+import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { prisma } from "@/lib/prisma";
 
@@ -35,6 +36,8 @@ interface ProductData {
   packageId: string;
   name: string;
   slug: string | string[];
+  seoTitle?: string;
+  seoDescription?: string;
   description: string;
   imageUrl?: string;
   gallery?: string[];
@@ -55,11 +58,6 @@ interface ProductData {
     reviewCount: number | string;
   };
   route?: string[];
-}
-
-interface TourPackageDetail {
-  product: ProductData;
-  // field lain di root response jika dibutuhkan
 }
 
 interface Props {
@@ -136,7 +134,7 @@ const getTourData = cache(async (slugParam: string[]) => {
     );
 
     if (!res.ok) return null;
-    return (await res.json()) as TourPackageDetail;
+    return (await res.json()) as TourPackageDetailResponse;
   } catch (error) {
     console.error("Error fetching tour details:", error);
     return null;
@@ -145,7 +143,7 @@ const getTourData = cache(async (slugParam: string[]) => {
 
 // --- 4. INTERNAL COMPONENT: STRUCTURED DATA ---
 
-function StructuredData({ data }: { data: TourPackageDetail }) {
+function StructuredData({ data }: { data: TourPackageDetailResponse }) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const pkg = data.product;
@@ -189,8 +187,8 @@ function StructuredData({ data }: { data: TourPackageDetail }) {
       const departureTime = firstActivity?.timeWindow || "08:00";
       const arrivalTime = lastActivity
         ? calculateEndTime(
-            lastActivity.timeWindow,
-            lastActivity.durationMinutes
+            lastActivity.timeWindow || "18:00",
+            lastActivity.durationMinutes ?? 0
           )
         : "18:00";
 
@@ -211,7 +209,7 @@ function StructuredData({ data }: { data: TourPackageDetail }) {
                 "@type": "TouristAttraction",
                 name: act.name,
                 description: act.description,
-                url: getDestinationUrl(act.location || act.name),
+                url: getDestinationUrl(act.location || act.name || ""),
               },
             })) || [],
         },
@@ -371,8 +369,11 @@ export async function generateMetadata(
 
   const cleanDesc = stripHtml(pkg.description).substring(0, 160);
   const price = formatCurrency(pkg.offers?.aggregateOffer?.lowPrice || 0);
-  const metaTitle = `${pkg.name} | Private Tour from ${pkg.originCity}`;
-  const metaDesc = `Book ${pkg.name}. Starts from ${price}. ${cleanDesc}...`;
+  const metaTitle =
+    pkg.seoTitle?.trim() || `${pkg.name} | Private Tour from ${pkg.originCity}`;
+  const metaDesc =
+    pkg.seoDescription?.trim() ||
+    `Book ${pkg.name}. Starts from ${price}. ${cleanDesc}...`;
 
   const rawImage =
     pkg.imageUrl ||

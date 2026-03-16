@@ -11,12 +11,22 @@ import {
   CheckCircle2,
   ArrowRight
 } from "lucide-react";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "Explore Java's Volcanoes with ISIC Benefits | JVTO",
+  h1: "Explore Java's Volcanoes with ISIC Benefits",
   description:
     "Exclusive student deals for ISIC cardholders on safe, all-inclusive volcano tours in East Java with Java Volcano Tour Operator.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
 
 async function getAllTours(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -34,6 +44,7 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function IsicStudentPackagePage() {
+  const seo = await getPageSeo("/isic/student-package", fallbackSeo);
   const studentPackages = await getAllTours();
 
   return (
@@ -67,10 +78,10 @@ export default async function IsicStudentPackagePage() {
               />
             </div>
             <h1 className="font-black text-4xl md:text-6xl tracking-tight mb-4 drop-shadow-lg">
-              Explore Java's Volcanoes with ISIC Benefits
+              {seo.h1}
             </h1>
             <p className="text-lg md:text-xl font-medium max-w-3xl drop-shadow-md">
-              Travelling with ISIC and JVTO. "A TALE OF TWO PEAKS"
+              {seo.description}
             </p>
           </div>
         </section>

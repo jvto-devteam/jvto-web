@@ -33,9 +33,13 @@ import { usePathname } from "next/navigation";
 export default function VerifyJvtoClient({
   initialDocs,
   groupTitle,
+  heroTitle,
+  heroDescription,
 }: {
   initialDocs?: Doc[];
   groupTitle?: string;
+  heroTitle?: string;
+  heroDescription?: string;
 }) {
   const [activeTab, setActiveTab] = useState("all");
   const pathname = usePathname();
@@ -156,14 +160,23 @@ export default function VerifyJvtoClient({
                 Forensic Verification Protocol
               </div>
               <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 leading-tight tracking-tight">
-                Trust Through{" "}
-                <span className="text-[#1445b8]">Transparency.</span>
+                {heroTitle ?? (
+                  <>
+                    Trust Through{" "}
+                    <span className="text-[#1445b8]">Transparency.</span>
+                  </>
+                )}
               </h1>
               <p className="text-slate-600 text-lg leading-relaxed max-w-2xl mb-6">
-                This locker serves as a digitally signed, immutable repository
-                of <strong>PT Java Volcano Rendezvous</strong>'s legal standing
-                (NIB 1102230032918), <strong>Tourist Police authority</strong>{" "}
-                (Ditpamobvit), and operational history in East Java.
+                {heroDescription ?? (
+                  <>
+                    This locker serves as a digitally signed, immutable
+                    repository of <strong>PT Java Volcano Rendezvous</strong>'s
+                    legal standing (NIB 1102230032918),{" "}
+                    <strong>Tourist Police authority</strong> (Ditpamobvit), and
+                    operational history in East Java.
+                  </>
+                )}
               </p>
               <div className="flex flex-wrap gap-y-2 gap-x-6 text-sm text-slate-700 font-medium">
                 <span className="flex items-center gap-2">

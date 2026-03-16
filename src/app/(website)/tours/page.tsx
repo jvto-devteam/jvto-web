@@ -2,12 +2,22 @@ import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "All Private Tours | East Java & Bali Adventures",
+  h1: "All Destinations Tours",
   description:
     "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/tours", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
 
 async function getAllTours(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -25,6 +35,7 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageGlobal() {
+  const seo = await getPageSeo("/tours", fallbackSeo);
   const initialTours = await getAllTours();
 
   const schema = {
@@ -57,7 +68,8 @@ export default async function ToursPageGlobal() {
         <ToursPageClient 
           initialTours={initialTours}
           destinationName="All Destinations"
-          description="Discover the ultimate collection of volcanic adventures, waterfall expeditions, and wildlife safaris across East Java and Bali."
+          title={seo.h1}
+          description={seo.description}
           showLocationFilter={true} // <--- INI KUNCINYA
         />
       </section>

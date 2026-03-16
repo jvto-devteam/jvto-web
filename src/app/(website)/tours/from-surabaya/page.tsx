@@ -2,12 +2,22 @@ import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 
-export const metadata: Metadata = {
+const fallbackSeo = {
   title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
+  h1: "Surabaya Tours",
   description:
     "Explore East Java starting from Surabaya. Best private tours to Mount Bromo sunrise, Ijen Blue Fire, and Madakaripura Waterfall. All-inclusive & hassle-free.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/tours/from-surabaya", fallbackSeo);
+  return {
+    title: seo.title,
+    description: seo.description,
+  };
+}
 
 async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -25,6 +35,7 @@ async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageSurabaya() {
+  const seo = await getPageSeo("/tours/from-surabaya", fallbackSeo);
   const initialTours = await getToursFromSurabaya();
 
   const schema = {
@@ -57,7 +68,8 @@ export default async function ToursPageSurabaya() {
         <ToursPageClient 
           initialTours={initialTours}
           destinationName="Surabaya"
-          description="The most convenient starting point for your East Java adventure. Our private tours from Surabaya include premium transport, expert guides, and seamless access to Mount Bromo and Ijen Crater."
+          title={seo.h1}
+          description={seo.description}
         />
       </section>
     </>

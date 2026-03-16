@@ -67,7 +67,15 @@ const ArticleCard: React.FC<(typeof articles)[0]> = ({
   </Link>
 );
 
-const InsightsPage = () => {
+interface InsightsPageProps {
+  title?: string;
+  description?: string;
+}
+
+const InsightsPage = ({
+  title = "Insights & Explainers",
+  description = "Long-form articles explaining how we operate, why safety standards matter, and how to plan your trip effectively.",
+}: InsightsPageProps) => {
   const breadcrumbCrumbs = [
     { name: "Home", path: "/" },
     { name: "Insights", path: "/insights" },
@@ -85,11 +93,10 @@ const InsightsPage = () => {
           ></div>
           <div className="relative container mx-auto px-4">
             <h1 className="text-4xl md:text-6xl font-bold">
-              Insights & Explainers
+              {title}
             </h1>
             <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-              Long-form articles explaining how we operate, why safety standards
-              matter, and how to plan your trip effectively.
+              {description}
             </p>
           </div>
         </header>

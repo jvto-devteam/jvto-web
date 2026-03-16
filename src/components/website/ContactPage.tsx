@@ -4,17 +4,25 @@ import BookingForm from './BookingForm';
 import { contactInfo, proofLinks } from '@/constants';
 import { MapPin, Phone, Mail } from "lucide-react";
 
-const ContactPage = () => {
+interface ContactPageProps {
+  title?: string;
+  description?: string;
+}
+
+const ContactPage = ({
+  title = "Contact Us",
+  description = "We're here to help you plan your perfect East Java adventure. Reach out with any questions!",
+}: ContactPageProps) => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 py-10">
       
       {/* Header Section (Text Only) */}
       <header className="pt-24 pb-8 md:pt-32 md:pb-12 container mx-auto px-4 text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
-          Contact Us
+          {title}
         </h1>
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          We're here to help you plan your perfect East Java adventure. Reach out with any questions!
+          {description}
         </p>
       </header>
       

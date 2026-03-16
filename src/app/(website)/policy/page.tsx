@@ -17,11 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 
-  const seo = row.seo ?? {};
+  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const content = (row.content as Record<string, any> | null) ?? {};
 
   return {
-    title: seo?.title,
-    description: seo?.description,
+    title: seo.title ?? content.h1 ?? row.route,
+    description: seo.description ?? undefined,
   };
 }
 export default async function PolicyHubPage() {
@@ -70,7 +71,12 @@ export default async function PolicyHubPage() {
     },
   ] as const;
   const row = await getContentPage(`/policy`, "en");
+  if (!row) {
+    return null;
+  }
+  const seo = (row.seo as Record<string, any> | null) ?? {};
   const content = row.content as any;
+  const h1 = content?.h1 ?? seo.title ?? "JVTO Policies";
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -84,7 +90,7 @@ export default async function PolicyHubPage() {
           created_at: row.created_at,
           updated_at: row.updated_at,
         }}
-        extraSchemas={row.seo?.schema_json}
+        extraSchemas={seo.schema_json}
       />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
@@ -103,7 +109,7 @@ export default async function PolicyHubPage() {
             {/* Title */}
             <div className=" mb-10">
               <h1 className="font-black text-2xl md:text-5xl mb-4">
-                JVTO Policies
+                {h1}
               </h1>
               <p className="text-muted-foreground max-w-3xl">
                 This page is a navigation hub. For binding terms, open the

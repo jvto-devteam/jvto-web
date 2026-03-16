@@ -24,38 +24,48 @@ import {
   Fingerprint,
   Newspaper,
 } from "lucide-react";
+import { getContentPage } from "@/lib/content/getContentPage";
 const siteUrl = "https://javavolcano-touroperator.com";
 import Sidebar from "./sidebar";
 
-export const metadata: Metadata = {
-  title: "Why Choose Java Volcano Tour Operator",
-  description:
-    "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
-  openGraph: {
-    title: "Why Choose Java Volcano Tour Operator",
-    description:
-      "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
-    url: `${siteUrl}/why-jvto`,
-    siteName: "Java Volcano Tour Operator",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: siteUrl + "/assets/img/og/why-jvto.webp",
-        width: 1200,
-        height: 630,
-        alt: "Why JVTO",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Why Choose Java Volcano Tour Operator (JVTO)",
-    description:
-      "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.",
-    images: [siteUrl + "/assets/img/og/why-jvto.webp"],
-  },
-};
+const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
+const defaultWhyDescription =
+  "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const row = await getContentPage("/why-jvto", "en");
+  const seo = (row?.seo as Record<string, any> | null) ?? {};
+  const content = (row?.content as Record<string, any> | null) ?? {};
+  const title = seo.title ?? defaultWhyTitle;
+  const description = seo.description ?? defaultWhyDescription;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${siteUrl}/why-jvto`,
+      siteName: "Java Volcano Tour Operator",
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: siteUrl + "/assets/img/og/why-jvto.webp",
+          width: 1200,
+          height: 630,
+          alt: content.h1 ?? "Why JVTO",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [siteUrl + "/assets/img/og/why-jvto.webp"],
+    },
+  };
+}
 
 const trustStackCards = [
   {
@@ -154,7 +164,10 @@ const proofDocs = [
   },
 ];
 
-export default function WhyJvtoPage() {
+export default async function WhyJvtoPage() {
+  const row = await getContentPage("/why-jvto", "en");
+  const content = (row?.content as Record<string, any> | null) ?? {};
+  const heroH1 = content.h1 ?? defaultWhyTitle;
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -712,13 +725,7 @@ export default function WhyJvtoPage() {
                 Police-Led Expedition Standard
               </div>
               <h1 className="hero-h1">
-                Why Choose
-                <br />
-                <span>
-                  Java Volcano
-                  <br />
-                  Tour Operator?
-                </span>
+                {heroH1}
               </h1>
               <p className="hero-lede">
                 JVTO is a registered Indonesian tour operator based in
