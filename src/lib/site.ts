@@ -9,6 +9,7 @@ if (!env) {
 export const BASE_URL = env.replace(/\/+$/, "");
 
 export const url = (path: string) => {
+  if (path === "/" || path === "") return BASE_URL;
   if (!path.startsWith("/")) path = `/${path}`;
   return `${BASE_URL}${path}`;
 };
