@@ -2,7 +2,15 @@ import Image from "next/image";
 import Button from "../UI/Button";
 import { Star } from "lucide-react";
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  title?: string;
+  description?: string;
+}
+
+const Hero: React.FC<HeroProps> = ({
+  title = "Tourist Police-Led Private Volcano Tours in East Java",
+  description = "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+}) => {
   return (
     <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -121,14 +129,11 @@ const Hero: React.FC = () => {
 
 
         <h1 className="text-3xl md:text-6xl font-black leading-tight mb-6 uppercase tracking-tight max-w-5xl mx-auto">
-          Tourist Police-Led <br /> Private Volcano Tours <br /> in East Java
+          {title}
         </h1>
 
         <p className="text-md md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto font-light">
-          Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali.
-          Licensed Indonesian operator (Licence 1102230032918), police-led
-          safety culture, all-inclusive packages, Ijen health screening
-          included.
+          {description}
         </p>
 
         <div className="flex gap-4 justify-center md:hidden">

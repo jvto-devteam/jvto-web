@@ -4,6 +4,7 @@ import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
 import { ListTourPackage } from "@/types";
 import Image from "next/image";
+import StructuredData from "@/components/website/StructuredData";
 import { 
   ShieldCheck, 
   Users, 
@@ -46,9 +47,56 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 export default async function IsicStudentPackagePage() {
   const seo = await getPageSeo("/isic/student-package", fallbackSeo);
   const studentPackages = await getAllTours();
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://javavolcano-touroperator.com";
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${siteUrl}/isic/student-package#webpage`,
+        url: `${siteUrl}/isic/student-package`,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/isic/student-package#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "ISIC Student Package",
+            item: `${siteUrl}/isic/student-package`,
+          },
+        ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteUrl}/isic/student-package#packages`,
+        name: "ISIC student packages",
+        numberOfItems: studentPackages.length,
+        itemListElement: studentPackages.map((tour, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${siteUrl}/${tour.slug}`,
+          name: tour.name,
+        })),
+      },
+    ],
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-sans">
+      <StructuredData data={schema} />
       <main className="flex-grow">
         
         {/* ================= HERO SECTION ================= */}

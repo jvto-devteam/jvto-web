@@ -86,6 +86,7 @@ export interface Destination {
   name: string;
   description: string;
   slug: string;
+  schema_json?: Record<string, any> | null;
   banner: {
     url: string;
     alt: string;
