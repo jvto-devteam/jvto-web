@@ -6,9 +6,12 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
 
+  // trailing slash
   if (pathname !== "/" && pathname.endsWith("/")) {
     const clean = pathname.slice(0, -1);
-    return NextResponse.redirect(new URL(clean, req.url), 301);
+    const res = NextResponse.redirect(new URL(clean, req.url), 301);
+    trackVisit(req, res);
+    return res;
   }
 
   const rawHost = req.headers.get("host") || "";
@@ -19,15 +22,21 @@ export function middleware(req: NextRequest) {
     host === `my.${domain}.local` || host === `my.${domain}.com`;
 
   if (!isCustomerHost && pathname.startsWith("/customer")) {
-    return new NextResponse("404 Not Found", { status: 404 });
+    const res = new NextResponse("404 Not Found", { status: 404 });
+    trackVisit(req, res);
+    return res;
   }
 
   if (isCustomerHost) {
     if (pathname === "/") {
       url.pathname = "/customer";
-      return NextResponse.rewrite(url);
+      const res = NextResponse.rewrite(url);
+      trackVisit(req, res);
+      return res;
     }
-    return NextResponse.next();
+    const res = NextResponse.next();
+    trackVisit(req, res);
+    return res;
   }
 
   // daftar exact URL delete permanent
@@ -163,7 +172,9 @@ export function middleware(req: NextRequest) {
 
   // 410 untuk exact match
   if (goneUrls.includes(pathname)) {
-    return new NextResponse("410 Gone", { status: 410 });
+    const res = new NextResponse("410 Gone", { status: 410 });
+    trackVisit(req, res);
+    return res;
   }
 
   const redirectMap: Record<string, string> = {
@@ -184,27 +195,63 @@ export function middleware(req: NextRequest) {
     "/why-jvto/proof-transparency/history-artifacts":
       "/verify-jvto/history-artifacts",
   };
+
   if (pathname.startsWith("/faq")) {
-    return NextResponse.redirect(new URL("/travel-guide/faq", req.url), 301);
+    const res = NextResponse.redirect(
+      new URL("/travel-guide/faq", req.url),
+      301,
+    );
+    trackVisit(req, res);
+    return res;
   }
+
   if (pathname.startsWith("/packages") || pathname.startsWith("/tours/style")) {
-    return NextResponse.redirect(new URL("/tours", req.url), 301);
+    const res = NextResponse.redirect(new URL("/tours", req.url), 301);
+    trackVisit(req, res);
+    return res;
   }
+
   const destination = redirectMap[pathname];
-
   if (destination) {
-    // Gunakan 301 untuk SEO (Permanent Redirect)
-    return NextResponse.redirect(new URL(destination, req.url), 301);
+    const res = NextResponse.redirect(new URL(destination, req.url), 301);
+    trackVisit(req, res);
+    return res;
   }
 
-  return NextResponse.next();
+  const res = NextResponse.next();
+  trackVisit(req, res);
+  return res;
 }
+
+function trackVisit(request: NextRequest, response: NextResponse) {
+  void fetch("https://api.knownagents.com/visits", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.KNOWN_AGENTS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      request_path: request.nextUrl.pathname,
+      request_method: request.method,
+      request_headers: {
+        "user-agent": request.headers.get("user-agent") || "",
+        referer: request.headers.get("referer") || "",
+        "x-forwarded-for":
+          request.headers.get("x-forwarded-for") ||
+          request.headers.get("x-real-ip") ||
+          "",
+      },
+      response_status_code: response.status,
+      response_headers: {
+        "content-type": response.headers.get("content-type") || "text/html",
+      },
+    }),
+  }).catch((error) => {
+    console.error("Known Agents tracking error:", error);
+  });
+}
+
 export const config = {
-  // Matcher ini berfungsi untuk MENGECUALIKAN middleware pada path tertentu:
-  // 1. /api (API Routes termasuk NextAuth) -> Agar tidak kena error JSON
-  // 2. /_next (Next.js internals)
-  // 3. /static (Static files)
-  // 4. favicon.ico, sitemap.xml, robots.txt, dll
   matcher: [
     "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
