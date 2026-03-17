@@ -13,6 +13,7 @@ import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPageSeo } from "@/lib/content/getPageSeo";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -23,18 +24,27 @@ import {
 import { miniFaqs, faqsCopy } from "@/constants";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
+const fallbackSeo = {
+  title:
+    "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
+  h1: "Tourist Police-Led Private Volcano Tours in East Java",
+  description:
+    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+};
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = {
-  title:
-    "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
-  description:
-    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
-  alternates: {
-    canonical: SITE_URL,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/", fallbackSeo);
+
+  return {
+    title: seo.title,
+    description: seo.description,
+    alternates: {
+      canonical: SITE_URL,
+    },
+  };
+}
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
@@ -53,6 +63,7 @@ async function getDestinations(): Promise<Destination[]> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
+  const seo = await getPageSeo("/", fallbackSeo);
   // Fetch sekali — dipakai untuk schema DAN HomeDestinations
   const [org, destinations] = await Promise.all([
     getOrganizationProfile(),
@@ -70,9 +81,8 @@ const Home = async () => {
     "@type": "WebPage",
     "@id": `${SITE_URL}/#webpage`,
     url: `${SITE_URL}/`,
-    name: "Java Volcano Tour Operator — Private Volcano Tours in East Java",
-    description:
-      "Private Bromo, Ijen & Tumpak Sewu tours led by an active Tourist Police officer. Licensed, all-inclusive, safety-first.",
+    name: seo.title,
+    description: seo.description,
     inLanguage: "en",
     isPartOf: { "@id": WEBSITE_ID },
     about: { "@id": ORG_ID },
@@ -200,7 +210,7 @@ const Home = async () => {
   return (
     <main>
       <JsonLd data={schema} />
-      <Hero />
+      <Hero title={seo.h1} description={seo.description} />
       {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}
       <HomeDestinations destinations={destinations} />
       <FeaturedTours />
