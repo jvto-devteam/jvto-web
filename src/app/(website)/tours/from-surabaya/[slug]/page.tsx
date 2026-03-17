@@ -218,30 +218,6 @@ function StructuredData({ data }: { data: TourPackageDetailResponse }) {
       };
     }) || [];
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    "@id": `${siteUrl}/#organization`,
-    name: "Java Volcano Tour Operator (JVTO)",
-    url: siteUrl,
-    logo: `${siteUrl}/assets/img/jvto-logo.png`,
-    image: [`${siteUrl}/assets/img/office-front.jpg`],
-    email: "hello@javavolcano-touroperator.com",
-    telephone: "+62 822-4478-8833",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Jl. Khairil Anwar No.102 A, Badean",
-      addressLocality: "Bondowoso",
-      addressRegion: "East Java",
-      postalCode: "68214",
-      addressCountry: "ID",
-    },
-    sameAs: [
-      "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-      "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-    ],
-  };
-
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -289,6 +265,14 @@ function StructuredData({ data }: { data: TourPackageDetailResponse }) {
         image: [schemaImageUrl],
         touristType: pkg.marketing?.perfectFor || ["Adventure seekers"],
         tripOrigin: { "@type": "Place", name: pkg.originCity },
+        itinerary: {
+          "@type": "ItemList",
+          itemListElement: subTripList.map((trip, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: { "@id": trip["@id"] },
+          })),
+        },
         subTrip: subTripList, // <--- New Structure
         provider: { "@id": `${siteUrl}/#organization` },
         offers: { "@id": `${pageUrl}#aggregateOffer` },
@@ -331,10 +315,6 @@ function StructuredData({ data }: { data: TourPackageDetailResponse }) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
