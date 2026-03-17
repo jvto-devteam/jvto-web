@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
-          <div className="flex items-center gap-2 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 mb-4 md:mb-0">
               <Image
                 src="/assets/img/jvto-logo.png"
                 alt="JVTO Logo Footer"
@@ -91,6 +91,7 @@ const Footer: React.FC = () => {
               />
             {/* <span className="font-black text-2xl italic tracking-tighter">JVTO</span> */}
             <span className="text-xs text-gray-500">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous I All Rights Reserved | <Link href="/policy/privacy" className="text-jvto-green underline">Privacy Policy</Link></span>
+            <span className="text-xs text-gray-600">Private tours in East Java, Indonesia.</span>
           </div>
           
           <div className="flex gap-4">

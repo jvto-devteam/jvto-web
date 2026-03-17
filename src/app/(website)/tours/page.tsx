@@ -37,12 +37,25 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 export default async function ToursPageGlobal() {
   const seo = await getPageSeo("/tours", fallbackSeo);
   const initialTours = await getAllTours();
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://javavolcano-touroperator.com";
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "CollectionPage",
+        "@id": `${siteUrl}/tours#collection`,
+        url: `${siteUrl}/tours`,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        mainEntity: { "@id": `${siteUrl}/tours#itemlist` },
+      },
+      {
         "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/tours#breadcrumb`,
         itemListElement: [
           {
             "@type": "ListItem",
@@ -57,6 +70,18 @@ export default async function ToursPageGlobal() {
             item: "https://javavolcano-touroperator.com/tours",
           },
         ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteUrl}/tours#itemlist`,
+        name: seo.h1,
+        numberOfItems: initialTours.length,
+        itemListElement: initialTours.map((tour, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${siteUrl}/${tour.slug}`,
+          name: tour.name,
+        })),
       },
     ],
   };

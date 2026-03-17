@@ -120,10 +120,48 @@ export default async function FaqPage() {
       answer: faq.answer,
     })),
   );
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      generateFaqSchema(allFaqsForSeo),
+      {
+        "@type": "WebPage",
+        "@id": `${siteUrl}/travel-guide/faq#webpage`,
+        url: `${siteUrl}/travel-guide/faq`,
+        name: seo.title,
+        description: seo.description,
+        breadcrumb: { "@id": `${siteUrl}/travel-guide/faq#breadcrumb` },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/travel-guide/faq#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Travel Guide",
+            item: `${siteUrl}/travel-guide`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: seo.h1,
+            item: `${siteUrl}/travel-guide/faq`,
+          },
+        ],
+      },
+    ].filter(Boolean),
+  };
 
   return (
     <div className="flex min-h-screen bg-background">
-      <StructuredData data={generateFaqSchema(allFaqsForSeo)} />
+      <StructuredData data={schema} />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section>
