@@ -37,26 +37,63 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
 export default async function ToursPageBali() {
   const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
   const initialTours = await getToursFromBali();
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://javavolcano-touroperator.com";
+  const pageUrl = `${siteUrl}/tours/from-bali`;
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: seo.title,
+        description: seo.description,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+        mainEntity: { "@id": `${pageUrl}#collection` },
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": `${pageUrl}#collection`,
+        url: pageUrl,
+        name: seo.h1,
+        description: seo.description,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+        mainEntity: { "@id": `${pageUrl}#itemlist` },
+      },
+      {
         "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
         itemListElement: [
           {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://javavolcano-touroperator.com/",
+            item: siteUrl,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Tours From Bali",
-            item: "https://javavolcano-touroperator.com/tours/from-bali",
+            item: pageUrl,
           },
         ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${pageUrl}#itemlist`,
+        name: seo.h1,
+        numberOfItems: initialTours.length,
+        itemListElement: initialTours.map((tour, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${siteUrl}/${tour.slug}`,
+          name: tour.name,
+        })),
       },
     ],
   };
