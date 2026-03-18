@@ -1,10 +1,39 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 
-const TrustpilotWidget = ({ reviews = [] }) => {
+type ReviewItem = {
+  name: string;
+  date: string;
+  url?: string | null;
+  stars: number;
+  title: string;
+  text: string;
+  verified?: boolean;
+};
+
+type StarRatingProps = {
+  all: boolean;
+  rating: number;
+};
+
+type VerificationBadgeProps = {
+  verified?: boolean;
+};
+
+type ReviewCardProps = {
+  review: ReviewItem;
+};
+
+type NavigationButtonProps = {
+  direction: "left" | "right";
+  onClick: () => void;
+  disabled: boolean;
+};
+
+const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewsPerView, setReviewsPerView] = useState(1); // Default 1
-  const carouselRef = useRef(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const [cardWidth, setCardWidth] = useState(393);
   // const reviews = [
   //   {
@@ -392,8 +421,8 @@ const TrustpilotWidget = ({ reviews = [] }) => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  const getStarColor = (stars) => {
-    const colors = {
+  const getStarColor = (stars: number) => {
+    const colors: Record<number, string> = {
       1: "#ff3722",
       2: "#ff8622",
       3: "#ffce00",
@@ -402,7 +431,7 @@ const TrustpilotWidget = ({ reviews = [] }) => {
     };
     return colors[stars] || colors[5];
   };
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
 
     return date.toLocaleDateString("en-US", {
@@ -411,7 +440,7 @@ const TrustpilotWidget = ({ reviews = [] }) => {
     });
   };
 
-  const StarRating = ({ all, rating }) => {
+  const StarRating = ({ all, rating }: StarRatingProps) => {
     const color = getStarColor(rating);
     return (
       <div className={`${all ? "w-[162px]  mb-3" : "w-[99px]"}`}>
@@ -445,7 +474,7 @@ const TrustpilotWidget = ({ reviews = [] }) => {
       </div>
     );
   };
-  const VerificationBadge = ({ verified }) => {
+  const VerificationBadge = ({ verified }: VerificationBadgeProps) => {
     if (!verified) return null;
 
     return (
@@ -482,7 +511,7 @@ const TrustpilotWidget = ({ reviews = [] }) => {
               rel="noopener noreferrer"
               className="text-[#1a66ff] underline hover:no-underline"
             >
-              Learn more
+              Learn about Trustpilot verified reviews
             </a>{" "}
             about review types
           </div>
@@ -491,7 +520,31 @@ const TrustpilotWidget = ({ reviews = [] }) => {
     );
   };
 
-  const ReviewCard = ({ review }) => {
+  const ReviewCard = ({ review }: ReviewCardProps) => {
+    const reviewUrl =
+      typeof review.url === "string" && review.url.trim().length > 0
+        ? review.url
+        : null;
+
+    const reviewContent = (
+      <>
+        <div className="text-sm font-bold h-4 mb-1.5 overflow-hidden text-ellipsis whitespace-nowrap w-full">
+          {review.title}
+        </div>
+        <div className="text-[13px] leading-4 mb-2 max-h-8 overflow-hidden text-ellipsis break-words">
+          {review.text}
+        </div>
+        <div className="flex text-[13px] text-[rgba(0,0,0,0.6)]">
+          <div className="font-bold overflow-hidden text-ellipsis whitespace-nowrap leading-[120%]">
+            {review.name},
+          </div>
+          <div className="flex-shrink-0 ml-0.5">
+            {formatDate(review.date)}
+          </div>
+        </div>
+      </>
+    );
+
     return (
       <div className="bg-white rounded-sm py-3 shadow-sm inline-block w-[calc(100vw-80px)] sm:w-[393px] h-[110px] mr-4 pl-5 align-top relative group">
         <div className="absolute inset-0.5 border-2 border-transparent rounded pointer-events-none group-focus-within:border-[#3c57bc] group-focus-within:shadow-[0_0_0_2px_#fff]"></div>
@@ -501,32 +554,30 @@ const TrustpilotWidget = ({ reviews = [] }) => {
           <VerificationBadge verified={review.verified} />
         </div>
 
-        <a
-          href={review.url}
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="block text-[#191919] no-underline outline-none"
-        >
-          <div className="text-sm font-bold h-4 mb-1.5 overflow-hidden text-ellipsis whitespace-nowrap w-full">
-            {review.title}
+        {reviewUrl ? (
+          <a
+            href={reviewUrl}
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            aria-label={`Read Trustpilot review: ${review.title || review.name}`}
+            className="block text-[#191919] no-underline outline-none"
+          >
+            {reviewContent}
+          </a>
+        ) : (
+          <div className="block text-[#191919] outline-none">
+            {reviewContent}
           </div>
-          <div className="text-[13px] leading-4 mb-2 max-h-8 overflow-hidden text-ellipsis break-words">
-            {review.text}
-          </div>
-          <div className="flex text-[13px] text-[rgba(0,0,0,0.6)]">
-            <div className="font-bold overflow-hidden text-ellipsis whitespace-nowrap leading-[120%]">
-              {review.name},
-            </div>
-            <div className="flex-shrink-0 ml-0.5">
-              {formatDate(review.date)}
-            </div>
-          </div>
-        </a>
+        )}
       </div>
     );
   };
 
-  const NavigationButton = ({ direction, onClick, disabled }) => {
+  const NavigationButton = ({
+    direction,
+    onClick,
+    disabled,
+  }: NavigationButtonProps) => {
     const isLeft = direction === "left";
     return (
       <div
