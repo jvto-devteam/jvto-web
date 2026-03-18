@@ -440,9 +440,6 @@ export default function DestinationDetailView({
                   </div>
                 </div>
 
-                <button className="w-full py-4 rounded-lg font-black uppercase tracking-wider bg-black text-[#B2F35F] hover:bg-gray-800 transition-all mb-4 shadow-xl flex justify-center items-center gap-2">
-                  Check Availability <ArrowRight size={16} />
-                </button>
                 <p className="text-[10px] text-center text-gray-400">
                   Operated by JVTO • Police-Led Safety
                 </p>

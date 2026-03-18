@@ -4,8 +4,9 @@ import type { Metadata, ResolvingMetadata } from "next";
 import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { prisma } from "@/lib/prisma";
+import { routeSlugToParam } from "@/lib/routing/staticParams";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 // --- 1. TYPE DEFINITIONS (SESUAI JSON API) ---
 
@@ -61,7 +62,24 @@ interface ProductData {
 }
 
 interface Props {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const packages = await prisma.packages.findMany({
+    where: {
+      is_publish: true,
+      package_category_id: BigInt(1),
+      start_destination_id: BigInt(4),
+      slug: { not: null },
+    },
+    select: { slug: true },
+  });
+
+  return packages
+    .map((pkg) => routeSlugToParam(pkg.slug, "tours/from-surabaya"))
+    .filter((slug): slug is string => Boolean(slug))
+    .map((slug) => ({ slug }));
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -113,12 +131,11 @@ function getDestinationUrl(name: string) {
 
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
-const getTourData = cache(async (slugParam: string[]) => {
+const getTourData = cache(async (slugParam: string) => {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
-  // Handling slug: gabungkan array menjadi string path
-  const slugString = Array.isArray(slugParam) ? slugParam.join("/") : slugParam;
+  const slugString = slugParam;
 
   // Sesuaikan logic path ini dengan struktur URL API Anda
   // Jika URL browser: /tours/from-surabaya/bromo-3d2n, maka slugString sudah lengkap jika file di [...slug]
@@ -130,7 +147,7 @@ const getTourData = cache(async (slugParam: string[]) => {
   try {
     const res = await fetch(
       `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { cache: "no-store" }
+      { next: { revalidate: 3600 } }
     );
 
     if (!res.ok) return null;

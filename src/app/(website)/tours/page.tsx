@@ -3,6 +3,7 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "All Private Tours | East Java & Bali Adventures",
@@ -24,7 +25,7 @@ async function getAllTours(): Promise<ListTourPackage[]> {
   // Fetch global (tanpa filter from=...)
   const res = await fetch(`${siteUrl}/api/packages/web?category=1`, {
     method: "GET",
-    cache: "no-store", 
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {

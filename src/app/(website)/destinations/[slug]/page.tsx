@@ -5,12 +5,12 @@ import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { prisma } from "@/lib/prisma";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -18,11 +18,28 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  const destinations = await prisma.destinations.findMany({
+    where: {
+      published: true,
+      deleted_at: null,
+      slug: { not: null },
+      id: { notIn: [3, 4] },
+    },
+    select: { slug: true },
+  });
+
+  return destinations
+    .map((destination) => destination.slug)
+    .filter((slug): slug is string => Boolean(slug))
+    .map((slug) => ({ slug }));
+}
+
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestination(slug: string): Promise<DestinationDetail | null> {
   const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-    cache: "no-store", // Pastikan selalu ambil data terbaru
+    next: { revalidate: 3600 },
   });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);

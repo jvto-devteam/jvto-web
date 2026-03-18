@@ -3,6 +3,7 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
@@ -24,7 +25,7 @@ async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
   // Fetch khusus ID 4 (Surabaya)
   const res = await fetch(`${siteUrl}/api/packages/web?from=4&category=1`, {
     method: "GET",
-    cache: "no-store",
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {

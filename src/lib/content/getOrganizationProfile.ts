@@ -1,9 +1,19 @@
+import { unstable_cache } from "next/cache";
 import prisma from "@/lib/prisma";
 
-export async function getOrganizationProfile() {
-  const row = await prisma.organization_profile.findFirst({
-    orderBy: { id: "asc" },
-  });
+const getOrganizationProfileCached = unstable_cache(
+  async () => {
+    return prisma.organization_profile.findFirst({
+      orderBy: { id: "asc" },
+    });
+  },
+  ["organization-profile"],
+  {
+    revalidate: 3600,
+    tags: ["organization-profile"],
+  },
+);
 
-  return row;
+export async function getOrganizationProfile() {
+  return getOrganizationProfileCached();
 }

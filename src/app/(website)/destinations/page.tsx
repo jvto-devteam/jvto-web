@@ -15,6 +15,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 const ROUTE = "/destinations";
+export const revalidate = 3600;
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 async function getAllDestinations(): Promise<Destination[]> {
   const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-    cache: "no-store", // Pastikan selalu ambil data terbaru
+    next: { revalidate: 3600 },
   });
   if (!res.ok) throw new Error("Failed to fetch destinations");
   return res.json();

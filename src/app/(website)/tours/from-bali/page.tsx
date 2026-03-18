@@ -3,6 +3,7 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
@@ -24,7 +25,7 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
   // Fetch khusus ID 3 (Bali)
   const res = await fetch(`${siteUrl}/api/packages/web?from=3&category=1`, {
     method: "GET",
-    cache: "no-store",
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {

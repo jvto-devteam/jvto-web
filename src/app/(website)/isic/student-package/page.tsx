@@ -13,6 +13,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "Explore Java's Volcanoes with ISIC Benefits | JVTO",
@@ -34,7 +35,7 @@ async function getAllTours(): Promise<ListTourPackage[]> {
   // Fetch with a limit to match the design (e.g., 8)
   const res = await fetch(`${siteUrl}/api/packages/web?category=2&limit=8`, {
     method: "GET",
-    cache: "no-store",
+    next: { revalidate: 3600 },
   });
 
   if (!res.ok) {
