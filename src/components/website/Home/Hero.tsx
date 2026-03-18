@@ -48,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({
               xmlns="http://www.w3.org/2000/svg"
               className="w-full h-auto"
             >
-              <title>4.7 out of 5 star rating on Trustpilot</title>
+              <title>4.8 out of 5 star rating on Trustpilot</title>
               <g className="tp-star">
                 <path fill="#00B67A" d="M0 46.330002h46.375586V0H0z"></path>
                 <path
@@ -88,7 +88,7 @@ const Hero: React.FC<HeroProps> = ({
               </g>
               <g className="tp-star">
                 <path
-                  fill="#dcdce6"
+                  fill="#00B67A"
                   d="M205.064416 46.330002h46.375587V0h-46.375587z"
                 ></path>
                 <path
