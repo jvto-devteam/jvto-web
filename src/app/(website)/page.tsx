@@ -24,6 +24,7 @@ import {
 import { miniFaqs, faqsCopy } from "@/constants";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
+export const revalidate = 3600;
 const fallbackSeo = {
   title:
     "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
