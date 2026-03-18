@@ -29,6 +29,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const fullTourSlug = "/" + tour.slug;
+  const tourLinkLabel = `View tour details for ${tour.name}`;
 
   return (
     <div
@@ -40,6 +41,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
       <Link
         target={isNewTab ? "_blank" : "_self"}
         href={fullTourSlug}
+        aria-label={tourLinkLabel}
         className="relative block overflow-hidden"
       >
         <div className="relative aspect-[4/3] w-full bg-ink-neutral-200 dark:bg-ink-neutral-700">
@@ -85,6 +87,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         <Link
           target={isNewTab ? "_blank" : "_self"}
           href={fullTourSlug}
+          aria-label={tourLinkLabel}
           className="group/title block mb-3"
         >
           <h3
@@ -114,8 +117,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
             <Link
               target={isNewTab ? "_blank" : "_self"}
               href={fullTourSlug}
+              aria-label={tourLinkLabel}
               className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
-              aria-label="View tour details"
             >
               <ArrowRight className="w-7 h-7" />
             </Link>

@@ -73,7 +73,7 @@ const Contact: React.FC = () => {
                     >
                       {item.value}
                     </a>
-                    <p className="text-sm text-gray-400 mt-1">{item.description}</p>
+                    <p className="text-sm text-gray-600 mt-1">{item.description}</p>
                   </div>
                 </div>
               ))}

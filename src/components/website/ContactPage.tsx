@@ -58,7 +58,7 @@ const ContactPage = ({
                             >
                               {contactInfo.officeAddress}
                             </a>
-                            <p className="text-sm text-gray-400 mt-1">Hours: 08:00 - 22:00 WIB (GMT+7)</p>
+                            <p className="text-sm text-gray-600 mt-1">Hours: 08:00 - 22:00 WIB (GMT+7)</p>
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@ const ContactPage = ({
                             >
                               {contactInfo.whatsapp}
                             </a>
-                            <p className="text-sm text-gray-400 mt-1">Available 08:00 - 22:00 WIB</p>
+                            <p className="text-sm text-gray-600 mt-1">Available 08:00 - 22:00 WIB</p>
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@ const ContactPage = ({
                             >
                               {contactInfo.email}
                             </a>
-                            <p className="text-sm text-gray-400 mt-1">We generally reply within a few business hours.</p>
+                            <p className="text-sm text-gray-600 mt-1">We generally reply within a few business hours.</p>
                         </div>
                     </div>
 
