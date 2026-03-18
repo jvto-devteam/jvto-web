@@ -52,7 +52,7 @@ const IjenHealthScreeningSection = () => {
           <div className="grid md:grid-cols-2">
             {/* Content Side */}
             <div className="p-8 md:p-12 flex flex-col justify-center">
-              <div className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 mb-6">
+              <div className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-700 mb-6">
                 <AlertCircle className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">
                   Mandatory Requirement
@@ -158,12 +158,16 @@ const IjenHealthScreeningSection = () => {
                     key={index}
                     onClick={() => setCurrent(index)}
                     aria-label={`Go to image ${index + 1}`}
-                    className={`w-1.5 h-1.5 rounded-full transition-all ${
-                      index === current
-                        ? "bg-white scale-125"
-                        : "bg-white/50 hover:bg-white/75"
-                    }`}
-                  />
+                    className="flex h-8 w-8 items-center justify-center rounded-full transition-all"
+                  >
+                    <span
+                      className={`block h-2.5 w-2.5 rounded-full transition-all ${
+                        index === current
+                          ? "bg-white scale-125"
+                          : "bg-white/60 hover:bg-white/80"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
 

@@ -13,29 +13,29 @@ const Footer: React.FC = () => {
           <div className="text-center">
             <Shield className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
             <h4 className="font-bold text-sm uppercase mb-2">Tourist Police Led</h4>
-            <p className="text-xs text-gray-400">Operations overseen by active Tourist Police officers for maximum safety.</p>
+            <p className="text-xs text-slate-300">Operations overseen by active Tourist Police officers for maximum safety.</p>
           </div>
           <div className="text-center">
             <MapPin className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
             <h4 className="font-bold text-sm uppercase mb-2">Bondowoso HQ</h4>
-            <p className="text-xs text-gray-400">Official office at Jl. Khairil Anwar No.102 A.</p>
+            <p className="text-xs text-slate-300">Official office at Jl. Khairil Anwar No.102 A.</p>
           </div>
           <div className="text-center">
             <FileCheck className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
             <h4 className="font-bold text-sm uppercase mb-2">Licensed Operator</h4>
-            <p className="text-xs text-gray-400">NIB & TDUP No. 1102230032918.</p>
+            <p className="text-xs text-slate-300">NIB & TDUP No. 1102230032918.</p>
           </div>
           <div className="text-center">
             <svg className="w-12 h-12 mx-auto mb-4 text-jvto-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
             <h4 className="font-bold text-sm uppercase mb-2">Community First</h4>
-            <p className="text-xs text-gray-400">Supporting local guides and sustainable tourism practices.</p>
+            <p className="text-xs text-slate-300">Supporting local guides and sustainable tourism practices.</p>
           </div>
         </div>
 
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           <div>
-            <h5 className="font-bold text-xs uppercase text-gray-500 mb-6">Company</h5>
+            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Company</h5>
             <ul className="space-y-3 text-sm">
               <li><Link href="/why-jvto" className="hover:text-jvto-green">Why JVTO</Link></li>
               <li><Link href="/why-jvto/our-story" className="hover:text-jvto-green">Our Story</Link></li>
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h5 className="font-bold text-xs uppercase text-gray-500 mb-6">Travel Guide</h5>
+            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Travel Guide</h5>
             <ul className="space-y-3 text-sm">
               <li><Link href="/travel-guide/faq" className="hover:text-jvto-green">FAQ</Link></li>
               <li><Link href="/travel-guide/booking-information" className="hover:text-jvto-green">Booking & Payments</Link></li>
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h5 className="font-bold text-xs uppercase text-gray-500 mb-6">Destinations</h5>
+            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Destinations</h5>
             <ul className="space-y-3 text-sm">
               <li><Link href="/destinations" className="hover:text-jvto-green">Mount Bromo</Link></li>
               <li><Link href="/destinations" className="hover:text-jvto-green">Ijen Crater</Link></li>
@@ -64,13 +64,13 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div className="col-span-2 lg:col-span-2">
-             <h5 className="font-bold text-xs uppercase text-gray-500 mb-6">Contact</h5>
-             <p className="text-sm text-gray-400 mb-4">
+             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Contact</h5>
+             <p className="text-sm text-slate-300 mb-4">
                <strong>PT Java Volcano Rendezvous</strong><br/>
                Jl. Khairil Anwar No.102 A, Badean,<br/>
                Bondowoso, East Java 68214, Indonesia
              </p>
-             <p className="text-sm text-gray-400 mb-6">
+             <p className="text-sm text-slate-300 mb-6">
                WhatsApp: +62 822-4478-8833<br/>
                Email: hello@javavolcano-touroperator.com
              </p>
@@ -90,8 +90,8 @@ const Footer: React.FC = () => {
                 className="object-contain"
               />
             {/* <span className="font-black text-2xl italic tracking-tighter">JVTO</span> */}
-            <span className="text-xs text-gray-500">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous | East Java, Indonesia | All Rights Reserved. <br /><Link href="/policy/privacy" className="text-jvto-green underline">Privacy Policy</Link></span>
-            <span className="text-xs text-gray-600">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
+            <span className="text-xs text-slate-300">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous | East Java, Indonesia | All Rights Reserved. <br /><Link href="/policy/privacy" className="text-jvto-green underline">Privacy Policy</Link></span>
+            <span className="text-xs text-slate-300">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
           </div>
           
           <div className="flex gap-4">

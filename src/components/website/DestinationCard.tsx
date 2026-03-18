@@ -9,12 +9,16 @@ interface DestinationCardProps {
 
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }) => {
   return (
-    <Link target={isHome ? "_blank" : "_self"} href={`/destinations/${destination.slug}`}>
+    <Link
+      target={isHome ? "_blank" : "_self"}
+      href={`/destinations/${destination.slug}`}
+      aria-label={`Explore destination: ${destination.name}`}
+    >
       <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
 
         <Image
           src={destination.banner.url}
-          alt={destination.banner.alt}
+          alt=""
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
