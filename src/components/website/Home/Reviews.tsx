@@ -11,7 +11,7 @@ const Reviews = async () => {
 
   const reviews = raw.map((r) => ({
     name: r.customer_name,
-    date: r.date,
+    date: r.date.toISOString(),
     url: r.url || r.url_reference,
     stars: Number(r.star),
     title: r.review?.substring(0, 60) ?? "",

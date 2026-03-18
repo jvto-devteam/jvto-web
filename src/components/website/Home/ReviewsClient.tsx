@@ -433,11 +433,11 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
   };
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-
-    return date.toLocaleDateString("en-US", {
+    return new Intl.DateTimeFormat("en-US", {
       month: "long",
       day: "numeric",
-    });
+      timeZone: "UTC",
+    }).format(date);
   };
 
   const StarRating = ({ all, rating }: StarRatingProps) => {
