@@ -31,9 +31,9 @@ const Contact: React.FC = () => {
       
       {/* Header Section */}
       <header className="pt-24 pb-8 md:pt-32 md:pb-12 container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
+        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
           Get in Touch
-        </h1>
+        </h2>
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
           Ready to plan your secure and authentic East Java adventure? Contact our team today. No bots, just humans.
         </p>
