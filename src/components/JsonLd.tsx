@@ -1,18 +1,17 @@
+import { normalizeJsonLd } from "@/lib/seo/jsonld/normalize";
+
 type Props = {
   data: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
 export default function JsonLd({ data }: Props) {
-  const payload = Array.isArray(data) ? data : [data];
+  const payload = normalizeJsonLd(data as any);
+  if (!payload) return null;
+
   return (
-    <>
-      {payload.map((obj, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(obj) }}
-        />
-      ))}
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+    />
   );
 }
