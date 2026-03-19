@@ -5,6 +5,12 @@ import type { TourPackageDetail as TourPackageDetailResponse } from "@/interface
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { prisma } from "@/lib/prisma";
 import { routeSlugToParam } from "@/lib/routing/staticParams";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  buildOrganizationJsonLd,
+  buildWebSiteJsonLd,
+} from "@/lib/seo/jsonld/builders";
 
 export const revalidate = 3600;
 
@@ -159,7 +165,13 @@ const getTourData = cache(async (slugParam: string) => {
 
 // --- 4. INTERNAL COMPONENT: STRUCTURED DATA ---
 
-function StructuredData({ data }: { data: TourPackageDetailResponse }) {
+function StructuredData({
+  data,
+  globalNodes,
+}: {
+  data: TourPackageDetailResponse;
+  globalNodes: any[];
+}) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
   const pkg = data.product;
@@ -233,16 +245,6 @@ function StructuredData({ data }: { data: TourPackageDetailResponse }) {
         partOfTrip: { "@id": `${pageUrl}#tour` },
       };
     }) || [];
-
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${siteUrl}/#website`,
-    url: siteUrl,
-    name: "Java Volcano Tour Operator (JVTO)",
-    publisher: { "@id": `${siteUrl}/#organization` },
-    inLanguage: "en",
-  };
 
   const graphSchema = {
     "@context": "https://schema.org",
@@ -330,16 +332,7 @@ function StructuredData({ data }: { data: TourPackageDetailResponse }) {
   };
 
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(graphSchema) }}
-      />
-    </>
+    <JsonLd data={[...globalNodes, graphSchema]} />
   );
 }
 
@@ -411,13 +404,19 @@ export async function generateMetadata(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const data = await getTourData(slug);
+  const [data, org] = await Promise.all([getTourData(slug), getOrganizationProfile()]);
 
   if (!data) notFound();
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+  const globalNodes = [
+    buildOrganizationJsonLd(org as any, siteUrl),
+    buildWebSiteJsonLd(siteUrl),
+  ].filter(Boolean);
 
   return (
     <>
-      <StructuredData data={data} />
+      <StructuredData data={data} globalNodes={globalNodes} />
       <TourDetail initialData={data} reviews={[]} />
     </>
   );

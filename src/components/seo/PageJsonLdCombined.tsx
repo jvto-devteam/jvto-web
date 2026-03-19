@@ -1,12 +1,12 @@
-// components/seo/PageJsonLdCombined.tsx
-import React from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import {
   buildOrganizationJsonLd,
   buildBreadcrumbJsonLd,
+  buildContentPageExtraJsonLd,
   buildFaqJsonLdFromContent,
   buildWebPageJsonLd,
+  buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 
 type PageRowLike = {
@@ -37,13 +37,11 @@ export async function PageJsonLdCombined({
   const breadcrumbJson = buildBreadcrumbJsonLd(pageRow.route, SITE_URL);
   const faqJson = buildFaqJsonLdFromContent(pageRow as any, SITE_URL);
   const webPageJson = buildWebPageJsonLd(pageRow as any, org as any, SITE_URL);
-  const webSiteJson = {
-    "@type": "WebSite",
-    "@id": `${SITE_URL}#website`,
-    url: SITE_URL,
-    name: "Java Volcano Tour Operator",
-    publisher: { "@id": `${SITE_URL}/#organization` },
-  };
+  const webSiteJson = buildWebSiteJsonLd(SITE_URL);
+  const contentPageExtraSchemas = buildContentPageExtraJsonLd(
+    pageRow as any,
+    SITE_URL,
+  );
 
   // Gabungkan jadi 1 JSON-LD agar ringkas + stabil
   const graph = [
@@ -52,6 +50,7 @@ export async function PageJsonLdCombined({
     webPageJson,
     breadcrumbJson,
     faqJson,
+    ...contentPageExtraSchemas,
     ...(extraSchemas || []),
   ].filter(Boolean);
 

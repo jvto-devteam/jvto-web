@@ -1,4 +1,4 @@
-import StructuredData from "@/components/website/StructuredData";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "next/link";
 import { type Metadata } from "next";
 import {
@@ -168,6 +168,27 @@ export default async function WhyJvtoPage() {
   const row = await getContentPage("/why-jvto", "en");
   const content = (row?.content as Record<string, any> | null) ?? {};
   const heroH1 = content.h1 ?? defaultWhyTitle;
+  const pageRow = row
+    ? {
+        route: row.route,
+        lang: row.lang,
+        seo: row.seo,
+        content: row.content,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }
+    : {
+        route: "/why-jvto",
+        lang: "en",
+        seo: {
+          title: defaultWhyTitle,
+          description: defaultWhyDescription,
+        },
+        content: {
+          h1: heroH1,
+          faq: faqItems.map((item) => ({ q: item.q, a: item.a })),
+        },
+      };
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -704,7 +725,7 @@ export default async function WhyJvtoPage() {
 
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <StructuredData data={whyJVTOSchema} />
+        <PageJsonLdCombined pageRow={pageRow as any} />
 
         <main className="pt-24 w-full jvto-page">
           {/* ══════════ HERO ══════════ */}

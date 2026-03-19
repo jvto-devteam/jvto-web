@@ -34,8 +34,26 @@ function extractNodes(input: JsonLdInput): JsonLdNode[] {
   return [...ownNode, ...graphNodes];
 }
 
+function dedupeNodes(nodes: JsonLdNode[]) {
+  const seen = new Set<string>();
+  const result: JsonLdNode[] = [];
+
+  for (const node of nodes) {
+    const id = typeof node["@id"] === "string" ? node["@id"] : null;
+    if (id) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+    }
+    result.push(node);
+  }
+
+  return result;
+}
+
 export function normalizeJsonLd(input: JsonLdInput) {
-  const graph = extractNodes(input).filter((node) => hasType(node));
+  const graph = dedupeNodes(
+    extractNodes(input).filter((node) => hasType(node)),
+  );
 
   if (!graph.length) return null;
 

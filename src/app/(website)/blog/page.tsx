@@ -1,6 +1,6 @@
 import InsightsPage from "@/components/website/InsightsPage";
-import StructuredData from "@/components/website/StructuredData";
-import type { Metadata } from 'next'
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
 const fallbackSeo = {
@@ -19,32 +19,30 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Insights() {
   const seo = await getPageSeo("/blog", fallbackSeo);
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://javavolcano-touroperator.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Insights",
-            item: "https://javavolcano-touroperator.com/insights/",
-          }
-        ],
-      },
-    ],
-  };
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/blog",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
 
   return (
     <>
-      <StructuredData data={schema} />
+      <PageJsonLdCombined pageRow={pageRow as any} />
       <InsightsPage title={seo.h1} description={seo.description} />;
     </>
   );

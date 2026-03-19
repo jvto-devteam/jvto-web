@@ -4,7 +4,7 @@ import Button from "@/components/website/UI/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
-import StructuredData from "@/components/website/StructuredData";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
 import { getContentPage } from "@/lib/content/getContentPage";
 const today = new Date();
@@ -197,6 +197,26 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TravelGuideHubPage() {
   const row = await getContentPage("/travel-guide", "en");
   const content = (row?.content as Record<string, any> | null) ?? {};
+  const pageRow = row
+    ? {
+        route: row.route,
+        lang: row.lang,
+        seo: row.seo,
+        content: row.content,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }
+    : {
+        route: "/travel-guide",
+        lang: "en",
+        seo: {
+          title: travelGuideData.seo.title,
+          description: travelGuideData.seo.metaDescription,
+        },
+        content: {
+          h1: travelGuideData.h1,
+        },
+      };
   const travelGuideSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -571,7 +591,7 @@ export default async function TravelGuideHubPage() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <StructuredData data={travelGuideSchema} />
+      <PageJsonLdCombined pageRow={pageRow as any} />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section className="bg-accent border-b pb-12">

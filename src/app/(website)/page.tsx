@@ -11,14 +11,9 @@ import IsicSection from "@/components/website/Home/IsicSection";
 import FAQSection from "@/components/website/FAQSection";
 import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import {
-  buildOrganizationJsonLd,
-  buildWebSiteJsonLd,
-  ORG_ID,
-  WEBSITE_ID,
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
 import { miniFaqs, faqsCopy } from "@/constants";
@@ -66,45 +61,33 @@ async function getDestinations(): Promise<Destination[]> {
 const Home = async () => {
   const seo = await getPageSeo("/", fallbackSeo);
   // Fetch sekali — dipakai untuk schema DAN HomeDestinations
-  const [org, destinations] = await Promise.all([
-    getOrganizationProfile(),
-    getDestinations(),
-  ]);
+  const destinations = await getDestinations();
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
 
-  // ── Organization + WebSite (dari DB) ──────────────────────────────────────
-  const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
-  const siteNode = buildWebSiteJsonLd(SITE_URL);
-
-  const safeOrgNodes = Array.isArray(orgNode) ? orgNode : (orgNode ? [orgNode] : []);
-
-  // ── WebPage homepage ──────────────────────────────────────────────────────
-  const webPageNode = {
-    "@type": "WebPage",
-    "@id": `${SITE_URL}/#webpage`,
-    url: `${SITE_URL}/`,
-    name: seo.title,
-    description: seo.description,
-    inLanguage: "en",
-    isPartOf: { "@id": WEBSITE_ID },
-    about: { "@id": ORG_ID },
-    publisher: { "@id": ORG_ID },
-  };
-
-  // ── BreadcrumbList ────────────────────────────────────────────────────────
-  const breadcrumbNode = {
-    "@type": "BreadcrumbList",
-    "@id": `${SITE_URL}/#breadcrumb`,
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-    ],
-  };
-
-  // ── Service ───────────────────────────────────────────────────────────────
   const serviceNode = {
     "@type": "Service",
     "@id": `${SITE_URL}/why-jvto#tourService`,
     name: "Private Volcano Tour Operations (Mount Bromo & Mount Ijen)",
-    provider: { "@id": ORG_ID },
+    provider: { "@id": `${SITE_URL}/#organization` },
     serviceType: [
       "Private tour",
       "Volcano tour",
@@ -176,7 +159,7 @@ const Home = async () => {
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
-    publisher: { "@id": ORG_ID },
+    publisher: { "@id": `${SITE_URL}/#organization` },
     about: [
       {
         "@type": "Thing",
@@ -194,23 +177,12 @@ const Home = async () => {
       "Operational safety screening only. Does not replace medical diagnosis or treatment.",
   };
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      ...safeOrgNodes,
-      siteNode,
-      webPageNode,
-      breadcrumbNode,
-      serviceNode,
-      ...attractionNodes,
-      faqNode,
-      healthAppNode,
-    ].filter(Boolean),
-  };
-
   return (
     <main>
-      <JsonLd data={schema} />
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={[serviceNode, ...attractionNodes, faqNode, healthAppNode]}
+      />
       <Hero title={seo.h1} description={seo.description} />
       {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}
       <HomeDestinations destinations={destinations} />
