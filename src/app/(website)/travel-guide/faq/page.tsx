@@ -7,7 +7,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
-import { generateFaqSchema } from "@/lib/generateFaqSchema";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "next/link";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -108,6 +108,26 @@ async function getFaqData() {
 export default async function FaqPage() {
   const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
   const categoriesData = await getFaqData();
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/travel-guide/faq",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
 
   // 3. Safety Filter: Memastikan sekali lagi di level aplikasi (Defensive Programming)
   // Ini berguna jika suatu saat logic database berubah, UI tetap aman dari header kosong.
@@ -123,7 +143,18 @@ export default async function FaqPage() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      generateFaqSchema(allFaqsForSeo),
+      {
+        "@type": "FAQPage",
+        "@id": `${siteUrl}/travel-guide/faq#faqpage`,
+        mainEntity: allFaqsForSeo.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      },
       {
         "@type": "WebPage",
         "@id": `${siteUrl}/travel-guide/faq#webpage`,
@@ -161,7 +192,7 @@ export default async function FaqPage() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <StructuredData data={schema} />
+      <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={[schema]} />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section>

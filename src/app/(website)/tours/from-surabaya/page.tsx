@@ -3,6 +3,11 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  buildOrganizationJsonLd,
+  buildWebSiteJsonLd,
+} from "@/lib/seo/jsonld/builders";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -37,15 +42,22 @@ async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
 
 export default async function ToursPageSurabaya() {
   const seo = await getPageSeo("/tours/from-surabaya", fallbackSeo);
-  const initialTours = await getToursFromSurabaya();
+  const [initialTours, org] = await Promise.all([
+    getToursFromSurabaya(),
+    getOrganizationProfile(),
+  ]);
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
   const pageUrl = `${siteUrl}/tours/from-surabaya`;
+  const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
+  const siteNode = buildWebSiteJsonLd(siteUrl);
 
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
+      orgNode,
+      siteNode,
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,

@@ -4,7 +4,7 @@ import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
 import { ListTourPackage } from "@/types";
 import Image from "next/image";
-import StructuredData from "@/components/website/StructuredData";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { 
   ShieldCheck, 
   Users, 
@@ -51,53 +51,45 @@ export default async function IsicStudentPackagePage() {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://javavolcano-touroperator.com";
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": `${siteUrl}/isic/student-package#webpage`,
-        url: `${siteUrl}/isic/student-package`,
-        name: seo.title,
-        description: seo.description,
-        isPartOf: { "@id": `${siteUrl}/#website` },
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${siteUrl}/isic/student-package#breadcrumb`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "ISIC Student Package",
-            item: `${siteUrl}/isic/student-package`,
-          },
-        ],
-      },
-      {
-        "@type": "ItemList",
-        "@id": `${siteUrl}/isic/student-package#packages`,
-        name: "ISIC student packages",
-        numberOfItems: studentPackages.length,
-        itemListElement: studentPackages.map((tour, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          url: `${siteUrl}/${tour.slug}`,
-          name: tour.name,
-        })),
-      },
-    ],
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/isic/student-package",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
+  const packageListSchema = {
+    "@type": "ItemList",
+    "@id": `${siteUrl}/isic/student-package#packages`,
+    name: "ISIC student packages",
+    numberOfItems: studentPackages.length,
+    itemListElement: studentPackages.map((tour, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${siteUrl}/${tour.slug}`,
+      name: tour.name,
+    })),
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-sans">
-      <StructuredData data={schema} />
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={[packageListSchema]}
+      />
       <main className="flex-grow">
         
         {/* ================= HERO SECTION ================= */}

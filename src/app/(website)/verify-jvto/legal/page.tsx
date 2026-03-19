@@ -3,7 +3,7 @@ import { getDocsByGroup } from "@/lib/data-loader";
 import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import StructuredData from "@/components/website/StructuredData";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 
 const fallbackSeo = {
@@ -21,16 +21,39 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LegalPage() {
   const seo = await getPageSeo("/verify-jvto/legal", fallbackSeo);
   const docs = getDocsByGroup("legal");
-  return (
-    <>
-      <StructuredData
-        data={buildVerifySubpageSchema({
-          pathname: "/verify-jvto/legal",
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/verify-jvto/legal",
+        lang: "en",
+        seo: {
           title: seo.title,
           description: seo.description,
-          breadcrumbLabel: seo.h1,
-          docs,
-        })}
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
+  return (
+    <>
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={[
+          buildVerifySubpageSchema({
+            pathname: "/verify-jvto/legal",
+            title: seo.title,
+            description: seo.description,
+            breadcrumbLabel: seo.h1,
+            docs,
+          }),
+        ]}
       />
       <VerifyJvtoClient
         initialDocs={docs}

@@ -65,6 +65,12 @@ type DestinationApiItem = {
 };
 
 export const DEFAULT_SITE = "https://javavolcano-touroperator.com";
+const GLOBAL_SCHEMA_TYPES = new Set([
+  "Organization",
+  "LocalBusiness",
+  "TravelAgency",
+  "WebSite",
+]);
 
 // ─── Shared @id constants ─────────────────────────────────────────────────────
 export const ORG_ID = `${DEFAULT_SITE}/#organization`;
@@ -98,6 +104,21 @@ function safeIso(d?: Date | null) {
 function clean(obj: Record<string, any>) {
   Object.keys(obj).forEach((k) => obj[k] === undefined && delete obj[k]);
   return obj;
+}
+
+function asArray<T>(value: T | T[] | null | undefined): T[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function nodeTypes(node: Record<string, any>) {
+  const type = node["@type"];
+  if (Array.isArray(type)) return type.filter((item) => typeof item === "string");
+  return typeof type === "string" ? [type] : [];
+}
+
+function isGlobalSchemaNode(node: Record<string, any>) {
+  return nodeTypes(node).some((type) => GLOBAL_SCHEMA_TYPES.has(type));
 }
 
 // ─── Breadcrumb ───────────────────────────────────────────────────────────────
@@ -225,6 +246,52 @@ export function buildWebSiteJsonLd(siteUrl = DEFAULT_SITE) {
     name: "Java Volcano Tour Operator",
     publisher: { "@id": ORG_ID },
   };
+}
+
+/** NOTE: Tidak menyertakan @context */
+export function buildSchemaTypeJsonLd(
+  page: PageRowLike,
+  schemaType: string,
+  siteUrl = DEFAULT_SITE,
+) {
+  if (!schemaType || GLOBAL_SCHEMA_TYPES.has(schemaType)) return null;
+
+  const pageUrl = absUrl(siteUrl, page.route);
+  const seo: Seo = page.seo || {};
+  const title = seo.title || page?.content?.h1 || page.route;
+  const description = seo.description || undefined;
+
+  return clean({
+    "@type": schemaType,
+    "@id": `${pageUrl}#${schemaType.toLowerCase()}`,
+    url: pageUrl,
+    name: title,
+    description,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+  });
+}
+
+/** NOTE: Tidak menyertakan @context */
+export function buildContentPageExtraJsonLd(
+  page: PageRowLike,
+  siteUrl = DEFAULT_SITE,
+) {
+  const seo = (page?.seo as Record<string, any> | null) ?? {};
+  const extracted = [
+    ...asArray(seo.schema_json),
+    ...asArray(seo.schema_jsonld),
+    ...asArray(seo.schemas_jsonld),
+  ].filter((item): item is Record<string, any> => !!item && typeof item === "object");
+
+  const filtered = extracted.filter((node) => !isGlobalSchemaNode(node));
+  const schemaTypeNode =
+    typeof seo.schema_type === "string"
+      ? buildSchemaTypeJsonLd(page, seo.schema_type, siteUrl)
+      : null;
+
+  return [...filtered, ...(schemaTypeNode ? [schemaTypeNode] : [])];
 }
 
 // ─── WebPage ──────────────────────────────────────────────────────────────────

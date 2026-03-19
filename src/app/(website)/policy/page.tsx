@@ -90,7 +90,6 @@ export default async function PolicyHubPage() {
           created_at: row.created_at,
           updated_at: row.updated_at,
         }}
-        extraSchemas={seo.schema_json}
       />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">

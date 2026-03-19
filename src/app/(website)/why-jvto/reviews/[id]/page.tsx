@@ -1,20 +1,27 @@
 // app/why-jvto/reviews/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Avatar from "@/components/website/Avatar";
 import { Star } from "lucide-react";
 import StructuredData from "@/components/website/StructuredData";
+import type { Metadata } from "next";
+import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  buildOrganizationJsonLd,
+  buildWebSiteJsonLd,
+} from "@/lib/seo/jsonld/builders";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default async function ReviewDetailPage({ params }: PageProps) {
-  const { id } = await params;
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
   const reviewId = BigInt(id);
 
   const review = await prisma.reviews.findUnique({
@@ -25,40 +32,89 @@ export default async function ReviewDetailPage({ params }: PageProps) {
   });
 
   if (!review) {
+    return { title: "Review Not Found" };
+  }
+
+  const packageName = review.package?.name ?? "Java Volcano Tour Package";
+  const title = `${review.customer_name} Review | ${packageName}`;
+  const description =
+    review.review?.slice(0, 160) ??
+    `Customer review for ${packageName} with Java Volcano Tour Operator.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `${SITE_URL}/why-jvto/reviews/${review.id.toString()}`,
+    },
+  };
+}
+
+export default async function ReviewDetailPage({ params }: PageProps) {
+  const { id } = await params;
+
+  const reviewId = BigInt(id);
+
+  const [review, org] = await Promise.all([
+    prisma.reviews.findUnique({
+      where: { id: reviewId },
+      include: {
+        package: true,
+      },
+    }),
+    getOrganizationProfile(),
+  ]);
+
+  if (!review) {
     notFound();
   }
+  const packageName = review.package?.name ?? "Java Volcano Tour Package";
+  const packageUrl = review.package?.slug
+    ? review.package.slug.startsWith("tours/")
+      ? `${SITE_URL}/${review.package.slug}`
+      : `${SITE_URL}/tours/${review.package.slug}`
+    : `${SITE_URL}/tours`;
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: review.package?.name ?? "Java Volcano Tour Package",
-    brand: {
-      "@type": "Brand",
-      name: "Java Volcano Tour Operator",
-    },
-    url: review.package?.slug
-      ? `https://javavolcano-touroperator.com/${review.package.slug}`
-      : "https://javavolcano-touroperator.com/tours",
-
-    review: {
-      "@type": "Review",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: review.star ?? 5,
-        bestRating: 5,
-        worstRating: 1,
+    "@graph": [
+      buildOrganizationJsonLd(org as any, SITE_URL),
+      buildWebSiteJsonLd(SITE_URL),
+      {
+        "@type": "WebPage",
+        "@id": `${SITE_URL}/why-jvto/reviews/${review.id.toString()}#webpage`,
+        url: `${SITE_URL}/why-jvto/reviews/${review.id.toString()}`,
+        name: `${review.customer_name} Review | ${packageName}`,
+        description:
+          review.review?.slice(0, 160) ??
+          `Customer review for ${packageName} with Java Volcano Tour Operator.`,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        about: { "@id": `${SITE_URL}/#organization` },
       },
-      author: {
-        "@type": "Person",
-        name: review.customer_name,
+      {
+        "@type": "Product",
+        "@id": `${SITE_URL}/why-jvto/reviews/${review.id.toString()}#product`,
+        name: packageName,
+        brand: { "@id": `${SITE_URL}/#organization` },
+        url: packageUrl,
+        review: {
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: review.star ?? 5,
+            bestRating: 5,
+            worstRating: 1,
+          },
+          author: {
+            "@type": "Person",
+            name: review.customer_name,
+          },
+          reviewBody: review.review,
+          datePublished: review.date.toISOString(),
+          publisher: { "@id": `${SITE_URL}/#organization` },
+        },
       },
-      reviewBody: review.review,
-      datePublished: review.date.toISOString(),
-      publisher: {
-        "@type": "Organization",
-        name: "Java Volcano Tour Operator",
-      },
-    },
+    ],
   };
 
   return (
@@ -67,7 +123,9 @@ export default async function ReviewDetailPage({ params }: PageProps) {
       <StructuredData data={schema} />
 
       <header className="mb-8">
-        <h1 className="text-3xl font-black text-slate-900">Customer Review</h1>
+        <h1 className="text-3xl font-black text-slate-900">
+          {review.customer_name} Review
+        </h1>
 
         <p className="text-sm text-gray-500 mt-2">
           Posted on{" "}
@@ -122,7 +180,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
           {review.package.slug && (
             <a
-              href={`https://javavolcano-touroperator.com/tours/${review.package.slug}`}
+              href={packageUrl}
               className="inline-block mt-2 text-orange-600 font-semibold hover:underline"
             >
               View Tour Details →

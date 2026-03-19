@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import JsonLd from "@/components/JsonLd";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { ButtonLink, Container, Divider, Grid, H1, Lead, Card, Section, Notice } from "@/components/ui";
-import { buildBreadcrumbJsonLd, buildOrganizationJsonLd, buildWebPageJsonLd } from "@/lib/jsonld";
 import { getReviewPlatforms } from "@/lib/why-ssot";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
@@ -22,26 +21,32 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ISICStudentDealsPage() {
   const seo = await getPageSeo("/student-deals/isic", fallbackSeo);
-  const pathname = "/student-deals/isic";
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/student-deals/isic",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
   const platforms = getReviewPlatforms();
   const isicListing = platforms.find((p) => p.platform.startsWith("ISIC"))?.url;
 
-  const jsonLd = [
-    buildOrganizationJsonLd(),
-    buildWebPageJsonLd({ pathname, title: seo.title, description: seo.description }),
-    buildBreadcrumbJsonLd({
-      pathname,
-      items: [
-        { name: "Home", path: "/" },
-        { name: "Student Deals", path: "/student-deals" },
-        { name: "ISIC", path: "/student-deals/isic" },
-      ],
-    }),
-  ];
-
   return (
     <Container>
-      <JsonLd data={jsonLd} />
+      <PageJsonLdCombined pageRow={pageRow as any} />
 
       <H1>{seo.h1}</H1>
       <Lead>{seo.description}</Lead>

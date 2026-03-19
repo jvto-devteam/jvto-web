@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -40,6 +41,26 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function VerifyJvtoPage() {
   const seo = await getPageSeo("/verify-jvto", fallbackSeo);
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/verify-jvto",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
+        },
+        content: {
+          h1: seo.h1,
+        },
+      };
   const orgProfile: any = (ssotData as any).organization_profile;
   const visibleAssets = (ssotData as any).assets_inventory.filter(
     (a: any) => a.is_show === true,
@@ -775,10 +796,7 @@ export default async function VerifyJvtoPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={[jsonLd]} />
       <VerifyJvtoClient
         heroTitle={seo.h1}
         heroDescription={seo.description}
