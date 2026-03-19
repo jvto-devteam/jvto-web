@@ -19,7 +19,14 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
 
   const bannerImage =
     tour?.images && Array.isArray(tour.images) && tour.images.length > 0
-      ? tour.images[0]
+      ? {
+          url: tour.images[0].url,
+          alt:
+            tour.images[0].alt?.trim() ||
+            tour.banner?.alt ||
+            tour.name ||
+            "Tour package",
+        }
       : tour?.banner?.url
         ? { url: tour.banner.url, alt: tour.banner.alt || tour.name }
         : {
