@@ -219,7 +219,7 @@ export default function VerifyJvtoClient({
         </section>
         {groupTitle && (
           <section className="mb-8">
-            <h1 className="text-3xl font-bold">{groupTitle}</h1>
+            <h2 className="text-3xl font-bold">{groupTitle}</h2>
           </section>
         )}
         {/* Tab navigasi untuk semua halaman */}
