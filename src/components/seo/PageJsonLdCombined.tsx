@@ -28,7 +28,7 @@ export async function PageJsonLdCombined({
   pageRow,
   extraSchemas,
 }: {
-  pageRow: PageRow;
+  pageRow: PageRowLike;
   extraSchemas?: any[]; // optional override from page code
 }) {
   const org = await getOrganizationProfile();

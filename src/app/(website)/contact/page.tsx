@@ -1,7 +1,7 @@
 import ContactPage from "@/components/website/ContactPage";
-import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
   title: "Contact JVTO Tours | Plan Your East Java Adventure",
@@ -43,94 +43,30 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Contact() {
   const seo = await getPageSeo("/contact", fallbackSeo);
-  const contactSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "ContactPage",
-        "@id": "https://javavolcano-touroperator.com/contact/#webpage",
-        url: "https://javavolcano-touroperator.com/contact/",
-        name: "Contact Us | Java Volcano Tour Operator",
-        description:
-          "Ready to embark on an unforgettable Java volcano adventure? Contact Java Volcano Tour Operator for tour bookings, inquiries, and travel support. Get in touch with our team today to plan your next incredible journey in Indonesia.",
-        isPartOf: {
-          "@id": "https://javavolcano-touroperator.com/#website",
+  const pageRow = seo.row
+    ? {
+        route: seo.row.route,
+        lang: seo.row.lang,
+        seo: seo.row.seo,
+        content: seo.row.content,
+        created_at: seo.row.created_at,
+        updated_at: seo.row.updated_at,
+      }
+    : {
+        route: "/contact",
+        lang: "en",
+        seo: {
+          title: seo.title,
+          description: seo.description,
         },
-        mainEntity: {
-          "@id": "https://javavolcano-touroperator.com/#travelagency",
+        content: {
+          h1: seo.h1,
         },
-      },
-      {
-        "@type": "TravelAgency",
-        "@id": "https://javavolcano-touroperator.com/#travelagency",
-        name: "Java Volcano Tour Operator",
-        url: "https://javavolcano-touroperator.com/",
-        logo: "https://legacy.javavolcano-touroperator.com/assets/img/download.png",
-        image:
-          "https://legacy.javavolcano-touroperator.com/assets/img/destinations/og-image/java-volcano-home-thumb.jpg",
-        description:
-          "Private volcano tours in East Java: Mount Bromo, Ijen Crater, Tumpak Sewu & more. Licensed local tour operator based in Bondowoso.",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "Khairil Anwar Street No.102 A, Badean",
-          addressLocality: "Bondowoso",
-          addressRegion: "East Java",
-          postalCode: "68219",
-          addressCountry: "ID",
-        },
-        telephone: "+6282244788833",
-        email: "hello@javavolcano-touroperator.com",
-        priceRange: "$$",
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: -7.91377,
-          longitude: 113.82075,
-        },
-        hasMap: "https://maps.app.goo.gl/yWxCyyCvaEcWy5AU9",
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            opens: "09:00",
-            closes: "17:00",
-          },
-        ],
-        contactPoint: {
-          "@type": "ContactPoint",
-          telephone: "+6282244788833",
-          contactType: "Customer Service",
-          areaServed: "ID",
-          availableLanguage: ["English", "Indonesian"],
-        },
-        sameAs: [
-          "https://www.facebook.com/javavolcanotouroperator",
-          "https://www.instagram.com/javavolcanotour",
-          "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-        ],
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: "https://javavolcano-touroperator.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Contact",
-            item: "https://javavolcano-touroperator.com/contact/",
-          },
-        ],
-      },
-    ],
-  };
+      };
 
   return (
     <>
-      <StructuredData data={contactSchema} />
+      <PageJsonLdCombined pageRow={pageRow as any} />
       <ContactPage title={seo.h1} description={seo.description} />;
     </>
   );
