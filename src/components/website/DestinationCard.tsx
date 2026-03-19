@@ -18,7 +18,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }
 
         <Image
           src={destination.banner.url}
-          alt=""
+          alt={destination.banner.alt || destination.name}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
