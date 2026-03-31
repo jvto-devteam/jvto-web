@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:preview": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy-preview.ps1"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

@@ -3,8 +3,6 @@ import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
-import { prisma } from "@/lib/prisma";
-import { routeSlugToParam } from "@/lib/routing/staticParams";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getWebPackageDetailBySlug } from "@/lib/packages/webTourDetail";
@@ -70,29 +68,6 @@ interface ProductData {
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  let packages: Array<{ slug: string | null }> = [];
-  try {
-    packages = await prisma.packages.findMany({
-      where: {
-        is_publish: true,
-        package_category_id: BigInt(2),
-        slug: { not: null },
-      },
-      select: { slug: true },
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[static-params] student-package fallback to empty list: ${message}`);
-    return [];
-  }
-
-  return packages
-    .map((pkg) => routeSlugToParam(pkg.slug, "tours/student-package"))
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
 }
 
 // --- 2. HELPER FUNCTIONS ---
