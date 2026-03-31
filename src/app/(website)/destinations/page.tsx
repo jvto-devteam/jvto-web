@@ -1,9 +1,9 @@
 // app/(website)/destinations/page.tsx
 import type { Metadata } from "next";
-import type { Destination } from "@/interfaces";
 import DestinationCard from "@/components/website/DestinationCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getWebDestinations } from "@/lib/destinations/webDestinations";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -12,9 +12,9 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
+const SITE_URL = BASE_URL;
 const ROUTE = "/destinations";
 export const revalidate = 3600;
 
@@ -38,30 +38,12 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-// ─── Data fetching ─────────────────────────────────────────────────────────────
-
-async function getAllDestinations(): Promise<Destination[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) {
-      return [];
-    }
-    return res.json();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[destinations] fallback to empty list: ${message}`);
-    return [];
-  }
-}
-
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationsPage() {
   const seo = await getPageSeo(ROUTE, fallbackSeo);
   const [destinations, org] = await Promise.all([
-    getAllDestinations(),
+    getWebDestinations(),
     getOrganizationProfile(),
   ]);
 

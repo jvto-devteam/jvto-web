@@ -1,8 +1,15 @@
 // app/lib/site.ts
+const rawPublicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "";
+const publicSiteUrlIsLocal =
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(rawPublicSiteUrl);
+
 const fallbackBaseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+  (rawPublicSiteUrl && (!process.env.VERCEL || !publicSiteUrlIsLocal)
+    ? rawPublicSiteUrl
+    : "") ||
+  process.env.NEXTAUTH_URL?.trim() ||
   process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
   "https://javavolcano-touroperator.com";
 
 // normalisasi: buang trailing slash

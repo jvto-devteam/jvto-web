@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+import { BASE_URL } from "@/lib/site";
 
 type BuildWebsiteMetadataInput = {
   title: string;
@@ -19,7 +17,7 @@ export function buildWebsiteMetadata({
   imageAlt = title,
 }: BuildWebsiteMetadataInput): Metadata {
   const canonical = path.startsWith("/") ? path : `/${path}`;
-  const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image}`;
+  const imageUrl = image.startsWith("http") ? image : `${BASE_URL}${image}`;
 
   return {
     title,
@@ -30,7 +28,7 @@ export function buildWebsiteMetadata({
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}${canonical}`,
+      url: `${BASE_URL}${canonical}`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
       type: "website",

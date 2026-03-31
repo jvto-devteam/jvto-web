@@ -13,9 +13,6 @@ import HubSectionFrame from "@/components/website/HubSectionFrame";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
 const fallbackSeo = {
   title: "Verify: Forensic Evidence Locker & Legal Documents",
   h1: "Verify JVTO",

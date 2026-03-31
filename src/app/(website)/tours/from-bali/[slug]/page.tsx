@@ -6,6 +6,7 @@ import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini s
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
 import { getWebPackageDetailBySlug } from "@/lib/packages/webTourDetail";
+import { BASE_URL } from "@/lib/site";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -144,8 +145,7 @@ function StructuredData({
   data: TourPackageDetailResponse;
   globalNodes: any[];
 }) {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+  const siteUrl = BASE_URL;
   const pkg = data.product;
 
   const slugString = Array.isArray(pkg.slug) ? pkg.slug.join("/") : pkg.slug;
@@ -369,8 +369,7 @@ export async function generateMetadata(
   }
 
   const pkg = data.product;
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+  const siteUrl = BASE_URL;
 
   const cleanDesc = stripHtml(pkg.description).substring(0, 160);
   const price = formatCurrency(pkg.offers?.aggregateOffer?.lowPrice || 0);
@@ -430,8 +429,7 @@ export default async function Page({ params }: Props) {
   ]);
   
   if (!data) notFound();
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+  const siteUrl = BASE_URL;
   const globalNodes = [
     buildOrganizationJsonLd(org as any, siteUrl),
     buildWebSiteJsonLd(siteUrl),

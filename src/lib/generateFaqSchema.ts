@@ -1,7 +1,8 @@
 import { stripHtml } from "@/utils/stripHtml";
+import { BASE_URL } from "@/lib/site";
 
 export function generateFaqSchema(allFaqs: { question: string; answer: string }[]) {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const siteUrl = BASE_URL;
 
   return {
     "@context": "https://schema.org",

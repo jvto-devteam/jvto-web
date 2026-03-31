@@ -1,73 +1,29 @@
 // app/(website)/destinations/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { prisma } from "@/lib/prisma";
+import { getWebDestinationBySlug } from "@/lib/destinations/webDestinations";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
+const SITE_URL = BASE_URL;
 
 interface Props {
   params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  let destinations: Array<{ slug: string | null }> = [];
-  try {
-    destinations = await prisma.destinations.findMany({
-      where: {
-        published: true,
-        deleted_at: null,
-        slug: { not: null },
-        id: { notIn: [3, 4] },
-      },
-      select: { slug: true },
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[static-params] destinations fallback to empty list: ${message}`);
-    return [];
-  }
-
-  return destinations
-    .map((destination) => destination.slug)
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
-}
-
-// ─── Data fetching ─────────────────────────────────────────────────────────────
-
-async function getDestination(slug: string): Promise<DestinationDetail | null> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-      next: { revalidate: 3600 },
-    });
-    if (res.status === 404) return null;
-    if (!res.ok) {
-      throw new Error(`Failed to fetch destination: ${res.status}`);
-    }
-    return res.json();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[destination-detail] fallback to null for ${slug}: ${message}`);
-    return null;
-  }
 }
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const data = await getDestination(slug);
+  const data = await getWebDestinationBySlug(slug);
 
   if (!data) return { title: "Destination Not Found" };
 
@@ -98,7 +54,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   const { slug } = await params;
 
   const [data, org] = await Promise.all([
-    getDestination(slug),
+    getWebDestinationBySlug(slug),
     getOrganizationProfile(),
   ]);
 

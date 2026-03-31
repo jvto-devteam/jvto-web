@@ -7,10 +7,9 @@ import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
 import { Providers } from "../providers";
+import { BASE_URL } from "@/lib/site";
 
-// Fallback URL jika env tidak ada (penting untuk dev/preview)
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+const siteUrl = BASE_URL;
 
 export const metadata: Metadata = {
   // 1. MetadataBase sangat penting untuk mengubah link relative menjadi absolute secara otomatis

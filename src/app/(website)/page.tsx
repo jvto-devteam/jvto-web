@@ -17,13 +17,12 @@ import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import {
-  DEFAULT_SITE,
-} from "@/lib/seo/jsonld/builders";
+import { getWebDestinations } from "@/lib/destinations/webDestinations";
+import { BASE_URL } from "@/lib/site";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 import { miniFaqs, faqsCopy } from "@/constants";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
+const SITE_URL = BASE_URL;
 export const revalidate = 3600;
 const fallbackSeo = {
   title:
@@ -46,26 +45,12 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-// ─── Data fetching ─────────────────────────────────────────────────────────────
-
-async function getDestinations(): Promise<Destination[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
-}
-
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
   const seo = await getPageSeo("/", fallbackSeo);
   // Fetch sekali — dipakai untuk schema DAN HomeDestinations
-  const destinations = await getDestinations();
+  const destinations: Destination[] = await getWebDestinations();
   const pageRow = seo.row
     ? {
         route: seo.row.route,

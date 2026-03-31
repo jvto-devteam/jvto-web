@@ -14,9 +14,6 @@ import HubSectionFrame from "@/components/website/HubSectionFrame";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
 const fallbackSeo = {
   title: "Travel Guide — Booking, Safety & Practical Info | Java Volcano Tour Operator",
   h1: "Prepare & Book",

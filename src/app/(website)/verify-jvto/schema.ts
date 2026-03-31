@@ -1,7 +1,7 @@
 import type { Doc } from "@/lib/data-loader";
+import { BASE_URL } from "@/lib/site";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
+const SITE_URL = BASE_URL;
 
 type VerifyPageSchemaInput = {
   pathname: string;
