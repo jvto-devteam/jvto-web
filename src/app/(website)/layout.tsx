@@ -66,7 +66,7 @@ export default function WebsiteLayout({
   return (
     <>
       <Providers>
-        <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
+        <div className="bg-[#f4f6f8] font-display text-slate-900">
           {/* GA optional logic */}
           {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}

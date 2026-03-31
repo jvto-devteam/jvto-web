@@ -1,11 +1,19 @@
 // app/layout.tsx
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, Public_Sans } from "next/font/google";
 import "./globals.css";
 import Script from "next/script"; // Import Script dari Next.js
 
-const inter = Inter({
+const publicSans = Public_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-public-sans",
+  display: "swap",
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -36,7 +44,7 @@ export default function RootLayout({
       </head>
       {/* Tambahkan suppressHydrationWarning di body jika masih error */}
       <body
-        className={`${inter.className} antialiased`}
+        className={`${publicSans.variable} ${jetBrainsMono.variable} ${publicSans.className} antialiased`}
         suppressHydrationWarning
       >
         {gtmId && (

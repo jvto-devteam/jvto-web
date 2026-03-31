@@ -3,18 +3,34 @@
 
 /* ====== CUSTOM THEME (Tailwind v4 way) ====== */
 @theme {
-  --font-sans: "Inter", sans-serif;
+  --font-sans: var(--font-public-sans), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 
-  --color-jvto-green: #9fce33;
-  --color-jvto-dark: #1a1a1a;
-  --color-jvto-light: #f5f5f5;
-  --color-jvto-text: #333333;
+  --color-jvto-green: #a3e635;
+  --color-jvto-dark: #0f172a;
+  --color-jvto-light: #f8faf5;
+  --color-jvto-text: #334155;
+  --color-safety-orange: #ff6b35;
+  --color-authority-navy: #0f172a;
+  --color-verified-bright: #ccff00;
+  --color-audit-white: #f4f6f8;
 }
 
 /* ====== BASE GLOBAL STYLE ====== */
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-sans);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
 }
 
 /* ====== NO SCROLLBAR (custom utilities) ====== */
@@ -25,4 +41,46 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.grid-pattern {
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bento-card {
+  border-radius: 2rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #f8faf5 100%);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+}
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 107, 53, 0.18);
+  background: rgba(255, 107, 53, 0.08);
+  color: #c2410c;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 0.45rem 0.8rem;
+  text-transform: uppercase;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #ccff00 0%, #a3e635 100%);
+  color: #0f172a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  padding: 0.45rem 0.8rem;
+  text-transform: uppercase;
 }
