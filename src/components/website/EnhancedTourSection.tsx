@@ -3,18 +3,17 @@
 
 import { ListTourPackage } from "@/types";
 import TourCarouselClient from "./TourCarouselClient"; // yang interaktif saja
+import { getWebTourList } from "@/lib/packages/webTourList";
 
 // Fungsi untuk fetch data (bisa dipanggil paralel)
 async function getTours(from: number): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-  const res = await fetch(`${siteUrl}/api/packages/web?from=${from}`, {
-    method: "GET",
-    cache: "no-store",
-  });
-
-  if (!res.ok) throw new Error("Failed to fetch tours");
-  return res.json();
+  try {
+    return (await getWebTourList({ fromId: from })) as ListTourPackage[];
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[enhanced-tour-section] fallback to empty list for location ${from}: ${message}`);
+    return [];
+  }
 }
 
 export default async function EnhancedTourSection() {

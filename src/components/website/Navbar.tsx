@@ -55,11 +55,19 @@ const LoginModal = ({
 
   // Reset state saat modal dibuka/tutup
   useEffect(() => {
+    let frameId = 0;
+
     if (isOpen) {
-      setEmail("");
-      setIsLoading(false);
-      setIsEmailSent(false);
+      frameId = window.requestAnimationFrame(() => {
+        setEmail("");
+        setIsLoading(false);
+        setIsEmailSent(false);
+      });
     }
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
   }, [isOpen]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
@@ -412,29 +420,32 @@ const Navbar: React.FC = () => {
   const isTravelGuidePath = pathname.startsWith("/travel-guide");
   const isPolicyPath = pathname.startsWith("/policy");
   const isWhyJVTOPath = pathname.startsWith("/why-jvto");
+  const defaultMobileMenuView = useMemo(() => {
+    if (isTravelGuidePath) return "travel";
+    if (isPolicyPath) return "policy";
+    if (isWhyJVTOPath) return "why-jvto";
+    return "main";
+  }, [isPolicyPath, isTravelGuidePath, isWhyJVTOPath]);
 
   // Logic: Reset menu view saat menu ditutup atau path berubah
   useEffect(() => {
+    let frameId = 0;
+
     if (!isMenuOpen) {
-      if (isTravelGuidePath) setMobileMenuView("travel");
-      else if (isPolicyPath) setMobileMenuView("policy");
-      else if (isWhyJVTOPath) setMobileMenuView("why-jvto");
-      else setMobileMenuView("main");
+      frameId = window.requestAnimationFrame(() => {
+        setMobileMenuView(defaultMobileMenuView);
+      });
     }
-  }, [isMenuOpen, isTravelGuidePath, isPolicyPath, isWhyJVTOPath]);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [defaultMobileMenuView, isMenuOpen]);
 
   const toggleMenu = () => {
     if (!isMenuOpen) {
       // Tentukan tampilan awal saat menu dibuka berdasarkan path URL
-      if (isTravelGuidePath) {
-        setMobileMenuView("travel");
-      } else if (isPolicyPath) {
-        setMobileMenuView("policy");
-      } else if (isWhyJVTOPath) {
-        setMobileMenuView("why-jvto");
-      } else {
-        setMobileMenuView("main");
-      }
+      setMobileMenuView(defaultMobileMenuView);
     }
     setIsMenuOpen(!isMenuOpen);
   };
@@ -503,15 +514,21 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setIsMenuOpen(false);
-    setIsSearchOpen(false);
-    setIsLoginOpen(false);
+    const frameId = window.requestAnimationFrame(() => {
+      setIsMenuOpen(false);
+      setIsSearchOpen(false);
+      setIsLoginOpen(false);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
   }, [pathname]);
 
   const navClass =
     isHome && !isScrolled
-      ? "bg-transparent text-white"
-      : "bg-white text-jvto-dark shadow-md";
+      ? "border-b border-white/10 bg-white/8 text-white backdrop-blur-md"
+      : "border-b border-slate-200/80 bg-white/92 text-jvto-dark shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-xl";
   const logoTextClass = isHome && !isScrolled ? "text-white" : "text-jvto-dark";
   const finalLogoTextClass = isMenuOpen ? "text-jvto-dark" : logoTextClass;
   const finalMenuIconClass = isMenuOpen
@@ -527,17 +544,20 @@ const Navbar: React.FC = () => {
       >
         {/* Top Bar */}
         <div
-          className={`hidden md:block py-2 text-xs font-medium border-b border-white/10 ${
+          className={`hidden md:block border-b py-2 text-[11px] font-bold uppercase tracking-[0.18em] ${
             isHome && !isScrolled
-              ? "bg-black/20"
-              : "bg-jvto-green text-jvto-dark"
+              ? "border-white/10 bg-black/20 text-white/85"
+              : "border-slate-200 bg-[linear-gradient(90deg,#ecfccb_0%,#f8faf5_52%,#ffffff_100%)] text-slate-700"
           }`}
         >
-          <div className="container mx-auto px-6 flex justify-center items-center gap-4">
-            <span className="flex items-center gap-1">
+          <div className="container mx-auto flex items-center justify-center gap-4 px-6 xl:justify-between">
+            <span className="hidden items-center gap-2 xl:flex">
+              <ShieldCheck size={14} className="text-lime-600" /> Private East Java routes with direct operator verification
+            </span>
+            <span className="flex items-center gap-2">
               <ShieldCheck size={14} /> Tourist Police-Led Private Tours
             </span>
-            <span className="hidden lg:inline">|</span>
+            <span className="hidden lg:inline text-slate-300 xl:hidden">|</span>
             <span className="hidden lg:inline">
               Licensed East Java Operator (No. 1102230032918)
             </span>
@@ -545,10 +565,10 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Main Bar */}
-        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="container mx-auto flex h-24 items-center justify-between px-6">
           <div className="flex items-center gap-6">
             <button
-              className="lg:hidden p-2 z-50 relative"
+              className="relative z-50 rounded-full border border-slate-200/30 bg-white/10 p-2 backdrop-blur-sm lg:hidden"
               onClick={() => toggleMenu()}
               aria-label="Toggle menu"
             >
@@ -558,33 +578,37 @@ const Navbar: React.FC = () => {
                 <Menu size={24} className={finalMenuIconClass} />
               )}
             </button>
-            <div className="hidden lg:flex items-center lg:gap-3 xl:gap-8 font-bold lg:text-xs xl:text-sm uppercase tracking-wider">
+            <div className="hidden items-center rounded-full border border-slate-200/70 bg-white/70 px-3 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-slate-700 shadow-sm backdrop-blur lg:flex lg:gap-1 xl:gap-2 xl:text-xs">
               <ToursDropdown />
               <Link
                 href="/destinations"
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="rounded-full px-3 py-2 transition-colors hover:bg-slate-100 hover:text-jvto-green whitespace-nowrap"
               >
                 Destinations
               </Link>
               <Link
                 href="/why-jvto"
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="rounded-full px-3 py-2 transition-colors hover:bg-slate-100 hover:text-jvto-green whitespace-nowrap"
               >
                 Why JVTO
               </Link>
               <Link
                 href="/travel-guide"
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="rounded-full px-3 py-2 transition-colors hover:bg-slate-100 hover:text-jvto-green whitespace-nowrap"
               >
                 Travel Guide
               </Link>
             </div>
           </div>
 
-          <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
+          <div className="absolute left-1/2 z-50 -translate-x-1/2 transform text-center">
             <Link
               href="/"
-              className={`text-2xl font-black italic tracking-tighter flex items-center gap-1 ${finalLogoTextClass}`}
+              className={`inline-flex items-center gap-1 rounded-full border px-4 py-2 shadow-sm backdrop-blur-md transition-all ${
+                isHome && !isScrolled && !isMenuOpen
+                  ? "border-white/15 bg-black/10"
+                  : "border-slate-200 bg-white/92"
+              } ${finalLogoTextClass}`}
             >
               <Image
                 src="/assets/img/jvto-logo.png"
@@ -597,11 +621,11 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setIsSearchOpen(true)}
               aria-label="Open search"
-              className="p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
+              className="cursor-pointer rounded-full border border-slate-200/60 bg-white/70 p-2 shadow-sm transition-colors hover:bg-white"
             >
               <Search size={20} className={finalMenuIconClass} />
             </button>
@@ -615,7 +639,7 @@ const Navbar: React.FC = () => {
               <button
                 onClick={() => setIsLoginOpen(true)}
                 aria-label="Open login"
-                className="hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
+                className="hidden cursor-pointer rounded-full border border-slate-200/60 bg-white/70 p-2 shadow-sm transition-colors hover:bg-white md:inline-flex"
               >
                 <User size={20} className={finalMenuIconClass} />
               </button>
@@ -625,7 +649,7 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="fixed inset-0 bg-white z-40 pt-24 px-6 lg:hidden flex flex-col animate-fade-in-up h-screen overflow-y-auto">
+          <div className="fixed inset-0 z-40 flex h-screen flex-col overflow-y-auto bg-[linear-gradient(180deg,#f8faf5_0%,#ffffff_28%,#ffffff_100%)] px-6 pt-28 animate-fade-in-up lg:hidden">
             {/* VIEW 1: SIDEBAR TRAVEL GUIDE */}
             {mobileMenuView === "travel" && (
               <SidebarTravelGuide
@@ -657,13 +681,13 @@ const Navbar: React.FC = () => {
                       {/* Tampilkan Menu User Jika Login */}
                       <Link
                         href="/my-booking"
-                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
+                        className="flex items-center gap-3 rounded-[20px] border border-lime-200 bg-white p-5 text-jvto-green shadow-sm transition-colors hover:text-jvto-dark"
                       >
                         <LayoutDashboard size={20} /> My Booking
                       </Link>
                       <button
                         onClick={() => signOut()}
-                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-red-600 hover:text-red-800 transition-colors text-left"
+                        className="flex items-center gap-3 rounded-[20px] border border-red-200 bg-white p-5 text-left text-red-600 shadow-sm transition-colors hover:text-red-800"
                       >
                         <LogOut size={20} /> Log Out
                       </button>
@@ -675,7 +699,7 @@ const Navbar: React.FC = () => {
                         setIsMenuOpen(false);
                         setIsLoginOpen(true);
                       }}
-                      className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark hover:text-jvto-green transition-colors text-left"
+                      className="flex items-center gap-3 rounded-[20px] border border-slate-200 bg-white p-5 text-left text-jvto-dark shadow-sm transition-colors hover:text-jvto-green"
                     >
                       <LogIn size={20} /> Log In
                     </button>
@@ -683,42 +707,42 @@ const Navbar: React.FC = () => {
 
                   <Link
                     href="/tours"
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="rounded-[20px] border border-slate-200 bg-white p-5 transition-colors hover:text-jvto-green shadow-sm"
                   >
                     Private Tours
                   </Link>
                   <Link
                     href="/destinations"
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="rounded-[20px] border border-slate-200 bg-white p-5 transition-colors hover:text-jvto-green shadow-sm"
                   >
                     Destinations
                   </Link>
                   <Link
                     href="/why-jvto"
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="rounded-[20px] border border-slate-200 bg-white p-5 transition-colors hover:text-jvto-green shadow-sm"
                   >
                     Why JVTO
                   </Link>
                   <Link
                     href="/travel-guide"
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="rounded-[20px] border border-slate-200 bg-white p-5 transition-colors hover:text-jvto-green shadow-sm"
                   >
                     Travel Guide
                   </Link>
                   <Link
                     href="/contact"
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
+                    className="rounded-[20px] border border-lime-200 bg-lime-50 p-5 text-jvto-green transition-colors hover:text-jvto-green shadow-sm"
                   >
                     Contact
                   </Link>
                 </div>
 
-                <div className="mt-auto mb-10 pt-8 border-t border-gray-100 text-sm text-gray-500">
-                  <p className="font-bold mb-2 text-jvto-dark uppercase tracking-wider">
+                <div className="mt-8 mb-10 rounded-[24px] border border-slate-200 bg-white p-6 text-sm text-gray-500 shadow-sm">
+                  <p className="mb-2 font-bold uppercase tracking-wider text-jvto-dark">
                     Official Contact
                   </p>
                   <p className="mb-1">WhatsApp: +62 822-4478-8833</p>
-                  <div className="mt-6 flex items-center gap-2 text-xs bg-gray-50 p-3 rounded-sm border border-gray-200">
+                  <div className="mt-6 flex items-center gap-2 rounded-2xl border border-gray-200 bg-gray-50 p-4 text-xs">
                     <ShieldCheck size={16} className="text-jvto-green" />
                     <span>Licensed Operator No. 1102230032918</span>
                   </div>
@@ -812,7 +836,7 @@ const Navbar: React.FC = () => {
                   </div>
                 ) : (
                   <div className="py-12 text-center text-gray-400 font-medium">
-                    No tours found for "{searchQuery}"
+                    No tours found for &quot;{searchQuery}&quot;
                   </div>
                 )
               ) : (

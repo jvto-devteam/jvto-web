@@ -3,6 +3,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { ButtonLink, Container, Divider, Grid, H1, Lead, Card, Section, Notice } from "@/components/ui";
 import { getReviewPlatforms } from "@/lib/why-ssot";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
   title: "ISIC Student Deals — JVTO",
@@ -13,10 +14,12 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/student-deals/isic", fallbackSeo);
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-  };
+    path: "/student-deals/isic",
+    imageAlt: seo.h1,
+  });
 }
 
 export default async function ISICStudentDealsPage() {

@@ -95,12 +95,20 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
   }, [tours]);
 
   useEffect(() => {
+    let frameId = 0;
+
     if (isOpen) {
-      setMaxDuration(initialFilters.maxDuration);
-      setStartCities(initialFilters.startCities);
-      setEndCities(initialFilters.endCities);
-      setExperiences(initialFilters.experiences);
+      frameId = window.requestAnimationFrame(() => {
+        setMaxDuration(initialFilters.maxDuration);
+        setStartCities(initialFilters.startCities);
+        setEndCities(initialFilters.endCities);
+        setExperiences(initialFilters.experiences);
+      });
     }
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
   }, [isOpen, initialFilters]);
 
   const matchingTourCount = useMemo(() => {

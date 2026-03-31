@@ -163,7 +163,8 @@ const Section: React.FC<SectionProps> = ({ icon: Icon, title, children, badge })
 
 function createIcs({ title, start, end, location, description }: {title: string, start: string, end: string, location: string, description: string}) {
   const dt = (d: string)=> d.replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//JVTO//Booking Guide Demo//EN\nBEGIN:VEVENT\nUID:${Date.now()}@jvto.demo\nDTSTAMP:${dt(new Date().toISOString())}Z\nDTSTART:${dt(start)}Z\nDTEND:${dt(end)}Z\nSUMMARY:${title}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
+  const stableUid = `${encodeURIComponent(title)}-${dt(start)}@jvto.demo`;
+  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//JVTO//Booking Guide Demo//EN\nBEGIN:VEVENT\nUID:${stableUid}\nDTSTAMP:${dt(start)}Z\nDTSTART:${dt(start)}Z\nDTEND:${dt(end)}Z\nSUMMARY:${title}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
   return "data:text/calendar;charset=utf8," + encodeURIComponent(ics);
 }
 
@@ -276,14 +277,16 @@ export default function BookingPage() {
 
   const icsHref = useMemo(()=> {
     if(!tour) return "";
+    const start = new Date().toISOString();
+    const end = new Date(new Date(start).getTime()+ 3*60*60*1000).toISOString();
     return createIcs({
       title: `JVTO Tour: ${tour.label} (Demo)`,
-      start: new Date().toISOString(),
-      end: new Date(Date.now()+ 3*60*60*1000).toISOString(),
+      start,
+      end,
       location: pickupType === "meet" ? "Meeting Point" : pickupType === "hotel" ? (hotelName || "Hotel pickup") : "Airport pickup",
       description: `Booking ${bookingRef}`
     })
-  }, [bookingRef, pickupType, hotelName, tour?.label]);
+  }, [bookingRef, pickupType, hotelName, tour]);
 
   const voucherHref = useMemo(()=> {
     if(!tour) return "";
@@ -295,7 +298,7 @@ export default function BookingPage() {
       tierLabel,
       total
     })
-  }, [bookingRef, date, quantity, tierLabel, total, tour?.label]);
+  }, [bookingRef, date, quantity, tierLabel, total, tour]);
 
   if (!tour) {
     return redirect("/tours");

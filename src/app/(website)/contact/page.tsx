@@ -2,6 +2,7 @@ import ContactPage from "@/components/website/ContactPage";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
   title: "Contact JVTO Tours | Plan Your East Java Adventure",
@@ -13,32 +14,13 @@ const fallbackSeo = {
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/contact", fallbackSeo);
 
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-    openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: `${siteUrl}/contact`,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "website",
-      images: [
-        {
-          url: siteUrl + "/assets/img/og/contact.webp",
-          width: 1200,
-          height: 630,
-          alt: seo.h1,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: seo.title,
-      description: seo.description,
-      images: [siteUrl + "/assets/img/og/contact.webp"],
-    },
-  };
+    path: "/contact",
+    image: "/assets/img/og/contact.webp",
+    imageAlt: seo.h1,
+  });
 }
 
 export default async function Contact() {
@@ -67,7 +49,7 @@ export default async function Contact() {
   return (
     <>
       <PageJsonLdCombined pageRow={pageRow as any} />
-      <ContactPage title={seo.h1} description={seo.description} />;
+      <ContactPage title={seo.h1} description={seo.description} />
     </>
   );
 }

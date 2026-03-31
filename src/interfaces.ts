@@ -182,6 +182,11 @@ interface _Product {
   marketing: _Marketing;
 
   operationalComplexityNote: string;
+  healthRequirements: string[];
+  environmentalRisks: string[];
+  safetyMitigation: string[];
+  handoverNotes: string[];
+  emergencyProtocols: Record<string, string>;
 
   provider: _Provider;
 

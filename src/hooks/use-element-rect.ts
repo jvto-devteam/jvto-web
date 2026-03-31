@@ -56,8 +56,6 @@ export function useElementRect({
   throttleMs = 100,
   useResizeObserver = true,
 }: ElementRectOptions = {}): RectState {
-  const [rect, setRect] = useState<RectState>(initialRect)
-
   const getTargetElement = useCallback((): Element | null => {
     if (!enabled || !isClientSide()) return null
 
@@ -75,6 +73,25 @@ export function useElementRect({
 
     return element
   }, [element, enabled])
+
+  const [rect, setRect] = useState<RectState>(() => {
+    if (!enabled || !isClientSide()) return initialRect
+
+    const targetElement = getTargetElement()
+    if (!targetElement) return initialRect
+
+    const nextRect = targetElement.getBoundingClientRect()
+    return {
+      x: nextRect.x,
+      y: nextRect.y,
+      width: nextRect.width,
+      height: nextRect.height,
+      top: nextRect.top,
+      right: nextRect.right,
+      bottom: nextRect.bottom,
+      left: nextRect.left,
+    }
+  })
 
   const updateRect = useThrottledCallback(
     () => {
@@ -105,7 +122,6 @@ export function useElementRect({
 
   useEffect(() => {
     if (!enabled || !isClientSide()) {
-      setRect(initialRect)
       return
     }
 
@@ -136,11 +152,10 @@ export function useElementRect({
 
     return () => {
       cleanup.forEach((fn) => fn())
-      setRect(initialRect)
     }
   }, [enabled, getTargetElement, updateRect, useResizeObserver])
 
-  return rect
+  return enabled ? rect : initialRect
 }
 
 /**

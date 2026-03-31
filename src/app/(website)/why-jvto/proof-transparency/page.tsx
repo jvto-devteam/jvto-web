@@ -4,11 +4,15 @@ import SSOTRenderer from "@/components/why/SSOTRenderer";
 import { Container, H1, Lead } from "@/components/ui";
 import { buildBreadcrumbJsonLd, buildOrganizationJsonLd, buildWebPageJsonLd } from "@/lib/jsonld";
 import { getPageByRoute } from "@/lib/why-ssot";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildWebsiteMetadata({
   title: "Proof & Transparency — Verify Everything",
-  description: "Proof-backed documents and artifacts. Start here for legality, police & safety, history, and press context.",
-};
+  description:
+    "Proof-backed documents and artifacts. Start here for legality, police and safety, history, and press context.",
+  path: "/why-jvto/proof-transparency",
+  imageAlt: "Proof & Transparency",
+});
 
 export default function ProofTransparencyHub() {
   const pathname = "/why-jvto/proof-transparency/";

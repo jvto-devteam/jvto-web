@@ -6,6 +6,7 @@ import Sidebar from "../sidebar";
 import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -26,8 +27,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const content = (row.content as Record<string, any> | null) ?? {};
 
   return {
-    title: seo.title ?? content.h1 ?? row.route,
-    description: seo.description ?? undefined,
+    ...buildWebsiteMetadata({
+      title: seo.title ?? content.h1 ?? row.route,
+      description:
+        seo.description ??
+        `Read JVTO policy details for ${content.h1 ?? slug} before booking or payment.`,
+      path: `/policy/${slug}`,
+      imageAlt: content.h1 ?? "JVTO Policy",
+    }),
   };
 }
 

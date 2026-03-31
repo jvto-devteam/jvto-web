@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const url = req.nextUrl;
   const { pathname } = url;
 
@@ -253,6 +253,7 @@ function trackVisit(request: NextRequest, response: NextResponse) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    // Exclude all Next internals so dev HMR/WebSocket traffic is never intercepted.
+    "/((?!api|_next|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };

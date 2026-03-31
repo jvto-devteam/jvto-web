@@ -4,7 +4,7 @@ import { useRef, forwardRef } from "react";
 import Link from "next/link";
 import { ListTourPackage } from "@/types";
 import TourCard from "../TourCard";
-import {MapPin, ArrowLeft, ArrowRight } from "lucide-react";
+import {MapPin, ArrowLeft, ArrowRight, ShieldCheck, Users, Waypoints } from "lucide-react";
 
 // --- TIPE DATA ---
 interface FeaturedToursClientProps {
@@ -41,7 +41,7 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
     return (
       <section
         ref={ref}
-        className={`py-6 md:py-12 scroll-mt-24 border-b border-gray-100 last:border-0 ${bgColor}`}
+        className={`py-8 md:py-12 scroll-mt-24 border-b border-[#e7ebdd] last:border-0 ${bgColor}`}
       >
         <div className="container mx-auto px-6">
           {/* Header Section: Judul & Tombol Navigasi Carousel */}
@@ -51,7 +51,7 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
                 {title}
               </h3>
               <p className="text-gray-500 mt-1 text-sm md:text-base">
-                {tours.length} adventures available
+                {tours.length} private route options
               </p>
             </div>
 
@@ -127,27 +127,46 @@ const FeaturedToursClient = ({
     <div className="bg-white min-h-screen">
       {/* --- HERO / HEADER SECTION --- */}
       <div className="container mx-auto px-6 text-center mb-16">
-        <div className="w-16 h-16 mx-auto mb-6 bg-jvto-green rounded-full flex items-center justify-center">
-          <MapPin className="w-8 h-8 text-white" />
+        <div className="w-16 h-16 mx-auto mb-6 bg-[#e7f1d3] rounded-full flex items-center justify-center">
+          <MapPin className="w-8 h-8 text-jvto-dark" />
         </div>
-        <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
-          Start Your Route
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-          Choose your origin. We handle the rest — private vehicle, drivers, Bromo jeep, permits, and no shared groups.
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-jvto-green mb-4">
+          Discovery System
         </p>
+        <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
+          Start With The Right Route
+        </h2>
+        <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
+          Choose your real departure point first, then move straight into the
+          route shapes that fit your trip. The goal here is not to read a long
+          brochure, but to reach the right package faster.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-700">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfc9] px-3 py-2">
+            <ShieldCheck className="h-4 w-4 text-jvto-green" />
+            Private route handling
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfc9] px-3 py-2">
+            <Users className="h-4 w-4 text-jvto-green" />
+            No merged stranger groups
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#d9dfc9] px-3 py-2">
+            <Waypoints className="h-4 w-4 text-jvto-green" />
+            Pickup logic already mapped
+          </span>
+        </div>
         {/* --- NAVIGATION BUTTONS --- */}
         <div className="flex mt-8 items-center justify-center md:gap-4 gap-2 relative z-10">
           <button
             onClick={() => scrollToSection("surabaya")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-sm hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Surabaya
           </button>
           
           <button
             onClick={() => scrollToSection("bali")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-sm hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Bali
           </button>
@@ -172,7 +191,6 @@ const FeaturedToursClient = ({
       {/* --- FOOTER CTA --- */}
       <div className="text-center container mx-auto px-6">
         <Link
-          target="_blank"
           href="/tours"
           className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
         >

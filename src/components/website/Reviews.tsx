@@ -45,24 +45,26 @@ const platformMap: Record<
   },
 };
 
+const PlatformDisplay: React.FC<{ platformKey: Review["platform"] }> = ({
+  platformKey,
+}) => {
+  const platform = platformMap[platformKey];
+
+  if (!platform) return null;
+
+  const Icon = platform.icon;
+
+  return (
+    <div
+      className={`flex items-center gap-1.5 text-xs mt-1.5 ${platform.color} dark:opacity-80`}
+    >
+      <Icon className="h-4 w-4" aria-hidden="true" />
+      <span className="font-semibold">on {platform.label}</span>
+    </div>
+  );
+};
+
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
-  const PlatformDisplay: React.FC = () => {
-    const platform = platformMap[review.platform];
-
-    if (!platform) return null;
-
-    const Icon = platform.icon;
-
-    return (
-      <div
-        className={`flex items-center gap-1.5 text-xs mt-1.5 ${platform.color} dark:opacity-80`}
-      >
-        <Icon className="h-4 w-4" aria-hidden="true" />
-        <span className="font-semibold">on {platform.label}</span>
-      </div>
-    );
-  };
-
   return (
     <div className="bg-white dark:bg-background-dark p-6 rounded-2xl shadow-card hover:shadow-cardHover h-full flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
       
@@ -123,7 +125,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
           <p className="text-sm text-ink-neutral-500 dark:text-ink-neutral-200">
             {review.location} · {review.date}
           </p>
-          <PlatformDisplay />
+          <PlatformDisplay platformKey={review.platform} />
         </div>
       </div>
     </div>

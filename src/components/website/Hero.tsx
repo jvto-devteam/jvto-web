@@ -91,12 +91,12 @@ const Hero: React.FC<HeroProps> = ({ heroCopy }) => {
               className="mb-3 mt-15 animate-fade-in"
               style={{ animationDelay: "200ms" }}
             >
-              <a
+              <Link
                 href="/why-jvto/the-jvto-difference"
                 className="text-white underline underline-offset-4 hover:text-orange-300 transition"
               >
                 Why This Is Verified →
-              </a>
+              </Link>
             </p>
 
             <p

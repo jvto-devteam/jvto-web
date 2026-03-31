@@ -33,7 +33,7 @@ const TourRequirements = () => {
               <td className="px-6 py-4 text-gray-700">
                 <strong>Health Certificate (Surat Sehat)</strong><br />
                 <span className="text-xs text-gray-500">
-                  Must state "Fit for hiking/physical activity". Provided by JVTO.
+                  Must state &quot;Fit for hiking/physical activity&quot;. Provided by JVTO.
                 </span>
               </td>
             </tr>

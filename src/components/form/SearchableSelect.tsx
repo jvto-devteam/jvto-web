@@ -47,13 +47,21 @@ export function SearchableSelect<T>({
 
   // Atur highlighted index saat dropdown dibuka atau list/filter berubah
   useEffect(() => {
+    let frameId = 0;
+
+    const syncHighlight = (nextIndex: number) => {
+      frameId = window.requestAnimationFrame(() => {
+        setHighlightedIndex(nextIndex);
+      });
+    };
+
     if (!open) {
-      setHighlightedIndex(-1);
+      syncHighlight(-1);
       return;
     }
 
     if (filteredOptions.length === 0) {
-      setHighlightedIndex(-1);
+      syncHighlight(-1);
       return;
     }
 
@@ -66,11 +74,15 @@ export function SearchableSelect<T>({
         : -1;
 
     if (selectedIndex >= 0) {
-      setHighlightedIndex(selectedIndex);
+      syncHighlight(selectedIndex);
     } else {
       // Kalau belum ada yang kepilih, highlight item pertama
-      setHighlightedIndex(0);
+      syncHighlight(0);
     }
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
   }, [open, filteredOptions, selectedValueKey, getOptionValue]);
 
   // Close on click outside

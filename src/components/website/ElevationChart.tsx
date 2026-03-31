@@ -11,6 +11,26 @@ interface ElevationChartProps {
   data: ElevationPoint[];
 }
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md rounded-lg shadow-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+        <p className="text-sm font-semibold">
+          Distance:{" "}
+          <span className="text-ink-neutral-700 dark:text-ink-neutral-300">
+            {label.toFixed(1)} km
+          </span>
+        </p>
+        <p className="text-sm font-bold text-orange-600 dark:text-orange-400">
+          Elevation: {payload[0].value.toFixed(0)} m
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
   const [Recharts, setRecharts] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,22 +68,6 @@ const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
     Tooltip,
     ResponsiveContainer,
   } = Recharts;
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md rounded-lg shadow-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
-          <p className="text-sm font-semibold">
-            Distance: <span className="text-ink-neutral-700 dark:text-ink-neutral-300">{label.toFixed(1)} km</span>
-          </p>
-          <p className="text-sm font-bold text-orange-600 dark:text-orange-400">
-            Elevation: {payload[0].value.toFixed(0)} m
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="h-48 w-full">

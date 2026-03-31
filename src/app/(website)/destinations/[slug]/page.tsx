@@ -10,6 +10,7 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 export const revalidate = 3600;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -19,15 +20,22 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const destinations = await prisma.destinations.findMany({
-    where: {
-      published: true,
-      deleted_at: null,
-      slug: { not: null },
-      id: { notIn: [3, 4] },
-    },
-    select: { slug: true },
-  });
+  let destinations: Array<{ slug: string | null }> = [];
+  try {
+    destinations = await prisma.destinations.findMany({
+      where: {
+        published: true,
+        deleted_at: null,
+        slug: { not: null },
+        id: { notIn: [3, 4] },
+      },
+      select: { slug: true },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[static-params] destinations fallback to empty list: ${message}`);
+    return [];
+  }
 
   return destinations
     .map((destination) => destination.slug)
@@ -38,12 +46,20 @@ export async function generateStaticParams() {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestination(slug: string): Promise<DestinationDetail | null> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-    next: { revalidate: 3600 },
-  });
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) {
+      throw new Error(`Failed to fetch destination: ${res.status}`);
+    }
+    return res.json();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[destination-detail] fallback to null for ${slug}: ${message}`);
+    return null;
+  }
 }
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
@@ -66,33 +82,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : `${SITE_URL}${data.banner.url}`
     : `${SITE_URL}/assets/img/og/destinations.webp`;
 
-  return {
+  return buildWebsiteMetadata({
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/destinations/${slug}` },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE_URL}/destinations/${slug}`,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "website",
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: data.banner?.alt ?? data.name,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [imageUrl],
-    },
-  };
+    path: `/destinations/${slug}`,
+    image: imageUrl,
+    imageAlt: data.banner?.alt ?? data.name,
+  });
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

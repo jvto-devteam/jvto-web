@@ -2,7 +2,11 @@
 import type { Metadata } from "next";
 import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
+import HomeDifferentiators from "@/components/website/Home/HomeDifferentiators";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
+import HomeFinalCta from "@/components/website/Home/HomeFinalCta";
+import HomeReviewProofBanner from "@/components/website/Home/HomeReviewProofBanner";
+import HomeTrustMetricBar from "@/components/website/Home/HomeTrustMetricBar";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import Reviews from "@/components/website/Home/Reviews";
 import IjenHealthScreeningSection from "@/components/website/Home/IjenHealthScreeningSection";
@@ -16,6 +20,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 import { miniFaqs, faqsCopy } from "@/constants";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
@@ -33,13 +38,12 @@ const fallbackSeo = {
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/", fallbackSeo);
 
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-    alternates: {
-      canonical: SITE_URL,
-    },
-  };
+    path: "/",
+    imageAlt: seo.h1,
+  });
 }
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
@@ -184,9 +188,12 @@ const Home = async () => {
         extraSchemas={[serviceNode, ...attractionNodes, faqNode, healthAppNode]}
       />
       <Hero title={seo.h1} description={seo.description} />
+      <HomeTrustMetricBar />
+      <HomeDifferentiators />
+      <IjenHealthScreeningSection />
+      <FeaturedTours />
       {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}
       <HomeDestinations destinations={destinations} />
-      <FeaturedTours />
       <WhyJVTO />
 
       <div className="bg-jvto-green/5 pt-20 pb-20">
@@ -204,10 +211,11 @@ const Home = async () => {
         </div>
       </div>
 
-      <IjenHealthScreeningSection />
+      <HomeReviewProofBanner />
       <IsicSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
       <TravelGuideTeaser />
+      <HomeFinalCta />
       <Contact />
     </main>
   );

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
   title: "Verify: History Artifacts",
@@ -14,7 +15,13 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
-  return { title: seo.title, description: seo.description };
+  return buildWebsiteMetadata({
+    title: seo.title,
+    description: seo.description,
+    path: "/verify-jvto/history-artifacts",
+    image: "/assets/img/og/verify-jvto.webp",
+    imageAlt: seo.h1,
+  });
 }
 
 export default async function HistoryArtifactsPage() {

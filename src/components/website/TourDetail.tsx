@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, type ReactNode } from "react";
 import { TourPackageDetail } from "@/interfaces";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -194,9 +195,187 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
+function PackageSection({
+  eyebrow,
+  title,
+  description,
+  children,
+  tone = "light",
+  className = "",
+}: {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  children: ReactNode;
+  tone?: "light" | "muted";
+  className?: string;
+}) {
+  const surfaceClass =
+    tone === "muted"
+      ? "rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8faf5_100%)] p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8"
+      : "rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8";
+
+  return (
+    <section className={`${surfaceClass} ${className}`.trim()}>
+      <div className="mb-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+        <div>
+          {eyebrow ? (
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-700">
+              {eyebrow}
+            </p>
+          ) : null}
+          <h2 className="mt-2 text-2xl font-black uppercase text-slate-900 md:text-3xl">
+            {title}
+          </h2>
+        </div>
+        {description ? (
+          <p className="max-w-2xl text-sm leading-7 text-slate-600 md:text-base">
+            {description}
+          </p>
+        ) : null}
+      </div>
+      {children}
+    </section>
+  );
+}
+
 export default function PackageDetailPage({ initialData,reviews }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
+  const startingPrice = pkg.offers?.aggregateOffer?.lowPrice ?? 0;
+  const routeIncludesIjen =
+    pkg.route?.some((stop) => stop?.toLowerCase().includes("ijen")) ?? false;
+  const routePlanningNotes = [
+    pkg.operationalComplexityNote,
+    ...(pkg.handoverNotes ?? []),
+  ].filter((item): item is string => Boolean(item && item.trim().length > 0));
+  const routeHandlingNotes = [
+    ...(pkg.safetyMitigation ?? []),
+    ...Object.values(pkg.emergencyProtocols ?? {}).filter(
+      (value): value is string => typeof value === "string" && value.trim().length > 0,
+    ),
+  ];
+  const supportLinks = [
+    {
+      eyebrow: "Booking flow",
+      title: "Booking Information",
+      href: "/travel-guide/booking-information",
+      copy: "Use this first if you want the payment, deposit, and confirmation flow before choosing dates.",
+      icon: <MessageCircle size={18} className="text-lime-600" />,
+    },
+    routeIncludesIjen
+      ? {
+          eyebrow: "Health gate",
+          title: "Ijen Health Screening",
+          href: "/travel-guide/ijen-health-screening",
+          copy: "Any package with Ijen should be filtered through health and access readiness before payment.",
+          icon: <Stethoscope size={18} className="text-lime-600" />,
+        }
+      : {
+          eyebrow: "Route fit",
+          title: "Packing & Fitness",
+          href: "/travel-guide/packing-and-fitness",
+          copy: "Use this to judge whether the terrain and route rhythm really fit your group.",
+          icon: <Activity size={18} className="text-lime-600" />,
+        },
+    {
+      eyebrow: "Proof path",
+      title: "Verify JVTO",
+      href: "/verify-jvto",
+      copy: "Keep legal, police, media, and operator proof one click away while comparing routes.",
+      icon: <Search size={18} className="text-lime-600" />,
+    },
+    routeIncludesIjen
+      ? {
+          eyebrow: "Live route context",
+          title: "Weather & Closures",
+          href: "/travel-guide/weather-and-closures",
+          copy: "Volcano access can change. Read the live route context before you lock dates in.",
+          icon: <Thermometer size={18} className="text-lime-600" />,
+        }
+      : {
+          eyebrow: "Direct handoff",
+          title: "Contact JVTO",
+          href: "/contact",
+          copy: "If you already know the route, use this to move from shortlist to real confirmation.",
+          icon: <MessageCircle size={18} className="text-lime-600" />,
+        },
+  ];
+  const decisionSnapshotCards = [
+    {
+      title: "Route Shape",
+      icon: <MapPin size={18} className="text-lime-600" />,
+      copy:
+        pkg.marketing?.highlightsBullets?.[0] ??
+        `Private ${pkg.marketedDurationLabel} route built around ${pkg.route?.join(", ")}.`,
+    },
+    {
+      title: "Starting Price",
+      icon: <Ticket size={18} className="text-lime-600" />,
+      copy:
+        startingPrice > 0
+          ? `Starts from ${formatCurrency(startingPrice)} per person before add-ons.`
+          : "Private route pricing is shown below in the live booking table.",
+    },
+    {
+      title: routeIncludesIjen ? "Health Gate" : "Route Fit",
+      icon: routeIncludesIjen ? (
+        <Stethoscope size={18} className="text-lime-600" />
+      ) : (
+        <Activity size={18} className="text-lime-600" />
+      ),
+      copy: routeIncludesIjen
+        ? pkg.healthRequirements?.[0] ??
+          "Ijen packages should be checked against screening and access readiness before payment."
+        : pkg.travelerRequirements?.[0] ??
+          "Use the route notes below to judge whether the pace and terrain match your group.",
+    },
+    {
+      title: "Proof Before Payment",
+      icon: <Shield size={18} className="text-lime-600" />,
+      copy:
+        "Keep legal proof, police context, route readiness, and booking terms one click away before you confirm.",
+    },
+  ];
+  const readinessSections = [
+    routePlanningNotes.length > 0
+      ? {
+          eyebrow: "Route timing",
+          title: "Route Planning Notes",
+          icon: <Calendar size={22} className="text-lime-600" />,
+          items: routePlanningNotes.slice(0, 4),
+        }
+      : null,
+    pkg.healthRequirements?.length > 0
+      ? {
+          eyebrow: "Health gate",
+          title: "Health & Access",
+          icon: <Stethoscope size={22} className="text-lime-600" />,
+          items: pkg.healthRequirements.slice(0, 4),
+        }
+      : null,
+    pkg.environmentalRisks?.length > 0
+      ? {
+          eyebrow: "Conditions",
+          title: "Environmental Conditions",
+          icon: <Thermometer size={22} className="text-lime-600" />,
+          items: pkg.environmentalRisks.slice(0, 4),
+        }
+      : null,
+    routeHandlingNotes.length > 0
+      ? {
+          eyebrow: "Field handling",
+          title: "Route Handling",
+          icon: <Shield size={22} className="text-lime-600" />,
+          items: routeHandlingNotes.slice(0, 4),
+        }
+      : null,
+  ].filter(Boolean) as {
+    eyebrow: string;
+    title: string;
+    icon: JSX.Element;
+    items: string[];
+  }[];
 
   // --- STATE ---
   // State untuk Hero Background (tetap ada jika ingin bisa ganti hero, tapi trigger lightbox beda)
@@ -461,6 +640,77 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
           </div>
         </div>
       </div>
+      <div className="border-b border-slate-200 bg-white">
+        <div className="container mx-auto px-6 py-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-start">
+            <div>
+              <div className="mb-4 flex flex-wrap items-center gap-3 text-[11px] font-black uppercase tracking-[0.24em] text-slate-500">
+                <span>Private Route</span>
+                <span className="h-1 w-1 rounded-full bg-slate-300" />
+                <span>Proof Before Payment</span>
+                <span className="h-1 w-1 rounded-full bg-slate-300" />
+                <span>{pkg.marketedDurationLabel}</span>
+              </div>
+              <h2 className="text-2xl font-black uppercase text-slate-900 md:text-3xl">
+                Route Decision Snapshot
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">
+                Use this first if you want to know whether the route fits your
+                timing, your group, and your payment readiness before reading
+                the full itinerary.
+              </p>
+              <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {decisionSnapshotCards.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+                  >
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="rounded-full bg-lime-100 p-2">
+                        {item.icon}
+                      </div>
+                      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {item.copy}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-900 p-6 text-white shadow-sm">
+              <p className="text-[11px] font-black uppercase tracking-[0.24em] text-lime-400">
+                Next Before Payment
+              </p>
+              <h3 className="mt-3 text-xl font-black uppercase leading-tight">
+                Keep proof and booking context next to the route.
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">
+                If this route is already on your shortlist, open the trust and
+                support pages before you lock dates in.
+              </p>
+              <div className="mt-5 flex flex-col gap-3">
+                <Link
+                  href="/verify-jvto"
+                  className="inline-flex items-center justify-between rounded-xl bg-lime-400 px-4 py-3 text-sm font-bold uppercase tracking-wide text-slate-950 transition hover:bg-lime-300"
+                >
+                  <span>Open Verify JVTO</span>
+                  <ChevronRight size={16} />
+                </Link>
+                <Link
+                  href="/travel-guide"
+                  className="inline-flex items-center justify-between rounded-xl border border-slate-700 px-4 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:border-lime-400 hover:text-lime-300"
+                >
+                  <span>Open Prepare & Book</span>
+                  <ChevronRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
       <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
         <div className="container mx-auto px-6">
@@ -611,22 +861,21 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
           {/* LEFT COLUMN: INFO & ITINERARY */}
           <div className="lg:col-span-2 space-y-16">
             {/* Description (With Show More/Less) */}
-            <div>
-              <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-lime-500 block"></span>
-                About This Trip
-              </h2>
-
+            <PackageSection
+              eyebrow="Route overview"
+              title="About This Trip"
+              description="Use this section to understand the route shape, travel rhythm, and why this package works before you go into the day-by-day detail."
+            >
               <div className="relative">
                 {/* FULL HTML */}
                 {isDescriptionExpanded ? (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="text-lg leading-relaxed text-slate-600 transition-all duration-500"
                     dangerouslySetInnerHTML={{ __html: pkg.description }}
                   />
                 ) : (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="text-lg leading-relaxed text-slate-600 transition-all duration-500"
                     dangerouslySetInnerHTML={{
                       __html:
                         stripHtml(pkg.description).length < 350
@@ -657,14 +906,14 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   </button>
                 )}
               </div>
-            </div>
+            </PackageSection>
             {/* Highlights (Design Gambar 2) */}
-            <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-lime-500 block"></span>
-                Trip Highlights
-              </h2>
-
+            <PackageSection
+              eyebrow="Why this route works"
+              title="Trip Highlights"
+              description="These are the moments and route advantages that should help you decide whether this package fits your group, not just excite you."
+              tone="muted"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 mb-6">
@@ -709,16 +958,16 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   </ul>
                 </div>
               </div>
-            </div>
+            </PackageSection>
 
             {/* =========================================================
                 ITINERARY SECTION (RESPONSIVE WITH MEALS)
                ========================================================= */}
-            <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-lime-500 block"></span>
-                Itinerary
-              </h2>
+            <PackageSection
+              eyebrow="Day by day"
+              title="Itinerary"
+              description="Read this as a route rhythm guide. It should tell you where the intensity sits, what each day feels like, and when the demanding parts actually happen."
+            >
 
               {/* --- A. DESKTOP VIEW --- */}
               <div className="hidden lg:grid grid-cols-12 gap-10 items-start">
@@ -1023,18 +1272,33 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   </div>
                 )}
               </div>
-            </div>
+            </PackageSection>
             {/* --- Accommodation & Transport Section (SWIPER VERSION) --- */}
-            <div className="space-y-16 overflow-hidden">
+            <PackageSection
+              eyebrow="Stay and transfers"
+              title="Accommodation & Transport"
+              description="These supporting details help you judge comfort level, transfer style, and whether the route pace still feels realistic for your group."
+              tone="muted"
+              className="overflow-hidden"
+            >
               {/* Added overflow-hidden to prevent horizontal scrollbar on body if swiper goes wide */}
 
               {/* 1. ACCOMMODATION SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-lime-500 block"></span>
-                    Accommodation
-                  </h2>
+                  <div className="mb-8 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                        Overnight comfort
+                      </p>
+                      <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                        Accommodation
+                      </h3>
+                    </div>
+                    <p className="hidden max-w-xl text-sm leading-7 text-slate-500 lg:block">
+                      This gives you a realistic sense of where the route pauses, resets, and how close the overnight stop is to the next day&apos;s start.
+                    </p>
+                  </div>
 
                   <Swiper
                     modules={[Pagination]}
@@ -1094,11 +1358,20 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
               {/* 2. TRANSPORT SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-slate-900">
-                    <span className="w-8 h-1 bg-lime-500 block"></span>
-                    Transport
-                  </h2>
-                  <p className="mb-8 text-slate-600 text-sm">
+                  <div className="mb-8 flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                        Field movement
+                      </p>
+                      <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                        Transport
+                      </h3>
+                    </div>
+                    <p className="hidden max-w-xl text-sm leading-7 text-slate-500 lg:block">
+                      Use this to understand transfer comfort, luggage limits, and where the route shifts into jeep or overland handling.
+                    </p>
+                  </div>
+                  <p className="mb-8 text-sm text-slate-600">
                     Travel in comfort and safety with our private fleet.
                   </p>
 
@@ -1233,13 +1506,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   </Swiper>
                 </div>
               )}
-            </div>
+            </PackageSection>
             {/* --- The Practicalities Section (NEW) --- */}
-            <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-                <span className="w-8 h-1 bg-lime-500 block"></span>
-                The Practicalities
-              </h2>
+            <PackageSection
+              eyebrow="Decision support"
+              title="The Practicalities"
+              description="This is the operational checklist section. Use it to verify what is covered, what is not, and how demanding the route is in real terms."
+            >
 
               {/* Part 1: What's Covered & Not Covered */}
               <div className="mb-12 relative">
@@ -1373,8 +1646,105 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   </div>
                 </div>
               </div>
+            </PackageSection>
+            {routePlanningNotes.length > 0 ||
+            (pkg.healthRequirements?.length ?? 0) > 0 ||
+            (pkg.environmentalRisks?.length ?? 0) > 0 ||
+            routeHandlingNotes.length > 0 ? (
+              <div className="rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f7faf2_100%)] p-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)] md:p-8">
+                <div className="mb-8 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-700">
+                      Before you confirm
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black uppercase text-slate-900 md:text-3xl">
+                      Read the route conditions that matter before payment.
+                    </h2>
+                  </div>
+                  <p className="max-w-2xl text-sm leading-7 text-slate-600 md:text-base">
+                    These notes are here to reduce last-minute surprises. Use them to judge timing, health readiness, field conditions, and how the route is handled if circumstances change.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  {readinessSections.map((section) => (
+                    <div
+                      key={section.title}
+                      className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm"
+                    >
+                      <div className="mb-4 flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                            {section.eyebrow}
+                          </p>
+                          <h3 className="mt-2 font-bold text-slate-900">
+                            {section.title}
+                          </h3>
+                        </div>
+                        <span className="inline-flex rounded-2xl bg-lime-50 p-3">
+                          {section.icon}
+                        </span>
+                      </div>
+                      <ul className="space-y-3 text-sm leading-relaxed text-slate-600">
+                        {section.items.map((item, idx) => (
+                          <li key={idx} className="flex gap-3">
+                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-lime-600" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {routeIncludesIjen && <TourRequirements />}
+            <div className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8">
+              <div className="mb-8 grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-700">
+                    Read next before payment
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black uppercase text-slate-900 md:text-3xl">
+                    Keep proof and support routes one click away while deciding.
+                  </h2>
+                </div>
+                <p className="max-w-2xl text-sm leading-7 text-slate-600 md:text-base">
+                  The package page should stay commercial, but the decision should not become blind. These pages are the fastest way to check booking logic, operator proof, and route readiness before money moves.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {supportLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="group rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f8faf5_100%)] p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:shadow-[0_18px_36px_rgba(15,23,42,0.08)]"
+                  >
+                    <div className="mb-4 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                          {item.eyebrow}
+                        </p>
+                        <h3 className="mt-2 font-bold text-slate-900">{item.title}</h3>
+                      </div>
+                      <span className="inline-flex rounded-2xl bg-white p-3 shadow-sm">
+                        {item.icon}
+                      </span>
+                    </div>
+                    <p className="text-sm leading-relaxed text-slate-600">
+                      {item.copy}
+                    </p>
+                    <div className="mt-5 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-slate-900">
+                      Open support route
+                      <ChevronRight
+                        size={16}
+                        className="text-lime-600 transition-transform group-hover:translate-x-0.5"
+                      />
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-            {pkg.route.includes("Ijen Crater") && <TourRequirements />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-slate-200 mt-12">
               <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
@@ -1850,7 +2220,7 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   return (
                     <div className="text-center py-10">
                       <p className="text-slate-400 text-sm italic">
-                        No add-ons found for "{searchTerm}"
+                        No add-ons found for &quot;{searchTerm}&quot;
                       </p>
                     </div>
                   );

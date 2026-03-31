@@ -1,36 +1,29 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
   {
-    // ⬅️ bagian penting untuk skip warning "Unused eslint-disable directive"
-    linterOptions: {
-      // "off" = tidak pernah lapor komentar eslint-disable yang tidak terpakai
-      // kalau mau masih kelihatan sebagai warning, pakai "warn"
-      reportUnusedDisableDirectives: "off",
-    },
-  },
-
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-
-  {
     ignores: [
+      "**/* copy.tsx",
       "node_modules/**",
       ".next/**",
       "out/**",
       "build/**",
       "next-env.d.ts",
       "src/generated/**",
+      "src/app/(cms)/**",
+      "src/components/tiptap-templates/**",
+      "src/components/tiptap-ui/**",
+      "src/components/tiptap-ui-primitive/**",
     ],
   },
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: "off",
+    },
+  },
+  ...nextCoreWebVitals,
+  ...nextTypescript,
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

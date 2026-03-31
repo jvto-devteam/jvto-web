@@ -1,18 +1,18 @@
-import Link from "next/link";
 import { type Metadata } from "next";
 import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";
 import { ListTourPackage } from "@/types";
 import Image from "next/image";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { 
+import {
   ShieldCheck, 
   Users, 
   Ticket, 
-  CheckCircle2,
   ArrowRight
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getWebTourList } from "@/lib/packages/webTourList";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -24,25 +24,25 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/isic/student-package", fallbackSeo);
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-  };
+    path: "/isic/student-package",
+    imageAlt: seo.h1,
+  });
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch with a limit to match the design (e.g., 8)
-  const res = await fetch(`${siteUrl}/api/packages/web?category=2&limit=8`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch tours");
+  try {
+    return (await getWebTourList({
+      categoryId: 2,
+      limit: 8,
+    })) as ListTourPackage[];
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[isic-student-package] fallback to empty tour list: ${message}`);
     return [];
   }
-  return res.json();
 }
 
 export default async function IsicStudentPackagePage() {
@@ -164,7 +164,7 @@ export default async function IsicStudentPackagePage() {
                 What is <span className="text-primary">Student Package?</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-                Opting for a student package does <strong>not</strong> mean cutting corners. It's designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.
+                Opting for a student package does <strong>not</strong> mean cutting corners. It&apos;s designed for students travelling in small groups, offering a fairer pricing structure while maintaining our high standards.
               </p>
             </div>
 
@@ -255,7 +255,7 @@ export default async function IsicStudentPackagePage() {
                 <div className="flex-1 flex flex-col items-start">
                   <span className="text-8xl font-black text-muted/30 leading-none mb-4">1</span>
                   <h3 className="text-2xl font-bold mb-4">Choose Your Adventure</h3>
-                  <p className="text-muted-foreground text-lg">Visit our website and select the volunteer or tour package you wish to book. Click on the "Book Now" button.</p>
+                  <p className="text-muted-foreground text-lg">Visit our website and select the volunteer or tour package you wish to book. Click on the &quot;Book Now&quot; button.</p>
                 </div>
               </div>
 
@@ -269,7 +269,7 @@ export default async function IsicStudentPackagePage() {
                 <div className="flex-1 flex flex-col items-start md:items-end text-left md:text-right">
                   <span className="text-8xl font-black text-muted/30 leading-none mb-4">2</span>
                   <h3 className="text-2xl font-bold mb-4">Fill in Your Details</h3>
-                  <p className="text-muted-foreground text-lg">Complete the booking form with your personal details. In the "Discount Code" field, enter your unique ISIC code.</p>
+                  <p className="text-muted-foreground text-lg">Complete the booking form with your personal details. In the &quot;Discount Code&quot; field, enter your unique ISIC code.</p>
                 </div>
               </div>
 
@@ -283,7 +283,7 @@ export default async function IsicStudentPackagePage() {
                 <div className="flex-1 flex flex-col items-start">
                   <span className="text-8xl font-black text-muted/30 leading-none mb-4">3</span>
                   <h3 className="text-2xl font-bold mb-4">Apply & Verify</h3>
-                  <p className="text-muted-foreground text-lg">Click "Apply". The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival.</p>
+                  <p className="text-muted-foreground text-lg">Click &quot;Apply&quot;. The discount will be calculated. Proceed with your booking. We may ask to verify your ISIC card upon arrival.</p>
                 </div>
               </div>
             </div>

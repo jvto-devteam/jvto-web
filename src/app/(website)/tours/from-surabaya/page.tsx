@@ -1,9 +1,14 @@
 import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
+import ToursHubIntro from "@/components/website/Tours/ToursHubIntro";
+import ToursSupportGrid from "@/components/website/Tours/ToursSupportGrid";
+import ToursCatalogShell from "@/components/website/Tours/ToursCatalogShell";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getWebTourList } from "@/lib/packages/webTourList";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -19,25 +24,16 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/tours/from-surabaya", fallbackSeo);
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-  };
+    path: "/tours/from-surabaya",
+    imageAlt: seo.h1,
+  });
 }
 
 async function getToursFromSurabaya(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch khusus ID 4 (Surabaya)
-  const res = await fetch(`${siteUrl}/api/packages/web?from=4&category=1`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch surabaya tours");
-    return [];
-  }
-  return res.json();
+  return getWebTourList({ fromId: 4, categoryId: 1 });
 }
 
 export default async function ToursPageSurabaya() {
@@ -114,47 +110,71 @@ export default async function ToursPageSurabaya() {
   return (
     <>
       <StructuredData data={schema} />
-      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
-        <ToursPageClient 
-          initialTours={initialTours}
-          destinationName="Surabaya"
+      <section className="min-h-screen bg-gray-50">
+        <ToursHubIntro
+          eyebrow="Tours from Surabaya"
           title={seo.h1}
-          description={seo.description}
+          intro="Surabaya is the strongest mainland entry when you want the widest route range with clearer airport logic, cleaner comparison, and less cross-island friction before the trip even starts."
+          chips={[
+            "Mainland start logic",
+            "Shortest to longest route range",
+            "Ijen-ready choices",
+            "Private handling only",
+          ]}
+          actions={[
+            { label: "Back to Tours Hub", href: "/tours", variant: "primary" },
+            { label: "Verify JVTO", href: "/verify-jvto", variant: "secondary" },
+            { label: "Prepare & Book", href: "/travel-guide", variant: "ghost" },
+          ]}
         />
-
-        <section className="container mx-auto px-6 mt-16">
-          <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-black uppercase mb-8 text-jvto-dark">
-              Travelling from Singapore, Malaysia, Hong Kong, or Taiwan?
-            </h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Singapore</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  For travellers flying from Singapore, Surabaya is often the most practical gateway into East Java before continuing by private car to Bromo, Ijen, or Tumpak Sewu. This route suits visitors who want a clear airport-to-mountain transfer without piecing together trains, shared shuttles, or local taxis after arrival in Indonesia.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Malaysia</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Travellers from Malaysia frequently use Surabaya as the easiest arrival point for East Java volcano trips, especially when they want direct onward ground support to Bromo and Ijen. A private Surabaya departure also helps guests who prefer fixed pick-up, simpler timing, and a single operator managing the overland part of the journey.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Hong Kong</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  If you are travelling from Hong Kong and looking for a smoother East Java entry point, Surabaya can work well for private volcano itineraries with structured arrival support. Many guests choose this option when they want to land, meet the driver, and continue directly toward Bromo or multi-day combinations without extra domestic coordination stress.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Taiwan</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  For travellers departing from Taiwan, Surabaya is a sensible base if the priority is reaching East Java efficiently and starting the land program with minimal friction. It works especially well for visitors booking private tours who value confirmed logistics, airport pick-up clarity, and a more controlled route into Bromo, Ijen, and nearby highlights.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ToursSupportGrid
+          title="What matters before choosing a Surabaya route"
+          copy="The best Surabaya route usually comes from matching available days, destination seriousness, and route comfort level before you start discussing dates."
+          items={[
+            {
+              title: "Booking Information",
+              copy: "Use this first if you want the clearest next step after picking a route family.",
+              href: "/travel-guide/booking-information",
+              icon: "booking",
+            },
+            {
+              title: "Packing & Fitness",
+              copy: "Useful before longer routes or any package with more varied terrain and pacing.",
+              href: "/travel-guide/packing-and-fitness",
+              icon: "trust",
+            },
+            {
+              title: "Ijen Health Guide",
+              copy: "Read this before narrowing any route that includes Ijen.",
+              href: "/travel-guide/ijen-health-screening",
+              icon: "screening",
+            },
+            {
+              title: "Verify JVTO",
+              copy: "Keep operator proof close while comparing route families.",
+              href: "/verify-jvto",
+              icon: "proof",
+            },
+          ]}
+        />
+        <ToursCatalogShell
+          eyebrow="Compare Surabaya routes"
+          title="Shortlist by route seriousness, not by headline alone."
+          description="Surabaya departures can range from easy Bromo-focused entries to longer East Java overlands. Use the browser below to separate timing, route density, and Ijen readiness before discussing dates."
+          bullets={[
+            "Best for mainland airport logic",
+            "Useful for longer overland structures",
+            "Strongest route range in one hub",
+          ]}
+        >
+          <ToursPageClient 
+            initialTours={initialTours}
+            destinationName="Surabaya"
+            title={seo.h1}
+            description={seo.description}
+            hideHeader={true}
+          />
+        </ToursCatalogShell>
       </section>
     </>
   );

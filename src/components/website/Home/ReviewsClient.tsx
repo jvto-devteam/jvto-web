@@ -30,6 +30,99 @@ type NavigationButtonProps = {
   disabled: boolean;
 };
 
+const getStarColor = (stars: number) => {
+  const colors: Record<number, string> = {
+    1: "#ff3722",
+    2: "#ff8622",
+    3: "#ffce00",
+    4: "#73cf11",
+    5: "#00b67a",
+  };
+  return colors[stars] || colors[5];
+};
+
+const StarRating = ({ all, rating }: StarRatingProps) => {
+  const color = getStarColor(rating);
+
+  return (
+    <div className={`${all ? "w-[162px]  mb-3" : "w-[99px]"}`}>
+      <svg viewBox="0 0 251 46" xmlns="http://www.w3.org/2000/svg">
+        <title>5 out of 5 star rating on Trustpilot</title>
+        {[...Array(5)].map((_, index) => (
+          <g key={index} className="tp-star">
+            <path
+              className="tp-star__canvas"
+              fill={index < rating ? color : "#dcdce6"}
+              d={`M${51.248 * index} 46.330002h46.375586V0H${
+                51.248 * index
+              }z`}
+            />
+            <path
+              className="tp-star__shape"
+              d={`M${39.534 + 51.248 * index} 19.711433L${
+                13.23 + 51.248 * index
+              } 38.80065l3.838216-11.797827L${
+                7.021 + 51.248 * index
+              } 19.711433h12.418975l3.837417-11.798624 3.837418 11.798624h12.418975zM${
+                23.279 + 51.248 * index
+              } 31.510075l7.183595-1.509576 2.862114 8.800152L${
+                23.279 + 51.248 * index
+              } 31.510075z`}
+              fill="#FFF"
+            />
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+const NavigationButton = ({
+  direction,
+  onClick,
+  disabled,
+}: NavigationButtonProps) => {
+  const isLeft = direction === "left";
+
+  return (
+    <div
+      className={`absolute top-0 h-full w-10 z-10 ${
+        isLeft ? "left-0" : "right-0"
+      } ${disabled ? "cursor-default" : "cursor-pointer"}`}
+    >
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className={`absolute left-1/2 top-1/2 ${
+          isLeft ? "-translate-x-1/2" : "-translate-x-1/2 rotate-180"
+        } -translate-y-1/2 bg-transparent border-0 cursor-pointer block min-h-6 min-w-6 w-6 p-0 outline-none hover:bg-[#c2d5f7] hover:p-2 hover:w-10 hover:h-10 hover:rounded-full transition-all ${
+          disabled ? "opacity-50" : ""
+        }`}
+        aria-label={`Carousel scroll ${direction}`}
+        tabIndex={disabled ? -1 : 0}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="11.5"
+            fill="none"
+            stroke={disabled ? "#d1d1d1" : "#191919"}
+          />
+          <path
+            fill={disabled ? "#d1d1d1" : "#191919"}
+            d="M10.5088835 12l3.3080582-3.02451041c.2440777-.22315674.2440777-.5849653 0-.80812204-.2440776-.22315673-.6398058-.22315673-.8838834 0L9.18305826 11.595939c-.24407768.2231567-.24407768.5849653 0 .808122l3.75000004 3.4285714c.2440776.2231568.6398058.2231568.8838834 0 .2440777-.2231567.2440777-.5849653 0-.808122L10.5088835 12z"
+          />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
 const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewsPerView, setReviewsPerView] = useState(1); // Default 1
@@ -421,16 +514,6 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
     setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  const getStarColor = (stars: number) => {
-    const colors: Record<number, string> = {
-      1: "#ff3722",
-      2: "#ff8622",
-      3: "#ffce00",
-      4: "#73cf11",
-      5: "#00b67a",
-    };
-    return colors[stars] || colors[5];
-  };
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("en-US", {
@@ -440,40 +523,6 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
     }).format(date);
   };
 
-  const StarRating = ({ all, rating }: StarRatingProps) => {
-    const color = getStarColor(rating);
-    return (
-      <div className={`${all ? "w-[162px]  mb-3" : "w-[99px]"}`}>
-        <svg viewBox="0 0 251 46" xmlns="http://www.w3.org/2000/svg">
-          <title>5 out of 5 star rating on Trustpilot</title>
-          {[...Array(5)].map((_, index) => (
-            <g key={index} className="tp-star">
-              <path
-                className="tp-star__canvas"
-                fill={index < rating ? color : "#dcdce6"}
-                d={`M${51.248 * index} 46.330002h46.375586V0H${
-                  51.248 * index
-                }z`}
-              />
-              <path
-                className="tp-star__shape"
-                d={`M${39.534 + 51.248 * index} 19.711433L${
-                  13.23 + 51.248 * index
-                } 38.80065l3.838216-11.797827L${
-                  7.021 + 51.248 * index
-                } 19.711433h12.418975l3.837417-11.798624 3.837418 11.798624h12.418975zM${
-                  23.279 + 51.248 * index
-                } 31.510075l7.183595-1.509576 2.862114 8.800152L${
-                  23.279 + 51.248 * index
-                } 31.510075z`}
-                fill="#FFF"
-              />
-            </g>
-          ))}
-        </svg>
-      </div>
-    );
-  };
   const VerificationBadge = ({ verified }: VerificationBadgeProps) => {
     if (!verified) return null;
 
@@ -569,51 +618,6 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
             {reviewContent}
           </div>
         )}
-      </div>
-    );
-  };
-
-  const NavigationButton = ({
-    direction,
-    onClick,
-    disabled,
-  }: NavigationButtonProps) => {
-    const isLeft = direction === "left";
-    return (
-      <div
-        className={`absolute top-0 h-full w-10 z-10 ${
-          isLeft ? "left-0" : "right-0"
-        } ${disabled ? "cursor-default" : "cursor-pointer"}`}
-      >
-        <button
-          onClick={onClick}
-          disabled={disabled}
-          className={`absolute left-1/2 top-1/2 ${
-            isLeft ? "-translate-x-1/2" : "-translate-x-1/2 rotate-180"
-          } -translate-y-1/2 bg-transparent border-0 cursor-pointer block min-h-6 min-w-6 w-6 p-0 outline-none hover:bg-[#c2d5f7] hover:p-2 hover:w-10 hover:h-10 hover:rounded-full transition-all ${
-            disabled ? "opacity-50" : ""
-          }`}
-          aria-label={`Carousel scroll ${direction}`}
-          tabIndex={disabled ? -1 : 0}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="11.5"
-              fill="none"
-              stroke={disabled ? "#d1d1d1" : "#191919"}
-            />
-            <path
-              fill={disabled ? "#d1d1d1" : "#191919"}
-              d="M10.5088835 12l3.3080582-3.02451041c.2440777-.22315674.2440777-.5849653 0-.80812204-.2440776-.22315673-.6398058-.22315673-.8838834 0L9.18305826 11.595939c-.24407768.2231567-.24407768.5849653 0 .808122l3.75000004 3.4285714c.2440776.2231568.6398058.2231568.8838834 0 .2440777-.2231567.2440777-.5849653 0-.808122L10.5088835 12z"
-            />
-          </svg>
-        </button>
       </div>
     );
   };

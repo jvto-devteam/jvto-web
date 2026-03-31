@@ -5,6 +5,7 @@ import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getContentPage } from "@/lib/content/getContentPage";
 import { Faq } from "@/components/content/Faq";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -21,8 +22,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const content = (row.content as Record<string, any> | null) ?? {};
 
   return {
-    title: seo.title ?? content.h1 ?? row.route,
-    description: seo.description ?? undefined,
+    ...buildWebsiteMetadata({
+      title: seo.title ?? content.h1 ?? row.route,
+      description:
+        seo.description ??
+        "Read JVTO booking, payment, cancellation, privacy, and inclusions policies before confirming your private tour.",
+      path: "/policy",
+      imageAlt: content.h1 ?? "JVTO Policy",
+    }),
   };
 }
 export default async function PolicyHubPage() {

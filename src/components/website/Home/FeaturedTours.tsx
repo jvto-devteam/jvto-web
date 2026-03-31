@@ -1,20 +1,19 @@
 import { ListTourPackage } from "@/types";
 import FeaturedToursClient from "./FeaturedToursClient"; // Import Client Component
+import { getWebTourList } from "@/lib/packages/webTourList";
 
 // Helper function untuk fetch
 async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Gunakan no-store agar data selalu fresh saat user refresh halaman
-  const res = await fetch(`${siteUrl}/api/packages/web?from=${id}&limit=6`, {
-    method: "GET",
-    cache: "no-store", 
-  });
-
-  if (!res.ok) {
-     console.error(`Failed to fetch tours for location ${id}`);
-     return []; // Return array kosong agar tidak error fatal (white screen)
+  try {
+    return (await getWebTourList({
+      fromId: id,
+      limit: 6,
+    })) as ListTourPackage[];
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[featured-tours] fallback to empty list for location ${id}: ${message}`);
+    return [];
   }
-  return res.json();
 }
 
 const FeaturedTours = async () => {

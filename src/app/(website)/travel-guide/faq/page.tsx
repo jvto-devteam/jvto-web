@@ -11,6 +11,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "next/link";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
@@ -23,86 +24,70 @@ const fallbackSeo = {
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
 
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-    openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: `${siteUrl}/travel-guide/faq`,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "website",
-      images: [
-        {
-          url: siteUrl + "/assets/img/og/travel-guide.webp",
-          width: 1200,
-          height: 630,
-          alt: seo.h1,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: seo.title,
-      description: seo.description,
-      images: [siteUrl + "/assets/img/og/travel-guide.webp"],
-    },
-  };
+    path: "/travel-guide/faq",
+    image: "/assets/img/og/travel-guide.webp",
+    imageAlt: seo.h1,
+  });
 }
 
 async function getFaqData() {
-  // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
-  const categories = await prisma.category_faqs.findMany({
-    where: {
-      is_active: true,
-      // LOGIKA UTAMA: Filter ini memastikan kategori kosong tidak akan terambil
-      faqs: {
-        some: {
-          is_published: true,
+  try {
+    // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
+    const categories = await prisma.category_faqs.findMany({
+      where: {
+        is_active: true,
+        faqs: {
+          some: {
+            is_published: true,
+          },
         },
       },
-    },
-    orderBy: {
-      sort_order: "asc",
-    },
-    include: {
-      faqs: {
-        where: {
-          is_published: true, // Pastikan isinya pun hanya yang published
-        },
-        orderBy: {
-          sort_order: "asc",
+      orderBy: {
+        sort_order: "asc",
+      },
+      include: {
+        faqs: {
+          where: {
+            is_published: true,
+          },
+          orderBy: {
+            sort_order: "asc",
+          },
         },
       },
-    },
-  });
+    });
 
-  // 2. Ambil Uncategorized FAQ (jika ada)
-  const uncategorizedFaqs = await prisma.faqs.findMany({
-    where: {
-      is_published: true,
-      category_id: null,
-    },
-    orderBy: {
-      sort_order: "asc",
-    },
-  });
+    // 2. Ambil Uncategorized FAQ (jika ada)
+    const uncategorizedFaqs = await prisma.faqs.findMany({
+      where: {
+        is_published: true,
+        category_id: null,
+      },
+      orderBy: {
+        sort_order: "asc",
+      },
+    });
 
-  // Gabungkan Uncategorized hanya jika ada isinya
-  // If there are uncategorized FAQs
-  if (uncategorizedFaqs.length > 0) {
-    categories.push({
-      id: 9999,
-      name: "General / Others",
-      slug: "general",
-      sort_order: 9999,
-      is_active: true,
-      faqs: uncategorizedFaqs,
-    } as any);
+    if (uncategorizedFaqs.length > 0) {
+      categories.push({
+        id: 9999,
+        name: "General / Others",
+        slug: "general",
+        sort_order: 9999,
+        is_active: true,
+        faqs: uncategorizedFaqs,
+      } as any);
+    }
+
+    return categories;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[travel-guide-faq] fallback to empty list: ${message}`);
+    return [];
   }
-
-  return categories;
 }
 
 export default async function FaqPage() {

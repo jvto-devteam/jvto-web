@@ -2,12 +2,36 @@ import ReviewsClient from "./ReviewsClient";
 import { prisma } from "@/lib/prisma";
 
 const Reviews = async () => {
-  const raw = await prisma.reviews.findMany({
-    where: {
-      platform: { equals: "Trustpilot" },
-    },
-    orderBy: { date: "desc" },
-  });
+  let raw: Array<{
+    customer_name: string | null;
+    date: Date;
+    url: string | null;
+    url_reference: string | null;
+    star: number | bigint | null;
+    review: string | null;
+  }> = [];
+
+  try {
+    raw = await prisma.reviews.findMany({
+      where: {
+        platform: { equals: "Trustpilot" },
+      },
+      select: {
+        customer_name: true,
+        date: true,
+        url: true,
+        url_reference: true,
+        star: true,
+        review: true,
+      },
+      orderBy: { date: "desc" },
+      take: 12,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[home-reviews] fallback to empty list: ${message}`);
+    raw = [];
+  }
 
   const reviews = raw.map((r) => ({
     name: r.customer_name,

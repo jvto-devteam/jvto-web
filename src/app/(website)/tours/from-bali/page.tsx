@@ -1,9 +1,14 @@
 import { ListTourPackage } from "@/types";
 import StructuredData from "@/components/website/StructuredData";
+import ToursHubIntro from "@/components/website/Tours/ToursHubIntro";
+import ToursSupportGrid from "@/components/website/Tours/ToursSupportGrid";
+import ToursCatalogShell from "@/components/website/Tours/ToursCatalogShell";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getWebTourList } from "@/lib/packages/webTourList";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -19,25 +24,16 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-  };
+    path: "/tours/from-bali",
+    imageAlt: seo.h1,
+  });
 }
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch khusus ID 3 (Bali)
-  const res = await fetch(`${siteUrl}/api/packages/web?from=3&category=1`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch bali tours");
-    return [];
-  }
-  return res.json();
+  return getWebTourList({ fromId: 3, categoryId: 1 });
 }
 
 export default async function ToursPageBali() {
@@ -114,47 +110,71 @@ export default async function ToursPageBali() {
   return (
     <>
       <StructuredData data={schema} />
-      <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
-        <ToursPageClient 
-          initialTours={initialTours}
-          destinationName="Bali"
+      <section className="min-h-screen bg-gray-50">
+        <ToursHubIntro
+          eyebrow="Tours from Bali"
           title={seo.h1}
-          description={seo.description}
+          intro="Bali departures work best when East Java is one leg of a bigger trip and you want the harder cross-island movement handled as one private system instead of stitched together on your own."
+          chips={[
+            "Cross-island route logic",
+            "Private transfer continuity",
+            "Forward-moving journeys",
+            "Ijen seriousness visible",
+          ]}
+          actions={[
+            { label: "Back to Tours Hub", href: "/tours", variant: "primary" },
+            { label: "Verify JVTO", href: "/verify-jvto", variant: "secondary" },
+            { label: "Prepare & Book", href: "/travel-guide", variant: "ghost" },
+          ]}
         />
-
-        <section className="container mx-auto px-6 mt-16">
-          <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-10">
-            <h2 className="text-2xl md:text-3xl font-black uppercase mb-8 text-jvto-dark">
-              Travelling from Singapore, Malaysia, Hong Kong, or Taiwan?
-            </h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Singapore</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Travellers from Singapore often prefer the Bali-to-Java route when they want to combine a Bali stay with a private Bromo or Ijen extension instead of entering East Java first. This setup is useful for guests already holidaying in Bali and looking for a managed cross-island volcano trip with ferry logistics, driver coordination, and fixed timing handled in one booking.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Malaysia</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  For travellers departing from Malaysia, starting from Bali can make sense when the wider trip already includes Ubud, Seminyak, or South Bali before moving toward East Java. A Bali departure is especially relevant for visitors who want to avoid planning the ferry segment themselves and prefer a private operator to manage the transition into Ijen or Bromo.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Hong Kong</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Guests travelling from Hong Kong frequently look for Bromo or Ijen trips that begin after a few nights in Bali, and this route is built for that pattern. It suits travellers who want a Bali pickup, an organized overland crossing into East Java, and a private itinerary without having to stitch together ferry tickets, transfers, and local transport on their own.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold mb-2 text-jvto-dark">From Taiwan</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  For travellers from Taiwan, Bali can be the more natural departure point when East Java is planned as an extension rather than the first stop in Indonesia. This route works well for private travellers who want a clearer handover from Bali accommodation to volcano operations, with managed transport and a simpler path into Ijen, Bromo, or onward drop-off.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ToursSupportGrid
+          title="What matters before choosing a Bali route"
+          copy="Bali-origin tours make more sense when transfer continuity, ferry handling, and Ijen seriousness are already understood before you compare package shapes."
+          items={[
+            {
+              title: "Booking Information",
+              copy: "Read this first if you want to understand the route flow before discussing dates.",
+              href: "/travel-guide/booking-information",
+              icon: "booking",
+            },
+            {
+              title: "Weather & Closures",
+              copy: "Useful when your route depends on volcano access and tighter timing windows.",
+              href: "/travel-guide/weather-and-closures",
+              icon: "trust",
+            },
+            {
+              title: "Ijen Health Guide",
+              copy: "Any Bali route with Ijen should be checked against this before shortlist decisions.",
+              href: "/travel-guide/ijen-health-screening",
+              icon: "screening",
+            },
+            {
+              title: "Verify JVTO",
+              copy: "Keep proof visible when the route relies on stronger operator handling.",
+              href: "/verify-jvto",
+              icon: "proof",
+            },
+          ]}
+        />
+        <ToursCatalogShell
+          eyebrow="Compare Bali routes"
+          title="Use the catalog to judge transfer continuity and route shape together."
+          description="Bali-origin routes become easier to compare when ferry handling, end-point logic, and Ijen seriousness stay visible beside the package list instead of being inferred later."
+          bullets={[
+            "Built for cross-island movement",
+            "Better when transfer continuity matters",
+            "Useful for Bali-to-Java overlands",
+          ]}
+        >
+          <ToursPageClient 
+            initialTours={initialTours}
+            destinationName="Bali"
+            title={seo.h1}
+            description={seo.description}
+            hideHeader={true}
+          />
+        </ToursCatalogShell>
       </section>
     </>
   );

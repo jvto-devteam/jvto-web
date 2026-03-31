@@ -65,7 +65,7 @@ const IjenHealthScreeningSection = () => {
               </h2>
 
               <p className="font-sans text-lg text-gray-600 mb-8 leading-relaxed">
-                Kawah Ijen is not a walk in the park. It's a high-altitude
+                Kawah Ijen is not a walk in the park. It&apos;s a high-altitude
                 volcano with sulfur gas. We include a{" "}
                 <span className="font-bold text-gray-900 bg-lime-100 px-1">
                   REAL screening

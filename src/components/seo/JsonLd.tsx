@@ -16,7 +16,9 @@ export function JsonLd({ data }: { data: JsonLdValue }) {
       type="application/ld+json"
       // Menggunakan tag HTML standar agar langsung tercetak di Server-Side
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(payload),
+        __html: JSON.stringify(payload, (_, value) =>
+          typeof value === "bigint" ? value.toString() : value,
+        ),
       }}
     />
   );

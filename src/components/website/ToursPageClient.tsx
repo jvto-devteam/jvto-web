@@ -26,6 +26,7 @@ interface ToursPageClientProps {
   description: string;
   title?: string;
   showLocationFilter?: boolean; // <--- PROP BARU (Optional, default false)
+  hideHeader?: boolean;
 }
 
 type TourCategory = "Volcano" | "Waterfall" | "Beach" | "Wildlife";
@@ -70,6 +71,7 @@ export default function ToursPageClient({
   description,
   title,
   showLocationFilter = false, // Default false agar aman untuk halaman lain
+  hideHeader = false,
 }: ToursPageClientProps) {
   
   // 1. Hitung Max Price Dinamis
@@ -94,10 +96,39 @@ export default function ToursPageClient({
     categories: [],
   });
 
-  // Update maxPrice jika data berubah
-  useEffect(() => {
-    setFilters((prev) => ({ ...prev, maxPrice: globalMaxPrice }));
-  }, [globalMaxPrice]);
+  const routeGuidance = useMemo(() => {
+    if (destinationName === "Surabaya") {
+      return [
+        "Best for wider route range and cleaner airport logic",
+        "Good for overlands that end outside Surabaya",
+        "Check Ijen screening before locking any Ijen route",
+      ];
+    }
+
+    if (destinationName === "Bali") {
+      return [
+        "Best when East Java is one leg of a bigger Bali trip",
+        "Compare ferry handling and final drop logic early",
+        "Use weather and closure guidance for tighter timing windows",
+      ];
+    }
+
+    return [
+      "Filter by departure logic before comparing prices",
+      "Use support pages to remove uncertainty before payment",
+      "Keep verification close while you narrow the shortlist",
+    ];
+  }, [destinationName]);
+
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (filters.search.trim()) count += 1;
+    if (filters.startLocations.length > 0) count += filters.startLocations.length;
+    if (filters.durationRanges.length > 0) count += filters.durationRanges.length;
+    if (filters.categories.length > 0) count += filters.categories.length;
+    if (filters.maxPrice < globalMaxPrice) count += 1;
+    return count;
+  }, [filters, globalMaxPrice]);
 
   // Prevent scroll saat mobile drawer open
   useEffect(() => {
@@ -373,28 +404,111 @@ export default function ToursPageClient({
   );
 
   return (
-    <div className="container mx-auto px-6">
+    <div className="container mx-auto px-6 py-6 md:py-8">
       {/* HEADER */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
-          {title ?? `${destinationName} Tours`}
-        </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          {description}
-        </p>
+      {!hideHeader ? (
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
+            {title ?? `${destinationName} Tours`}
+          </h1>
+          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            {description}
+          </p>
+        </div>
+      ) : null}
+
+      <div className="mb-8 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="rounded-[24px] border border-[#dce4c7] bg-white px-5 py-5 shadow-[0_20px_40px_rgba(35,48,18,0.06)]">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
+                Browser status
+              </p>
+              <h3 className="mt-2 text-2xl font-black uppercase leading-tight text-jvto-dark">
+                {filteredTours.length} routes currently match this view
+              </h3>
+            </div>
+            <div className="rounded-full border border-[#dbe3c5] bg-[#f7faef] px-4 py-2 text-sm font-bold text-jvto-dark">
+              {activeFilterCount} active filter{activeFilterCount === 1 ? "" : "s"}
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {filters.search.trim() ? (
+              <span className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-2 text-xs font-semibold text-jvto-dark">
+                Search: {filters.search.trim()}
+              </span>
+            ) : null}
+            {filters.startLocations.map((loc) => (
+              <span
+                key={loc}
+                className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-2 text-xs font-semibold text-jvto-dark"
+              >
+                From {loc}
+              </span>
+            ))}
+            {filters.durationRanges.map((range) => (
+              <span
+                key={range}
+                className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-2 text-xs font-semibold text-jvto-dark"
+              >
+                {range} days
+              </span>
+            ))}
+            {filters.categories.map((category) => (
+              <span
+                key={category}
+                className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-2 text-xs font-semibold text-jvto-dark"
+              >
+                {category}
+              </span>
+            ))}
+            {filters.maxPrice < globalMaxPrice ? (
+              <span className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-2 text-xs font-semibold text-jvto-dark">
+                Up to {formatIDR(filters.maxPrice)}
+              </span>
+            ) : null}
+            {activeFilterCount === 0 ? (
+              <span className="rounded-full border border-dashed border-[#dce4c7] bg-white px-3 py-2 text-xs font-semibold text-gray-500">
+                No filters applied yet
+              </span>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="rounded-[24px] border border-[#dce4c7] bg-[linear-gradient(180deg,#ffffff_0%,#f7faef_100%)] px-5 py-5 shadow-[0_20px_40px_rgba(35,48,18,0.05)]">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
+            Comparison cues
+          </p>
+          <div className="mt-4 grid gap-3">
+            {routeGuidance.map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-[#e6ecd6] bg-white px-4 py-4 text-sm font-medium leading-6 text-gray-700"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 relative">
         {/* --- DESKTOP SIDEBAR --- */}
         <aside className="hidden lg:block w-[300px] shrink-0">
-          <div className="sticky top-32 bg-white p-6 rounded-xl border border-gray-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-              <h3 className="text-lg font-black uppercase tracking-wide">
+          <div className="sticky top-32 rounded-[28px] border border-[#dce4c7] bg-white p-6 shadow-[0_24px_50px_rgba(35,48,18,0.08)]">
+            <div className="mb-6 border-b border-[#edf1e2] pb-4">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
+                Filter routes
+              </p>
+              <div className="mt-3 flex items-center justify-between">
+                <h3 className="text-lg font-black uppercase tracking-wide">
                 Filters
-              </h3>
-              <span className="text-xs font-semibold bg-gray-100 px-2 py-1 rounded text-gray-600">
-                {filteredTours.length}
-              </span>
+                </h3>
+                <span className="rounded-full bg-[#f0f5e5] px-2.5 py-1 text-xs font-semibold text-jvto-dark">
+                  {filteredTours.length}
+                </span>
+              </div>
             </div>
 
             {/* RENDER VARIABLE JSX */}
@@ -403,7 +517,7 @@ export default function ToursPageClient({
         </aside>
 
         {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between sticky top-24 z-30">
+        <div className="lg:hidden mb-6 sticky top-24 z-30 flex items-center justify-between rounded-[20px] border border-[#dce4c7] bg-white/95 p-4 shadow-[0_16px_30px_rgba(35,48,18,0.08)] backdrop-blur-md">
           <div>
             <span className="block text-xs text-gray-500 font-medium">
               Showing
@@ -464,8 +578,22 @@ export default function ToursPageClient({
 
         {/* --- MAIN GRID CONTENT --- */}
         <div className="flex-1 min-h-[600px]">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-jvto-green">
+                Shortlist
+              </p>
+              <h3 className="mt-1 text-xl font-black uppercase text-jvto-dark">
+                Compare the routes that are still in play
+              </h3>
+            </div>
+            <div className="rounded-full border border-[#dbe3c5] bg-white px-4 py-2 text-sm font-semibold text-gray-600">
+              {filteredTours.length} matching route{filteredTours.length === 1 ? "" : "s"}
+            </div>
+          </div>
+
           {filteredTours.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
               {filteredTours.map((tour) => (
                 <div key={tour.id} className="h-full">
                   <TourCard tour={tour} />
@@ -481,7 +609,7 @@ export default function ToursPageClient({
                 No adventures found
               </h3>
               <p className="text-gray-500 max-w-xs mx-auto mb-6">
-                We couldn't find any tours matching your current filters. Try
+                We couldn&apos;t find any tours matching your current filters. Try
                 adjusting your search criteria.
               </p>
               <button

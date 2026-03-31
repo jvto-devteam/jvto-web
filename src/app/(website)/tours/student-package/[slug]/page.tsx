@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { routeSlugToParam } from "@/lib/routing/staticParams";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getWebPackageDetailBySlug } from "@/lib/packages/webTourDetail";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -72,14 +73,21 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const packages = await prisma.packages.findMany({
-    where: {
-      is_publish: true,
-      package_category_id: BigInt(2),
-      slug: { not: null },
-    },
-    select: { slug: true },
-  });
+  let packages: Array<{ slug: string | null }> = [];
+  try {
+    packages = await prisma.packages.findMany({
+      where: {
+        is_publish: true,
+        package_category_id: BigInt(2),
+        slug: { not: null },
+      },
+      select: { slug: true },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[static-params] student-package fallback to empty list: ${message}`);
+    return [];
+  }
 
   return packages
     .map((pkg) => routeSlugToParam(pkg.slug, "tours/student-package"))
@@ -137,26 +145,15 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
   const slugString = slugParam;
-
-  // Sesuaikan logic path ini dengan struktur URL API Anda
-  // Jika URL browser: /tours/from-surabaya/bromo-3d2n, maka slugString sudah lengkap jika file di [...slug]
-  // Jika file di [slug] tapi API butuh full path:
   const fullSlug = slugString.includes("tours/")
     ? slugString
     : `tours/student-package/${slugString}`;
 
   try {
-    const res = await fetch(
-      `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { next: { revalidate: 3600 } }
-    );
-
-    if (!res.ok) return null;
-    return (await res.json()) as TourPackageDetailResponse;
+    return (await getWebPackageDetailBySlug(
+      fullSlug,
+    )) as TourPackageDetailResponse | null;
   } catch (error) {
     console.error("Error fetching tour details:", error);
     return null;
@@ -311,11 +308,16 @@ function StructuredData({
         image: [schemaImageUrl],
         sku: pkg.packageId,
         brand: { "@id": `${siteUrl}/#organization` },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || "4.9",
-          reviewCount: pkg.aggregateRating?.reviewCount || "112",
-        },
+        ...(pkg.aggregateRating?.ratingValue > 0 &&
+        pkg.aggregateRating?.reviewCount > 0
+          ? {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: pkg.aggregateRating.ratingValue,
+                reviewCount: pkg.aggregateRating.reviewCount,
+              },
+            }
+          : {}),
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
       },
@@ -340,7 +342,7 @@ function StructuredData({
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { slug } = await params;
   const data = await getTourData(slug);
@@ -375,6 +377,9 @@ export async function generateMetadata(
   return {
     title: metaTitle,
     description: metaDesc,
+    alternates: {
+      canonical: `/${pkg.slug}`,
+    },
     openGraph: {
       title: metaTitle,
       description: metaDesc,

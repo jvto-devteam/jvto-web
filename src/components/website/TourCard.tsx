@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ListTourPackage } from "@/types";
 import { formatIDR } from "@/utils/formatting";
 import { notFound } from "next/navigation";
-import { Dumbbell, Clock, MapPin, Star, ArrowRight } from "lucide-react";
+import { Dumbbell, Clock, MapPin, ArrowRight, ShieldCheck } from "lucide-react";
 
 interface TourCardProps {
   tour?: ListTourPackage;
@@ -37,12 +37,17 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const fullTourSlug = "/" + tour.slug;
   const tourLinkLabel = `View tour details for ${tour.name}`;
+  const routeLabel =
+    tour.endDestination && tour.endDestination !== tour.startDestination
+      ? `${tour.startDestination} to ${tour.endDestination}`
+      : `Round trip from ${tour.startDestination}`;
+  const highlightPreview = tour.highlights.slice(0, 2);
 
   return (
     <div
       role="article"
       aria-labelledby={`tour-title-${tour.id}`}
-      className="group flex flex-col rounded bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover overflow-hidden transition-all duration-300 hover:-translate-y-1 h-full shadow"
+      className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-[#dce4c7] bg-white shadow-[0_20px_40px_rgba(35,48,18,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_50px_rgba(35,48,18,0.1)] dark:bg-background-dark"
     >
       {/* BANNER IMAGE */}
       <Link
@@ -64,30 +69,33 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Badge Physicality */}
-        <div className="absolute top-3 left-3 z-20 bg-lime-600/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
-          <Dumbbell className="w-3.5 h-3.5" />
-          <span className="capitalize">{tour.physicality}</span>
+        <div className="absolute top-3 left-3 z-20 flex flex-wrap gap-2">
+          <div className="flex items-center gap-1.5 rounded-md border border-white/20 bg-lime-600/50 px-2.5 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+            <Dumbbell className="h-3.5 w-3.5" />
+            <span className="capitalize">{tour.physicality}</span>
+          </div>
+          <div className="flex items-center gap-1.5 rounded-md border border-white/20 bg-black/45 px-2.5 py-1 text-xs font-bold text-white shadow-sm backdrop-blur-sm">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>Private tour</span>
+          </div>
         </div>
       </Link>
 
       {/* CARD BODY */}
-      <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-center justify-between mb-3 text-xs font-medium text-ink-neutral-500 dark:text-ink-neutral-400 uppercase tracking-wide">
-          <div className="flex items-center gap-3">
+      <div className="flex flex-grow flex-col p-5">
+        <div className="mb-3 flex items-center justify-between gap-3 text-xs font-medium uppercase tracking-wide text-ink-neutral-500 dark:text-ink-neutral-400">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4 text-lime-600" />
+              <Clock className="h-4 w-4 text-lime-600" />
               <span>{durationString}</span>
             </div>
             <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-lime-600" />
+              <MapPin className="h-4 w-4 text-lime-600" />
               <span>{tour.startDestination}</span>
             </div>
           </div>
-          <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-ink-primary font-bold">49</span>
-            <span className="text-ink-neutral-400 normal-case">(122)</span>
+          <div className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-2.5 py-1 text-[11px] font-bold normal-case text-jvto-dark">
+            Proof before payment
           </div>
         </div>
 
@@ -99,20 +107,35 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         >
           <h3
             id={`tour-title-${tour.id}`}
-            className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-lime-600 transition-colors line-clamp-2"
+            className="line-clamp-2 text-lg font-bold leading-tight text-ink-primary transition-colors group-hover/title:text-lime-600"
           >
             {tour.name}
           </h3>
         </Link>
 
-        <hr className="border-gray-200 my-3" />
+        <p className="mb-3 text-sm font-medium text-ink-neutral-500">
+          {routeLabel}
+        </p>
 
-        <div>
-          <span className="text-xs text-ink-neutral-500 dark:text-ink-neutral-400 font-medium uppercase tracking-wider">
+        {highlightPreview.length > 0 ? (
+          <ul className="mb-5 space-y-2 text-sm leading-relaxed text-ink-neutral-600">
+            {highlightPreview.map((highlight) => (
+              <li key={highlight} className="flex gap-2">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-lime-600" />
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
+        <div className="my-3 border-t border-[#e8edd9]" />
+
+        <div className="mt-auto">
+          <span className="text-xs font-medium uppercase tracking-wider text-ink-neutral-500 dark:text-ink-neutral-400">
             Starts from
           </span>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-1 items-center">
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-1">
               <span className="text-2xl md:text-3xl font-black tracking-tight text-lime-600">
                 {formatIDR(tour.startFrom)}
               </span>
@@ -127,7 +150,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
               aria-label={tourLinkLabel}
               className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
             >
-              <ArrowRight className="w-7 h-7" />
+              <ArrowRight className="h-7 w-7" />
             </Link>
           </div>
         </div>

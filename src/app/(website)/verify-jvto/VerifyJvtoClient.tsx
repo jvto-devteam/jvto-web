@@ -30,6 +30,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const getAllVerificationDocs = (): Doc[] => {
+  const data = getVerificationDocs();
+
+  return [
+    ...data.company_registration,
+    ...data.police_clearances,
+    ...data.operations,
+    ...data.health_safety,
+    ...data.company_history,
+    ...data.press_coverage,
+    ...data.membership,
+    ...(data.founder || []),
+    ...(data.credentials || []),
+  ];
+};
+
 export default function VerifyJvtoClient({
   initialDocs,
   groupTitle,
@@ -41,73 +57,13 @@ export default function VerifyJvtoClient({
   heroTitle?: string;
   heroDescription?: string;
 }) {
-  const [activeTab, setActiveTab] = useState("all");
   const pathname = usePathname();
   const [showHash, setShowHash] = useState<Record<string, boolean>>({});
   const [selectedDoc, setSelectedDoc] = useState<Doc | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [documents, setDocuments] = useState<Doc[]>([]);
-  useEffect(() => {
-    if (initialDocs) {
-      setDocuments(initialDocs);
-    } else {
-      const data = getVerificationDocs();
-      const allDocs: Doc[] = [
-        ...data.company_registration,
-        ...data.police_clearances,
-        ...data.operations,
-        ...data.health_safety,
-        ...data.company_history,
-        ...data.press_coverage,
-        ...data.membership,
-        ...(data.founder || []),
-        ...(data.credentials || []),
-      ];
-      setDocuments(allDocs);
-    }
-  }, [initialDocs]);
+  const documents = initialDocs ?? getAllVerificationDocs();
   const showTabs = !initialDocs;
-
-  const categories = [
-    { id: "all", label: "All Documents" },
-    { id: "founder", label: "Founder" },
-    { id: "police_clearances", label: "Police Authority" },
-    { id: "company_registration", label: "Legal & NIB" },
-    { id: "operations", label: "Operations" },
-    { id: "health_safety", label: "Health & Safety" },
-    { id: "press_coverage", label: "Media Proof" },
-    { id: "company_history", label: "History" },
-    { id: "credentials", label: "Guide Credentials" },
-  ];
-
-  const filteredDocuments = showTabs
-    ? activeTab === "all"
-      ? documents
-      : documents.filter((doc) => {
-          switch (activeTab) {
-            case "founder":
-              return doc.category === "Founder";
-            case "police_clearances":
-              return doc.category === "PoliceDocs";
-            case "company_registration":
-              return ["BusinessID", "License", "Membership"].includes(
-                doc.category,
-              );
-            case "operations":
-              return ["OpsPhoto", "Facility"].includes(doc.category);
-            case "health_safety":
-              return doc.category === "Screening";
-            case "press_coverage":
-              return doc.category === "Press";
-            case "company_history":
-              return doc.category === "History";
-            case "credentials":
-              return doc.category === "Credentials";
-            default:
-              return false;
-          }
-        })
-    : documents;
+  const filteredDocuments = showTabs ? documents : documents;
 
   const toggleHash = (filename: string) => {
     setShowHash((prev) => ({ ...prev, [filename]: !prev[filename] }));
@@ -139,12 +95,6 @@ export default function VerifyJvtoClient({
     };
   }, [selectedDoc]);
 
-  // Fungsi untuk memotong SHA256 agar tampil rapi di card
-  const formatSha256 = (sha: string | undefined) => {
-    if (!sha) return "";
-    return `${sha.substring(0, 8)}...${sha.substring(sha.length - 8)}`;
-  };
-
   return (
     <div className="flex py-30 flex-col min-h-screen bg-[#f6f6f8] font-sans text-slate-800">
       <main className="flex-grow p-6 md:p-8 max-w-[1600px] mx-auto w-full">
@@ -171,7 +121,7 @@ export default function VerifyJvtoClient({
                 {heroDescription ?? (
                   <>
                     This locker serves as a digitally signed, immutable
-                    repository of <strong>PT Java Volcano Rendezvous</strong>'s
+                    repository of <strong>PT Java Volcano Rendezvous</strong>&rsquo;s
                     legal standing (NIB 1102230032918),{" "}
                     <strong>Tourist Police authority</strong> (Ditpamobvit), and
                     operational history in East Java.

@@ -373,7 +373,7 @@ export default function DestinationDetailView({
             <div className="bg-white border border-gray-200 shadow-sm p-8 rounded-2xl relative overflow-hidden">
               <div className="relative z-10">
                 <p className="text-lg text-gray-600 italic mb-6 leading-relaxed">
-                  "{data.cultural_context}"
+                  &quot;{data.cultural_context}&quot;
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {data.local_tribes.map((tribe) => (

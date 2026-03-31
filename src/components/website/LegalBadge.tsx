@@ -17,7 +17,7 @@ export default function LegalBadge() {
             Official Operator
           </div>
           <p className="text-sm text-slate-300">
-            Founded by Agung 'Mr. Sam' Sambuko
+            Founded by Agung &rsquo;Mr. Sam&rsquo; Sambuko
           </p>
           <p className="text-xs text-slate-500">
             Active Tourist Police Officer (SPRIN-POLPAR Verified)

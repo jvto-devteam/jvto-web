@@ -11,6 +11,7 @@ import {
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -28,45 +29,31 @@ const fallbackSeo = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo(ROUTE, fallbackSeo);
-  return {
+  return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
-    alternates: {
-      canonical: `${SITE_URL}${ROUTE}`,
-    },
-    openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: `${SITE_URL}${ROUTE}`,
-      siteName: "Java Volcano Tour Operator",
-      locale: "en_US",
-      type: "website",
-      images: [
-        {
-          url: `${SITE_URL}/assets/img/og/destinations.webp`,
-          width: 1200,
-          height: 630,
-          alt: seo.h1,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: seo.title,
-      description: seo.description,
-      images: [`${SITE_URL}/assets/img/og/destinations.webp`],
-    },
-  };
+    path: ROUTE,
+    image: "/assets/img/og/destinations.webp",
+    imageAlt: seo.h1,
+  });
 }
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getAllDestinations(): Promise<Destination[]> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error("Failed to fetch destinations");
-  return res.json();
+  try {
+    const res = await fetch(`${SITE_URL}/api/destinations/web`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) {
+      return [];
+    }
+    return res.json();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[destinations] fallback to empty list: ${message}`);
+    return [];
+  }
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

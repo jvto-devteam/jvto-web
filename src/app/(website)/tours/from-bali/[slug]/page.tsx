@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { routeSlugToParam } from "@/lib/routing/staticParams";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getWebPackageDetailBySlug } from "@/lib/packages/webTourDetail";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -72,15 +73,22 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const packages = await prisma.packages.findMany({
-    where: {
-      is_publish: true,
-      package_category_id: BigInt(1),
-      start_destination_id: BigInt(3),
-      slug: { not: null },
-    },
-    select: { slug: true },
-  });
+  let packages: Array<{ slug: string | null }> = [];
+  try {
+    packages = await prisma.packages.findMany({
+      where: {
+        is_publish: true,
+        package_category_id: BigInt(1),
+        start_destination_id: BigInt(3),
+        slug: { not: null },
+      },
+      select: { slug: true },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[static-params] from-bali fallback to empty list: ${message}`);
+    return [];
+  }
 
   return packages
     .map((pkg) => routeSlugToParam(pkg.slug, "tours/from-bali"))
@@ -138,26 +146,15 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
   const slugString = slugParam;
-
-  // Sesuaikan logic path ini dengan struktur URL API Anda
-  // Jika URL browser: /tours/from-bali/bromo-3d2n, maka slugString sudah lengkap jika file di [...slug]
-  // Jika file di [slug] tapi API butuh full path:
   const fullSlug = slugString.includes("tours/")
     ? slugString
     : `tours/from-bali/${slugString}`;
 
   try {
-    const res = await fetch(
-      `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { next: { revalidate: 3600 } },
-    );
-
-    if (!res.ok) return null;
-    return (await res.json()) as TourPackageDetailResponse;
+    return (await getWebPackageDetailBySlug(
+      fullSlug,
+    )) as TourPackageDetailResponse | null;
   } catch (error) {
     console.error("Error fetching tour details:", error);
     return null;
@@ -312,11 +309,16 @@ function StructuredData({
         image: [schemaImageUrl],
         sku: pkg.packageId,
         brand: { "@id": `${siteUrl}/#organization` },
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || "4.9",
-          reviewCount: pkg.aggregateRating?.reviewCount || "112",
-        },
+        ...(pkg.aggregateRating?.ratingValue > 0 &&
+        pkg.aggregateRating?.reviewCount > 0
+          ? {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: pkg.aggregateRating.ratingValue,
+                reviewCount: pkg.aggregateRating.reviewCount,
+              },
+            }
+          : {}),
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
       },
@@ -339,10 +341,33 @@ function StructuredData({
 
 // --- 5. METADATA GENERATION ---
 const getReviewsData = cache(async () => {
-  const raw = await prisma.reviews.findMany({
-    where: { platform: { equals: "Trustpilot" } },
-    orderBy: { date: "desc" },
-  });
+  let raw: Array<{
+    customer_name: string | null;
+    date: Date;
+    url: string | null;
+    url_reference: string | null;
+    star: number | bigint | null;
+    review: string | null;
+  }> = [];
+  try {
+    raw = await prisma.reviews.findMany({
+      where: { platform: { equals: "Trustpilot" } },
+      select: {
+        customer_name: true,
+        date: true,
+        url: true,
+        url_reference: true,
+        star: true,
+        review: true,
+      },
+      orderBy: { date: "desc" },
+      take: 12,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(`[reviews] fallback to empty list for from-bali package page: ${message}`);
+    return [];
+  }
 
   return raw.map((r) => ({
     name: r.customer_name,
@@ -357,7 +382,7 @@ const getReviewsData = cache(async () => {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata,
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { slug } = await params;
   const data = await getTourData(slug);
@@ -392,6 +417,9 @@ export async function generateMetadata(
   return {
     title: metaTitle,
     description: metaDesc,
+    alternates: {
+      canonical: `/${pkg.slug}`,
+    },
     openGraph: {
       title: metaTitle,
       description: metaDesc,
@@ -438,7 +466,7 @@ export default async function Page({ params }: Props) {
   return (
     <>
       <StructuredData data={data} globalNodes={globalNodes} />
-      <TourDetail initialData={data} reviews={reviews} />{" "}
+      <TourDetail initialData={data} reviews={reviews} />
     </>
   );
 }
