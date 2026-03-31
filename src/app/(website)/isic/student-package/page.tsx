@@ -14,6 +14,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getWebTourList } from "@/lib/packages/webTourList";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const fallbackSeo = {
   title: "Explore Java's Volcanoes with ISIC Benefits | JVTO",

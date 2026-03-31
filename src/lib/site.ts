@@ -1,12 +1,12 @@
 // app/lib/site.ts
-const env = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-if (!env) {
-  // Biar fail-fast kalau lupa set env (sesuai “ENV only”).
-  throw new Error("NEXT_PUBLIC_SITE_URL belum diset.");
-}
+const fallbackBaseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+  process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+  "https://javavolcano-touroperator.com";
 
 // normalisasi: buang trailing slash
-export const BASE_URL = env.replace(/\/+$/, "");
+export const BASE_URL = fallbackBaseUrl.replace(/\/+$/, "");
 
 export const url = (path: string) => {
   if (path === "/" || path === "") return BASE_URL;

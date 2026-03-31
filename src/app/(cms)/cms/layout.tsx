@@ -3,6 +3,8 @@ import CmsSidebar from "./_components/CmsSidebar";
 import CmsTopbar from "./_components/CmsTopbar";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 export default function CmsLayout({ children }: { children: ReactNode }) {
   return (
     // ⬇️ ganti min-h-screen -> h-screen, tambahkan overflow-hidden

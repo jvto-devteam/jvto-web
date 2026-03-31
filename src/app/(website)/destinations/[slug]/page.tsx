@@ -11,6 +11,7 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";

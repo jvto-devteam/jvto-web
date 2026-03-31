@@ -12,6 +12,8 @@ const fallbackSeo = {
     "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it.",
 };
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/student-deals/isic", fallbackSeo);
   return buildWebsiteMetadata({
