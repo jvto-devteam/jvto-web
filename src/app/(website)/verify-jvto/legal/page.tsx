@@ -8,10 +8,10 @@ import { buildVerifySubpageSchema } from "../schema";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
-  title: "Verify: Legal Documents",
-  h1: "Legal Documents",
+  title: "Legal & Accountability Proof – PT Java Volcano Rendezvous | JVTO",
+  h1: "Legal & Accountability Proof",
   description:
-    "Verify NIB, TDUP, and official business registrations of PT Java Volcano Rendezvous.",
+    "Verify JVTO's legal standing: PT registration (AHU), NIB business identity, TDUP tourism licence, and accountability chain. All independently verifiable.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/lib/prisma";
+import { applyPinnedContentOverrideToRow } from "@/lib/content/pinnedContentOverrides";
 
 const getContentPageCached = unstable_cache(
   async (route: string, lang: string) => {
@@ -29,5 +30,6 @@ const getContentPageCached = unstable_cache(
 );
 
 export async function getContentPage(route: string, lang = "en") {
-  return getContentPageCached(route, lang);
+  const row = await getContentPageCached(route, lang);
+  return applyPinnedContentOverrideToRow(route, row);
 }

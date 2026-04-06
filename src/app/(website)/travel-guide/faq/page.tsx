@@ -1,25 +1,32 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { prisma } from "@/lib/prisma";
-import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "next/link";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
+import { faqData } from "@/lib/faq-data";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const siteUrl = BASE_URL;
 const fallbackSeo = {
   title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
   h1: "Frequently Asked Questions",
   description:
     "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
 };
+
+function normalizeFaqAnswer(answer: string) {
+  if (!answer) return answer;
+
+  return answer
+    .replace(/within 14 days of booking/gi, "within 7 days of booking")
+    .replace(/within 14 calendar days of booking/gi, "within 7 calendar days of booking")
+    .replace(/within 14 days of Day 1/gi, "within 7 days of Day 1")
+    .replace(/within 14 calendar days of Day 1/gi, "within 7 calendar days of Day 1")
+    .replace(/14 days/gi, "7 days")
+    .replace(/14 calendar days/gi, "7 calendar days");
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
@@ -85,8 +92,24 @@ async function getFaqData() {
     return categories;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[travel-guide-faq] fallback to empty list: ${message}`);
-    return [];
+    console.warn(`[travel-guide-faq] fallback to static faq dataset: ${message}`);
+    return faqData.categories.map((category, index) => ({
+      id: 10000 + index,
+      name: category.name,
+      slug: category.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, ""),
+      sort_order: index + 1,
+      is_active: true,
+      faqs: category.questions.map((item, questionIndex) => ({
+        id: `${10000 + index}-${questionIndex + 1}`,
+        question: item.q,
+        answer: item.a,
+        sort_order: questionIndex + 1,
+        is_published: true,
+      })),
+    }));
   }
 }
 
@@ -117,9 +140,16 @@ export default async function FaqPage() {
   // 3. Safety Filter: Memastikan sekali lagi di level aplikasi (Defensive Programming)
   // Ini berguna jika suatu saat logic database berubah, UI tetap aman dari header kosong.
   const categories = categoriesData.filter((cat) => cat.faqs.length > 0);
+  const normalizedCategories = categories.map((cat) => ({
+    ...cat,
+    faqs: cat.faqs.map((faq) => ({
+      ...faq,
+      answer: normalizeFaqAnswer(faq.answer),
+    })),
+  }));
 
   // Flat data untuk SEO
-  const allFaqsForSeo = categories.flatMap((cat) =>
+  const allFaqsForSeo = normalizedCategories.flatMap((cat) =>
     cat.faqs.map((faq) => ({
       question: faq.question,
       answer: faq.answer,
@@ -161,7 +191,7 @@ export default async function FaqPage() {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Travel Guide",
+            name: "Prepare & Book",
             item: `${siteUrl}/travel-guide`,
           },
           {
@@ -188,7 +218,7 @@ export default async function FaqPage() {
               </Link>
               <span className="mx-2">›</span>
               <Link href="/travel-guide" className="hover:text-primary">
-                Travel Guide
+                Prepare &amp; Book
               </Link>
               <span className="mx-2">›</span>
               <span className="text-foreground font-medium">{seo.h1}</span>
@@ -203,12 +233,12 @@ export default async function FaqPage() {
               </p>
             </div>
 
-            {categories.length === 0 ? (
+            {normalizedCategories.length === 0 ? (
               <div className=" text-muted-foreground py-10 bg-slate-50/50 rounded-lg border border-dashed">
                 <p>No questions are available at the moment.</p>
               </div>
             ) : (
-              categories.map((category) => (
+              normalizedCategories.map((category) => (
                 <div key={category.id} className="mb-12">
                   <h2 className="font-headline text-2xl md:text-3xl font-bold tracking-tight mb-6  md:text-left border-b pb-2">
                     {category.name}
@@ -227,24 +257,6 @@ export default async function FaqPage() {
                     ))}
                   </div>
 
-                  {/* <Accordion type="single" collapsible className="w-full">
-                    {category.faqs.map((item) => (
-                      <AccordionItem
-                        value={`item-${category.id}-${item.id}`}
-                        key={item.id}
-                      >
-                        <AccordionTrigger className="text-lg text-left font-medium">
-                          {item.question}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div
-                            className="faq-content prose prose-slate prose-sm md:prose-base max-w-none text-muted-foreground dark:prose-invert"
-                            dangerouslySetInnerHTML={{ __html: item.answer }}
-                          />
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion> */}
                 </div>
               ))
             )}

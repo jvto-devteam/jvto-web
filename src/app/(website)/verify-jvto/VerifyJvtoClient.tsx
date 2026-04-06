@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { getVerificationDocs, type Doc } from "@/lib/data-loader";
 import {
-  Download,
   Eye,
   EyeOff,
   Maximize2,
@@ -20,8 +19,6 @@ import {
   Lock,
   CalendarCheck,
   FileText,
-  Filter,
-  Grid,
   Gavel,
   CheckCircle2,
 } from "lucide-react";

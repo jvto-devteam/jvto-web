@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     try {
         data = JSON.parse(responseText);
-    } catch (e) {
+    } catch {
         // Jika gagal parse JSON, berarti Legacy error (HTML)
         console.error("❌ Legacy HTML Error:", responseText);
         return NextResponse.json(

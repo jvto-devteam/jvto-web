@@ -10,15 +10,14 @@ import {
   Clock,
   User,
   LogIn,
-  LogOut,
-  LayoutDashboard,
   Mail,
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { getPackagePath } from "@/lib/packages/packagePaths";
 import SidebarTravelGuide from "@/app/(website)/travel-guide/sidebar";
 import SidebarPolicy from "@/app/(website)/policy/sidebar";
 import SidebarWhy from "@/app/(website)/why-jvto/sidebar";
@@ -338,78 +337,9 @@ const ToursDropdown: React.FC = () => {
   );
 };
 
-// --- 4. MY ACCOUNT DROPDOWN (NEW) ---
-const ProfileDropdown: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 200);
-  };
-
-  return (
-    <div
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button
-        className={`hidden md:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase rounded-sm border-2 transition-all ${
-          isOpen
-            ? "bg-jvto-green text-jvto-dark border-jvto-dark"
-            : "border-jvto-green bg-jvto-green text-jvto-dark hover:bg-jvto-dark hover:border-jvto-dark hover:text-white"
-        }`}
-      >
-        <User size={16} /> My Account
-        <ChevronDown
-          className={`w-3 h-3 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-
-      {/* Dropdown Menu */}
-      <div
-        className={`absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden transition-all duration-200 z-50 ${
-          isOpen
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2 pointer-events-none"
-        }`}
-      >
-        <div className="py-1">
-          <Link
-            href="/my-booking"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-jvto-green"
-          >
-            <LayoutDashboard size={16} />
-            My Booking
-          </Link>
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              signOut();
-            }}
-            className="w-full text-left flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50"
-          >
-            <LogOut size={16} />
-            Log Out
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// --- 5. MAIN NAVBAR COMPONENT ---
+// --- 4. MAIN NAVBAR COMPONENT ---
 
 const Navbar: React.FC = () => {
-  const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -456,19 +386,45 @@ const Navbar: React.FC = () => {
   // Logic Search Data
   const [searchQuery, setSearchQuery] = useState("");
   const [allTours, setAllTours] = useState<any[]>([]);
+  const [searchState, setSearchState] = useState<
+    "idle" | "loading" | "ready" | "unavailable"
+  >("idle");
 
   useEffect(() => {
+    if (!isSearchOpen || searchState !== "idle") return;
+
+    const controller = new AbortController();
+
     const fetchTours = async () => {
+      setSearchState("loading");
       try {
-        const res = await fetch("/api/packages/web");
+        const res = await fetch("/api/packages/web", {
+          signal: controller.signal,
+        });
+        const contentType = res.headers.get("content-type") || "";
+
+        if (!res.ok || !contentType.includes("application/json")) {
+          setAllTours([]);
+          setSearchState("unavailable");
+          return;
+        }
+
         const data = await res.json();
-        setAllTours(data);
-      } catch (err) {
-        console.error("Error loading packages", err);
+        setAllTours(Array.isArray(data) ? data : []);
+        setSearchState("ready");
+      } catch {
+        if (controller.signal.aborted) return;
+        setAllTours([]);
+        setSearchState("unavailable");
       }
     };
+
     fetchTours();
-  }, []);
+
+    return () => {
+      controller.abort();
+    };
+  }, [isSearchOpen, searchState]);
 
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -596,7 +552,7 @@ const Navbar: React.FC = () => {
                 href="/travel-guide"
                 className="rounded-full px-3 py-2 transition-colors hover:bg-slate-100 hover:text-jvto-green whitespace-nowrap"
               >
-                Travel Guide
+                Prepare &amp; Book
               </Link>
             </div>
           </div>
@@ -630,20 +586,13 @@ const Navbar: React.FC = () => {
               <Search size={20} className={finalMenuIconClass} />
             </button>
 
-            {/* --- AUTH LOGIC (DESKTOP) --- */}
-            {session ? (
-              // 1. SUDAH LOGIN -> Dropdown My Account
-              <ProfileDropdown />
-            ) : (
-              // 2. BELUM LOGIN -> Tombol Log In Saja
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                aria-label="Open login"
-                className="hidden cursor-pointer rounded-full border border-slate-200/60 bg-white/70 p-2 shadow-sm transition-colors hover:bg-white md:inline-flex"
-              >
-                <User size={20} className={finalMenuIconClass} />
-              </button>
-            )}
+            <button
+              onClick={() => setIsLoginOpen(true)}
+              aria-label="Open login"
+              className="hidden cursor-pointer rounded-full border border-slate-200/60 bg-white/70 p-2 shadow-sm transition-colors hover:bg-white md:inline-flex"
+            >
+              <User size={20} className={finalMenuIconClass} />
+            </button>
           </div>
         </div>
 
@@ -675,35 +624,15 @@ const Navbar: React.FC = () => {
             {mobileMenuView === "main" && (
               <>
                 <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
-                  {/* --- AUTH LOGIC (MOBILE) --- */}
-                  {session ? (
-                    <>
-                      {/* Tampilkan Menu User Jika Login */}
-                      <Link
-                        href="/my-booking"
-                        className="flex items-center gap-3 rounded-[20px] border border-lime-200 bg-white p-5 text-jvto-green shadow-sm transition-colors hover:text-jvto-dark"
-                      >
-                        <LayoutDashboard size={20} /> My Booking
-                      </Link>
-                      <button
-                        onClick={() => signOut()}
-                        className="flex items-center gap-3 rounded-[20px] border border-red-200 bg-white p-5 text-left text-red-600 shadow-sm transition-colors hover:text-red-800"
-                      >
-                        <LogOut size={20} /> Log Out
-                      </button>
-                    </>
-                  ) : (
-                    // Tampilkan Tombol Login Jika Guest
-                    <button
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setIsLoginOpen(true);
-                      }}
-                      className="flex items-center gap-3 rounded-[20px] border border-slate-200 bg-white p-5 text-left text-jvto-dark shadow-sm transition-colors hover:text-jvto-green"
-                    >
-                      <LogIn size={20} /> Log In
-                    </button>
-                  )}
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsLoginOpen(true);
+                    }}
+                    className="flex items-center gap-3 rounded-[20px] border border-slate-200 bg-white p-5 text-left text-jvto-dark shadow-sm transition-colors hover:text-jvto-green"
+                  >
+                    <LogIn size={20} /> Log In
+                  </button>
 
                   <Link
                     href="/tours"
@@ -727,7 +656,7 @@ const Navbar: React.FC = () => {
                     href="/travel-guide"
                     className="rounded-[20px] border border-slate-200 bg-white p-5 transition-colors hover:text-jvto-green shadow-sm"
                   >
-                    Travel Guide
+                    Prepare &amp; Book
                   </Link>
                   <Link
                     href="/contact"
@@ -786,13 +715,21 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="max-h-[60vh] overflow-y-auto">
-              {searchQuery.length > 0 ? (
+              {searchState === "loading" ? (
+                <div className="py-12 text-center text-gray-400 text-sm">
+                  Loading routes...
+                </div>
+              ) : searchState === "unavailable" ? (
+                <div className="py-12 text-center text-gray-400 text-sm">
+                  Search is unavailable in this local preview.
+                </div>
+              ) : searchQuery.length > 0 ? (
                 filteredResults.length > 0 ? (
                   <div className="py-2">
                     {filteredResults.map((tour) => (
                       <Link
                         key={tour.id}
-                        href={`/${tour.slug}`}
+                        href={getPackagePath(tour.slug)}
                         onClick={() => setIsSearchOpen(false)}
                         className="flex items-center gap-4 p-3 mx-2 mb-2 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group"
                       >
@@ -819,13 +756,18 @@ const Navbar: React.FC = () => {
                               {tour.startDestination} → {tour.endDestination}
                             </span>
                           </div>
-                          <div className="mt-2 flex items-center justify-between">
-                            <p className="text-[14px] font-black text-jvto-green">
-                              IDR {tour.startFrom?.toLocaleString("id-ID")}
-                              <span className="text-[10px] text-gray-400 font-normal ml-1 tracking-normal italic lowercase">
-                                / person
-                              </span>
-                            </p>
+                          <div className="mt-2 flex items-center justify-between gap-3">
+                            <div>
+                              <p className="text-[14px] font-black text-jvto-green">
+                                IDR {tour.startFrom?.toLocaleString("id-ID")}
+                                <span className="text-[10px] text-gray-400 font-normal ml-1 tracking-normal italic lowercase">
+                                  / person
+                                </span>
+                              </p>
+                              <p className="mt-1 text-[10px] leading-relaxed text-gray-400">
+                                2-pax reference. Larger groups pay less per person.
+                              </p>
+                            </div>
                             <span className="text-[10px] font-bold text-jvto-green opacity-0 group-hover:opacity-100 flex items-center gap-1 transition-all -translate-x-2 group-hover:translate-x-0">
                               DETAILS <ArrowRight size={12} />
                             </span>

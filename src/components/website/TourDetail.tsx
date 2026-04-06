@@ -3,13 +3,21 @@
 import { useMemo, useState, useEffect, type ReactNode } from "react";
 import { TourPackageDetail } from "@/interfaces";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import TourRequirements from "./TourRequirements";
-import LegalBadge from "@/components/website/LegalBadge";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import TourRequirements from "./TourRequirements";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
+import { buildPackageDoctrine } from "@/lib/packages/packageDoctrine";
+import { buildBookingConfidence } from "@/lib/packages/bookingConfidence";
+import { buildCheckoutPricingSnapshot } from "@/lib/packages/checkoutPricingContract";
+import { calculateInitialPaymentAmount } from "@/lib/packages/paymentPolicy";
+import {
+  formatPriceTierRange,
+  getMatchingPriceTier,
+  getPriceForPax,
+} from "@/lib/packages/priceTiers";
 // import Reviews from "@/components/website/Home/Reviews";
 
 // Import CSS Swiper (Wajib)
@@ -32,7 +40,6 @@ import {
   Camera,
   Coffee,
   Heart,
-  Star,
   Utensils,
   Home,
   Ticket,
@@ -49,12 +56,8 @@ import {
   Activity,
   Thermometer,
   ShoppingBag,
-  Award,
   Stethoscope,
-  HardHat,
-  Message,
   Search,
-  Quote,
   MessageCircle,
 } from "lucide-react";
 
@@ -63,19 +66,9 @@ interface Props {
   reviews?: any[];
 }
 
-// ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
+// ... (Utilities formatCurrency tetap lokal) ...
 function formatCurrency(value: number) {
   return `IDR ${Math.round(value).toLocaleString("id-ID")}`;
-}
-
-function getPriceForPax(pax: number, tiers: any[]) {
-  if (!tiers || !tiers.length) return null;
-  const tier = tiers.find((t) => {
-    const minOk = pax >= t.paxMin;
-    const maxOk = t.paxMax === 0 ? true : pax <= t.paxMax;
-    return minOk && maxOk;
-  });
-  return tier ? tier.pricePerPerson : null;
 }
 
 // Helper icons
@@ -166,30 +159,6 @@ function getExperienceIcon(name: string) {
     return <Flame size={24} className="text-lime-600" />;
   return <MapPin size={24} className="text-lime-600" />;
 }
-function calculateDownPayment(dateStr: string, total: number) {
-  if (!dateStr) return 0;
-
-  // Parse input "YYYY-MM-DD" menjadi tahun, bulan, tanggal local
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const tripDate = new Date(y, m - 1, d); // Bulan di JS mulai dari 0
-  tripDate.setHours(0, 0, 0, 0);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  // Hitung selisih hari
-  const diffTime = tripDate.getTime() - today.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  console.log(`📅 Date Check: Trip=${dateStr}, H-${diffDays}`);
-
-  // Jika H-7 atau kurang (bahkan minus/hari H), wajib Full Payment
-  if (diffDays <= 7) {
-    return total;
-  }
-  // Jika lebih dari 7 hari, DP 20%
-  return Math.ceil(total * 0.2);
-}
 const stripHtml = (html) => {
   if (!html) return "";
   return html.replace(/<[^>]+>/g, "");
@@ -241,7 +210,12 @@ function PackageSection({
 
 export default function PackageDetailPage({ initialData,reviews }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
   const pkg = initialData.product;
+  const packageDoctrine = useMemo(
+    () => buildPackageDoctrine(pkg, pathname ?? undefined),
+    [pathname, pkg],
+  );
   const startingPrice = pkg.offers?.aggregateOffer?.lowPrice ?? 0;
   const routeIncludesIjen =
     pkg.route?.some((stop) => stop?.toLowerCase().includes("ijen")) ?? false;
@@ -314,7 +288,9 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
       icon: <Ticket size={18} className="text-lime-600" />,
       copy:
         startingPrice > 0
-          ? `Starts from ${formatCurrency(startingPrice)} per person before add-ons.`
+          ? hasTieredPricing
+            ? `Tiered by pax. Starts from ${formatCurrency(startingPrice)} per person at the largest group tier, then steps up as group size gets smaller.`
+            : `Starts from ${formatCurrency(startingPrice)} per person before add-ons.`
           : "Private route pricing is shown below in the live booking table.",
     },
     {
@@ -376,10 +352,11 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
     icon: JSX.Element;
     items: string[];
   }[];
+  const routeRealityCards = packageDoctrine.routeReality.items;
 
   // --- STATE ---
   // State untuk Hero Background (tetap ada jika ingin bisa ganti hero, tapi trigger lightbox beda)
-  const [heroImage, setHeroImage] = useState(pkg.imageUrl || pkg.gallery[0]);
+  const [heroImage] = useState(pkg.imageUrl || pkg.gallery[0]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isInclusionsExpanded, setIsInclusionsExpanded] = useState(false); // <--- STATE KHUSUS INI
   const [showTravelersPicker, setShowTravelersPicker] = useState(false);
@@ -416,17 +393,34 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isLightboxOpen, pkg.gallery.length]);
 
-  const getDayImage = (dayNum: number) => {
-    return pkg.gallery && pkg.gallery[dayNum - 1]
-      ? pkg.gallery[dayNum - 1]
-      : pkg.imageUrl;
-  };
-
   const pricePerPerson = useMemo(
     () => getPriceForPax(Number(pax), pkg.offers.tiers),
     [pax, pkg.offers.tiers],
   );
+  const selectedPriceTier = useMemo(
+    () => getMatchingPriceTier(Number(pax), pkg.offers.tiers),
+    [pax, pkg.offers.tiers],
+  );
+  const selectedTierLabel = selectedPriceTier
+    ? formatPriceTierRange(selectedPriceTier)
+    : null;
+  const hasTieredPricing = pkg.offers.tiers.length > 0;
+  const livePricePerPerson = pricePerPerson ?? startingPrice;
+  const livePriceLabel = pricePerPerson ? "Selected Pax Price" : "Starts From";
   const total = pricePerPerson ? pricePerPerson * Number(pax) : 0;
+  const paymentDueNow = useMemo(() => {
+    if (!total) return 0;
+    if (!startDate) return Math.ceil(total * 0.2);
+    return calculateInitialPaymentAmount(startDate, total);
+  }, [startDate, total]);
+  const bookingConfidence = useMemo(
+    () =>
+      buildBookingConfidence({
+        total,
+        dateStr: startDate || null,
+      }),
+    [startDate, total],
+  );
   // --- ADD-ON LOGIC ---
   const [showAddOnModal, setShowAddOnModal] = useState(false);
   const [pendingBasePayload, setPendingBasePayload] = useState<any | null>(
@@ -458,10 +452,12 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
       type?: string | null;
     }[],
   ) => {
-    const addOnTotal = addons.reduce((sum, a) => sum + a.subtotal, 0);
-    const grandTotal = basePayload.packageTotal + addOnTotal;
-
-    const downPayment = calculateDownPayment(basePayload.date, grandTotal);
+    const pricing = buildCheckoutPricingSnapshot({
+      pax: Number(basePayload.pax),
+      date: basePayload.date,
+      priceTiers: pkg.offers.tiers,
+      addonLines: addons,
+    });
 
     const payload = {
       ...basePayload,
@@ -472,10 +468,14 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
       allAddOns: pkg.addOns,
       imageUrl: pkg.imageUrl,
       addon: addons,
-      grandTotal,
-      totalPackage: basePayload.packageTotal,
-      totalAddons: addOnTotal,
-      downPayment: downPayment,
+      pricePerPerson: pricing.pricePerPerson,
+      packageTotal: pricing.totalPackage,
+      grandTotal: pricing.grandTotal,
+      totalPackage: pricing.totalPackage,
+      totalAddons: pricing.totalAddons,
+      totalDiscount: pricing.totalDiscount,
+      discountLabel: pricing.discountLabel,
+      downPayment: pricing.downPayment,
     };
     localStorage.setItem("checkoutPayload", JSON.stringify(payload));
     router.push("/checkout");
@@ -576,10 +576,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
       <div className="relative h-[80vh] w-full bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
           {/* Tampilkan Hero Image (bisa statis dari pkg.imageUrl atau dinamis jika kita tambah tombol ganti hero) */}
-          <img
+          <Image
             src={heroImage}
             alt={pkg.name}
-            className="h-full w-full object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+            fill
+            unoptimized
+            className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/30"></div>
         </div>
@@ -793,10 +796,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                 // Class: shrink-0 & fixed width pada mobile agar bisa di-scroll
                 className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-lg bg-slate-800"
               >
-                <img
+                <Image
                   src={img}
                   alt={`Gallery ${idx}`}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  fill
+                  unoptimized
+                  className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  sizes="(max-width: 768px) 128px, 16vw"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="bg-black/50 p-2 rounded-full text-white backdrop-blur-sm">
@@ -843,10 +849,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
 
           {/* Main Image */}
           <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4 flex items-center justify-center">
-            <img
+            <Image
               src={pkg.gallery[photoIndex]}
               alt={`Gallery Full ${photoIndex}`}
-              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              fill
+              unoptimized
+              className="object-contain rounded-lg shadow-2xl"
+              sizes="100vw"
             />
             {/* Counter */}
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white text-xs font-bold tracking-widest backdrop-blur-sm">
@@ -905,6 +914,61 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     )}
                   </button>
                 )}
+              </div>
+            </PackageSection>
+            <PackageSection
+              eyebrow="Package doctrine"
+              title={packageDoctrine.routeFit.title}
+              description={packageDoctrine.routeFit.copy}
+              tone="muted"
+            >
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                {packageDoctrine.routeFit.items.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                      Route fit
+                    </p>
+                    <h3 className="mt-3 text-lg font-black uppercase leading-tight text-slate-900">
+                      {item.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-7 text-slate-600">
+                      {item.copy}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-10 border-t border-slate-200 pt-8">
+                <div className="mb-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+                  <div>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                      Route rhythm
+                    </p>
+                    <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                      {packageDoctrine.routeRhythm.title}
+                    </h3>
+                  </div>
+                  <p className="max-w-2xl text-sm leading-7 text-slate-600">
+                    {packageDoctrine.routeRhythm.copy}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  {packageDoctrine.routeRhythm.items.map((item) => (
+                    <div
+                      key={item.label}
+                      className="rounded-[24px] border border-slate-200 bg-slate-50 p-5"
+                    >
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">
+                        {item.label}
+                      </p>
+                      <p className="mt-3 text-sm leading-7 text-slate-700">
+                        {item.value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </PackageSection>
             {/* Highlights (Design Gambar 2) */}
@@ -1023,10 +1087,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                       >
                         {/* Header Image */}
                         <div className="relative h-64 w-full">
-                          <img
+                          <Image
                             src={dayImage}
                             alt={day.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            unoptimized
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 50vw"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                           <div className="absolute bottom-0 left-0 p-6 text-white w-full">
@@ -1281,6 +1348,25 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
               tone="muted"
               className="overflow-hidden"
             >
+              <div className="mb-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
+                {packageDoctrine.hotelRooming.items.map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                      Accommodation logic
+                    </p>
+                    <h3 className="mt-3 text-lg font-black uppercase leading-tight text-slate-900">
+                      {item.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-7 text-slate-600">
+                      {item.copy}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
               {/* Added overflow-hidden to prevent horizontal scrollbar on body if swiper goes wide */}
 
               {/* 1. ACCOMMODATION SLIDER */}
@@ -1318,10 +1404,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                           <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
                             {acc.image && acc.image.includes("http") ? (
                               // eslint-disable-next-line @next/next/no-img-element
-                              <img
+                              <Image
                                 src={acc.image}
                                 alt={`Accommodation in ${acc.area}`}
-                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                fill
+                                unoptimized
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                sizes="(max-width: 1024px) 100vw, 33vw"
                               />
                             ) : (
                               <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
@@ -1394,10 +1483,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                             <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
                               {vehicle.banner ? (
                                 // eslint-disable-next-line @next/next/no-img-element
-                                <img
+                                <Image
                                   src={vehicle.banner}
                                   alt={vehicle.model}
-                                  className="max-h-full object-contain"
+                                  fill
+                                  unoptimized
+                                  className="object-contain p-4"
+                                  sizes="(max-width: 1024px) 100vw, 25vw"
                                 />
                               ) : (
                                 <Car size={64} className="text-slate-300" />
@@ -1457,10 +1549,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                       <SwiperSlide className="h-auto">
                         <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">
                           <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
-                            <img
+                            <Image
                               src="/assets/img/cars/jeep.webp"
                               alt="Bromo Jeep"
-                              className="max-h-full object-contain"
+                              fill
+                              unoptimized
+                              className="object-contain p-4"
+                              sizes="(max-width: 1024px) 100vw, 25vw"
                             />
                           </div>
                           <div className="p-5 flex-1 flex flex-col justify-between">
@@ -1647,7 +1742,103 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                 </div>
               </div>
             </PackageSection>
-            {routePlanningNotes.length > 0 ||
+            <PackageSection
+              eyebrow="Before payment"
+              title={packageDoctrine.paymentSummary.title}
+              description={packageDoctrine.paymentSummary.copy}
+            >
+              <div className="grid grid-cols-1 gap-10 xl:grid-cols-2">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    {packageDoctrine.startEndLogic.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                    {packageDoctrine.startEndLogic.copy}
+                  </p>
+                  <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {packageDoctrine.startEndLogic.items.map((item) => (
+                      <div
+                        key={item.title}
+                        className="rounded-[24px] border border-slate-200 bg-slate-50 p-5"
+                      >
+                        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                          Route logic
+                        </p>
+                        <h4 className="mt-3 font-bold uppercase tracking-wide text-slate-900">
+                          {item.title}
+                        </h4>
+                        <p className="mt-3 text-sm leading-7 text-slate-600">
+                          {item.copy}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    {packageDoctrine.paymentSummary.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                    Use this as the commercial guardrail before money moves.
+                    The route stays package-first, but payment still follows
+                    written confirmation logic.
+                  </p>
+                  <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {packageDoctrine.paymentSummary.items.map((item) => (
+                      <div
+                        key={item.title}
+                        className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm"
+                      >
+                        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                          Payment logic
+                        </p>
+                        <h4 className="mt-3 font-bold uppercase tracking-wide text-slate-900">
+                          {item.title}
+                        </h4>
+                        <p className="mt-3 text-sm leading-7 text-slate-600">
+                          {item.copy}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-10 border-t border-slate-200 pt-10">
+                <div className="mb-6 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+                  <div>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                      Meals reality
+                    </p>
+                    <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                      {packageDoctrine.mealsReality.title}
+                    </h3>
+                  </div>
+                  <p className="max-w-2xl text-sm leading-7 text-slate-600">
+                    {packageDoctrine.mealsReality.copy}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                  {packageDoctrine.mealsReality.items.map((item) => (
+                    <div
+                      key={item.title}
+                      className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm"
+                    >
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                        Meals logic
+                      </p>
+                      <h3 className="mt-3 text-lg font-black uppercase leading-tight text-slate-900">
+                        {item.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-7 text-slate-600">
+                        {item.copy}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </PackageSection>
+            {routeRealityCards.length > 0 ||
+            routePlanningNotes.length > 0 ||
             (pkg.healthRequirements?.length ?? 0) > 0 ||
             (pkg.environmentalRisks?.length ?? 0) > 0 ||
             routeHandlingNotes.length > 0 ? (
@@ -1665,6 +1856,42 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     These notes are here to reduce last-minute surprises. Use them to judge timing, health readiness, field conditions, and how the route is handled if circumstances change.
                   </p>
                 </div>
+
+                {routeRealityCards.length > 0 ? (
+                  <div className="mb-6">
+                    <div className="mb-5 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                          Live route filters
+                        </p>
+                        <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                          {packageDoctrine.routeReality.title}
+                        </h3>
+                      </div>
+                      <p className="max-w-2xl text-sm leading-7 text-slate-600">
+                        {packageDoctrine.routeReality.copy}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                      {routeRealityCards.map((item) => (
+                        <div
+                          key={item.title}
+                          className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm"
+                        >
+                          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                            Route reality
+                          </p>
+                          <h3 className="mt-3 text-lg font-black uppercase leading-tight text-slate-900">
+                            {item.title}
+                          </h3>
+                          <p className="mt-4 text-sm leading-7 text-slate-600">
+                            {item.copy}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                   {readinessSections.map((section) => (
@@ -1743,6 +1970,47 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     </div>
                   </Link>
                 ))}
+              </div>
+              <div className="mt-10 border-t border-slate-200 pt-10">
+                <div className="mb-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+                  <div>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                      Compare route shape
+                    </p>
+                    <h3 className="mt-2 text-xl font-black uppercase text-slate-900">
+                      {packageDoctrine.closestAlternative.title}
+                    </h3>
+                  </div>
+                  <p className="max-w-2xl text-sm leading-7 text-slate-600">
+                    {packageDoctrine.closestAlternative.copy}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  {packageDoctrine.closestAlternative.items.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group rounded-[24px] border border-slate-200 bg-slate-50 p-6 transition-all hover:-translate-y-0.5 hover:border-lime-300 hover:bg-white hover:shadow-sm"
+                    >
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                        Closest alternative
+                      </p>
+                      <h3 className="mt-3 text-lg font-black uppercase leading-tight text-slate-900">
+                        {item.title}
+                      </h3>
+                      <p className="mt-4 text-sm leading-7 text-slate-600">
+                        {item.copy}
+                      </p>
+                      <div className="mt-5 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-slate-900">
+                        Open route
+                        <ChevronRight
+                          size={16}
+                          className="text-lime-600 transition-transform group-hover:translate-x-0.5"
+                        />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
@@ -1947,6 +2215,61 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     <Calendar size={14} className="text-lime-600" /> Flexible
                   </div>
                 </div>
+                <div className="mb-6 rounded-2xl border border-[#dce4c7] bg-[linear-gradient(180deg,#ffffff_0%,#f8fbf1_100%)] p-4">
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-lime-700">
+                    {bookingConfidence.eyebrow}
+                  </p>
+                  <h3 className="mt-2 text-base font-black uppercase leading-tight text-slate-900">
+                    {bookingConfidence.title}
+                  </h3>
+                  <div className="mt-4 rounded-2xl border border-white bg-white p-4 shadow-sm">
+                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-lime-700">
+                      {bookingConfidence.paymentNowLabel}
+                    </p>
+                    <div className="mt-2 flex items-baseline gap-2">
+                      <span className="text-2xl font-black text-slate-900">
+                        {paymentDueNow ? formatCurrency(paymentDueNow) : "-"}
+                      </span>
+                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+                        due now
+                      </span>
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                      {bookingConfidence.paymentNowCopy}
+                    </p>
+                  </div>
+                  <div className="mt-4 rounded-2xl border border-[#e4e8da] bg-white p-4">
+                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-900">
+                      {bookingConfidence.logicNoteTitle}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                      {bookingConfidence.logicNoteCopy}
+                    </p>
+                  </div>
+                  <div className="mt-4 space-y-3">
+                    {bookingConfidence.steps.map((step) => (
+                      <div key={step.title} className="rounded-2xl border border-[#e4e8da] bg-white p-4">
+                        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-900">
+                          {step.title}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-slate-600">
+                          {step.copy}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {bookingConfidence.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="inline-flex items-center rounded-full border border-[#dce4c7] bg-white px-3 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-900 transition-colors hover:border-lime-400 hover:text-lime-700"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -2106,6 +2429,14 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     )}
                   </div>
                   <div className="bg-slate-50 p-4 rounded-lg text-sm space-y-2 border border-slate-100">
+                    {selectedTierLabel ? (
+                      <div className="flex justify-between">
+                        <span className="text-slate-500">Active pax tier:</span>
+                        <span className="font-bold text-slate-700">
+                          {selectedTierLabel}
+                        </span>
+                      </div>
+                    ) : null}
                     <div className="flex justify-between">
                       <span className="text-slate-500">Price per person:</span>
                       <span className="font-bold text-slate-700">
@@ -2128,15 +2459,21 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                   >
                     Instant Book
                   </button>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    {bookingConfidence.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-[11px] font-black uppercase tracking-[0.16em] text-slate-700 transition-colors hover:border-lime-300 hover:text-lime-700"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
                   <div className="text-center">
-                    <a
-                      href="/policy/booking-payment-cancellation"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4 transition"
-                    >
-                      View Cancellation Policy
-                    </a>
+                    <p className="text-xs leading-5 text-slate-500">
+                      Final booking terms, payment handling, and what counts operationally are fixed by the written booking flow and Official E-Voucher.
+                    </p>
                   </div>
                 </form>
               </div>
@@ -2255,10 +2592,13 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
                       {item.type === "transport" && transportImage && (
                         <div className="h-16 w-20 shrink-0 overflow-hidden rounded-lg bg-slate-100 border border-slate-200">
-                          <img
+                          <Image
                             src={transportImage}
                             alt={item.label}
-                            className="h-full w-full object-contain p-1"
+                            fill
+                            unoptimized
+                            className="object-contain p-1"
+                            sizes="80px"
                           />
                         </div>
                       )}
@@ -2356,16 +2696,25 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
           {/* Price Info */}
           <div>
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">
-              Start From
+              {livePriceLabel}
             </p>
             <div className="flex items-baseline gap-1">
               <span className="text-lg font-black text-lime-600">
-                {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
+                {formatCurrency(livePricePerPerson)}
               </span>
               <span className="text-[10px] font-medium text-slate-400">
                 /pax
               </span>
             </div>
+            <p className="mt-1 text-[10px] text-slate-400">
+              {pricePerPerson
+                ? selectedTierLabel
+                  ? `Based on ${selectedTierLabel}.`
+                  : `Based on ${pax} travelers.`
+                : hasTieredPricing
+                  ? "Pricing steps by traveler count."
+                  : "Live package rate."}
+            </p>
             {/* Optional Strikethrough Price (Mockup) */}
           </div>
 

@@ -11,8 +11,11 @@ import {
   ArrowRight
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPackageUrl } from "@/lib/packages/packagePaths";
 import { getWebTourList } from "@/lib/packages/webTourList";
+import { getIsicEligibleTours } from "@/lib/packages/isicEligibleRoutes";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 export const revalidate = 3600;
 export const dynamic = "force-dynamic";
 
@@ -33,25 +36,26 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-async function getAllTours(): Promise<ListTourPackage[]> {
+async function getEligibleStudentRoutes(): Promise<ListTourPackage[]> {
   try {
-    return (await getWebTourList({
-      categoryId: 2,
-      limit: 8,
+    const publicTours = (await getWebTourList({
+      categoryId: 1,
     })) as ListTourPackage[];
+
+    return getIsicEligibleTours(publicTours);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[isic-student-package] fallback to empty tour list: ${message}`);
+    console.warn(
+      `[isic-student-package] fallback to empty eligible route list: ${message}`,
+    );
     return [];
   }
 }
 
 export default async function IsicStudentPackagePage() {
   const seo = await getPageSeo("/isic/student-package", fallbackSeo);
-  const studentPackages = await getAllTours();
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://javavolcano-touroperator.com";
+  const studentPackages = await getEligibleStudentRoutes();
+  const siteUrl = BASE_URL;
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -75,12 +79,12 @@ export default async function IsicStudentPackagePage() {
   const packageListSchema = {
     "@type": "ItemList",
     "@id": `${siteUrl}/isic/student-package#packages`,
-    name: "ISIC student packages",
+    name: "ISIC-eligible private routes",
     numberOfItems: studentPackages.length,
     itemListElement: studentPackages.map((tour, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `${siteUrl}/${tour.slug}`,
+      url: getPackageUrl(tour.slug),
       name: tour.name,
     })),
   };
@@ -133,10 +137,22 @@ export default async function IsicStudentPackagePage() {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="font-black text-3xl md:text-4xl text-foreground mb-4">
-                Exclusive Student Package for ISIC Cardholders
+                Verified Student Access on Selected Private Routes
               </h2>
               <p className="text-muted-foreground max-w-3xl mx-auto">
-                JVTO collaborates with ISIC to offer student-friendly pricing structures for safe, all-inclusive volcano tours. These prices are only available to ISIC cardholders. To redeem, you must have a valid ISIC card.
+                These cards show the underlying private JVTO routes where verified
+                ISIC pricing can be applied. The public starting price stays visible on
+                each route card; student pricing is handled after ISIC verification,
+                before payment is finalized.
+              </p>
+            </div>
+
+            <div className="mx-auto mb-8 max-w-4xl rounded-2xl border border-primary/20 bg-primary/5 p-5 text-left">
+              <p className="text-sm md:text-base text-foreground">
+                ISIC access in the phase-two baseline was structured as an internal
+                verification layer, not as a separate public inventory. This page
+                therefore exposes the eligible public route shapes directly, while
+                keeping student verification and pricing approval as a separate step.
               </p>
             </div>
             
@@ -150,7 +166,9 @@ export default async function IsicStudentPackagePage() {
                 </div>
             ) : (
                 <div className="text-center py-12 bg-muted/20 rounded-xl">
-                    <p className="text-muted-foreground">No packages currently available.</p>
+                    <p className="text-muted-foreground">
+                      No verified ISIC-eligible routes are exposed right now.
+                    </p>
                 </div>
             )}
           </div>

@@ -7,8 +7,6 @@ import { getContentPage } from "@/lib/content/getContentPage";
 import { Faq } from "@/components/content/Faq";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
 export async function generateMetadata(): Promise<Metadata> {
   const row = await getContentPage(`/policy`, "en");
 

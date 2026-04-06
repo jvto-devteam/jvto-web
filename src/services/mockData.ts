@@ -1,5 +1,5 @@
 
-import { TourPackage, Difficulty } from '@/typesNew';
+import { TourPackage, Difficulty } from '@/types';
 
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumSignificantDigits: 10 }).format(price);

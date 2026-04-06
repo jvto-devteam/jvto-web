@@ -4,9 +4,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ListTourPackage } from "@/types";
+import { getPackagePath } from "@/lib/packages/packagePaths";
 import { formatIDR } from "@/utils/formatting";
 import { notFound } from "next/navigation";
 import { Dumbbell, Clock, MapPin, ArrowRight, ShieldCheck } from "lucide-react";
+import { getTourFamilyMeta } from "@/lib/packages/tourFamily";
 
 interface TourCardProps {
   tour?: ListTourPackage;
@@ -35,8 +37,9 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
           };
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
-  const fullTourSlug = "/" + tour.slug;
+  const fullTourSlug = getPackagePath(tour.slug);
   const tourLinkLabel = `View tour details for ${tour.name}`;
+  const family = getTourFamilyMeta(tour);
   const routeLabel =
     tour.endDestination && tour.endDestination !== tour.startDestination
       ? `${tour.startDestination} to ${tour.endDestination}`
@@ -99,6 +102,18 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
           </div>
         </div>
 
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-[#dce4c7] bg-[#f7faef] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-jvto-green">
+            {family.label}
+          </span>
+          <span className="rounded-full border border-[#e4e8da] bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-gray-600">
+            {family.routeOrder}
+          </span>
+          <span className="rounded-full border border-[#e4e8da] bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-gray-600">
+            {family.finishLogic}
+          </span>
+        </div>
+
         <Link
           target={isNewTab ? "_blank" : "_self"}
           href={fullTourSlug}
@@ -117,6 +132,10 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
           {routeLabel}
         </p>
 
+        <p className="mb-4 text-sm leading-6 text-gray-600">
+          {family.summary}
+        </p>
+
         {highlightPreview.length > 0 ? (
           <ul className="mb-5 space-y-2 text-sm leading-relaxed text-ink-neutral-600">
             {highlightPreview.map((highlight) => (
@@ -132,16 +151,21 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
 
         <div className="mt-auto">
           <span className="text-xs font-medium uppercase tracking-wider text-ink-neutral-500 dark:text-ink-neutral-400">
-            Starts from
+            From
           </span>
           <div className="mt-2 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-1">
-              <span className="text-2xl md:text-3xl font-black tracking-tight text-lime-600">
-                {formatIDR(tour.startFrom)}
-              </span>
-              <span className="text-sm text-nowrap text-ink-neutral-500 dark:text-ink-neutral-400">
-                / person
-              </span>
+            <div>
+              <div className="flex items-center gap-1">
+                <span className="text-2xl md:text-3xl font-black tracking-tight text-lime-600">
+                  {formatIDR(tour.startFrom)}
+                </span>
+                <span className="text-sm text-nowrap text-ink-neutral-500 dark:text-ink-neutral-400">
+                  / person
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] text-ink-neutral-500 dark:text-ink-neutral-400">
+                2-pax reference. Larger groups pay less per person.
+              </p>
             </div>
 
             <Link

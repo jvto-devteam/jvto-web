@@ -1,4 +1,5 @@
 import { getContentPage } from "@/lib/content/getContentPage";
+import { resolvePinnedContentFields } from "@/lib/content/pinnedContentOverrides";
 
 type FallbackPageSeo = {
   title: string;
@@ -18,13 +19,12 @@ export async function getPageSeo(
   fallback: FallbackPageSeo,
 ): Promise<PageSeoResult> {
   const row = await getContentPage(route, "en");
-  const seo = (row?.seo as Record<string, any> | null) ?? {};
-  const content = (row?.content as Record<string, any> | null) ?? {};
+  const resolved = resolvePinnedContentFields(route, row, fallback);
 
   return {
-    title: seo.title ?? fallback.title,
-    h1: content.h1 ?? fallback.h1 ?? seo.title ?? fallback.title,
-    description: seo.description ?? fallback.description ?? "",
-    row,
+    title: resolved.title,
+    h1: resolved.h1,
+    description: resolved.description,
+    row: resolved.row,
   };
 }

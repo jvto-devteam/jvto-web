@@ -7,10 +7,10 @@ import { buildVerifySubpageSchema } from "../schema";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
-  title: "Verify: Press Recognition",
-  h1: "Press Recognition",
+  title: "Press & Recognition – Third-Party Coverage of JVTO | JVTO",
+  h1: "Press & Recognition: Third-Party Context",
   description:
-    "Media coverage and recognition received by JVTO in various publications and platforms.",
+    "Third-party press coverage: Detik.com, Radar Jember (Jawa Pos), and BBKSDA Jatim. Each article mentions JVTO founder by name. Independent context.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -42,7 +42,7 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
     category: 'Booking & Payment',
     title: 'Booking & Confirmation Process',
     content: `Booking is a clear, step-by-step process:
-* **Step 1: Select Tour & Pay Deposit:** Choose a tour on our website and pay a 20% deposit via our secure gateway. For bookings less than 14 days away, 100% payment may be required.
+* **Step 1: Select Tour & Pay Deposit:** Choose a tour on our website and pay a 20% deposit via our secure gateway when Day 1 is still more than 7 days away. For bookings within 7 days of Day 1, 100% payment may be required, and the most urgent requests may move to manual verification.
 * **Step 2: Receive E-Voucher:** Upon successful payment, you will receive an Official E-Voucher via email. Your booking is considered confirmed only once this voucher is issued.
 * **Step 3: Submit Details:** You will receive a link to securely submit your pickup details (e.g., flight number, hotel name). This must be done at least 48 hours before Day 1.
 * **Step 4: Pay Remaining Balance:** Settle the final balance according to the payment deadlines.`,
@@ -52,7 +52,7 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
     id: 'payment-terms',
     category: 'Booking & Payment',
     title: 'Payment Terms and Deposit',
-    content: 'A **20% deposit** of the total package price is required to secure a booking. However, for **bookings where Day 1 is less than 14 days away**, JVTO may require up to **100% full payment** at checkout. Failure to meet payment deadlines can result in your booking being treated as cancelled.',
+    content: 'A **20% deposit** of the total package price is required to secure a booking when Day 1 is still more than 7 days away. However, for **bookings where Day 1 is within 7 days**, JVTO may require up to **100% full payment** at checkout, and the most urgent requests may move to manual verification. Failure to meet payment deadlines can result in your booking being treated as cancelled.',
     tags: ['payment', 'terms', 'deposit', 'invoice', 'balance', 'due date', 'upfront', 'full payment', 'last-minute']
   },
   {

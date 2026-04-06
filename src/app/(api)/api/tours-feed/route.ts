@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getEntryReferencePrice } from "@/lib/packages/priceTiers";
 
 // Menggunakan logika serializer yang Anda berikan
 function serializeForXML(pkg: any) {
@@ -16,10 +17,12 @@ function serializeForXML(pkg: any) {
   const additionalImages = imageAssets.slice(1, 11); // Ambil up to 10 gambar tambahan
 
   // --- Logika Harga ---
-  const validPrices: number[] = (pkg.package_prices ?? [])
-    .map((p: any) => p.price)
-    .filter((price: any) => typeof price === "number" && price > 0);
-  const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+  const tiers = (pkg.package_prices ?? []).map((p: any) => ({
+    paxMin: Number(p.min_pax) || 0,
+    paxMax: Number(p.max_pax) || 0,
+    pricePerPerson: Number(p.price) || 0,
+  }));
+  const startFrom = getEntryReferencePrice(tiers) ?? 0;
 
   return {
     id: pkg.code, // Google menyarankan ID yang stabil, slug sangat cocok
@@ -97,6 +100,7 @@ export async function GET() {
       },
     });
   } catch (error) {
+    console.error("GET /api/tours-feed error:", error);
     return NextResponse.json(
       { error: "Failed to generate feed" },
       { status: 500 }

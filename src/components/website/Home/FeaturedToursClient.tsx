@@ -1,10 +1,17 @@
 "use client";
 
-import { useRef, forwardRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { ListTourPackage } from "@/types";
 import TourCard from "../TourCard";
-import {MapPin, ArrowLeft, ArrowRight, ShieldCheck, Users, Waypoints } from "lucide-react";
+import {
+  MapPin,
+  ArrowLeft,
+  ArrowRight,
+  ShieldCheck,
+  Users,
+  Waypoints,
+} from "lucide-react";
 
 // --- TIPE DATA ---
 interface FeaturedToursClientProps {
@@ -15,117 +22,114 @@ interface FeaturedToursClientProps {
 interface TourRowProps {
   title: string;
   tours: ListTourPackage[];
-  bgColor?: string; // Opsional untuk membedakan background section
+  hubHref: string;
 }
 
-// --- SUB-COMPONENT: TOUR CAROUSEL ROW ---
-// Menggunakan forwardRef agar parent bisa melakukan scrollIntoView ke komponen ini
-const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
-  ({ title, tours, bgColor = "bg-white" }, ref) => {
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+const TourCarouselRow = ({ title, tours, hubHref }: TourRowProps) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Logic scroll horizontal (kiri/kanan) untuk carousel
-    const scroll = (direction: "left" | "right") => {
-      if (scrollContainerRef.current) {
-        // Scroll sebesar 80% dari lebar layar agar user masih melihat konteks item berikutnya
-        const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8;
-        scrollContainerRef.current.scrollBy({
-          left: direction === "left" ? -scrollAmount : scrollAmount,
-          behavior: "smooth",
-        });
-      }
-    };
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
 
-    if (tours.length === 0) return null;
+    const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8;
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
-    return (
-      <section
-        ref={ref}
-        className={`py-8 md:py-12 scroll-mt-24 border-b border-[#e7ebdd] last:border-0 ${bgColor}`}
-      >
-        <div className="container mx-auto px-6">
-          {/* Header Section: Judul & Tombol Navigasi Carousel */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-            <div>
-              <h3 className="text-2xl md:text-3xl font-black uppercase text-jvto-dark tracking-wide">
-                {title}
-              </h3>
-              <p className="text-gray-500 mt-1 text-sm md:text-base">
-                {tours.length} private route options
-              </p>
-            </div>
+  if (tours.length === 0) return null;
 
-            {/* Tombol Panah Kiri/Kanan */}
-            <div className="hidden md:flex gap-3">
+  return (
+    <section className="border-t border-[#e7ebdd] bg-white py-8 md:py-10">
+      <div className="container mx-auto px-6">
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h3 className="text-2xl font-black uppercase tracking-wide text-jvto-dark md:text-3xl">
+              {title}
+            </h3>
+            <p className="mt-1 text-sm text-gray-500 md:text-base">
+              {tours.length} private route options
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href={hubHref}
+              className="inline-flex items-center gap-2 rounded-lg border border-[#d6dfbf] px-4 py-2 text-sm font-black uppercase tracking-[0.12em] text-jvto-dark transition-colors hover:bg-[#f4f6ed]"
+            >
+              Open hub
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <div className="hidden gap-3 md:flex">
               <button
                 onClick={() => scroll("left")}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                className="group flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 transition-all duration-300 hover:border-jvto-dark hover:bg-jvto-dark hover:text-white"
                 aria-label="Scroll Left"
               >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                className="group flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 transition-all duration-300 hover:border-jvto-dark hover:bg-jvto-dark hover:text-white"
                 aria-label="Scroll Right"
               >
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
               </button>
             </div>
           </div>
+        </div>
 
-          {/* Carousel Container */}
-          <div className="relative -mx-6 md:mx-0 md:px-0">
-            <div
-              ref={scrollContainerRef}
-              className="flex md:gap-6 gap-3 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {tours.map((tour,key) => (
-                <div
-                  key={tour.id}
-                  className={` ${key == 0 ? 'ml-6' : ''} ${key+1 == tours.length ? 'mr-6' : ''} flex-shrink-0 w-[80vw] sm:w-[350px]`}
-                >
-                  <TourCard isNewTab={true} tour={tour} />
-                </div>
-              ))}
-            </div>
+        <div className="relative -mx-6 md:mx-0 md:px-0">
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-3 overflow-x-auto pb-8 scrollbar-hide md:gap-6"
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {tours.map((tour, key) => (
+              <div
+                key={tour.id}
+                className={`${key === 0 ? "ml-6" : ""} ${
+                  key + 1 === tours.length ? "mr-6" : ""
+                } w-[80vw] flex-shrink-0 sm:w-[350px]`}
+              >
+                <TourCard isNewTab={true} tour={tour} />
+              </div>
+            ))}
           </div>
         </div>
-      </section>
-    );
-  }
-);
-
-// Diperlukan displayName untuk debugging React Component dengan forwardRef
-TourCarouselRow.displayName = "TourCarouselRow";
+      </div>
+    </section>
+  );
+};
 
 // --- MAIN CLIENT COMPONENT ---
 const FeaturedToursClient = ({
   surabayaTours,
   baliTours,
 }: FeaturedToursClientProps) => {
-  // Ref untuk target scroll
-  const surabayaRef = useRef<HTMLDivElement>(null);
-  const baliRef = useRef<HTMLDivElement>(null);
-
-  // Handler untuk scroll ke section tertentu
-  const scrollToSection = (location: "surabaya" | "bali") => {
-    const targetRef = location === "surabaya" ? surabayaRef : baliRef;
-    
-    if (targetRef.current) {
-      // Offset -100px agar judul section tidak tertutup sticky header (jika ada)
-      const yOffset = -100; 
-      const element = targetRef.current;
-      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
+  const [activeOrigin, setActiveOrigin] = useState<"surabaya" | "bali">(
+    "surabaya",
+  );
+  const activeRow =
+    activeOrigin === "surabaya"
+      ? {
+          key: "surabaya",
+          label: "From Surabaya",
+          hubHref: "/tours/from-surabaya",
+          note: "Best when you want the widest East Java route spread with cleaner mainland airport logic.",
+          tours: surabayaTours,
+        }
+      : {
+          key: "bali",
+          label: "From Bali",
+          hubHref: "/tours/from-bali",
+          note: "Best when East Java is one leg of a Bali trip and you want the cross-island handoff handled for you.",
+          tours: baliTours,
+        };
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* --- HERO / HEADER SECTION --- */}
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-6 text-center mb-16">
         <div className="w-16 h-16 mx-auto mb-6 bg-[#e7f1d3] rounded-full flex items-center justify-center">
           <MapPin className="w-8 h-8 text-jvto-dark" />
@@ -155,40 +159,54 @@ const FeaturedToursClient = ({
             Pickup logic already mapped
           </span>
         </div>
-        {/* --- NAVIGATION BUTTONS --- */}
-        <div className="flex mt-8 items-center justify-center md:gap-4 gap-2 relative z-10">
+        <div
+          role="tablist"
+          aria-label="Homepage tour origins"
+          className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-2 md:gap-4"
+        >
           <button
-            onClick={() => scrollToSection("surabaya")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-sm hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            id="tab-surabaya"
+            role="tab"
+            aria-selected={activeOrigin === "surabaya"}
+            aria-controls="homepage-origin-panel"
+            onClick={() => setActiveOrigin("surabaya")}
+            className={`w-full rounded-lg border-2 px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 sm:w-auto md:px-8 ${
+              activeOrigin === "surabaya"
+                ? "border-jvto-dark bg-jvto-dark text-white shadow-xl"
+                : "border-jvto-dark bg-white text-jvto-dark shadow-sm hover:-translate-y-1 hover:bg-jvto-dark hover:text-white"
+            }`}
           >
             From Surabaya
           </button>
-          
           <button
-            onClick={() => scrollToSection("bali")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-sm hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            id="tab-bali"
+            role="tab"
+            aria-selected={activeOrigin === "bali"}
+            aria-controls="homepage-origin-panel"
+            onClick={() => setActiveOrigin("bali")}
+            className={`w-full rounded-lg border-2 px-6 py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300 sm:w-auto md:px-8 ${
+              activeOrigin === "bali"
+                ? "border-jvto-dark bg-jvto-dark text-white shadow-xl"
+                : "border-jvto-dark bg-white text-jvto-dark shadow-sm hover:-translate-y-1 hover:bg-jvto-dark hover:text-white"
+            }`}
           >
             From Bali
           </button>
         </div>
+
+        <div className="mt-5 text-sm text-gray-600">
+          {activeRow.note}
+        </div>
       </div>
 
-      {/* --- CONTENT SECTIONS (STACKED) --- */}
-      <div>
+      <div id="homepage-origin-panel" role="tabpanel" aria-labelledby={`tab-${activeRow.key}`}>
         <TourCarouselRow
-          ref={surabayaRef}
-          title="Tours From Surabaya"
-          tours={surabayaTours}
-        />
-        
-        <TourCarouselRow
-          ref={baliRef}
-          title="Tours From Bali"
-          tours={baliTours}
+          title={activeRow.label}
+          tours={activeRow.tours}
+          hubHref={activeRow.hubHref}
         />
       </div>
 
-      {/* --- FOOTER CTA --- */}
       <div className="text-center container mx-auto px-6">
         <Link
           href="/tours"

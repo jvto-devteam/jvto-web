@@ -1,6 +1,11 @@
 // src/app/api/site-identity/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import {
+  normalizeBrandPositioning,
+  normalizeFounder,
+  normalizeSiteIdentitySchema,
+} from "@/lib/content/siteIdentityDefaults";
 
 type RegistrationId = {
   label: string;
@@ -11,21 +16,6 @@ type RegistrationId = {
 type PaymentAccount = {
   label: string;
   accountDetails: string;
-};
-type OfficeAddress = {
-  street?: string;
-  city?: string;
-  operating_hours?: string;
-};
-
-type Founder = {
-  name?: string;
-  known_as?: string;
-  full_name?: string;
-  role_in_JVTO?: string;
-  status_dinas?: string;
-  public_mission_statement?: string;
-  social_role?: string;
 };
 type ValuePropositions = {
   safety_leadership?: string;
@@ -66,6 +56,14 @@ type SiteIdentityResponse = {
 };
 
 function serializeSiteIdentity(data: any): SiteIdentityResponse {
+  const founder = normalizeFounder(data.founder, data.brand_name);
+  const brandPositioning = normalizeBrandPositioning(data.brand_positioning);
+  const orgSchema = normalizeSiteIdentitySchema(
+    data.org_schema_json_ld,
+    founder,
+    brandPositioning,
+  );
+
   return {
     ...data,
     official_emails: Array.isArray(data.official_emails)
@@ -86,8 +84,9 @@ function serializeSiteIdentity(data: any): SiteIdentityResponse {
       : [],
     office_address: data.office_address ?? null,
     google_business_profile_url: data.google_business_profile_url ?? null,
-    founder: data.founder ?? null,
-    brand_positioning: data.brand_positioning ?? null,
+    founder,
+    brand_positioning: brandPositioning,
+    org_schema_json_ld: orgSchema,
     created_at: data.created_at ? data.created_at.toISOString() : null,
     updated_at: data.updated_at ? data.updated_at.toISOString() : null,
   };

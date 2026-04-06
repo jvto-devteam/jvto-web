@@ -220,7 +220,7 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
     category: "Payment & Booking",
     title: "Booking & Confirmation Process",
     content: `Booking is confirmed through a clear process:
-* **Step 1: Select Tour & Pay Deposit:** Choose a tour on our website and pay a 20% deposit via our secure gateway. For bookings less than 14 days away, 100% payment may be required.
+* **Step 1: Select Tour & Pay Deposit:** Choose a tour on our website and pay a 20% deposit via our secure gateway when Day 1 is still more than 7 days away. For bookings within 7 days of Day 1, 100% payment may be required, and the most urgent requests may move to manual verification.
 * **Step 2: Receive E-Voucher:** Upon payment, you will receive an Official E-Voucher. Your booking is only confirmed once this is issued.
 * **Step 3: Submit Details:** At least 48 hours before Day 1, submit pickup details via the secure link provided.
 * **Step 4: Pay Remaining Balance:** Settle the balance by the deadline.`,
@@ -241,7 +241,7 @@ Our physical office is located at Jl. Khairil Anwar No.102 A, Badean, Bondowoso,
     category: "Payment & Booking",
     title: "Payment Terms and Deposit",
     content:
-      "A **20% deposit** is required to secure your tour. For **bookings made less than 14 days before departure, 100% full payment** is required upfront. Missing a payment deadline can result in booking cancellation.",
+      "A **20% deposit** is required to secure your tour when Day 1 is still more than 7 days away. For **bookings made within 7 days of Day 1, 100% full payment** can be required upfront, and the most urgent requests may move to manual verification. Missing a payment deadline can result in booking cancellation.",
     tags: [
       "payment",
       "terms",

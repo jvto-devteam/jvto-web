@@ -1,32 +1,13 @@
 import Link from "next/link";
 import { Activity, ArrowRight, BookOpen, HelpCircle, WalletCards } from "lucide-react";
+import { homepageSupportGatewayDoctrine } from "@/lib/homepage/homepageDoctrine";
 
-const guideCards = [
-  {
-    href: "/travel-guide/booking-information",
-    title: "Booking Information",
-    copy: "Deposits, timing, and how the booking process actually works before payment.",
-    Icon: WalletCards,
-  },
-  {
-    href: "/travel-guide/ijen-health-screening",
-    title: "Ijen Screening",
-    copy: "Medical clearance and QR logic explained before you commit to an Ijen route.",
-    Icon: Activity,
-  },
-  {
-    href: "/travel-guide",
-    title: "Prepare & Book",
-    copy: "Use the support hub when you need packing, route readiness, and practical answers in one place.",
-    Icon: BookOpen,
-  },
-  {
-    href: "/contact",
-    title: "Need A Human Answer?",
-    copy: "If the route fits but you still have a question, contact JVTO directly before paying a deposit.",
-    Icon: HelpCircle,
-  },
-] as const;
+const iconMap = {
+  wallet: WalletCards,
+  activity: Activity,
+  book: BookOpen,
+  help: HelpCircle,
+} as const;
 
 const TravelGuideTeaser: React.FC = () => {
   return (
@@ -39,55 +20,54 @@ const TravelGuideTeaser: React.FC = () => {
             <div className="mb-6 inline-flex items-center gap-3 text-jvto-green">
               <BookOpen className="h-7 w-7" />
               <span className="text-sm font-bold uppercase tracking-[0.24em]">
-                Prepare &amp; Book
+                {homepageSupportGatewayDoctrine.eyebrow}
               </span>
             </div>
 
             <h2 className="text-3xl font-black uppercase leading-tight md:text-5xl">
-              Review the route support
-              <br />
-              before you pay.
+              {homepageSupportGatewayDoctrine.title}
             </h2>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-300">
-              JVTO should not force guests to click around blindly after they are
-              already emotionally sold. Booking information, Ijen readiness,
-              safety context, and practical guidance belong close to the decision.
+              {homepageSupportGatewayDoctrine.copy}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/travel-guide"
-                className="inline-flex items-center gap-2 bg-jvto-green px-8 py-3 text-sm font-black uppercase tracking-widest text-jvto-dark transition-colors hover:bg-white"
-              >
-                Open Prepare &amp; Book
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/policy"
-                className="inline-flex items-center gap-2 border border-white/20 px-8 py-3 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/10"
-              >
-                Policies &amp; Rules
-              </Link>
+              {homepageSupportGatewayDoctrine.actions.map((action) => (
+                <Link
+                  key={action.label}
+                  href={action.href}
+                  className={
+                    action.variant === "primary"
+                      ? "inline-flex items-center gap-2 bg-jvto-green px-8 py-3 text-sm font-black uppercase tracking-widest text-jvto-dark transition-colors hover:bg-white"
+                      : "inline-flex items-center gap-2 border border-white/20 px-8 py-3 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/10"
+                  }
+                >
+                  {action.label}
+                  {action.variant === "primary" ? <ArrowRight className="h-4 w-4" /> : null}
+                </Link>
+              ))}
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {guideCards.map(({ href, title, copy, Icon }) => (
+            {homepageSupportGatewayDoctrine.cards.map((card) => {
+              const Icon = iconMap[card.icon];
+              return (
               <Link
-                key={title}
-                href={href}
+                key={card.title}
+                href={card.href}
                 className="group rounded-sm border border-white/10 bg-white/5 p-6 transition-all duration-200 hover:-translate-y-1 hover:bg-white/8"
               >
                 <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-jvto-green/15 text-jvto-green">
                   <Icon className="h-5 w-5" />
                 </span>
                 <h3 className="text-lg font-black uppercase tracking-wide transition-colors group-hover:text-jvto-green">
-                  {title}
+                  {card.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-gray-300">{copy}</p>
+                <p className="mt-3 text-sm leading-6 text-gray-300">{card.copy}</p>
               </Link>
-            ))}
+            )})}
           </div>
         </div>
       </div>

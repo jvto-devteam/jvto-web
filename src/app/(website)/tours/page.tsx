@@ -3,12 +3,16 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursHubIntro from "@/components/website/Tours/ToursHubIntro";
 import ToursSupportGrid from "@/components/website/Tours/ToursSupportGrid";
 import ToursCatalogShell from "@/components/website/Tours/ToursCatalogShell";
+import ToursFamilyGuide from "@/components/website/Tours/ToursFamilyGuide";
 import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan path
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPackageUrl } from "@/lib/packages/packagePaths";
 import { getWebTourList } from "@/lib/packages/webTourList";
+import { getTourFamilyGuideItems } from "@/lib/packages/tourFamily";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -16,10 +20,10 @@ import {
 export const revalidate = 3600;
 
 const fallbackSeo = {
-  title: "All Private Tours | East Java & Bali Adventures",
-  h1: "All Destinations Tours",
+  title: "Private East Java Tours: Surabaya & Bali Departures",
+  h1: "Private East Java Tours: Surabaya & Bali Departures",
   description:
-    "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
+    "Browse JVTO private East Java tour packages from Surabaya and Bali with product-first discovery, clear route differences, and official operator support before booking.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,9 +46,8 @@ export default async function ToursPageGlobal() {
     getAllTours(),
     getOrganizationProfile(),
   ]);
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://javavolcano-touroperator.com";
+  const familyGuideItems = getTourFamilyGuideItems(initialTours);
+  const siteUrl = BASE_URL;
   const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
   const siteNode = buildWebSiteJsonLd(siteUrl);
 
@@ -70,7 +73,7 @@ export default async function ToursPageGlobal() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://javavolcano-touroperator.com/",
+            item: `${siteUrl}/`,
           },
           {
             "@type": "ListItem",
@@ -88,7 +91,7 @@ export default async function ToursPageGlobal() {
         itemListElement: initialTours.map((tour, index) => ({
           "@type": "ListItem",
           position: index + 1,
-          url: `${siteUrl}/${tour.slug}`,
+          url: getPackageUrl(tour.slug),
           name: tour.name,
         })),
       },
@@ -144,6 +147,12 @@ export default async function ToursPageGlobal() {
               icon: "trust",
             },
           ]}
+        />
+        <ToursFamilyGuide
+          eyebrow="Package doctrine"
+          title="Compare route families before comparing price."
+          copy="The catalog should separate route families first. A 1-day Bromo run, a focused Ijen package, a flagship 3-day loop, and an overland East Java journey are not the same commercial product."
+          items={familyGuideItems}
         />
         <ToursCatalogShell
           eyebrow="Compare routes"

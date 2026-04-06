@@ -1,6 +1,7 @@
 import { Star, Clock, MapPin, ArrowRight } from "lucide-react";
-import { TourPackage, Difficulty } from "@/typesNew";
+import { Difficulty } from "@/types";
 import { ListTourPackage } from "@/types";
+import { getPackagePath } from "@/lib/packages/packagePaths";
 import { formatPrice } from "@/services/mockData";
 import Button from "../UI/Button";
 import Image from "next/image";
@@ -15,6 +16,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
     [Difficulty.MODERATE]: "bg-yellow-500",
     [Difficulty.CHALLENGING]: "bg-red-500",
   };
+
+  const fullTourSlug = getPackagePath(tour.slug);
 
   return (
     <div className="group flex flex-col h-full bg-white shadow-sm hover:shadow-md transition-shadow duration-300 relative rounded-sm overflow-hidden">
@@ -108,10 +111,13 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
               <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wide">
-                Starting From
+                From
               </span>
               <span className="font-black text-lg text-jvto-dark">
                 {formatPrice(tour.startFrom)}
+              </span>
+              <span className="mt-1 text-[11px] leading-relaxed text-gray-500">
+                2-pax reference. Larger groups pay less per person.
               </span>
             </div>
 
@@ -123,7 +129,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
 
           {/* Button */}
           <Button
-            to={`/${tour.slug}`}
+            to={fullTourSlug}
             variant="outline"
             size="sm"
             className="w-full group-hover:bg-jvto-dark group-hover:text-white group-hover:border-jvto-dark transition-all"

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { calculateInitialPaymentAmount } from "@/lib/packages/paymentPolicy";
 
 // Helper untuk menangani BigInt saat convert ke JSON
 function serializeBooking(booking: any) {
@@ -122,7 +123,7 @@ export async function POST(req: NextRequest) {
       const packageTotal = Number(pricePerPerson) * Number(pax);
       const totalBeforeDiscount = packageTotal + totalAddOn;
       const grandTotal = totalBeforeDiscount; // Discount 0
-      const depositAmount = Math.ceil(grandTotal * 0.2); // 20% Deposit
+      const depositAmount = calculateInitialPaymentAmount(date, grandTotal);
 
       const depositDueDate = new Date();
       depositDueDate.setDate(depositDueDate.getDate() + 1); // +1 Hari dari sekarang

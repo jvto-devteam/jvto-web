@@ -3,12 +3,16 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursHubIntro from "@/components/website/Tours/ToursHubIntro";
 import ToursSupportGrid from "@/components/website/Tours/ToursSupportGrid";
 import ToursCatalogShell from "@/components/website/Tours/ToursCatalogShell";
+import ToursFamilyGuide from "@/components/website/Tours/ToursFamilyGuide";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPackageUrl } from "@/lib/packages/packagePaths";
 import { getWebTourList } from "@/lib/packages/webTourList";
+import { getTourFamilyGuideItems } from "@/lib/packages/tourFamily";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -16,10 +20,10 @@ import {
 export const revalidate = 3600;
 
 const fallbackSeo = {
-  title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
-  h1: "Surabaya Tours",
+  title: "Private East Java Tours from Surabaya",
+  h1: "Private Tours from Surabaya",
   description:
-    "Explore East Java starting from Surabaya. Best private tours to Mount Bromo sunrise, Ijen Blue Fire, and Madakaripura Waterfall. All-inclusive & hassle-free.",
+    "Explore private tours from Surabaya with proof-backed operator context, clear route differences, and official support before booking.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,9 +46,8 @@ export default async function ToursPageSurabaya() {
     getToursFromSurabaya(),
     getOrganizationProfile(),
   ]);
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://javavolcano-touroperator.com";
+  const familyGuideItems = getTourFamilyGuideItems(initialTours);
+  const siteUrl = BASE_URL;
   const pageUrl = `${siteUrl}/tours/from-surabaya`;
   const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
   const siteNode = buildWebSiteJsonLd(siteUrl);
@@ -100,7 +103,7 @@ export default async function ToursPageSurabaya() {
         itemListElement: initialTours.map((tour, index) => ({
           "@type": "ListItem",
           position: index + 1,
-          url: `${siteUrl}/${tour.slug}`,
+          url: getPackageUrl(tour.slug),
           name: tour.name,
         })),
       },
@@ -157,14 +160,20 @@ export default async function ToursPageSurabaya() {
             },
           ]}
         />
+        <ToursFamilyGuide
+          eyebrow="Surabaya route families"
+          title="Use family logic before route-by-route comparison."
+          copy="Surabaya is where the biggest family spread lives: overnight-efficiency Bromo, focused Ijen, flagship 3-day loops, broader overlands, and the family-paced safari route. Those should not collapse into one generic list."
+          items={familyGuideItems}
+        />
         <ToursCatalogShell
           eyebrow="Compare Surabaya routes"
           title="Shortlist by route seriousness, not by headline alone."
           description="Surabaya departures can range from easy Bromo-focused entries to longer East Java overlands. Use the browser below to separate timing, route density, and Ijen readiness before discussing dates."
           bullets={[
             "Best for mainland airport logic",
-            "Useful for longer overland structures",
-            "Strongest route range in one hub",
+            "Route order changes fatigue and handoff logic",
+            "Strongest family spread in one hub",
           ]}
         >
           <ToursPageClient 

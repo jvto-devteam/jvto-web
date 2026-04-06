@@ -13,68 +13,22 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import HubSectionFrame from "@/components/website/HubSectionFrame";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import {
+  extractHubIntro,
+  travelGuideHubDoctrine,
+} from "@/lib/trust/trustSupportDoctrine";
 
-const fallbackSeo = {
-  title: "Travel Guide — Booking, Safety & Practical Info | Java Volcano Tour Operator",
-  h1: "Prepare & Book",
-  description:
-    "Use the JVTO support layer before payment: booking information, Ijen screening, weather and closures, packing, route safety, and other practical decisions.",
-};
-
-const guideCards = [
-  {
-    title: "Booking Information",
-    copy:
-      "Read the booking flow, payment logic, and what to expect before you confirm a private route.",
-    href: "/travel-guide/booking-information",
-    icon: CreditCard,
-  },
-  {
-    title: "Ijen Health Screening",
-    copy:
-      "Understand the medical seriousness of Ijen and how screening is used before ascent.",
-    href: "/travel-guide/ijen-health-screening",
-    icon: Stethoscope,
-  },
-  {
-    title: "Safety on Tours",
-    copy:
-      "See how route decisions, driver handling, and field judgment work once conditions change on the ground.",
-    href: "/travel-guide/safety-on-tours",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Packing & Fitness",
-    copy:
-      "Use this page to check route fit, footwear, layers, and realistic physical readiness.",
-    href: "/travel-guide/packing-and-fitness",
-    icon: Backpack,
-  },
-  {
-    title: "Weather & Closures",
-    copy:
-      "Read how JVTO checks MAGMA / PVMBG and local access conditions when weather or volcanic status affects a route.",
-    href: "/travel-guide/weather-and-closures",
-    icon: CloudSun,
-  },
-  {
-    title: "Police Escort for Groups",
-    copy:
-      "A narrow but important route for larger movements that need formal coordination rather than informal promises.",
-    href: "/travel-guide/police-escort-for-groups",
-    icon: Activity,
-  },
-];
-
-const supportPrinciples = [
-  "The package page should carry the main commercial decision.",
-  "This cluster exists to remove route uncertainty before payment.",
-  "Ijen-related guidance should be read as operational readiness, not generic travel inspiration.",
-  "Weather and closure logic follows official signals plus field reality, including MAGMA / PVMBG and local access rules.",
-];
+const iconMap = {
+  card: CreditCard,
+  stethoscope: Stethoscope,
+  shield: ShieldCheck,
+  backpack: Backpack,
+  weather: CloudSun,
+  activity: Activity,
+} as const;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/travel-guide", fallbackSeo);
+  const seo = await getPageSeo("/travel-guide", travelGuideHubDoctrine.fallbackSeo);
   return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
@@ -85,7 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TravelGuideHubPage() {
-  const seo = await getPageSeo("/travel-guide", fallbackSeo);
+  const seo = await getPageSeo("/travel-guide", travelGuideHubDoctrine.fallbackSeo);
+  const content = (seo.row?.content as Record<string, unknown> | null) ?? null;
+  const intro = extractHubIntro(content, seo.description);
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -117,28 +73,29 @@ export default async function TravelGuideHubPage() {
             <div className="max-w-3xl">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-lime-300 bg-lime-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-lime-800">
                 <ShieldCheck className="h-3.5 w-3.5" />
-                Prepare & Book
+                {travelGuideHubDoctrine.eyebrow}
               </div>
               <h1 className="text-4xl font-black tracking-tight text-stone-950 md:text-6xl">
                 {seo.h1}
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-stone-600 md:text-lg">
-                {seo.description}
+                {intro}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/travel-guide/booking-information"
-                  className="inline-flex items-center gap-2 rounded-sm bg-black px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-stone-800"
-                >
-                  Read Booking Information
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/tours"
-                  className="inline-flex items-center gap-2 rounded-sm border border-stone-300 px-5 py-3 text-sm font-bold uppercase tracking-wide text-stone-900 transition hover:border-stone-400 hover:bg-stone-50"
-                >
-                  Back to Tours
-                </Link>
+                {travelGuideHubDoctrine.actions.map((action) => (
+                  <Link
+                    key={action.href}
+                    href={action.href}
+                    className={
+                      action.variant === "primary"
+                        ? "inline-flex items-center gap-2 rounded-sm bg-black px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-stone-800"
+                        : "inline-flex items-center gap-2 rounded-sm border border-stone-300 px-5 py-3 text-sm font-bold uppercase tracking-wide text-stone-900 transition hover:border-stone-400 hover:bg-stone-50"
+                    }
+                  >
+                    {action.label}
+                    {action.variant === "primary" ? <ArrowRight className="h-4 w-4" /> : null}
+                  </Link>
+                ))}
               </div>
             </div>
 
@@ -147,7 +104,7 @@ export default async function TravelGuideHubPage() {
                 What this cluster is for
               </p>
               <div className="mt-4 space-y-3">
-                {supportPrinciples.map((item) => (
+                {travelGuideHubDoctrine.supportPrinciples.map((item) => (
                   <div key={item} className="flex gap-3 rounded-xl bg-white p-4 shadow-sm">
                     <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-lime-700" />
                     <p className="text-sm leading-6 text-stone-700">{item}</p>
@@ -164,8 +121,8 @@ export default async function TravelGuideHubPage() {
           description="This cluster should feel practical, not decorative. Open the route that answers the question blocking the booking decision right now."
         >
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {guideCards.map((item) => {
-              const Icon = item.icon;
+            {travelGuideHubDoctrine.guideCards.map((item) => {
+              const Icon = iconMap[item.icon];
               return (
                 <Link
                   key={item.href}

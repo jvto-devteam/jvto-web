@@ -7,10 +7,10 @@ import { buildVerifySubpageSchema } from "../schema";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
-  title: "Verify: History Artifacts",
-  h1: "History Artifacts",
+  title: "History Artifacts – Documented JVTO Origins Since 2015 | JVTO",
+  h1: "History Artifacts: Documented Origins Since 2015",
   description:
-    "Historical records and artifacts related to JVTO's operations and legacy.",
+    "Physical and documentary proof of JVTO's origins: Booking.com Guest Review Award 2015, Stefan Loose guidebook 2016, and continuous operation records.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

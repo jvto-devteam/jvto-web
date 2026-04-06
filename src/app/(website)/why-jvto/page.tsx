@@ -14,97 +14,22 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import HubSectionFrame from "@/components/website/HubSectionFrame";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import {
+  extractHubIntro,
+  whyJvtoHubDoctrine,
+} from "@/lib/trust/trustSupportDoctrine";
 
-const fallbackSeo = {
-  title: "Why Choose Java Volcano Tour Operator",
-  h1: "Why JVTO",
-  description:
-    "Understand why travelers choose JVTO for private East Java routes: police-led safety culture, route discipline, real Ijen screening, and proof you can verify before payment.",
-};
-
-const trustCards = [
-  {
-    title: "The JVTO Difference",
-    copy:
-      "See how route seriousness, private-only operations, and documented safety handling shape the whole company.",
-    href: "/why-jvto/the-jvto-difference",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Our Story",
-    copy:
-      "Trace the company story, historical continuity, and why the operation is more documented than most local tour businesses.",
-    href: "/why-jvto/our-story",
-    icon: BookOpen,
-  },
-  {
-    title: "Our Team",
-    copy:
-      "Meet the named local crew behind route execution, field handling, and guest support.",
-    href: "/why-jvto/our-team",
-    icon: Users,
-  },
-  {
-    title: "Reviews",
-    copy:
-      "Read what independent platforms say about safety, handling, logistics, and real guest experience.",
-    href: "/why-jvto/reviews",
-    icon: Star,
-  },
-  {
-    title: "Verify JVTO",
-    copy:
-      "Move from claims to proof through legal, safety, press, and history routes that can actually be checked.",
-    href: "/verify-jvto",
-    icon: Search,
-  },
-  {
-    title: "Prepare & Book",
-    copy:
-      "Use the support layer for route fit, health readiness, weather rules, and payment clarity before booking.",
-    href: "/travel-guide",
-    icon: Fingerprint,
-  },
-];
-
-const principles = [
-  "Private tours only, so route handling stays coherent from pickup to finish.",
-  "Ijen is treated as a real health and access decision, not just a photo opportunity.",
-  "Proof is published in owner routes so guests can verify before payment.",
-  "The support layer exists to reduce uncertainty before booking, not after something goes wrong.",
-];
-
-const fallbackFaq = [
-  {
-    q: "Do you mix strangers in one car?",
-    a: "No. JVTO runs private tours only.",
-  },
-  {
-    q: "Where can I check legal and safety proof?",
-    a: "Open Verify JVTO to inspect the company’s proof categories and supporting documents.",
-  },
-  {
-    q: "Where should I read route readiness rules before payment?",
-    a: "Use Prepare & Book for Ijen screening, weather, packing, and booking information.",
-  },
-];
-
-function extractIntro(content: Record<string, any> | null, fallback: string) {
-  if (!content) return fallback;
-  if (typeof content.lede === "string" && content.lede.trim()) return content.lede;
-  if (Array.isArray(content.lede) && content.lede.length > 0) {
-    return content.lede
-      .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
-      .join(" ");
-  }
-  if (typeof content.hero_subhead === "string" && content.hero_subhead.trim()) {
-    return content.hero_subhead;
-  }
-  return fallback;
-}
+const iconMap = {
+  shield: ShieldCheck,
+  book: BookOpen,
+  users: Users,
+  star: Star,
+  search: Search,
+  fingerprint: Fingerprint,
+} as const;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/why-jvto", fallbackSeo);
+  const seo = await getPageSeo("/why-jvto", whyJvtoHubDoctrine.fallbackSeo);
   return buildWebsiteMetadata({
     title: seo.title,
     description: seo.description,
@@ -115,10 +40,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function WhyJvtoPage() {
-  const seo = await getPageSeo("/why-jvto", fallbackSeo);
+  const seo = await getPageSeo("/why-jvto", whyJvtoHubDoctrine.fallbackSeo);
   const content = (seo.row?.content as Record<string, any> | null) ?? null;
-  const intro = extractIntro(content, seo.description);
-  const faq = Array.isArray(content?.faq) && content.faq.length > 0 ? content.faq : fallbackFaq;
+  const intro = extractHubIntro(content, seo.description);
+  const faq =
+    Array.isArray(content?.faq) && content.faq.length > 0
+      ? content.faq
+      : whyJvtoHubDoctrine.fallbackFaq;
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -151,7 +79,7 @@ export default async function WhyJvtoPage() {
             <div className="max-w-3xl">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-lime-300 bg-lime-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-lime-800">
                 <ShieldCheck className="h-3.5 w-3.5" />
-                Trust & Authority
+                {whyJvtoHubDoctrine.eyebrow}
               </div>
               <h1 className="max-w-3xl text-4xl font-black tracking-tight text-stone-950 md:text-6xl">
                 {seo.h1}
@@ -160,24 +88,25 @@ export default async function WhyJvtoPage() {
                 {intro}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/verify-jvto"
-                  className="inline-flex items-center gap-2 rounded-sm bg-black px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-stone-800"
-                >
-                  Verify JVTO
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/travel-guide"
-                  className="inline-flex items-center gap-2 rounded-sm border border-stone-300 px-5 py-3 text-sm font-bold uppercase tracking-wide text-stone-900 transition hover:border-stone-400 hover:bg-stone-50"
-                >
-                  Open Prepare & Book
-                </Link>
+                {whyJvtoHubDoctrine.actions.map((action) => (
+                  <Link
+                    key={action.href}
+                    href={action.href}
+                    className={
+                      action.variant === "primary"
+                        ? "inline-flex items-center gap-2 rounded-sm bg-black px-5 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-stone-800"
+                        : "inline-flex items-center gap-2 rounded-sm border border-stone-300 px-5 py-3 text-sm font-bold uppercase tracking-wide text-stone-900 transition hover:border-stone-400 hover:bg-stone-50"
+                    }
+                  >
+                    {action.label}
+                    {action.variant === "primary" ? <ArrowRight className="h-4 w-4" /> : null}
+                  </Link>
+                ))}
               </div>
             </div>
 
             <div className="grid gap-3 rounded-2xl border border-stone-200 bg-stone-50 p-5 text-sm text-stone-700 sm:grid-cols-2 lg:w-[26rem]">
-              {principles.map((item) => (
+              {whyJvtoHubDoctrine.principles.map((item) => (
                 <div key={item} className="flex gap-3 rounded-xl bg-white p-4 shadow-sm">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-lime-700" />
                   <p className="leading-6">{item}</p>
@@ -193,8 +122,8 @@ export default async function WhyJvtoPage() {
           description="These routes explain who runs the company, what makes the operation different, and where the proof lives when you want to verify it yourself."
         >
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {trustCards.map((item) => {
-              const Icon = item.icon;
+            {whyJvtoHubDoctrine.trustCards.map((item) => {
+              const Icon = iconMap[item.icon];
               return (
                 <Link
                   key={item.href}
@@ -237,11 +166,7 @@ export default async function WhyJvtoPage() {
                 Read next
               </p>
               <div className="mt-4 space-y-3">
-                {[
-                  { href: "/tours", label: "Explore private tours" },
-                  { href: "/travel-guide/booking-information", label: "Read booking information" },
-                  { href: "/travel-guide/ijen-health-screening", label: "Understand Ijen health screening" },
-                ].map((item) => (
+                {whyJvtoHubDoctrine.readNext.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}

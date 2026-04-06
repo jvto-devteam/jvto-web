@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, MessageCircle, Search } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
+import { homepageFinalCtaDoctrine } from "@/lib/homepage/homepageDoctrine";
 
 const HomeFinalCta: React.FC = () => {
   return (
@@ -8,48 +9,33 @@ const HomeFinalCta: React.FC = () => {
 
       <div className="container relative z-10 mx-auto px-6 text-center">
         <p className="text-xs font-black uppercase tracking-[0.24em] text-jvto-green">
-          JVTO · East Java Private Tours
+          {homepageFinalCtaDoctrine.eyebrow}
         </p>
         <h2 className="mt-4 text-4xl font-black uppercase leading-tight md:text-6xl">
-          Browse routes.
+          {homepageFinalCtaDoctrine.lines[0]}
           <br />
-          Check the proof.
+          {homepageFinalCtaDoctrine.lines[1]}
           <br />
-          <span className="text-jvto-green">Book with confidence.</span>
+          <span className="text-jvto-green">{homepageFinalCtaDoctrine.lines[2]}</span>
         </h2>
         <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-300">
-          The right flow is simple: explore the route, verify the operator, then
-          move into booking with support pages already connected to the decision.
+          {homepageFinalCtaDoctrine.copy}
         </p>
 
         <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:flex-wrap">
           <Link
-            href="/tours"
+            href={homepageFinalCtaDoctrine.actions[0].href}
             className="inline-flex items-center justify-center gap-2 bg-jvto-green px-7 py-4 text-sm font-black uppercase tracking-widest text-jvto-dark transition-colors hover:bg-white"
           >
             <Search className="h-4 w-4" />
-            View All Tours
+            {homepageFinalCtaDoctrine.actions[0].label}
           </Link>
           <Link
-            href="/verify-jvto"
+            href={homepageFinalCtaDoctrine.actions[1].href}
             className="inline-flex items-center justify-center gap-2 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/10"
           >
-            Open Proof Library
+            {homepageFinalCtaDoctrine.actions[1].label}
             <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/travel-guide"
-            className="inline-flex items-center justify-center gap-2 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/10"
-          >
-            Prepare &amp; Book
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 border border-white/20 px-7 py-4 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/10"
-          >
-            <MessageCircle className="h-4 w-4" />
-            Ask JVTO
           </Link>
         </div>
       </div>

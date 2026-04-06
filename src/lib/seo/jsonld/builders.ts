@@ -111,6 +111,18 @@ function asArray<T>(value: T | T[] | null | undefined): T[] {
   return Array.isArray(value) ? value : [value];
 }
 
+function normalizeBusinessRuleText(value: string) {
+  if (!value) return value;
+
+  return value
+    .replace(/within 14 days of booking/gi, "within 7 days of booking")
+    .replace(/within 14 calendar days of booking/gi, "within 7 calendar days of booking")
+    .replace(/within 14 days of Day 1/gi, "within 7 days of Day 1")
+    .replace(/within 14 calendar days of Day 1/gi, "within 7 calendar days of Day 1")
+    .replace(/14 calendar days/gi, "7 calendar days")
+    .replace(/14 days/gi, "7 days");
+}
+
 function nodeTypes(node: Record<string, any>) {
   const type = node["@type"];
   if (Array.isArray(type)) return type.filter((item) => typeof item === "string");
@@ -124,7 +136,7 @@ function isGlobalSchemaNode(node: Record<string, any>) {
 // ─── Breadcrumb ───────────────────────────────────────────────────────────────
 
 const LABEL_MAP: Record<string, string> = {
-  "travel-guide": "Travel Guide",
+  "travel-guide": "Prepare & Book",
   policy: "Policy",
   "why-jvto": "Why JVTO",
   destinations: "Destinations",
@@ -202,7 +214,8 @@ export function buildOrganizationJsonLd(
       return org.schema_json["@graph"];
     }
     
-    const { "@context": _ctx, ...rest } = org.schema_json as any;
+    const rest = { ...(org.schema_json as any) };
+    delete rest["@context"];
     return rest;
   }
 
@@ -337,7 +350,10 @@ export function buildFaqJsonLdFromContent(
     .map((x) => ({
       "@type": "Question",
       name: x.q.trim(),
-      acceptedAnswer: { "@type": "Answer", text: x.a.trim() },
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: normalizeBusinessRuleText(x.a.trim()),
+      },
     }));
 
   if (!mainEntity.length) return null;

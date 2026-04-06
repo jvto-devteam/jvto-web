@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Home, Search, ShieldCheck } from "lucide-react";
 import { getContentPage } from "@/lib/content/getContentPage";
+import { getWhyJvtoSsotFallback } from "@/lib/content/whyJvtoSsotFallback";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
@@ -12,7 +13,7 @@ import Sidebar from "../sidebar";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string[] }>;
 };
 
 const slugMeta: Record<
@@ -104,7 +105,9 @@ function SectionNav({
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
+  const slugPath = slug.join("/");
+  const route = `/why-jvto/${slugPath}`;
+  const row = (await getContentPage(route, "en")) ?? getWhyJvtoSsotFallback(route);
   if (!row) return { title: "Page Not Found" };
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const content = (row.content as Record<string, any> | null) ?? {};
@@ -112,7 +115,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ...buildWebsiteMetadata({
       title: seo.title ?? content.h1 ?? row.route,
       description: seo.description ?? content?.hero_subhead ?? content?.h1 ?? "Why JVTO page",
-      path: `/why-jvto/${slug}`,
+      path: route,
       image: "/assets/img/og/why-jvto.webp",
       imageAlt: content.h1 ?? "Why JVTO page",
     }),
@@ -121,13 +124,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
+  const slugPath = slug.join("/");
+  const route = `/why-jvto/${slugPath}`;
+  const row = (await getContentPage(route, "en")) ?? getWhyJvtoSsotFallback(route);
   if (!row) return notFound();
 
   const content = row.content as any;
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
-  const meta = getMeta(slug);
+  const primarySlug = slug[0] ?? "";
+  const meta = getMeta(primarySlug);
 
   return (
     <div className="flex min-h-screen bg-stone-50">

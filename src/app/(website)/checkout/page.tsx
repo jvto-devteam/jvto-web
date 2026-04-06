@@ -5,6 +5,22 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import {
+  BALANCE_DEADLINE_RULE_COPY,
+  getDaysUntilTrip,
+  getInitialPaymentMode,
+  getPaymentLogicNarrative,
+} from "@/lib/packages/paymentPolicy";
+import {
+  buildCheckoutPricingAudit,
+  buildCheckoutPricingSnapshot,
+  type CheckoutAddOnLine,
+} from "@/lib/packages/checkoutPricingContract";
+import {
+  formatPriceTierRange,
+  getLowestTierPrice,
+  getMatchingPriceTier,
+} from "@/lib/packages/priceTiers";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -14,58 +30,13 @@ function formatCurrency(value: number) {
   return `IDR ${Math.round(value).toLocaleString("id-ID")}`;
 }
 
-function getPriceForPax(pax: number, tiers: any[]) {
-  if (!tiers || !tiers.length) return null;
-  const tier = tiers.find((t: any) => {
-    const minOk = pax >= t.paxMin;
-    const maxOk = t.paxMax === 0 ? true : pax <= t.paxMax;
-    return minOk && maxOk;
-  });
-  return tier ? tier.pricePerPerson : null;
-}
-function getDaysUntilTrip(dateStr: string): number {
-  if (!dateStr) return 0;
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const tripDate = new Date(y, m - 1, d);
-  tripDate.setHours(0, 0, 0, 0);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const diffTime = tripDate.getTime() - today.getTime();
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}
-
-function calculateDownPayment(dateStr: string, total: number) {
-  const diffDays = getDaysUntilTrip(dateStr);
-
-  // RULE: >= 14 Days -> DP 20%
-  if (diffDays >= 14) {
-    return Math.ceil(total * 0.2);
-  }
-
-  // RULE: < 14 Days (including < 6) -> Full Payment (100%)
-  return total;
-}
-// --- HELPER: Hitung Diskon FOC ---
-function calculateFOCDiscount(pax: number, pricePerPerson: number) {
-  if (pax >= 50) {
-    return { amount: pricePerPerson * 3, label: "FOC: 3 Pax Free" };
-  } else if (pax >= 34) {
-    return { amount: pricePerPerson * 2, label: "FOC: 2 Pax Free" };
-  } else if (pax >= 18) {
-    return { amount: pricePerPerson * 1, label: "FOC: 1 Pax Free" };
-  }
-  return { amount: 0, label: "" };
-}
-
 interface ContactDetails {
   email: string;
   phone: string;
   customerName: string;
 }
 
-interface AddOn {
+interface AddOn extends CheckoutAddOnLine {
   addOnId: string;
   label: string;
   price: number;
@@ -109,20 +80,6 @@ function recalculateTotals(
   payload: CheckoutPayload,
   newPax: number,
 ): CheckoutPayload {
-  const newPricePerPerson = getPriceForPax(newPax, payload.priceTiers);
-  const newPackageTotal = newPricePerPerson ? newPricePerPerson * newPax : 0;
-
-  // 1. Hitung Diskon
-  let discountAmount = 0;
-  let discountLabel = "";
-
-  if (newPricePerPerson) {
-    const discount = calculateFOCDiscount(newPax, newPricePerPerson);
-    discountAmount = discount.amount;
-    discountLabel = discount.label;
-  }
-
-  // 2. Hitung Addons
   let newAddonTotal = 0;
   let updatedAddons: AddOn[] = [];
 
@@ -137,26 +94,25 @@ function recalculateTotals(
     });
   }
 
-  // 3. Grand Total (dikurangi diskon, tidak boleh minus)
-  const newGrandTotal = Math.max(
-    0,
-    newPackageTotal + newAddonTotal - discountAmount,
-  );
-
-  const newDownPayment = calculateDownPayment(payload.date, newGrandTotal);
+  const pricing = buildCheckoutPricingSnapshot({
+    pax: newPax,
+    date: payload.date,
+    priceTiers: payload.priceTiers,
+    addonLines: updatedAddons,
+  });
 
   return {
     ...payload,
     pax: newPax,
-    pricePerPerson: newPricePerPerson,
-    packageTotal: newPackageTotal,
-    grandTotal: newGrandTotal,
+    pricePerPerson: pricing.pricePerPerson,
+    packageTotal: pricing.totalPackage,
+    grandTotal: pricing.grandTotal,
     addon: updatedAddons,
-    totalDiscount: discountAmount,
-    discountLabel: discountLabel,
-    totalPackage: newPackageTotal,
+    totalDiscount: pricing.totalDiscount,
+    discountLabel: pricing.discountLabel,
+    totalPackage: pricing.totalPackage,
     totalAddons: newAddonTotal,
-    downPayment: newDownPayment,
+    downPayment: pricing.downPayment,
   };
 }
 
@@ -224,6 +180,12 @@ const StickyOrderSummary = ({
 }) => {
   if (!payload) return null;
 
+  const selectedTier = getMatchingPriceTier(payload.pax, payload.priceTiers);
+  const selectedTierLabel = selectedTier
+    ? formatPriceTierRange(selectedTier)
+    : "Tier unavailable";
+  const startingPrice = getLowestTierPrice(payload.priceTiers);
+
   return (
     <div className="sticky top-36 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
       <div className="relative h-40 bg-slate-900">
@@ -264,11 +226,31 @@ const StickyOrderSummary = ({
 
         <div className="space-y-3 py-4 text-sm">
           <div className="flex justify-between">
-            <span className="text-slate-600">Base Price</span>
+            <span className="text-slate-600">Active pax tier</span>
+            <span className="font-medium text-slate-900">
+              {selectedTierLabel}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-slate-600">Selected pax rate</span>
+            <span className="font-medium text-slate-900">
+              {payload.pricePerPerson
+                ? `${formatCurrency(payload.pricePerPerson)} / person`
+                : "-"}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-slate-600">Package subtotal</span>
             <span className="font-medium text-slate-900">
               {formatCurrency(payload.packageTotal)}
             </span>
           </div>
+          {startingPrice ? (
+            <div className="flex justify-between text-xs text-slate-500">
+              <span>Public starting rate</span>
+              <span>{formatCurrency(startingPrice)} / person</span>
+            </div>
+          ) : null}
 
           {payload.addon && payload.addon.length > 0 && (
             <div className="space-y-1 border-l-2 border-lime-200 pl-3">
@@ -304,6 +286,11 @@ const StickyOrderSummary = ({
               {formatCurrency(payload.grandTotal)}
             </span>
           </div>
+          <p className="mt-2 text-xs leading-5 text-slate-500">
+            Final route price is locked from the selected pax tier before
+            payment. Deposit or full-payment logic is then calculated from this
+            total.
+          </p>
         </div>
       </div>
     </div>
@@ -336,6 +323,11 @@ const StepOneDetails = ({
       ? payload.isicCodes
       : Array(payload.pax).fill(""),
   );
+  const selectedTier = getMatchingPriceTier(payload.pax, payload.priceTiers);
+  const selectedTierLabel = selectedTier
+    ? formatPriceTierRange(selectedTier)
+    : "Tier unavailable";
+  const startingPrice = getLowestTierPrice(payload.priceTiers);
 
   useEffect(() => {
     if (session?.user) {
@@ -363,11 +355,16 @@ const StepOneDetails = ({
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = e.target.value;
-    const newDownPayment = calculateDownPayment(newDate, payload.grandTotal);
+    const pricing = buildCheckoutPricingSnapshot({
+      pax: payload.pax,
+      date: newDate,
+      priceTiers: payload.priceTiers,
+      addonLines: payload.addon,
+    });
     const updatedPayload = {
       ...payload,
       date: newDate,
-      downPayment: newDownPayment,
+      downPayment: pricing.downPayment,
     };
     setPayload(updatedPayload);
     localStorage.setItem("checkoutPayload", JSON.stringify(updatedPayload));
@@ -403,7 +400,7 @@ const StepOneDetails = ({
     setPayload(finalPayload);
     localStorage.setItem("checkoutPayload", JSON.stringify(finalPayload));
   };
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [, setIsVerifying] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerName || !email || !phone) {
@@ -453,7 +450,7 @@ const StepOneDetails = ({
           setIsVerifying(false);
           return; // STOP
         }
-      } catch (error) {
+      } catch {
         alert("System error. Please try again.");
         setIsVerifying(false);
         return;
@@ -521,6 +518,30 @@ const StepOneDetails = ({
               onChange={handlePaxChange}
               className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
             />
+            <div className="mt-2 space-y-1 text-xs leading-5 text-slate-500">
+              <p>
+                Active tier:{" "}
+                <span className="font-bold text-slate-800">
+                  {selectedTierLabel}
+                </span>
+              </p>
+              <p>
+                Current rate:{" "}
+                <span className="font-bold text-slate-800">
+                  {payload.pricePerPerson
+                    ? `${formatCurrency(payload.pricePerPerson)} / person`
+                    : "-"}
+                </span>
+              </p>
+              {startingPrice ? (
+                <p>
+                  Public starting rate:{" "}
+                  <span className="font-bold text-slate-700">
+                    {formatCurrency(startingPrice)} / person
+                  </span>
+                </p>
+              ) : null}
+            </div>
             {payload.totalDiscount > 0 && (
               <p className="mt-2 text-xs font-bold text-lime-600">
                 🎉 {payload.discountLabel} Applied!
@@ -755,32 +776,27 @@ const StepOneDetails = ({
 const StepTwoPayment = ({
   payload,
   onBack,
-  router,
 }: {
   payload: CheckoutPayload;
   onBack: () => void;
-  router: any;
 }) => {
   const diffDays = getDaysUntilTrip(payload.date);
+  const paymentLogicNarrative = getPaymentLogicNarrative(payload.date);
+  const selectedTier = getMatchingPriceTier(payload.pax, payload.priceTiers);
+  const selectedTierLabel = selectedTier
+    ? formatPriceTierRange(selectedTier)
+    : "Tier unavailable";
 
   // Deterministic Logic: No user choice
   let paymentMethod: "cc" | "bank" = "cc";
-  let methodLabel = "Credit Card / Online Payment (Xendit)";
-  let methodDesc = "Your booking will be confirmed instantly after payment.";
 
   if (diffDays < 6) {
     paymentMethod = "bank";
-    methodLabel = "Manual Bank Transfer";
-    methodDesc =
-      "Please transfer the full amount. Our team will verify it manually.";
   }
   const [consent, setConsent] = useState(false);
   const [processing, setProcessing] = useState(false);
 
   const isFullPayment = payload.downPayment === payload.grandTotal;
-  const depositAmount = Math.ceil(payload.grandTotal * 0.2);
-  const remainingAmount = payload.grandTotal - depositAmount;
-
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) {
@@ -789,6 +805,12 @@ const StepTwoPayment = ({
     }
 
     setProcessing(true);
+    const pricingAudit = buildCheckoutPricingAudit({
+      pax: payload.pax,
+      date: payload.date,
+      priceTiers: payload.priceTiers,
+      addonLines: payload.addon,
+    });
 
     const legacyPayload = {
       contactDetails: {
@@ -837,6 +859,7 @@ const StepTwoPayment = ({
           }) || [],
       },
       isic_codes: payload.isicCodes || [],
+      pricing_audit: pricingAudit,
       travelerDetails: {
         pickupLocation: "",
         pickupDetail: "",
@@ -886,6 +909,20 @@ const StepTwoPayment = ({
         <div className="mb-6 rounded-xl bg-slate-50 p-5 text-sm border border-slate-100">
           <div className="space-y-2 pb-4 border-b border-slate-200">
             <p className="flex justify-between">
+              <span className="font-medium text-slate-600">Locked pax tier:</span>
+              <span className="font-bold text-slate-900">{selectedTierLabel}</span>
+            </p>
+            <p className="flex justify-between">
+              <span className="font-medium text-slate-600">
+                Selected pax rate:
+              </span>
+              <span className="font-bold text-slate-900">
+                {payload.pricePerPerson
+                  ? `${formatCurrency(payload.pricePerPerson)} / person`
+                  : "-"}
+              </span>
+            </p>
+            <p className="flex justify-between">
               <span className="font-medium text-slate-600">
                 Total Trip Cost:
               </span>
@@ -912,32 +949,48 @@ const StepTwoPayment = ({
           </div>
           <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
             <span>ℹ️</span>
-            {diffDays >= 14 ? (
+            {getInitialPaymentMode(payload.date) === "deposit" ? (
               <p>
-                Because your trip is 14+ days away, a 20% deposit via Xendit is
-                sufficient to secure your spot.
+                Because your trip is still more than 7 days away, a 20% deposit
+                via Xendit is enough to secure the route first.
               </p>
-            ) : diffDays >= 6 ? (
+            ) : getInitialPaymentMode(payload.date) === "full-payment-card" ? (
               <p>
-                Because your trip is in less than 14 days, full payment via
-                Xendit is required.
+                Because your trip is now within 7 days of Day 1, full payment
+                via Xendit is required before the route can be locked.
               </p>
             ) : (
               <p>
-                For last-minute trips (under 6 days), we require full payment
-                via Manual Bank Transfer for verification.
+                Because your trip starts in 5 days or less, full payment is
+                required and manual bank-transfer verification may be used
+                before the route is locked.
               </p>
             )}{" "}
           </div>
+          <div className="mt-3 rounded-lg border border-slate-200 bg-white px-3 py-3 text-xs leading-6 text-slate-600">
+            <p className="font-bold uppercase tracking-[0.14em] text-slate-900">
+              {paymentLogicNarrative.title}
+            </p>
+            <p className="mt-2">{paymentLogicNarrative.currentCase}</p>
+            <p className="mt-2">
+              {getInitialPaymentMode(payload.date) === "deposit"
+                ? BALANCE_DEADLINE_RULE_COPY
+                : paymentLogicNarrative.framework}
+            </p>
+            <p className="mt-2">
+              This payment is calculated from the locked pax tier above, not
+              from the public starting rate.
+            </p>
+          </div>
         </div>
         {/* LOGIC SUMMARY:
-  >= 14 Days: 20% DP via Xendit
-  < 14 Days: 100% via Xendit
-  < 6 Days: 100% via Bank Transfer
+  > 7 Days: 20% DP via Xendit
+  6-7 Days: 100% via Xendit
+  <= 5 Days: 100% via Bank Transfer / manual verification
 */}
 
         <div className="space-y-3">
-          {diffDays >= 6 ? (
+          {getInitialPaymentMode(payload.date) !== "full-payment-manual" ? (
             /* 1. XENDIT VERSION (AUTOMATIC FOR >= 6 DAYS) */
             <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
               <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
@@ -978,7 +1031,7 @@ const StepTwoPayment = ({
               </div>
             </div>
           ) : (
-            /* 2. BANK TRANSFER VERSION (AUTOMATIC FOR < 6 DAYS) */
+            /* 2. BANK TRANSFER VERSION (AUTOMATIC FOR <= 5 DAYS) */
             <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
               <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
@@ -1122,7 +1175,6 @@ export default function CheckoutPage() {
               <StepTwoPayment
                 payload={payload}
                 onBack={() => setStep(1)}
-                router={router}
               />
             )}
           </div>

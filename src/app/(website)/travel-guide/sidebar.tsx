@@ -21,7 +21,7 @@ interface SidebarProps {
 }
 
 const MENU_ITEMS = [
-  { href: "/travel-guide", label: "Travel Guide Hub", icon: MapPin },
+  { href: "/travel-guide", label: "Prepare & Book Hub", icon: MapPin },
   {
     href: "/travel-guide/booking-information",
     label: "Booking & Payments",
@@ -76,7 +76,7 @@ export default function Sidebar({ isMobile, onBack }: SidebarProps) {
             <ArrowLeft size={24} className="text-jvto-dark" />
           </button>
           <span className="font-bold text-lg uppercase tracking-wider text-jvto-dark">
-            Travel Guide Menu
+            Prepare &amp; Book Menu
           </span>
         </div>
       )}

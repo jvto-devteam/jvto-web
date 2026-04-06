@@ -7,10 +7,10 @@ import { buildVerifySubpageSchema } from "../schema";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
 
 const fallbackSeo = {
-  title: "Verify: Police Authority & Safety Protocols",
-  h1: "Police & Safety",
+  title: "Police & Safety Proof – Tourist Police Integration | JVTO",
+  h1: "Police & Safety Proof",
   description:
-    "Forensic evidence of Tourist Police integration, health screening, and operational safety.",
+    "Verify JVTO's safety credentials: SPRIN tourist police letters, Ijen health screening evidence, and BBKSDA regulation compliance. Downloadable documents.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

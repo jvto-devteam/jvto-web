@@ -14,7 +14,8 @@ function hasType(node: JsonLdNode) {
 }
 
 function stripNodeContext(node: JsonLdNode): JsonLdNode {
-  const { "@context": _context, ...rest } = node;
+  const rest = { ...node };
+  delete rest["@context"];
   return rest;
 }
 

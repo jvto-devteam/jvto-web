@@ -2,9 +2,14 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $envFile = Join-Path $repoRoot ".env.local"
+$projectFile = Join-Path $repoRoot ".vercel\\project.json"
 
 if (!(Test-Path $envFile)) {
   throw "Missing .env.local at $envFile"
+}
+
+if (!(Test-Path $projectFile)) {
+  throw "Missing linked Vercel project config at $projectFile"
 }
 
 $allowedKeys = @(
@@ -19,6 +24,7 @@ $allowedKeys = @(
   "NEXT_PUBLIC_LEGACY_URL",
   "NEXT_PUBLIC_LEGACY_URL_DOMAIN",
   "NEXT_PUBLIC_IS_FIREBASE",
+  "NEXT_PUBLIC_ENABLE_AUTH",
   "NEXT_PUBLIC_GTM_ID",
   "NEXTAUTH_URL",
   "NEXTAUTH_SECRET",
@@ -65,7 +71,14 @@ if ($vars.Count -eq 0) {
   throw "No deploy variables were loaded from .env.local"
 }
 
-$args = @("deploy", "--yes", "--scope", "sams-projects-6638b46d")
+$project = Get-Content -Path $projectFile -Raw | ConvertFrom-Json
+$scope = $project.orgId
+
+if (-not $scope) {
+  throw "No orgId found in $projectFile"
+}
+
+$args = @("deploy", "--yes", "--scope", $scope)
 
 foreach ($entry in $vars.GetEnumerator()) {
   $args += @("--build-env", "$($entry.Key)=$($entry.Value)")

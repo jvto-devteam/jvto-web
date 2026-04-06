@@ -3,12 +3,16 @@ import StructuredData from "@/components/website/StructuredData";
 import ToursHubIntro from "@/components/website/Tours/ToursHubIntro";
 import ToursSupportGrid from "@/components/website/Tours/ToursSupportGrid";
 import ToursCatalogShell from "@/components/website/Tours/ToursCatalogShell";
+import ToursFamilyGuide from "@/components/website/Tours/ToursFamilyGuide";
 import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPackageUrl } from "@/lib/packages/packagePaths";
 import { getWebTourList } from "@/lib/packages/webTourList";
+import { getTourFamilyGuideItems } from "@/lib/packages/tourFamily";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { BASE_URL } from "@/lib/site";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -16,10 +20,10 @@ import {
 export const revalidate = 3600;
 
 const fallbackSeo = {
-  title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
-  h1: "Bali Tours",
+  title: "Private East Java Tours from Bali",
+  h1: "Private Tours from Bali",
   description:
-    "Cross-island adventure from Bali to East Java. Includes ferry crossing, transport, and guided tours to Ijen Blue Fire and Mount Bromo. Drop-off in Bali or Surabaya.",
+    "Browse private East Java tours from Bali with guided cross-island handling, proof-backed operator context, and clear route seriousness before booking.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,9 +46,8 @@ export default async function ToursPageBali() {
     getToursFromBali(),
     getOrganizationProfile(),
   ]);
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://javavolcano-touroperator.com";
+  const familyGuideItems = getTourFamilyGuideItems(initialTours);
+  const siteUrl = BASE_URL;
   const pageUrl = `${siteUrl}/tours/from-bali`;
   const orgNode = buildOrganizationJsonLd(org as any, siteUrl);
   const siteNode = buildWebSiteJsonLd(siteUrl);
@@ -100,7 +103,7 @@ export default async function ToursPageBali() {
         itemListElement: initialTours.map((tour, index) => ({
           "@type": "ListItem",
           position: index + 1,
-          url: `${siteUrl}/${tour.slug}`,
+          url: getPackageUrl(tour.slug),
           name: tour.name,
         })),
       },
@@ -157,13 +160,19 @@ export default async function ToursPageBali() {
             },
           ]}
         />
+        <ToursFamilyGuide
+          eyebrow="Bali route families"
+          title="Bali routes should be compared by handoff logic first."
+          copy="Bali-origin packages are not just Java routes with a different pickup point. The real difference is whether the route returns to Bali, finishes forward into Surabaya, or expands into a broader cross-island overland."
+          items={familyGuideItems}
+        />
         <ToursCatalogShell
           eyebrow="Compare Bali routes"
           title="Use the catalog to judge transfer continuity and route shape together."
           description="Bali-origin routes become easier to compare when ferry handling, end-point logic, and Ijen seriousness stay visible beside the package list instead of being inferred later."
           bullets={[
             "Built for cross-island movement",
-            "Better when transfer continuity matters",
+            "Return loop versus handoff matters early",
             "Useful for Bali-to-Java overlands",
           ]}
         >

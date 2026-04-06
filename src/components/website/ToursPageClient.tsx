@@ -407,28 +407,28 @@ export default function ToursPageClient({
     <div className="container mx-auto px-6 py-6 md:py-8">
       {/* HEADER */}
       {!hideHeader ? (
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-3xl font-black uppercase tracking-[-0.03em] text-jvto-dark md:text-4xl">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
             {title ?? `${destinationName} Tours`}
           </h1>
-          <p className="mx-auto max-w-2xl leading-relaxed text-gray-600">
+          <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
             {description}
           </p>
         </div>
       ) : null}
 
       <div className="mb-8 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-        <div className="rounded-[28px] border border-[#dce4c7] bg-white px-6 py-6 shadow-[0_20px_40px_rgba(35,48,18,0.06)]">
+        <div className="rounded-[24px] border border-[#dce4c7] bg-white px-5 py-5 shadow-[0_20px_40px_rgba(35,48,18,0.06)]">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-safety-orange">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
                 Browser status
               </p>
-              <h3 className="mt-2 text-2xl font-black uppercase leading-tight tracking-[-0.02em] text-jvto-dark">
+              <h3 className="mt-2 text-2xl font-black uppercase leading-tight text-jvto-dark">
                 {filteredTours.length} routes currently match this view
               </h3>
             </div>
-            <div className="rounded-full border border-[#dbe3c5] bg-[#f7faef] px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-jvto-dark">
+            <div className="rounded-full border border-[#dbe3c5] bg-[#f7faef] px-4 py-2 text-sm font-bold text-jvto-dark">
               {activeFilterCount} active filter{activeFilterCount === 1 ? "" : "s"}
             </div>
           </div>
@@ -476,15 +476,15 @@ export default function ToursPageClient({
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-[#dce4c7] bg-[linear-gradient(180deg,#ffffff_0%,#f7faef_100%)] px-6 py-6 shadow-[0_20px_40px_rgba(35,48,18,0.05)]">
-          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-safety-orange">
+        <div className="rounded-[24px] border border-[#dce4c7] bg-[linear-gradient(180deg,#ffffff_0%,#f7faef_100%)] px-5 py-5 shadow-[0_20px_40px_rgba(35,48,18,0.05)]">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
             Comparison cues
           </p>
           <div className="mt-4 grid gap-3">
             {routeGuidance.map((item) => (
               <div
                 key={item}
-                className="rounded-[22px] border border-[#e6ecd6] bg-white px-4 py-4 text-sm font-medium leading-7 text-gray-700"
+                className="rounded-2xl border border-[#e6ecd6] bg-white px-4 py-4 text-sm font-medium leading-6 text-gray-700"
               >
                 {item}
               </div>
@@ -496,16 +496,16 @@ export default function ToursPageClient({
       <div className="flex flex-col lg:flex-row gap-8 relative">
         {/* --- DESKTOP SIDEBAR --- */}
         <aside className="hidden lg:block w-[300px] shrink-0">
-          <div className="sticky top-32 rounded-[32px] border border-[#dce4c7] bg-white p-6 shadow-[0_24px_50px_rgba(35,48,18,0.08)]">
+          <div className="sticky top-32 rounded-[28px] border border-[#dce4c7] bg-white p-6 shadow-[0_24px_50px_rgba(35,48,18,0.08)]">
             <div className="mb-6 border-b border-[#edf1e2] pb-4">
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-safety-orange">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-jvto-green">
                 Filter routes
               </p>
               <div className="mt-3 flex items-center justify-between">
-                <h3 className="text-lg font-black uppercase tracking-wide text-jvto-dark">
-                  Filters
+                <h3 className="text-lg font-black uppercase tracking-wide">
+                Filters
                 </h3>
-                <span className="rounded-full bg-[#f0f5e5] px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-jvto-dark">
+                <span className="rounded-full bg-[#f0f5e5] px-2.5 py-1 text-xs font-semibold text-jvto-dark">
                   {filteredTours.length}
                 </span>
               </div>
@@ -580,14 +580,14 @@ export default function ToursPageClient({
         <div className="flex-1 min-h-[600px]">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-safety-orange">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-jvto-green">
                 Shortlist
               </p>
-              <h3 className="mt-1 text-xl font-black uppercase tracking-[-0.02em] text-jvto-dark">
+              <h3 className="mt-1 text-xl font-black uppercase text-jvto-dark">
                 Compare the routes that are still in play
               </h3>
             </div>
-            <div className="rounded-full border border-[#dbe3c5] bg-white px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-gray-600">
+            <div className="rounded-full border border-[#dbe3c5] bg-white px-4 py-2 text-sm font-semibold text-gray-600">
               {filteredTours.length} matching route{filteredTours.length === 1 ? "" : "s"}
             </div>
           </div>

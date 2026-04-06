@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     
     try {
         result = JSON.parse(responseText);
-    } catch (e) {
+    } catch {
         console.error("❌ Legacy returned non-JSON:", responseText);
         return NextResponse.json({ message: "Legacy Server Error (Invalid JSON)" }, { status: 500 });
     }

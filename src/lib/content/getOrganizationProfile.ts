@@ -1,10 +1,11 @@
 import { unstable_cache } from "next/cache";
 import prisma from "@/lib/prisma";
+import { normalizeOrganizationProfile } from "@/lib/content/organizationProfileDefaults";
 
 const getOrganizationProfileCached = unstable_cache(
   async () => {
     try {
-      return await prisma.organization_profile.findFirst({
+      const row = await prisma.organization_profile.findFirst({
         orderBy: { id: "asc" },
         select: {
           legal_name: true,
@@ -25,10 +26,12 @@ const getOrganizationProfileCached = unstable_cache(
           updated_at: true,
         },
       });
+
+      return normalizeOrganizationProfile(row);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.warn(`[organization_profile] fallback to null: ${message}`);
-      return null;
+      return normalizeOrganizationProfile(null);
     }
   },
   ["organization-profile"],

@@ -1,4 +1,20 @@
 // FIX: Removed circular self-import and constant definitions. This file should only contain type declarations.
+
+// ============================================================================
+// TOUR & DIFFICULTY TYPES
+// ============================================================================
+
+export enum Difficulty {
+  EASY = 'easy',
+  MODERATE = 'moderate',
+  CHALLENGING = 'challenging',
+  HARD = 'hard'
+}
+
+// ============================================================================
+// UI & COPY TYPES
+// ============================================================================
+
 export interface HeroCopy {
   kicker: string;
   title: string;

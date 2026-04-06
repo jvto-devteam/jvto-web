@@ -40,4 +40,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# logs
+dev-server.log*
+dev-server.err.log*
+
+# generated files (auto-generated, should not be committed)
+src/generated/
+
+# exception: keep prisma generated types if needed
 !src/generated/prisma

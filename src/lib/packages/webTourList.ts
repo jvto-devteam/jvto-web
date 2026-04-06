@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { MOCK_PACKAGES } from "@/data/mockData";
+import { getEntryReferencePrice } from "@/lib/packages/priceTiers";
 
 interface ImageAsset {
   url: string;
@@ -26,13 +27,12 @@ function serializePackage(pkg: any) {
   const primaryImage =
     imageAssets.find((img: ImageAsset) => img.isPrimary) || imageAssets[0];
 
-  const validPrices: number[] = (pkg.package_prices ?? [])
-    .map((p: any) => p.price)
-    .filter(
-      (price: any): price is number => typeof price === "number" && price > 0,
-    );
-
-  const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+  const tiers = (pkg.package_prices ?? []).map((p: any) => ({
+    paxMin: Number(p.price_tiers?.min_pax) || 0,
+    paxMax: Number(p.price_tiers?.max_pax) || 0,
+    pricePerPerson: Number(p.price) || 0,
+  }));
+  const startFrom = getEntryReferencePrice(tiers) ?? 0;
   const excludedDestinationIds = new Set([3, 4]);
 
   return {
