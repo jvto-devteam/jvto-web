@@ -496,6 +496,12 @@ model bookings {
   date_paid_invoiced_twt         DateTime?                        @db.Date
   is_police_escort               Boolean?                         @default(false)
   is_send_whatsapp               Boolean?                         @default(false)
+  // Portal & Marketing extensions
+  portal_access_token            String?                          @unique
+  staff_owner_id                 BigInt?
+  utm_source                     String?
+  utm_medium                     String?
+  utm_campaign                   String?
   created_at                     DateTime?                        @db.Timestamp(6)
   updated_at                     DateTime?                        @db.Timestamp(6)
   deleted_at                     DateTime?                        @db.Timestamp(6)
@@ -761,6 +767,11 @@ model User {
   updated_at       DateTime? @updatedAt @db.Timestamp(6)
   deleted_at       DateTime? @db.Timestamp(6)
 
+  // CRM fields
+  lifecycle_stage String? // lead | booked | completed | churned
+  source          String? // whatsapp | direct | klook | instagram | referral
+  customer_tags   String[] @default([])
+
   // Relasi
   accounts Account[]
   sessions Session[]
@@ -921,13 +932,13 @@ model destinations {
 
 model destination_gears {
   id             BigInt    @id @default(autoincrement())
-  destination_id BigInt
+  destination_id BigInt?
   gear           String    @db.Text
   type           String    @db.VarChar(50)
   created_at     DateTime? @default(now()) @db.Timestamptz(6)
   updated_at     DateTime? @default(now()) @db.Timestamptz(6)
 
-  destination destinations @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+  destination destinations? @relation(fields: [destination_id], references: [id], onDelete: Cascade)
 
   @@index([destination_id])
 }
@@ -1002,19 +1013,22 @@ model category_faqs {
 }
 
 model content_pages {
-  id             BigInt   @id @default(autoincrement())
+  id             BigInt    @id @default(autoincrement())
   route          String
-  lang           String   @default("en")
-  schema_version Int      @default(1)
-  seo            Json     @default("{}")
+  lang           String    @default("en")
+  schema_version Int       @default(1)
+  seo            Json      @default("{}")
   content        Json
-  is_active      Boolean  @default(true)
-  created_at     DateTime @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime @default(now()) @db.Timestamptz(6)
+  is_active      Boolean   @default(true)
+  status         String    @default("published") // draft | published | archived
+  published_at   DateTime? @db.Timestamptz(6)
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime  @default(now()) @db.Timestamptz(6)
 
   @@unique([route, lang])
   @@index([route])
   @@index([is_active])
+  @@index([status])
 }
 
 model faqs {

@@ -44539,6 +44539,7 @@ export namespace Prisma {
     duration_id: number | null
     order_channel_id: number | null
     total_participants: number | null
+    staff_owner_id: number | null
   }
 
   export type BookingsSumAggregateOutputType = {
@@ -44548,6 +44549,7 @@ export namespace Prisma {
     duration_id: bigint | null
     order_channel_id: bigint | null
     total_participants: number | null
+    staff_owner_id: bigint | null
   }
 
   export type BookingsMinAggregateOutputType = {
@@ -44575,6 +44577,11 @@ export namespace Prisma {
     date_paid_invoiced_twt: Date | null
     is_police_escort: boolean | null
     is_send_whatsapp: boolean | null
+    portal_access_token: string | null
+    staff_owner_id: bigint | null
+    utm_source: string | null
+    utm_medium: string | null
+    utm_campaign: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -44605,6 +44612,11 @@ export namespace Prisma {
     date_paid_invoiced_twt: Date | null
     is_police_escort: boolean | null
     is_send_whatsapp: boolean | null
+    portal_access_token: string | null
+    staff_owner_id: bigint | null
+    utm_source: string | null
+    utm_medium: string | null
+    utm_campaign: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -44635,6 +44647,11 @@ export namespace Prisma {
     date_paid_invoiced_twt: number
     is_police_escort: number
     is_send_whatsapp: number
+    portal_access_token: number
+    staff_owner_id: number
+    utm_source: number
+    utm_medium: number
+    utm_campaign: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -44649,6 +44666,7 @@ export namespace Prisma {
     duration_id?: true
     order_channel_id?: true
     total_participants?: true
+    staff_owner_id?: true
   }
 
   export type BookingsSumAggregateInputType = {
@@ -44658,6 +44676,7 @@ export namespace Prisma {
     duration_id?: true
     order_channel_id?: true
     total_participants?: true
+    staff_owner_id?: true
   }
 
   export type BookingsMinAggregateInputType = {
@@ -44685,6 +44704,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: true
     is_police_escort?: true
     is_send_whatsapp?: true
+    portal_access_token?: true
+    staff_owner_id?: true
+    utm_source?: true
+    utm_medium?: true
+    utm_campaign?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -44715,6 +44739,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: true
     is_police_escort?: true
     is_send_whatsapp?: true
+    portal_access_token?: true
+    staff_owner_id?: true
+    utm_source?: true
+    utm_medium?: true
+    utm_campaign?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -44745,6 +44774,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: true
     is_police_escort?: true
     is_send_whatsapp?: true
+    portal_access_token?: true
+    staff_owner_id?: true
+    utm_source?: true
+    utm_medium?: true
+    utm_campaign?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -44862,6 +44896,11 @@ export namespace Prisma {
     date_paid_invoiced_twt: Date | null
     is_police_escort: boolean | null
     is_send_whatsapp: boolean | null
+    portal_access_token: string | null
+    staff_owner_id: bigint | null
+    utm_source: string | null
+    utm_medium: string | null
+    utm_campaign: string | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -44911,6 +44950,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: boolean
     is_police_escort?: boolean
     is_send_whatsapp?: boolean
+    portal_access_token?: boolean
+    staff_owner_id?: boolean
+    utm_source?: boolean
+    utm_medium?: boolean
+    utm_campaign?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -44968,6 +45012,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: boolean
     is_police_escort?: boolean
     is_send_whatsapp?: boolean
+    portal_access_token?: boolean
+    staff_owner_id?: boolean
+    utm_source?: boolean
+    utm_medium?: boolean
+    utm_campaign?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -45002,6 +45051,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: boolean
     is_police_escort?: boolean
     is_send_whatsapp?: boolean
+    portal_access_token?: boolean
+    staff_owner_id?: boolean
+    utm_source?: boolean
+    utm_medium?: boolean
+    utm_campaign?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -45036,12 +45090,17 @@ export namespace Prisma {
     date_paid_invoiced_twt?: boolean
     is_police_escort?: boolean
     is_send_whatsapp?: boolean
+    portal_access_token?: boolean
+    staff_owner_id?: boolean
+    utm_source?: boolean
+    utm_medium?: boolean
+    utm_campaign?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
   }
 
-  export type bookingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "booking_code" | "booking_code_origin" | "invoice_file_origin" | "customer_id" | "package_id" | "duration_id" | "order_channel_id" | "booking_date" | "start_date" | "end_date" | "total_participants" | "booking_status" | "trip_status" | "payment_status" | "is_shuttle_service" | "slug" | "trip_media_url" | "special_requirement" | "internal_note" | "is_invoice_twt" | "date_paid_invoiced_twt" | "is_police_escort" | "is_send_whatsapp" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["bookings"]>
+  export type bookingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "booking_code" | "booking_code_origin" | "invoice_file_origin" | "customer_id" | "package_id" | "duration_id" | "order_channel_id" | "booking_date" | "start_date" | "end_date" | "total_participants" | "booking_status" | "trip_status" | "payment_status" | "is_shuttle_service" | "slug" | "trip_media_url" | "special_requirement" | "internal_note" | "is_invoice_twt" | "date_paid_invoiced_twt" | "is_police_escort" | "is_send_whatsapp" | "portal_access_token" | "staff_owner_id" | "utm_source" | "utm_medium" | "utm_campaign" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["bookings"]>
   export type bookingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking_addons?: boolean | bookings$booking_addonsArgs<ExtArgs>
     booking_crew_member_activities?: boolean | bookings$booking_crew_member_activitiesArgs<ExtArgs>
@@ -45139,6 +45198,11 @@ export namespace Prisma {
       date_paid_invoiced_twt: Date | null
       is_police_escort: boolean | null
       is_send_whatsapp: boolean | null
+      portal_access_token: string | null
+      staff_owner_id: bigint | null
+      utm_source: string | null
+      utm_medium: string | null
+      utm_campaign: string | null
       created_at: Date | null
       updated_at: Date | null
       deleted_at: Date | null
@@ -45615,6 +45679,11 @@ export namespace Prisma {
     readonly date_paid_invoiced_twt: FieldRef<"bookings", 'DateTime'>
     readonly is_police_escort: FieldRef<"bookings", 'Boolean'>
     readonly is_send_whatsapp: FieldRef<"bookings", 'Boolean'>
+    readonly portal_access_token: FieldRef<"bookings", 'String'>
+    readonly staff_owner_id: FieldRef<"bookings", 'BigInt'>
+    readonly utm_source: FieldRef<"bookings", 'String'>
+    readonly utm_medium: FieldRef<"bookings", 'String'>
+    readonly utm_campaign: FieldRef<"bookings", 'String'>
     readonly created_at: FieldRef<"bookings", 'DateTime'>
     readonly updated_at: FieldRef<"bookings", 'DateTime'>
     readonly deleted_at: FieldRef<"bookings", 'DateTime'>
@@ -63024,6 +63093,8 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
+    lifecycle_stage: string | null
+    source: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -63038,6 +63109,8 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
+    lifecycle_stage: string | null
+    source: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -63052,6 +63125,9 @@ export namespace Prisma {
     created_at: number
     updated_at: number
     deleted_at: number
+    lifecycle_stage: number
+    source: number
+    customer_tags: number
     _all: number
   }
 
@@ -63080,6 +63156,8 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    lifecycle_stage?: true
+    source?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -63094,6 +63172,8 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    lifecycle_stage?: true
+    source?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -63108,6 +63188,9 @@ export namespace Prisma {
     created_at?: true
     updated_at?: true
     deleted_at?: true
+    lifecycle_stage?: true
+    source?: true
+    customer_tags?: true
     _all?: true
   }
 
@@ -63209,6 +63292,9 @@ export namespace Prisma {
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
+    lifecycle_stage: string | null
+    source: string | null
+    customer_tags: string[]
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -63242,6 +63328,9 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    lifecycle_stage?: boolean
+    source?: boolean
+    customer_tags?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
@@ -63260,6 +63349,9 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    lifecycle_stage?: boolean
+    source?: boolean
+    customer_tags?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -63274,6 +63366,9 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    lifecycle_stage?: boolean
+    source?: boolean
+    customer_tags?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -63288,9 +63383,12 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    lifecycle_stage?: boolean
+    source?: boolean
+    customer_tags?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "emailVerified" | "image" | "country_id" | "order_channel_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "phone" | "emailVerified" | "image" | "country_id" | "order_channel_id" | "created_at" | "updated_at" | "deleted_at" | "lifecycle_stage" | "source" | "customer_tags", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -63319,6 +63417,9 @@ export namespace Prisma {
       created_at: Date | null
       updated_at: Date | null
       deleted_at: Date | null
+      lifecycle_stage: string | null
+      source: string | null
+      customer_tags: string[]
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -63756,6 +63857,9 @@ export namespace Prisma {
     readonly created_at: FieldRef<"User", 'DateTime'>
     readonly updated_at: FieldRef<"User", 'DateTime'>
     readonly deleted_at: FieldRef<"User", 'DateTime'>
+    readonly lifecycle_stage: FieldRef<"User", 'String'>
+    readonly source: FieldRef<"User", 'String'>
+    readonly customer_tags: FieldRef<"User", 'String[]'>
   }
     
 
@@ -71022,7 +71126,7 @@ export namespace Prisma {
 
   export type Destination_gearsGroupByOutputType = {
     id: bigint
-    destination_id: bigint
+    destination_id: bigint | null
     gear: string
     type: string
     created_at: Date | null
@@ -71055,7 +71159,7 @@ export namespace Prisma {
     type?: boolean
     created_at?: boolean
     updated_at?: boolean
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }, ExtArgs["result"]["destination_gears"]>
 
   export type destination_gearsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -71065,7 +71169,7 @@ export namespace Prisma {
     type?: boolean
     created_at?: boolean
     updated_at?: boolean
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }, ExtArgs["result"]["destination_gears"]>
 
   export type destination_gearsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -71075,7 +71179,7 @@ export namespace Prisma {
     type?: boolean
     created_at?: boolean
     updated_at?: boolean
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }, ExtArgs["result"]["destination_gears"]>
 
   export type destination_gearsSelectScalar = {
@@ -71089,23 +71193,23 @@ export namespace Prisma {
 
   export type destination_gearsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "destination_id" | "gear" | "type" | "created_at" | "updated_at", ExtArgs["result"]["destination_gears"]>
   export type destination_gearsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }
   export type destination_gearsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }
   export type destination_gearsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
+    destination?: boolean | destination_gears$destinationArgs<ExtArgs>
   }
 
   export type $destination_gearsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "destination_gears"
     objects: {
-      destination: Prisma.$destinationsPayload<ExtArgs>
+      destination: Prisma.$destinationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      destination_id: bigint
+      destination_id: bigint | null
       gear: string
       type: string
       created_at: Date | null
@@ -71504,7 +71608,7 @@ export namespace Prisma {
    */
   export interface Prisma__destination_gearsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    destination<T extends destinationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, destinationsDefaultArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    destination<T extends destination_gears$destinationArgs<ExtArgs> = {}>(args?: Subset<T, destination_gears$destinationArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -71933,6 +72037,25 @@ export namespace Prisma {
      * Limit how many destination_gears to delete.
      */
     limit?: number
+  }
+
+  /**
+   * destination_gears.destination
+   */
+  export type destination_gears$destinationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destinations
+     */
+    select?: destinationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destinations
+     */
+    omit?: destinationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destinationsInclude<ExtArgs> | null
+    where?: destinationsWhereInput
   }
 
   /**
@@ -77795,6 +77918,8 @@ export namespace Prisma {
     lang: string | null
     schema_version: number | null
     is_active: boolean | null
+    status: string | null
+    published_at: Date | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -77805,6 +77930,8 @@ export namespace Prisma {
     lang: string | null
     schema_version: number | null
     is_active: boolean | null
+    status: string | null
+    published_at: Date | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -77817,6 +77944,8 @@ export namespace Prisma {
     seo: number
     content: number
     is_active: number
+    status: number
+    published_at: number
     created_at: number
     updated_at: number
     _all: number
@@ -77839,6 +77968,8 @@ export namespace Prisma {
     lang?: true
     schema_version?: true
     is_active?: true
+    status?: true
+    published_at?: true
     created_at?: true
     updated_at?: true
   }
@@ -77849,6 +77980,8 @@ export namespace Prisma {
     lang?: true
     schema_version?: true
     is_active?: true
+    status?: true
+    published_at?: true
     created_at?: true
     updated_at?: true
   }
@@ -77861,6 +77994,8 @@ export namespace Prisma {
     seo?: true
     content?: true
     is_active?: true
+    status?: true
+    published_at?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -77960,6 +78095,8 @@ export namespace Prisma {
     seo: JsonValue
     content: JsonValue
     is_active: boolean
+    status: string
+    published_at: Date | null
     created_at: Date
     updated_at: Date
     _count: Content_pagesCountAggregateOutputType | null
@@ -77991,6 +78128,8 @@ export namespace Prisma {
     seo?: boolean
     content?: boolean
     is_active?: boolean
+    status?: boolean
+    published_at?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["content_pages"]>
@@ -78003,6 +78142,8 @@ export namespace Prisma {
     seo?: boolean
     content?: boolean
     is_active?: boolean
+    status?: boolean
+    published_at?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["content_pages"]>
@@ -78015,6 +78156,8 @@ export namespace Prisma {
     seo?: boolean
     content?: boolean
     is_active?: boolean
+    status?: boolean
+    published_at?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["content_pages"]>
@@ -78027,11 +78170,13 @@ export namespace Prisma {
     seo?: boolean
     content?: boolean
     is_active?: boolean
+    status?: boolean
+    published_at?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type content_pagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route" | "lang" | "schema_version" | "seo" | "content" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["content_pages"]>
+  export type content_pagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route" | "lang" | "schema_version" | "seo" | "content" | "is_active" | "status" | "published_at" | "created_at" | "updated_at", ExtArgs["result"]["content_pages"]>
 
   export type $content_pagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "content_pages"
@@ -78044,6 +78189,8 @@ export namespace Prisma {
       seo: Prisma.JsonValue
       content: Prisma.JsonValue
       is_active: boolean
+      status: string
+      published_at: Date | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["content_pages"]>
@@ -78476,6 +78623,8 @@ export namespace Prisma {
     readonly seo: FieldRef<"content_pages", 'Json'>
     readonly content: FieldRef<"content_pages", 'Json'>
     readonly is_active: FieldRef<"content_pages", 'Boolean'>
+    readonly status: FieldRef<"content_pages", 'String'>
+    readonly published_at: FieldRef<"content_pages", 'DateTime'>
     readonly created_at: FieldRef<"content_pages", 'DateTime'>
     readonly updated_at: FieldRef<"content_pages", 'DateTime'>
   }
@@ -139625,6 +139774,11 @@ export namespace Prisma {
     date_paid_invoiced_twt: 'date_paid_invoiced_twt',
     is_police_escort: 'is_police_escort',
     is_send_whatsapp: 'is_send_whatsapp',
+    portal_access_token: 'portal_access_token',
+    staff_owner_id: 'staff_owner_id',
+    utm_source: 'utm_source',
+    utm_medium: 'utm_medium',
+    utm_campaign: 'utm_campaign',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at'
@@ -139845,7 +139999,10 @@ export namespace Prisma {
     order_channel_id: 'order_channel_id',
     created_at: 'created_at',
     updated_at: 'updated_at',
-    deleted_at: 'deleted_at'
+    deleted_at: 'deleted_at',
+    lifecycle_stage: 'lifecycle_stage',
+    source: 'source',
+    customer_tags: 'customer_tags'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -140063,6 +140220,8 @@ export namespace Prisma {
     seo: 'seo',
     content: 'content',
     is_active: 'is_active',
+    status: 'status',
+    published_at: 'published_at',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -143438,6 +143597,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: DateTimeNullableFilter<"bookings"> | Date | string | null
     is_police_escort?: BoolNullableFilter<"bookings"> | boolean | null
     is_send_whatsapp?: BoolNullableFilter<"bookings"> | boolean | null
+    portal_access_token?: StringNullableFilter<"bookings"> | string | null
+    staff_owner_id?: BigIntNullableFilter<"bookings"> | bigint | number | null
+    utm_source?: StringNullableFilter<"bookings"> | string | null
+    utm_medium?: StringNullableFilter<"bookings"> | string | null
+    utm_campaign?: StringNullableFilter<"bookings"> | string | null
     created_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
@@ -143494,6 +143658,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: SortOrderInput | SortOrder
     is_police_escort?: SortOrderInput | SortOrder
     is_send_whatsapp?: SortOrderInput | SortOrder
+    portal_access_token?: SortOrderInput | SortOrder
+    staff_owner_id?: SortOrderInput | SortOrder
+    utm_source?: SortOrderInput | SortOrder
+    utm_medium?: SortOrderInput | SortOrder
+    utm_campaign?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -143528,6 +143697,7 @@ export namespace Prisma {
   export type bookingsWhereUniqueInput = Prisma.AtLeast<{
     id?: bigint | number
     slug?: string
+    portal_access_token?: string
     AND?: bookingsWhereInput | bookingsWhereInput[]
     OR?: bookingsWhereInput[]
     NOT?: bookingsWhereInput | bookingsWhereInput[]
@@ -143553,6 +143723,10 @@ export namespace Prisma {
     date_paid_invoiced_twt?: DateTimeNullableFilter<"bookings"> | Date | string | null
     is_police_escort?: BoolNullableFilter<"bookings"> | boolean | null
     is_send_whatsapp?: BoolNullableFilter<"bookings"> | boolean | null
+    staff_owner_id?: BigIntNullableFilter<"bookings"> | bigint | number | null
+    utm_source?: StringNullableFilter<"bookings"> | string | null
+    utm_medium?: StringNullableFilter<"bookings"> | string | null
+    utm_campaign?: StringNullableFilter<"bookings"> | string | null
     created_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
@@ -143582,7 +143756,7 @@ export namespace Prisma {
     crew_member_reviews?: Crew_member_reviewsListRelationFilter
     feedback?: FeedbackListRelationFilter
     reviews?: ReviewsListRelationFilter
-  }, "id" | "slug">
+  }, "id" | "slug" | "portal_access_token">
 
   export type bookingsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -143609,6 +143783,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: SortOrderInput | SortOrder
     is_police_escort?: SortOrderInput | SortOrder
     is_send_whatsapp?: SortOrderInput | SortOrder
+    portal_access_token?: SortOrderInput | SortOrder
+    staff_owner_id?: SortOrderInput | SortOrder
+    utm_source?: SortOrderInput | SortOrder
+    utm_medium?: SortOrderInput | SortOrder
+    utm_campaign?: SortOrderInput | SortOrder
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -143647,6 +143826,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: DateTimeNullableWithAggregatesFilter<"bookings"> | Date | string | null
     is_police_escort?: BoolNullableWithAggregatesFilter<"bookings"> | boolean | null
     is_send_whatsapp?: BoolNullableWithAggregatesFilter<"bookings"> | boolean | null
+    portal_access_token?: StringNullableWithAggregatesFilter<"bookings"> | string | null
+    staff_owner_id?: BigIntNullableWithAggregatesFilter<"bookings"> | bigint | number | null
+    utm_source?: StringNullableWithAggregatesFilter<"bookings"> | string | null
+    utm_medium?: StringNullableWithAggregatesFilter<"bookings"> | string | null
+    utm_campaign?: StringNullableWithAggregatesFilter<"bookings"> | string | null
     created_at?: DateTimeNullableWithAggregatesFilter<"bookings"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"bookings"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"bookings"> | Date | string | null
@@ -144738,6 +144922,9 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"User"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"User"> | Date | string | null
+    lifecycle_stage?: StringNullableFilter<"User"> | string | null
+    source?: StringNullableFilter<"User"> | string | null
+    customer_tags?: StringNullableListFilter<"User">
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     bookings?: BookingsListRelationFilter
@@ -144755,6 +144942,9 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
+    lifecycle_stage?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
+    customer_tags?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     bookings?: bookingsOrderByRelationAggregateInput
@@ -144775,6 +144965,9 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"User"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"User"> | Date | string | null
+    lifecycle_stage?: StringNullableFilter<"User"> | string | null
+    source?: StringNullableFilter<"User"> | string | null
+    customer_tags?: StringNullableListFilter<"User">
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     bookings?: BookingsListRelationFilter
@@ -144792,6 +144985,9 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     updated_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
+    lifecycle_stage?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
+    customer_tags?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -144814,6 +145010,9 @@ export namespace Prisma {
     created_at?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     updated_at?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    lifecycle_stage?: StringNullableWithAggregatesFilter<"User"> | string | null
+    source?: StringNullableWithAggregatesFilter<"User"> | string | null
+    customer_tags?: StringNullableListFilter<"User">
   }
 
   export type AccountWhereInput = {
@@ -145465,17 +145664,17 @@ export namespace Prisma {
     OR?: destination_gearsWhereInput[]
     NOT?: destination_gearsWhereInput | destination_gearsWhereInput[]
     id?: BigIntFilter<"destination_gears"> | bigint | number
-    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntNullableFilter<"destination_gears"> | bigint | number | null
     gear?: StringFilter<"destination_gears"> | string
     type?: StringFilter<"destination_gears"> | string
     created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
-    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }
 
   export type destination_gearsOrderByWithRelationInput = {
     id?: SortOrder
-    destination_id?: SortOrder
+    destination_id?: SortOrderInput | SortOrder
     gear?: SortOrder
     type?: SortOrder
     created_at?: SortOrderInput | SortOrder
@@ -145488,17 +145687,17 @@ export namespace Prisma {
     AND?: destination_gearsWhereInput | destination_gearsWhereInput[]
     OR?: destination_gearsWhereInput[]
     NOT?: destination_gearsWhereInput | destination_gearsWhereInput[]
-    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntNullableFilter<"destination_gears"> | bigint | number | null
     gear?: StringFilter<"destination_gears"> | string
     type?: StringFilter<"destination_gears"> | string
     created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
-    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
+    destination?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }, "id">
 
   export type destination_gearsOrderByWithAggregationInput = {
     id?: SortOrder
-    destination_id?: SortOrder
+    destination_id?: SortOrderInput | SortOrder
     gear?: SortOrder
     type?: SortOrder
     created_at?: SortOrderInput | SortOrder
@@ -145515,7 +145714,7 @@ export namespace Prisma {
     OR?: destination_gearsScalarWhereWithAggregatesInput[]
     NOT?: destination_gearsScalarWhereWithAggregatesInput | destination_gearsScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"destination_gears"> | bigint | number
-    destination_id?: BigIntWithAggregatesFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntNullableWithAggregatesFilter<"destination_gears"> | bigint | number | null
     gear?: StringWithAggregatesFilter<"destination_gears"> | string
     type?: StringWithAggregatesFilter<"destination_gears"> | string
     created_at?: DateTimeNullableWithAggregatesFilter<"destination_gears"> | Date | string | null
@@ -145911,6 +146110,8 @@ export namespace Prisma {
     seo?: JsonFilter<"content_pages">
     content?: JsonFilter<"content_pages">
     is_active?: BoolFilter<"content_pages"> | boolean
+    status?: StringFilter<"content_pages"> | string
+    published_at?: DateTimeNullableFilter<"content_pages"> | Date | string | null
     created_at?: DateTimeFilter<"content_pages"> | Date | string
     updated_at?: DateTimeFilter<"content_pages"> | Date | string
   }
@@ -145923,6 +146124,8 @@ export namespace Prisma {
     seo?: SortOrder
     content?: SortOrder
     is_active?: SortOrder
+    status?: SortOrder
+    published_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -145939,6 +146142,8 @@ export namespace Prisma {
     seo?: JsonFilter<"content_pages">
     content?: JsonFilter<"content_pages">
     is_active?: BoolFilter<"content_pages"> | boolean
+    status?: StringFilter<"content_pages"> | string
+    published_at?: DateTimeNullableFilter<"content_pages"> | Date | string | null
     created_at?: DateTimeFilter<"content_pages"> | Date | string
     updated_at?: DateTimeFilter<"content_pages"> | Date | string
   }, "id" | "route_lang">
@@ -145951,6 +146156,8 @@ export namespace Prisma {
     seo?: SortOrder
     content?: SortOrder
     is_active?: SortOrder
+    status?: SortOrder
+    published_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: content_pagesCountOrderByAggregateInput
@@ -145971,6 +146178,8 @@ export namespace Prisma {
     seo?: JsonWithAggregatesFilter<"content_pages">
     content?: JsonWithAggregatesFilter<"content_pages">
     is_active?: BoolWithAggregatesFilter<"content_pages"> | boolean
+    status?: StringWithAggregatesFilter<"content_pages"> | string
+    published_at?: DateTimeNullableWithAggregatesFilter<"content_pages"> | Date | string | null
     created_at?: DateTimeWithAggregatesFilter<"content_pages"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"content_pages"> | Date | string
   }
@@ -152658,6 +152867,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -152714,6 +152928,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -152762,6 +152981,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152818,6 +153042,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152870,6 +153099,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -152896,6 +153130,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -152926,6 +153165,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -154090,6 +154334,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     bookings?: bookingsCreateNestedManyWithoutCustomerInput
@@ -154107,6 +154354,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     bookings?: bookingsUncheckedCreateNestedManyWithoutCustomerInput
@@ -154124,6 +154374,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     bookings?: bookingsUpdateManyWithoutCustomerNestedInput
@@ -154141,6 +154394,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     bookings?: bookingsUncheckedUpdateManyWithoutCustomerNestedInput
@@ -154158,6 +154414,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
   }
 
   export type UserUpdateManyMutationInput = {
@@ -154172,6 +154431,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -154186,6 +154448,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
   }
 
   export type AccountCreateInput = {
@@ -154974,12 +155239,12 @@ export namespace Prisma {
     type: string
     created_at?: Date | string | null
     updated_at?: Date | string | null
-    destination: destinationsCreateNestedOneWithoutDestination_gearsInput
+    destination?: destinationsCreateNestedOneWithoutDestination_gearsInput
   }
 
   export type destination_gearsUncheckedCreateInput = {
     id?: bigint | number
-    destination_id: bigint | number
+    destination_id?: bigint | number | null
     gear: string
     type: string
     created_at?: Date | string | null
@@ -154992,12 +155257,12 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    destination?: destinationsUpdateOneRequiredWithoutDestination_gearsNestedInput
+    destination?: destinationsUpdateOneWithoutDestination_gearsNestedInput
   }
 
   export type destination_gearsUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     gear?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155006,7 +155271,7 @@ export namespace Prisma {
 
   export type destination_gearsCreateManyInput = {
     id?: bigint | number
-    destination_id: bigint | number
+    destination_id?: bigint | number | null
     gear: string
     type: string
     created_at?: Date | string | null
@@ -155023,7 +155288,7 @@ export namespace Prisma {
 
   export type destination_gearsUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     gear?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -155463,6 +155728,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content: JsonNullValueInput | InputJsonValue
     is_active?: boolean
+    status?: string
+    published_at?: Date | string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -155475,6 +155742,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content: JsonNullValueInput | InputJsonValue
     is_active?: boolean
+    status?: string
+    published_at?: Date | string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -155487,6 +155756,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content?: JsonNullValueInput | InputJsonValue
     is_active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    published_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -155499,6 +155770,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content?: JsonNullValueInput | InputJsonValue
     is_active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    published_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -155511,6 +155784,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content: JsonNullValueInput | InputJsonValue
     is_active?: boolean
+    status?: string
+    published_at?: Date | string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -155523,6 +155798,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content?: JsonNullValueInput | InputJsonValue
     is_active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    published_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -155535,6 +155812,8 @@ export namespace Prisma {
     seo?: JsonNullValueInput | InputJsonValue
     content?: JsonNullValueInput | InputJsonValue
     is_active?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    published_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -162097,6 +162376,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: SortOrder
     is_police_escort?: SortOrder
     is_send_whatsapp?: SortOrder
+    portal_access_token?: SortOrder
+    staff_owner_id?: SortOrder
+    utm_source?: SortOrder
+    utm_medium?: SortOrder
+    utm_campaign?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -162109,6 +162393,7 @@ export namespace Prisma {
     duration_id?: SortOrder
     order_channel_id?: SortOrder
     total_participants?: SortOrder
+    staff_owner_id?: SortOrder
   }
 
   export type bookingsMaxOrderByAggregateInput = {
@@ -162136,6 +162421,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: SortOrder
     is_police_escort?: SortOrder
     is_send_whatsapp?: SortOrder
+    portal_access_token?: SortOrder
+    staff_owner_id?: SortOrder
+    utm_source?: SortOrder
+    utm_medium?: SortOrder
+    utm_campaign?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -162166,6 +162456,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: SortOrder
     is_police_escort?: SortOrder
     is_send_whatsapp?: SortOrder
+    portal_access_token?: SortOrder
+    staff_owner_id?: SortOrder
+    utm_source?: SortOrder
+    utm_medium?: SortOrder
+    utm_campaign?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -162178,6 +162473,7 @@ export namespace Prisma {
     duration_id?: SortOrder
     order_channel_id?: SortOrder
     total_participants?: SortOrder
+    staff_owner_id?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -162996,6 +163292,9 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    lifecycle_stage?: SortOrder
+    source?: SortOrder
+    customer_tags?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -163016,6 +163315,8 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    lifecycle_stage?: SortOrder
+    source?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -163030,6 +163331,8 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
+    lifecycle_stage?: SortOrder
+    source?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -163547,11 +163850,6 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type DestinationsScalarRelationFilter = {
-    is?: destinationsWhereInput
-    isNot?: destinationsWhereInput
-  }
-
   export type destination_gearsCountOrderByAggregateInput = {
     id?: SortOrder
     destination_id?: SortOrder
@@ -163933,6 +164231,8 @@ export namespace Prisma {
     seo?: SortOrder
     content?: SortOrder
     is_active?: SortOrder
+    status?: SortOrder
+    published_at?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -163948,6 +164248,8 @@ export namespace Prisma {
     lang?: SortOrder
     schema_version?: SortOrder
     is_active?: SortOrder
+    status?: SortOrder
+    published_at?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -163958,6 +164260,8 @@ export namespace Prisma {
     lang?: SortOrder
     schema_version?: SortOrder
     is_active?: SortOrder
+    status?: SortOrder
+    published_at?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -165826,6 +166130,11 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     duration_minutes?: SortOrder
+  }
+
+  export type DestinationsScalarRelationFilter = {
+    is?: destinationsWhereInput
+    isNot?: destinationsWhereInput
   }
 
   export type route_destinationsCountOrderByAggregateInput = {
@@ -169767,6 +170076,10 @@ export namespace Prisma {
     update?: XOR<XOR<crew_membersUpdateToOneWithWhereWithoutCrew_reviewsInput, crew_membersUpdateWithoutCrew_reviewsInput>, crew_membersUncheckedUpdateWithoutCrew_reviewsInput>
   }
 
+  export type UserCreatecustomer_tagsInput = {
+    set: string[]
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -169807,6 +170120,11 @@ export namespace Prisma {
     connectOrCreate?: bookingsCreateOrConnectWithoutCustomerInput | bookingsCreateOrConnectWithoutCustomerInput[]
     createMany?: bookingsCreateManyCustomerInputEnvelope
     connect?: bookingsWhereUniqueInput | bookingsWhereUniqueInput[]
+  }
+
+  export type UserUpdatecustomer_tagsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type AccountUpdateManyWithoutUserNestedInput = {
@@ -170565,10 +170883,12 @@ export namespace Prisma {
     connect?: destinationsWhereUniqueInput
   }
 
-  export type destinationsUpdateOneRequiredWithoutDestination_gearsNestedInput = {
+  export type destinationsUpdateOneWithoutDestination_gearsNestedInput = {
     create?: XOR<destinationsCreateWithoutDestination_gearsInput, destinationsUncheckedCreateWithoutDestination_gearsInput>
     connectOrCreate?: destinationsCreateOrConnectWithoutDestination_gearsInput
     upsert?: destinationsUpsertWithoutDestination_gearsInput
+    disconnect?: destinationsWhereInput | boolean
+    delete?: destinationsWhereInput | boolean
     connect?: destinationsWhereUniqueInput
     update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutDestination_gearsInput, destinationsUpdateWithoutDestination_gearsInput>, destinationsUncheckedUpdateWithoutDestination_gearsInput>
   }
@@ -176336,6 +176656,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176391,6 +176716,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176493,6 +176823,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176548,6 +176883,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176595,6 +176935,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176650,6 +176995,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176746,6 +177096,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176801,6 +177156,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -176887,6 +177247,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -176942,6 +177307,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -177060,6 +177430,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177115,6 +177490,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177223,6 +177603,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -177278,6 +177663,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -177527,6 +177917,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177582,6 +177977,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -177827,6 +178227,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -177882,6 +178287,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178008,6 +178418,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178063,6 +178478,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178179,6 +178599,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178234,6 +178659,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178297,6 +178727,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178352,6 +178787,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178446,6 +178886,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178501,6 +178946,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178680,6 +179130,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178735,6 +179190,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -178898,6 +179358,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -178953,6 +179418,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -179143,6 +179613,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179198,6 +179673,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179403,6 +179883,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -179458,6 +179943,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -179691,6 +180181,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -179746,6 +180241,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180063,6 +180563,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180118,6 +180623,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180314,6 +180824,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180369,6 +180884,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180416,6 +180936,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180471,6 +180996,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180534,6 +181064,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180589,6 +181124,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180636,6 +181176,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180691,6 +181236,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180795,6 +181345,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180850,6 +181405,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -180944,6 +181504,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -180999,6 +181564,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -181062,6 +181632,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -181117,6 +181692,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -181164,6 +181744,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -181219,6 +181804,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -181375,6 +181965,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -181430,6 +182025,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -181588,6 +182188,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -181643,6 +182248,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -181706,6 +182316,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -181761,6 +182376,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182006,6 +182626,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182061,6 +182686,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182152,6 +182782,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182207,6 +182842,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182254,6 +182894,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182309,6 +182954,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182372,6 +183022,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182427,6 +183082,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182474,6 +183134,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182529,6 +183194,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182621,6 +183291,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182676,6 +183351,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182758,6 +183438,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182813,6 +183498,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -182876,6 +183566,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -182931,6 +183626,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -183699,6 +184399,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
   }
@@ -183715,6 +184418,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -184584,6 +185290,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
   }
@@ -184600,6 +185309,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -185474,6 +186186,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -185529,6 +186246,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -185647,6 +186369,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -185702,6 +186429,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -186791,6 +187523,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -186846,6 +187583,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -187052,6 +187794,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -187107,6 +187854,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -187414,6 +188166,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -187468,6 +188225,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -187609,6 +188371,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: DateTimeNullableFilter<"bookings"> | Date | string | null
     is_police_escort?: BoolNullableFilter<"bookings"> | boolean | null
     is_send_whatsapp?: BoolNullableFilter<"bookings"> | boolean | null
+    portal_access_token?: StringNullableFilter<"bookings"> | string | null
+    staff_owner_id?: BigIntNullableFilter<"bookings"> | bigint | number | null
+    utm_source?: StringNullableFilter<"bookings"> | string | null
+    utm_medium?: StringNullableFilter<"bookings"> | string | null
+    utm_campaign?: StringNullableFilter<"bookings"> | string | null
     created_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     updated_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"bookings"> | Date | string | null
@@ -187626,6 +188393,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     sessions?: SessionCreateNestedManyWithoutUserInput
     bookings?: bookingsCreateNestedManyWithoutCustomerInput
   }
@@ -187642,6 +188412,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     bookings?: bookingsUncheckedCreateNestedManyWithoutCustomerInput
   }
@@ -187674,6 +188447,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     sessions?: SessionUpdateManyWithoutUserNestedInput
     bookings?: bookingsUpdateManyWithoutCustomerNestedInput
   }
@@ -187690,6 +188466,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     bookings?: bookingsUncheckedUpdateManyWithoutCustomerNestedInput
   }
@@ -187706,6 +188485,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountCreateNestedManyWithoutUserInput
     bookings?: bookingsCreateNestedManyWithoutCustomerInput
   }
@@ -187722,6 +188504,9 @@ export namespace Prisma {
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
+    lifecycle_stage?: string | null
+    source?: string | null
+    customer_tags?: UserCreatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     bookings?: bookingsUncheckedCreateNestedManyWithoutCustomerInput
   }
@@ -187754,6 +188539,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUpdateManyWithoutUserNestedInput
     bookings?: bookingsUpdateManyWithoutCustomerNestedInput
   }
@@ -187770,6 +188558,9 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lifecycle_stage?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tags?: UserUpdatecustomer_tagsInput | string[]
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     bookings?: bookingsUncheckedUpdateManyWithoutCustomerNestedInput
   }
@@ -189219,7 +190010,7 @@ export namespace Prisma {
     OR?: destination_gearsScalarWhereInput[]
     NOT?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
     id?: BigIntFilter<"destination_gears"> | bigint | number
-    destination_id?: BigIntFilter<"destination_gears"> | bigint | number
+    destination_id?: BigIntNullableFilter<"destination_gears"> | bigint | number | null
     gear?: StringFilter<"destination_gears"> | string
     type?: StringFilter<"destination_gears"> | string
     created_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
@@ -189727,6 +190518,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -189781,6 +190577,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -190211,6 +191012,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -190266,6 +191072,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -190329,6 +191140,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -190384,6 +191200,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -191252,6 +192073,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -191306,6 +192132,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -196007,6 +196838,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -196061,6 +196897,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -203706,6 +204547,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -203792,6 +204638,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -203846,6 +204697,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -203897,6 +204753,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205072,6 +205933,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -205143,6 +206009,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205197,6 +206068,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205248,6 +206124,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -205980,6 +206861,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -206082,6 +206968,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -206136,6 +207027,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -206187,6 +207083,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -206890,6 +207791,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: Date | string | null
     is_police_escort?: boolean | null
     is_send_whatsapp?: boolean | null
+    portal_access_token?: string | null
+    staff_owner_id?: bigint | number | null
+    utm_source?: string | null
+    utm_medium?: string | null
+    utm_campaign?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -207038,6 +207944,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -207092,6 +208003,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -207143,6 +208059,11 @@ export namespace Prisma {
     date_paid_invoiced_twt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     is_police_escort?: NullableBoolFieldUpdateOperationsInput | boolean | null
     is_send_whatsapp?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    portal_access_token?: NullableStringFieldUpdateOperationsInput | string | null
+    staff_owner_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    utm_source?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_medium?: NullableStringFieldUpdateOperationsInput | string | null
+    utm_campaign?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

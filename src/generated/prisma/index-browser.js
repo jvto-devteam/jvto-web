@@ -510,6 +510,11 @@ exports.Prisma.BookingsScalarFieldEnum = {
   date_paid_invoiced_twt: 'date_paid_invoiced_twt',
   is_police_escort: 'is_police_escort',
   is_send_whatsapp: 'is_send_whatsapp',
+  portal_access_token: 'portal_access_token',
+  staff_owner_id: 'staff_owner_id',
+  utm_source: 'utm_source',
+  utm_medium: 'utm_medium',
+  utm_campaign: 'utm_campaign',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at'
@@ -685,7 +690,10 @@ exports.Prisma.UserScalarFieldEnum = {
   order_channel_id: 'order_channel_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
+  deleted_at: 'deleted_at',
+  lifecycle_stage: 'lifecycle_stage',
+  source: 'source',
+  customer_tags: 'customer_tags'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -867,6 +875,8 @@ exports.Prisma.Content_pagesScalarFieldEnum = {
   seo: 'seo',
   content: 'content',
   is_active: 'is_active',
+  status: 'status',
+  published_at: 'published_at',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };

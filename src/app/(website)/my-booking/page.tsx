@@ -74,12 +74,10 @@ export default function MyBookingPage() {
 
   // --- FETCH DATA ---
   useEffect(() => {
-    if (status === "authenticated" && session?.user?.email) {
+    if (status === "authenticated") {
       const fetchBookings = async () => {
         try {
-          const res = await fetch(
-            `https://legacy.javavolcano-touroperator.com/bookings?json=true&email=${session.user?.email}`
-          );
+          const res = await fetch("/api/my-bookings");
           if (!res.ok) throw new Error("Failed");
           const data = await res.json();
           setBookings(Array.isArray(data) ? data : []);
@@ -93,7 +91,7 @@ export default function MyBookingPage() {
     } else if (status === "unauthenticated") {
       setLoading(false);
     }
-  }, [session, status]);
+  }, [status]);
 
   // --- LOGIC FILTERING & SORTING ---
   const processedBookings = useMemo(() => {

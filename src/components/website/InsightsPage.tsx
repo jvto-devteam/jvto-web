@@ -1,47 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import Breadcrumbs from "./Breadcrumbs";
+import type { BlogSummary } from "@/lib/content/getBlog";
 
-const articles = [
-  {
-    title: "How to Choose a Legal Bromo & Ijen Operator",
-    description:
-      "A practical guide to verifying licenses, safety records, and avoiding common scams in East Java.",
-    link: "/insights/choose-legal-operator",
-    category: "Safety & Planning",
-  },
-  {
-    title: "Why Real Ijen Health Screening Matters",
-    description:
-      "An inside look at the risks of falsified medical letters and how our digital system raises the bar for safety.",
-    link: "/insights/ijen-screening-explained",
-    category: "Safety & Planning",
-  },
-  {
-    title: "Bromo vs Ijen vs Tumpak Sewu — How to Combine Them in 3–5 Days",
-    description:
-      "Expert advice on structuring your itinerary to maximize experience and minimize travel time.",
-    link: "/insights/combine-destinations",
-    category: "Itinerary Planning",
-  },
-  {
-    title: "A Practical Guide for ISIC Students Traveling in East Java",
-    description:
-      "Understanding park fees, how to get fair pricing, and making the most of your student status with JVTO.",
-    link: "/insights/isic-student-fairness",
-    category: "Community & Fairness",
-  },
-  {
-    title:
-      "How Official Police Escort Works for Large Tourist Groups (Plain English)",
-    description:
-      "Demystifying the legal process, purpose, and requirements for arranging a 'Patwal' in East Java.",
-    link: "/travel-guide/police-escort-for-groups",
-    category: "Safety & Planning",
-  },
-];
+type ArticleItem = {
+  title: string;
+  description: string;
+  link: string;
+  category: string;
+};
 
-const ArticleCard: React.FC<(typeof articles)[0]> = ({
+const ArticleCard: React.FC<ArticleItem> = ({
   title,
   description,
   link,
@@ -70,16 +39,25 @@ const ArticleCard: React.FC<(typeof articles)[0]> = ({
 interface InsightsPageProps {
   title?: string;
   description?: string;
+  blogs?: BlogSummary[];
 }
 
 const InsightsPage = ({
   title = "Insights & Explainers",
   description = "Long-form articles explaining how we operate, why safety standards matter, and how to plan your trip effectively.",
+  blogs = [],
 }: InsightsPageProps) => {
   const breadcrumbCrumbs = [
     { name: "Home", path: "/" },
-    { name: "Insights", path: "/insights" },
+    { name: "Blog", path: "/blog" },
   ];
+
+  const articles: ArticleItem[] = blogs.map((b) => ({
+    title: b.title,
+    description: b.tags.slice(0, 3).join(", ") || b.category,
+    link: `/blog/${b.slug}`,
+    category: b.category,
+  }));
 
   return (
     <>
@@ -107,11 +85,15 @@ const InsightsPage = ({
               <Breadcrumbs crumbs={breadcrumbCrumbs} />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {articles.map((article) => (
-                <ArticleCard key={article.title} {...article} />
-              ))}
-            </div>
+            {articles.length === 0 ? (
+              <p className="text-muted-foreground text-center py-16">No articles published yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {articles.map((article) => (
+                  <ArticleCard key={article.link} {...article} />
+                ))}
+              </div>
+            )}
           </div>
         </main>
       </div>

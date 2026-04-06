@@ -3,6 +3,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { buildWebsiteMetadata } from "@/lib/seo/pageMetadata";
+import { getBlogList } from "@/lib/content/getBlog";
 
 const fallbackSeo = {
   title: "Insights | JVTO's Blog on Safety, Planning & Community",
@@ -21,7 +22,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Insights() {
-  const seo = await getPageSeo("/blog", fallbackSeo);
+  const [seo, blogs] = await Promise.all([
+    getPageSeo("/blog", fallbackSeo),
+    getBlogList(),
+  ]);
+
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -46,7 +51,7 @@ export default async function Insights() {
   return (
     <>
       <PageJsonLdCombined pageRow={pageRow as any} />
-      <InsightsPage title={seo.h1} description={seo.description} />
+      <InsightsPage title={seo.h1} description={seo.description} blogs={blogs} />
     </>
   );
 }
