@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVTO Website PRD v2 — SSOT-Verified</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0D1B2A;
+  --navy-mid: #1C2E40;
+  --orange: #E8650A;
+  --orange-h: #C4520A;
+  --lime: #8CC63F;
+  --lime-pale: #EFF8E2;
+  --gold: #F5A623;
+  --wa: #25D366;
+  --white: #FFFFFF;
+  --off: #F6F5F2;
+  --muted: #6B7280;
+  --border: #E3E0DA;
+  --red-bg: #FDECEC;
+  --red-text: #A32D2D;
+  --amber-bg: #FFF3CD;
+  --amber-text: #7A5500;
+  --blue-bg: #E6ECF4;
+  --blue-text: #1A4A80;
+  --r: 8px;
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--off); color: var(--navy); font-size: 14px; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* Header */
+.doc-header { margin-bottom: 2rem; }
+.top-badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--lime-pale); color: #3D6B18; margin-bottom: .75rem; letter-spacing: .04em; text-transform: uppercase; }
+.audit-banner { background: #FEF0E0; border: 1px solid #F5A623; border-radius: var(--r); padding: 10px 14px; margin-bottom: 1.25rem; font-size: 12px; color: #7A4000; line-height: 1.6; }
+.audit-banner strong { color: #5A2D00; }
+.doc-title { font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.doc-sub { font-size: 13px; color: var(--muted); }
+
+/* Tabs */
+.nav-tabs { display: flex; gap: 5px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.75rem; }
+.tab { padding: 6px 14px; font-size: 12px; cursor: pointer; border: 1px solid var(--border); border-radius: 6px; background: var(--white); color: var(--muted); transition: all .15s; font-weight: 500; }
+.tab.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+.tab:hover:not(.on) { background: #eee; }
+.sec { display: none; }
+.sec.on { display: block; }
+
+/* Section headers */
+.stitle { font-size: 17px; font-weight: 600; color: var(--navy); padding-bottom: 6px; border-bottom: 3px solid var(--orange); display: inline-block; margin-bottom: .5rem; }
+.sintro { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 1.5rem; max-width: 820px; }
+
+/* Grid */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin-bottom: 1.25rem; }
+
+/* Cards */
+.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r); padding: 1rem 1.25rem; }
+.card-accent { border-top: 3px solid var(--orange); }
+.card-green { border-top: 3px solid var(--lime); }
+.card-amber { border-top: 3px solid var(--gold); }
+.clabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .65rem; }
+
+/* Rows */
+.srow { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid #F3F0EC; font-size: 12.5px; }
+.srow:last-child { border-bottom: none; }
+.skey { color: var(--muted); min-width: 160px; flex-shrink: 0; font-weight: 500; }
+.sval { color: var(--navy); flex: 1; line-height: 1.55; }
+
+/* Badges */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.b-green { background: var(--lime-pale); color: #3D6B18; }
+.b-orange { background: #FEF0E0; color: #7A4000; }
+.b-navy { background: #E6ECF4; color: var(--navy); }
+.b-red { background: var(--red-bg); color: var(--red-text); }
+.b-verify { background: #0A1520; color: var(--lime); border: 1px solid #1E3A2A; }
+.b-amber { background: var(--amber-bg); color: var(--amber-text); }
+.b-wa { background: #E0F7EA; color: #1A6635; }
+
+/* Diff component */
+.diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: .75rem; }
+.diff-side { background: #FAFAFA; border-radius: 6px; padding: 10px 12px; border: 1px solid var(--border); }
+.diff-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+.diff-label.wrong { color: var(--red-text); }
+.diff-label.right { color: #3D6B18; }
+.diff-val { font-size: 12px; color: var(--navy); line-height: 1.55; }
+.diff-note { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; font-style: italic; }
+
+/* Tour table */
+.tour-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 1.25rem; }
+.tour-table th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.tour-table td { padding: 7px 10px; border-bottom: 1px solid #F0EDE6; color: var(--navy); }
+.tour-table tr:hover td { background: #FAFAF8; }
+.tour-table tr:last-child td { border-bottom: none; }
+.td-route { font-family: monospace; font-size: 11px; color: var(--muted); }
+
+/* Price table */
+.price-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.price-table th { background: var(--navy-mid); color: #fff; padding: 7px 12px; font-size: 11px; font-weight: 600; }
+.price-table td { padding: 8px 12px; border-bottom: 1px solid #F0EDE6; text-align: center; }
+.price-table tr:last-child td { border-bottom: none; }
+.price-note { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.price-best { background: var(--lime-pale); font-weight: 600; color: #3D6B18; }
+
+/* Flow steps */
+.flow-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px dashed var(--border); }
+.flow-step:last-child { border-bottom: none; margin-bottom: 0; }
+.fnum { width: 28px; height: 28px; border-radius: 50%; background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.fnum.green { background: var(--lime); color: var(--navy); }
+.ftitle { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.fdesc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.fdesc strong { color: var(--navy); }
+
+/* Screen spec */
+.screen-block { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 1.25rem; }
+.screen-head { background: #F8F7F4; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.screen-title { font-size: 13px; font-weight: 600; color: var(--navy); }
+.screen-body { padding: 14px; }
+
+/* Color swatches */
+.sw { height: 50px; border-radius: 6px; margin-bottom: 5px; border: 1px solid var(--border); }
+.snm { font-size: 12px; font-weight: 600; color: var(--navy); }
+.shx { font-size: 11px; color: var(--muted); font-family: monospace; }
+.sus { font-size: 11px; color: #9AA5B4; margin-top: 2px; }
+
+/* Token pre block */
+.token-block { background: #0D1B2A; border-radius: var(--r); padding: 1.25rem; overflow-x: auto; }
+.token-block pre { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 11.5px; color: #C8D8C0; line-height: 1.85; white-space: pre-wrap; }
+.token-block .cm { color: #4A7060; }
+.token-block .key { color: #8CC63F; }
+.token-block .val { color: #F5A623; }
+.token-block .str { color: #79C0FF; }
+
+/* Verify hub */
+.verify-page-card { background: #0A1520; border: 1px solid #1E3A2A; border-radius: var(--r); padding: .85rem 1rem; margin-bottom: .6rem; }
+.vpc-route { font-family: monospace; font-size: 11px; color: #5DA320; margin-bottom: 3px; }
+.vpc-title { font-size: 13px; font-weight: 600; color: #8CC63F; margin-bottom: 4px; }
+.vpc-desc { font-size: 12px; color: #7AA080; line-height: 1.5; }
+
+/* Trust signals */
+.trust-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; margin: 3px; }
+.tp-green { background: var(--lime-pale); color: #3D6B18; border: 1px solid #C5E09A; }
+.tp-navy { background: #E6ECF4; color: var(--navy); border: 1px solid #C0CCE0; }
+
+/* Payment box */
+.pay-method { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F0EDE6; }
+.pay-method:last-child { border-bottom: none; }
+.pay-icon { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.pay-text { flex: 1; }
+.pay-label { font-size: 12.5px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+.pay-sub { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* Nav demo */
+.nav-demo { background: var(--navy); padding: 12px 20px; border-radius: var(--r); display: flex; align-items: center; gap: 16px; margin-bottom: 1rem; flex-wrap: wrap; }
+.nl { color: #fff; font-weight: 700; font-size: 14px; }
+.nln { color: rgba(255,255,255,.65); font-size: 12px; cursor: pointer; }
+.nln.a { color: #fff; font-weight: 500; }
+.nfv { margin-left: auto; padding: 6px 13px; background: transparent; border: 1px solid rgba(140,198,63,.5); color: #8CC63F; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 600; }
+.nwa { padding: 6px 14px; background: #25D366; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+/* Buttons showcase */
+.comp-demo { padding: 1rem; background: #F8F7F4; border-radius: var(--r); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: .75rem; }
+.btn-book { padding: 10px 22px; background: var(--orange); color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-book:hover { background: var(--orange-h); }
+.btn-wa { padding: 10px 22px; background: var(--wa); color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.btn-prim { padding: 10px 22px; background: var(--navy); color: #fff; border: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.btn-sec { padding: 10px 22px; background: transparent; color: var(--navy); border: 1.5px solid var(--navy); border-radius: 6px; font-size: 13px; cursor: pointer; }
+.btn-ver { padding: 10px 20px; background: transparent; color: #8CC63F; border: 1px solid #8CC63F; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+/* Callout */
+.callout { border-radius: var(--r); padding: 10px 14px; font-size: 12px; line-height: 1.6; margin-bottom: .75rem; }
+.callout-fix { background: var(--red-bg); border-left: 3px solid #C0392B; color: #7A1A1A; }
+.callout-ok { background: var(--lime-pale); border-left: 3px solid var(--lime); color: #2D5A10; }
+.callout-info { background: var(--blue-bg); border-left: 3px solid #4A90D9; color: #1A3A6A; }
+.callout-amber { background: var(--amber-bg); border-left: 3px solid var(--gold); color: #5A3A00; }
+
+/* Type scale */
+.type-ex { padding: 10px 0; border-bottom: 1px solid #F0EDE6; }
+.type-ex:last-child { border-bottom: none; }
+.type-meta { font-size: 10px; color: var(--muted); font-family: monospace; margin-bottom: 3px; }
+
+/* Policy card */
+.policy-item { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid #F0EDE6; font-size: 12.5px; }
+.policy-item:last-child { border-bottom: none; }
+.p-num { font-weight: 700; color: var(--orange); min-width: 24px; }
+.p-text { color: var(--navy); line-height: 1.55; flex: 1; }
+
+@media (max-width: 768px) {
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+  .diff-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="top-badge">JVTO · SSOT v4.0 VERIFIED · PRD v2.0</div>
+    <div class="audit-banner">
+      <strong>⚠ Audit Notice:</strong> This document supersedes PRD v1 (jvto_design_system_prd_v1.html).
+      Critical corrections applied: (1) Checkout flow corrected — JVTO has a secure online payment gateway; WhatsApp is an inquiry/support channel, not the payment channel.
+      (2) Full tour catalog aligned to SSOT (16 packages). (3) Pricing corrected to 5-tier group model.
+      (4) Trust stack expanded with verified credentials. (5) Policy terms (Lifetime Travel Credit, cancellation) added. All data sourced from JVTO_SSOT_v4_0_CLEAN.json.
+    </div>
+    <div class="doc-title">Java Volcano Tour Operator — Website PRD v2</div>
+    <div class="doc-sub">Product Requirements Document · Design System · User Flows · Screen Specs · SSOT-Verified · English · Commercial Language</div>
+  </div>
+
+  <!-- NAVIGATION TABS -->
+  <div class="nav-tabs">
+    <button class="tab on" onclick="show('overview')">Product Overview</button>
+    <button class="tab" onclick="show('audit')">Audit: v1 vs v2</button>
+    <button class="tab" onclick="show('catalog')">Tour Catalog</button>
+    <button class="tab" onclick="show('booking')">Booking & Payment</button>
+    <button class="tab" onclick="show('trust')">Trust Stack</button>
+    <button class="tab" onclick="show('colors')">Design System</button>
+    <button class="tab" onclick="show('flows')">User Flows</button>
+    <button class="tab" onclick="show('screens')">Screen Specs</button>
+    <button class="tab" onclick="show('tokens')">Design Tokens</button>
+  </div>
+
+  <!-- ============================
+       1. PRODUCT OVERVIEW
+       ============================ -->
+  <div class="sec on" id="sec-overview">
+    <div class="stitle">Product Overview</div>
+    <p class="sintro">Java Volcano Tour Operator (JVTO) is a registered Indonesian private tour company — legal entity <strong>PT Java Volcano Rendezvous</strong>, headquartered in Bondowoso, East Java. Founded in 2016 by Agung Sambuko (Mr. Sam), an active Indonesian Tourist Police officer (Ditpamobvit), JVTO delivers all-inclusive private volcano itineraries to Mount Bromo, Ijen Crater, Tumpak Sewu, Madakaripura, and Papuma Beach. Every booking is private — no shared group buses, no strangers in your vehicle. The website serves two audiences simultaneously: travelers ready to book, and skeptical first-time visitors who need to verify legitimacy before committing.</p>
+
+    <div class="g3">
+      <div class="card card-accent">
+        <div class="clabel">Core Brand Position</div>
+        <div style="font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px;">Operational Certainty</div>
+        <div style="font-size: 12px; color: var(--muted); line-height: 1.65;">In a landscape where volcanic nature is unpredictable, JVTO sells what it can actually control: disciplined logistics, documented credentials, and consistent local execution — not marketing promises about the mountain.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="clabel">Private-Only Operator</div>
+        <div style="font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px;">Your Group. Your Vehicle. Your Pace.</div>
+        <div style="font-size: 12px; color: var(--muted); line-height: 1.65;">JVTO does not operate join-group or open bus tours. Every package is a private departure — solo travelers, couples, families, and corporate groups each get a dedicated vehicle and crew assigned exclusively to them.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="clabel">All-Inclusive Pricing</div>
+        <div style="font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px;">One Price. No Surprise Fees.</div>
+        <div style="font-size: 12px; color: var(--muted); line-height: 1.65;">Every JVTO package covers private transport, accommodation, entrance permits, licensed guides, gas masks (Ijen), mandatory health screening (Ijen), meals as stated, mineral water, and a JVTO travel T-shirt. Tiered group pricing means larger groups pay less per person.</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="clabel">Legal Identity & Credentials</div>
+        <div class="srow"><span class="skey">Legal entity</span><span class="sval">PT Java Volcano Rendezvous</span></div>
+        <div class="srow"><span class="skey">Brand name</span><span class="sval">Java Volcano Tour Operator (JVTO)</span></div>
+        <div class="srow"><span class="skey">Headquarters</span><span class="sval">Jl. Khairil Anwar No.102 A, Badean, Bondowoso, Jawa Timur 68214</span></div>
+        <div class="srow"><span class="skey">Founded</span><span class="sval">2016 — operational track record since 2015 (guesthouse era)</span></div>
+        <div class="srow"><span class="skey">Founder</span><span class="sval">Agung Sambuko (Mr. Sam) — Active Tourist Police Officer, Ditpamobvit</span></div>
+        <div class="srow"><span class="skey">Credentials</span><span class="sval">SIUP · TDUP · OSS-RBA registry · HPWKI (Ijen Guide Association) · ISIC Provider #259268 · INDECON Member</span></div>
+        <div class="srow"><span class="skey">Recognition</span><span class="sval">Booking.com Award 2015 (9.4/10) · Stefan Loose Reiseführer Indonesia (p.287)</span></div>
+        <div class="srow"><span class="skey">Official website</span><span class="sval">https://javavolcano-touroperator.com</span></div>
+        <div class="srow"><span class="skey">WhatsApp (inquiry)</span><span class="sval">+62 822-4478-8833</span></div>
+        <div class="srow"><span class="skey">Email</span><span class="sval">hello@javavolcano-touroperator.com</span></div>
+      </div>
+      <div class="card">
+        <div class="clabel">Target Audience & Market</div>
+        <div class="srow"><span class="skey">Primary markets</span><span class="sval">Singapore, Malaysia, Hong Kong, Taiwan — digital-savvy, comfort-conscious travelers</span></div>
+        <div class="srow"><span class="skey">Age range</span><span class="sval">25–45 · Self-funded trips · Privacy-conscious · Not budget backpackers</span></div>
+        <div class="srow"><span class="skey">Travel pattern</span><span class="sval">Fly to Surabaya (Juanda) or Bali (Ngurah Rai) · Need operator to handle all East Java logistics</span></div>
+        <div class="srow"><span class="skey">Key decision triggers</span><span class="sval">Verified guide identity · Transparent group pricing · Police-backed safety · Private vehicle exclusivity</span></div>
+        <div class="srow"><span class="skey">Primary pain points</span><span class="sval">Scam operators · Hidden costs · No licensed guides · Crowded shared jeeps · Unverifiable credentials</span></div>
+        <div class="srow"><span class="skey">Discovery funnel</span><span class="sval">Google Search · TripAdvisor · Trustpilot · Klook · Direct site visit</span></div>
+        <div class="srow"><span class="skey">Also eligible</span><span class="sval">ISIC cardholders (student discount — provider #259268)</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Narrative Pillars (9 Proof-Backed Claims)</div>
+      <div class="g3" style="margin-top:.75rem; gap:.75rem;">
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Safety-Led Operations</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Police-led safety mindset, documented SOPs, Plan B framework for closures and weather changes. Route: /why-jvto/the-jvto-difference</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Proof-First Trust</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">All credentials are publicly verifiable — SIUP, TDUP, guide licenses, health screening protocols linked to government sources. Route: /verify-jvto</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Private Tours (Control Quality)</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">No shared buses, no open groups. Full logistics control means consistent delivery and safety management. Route: /tours</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">All-Inclusive Clarity</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Binding inclusions in the Official E-Voucher eliminate surprise costs. What's written is what's delivered. Route: /policy/inclusions-exclusions</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Ijen Health Screening</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Mandatory medical clearance arranged by JVTO via licensed doctor (dr. Ahmad Irwandanu, SIP valid to 2031) — a regulatory requirement for Ijen. Route: /travel-guide/ijen-health-screening</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Our Team (14 Local Crew)</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Named guides and drivers with licensed credentials — profiles linked to actual review mentions. Not generic "experienced guide" marketing. Route: /why-jvto/our-team</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Reviews Registry</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Reviews organized by platform and theme — scannable patterns, not cherry-picked quotes. Tripadvisor, Trustpilot, Google, ISIC, Indecon. Route: /why-jvto/reviews</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Partners (Contextual)</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">HPWKI (competence), INDECON (sustainability), ISIC (student verification) — each explained by function, not as logo decoration. Route: /verify-jvto</div>
+        </div>
+        <div style="background:#FAFAF8; border-radius:6px; padding:10px 12px; border:1px solid var(--border);">
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:4px;">Press & Recognition</div>
+          <div style="font-size:11.5px; color:var(--muted); line-height:1.55;">Detik.com, Radar Jember (Jawa Pos), Stefan Loose guidebook, Booking.com Award 2015 — third-party context, not self-proclaimed endorsements. Route: /verify-jvto/press-recognition</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       2. AUDIT v1 vs v2
+       ============================ -->
+  <div class="sec" id="sec-audit">
+    <div class="stitle">Audit: PRD v1 Errors & v2 Corrections</div>
+    <p class="sintro">Every item below represents a factual discrepancy between PRD v1 and the SSOT v4.0 source of truth. All corrections are binding. Dev teams and designers must use v2 as the reference.</p>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🔴 CRITICAL — Booking & Checkout Flow</div>
+      <div class="callout callout-fix" style="margin-top:.75rem;">
+        PRD v1 stated "WhatsApp-First Booking" as the primary channel for all booking actions. This is incorrect and would misdirect development. JVTO operates a fully functional <strong>secure online checkout with card payment</strong>. WhatsApp is an inquiry and support channel, not the payment mechanism.
+      </div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1 (Incorrect)</div>
+          <div class="diff-val">"WhatsApp-First Booking" as the sole CTA and booking channel. "Online form as secondary." No mention of payment gateway, deposit policy, or official e-voucher.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2 (Correct — from SSOT)</div>
+          <div class="diff-val">Booking confirmed only after: (1) package selection, (2) 20% deposit via <strong>secure online checkout (card, SSL, PCI DSS)</strong> or full payment if within 14 days, and (3) <strong>Official E-Voucher/Invoice PDF</strong> issued by JVTO. WhatsApp (+62 822-4478-8833) and Email used for pre-booking inquiry and support only.</div>
+        </div>
+      </div>
+      <p class="diff-note">SSOT source: /policy/booking-payment-cancellation — Section 4 "When a Booking Is Confirmed" + Section 6 "Payments"</p>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🔴 CRITICAL — Tour Catalog Size & Accuracy</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">Referenced "approximately 10 tours." Showed only 3 example cards with prices (IDR 2.450K, 3.025K, 4.050K). No catalog breakdown by origin.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val"><strong>16 individual packages</strong>: 12 from Surabaya (1D–6D) + 4 from Bali (3D–5D). Prices range IDR 1,000,000–4,750,000/pax. One dedicated "from-Surabaya" hub page + one "from-Bali" hub page + global /tours hub. Full catalog on <em>Tour Catalog</em> tab.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟠 HIGH — Group Pricing Structure</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">Mentioned "2 pax / 3 pax / 4 pax / 5+ pax" pricing table without specific values. UI showed "group size selector" updating price.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val"><strong>5 pricing tiers per package</strong>: 2 pax · 3–4 pax · 5–7 pax · 8–10 pax · 11+ pax. Example (1D1N Bromo): IDR 1,550K → 1,400K → 1,250K → 1,050K → 1,000K/pax. FOC scheme for large groups: 18 pax = 1 FOC, 35 pax = 2 FOC, 50 pax = 3 FOC.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟠 HIGH — Cancellation Policy (Lifetime Travel Credit)</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">No cancellation policy mentioned at all. No mention of refund terms or guest protection.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val">48-hour cutoff policy. Cancellations ≥48 hrs before Day 1: <strong>100% converts to JVTO Lifetime Travel Credit</strong> (non-expiring, transferable in writing, denominated in IDR). Cancellations &lt;48 hrs: up to 100% forfeited. This is a commercial differentiator that must be featured on booking pages.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟠 HIGH — Verify JVTO Architecture</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">Described as a "Forensic Mode UI" — a CSS body class toggle (body.forensic-mode) with SHA256 hash display, styled like a terminal. Positioned as a single-page experience.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val">Verify JVTO is a <strong>structured 5-page hub</strong> at /verify-jvto: (1) main hub, (2) /legal, (3) /police-safety, (4) /press-recognition, (5) /history-artifacts. Dark terminal aesthetic IS appropriate for this section but it's a page cluster — not a JS mode toggle over Travel content. Each sub-page has its own title tag, h1, sections.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟡 MEDIUM — Trust Signals (Incomplete)</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">Trust signals: SIUP/TDUP, Tourist Police KTA, SHA256 hash, Trustpilot 4.9, gas mask sterilized. Missing all historical and partnership credentials.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val">Complete trust stack: SIUP · TDUP · OSS-RBA · Tourist Police KTA (Agung Sambuko) · HPWKI membership · BBKSDA guide training · <strong>Booking.com Award 2015 (9.4/10)</strong> · <strong>Stefan Loose Reiseführer Indonesia (p.287)</strong> · ISIC Provider #259268 · INDECON member · Detik.com coverage (2021) · Radar Jember/Jawa Pos (2021) · Partner doctor SIP (dr. Ahmad Irwandanu, valid to 2031)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟡 MEDIUM — Guide License Terminology</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">"KTA badge" used generically for all guide credentials. Implied Tourist Police identity card for all guides.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val">Two distinct credential types: (1) <strong>Tourist Police KTA</strong> — applies to founder Agung Sambuko (Ditpamobvit). (2) <strong>Official Ijen Climbing License</strong> — specific mountain guide certification, held by named guides: Anjas, Taufik, Rendi, Kiki, Gufron. Assets: kta-anjas, kta-taufik, kta-rendi, kta-kiki, kta-gufron.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">🟡 MEDIUM — Vehicle Allocation Policy</div>
+      <div class="diff-grid">
+        <div class="diff-side">
+          <div class="diff-label wrong">❌ PRD v1</div>
+          <div class="diff-val">Vehicle not specified in product inclusions. Generic "private transport" only.</div>
+        </div>
+        <div class="diff-side">
+          <div class="diff-label right">✅ PRD v2</div>
+          <div class="diff-val">Contractually binding vehicle allocation (from Inclusions Policy): <strong>2–3 guests → MPV (Toyota Avanza or similar)</strong> · <strong>4–9 guests → Toyota Hiace (16-seat minibus)</strong> · <strong>10–11 guests → Toyota Hiace + MPV</strong>. At Bromo: private 4WD Jeep(s), max ~4 guests per jeep. This must appear on tour detail pages.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel">🟢 Items Correctly Retained from v1</div>
+      <div class="srow"><span class="skey">Navy + Orange + Lime palette</span><span class="sval">Color system is correct — retained with token corrections</span></div>
+      <div class="srow"><span class="skey">8px spacing system / 12-col grid</span><span class="sval">Correct — retained</span></div>
+      <div class="srow"><span class="skey">Raleway (display) + Inter (body)</span><span class="sval">Correct font system for Travel mode — retained</span></div>
+      <div class="srow"><span class="skey">Sticky booking panel (tour detail)</span><span class="sval">Correct UX pattern — retained</span></div>
+      <div class="srow"><span class="skey">Itinerary accordion</span><span class="sval">Correct UX pattern — retained</span></div>
+      <div class="srow"><span class="skey">2-origin tab selector (Surabaya/Bali)</span><span class="sval">Correct approach for homepage — retained</span></div>
+      <div class="srow"><span class="skey">WhatsApp CTA for inquiry</span><span class="sval">Correct — WhatsApp button retained as inquiry/support CTA (not payment)</span></div>
+      <div class="srow"><span class="skey">Verify JVTO dark terminal aesthetic</span><span class="sval">Correct visual direction — retained, repositioned as page section not mode toggle</span></div>
+    </div>
+  </div>
+
+  <!-- ============================
+       3. TOUR CATALOG
+       ============================ -->
+  <div class="sec" id="sec-catalog">
+    <div class="stitle">Full Tour Catalog</div>
+    <p class="sintro">16 individual packages across two departure origins. All packages are private and all-inclusive. Prices shown are the lowest per-person rate (11+ pax tier). Displayed price on website should always be "From IDR X/pax" based on the 2-pax rate as the entry-level reference.</p>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Tours from Surabaya (12 Packages)</div>
+      <table class="tour-table" style="margin-top:.75rem;">
+        <thead>
+          <tr>
+            <th>Package Name</th>
+            <th>Duration</th>
+            <th>From (2 pax)</th>
+            <th>Difficulty</th>
+            <th>Route Slug</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1D1N Bromo Midnight Experience</td>
+            <td><span class="badge b-navy">1D1N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 1,550,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/bromo-1d1n</td>
+          </tr>
+          <tr>
+            <td>2D1N Bromo & Madakaripura</td>
+            <td><span class="badge b-navy">2D1N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 1,750,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/bromo-2d1n</td>
+          </tr>
+          <tr>
+            <td>2D1N Ijen Blue Fire</td>
+            <td><span class="badge b-navy">2D1N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 1,550,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-2d1n</td>
+          </tr>
+          <tr>
+            <td>3D2N Bromo–Madakaripura–Ijen (→ Bali)</td>
+            <td><span class="badge b-navy">3D2N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 2,450,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/bromo-madakaripura-ijen-3d2n</td>
+          </tr>
+          <tr>
+            <td>3D2N Ijen–Bromo–Madakaripura</td>
+            <td><span class="badge b-navy">3D2N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 2,450,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-bromo-madakaripura-3d2n</td>
+          </tr>
+          <tr>
+            <td>3D2N Safari–Bromo–Madakaripura (Family)</td>
+            <td><span class="badge b-navy">3D2N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,450,000/pax</td>
+            <td><span class="badge b-green">Easy</span></td>
+            <td class="td-route">/tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n</td>
+          </tr>
+          <tr>
+            <td>4D3N Ijen–Bromo–Madakaripura</td>
+            <td><span class="badge b-navy">4D3N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,025,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-bromo-madakaripura-4d3n</td>
+          </tr>
+          <tr>
+            <td>4D3N Ijen–Papuma–Tumpak Sewu–Bromo</td>
+            <td><span class="badge b-navy">4D3N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,125,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n</td>
+          </tr>
+          <tr>
+            <td>4D3N Tumpak Sewu–Bromo–Ijen (→ Bali)</td>
+            <td><span class="badge b-navy">4D3N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,125,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n</td>
+          </tr>
+          <tr>
+            <td>5D4N Ijen–Bromo–Madakaripura–Malang</td>
+            <td><span class="badge b-navy">5D4N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,850,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n</td>
+          </tr>
+          <tr>
+            <td>5D4N Ijen–Papuma–Tumpak Sewu–Bromo</td>
+            <td><span class="badge b-navy">5D4N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,650,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n</td>
+          </tr>
+          <tr>
+            <td>6D5N Ijen–Papuma–Tumpak Sewu–Bromo–Malang</td>
+            <td><span class="badge b-navy">6D5N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 4,750,000/pax</td>
+            <td><span class="badge b-amber">Moderate</span></td>
+            <td class="td-route">/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Tours from Bali (4 Packages) — Ferry Crossing Included</div>
+      <table class="tour-table" style="margin-top:.75rem;">
+        <thead>
+          <tr>
+            <th>Package Name</th>
+            <th>Duration</th>
+            <th>From (2 pax)</th>
+            <th>Route</th>
+            <th>Slug</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>3D2N Bromo & Ijen (Round-trip Bali)</td>
+            <td><span class="badge b-navy">3D2N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 2,850,000/pax</td>
+            <td>Bali → Java → Bali</td>
+            <td class="td-route">/tours/from-bali/bromo-ijen-3d2n</td>
+          </tr>
+          <tr>
+            <td>3D2N Ijen–Bromo–Madakaripura (Bali → Surabaya)</td>
+            <td><span class="badge b-navy">3D2N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 2,850,000/pax</td>
+            <td>Bali → Surabaya</td>
+            <td class="td-route">/tours/from-bali/ijen-bromo-madakaripura-3d2n</td>
+          </tr>
+          <tr>
+            <td>4D3N Ijen–Papuma–Tumpak Sewu–Bromo (Bali → Surabaya)</td>
+            <td><span class="badge b-navy">4D3N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 3,475,000/pax</td>
+            <td>Bali → Surabaya</td>
+            <td class="td-route">/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n</td>
+          </tr>
+          <tr>
+            <td>5D4N Ijen–Papuma–Tumpak Sewu–Bromo (Bali → Surabaya)</td>
+            <td><span class="badge b-navy">5D4N</span></td>
+            <td style="color:var(--orange); font-weight:600;">IDR 4,050,000/pax</td>
+            <td>Bali → Surabaya</td>
+            <td class="td-route">/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="clabel">Group Pricing Model (5-Tier Example: 1D1N Bromo)</div>
+        <table class="price-table" style="margin-top:.75rem;">
+          <thead>
+            <tr>
+              <th>Group Size</th>
+              <th>Price per Person (IDR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="text-align:left;">2 pax</td><td>1,550,000</td></tr>
+            <tr><td style="text-align:left;">3–4 pax</td><td>1,400,000</td></tr>
+            <tr><td style="text-align:left;">5–7 pax</td><td>1,250,000</td></tr>
+            <tr><td style="text-align:left;">8–10 pax</td><td>1,050,000</td></tr>
+            <tr class="price-best"><td style="text-align:left;">11+ pax</td><td>1,000,000 ✓ Best value</td></tr>
+          </tbody>
+        </table>
+        <p class="price-note">Prices are per person. Larger groups share the vehicle cost — more guests means a lower per-person rate. All pricing in IDR. Currency conversion for reference only.</p>
+      </div>
+      <div class="card">
+        <div class="clabel">Large Group FOC Scheme (Website Bookings)</div>
+        <div style="margin-top:.75rem;">
+          <div class="srow"><span class="skey">18 paying guests</span><span class="sval"><strong>1 FOC</strong> (Free of Charge) place</span></div>
+          <div class="srow"><span class="skey">35 paying guests</span><span class="sval"><strong>2 FOC</strong> places</span></div>
+          <div class="srow"><span class="skey">50 paying guests</span><span class="sval"><strong>3 FOC</strong> places</span></div>
+        </div>
+        <div class="callout callout-info" style="margin-top:.75rem;">"Pax" refers to paying guests only. FOC policy applies to JVTO website direct bookings. Confirm via official channels before committing group bookings at these thresholds.</div>
+
+        <div class="clabel" style="margin-top:1rem;">Vehicle Allocation (Contractually Binding)</div>
+        <div class="srow"><span class="skey">2–3 guests</span><span class="sval">1 × MPV (Toyota Avanza or similar) · 1 driver-guide</span></div>
+        <div class="srow"><span class="skey">4–9 guests</span><span class="sval">1 × Toyota Hiace (16-seat minibus) · 1 driver + 1 escort guide</span></div>
+        <div class="srow"><span class="skey">10–11 guests</span><span class="sval">Toyota Hiace + MPV · Multiple drivers + escort guide</span></div>
+        <div class="srow"><span class="skey">Bromo Jeep</span><span class="sval">Private 4WD Jeep(s) · Max ~4 guests per jeep</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel">Standard Inclusions (All Eligible Packages)</div>
+      <div class="g2" style="margin-top:.75rem; gap:.75rem;">
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:6px;">Always Included</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.7;">✓ Private AC vehicle (per allocation above) · fuel, tolls, parking<br>✓ Accommodation for all overnight stays (listed in itinerary)<br>✓ Entrance permits & park tickets (all named destinations)<br>✓ English-speaking professional crew (driver ± guide, per group size)<br>✓ Daily mineral water in vehicle<br>✓ Hotel breakfast for each overnight<br>✓ Full trip coordination & pre-trip WhatsApp support<br>✓ Emergency contacts & Official E-Voucher PDF<br>✓ 1 × JVTO travel T-shirt per participant (eligible packages)<br>✓ Ferry tickets (Bali origin packages only)</div>
+        </div>
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:6px;">Included When Ijen is in Package</div>
+          <div style="font-size:12px; color:var(--muted); line-height:1.7;">✓ Professional gas mask (sulfur-rated) per guest<br>✓ Trekking poles<br>✓ Mandatory Ijen medical health screening (conducted by licensed doctor dr. Ahmad Irwandanu, SIP valid to 2031, arranged by JVTO at hotel or clinic in Bondowoso area)<br><br><div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:6px;">Not Included (Unless Written on Voucher)</div>International flights · travel insurance · meals beyond stated · tips/gratuities · alcohol · visa fees</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       4. BOOKING & PAYMENT
+       ============================ -->
+  <div class="sec" id="sec-booking">
+    <div class="stitle">Booking & Payment Flow</div>
+    <p class="sintro">This section defines the complete and accurate booking flow as per SSOT policy. The booking experience involves three official channels — website (primary), WhatsApp (inquiry/support), and email — with a clearly defined payment gateway for deposits and balance payments.</p>
+
+    <div class="callout callout-fix" style="margin-bottom:1.25rem;">
+      <strong>CRITICAL CORRECTION from PRD v1:</strong> JVTO has a <strong>secure online checkout with SSL encryption and PCI DSS-compliant card processing</strong>. A booking is NOT confirmed by a WhatsApp message. It is confirmed only after successful payment and issuance of the Official E-Voucher/Invoice PDF. WhatsApp is an inquiry and support channel.
+    </div>
+
+    <div class="g2" style="margin-bottom:1.25rem;">
+      <div class="card">
+        <div class="clabel">Official Booking Channels</div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#E6ECF4;">🌐</div>
+          <div class="pay-text">
+            <div class="pay-label">Website + Secure Checkout (Primary)</div>
+            <div class="pay-sub">https://javavolcano-touroperator.com — Browse tours, select package, complete deposit/full payment via SSL-encrypted card checkout.</div>
+          </div>
+        </div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#E0F7EA;">💬</div>
+          <div class="pay-text">
+            <div class="pay-label">WhatsApp — Inquiry & Support Only</div>
+            <div class="pay-sub">+62 822-4478-8833 — Pre-booking questions, customization requests, logistical coordination. NOT a payment channel. Booking not confirmed via chat.</div>
+          </div>
+        </div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#FEF0E0;">✉️</div>
+          <div class="pay-text">
+            <div class="pay-label">Email — Inquiry & Support</div>
+            <div class="pay-sub">hello@javavolcano-touroperator.com — Formal inquiries, quote requests, group bookings, post-booking support.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="clabel">Payment Methods</div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#E6ECF4;">💳</div>
+          <div class="pay-text">
+            <div class="pay-label">Card via Secure Checkout (Deposit & Balance)</div>
+            <div class="pay-sub">SSL-encrypted · PCI DSS-compliant gateway. JVTO does not store card numbers or CVV. Deposit: any time. Balance by card: no later than 5 days before Day 1.</div>
+          </div>
+        </div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#FAFAF8;">🏦</div>
+          <div class="pay-text">
+            <div class="pay-label">Bank Transfer / Wise (Balance Payment Only)</div>
+            <div class="pay-sub">BRI: PT Java Volcano Rendezvous · Acc 001301001779564 · SWIFT: BRINIDJAXXX<br>BCA: PT Java Volcano Rendezvous · Acc 1200944352 · SWIFT: CENAIDJAXXX<br>Deadline: 3 days before Day 1. Only when instructed via official channels.</div>
+          </div>
+        </div>
+        <div class="pay-method">
+          <div class="pay-icon" style="background:#FEF0E0;">🏢</div>
+          <div class="pay-text">
+            <div class="pay-label">Cash at JVTO Office (Balance Only, Pre-Approved)</div>
+            <div class="pay-sub">Jl. Khairil Anwar No.102 A, Bondowoso. Only when approved in writing by JVTO in advance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Booking Confirmation Rules</div>
+      <div class="callout callout-info">A booking is only confirmed when <strong>ALL THREE</strong> of the following conditions are met simultaneously:</div>
+      <div class="policy-item" style="margin-top:.75rem;">
+        <span class="p-num">1.</span>
+        <span class="p-text">Guest selects a specific official JVTO package (by route/slug, e.g. /tours/from-surabaya/bromo-madakaripura-ijen-3d2n)</span>
+      </div>
+      <div class="policy-item">
+        <span class="p-num">2.</span>
+        <span class="p-text">Required payment is successfully processed: <strong>20% deposit</strong> via approved method (or 100% full payment if Day 1 is within 14 days)</span>
+      </div>
+      <div class="policy-item">
+        <span class="p-num">3.</span>
+        <span class="p-text">JVTO issues the <strong>Official E-Voucher / Invoice (PDF)</strong> confirming booking details, pickup info, and emergency contacts</span>
+      </div>
+      <div class="callout callout-amber" style="margin-top:.75rem;">Enquiries, WhatsApp messages, and quotations are NOT binding until confirmed under the above rule. Display this clearly on booking pages.</div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="clabel">Cancellation & Travel Credit Policy</div>
+        <div class="srow"><span class="skey">Cut-off rule</span><span class="sval">48 hours before Day 1 (local Indonesia time)</span></div>
+        <div class="srow"><span class="skey">Cancel ≥48 hrs</span><span class="sval">100% of amount converts to <strong>JVTO Lifetime Travel Credit</strong></span></div>
+        <div class="srow"><span class="skey">Cancel &lt;48 hrs</span><span class="sval">Up to 100% forfeited. Travel Credit generally not provided.</span></div>
+        <div class="srow"><span class="skey">Travel Credit terms</span><span class="sval">Non-expiring · Denominated in IDR · Transferable (with written confirmation) · Usable for any future JVTO tour at prevailing rates</span></div>
+        <div class="srow"><span class="skey">Reschedule (≥48 hrs)</span><span class="sval">One reschedule per booking permitted (same package) without fee — subject to availability</span></div>
+        <div class="callout callout-ok" style="margin-top:.75rem;"><strong>Commercial differentiator:</strong> "Lifetime Travel Credit" is a strong conversion argument — should be featured on booking pages, tour detail pages, and FAQs.</div>
+      </div>
+
+      <div class="card">
+        <div class="clabel">Force Majeure & JVTO-Initiated Changes</div>
+        <div class="srow"><span class="skey">Triggers</span><span class="sval">Volcanic activity · Government/park closures · Severe weather · Civil unrest · Infrastructure failure</span></div>
+        <div class="srow"><span class="skey">JVTO response options</span><span class="sval">Alternative arrangements of comparable value, or Travel Credit for unused portion, or partial/full cash refund (net of non-recoverable costs)</span></div>
+        <div class="srow"><span class="skey">Plan B guarantee</span><span class="sval">JVTO adapts routes proactively when conditions change — guests are communicated early. This is a core operational differentiator vs. non-police-led operators.</span></div>
+        <div class="clabel" style="margin-top:1rem;">Important Health Note (Ijen)</div>
+        <div class="srow"><span class="skey">Health denial</span><span class="sval">If a guest is denied health clearance for Ijen, affected Ijen components are non-refundable (pre-committed costs). JVTO strongly recommends comprehensive travel insurance.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       5. TRUST STACK
+       ============================ -->
+  <div class="sec" id="sec-trust">
+    <div class="stitle">Trust Stack & Verify JVTO Architecture</div>
+    <p class="sintro">JVTO's trust system is a 5-page verification hub at /verify-jvto — organized by evidence category so skeptical guests can audit each claim independently. This is a structural website feature, not a visual CSS mode toggle.</p>
+
+    <div class="card" style="margin-bottom:1.25rem; background:var(--navy);">
+      <div class="clabel" style="color:#5DA320;">Verify JVTO — 5-Page Hub Architecture</div>
+      <div class="verify-page-card">
+        <div class="vpc-route">/verify-jvto</div>
+        <div class="vpc-title">Proof Library — Main Hub</div>
+        <div class="vpc-desc">Entry point for all verification. Links to all 4 sub-pages. Contains Document Registry overview, partner logos with context, and calls-to-action back to tours.</div>
+      </div>
+      <div class="verify-page-card">
+        <div class="vpc-route">/verify-jvto/legal</div>
+        <div class="vpc-title">Legal Documents</div>
+        <div class="vpc-desc">SIUP · TDUP · OSS-RBA registry link · HPWKI membership (Ijen Guide Association, verify via AHU Kemenkumham). All links to Indonesian government registries.</div>
+      </div>
+      <div class="verify-page-card">
+        <div class="vpc-route">/verify-jvto/police-safety</div>
+        <div class="vpc-title">Police & Safety Credentials</div>
+        <div class="vpc-desc">Tourist Police KTA (Agung Sambuko, Ditpamobvit) · SPRIN police escort authorization · BBKSDA guide training (SAR/First Aid, May 2024) · Official Ijen climbing licenses: Anjas, Taufik, Rendi, Kiki, Gufron · Partner doctor SIP (dr. Ahmad Irwandanu, valid to 2031, Kemkes registry link).</div>
+      </div>
+      <div class="verify-page-card">
+        <div class="vpc-route">/verify-jvto/press-recognition</div>
+        <div class="vpc-title">Press & Third-Party Recognition</div>
+        <div class="vpc-desc">Detik.com (March 2021) · Radar Jember/Jawa Pos (March 2021, May 2021) · Stefan Loose Reiseführer Indonesien p.287 (ISBN 978-3-7701-6765-4, 2016 edition) · Booking.com Guest Review Award 2015 (9.4/10 for Ijen Bondowoso Home Stay). Trustpilot · TripAdvisor · ISIC Provider #259268 · INDECON member.</div>
+      </div>
+      <div class="verify-page-card">
+        <div class="vpc-route">/verify-jvto/history-artifacts</div>
+        <div class="vpc-title">History & Founding Artifacts</div>
+        <div class="vpc-desc">Booking.com 2015 Award plaque photo + shipping label (score: 9.4/10, signatories: Darren Huston CEO + Gillian Tans COO) · Stefan Loose guidebook page scan with founder holding book · Operational continuity timeline since 2015 (guesthouse era) to JVTO 2016+.</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Complete Trust Signal Inventory</div>
+      <div class="g2" style="margin-top:.75rem; gap:.75rem;">
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:8px;">Legal & Operational</div>
+          <span class="trust-pill tp-green">✓ SIUP Registered</span>
+          <span class="trust-pill tp-green">✓ TDUP Licensed</span>
+          <span class="trust-pill tp-green">✓ OSS-RBA Registry</span>
+          <span class="trust-pill tp-green">✓ PT Java Volcano Rendezvous</span>
+          <span class="trust-pill tp-green">✓ Physical Office, Bondowoso</span>
+          <span class="trust-pill tp-green">✓ HPWKI Member (Ijen Guide Assoc.)</span>
+
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:8px; margin-top:12px;">Safety & Credentials</div>
+          <span class="trust-pill tp-green">✓ Tourist Police Founder (Ditpamobvit)</span>
+          <span class="trust-pill tp-green">✓ Police Escort Authorization</span>
+          <span class="trust-pill tp-green">✓ BBKSDA Guide Training 2024</span>
+          <span class="trust-pill tp-green">✓ 5 Licensed Ijen Guides (KTA)</span>
+          <span class="trust-pill tp-green">✓ Partner Doctor SIP (to 2031)</span>
+          <span class="trust-pill tp-green">✓ Mandatory Health Screening (Ijen)</span>
+        </div>
+        <div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:8px;">Historical Recognition</div>
+          <span class="trust-pill tp-navy">📖 Stefan Loose Guidebook (p.287, 2016)</span>
+          <span class="trust-pill tp-navy">🏆 Booking.com Award 2015 (9.4/10)</span>
+          <span class="trust-pill tp-navy">📰 Detik.com Coverage (2021)</span>
+          <span class="trust-pill tp-navy">📰 Radar Jember / Jawa Pos (2021)</span>
+
+          <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:8px; margin-top:12px;">Community & Partnerships</div>
+          <span class="trust-pill tp-navy">🎓 ISIC Provider #259268 (Student Discount)</span>
+          <span class="trust-pill tp-navy">🌿 INDECON Member (Ecotourism)</span>
+          <span class="trust-pill tp-navy">⭐ Tripadvisor (Verified Reviews)</span>
+          <span class="trust-pill tp-navy">⭐ Trustpilot (Verified Reviews)</span>
+          <span class="trust-pill tp-navy">⭐ Google Maps (CID verified)</span>
+          <span class="trust-pill tp-navy">🛍 Klook (Merchant Verified)</span>
+          <span class="trust-pill tp-navy">14 Named Local Crew Members</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel">Guide & Crew Registry (Named, Not Generic)</div>
+      <div class="srow"><span class="skey">Licensed Ijen Guides</span><span class="sval">Anjas · Taufik · Rendi · Kiki · Gufron — each holds Official Ijen Climbing License (asset slugs: kta-anjas, kta-taufik, kta-rendi, kta-kiki, kta-gufron)</span></div>
+      <div class="srow"><span class="skey">Drivers (named)</span><span class="sval">Dika · Fredi · Holili · Joyo · Pras + additional crew. Each has a profile in /why-jvto/our-team linked to review mentions.</span></div>
+      <div class="srow"><span class="skey">Founder profile</span><span class="sval">Agung Sambuko (Mr. Sam) — Tourist Police Officer (Bripka), Ditpamobvit, East Java. Named in Detik.com and Radar Jember press. Stefan Loose guidebook references the founding homestay operation.</span></div>
+      <div class="srow"><span class="skey">Profile depth</span><span class="sval">Each crew page: role · routes operated · languages · review mentions · credential badge · "Mentioned in X reviews" — no generic "experienced guide" copy.</span></div>
+    </div>
+  </div>
+
+  <!-- ============================
+       6. DESIGN SYSTEM
+       ============================ -->
+  <div class="sec" id="sec-colors">
+    <div class="stitle">Design System</div>
+    <p class="sintro">JVTO uses a dual-context visual system. Travel mode uses dark navy + warm volcano orange — bold, adventure-ready, conversion-focused. Verify JVTO pages use a dark terminal aesthetic (navy-black + lime green) to communicate digital transparency and credential verification. These are distinct page contexts, not a global body-class toggle.</p>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Navigation — Desktop</div>
+      <div class="nav-demo" style="margin-top:.75rem;">
+        <span class="nl">JVTO</span>
+        <span class="nln a">Tours</span>
+        <span class="nln">Destinations</span>
+        <span class="nln">Why JVTO</span>
+        <span class="nln">Travel Guide</span>
+        <button class="nfv">✓ Verify Us</button>
+        <button class="nwa">WhatsApp</button>
+      </div>
+      <div style="font-size:11.5px; color:var(--muted);">Tours dropdown shows: From Surabaya · From Bali · All Packages. "Verify Us" (lime border) always visible — key trust signal. WhatsApp (WA green) always visible — inquiry access. No login required; no user account system.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Button System</div>
+      <div class="comp-demo">
+        <button class="btn-book">Book This Tour</button>
+        <button class="btn-wa">Chat on WhatsApp</button>
+        <button class="btn-prim">View Tour Details</button>
+        <button class="btn-sec">Compare Packages</button>
+        <button class="btn-ver">✓ Verify JVTO</button>
+      </div>
+      <div class="card" style="background:#FAFAF8;">
+        <div class="srow"><span class="skey">btn-book (Orange)</span><span class="sval">Primary booking CTA → opens secure checkout. Background #E8650A. NOT a WhatsApp link.</span></div>
+        <div class="srow"><span class="skey">btn-wa (WA Green #25D366)</span><span class="sval">WhatsApp inquiry → wa.me/JVTO with pre-filled tour context. For questions, not payment.</span></div>
+        <div class="srow"><span class="skey">btn-prim (Navy)</span><span class="sval">Navigation action: view details, see itinerary, explore destination.</span></div>
+        <div class="srow"><span class="skey">btn-sec (Navy outline)</span><span class="sval">Compare packages, download PDF, share tour link.</span></div>
+        <div class="srow"><span class="skey">btn-verify (Lime #8CC63F border)</span><span class="sval">Cross-link to /verify-jvto. Must always appear on tour detail pages.</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:.75rem;">Color Palette — Travel Mode</div>
+    <div class="g4" style="margin-bottom:1.25rem;">
+      <div><div class="sw" style="background:#0D1B2A;"></div><div class="snm">JVTO Navy</div><div class="shx">#0D1B2A</div><div class="sus">Nav, footer, hero overlay, CTA primary</div></div>
+      <div><div class="sw" style="background:#E8650A;"></div><div class="snm">Volcano Orange</div><div class="shx">#E8650A</div><div class="sus">Book CTA, price display, section accents</div></div>
+      <div><div class="sw" style="background:#8CC63F;"></div><div class="snm">Lime Green</div><div class="shx">#8CC63F</div><div class="sus">Verified badges, Verify JVTO crosslinks</div></div>
+      <div><div class="sw" style="background:#25D366;"></div><div class="snm">WhatsApp Green</div><div class="shx">#25D366</div><div class="sus">WhatsApp inquiry button ONLY — reserved</div></div>
+      <div><div class="sw" style="background:#F5A623;"></div><div class="snm">Sunrise Gold</div><div class="shx">#F5A623</div><div class="sus">Rating stars, Best Seller badges</div></div>
+      <div><div class="sw" style="background:#F6F5F2; border:1px solid #E3E0DA;"></div><div class="snm">Off White</div><div class="shx">#F6F5F2</div><div class="sus">Page background, alternate sections</div></div>
+      <div><div class="sw" style="background:#FFFFFF; border:1px solid #E3E0DA;"></div><div class="snm">White</div><div class="shx">#FFFFFF</div><div class="sus">Card surface, modals</div></div>
+      <div><div class="sw" style="background:#6B7280;"></div><div class="snm">Muted Grey</div><div class="shx">#6B7280</div><div class="sus">Secondary text, metadata, labels</div></div>
+    </div>
+
+    <div style="font-size:12px; font-weight:600; color:var(--navy); margin-bottom:.75rem;">Color Palette — Verify JVTO Pages</div>
+    <div class="g4" style="margin-bottom:1.25rem;">
+      <div><div class="sw" style="background:#0A1520; border:1px solid #1E3A2A;"></div><div class="snm" style="color:#5DA320;">Terminal Black</div><div class="shx" style="color:#4A7060;">#0A1520</div><div class="sus" style="color:#3A5A40;">Page bg — verify-jvto section only</div></div>
+      <div><div class="sw" style="background:#0D2414; border:1px solid #1E4A22;"></div><div class="snm" style="color:#5DA320;">Deep Green</div><div class="shx" style="color:#4A7060;">#0D2414</div><div class="sus" style="color:#3A5A40;">Card surfaces in verify pages</div></div>
+      <div><div class="sw" style="background:#8CC63F; border:1px solid #5DA320;"></div><div class="snm" style="color:#5DA320;">Lime Primary</div><div class="shx" style="color:#4A7060;">#8CC63F</div><div class="sus" style="color:#3A5A40;">All text, headings, verified labels</div></div>
+      <div><div class="sw" style="background:#E8650A; border:1px solid #A84000;"></div><div class="snm" style="color:#5DA320;">Alert Orange</div><div class="shx" style="color:#4A7060;">#E8650A</div><div class="sus" style="color:#3A5A40;">Operator ID number, SIUP highlights</div></div>
+    </div>
+
+    <div class="card">
+      <div class="clabel">Typography</div>
+      <div class="type-ex"><div class="type-meta">Hero — 52px / Raleway 700 / line-height 1.1 / Navy on white or white on navy overlay</div><div style="font-size:30px; font-weight:700; color:var(--navy); line-height:1.1; font-family:serif;">Your Private East Java Volcano Experience.</div></div>
+      <div class="type-ex"><div class="type-meta">H1 — 36px / Raleway 600 / line-height 1.2</div><div style="font-size:22px; font-weight:600; color:var(--navy);">Tourist Police-Led Private Volcano Tours in East Java</div></div>
+      <div class="type-ex"><div class="type-meta">H2 / Section Title — 24px / Raleway 600</div><div style="font-size:17px; font-weight:600; color:var(--navy);">All-Inclusive · Private · Verified Operator</div></div>
+      <div class="type-ex"><div class="type-meta">Tour Name / H3 — 18px / Raleway 500</div><div style="font-size:14px; font-weight:500; color:var(--navy);">4D3N Ijen–Papuma–Tumpak Sewu–Bromo (Surabaya → Surabaya)</div></div>
+      <div class="type-ex"><div class="type-meta">Body — 16px / Inter 400 / line-height 1.7</div><div style="font-size:13px; color:var(--navy); line-height:1.7;">Private vehicle, licensed guides, Ijen gas masks, permits, mandatory health screening, and 4WD Bromo Jeep — all included. No shared group. Your pickup time, your pace.</div></div>
+      <div class="type-ex"><div class="type-meta">Price Display — 22px / Raleway 700 / Volcano Orange</div><div style="font-size:18px; font-weight:700; color:var(--orange);">IDR 3,125,000 <span style="font-size:12px; font-weight:400; color:var(--muted);">/ person (2 pax)</span></div></div>
+      <div class="type-ex"><div class="type-meta">Verify JVTO Hash — 12px / JetBrains Mono / Lime Green on Terminal Black</div><div style="font-size:12px; font-family:monospace; color:#8CC63F; background:#0A1520; padding:8px 12px; border-radius:6px; margin-top:4px;">SHA256 · SIUP Document Hash<br>a3f8d2e1b4c9f6a0e3d7b2c5f8a1e4d7b0c3f6a9e2d5b8c1f4a7e0d3b6c9f2a5<br><span style="color:#5DA320; font-size:10px;">Verify at: /verify-jvto/legal — All gov registry links accessible</span></div></div>
+    </div>
+  </div>
+
+  <!-- ============================
+       7. USER FLOWS
+       ============================ -->
+  <div class="sec" id="sec-flows">
+    <div class="stitle">Key User Flows</div>
+    <p class="sintro">Three primary flows define the JVTO conversion journey. Flow 1 (Browse to Checkout) is the primary revenue path. Flow 2 (Verification Journey) converts skeptical guests. Flow 3 (WhatsApp Inquiry) captures guests who need questions answered before committing.</p>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Flow 1 — Browse to Secure Checkout (Primary Revenue Path)</div>
+      <div style="margin-top:.75rem;">
+        <div class="flow-step">
+          <div class="fnum">1</div>
+          <div>
+            <div class="ftitle">Homepage — Intent Capture (5-Second Rule)</div>
+            <div class="fdesc">Hero: "Tourist Police-Led Private Volcano Tours in East Java." Trust strip: <strong>Licensed Operator · Tourist Police-Led · Private Only · Booking.com Award 2015 · Stefan Loose Featured</strong>. Two-tab origin selector: [From Surabaya] [From Bali]. Tour grid renders based on tab selection. Crosslink bar: "✓ All documents publicly verifiable — Verify JVTO →"</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">2</div>
+          <div>
+            <div class="ftitle">Tour Listing by Origin (/tours/from-surabaya or /tours/from-bali)</div>
+            <div class="fdesc">Horizontal filter bar: Duration chips (1D · 2D · 3D · 4D · 5D · 6D) · Destinations included (Bromo · Ijen · Tumpak Sewu · Papuma) · Difficulty. Grid: 3-col desktop, 2-col tablet, 1-col mobile. Each card: photo, ✓ Verified badge, tour name, duration, pricing "From IDR X/pax (2 pax)", rating, Private badge. Comparison hint: "Not sure? See the comparison table."</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">3</div>
+          <div>
+            <div class="ftitle">Tour Detail Page — Decision & Conversion</div>
+            <div class="fdesc">Full-width gallery (5 photos) → 2-col layout: <strong>Left:</strong> tour stats bar (duration, difficulty, group size, start/end, Ijen gas mask ✓) → day-by-day itinerary accordion → guide profile (named guide + Ijen license badge) → vehicle allocation table → group pricing table (5 tiers) → included/excluded two-col list → Important Notes (Bromo 5–15°C, blue fire not guaranteed, health screening required for Ijen). <strong>Right (sticky 300px):</strong> price from IDR X · group size selector (updates price live) · "Book This Tour" (orange, full-width → checkout) · "Ask via WhatsApp" (WA green) · Lifetime Travel Credit note · "✓ Verify JVTO" lime link.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">4</div>
+          <div>
+            <div class="ftitle">Secure Checkout — Deposit Payment</div>
+            <div class="fdesc">Guest enters: group size, departure date, contact details. Deposit amount auto-calculates (20% of total). Payment via <strong>SSL-encrypted card checkout (PCI DSS-compliant)</strong>. No full card storage. Payment gateway confirmation displayed.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">5</div>
+          <div>
+            <div class="ftitle">Official E-Voucher / Invoice PDF Issued</div>
+            <div class="fdesc">After successful deposit, JVTO issues the <strong>Official E-Voucher/Invoice PDF</strong> via email: tour details, pickup instructions, balance payment deadline, emergency contact numbers, packing notes. Booking is now confirmed. Guide assignment communicated separately via WhatsApp.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">6</div>
+          <div>
+            <div class="ftitle">Pre-Departure & Balance Payment</div>
+            <div class="fdesc">Balance due: by card ≤5 days before Day 1, or bank transfer ≤3 days before Day 1. One week before: JVTO WhatsApp reminder + weather/conditions update from assigned guide. T-shirt size confirmation. Health screening appointment arranged (if Ijen is included).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="clabel">Flow 2 — Verification Journey (Trust Conversion, JVTO-Unique)</div>
+      <div style="margin-top:.75rem;">
+        <div class="flow-step">
+          <div class="fnum green">1</div>
+          <div>
+            <div class="ftitle">Trigger: Guest Wants Proof Before Committing</div>
+            <div class="fdesc">From any Travel page → click "✓ Verify JVTO" (lime button in nav or tour detail) or "Licensed Operator" badge. Can also be direct search landing on /verify-jvto.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum green">2</div>
+          <div>
+            <div class="ftitle">/verify-jvto — Proof Library Hub</div>
+            <div class="fdesc">Dark terminal aesthetic (navy-black + lime green + JetBrains Mono). Four sub-pages visible as cards: Legal Documents · Police & Safety · Press & Recognition · History & Artifacts. Overview of trust stack. Each sub-page links to verified government URLs for independent cross-checking.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum green">3</div>
+          <div>
+            <div class="ftitle">Guest Navigates Sub-Pages</div>
+            <div class="fdesc"><strong>/verify-jvto/legal:</strong> SIUP, TDUP, OSS-RBA, HPWKI approval (AHU registry). <strong>/police-safety:</strong> Founder KTA, SPRIN escort docs, BBKSDA guide training article, 5 guide licenses, partner doctor SIP. <strong>/press-recognition:</strong> Detik.com, Radar Jember, Stefan Loose (p.287), Booking.com Award 2015. <strong>/history-artifacts:</strong> Award plaque photo, guidebook scan, founding timeline.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum green">4</div>
+          <div>
+            <div class="ftitle">Satisfied → Return to Booking</div>
+            <div class="fdesc">Every verify page has: "← Back to Tours" button (top + bottom). Crosslink rule: no page in verify hub is a dead end. After verification, trust is established — conversion friction is removed. CTA: "Book a Private Tour" (orange).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel">Flow 3 — WhatsApp Pre-Booking Inquiry</div>
+      <div style="margin-top:.75rem;">
+        <div class="flow-step">
+          <div class="fnum">1</div>
+          <div>
+            <div class="ftitle">Trigger: Guest Has Questions Before Booking</div>
+            <div class="fdesc">From tour detail page → "Ask via WhatsApp" (WA green button) or from nav → WhatsApp. Pre-filled message includes tour name, inquiry context.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">2</div>
+          <div>
+            <div class="ftitle">WhatsApp Inquiry (+62 822-4478-8833)</div>
+            <div class="fdesc">Response SLA: within business hours (WIB). Topics handled: customization, group pricing confirmation, date availability, Ijen health screening logistics, pickup point details, corporate/school groups, ISIC student discount eligibility.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">3</div>
+          <div>
+            <div class="ftitle">Quotation Issued (Non-Binding)</div>
+            <div class="fdesc">JVTO provides a quotation via WhatsApp or email. <strong>This is NOT a booking confirmation.</strong> Guest must complete the checkout process to confirm.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="fnum">4</div>
+          <div>
+            <div class="ftitle">Directed to Secure Checkout → Booking Confirmed</div>
+            <div class="fdesc">After agreement on details, guest is directed to the website checkout to complete the 20% deposit. E-Voucher issued. Booking confirmed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       8. SCREEN SPECS
+       ============================ -->
+  <div class="sec" id="sec-screens">
+    <div class="stitle">Screen-by-Screen Specifications</div>
+    <p class="sintro">6 core screens. Data sourced from SSOT tour_pages[], homepage, and policy sections. All routes are canonical sitemap URLs.</p>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 1 — Homepage (/)</span><span class="badge b-green">Entry Point</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Answer "Is this operator safe?" and "Which origin should I start from?" within 5 seconds. Dual audience: ready-to-book travelers AND credential-checking skeptics.</span></div>
+        <div class="srow"><span class="skey">Layout (top → bottom)</span><span class="sval">Nav (dark navy) → Hero fullwidth (volcano photo + overlay) → Trust Strip (5 items) → Verify JVTO crosslink bar → Origin Tabs (Surabaya / Bali) → Tour Grid → Destinations Hub thumbnails → Founder Story → Reviews Carousel (Trustpilot / TripAdvisor) → Footer</span></div>
+        <div class="srow"><span class="skey">Hero</span><span class="sval">H1: "Tourist Police-Led Private Volcano Tours in East Java" · Sub: "Private Bromo, Ijen & Tumpak Sewu — from Surabaya or Bali" · CTAs: [From Surabaya] [From Bali] (side by side tabs, not search bar)</span></div>
+        <div class="srow"><span class="skey">Trust Strip (5 items)</span><span class="sval">✓ Licensed Operator (PT Java Volcano Rendezvous) · ✓ Tourist Police-Led (Active Officer) · ✓ Private Groups Only — No Shared Bus · ⭐ Booking.com Award 2015 (9.4/10) · 📖 Featured in Stefan Loose Guidebook</span></div>
+        <div class="srow"><span class="skey">Verify crosslink bar</span><span class="sval">Lime-green bar: "✓ All legal documents publicly verifiable — Verify JVTO →" — mandatory on homepage, positioned below trust strip</span></div>
+        <div class="srow"><span class="skey">Origin tab logic</span><span class="sval">Default: Surabaya tab. Tab switch → tour grid reloads without page reload. No search bar — catalog is curated (16 packages, 2 origins, no infinite scroll needed)</span></div>
+        <div class="srow"><span class="skey">States</span><span class="sval">Loading: skeleton on tour grid + reviews carousel. Error: static fallback content (no layout break). Tab switch: instant grid filter.</span></div>
+        <div class="srow"><span class="skey">Key interactions</span><span class="sval">Tab toggle → grid rerender. Tour card hover → scale 1.02 + shadow. Trust strip item hover → tooltip. Reviews auto-carousel (5s interval). "Verify JVTO" bar → /verify-jvto.</span></div>
+      </div>
+    </div>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 2 — Tour Listing (/tours/from-surabaya, /tours/from-bali)</span><span class="badge b-navy">Discovery</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Help guests compare and choose from up to 12 packages by origin. Emphasis on comparison rather than search — catalog is curated, not infinite.</span></div>
+        <div class="srow"><span class="skey">Layout</span><span class="sval">H1 → intro (private · all-inclusive · official channels) → Horizontal filter bar → 3-col tour grid → Comparison hint → FAQ mini (3 questions) → WhatsApp inquiry CTA block</span></div>
+        <div class="srow"><span class="skey">Filter (horizontal bar)</span><span class="sval">Duration chips: 1D · 2D · 3D · 4D · 5D · 6D. Included destinations: Bromo · Ijen · Tumpak Sewu · Papuma. Difficulty: Easy · Moderate. Sort: Recommended / Shortest / Longest / Price ↑↓</span></div>
+        <div class="srow"><span class="skey">Tour card data</span><span class="sval">Hero photo · ✓ Verified badge · Difficulty tag · Tour name · Duration + start/end city · Rating · "From IDR X/pax (2 pax)" · Private badge · [Book This Tour] (orange) · [Ask via WhatsApp] (WA green)</span></div>
+        <div class="srow"><span class="skey">Empty filter state</span><span class="sval">"No tours match these filters — try fewer filters" + Reset CTA</span></div>
+        <div class="srow"><span class="skey">Interactions</span><span class="sval">Filter chip toggle → instant grid refilter. Card hover → orange bottom border accent. Book button → tour detail page. Ask WA → WhatsApp prefill with origin context.</span></div>
+      </div>
+    </div>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 3 — Tour Detail Page (Conversion Critical)</span><span class="badge b-orange">Booking Entry</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Eliminate every objection. Deliver all the information needed for a guest to confidently complete the checkout deposit. This is the highest-value page on the site.</span></div>
+        <div class="srow"><span class="skey">Layout</span><span class="sval">Full-width gallery (5 photos, thumbnail row) → 2-col: [Left content col] + [Right sticky booking panel, 300px] → Below fold: Reviews → Related tours → Verify JVTO crosslink</span></div>
+        <div class="srow"><span class="skey">Left col: content sections</span><span class="sval">① Tour stats bar: duration · difficulty · group size range · start/end city · "Gas mask ✓" (if Ijen) · "Health screening included" (if Ijen) ② Day-by-day itinerary accordion ③ Named guide profile: photo, name, Ijen license badge, languages, "Mentioned in X reviews" ④ Vehicle allocation: MPV (2–3 pax) / Hiace (4–9) / Hiace+MPV (10–11) ⑤ Group pricing table (5 tiers: 2 · 3–4 · 5–7 · 8–10 · 11+) ⑥ What's Included / Excluded (2-col list) ⑦ Important Notes: Bromo 5–15°C · Blue fire not guaranteed (seasonal) · Health screening mandatory (Ijen) · Gas mask sterilized between uses</span></div>
+        <div class="srow"><span class="skey">Sticky booking panel (right)</span><span class="sval">"From IDR X/pax" · Group size selector (2/3–4/5–7/8–10/11+) · Price auto-updates live · [Book This Tour] (orange, full-width → checkout) · [Ask via WhatsApp] (WA green) · Lifetime Travel Credit note ("Cancel anytime — get travel credit, never lose your money") · "✓ Verify JVTO" lime link</span></div>
+        <div class="srow"><span class="skey">Interactions</span><span class="sval">Group size selector → animated price update. Itinerary accordion expand/collapse. Sticky panel scrolls with page until footer. Gallery thumbnail → main image swap. "Verify JVTO" → /verify-jvto.</span></div>
+      </div>
+    </div>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 4 — Verify JVTO Hub (/verify-jvto)</span><span class="badge b-verify">Proof Library</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Provide independently verifiable proof of legitimacy. Every credential links to a government registry or third-party source. Convert skeptical guests into confident bookers.</span></div>
+        <div class="srow"><span class="skey">Visual mode</span><span class="sval">Dark terminal aesthetic applies ONLY to this page cluster (/verify-jvto/*). Background #0A1520, text #8CC63F, JetBrains Mono font, card bg #0D2414. NOT a global body-class toggle.</span></div>
+        <div class="srow"><span class="skey">Layout</span><span class="sval">Dark nav → H1 "Proof Library" → 4 sub-page cards (Legal · Police & Safety · Press & Recognition · History & Artifacts) → Trust summary metrics → CTA: "← Back to Tours" (top + bottom)</span></div>
+        <div class="srow"><span class="skey">Sub-page: /legal</span><span class="sval">SIUP (scan + OSS-RBA registry link) · TDUP · HPWKI membership (AHU Kemenkumham verify URL)</span></div>
+        <div class="srow"><span class="skey">Sub-page: /police-safety</span><span class="sval">Founder Tourist Police KTA (Agung Sambuko, Ditpamobvit) · SPRIN escort authorization · BBKSDA guide training (May 2024) · 5 Official Ijen Climbing Licenses (Anjas, Taufik, Rendi, Kiki, Gufron) · Partner doctor SIP (dr. Ahmad Irwandanu, Kemkes registry link)</span></div>
+        <div class="srow"><span class="skey">Sub-page: /press-recognition</span><span class="sval">Booking.com Award 2015 plaque (9.4/10) · Stefan Loose Reiseführer Indonesia p.287 (ISBN, scan, photo) · Detik.com March 2021 · Radar Jember March 2021 · ISIC Provider #259268 · Trustpilot · TripAdvisor · INDECON</span></div>
+        <div class="srow"><span class="skey">Sub-page: /history-artifacts</span><span class="sval">Founding timeline (2015 guesthouse → 2016 JVTO) · Award plaque photo + shipping label · Founder holding Stefan Loose book with guests (primary visual artifact) · Media context and translation</span></div>
+        <div class="srow"><span class="skey">Cross-link rule</span><span class="sval">Every sub-page must have "← Back to Tours" and "Book a Private Tour →" CTAs. No page in this hub is a dead end.</span></div>
+      </div>
+    </div>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 5 — Our Team (/why-jvto/our-team)</span><span class="badge b-navy">Trust Builder</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Humanize the brand. SG/HK/TW guests want to know who is actually accompanying them. Named guides with license badges are dramatically more convincing than stock photos and generic bios.</span></div>
+        <div class="srow"><span class="skey">Layout</span><span class="sval">Founder profile (Agung Sambuko, full profile, Tourist Police KTA) → Guide grid (4-col desktop · 2-col mobile) → Driver roster → Reviews crosslink</span></div>
+        <div class="srow"><span class="skey">Crew card</span><span class="sval">Photo · Full name · Role (Guide/Driver) · Languages spoken · Credential badge (Ijen License or Tourist Police KTA) · "Mentioned in X reviews" · Key route experience · Self-quote</span></div>
+        <div class="srow"><span class="skey">Named guides with licenses</span><span class="sval">Anjas · Taufik · Rendi · Kiki · Gufron (Official Ijen Climbing License assets verified in SSOT)</span></div>
+        <div class="srow"><span class="skey">Named drivers</span><span class="sval">Dika · Fredi · Holili · Joyo · Pras + additional crew. Each linked to Google/platform review mentions.</span></div>
+        <div class="srow"><span class="skey">Credential badge</span><span class="sval">Each guide card: lime "✓ Ijen License Verified" badge → links to /verify-jvto/police-safety. Cross-link rule fulfilled.</span></div>
+        <div class="srow"><span class="skey">Interactions</span><span class="sval">Card hover → slight bio expand. License badge → opens /verify-jvto/police-safety#guide-licenses section. Reviews link → /why-jvto/reviews filtered by crew name.</span></div>
+      </div>
+    </div>
+
+    <div class="screen-block">
+      <div class="screen-head"><span class="screen-title">Screen 6 — Why JVTO (/why-jvto)</span><span class="badge b-green">Differentiator Hub</span></div>
+      <div class="screen-body">
+        <div class="srow"><span class="skey">Goal</span><span class="sval">Central hub for all trust narratives. Organizes JVTO's 9 proof-backed pillars into scannable cards. Primary internal link destination for SEO and GEO/AEO signals.</span></div>
+        <div class="srow"><span class="skey">Hero subhead</span><span class="sval">"Built on safety discipline, backed by proof, and delivered by a local East Java team — not just marketing promises."</span></div>
+        <div class="srow"><span class="skey">CTAs</span><span class="sval">Primary: "How to Book & Pay" → /travel-guide/booking-information · Secondary: "Explore Our Trust Stack" → #trust-stack section</span></div>
+        <div class="srow"><span class="skey">Trust Stack cards (6)</span><span class="sval">Safety Leadership & The JVTO Difference → /why-jvto/the-jvto-difference · Our Story (Roots Since 2015) → /why-jvto/our-story · Our Team (14 Local Crew) → /why-jvto/our-team · Guest Reviews (5 Platforms) → /why-jvto/reviews · Community Standards & Partners → /why-jvto/community-standards · Verify JVTO (Proof Library) → /verify-jvto</span></div>
+        <div class="srow"><span class="skey">FAQ block</span><span class="sval">"Do you mix strangers into one car?" → No · "What if weather changes?" → Plan B framework · "Where can I verify legality?" → /verify-jvto · "Where are booking terms?" → /policy/booking-payment-cancellation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================
+       9. DESIGN TOKENS
+       ============================ -->
+  <div class="sec" id="sec-tokens">
+    <div class="stitle">Design Tokens (CSS Variables)</div>
+    <p class="sintro">All tokens implement the dual-context system. Verify JVTO pages apply overrides via a scoped selector on the page wrapper — not a global body class. This prevents unintended dark-mode bleed-through on travel pages.</p>
+
+    <div class="token-block">
+      <pre><span class="cm">/* ============================================================
+   JVTO DESIGN TOKENS v2.0 — SSOT-Verified
+   Legal entity: PT Java Volcano Rendezvous
+   Brand: Java Volcano Tour Operator (JVTO)
+   Contact: hello@javavolcano-touroperator.com | +6282244788833
+   ============================================================ */</span>
+
+<span class="key">:root</span> {
+  <span class="cm">/* === BRAND COLORS === */</span>
+  <span class="key">--jvto-navy</span>:          <span class="val">#0D1B2A</span>;  <span class="cm">/* Nav, footer, hero overlay, sticky panel bg */</span>
+  <span class="key">--jvto-navy-mid</span>:      <span class="val">#1C2E40</span>;  <span class="cm">/* Card dark surfaces, sidebar bg */</span>
+  <span class="key">--jvto-orange</span>:        <span class="val">#E8650A</span>;  <span class="cm">/* PRIMARY CTA → secure checkout, NOT WhatsApp */</span>
+  <span class="key">--jvto-orange-hover</span>:  <span class="val">#C4520A</span>;
+  <span class="key">--jvto-gold</span>:          <span class="val">#F5A623</span>;  <span class="cm">/* Rating stars, "Best Seller" badges, highlights */</span>
+  <span class="key">--jvto-lime</span>:          <span class="val">#8CC63F</span>;  <span class="cm">/* Verified badges, Verify JVTO crosslinks */</span>
+  <span class="key">--jvto-lime-pale</span>:     <span class="val">#EFF8E2</span>;  <span class="cm">/* Available state bg, trust badge bg */</span>
+  <span class="key">--jvto-wa-green</span>:      <span class="val">#25D366</span>;  <span class="cm">/* WhatsApp INQUIRY button ONLY — never for payment CTA */</span>
+
+  <span class="cm">/* === SURFACE — TRAVEL MODE === */</span>
+  <span class="key">--surface-page</span>:       <span class="val">#F6F5F2</span>;
+  <span class="key">--surface-card</span>:       <span class="val">#FFFFFF</span>;
+  <span class="key">--surface-nav</span>:        <span class="val">#0D1B2A</span>;
+  <span class="key">--surface-input</span>:      <span class="val">#F0EDE6</span>;
+
+  <span class="cm">/* === TEXT === */</span>
+  <span class="key">--text-heading</span>:       <span class="val">#0D1B2A</span>;
+  <span class="key">--text-body</span>:          <span class="val">#2D3748</span>;
+  <span class="key">--text-muted</span>:         <span class="val">#6B7280</span>;
+  <span class="key">--text-inverse</span>:       <span class="val">#FFFFFF</span>;
+  <span class="key">--text-price</span>:         <span class="val">#E8650A</span>;
+  <span class="key">--text-link</span>:          <span class="val">#E8650A</span>;
+  <span class="key">--text-verified</span>:      <span class="val">#3D6B18</span>;
+
+  <span class="cm">/* === BORDER === */</span>
+  <span class="key">--border-default</span>:     <span class="val">#E3E0DA</span>;
+  <span class="key">--border-strong</span>:      <span class="val">#C4C1BA</span>;
+  <span class="key">--border-focus</span>:       <span class="val">#E8650A</span>;
+  <span class="key">--border-verified</span>:    <span class="val">#8CC63F</span>;
+
+  <span class="cm">/* === SPACING (8px base) === */</span>
+  <span class="key">--s1</span>: 4px;  <span class="key">--s2</span>: 8px;   <span class="key">--s3</span>: 12px;  <span class="key">--s4</span>: 16px;
+  <span class="key">--s6</span>: 24px; <span class="key">--s8</span>: 32px;  <span class="key">--s12</span>: 48px; <span class="key">--s16</span>: 64px; <span class="key">--s20</span>: 80px;
+
+  <span class="cm">/* === RADIUS === */</span>
+  <span class="key">--r-xs</span>:  4px;   <span class="cm">/* badge, tag */</span>
+  <span class="key">--r-sm</span>:  6px;   <span class="cm">/* button, input */</span>
+  <span class="key">--r-md</span>:  8px;   <span class="cm">/* card-sm, filter chip */</span>
+  <span class="key">--r-lg</span>:  12px;  <span class="cm">/* tour card, panel */</span>
+  <span class="key">--r-xl</span>:  16px;  <span class="cm">/* hero frame, modal */</span>
+
+  <span class="cm">/* === TYPOGRAPHY === */</span>
+  <span class="key">--font-display</span>:  <span class="str">'Raleway'</span>, sans-serif;   <span class="cm">/* Travel mode headings */</span>
+  <span class="key">--font-body</span>:     <span class="str">'Inter'</span>, sans-serif;     <span class="cm">/* Travel mode body */</span>
+  <span class="key">--font-mono</span>:     <span class="str">'JetBrains Mono'</span>, monospace; <span class="cm">/* Verify JVTO pages ONLY */</span>
+
+  <span class="cm">/* === ELEVATION === */</span>
+  <span class="key">--shadow-card</span>:   0 1px 3px rgba(0,0,0,0.07);
+  <span class="key">--shadow-hover</span>:  0 4px 14px rgba(0,0,0,0.12);
+  <span class="key">--shadow-modal</span>:  0 20px 48px rgba(0,0,0,0.2);
+
+  <span class="cm">/* === LAYOUT === */</span>
+  <span class="key">--max-width</span>:     1200px;
+  <span class="key">--gutter-desk</span>:  24px;
+  <span class="key">--gutter-mob</span>:   16px;
+  <span class="key">--outer-desk</span>:   32px;
+  <span class="key">--outer-mob</span>:    16px;
+}
+
+<span class="cm">/* === VERIFY JVTO PAGES ONLY — scoped to .verify-context wrapper === */</span>
+<span class="key">.verify-context</span> {
+  <span class="key">--surface-page</span>:   <span class="val">#0A1520</span>;
+  <span class="key">--surface-card</span>:   <span class="val">#0D2414</span>;
+  <span class="key">--surface-nav</span>:    <span class="val">#060E16</span>;
+  <span class="key">--text-heading</span>:   <span class="val">#8CC63F</span>;
+  <span class="key">--text-body</span>:      <span class="val">#C8D8C0</span>;
+  <span class="key">--text-muted</span>:     <span class="val">#5A8A60</span>;
+  <span class="key">--border-default</span>: <span class="val">#1E3A2A</span>;
+  <span class="key">--border-strong</span>:  <span class="val">#2A5030</span>;
+  <span class="key">--font-primary</span>:   <span class="str">'JetBrains Mono'</span>, monospace;
+  <span class="cm">/* NOTE: Applied via &lt;div class="verify-context"&gt; wrapper on /verify-jvto/* pages */</span>
+  <span class="cm">/* NOT applied via body.forensic-mode global toggle (v1 approach was incorrect) */</span>
+}</pre>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('sec-' + id).classList.add('on');
+  event.target.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
