@@ -7,6 +7,9 @@ function getTitle(pathname: string): string {
   if (pathname === "/cms") return "CMS Dashboard";
   if (pathname.startsWith("/cms/faq")) return "FAQ Management";
   if (pathname.startsWith("/cms/verify-config")) return "Verify Configuration";
+  if (pathname.startsWith("/cms/collections/content-pages")) return "Content Pages";
+  if (pathname.startsWith("/cms/collections/blog-manager")) return "Blog Posts";
+  if (pathname.startsWith("/cms/collections/faq-manager")) return "FAQ Manager";
 
   // ⬇️ Tambahan: judul untuk Global Singletons + subhalaman
   if (pathname.startsWith("/cms/global-singletons")) {

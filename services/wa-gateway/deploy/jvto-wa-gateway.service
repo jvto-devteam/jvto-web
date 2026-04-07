@@ -1,0 +1,18 @@
+[Unit]
+Description=JVTO unofficial WhatsApp gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/app/jvto-web/services/wa-gateway
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/jvto/wa-gateway.env
+ExecStart=/usr/bin/node /app/jvto-web/services/wa-gateway/dist/index.js
+Restart=always
+RestartSec=5
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

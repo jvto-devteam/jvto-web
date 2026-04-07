@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy:preview": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy-preview.ps1"
+    "deploy:preview": "powershell -ExecutionPolicy Bypass -File ./scripts/deploy-preview.ps1",
+    "wa:gateway:dev": "npm --prefix services/wa-gateway run dev",
+    "wa:gateway:build": "npm --prefix services/wa-gateway run build",
+    "wa:gateway:start": "npm --prefix services/wa-gateway run start"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

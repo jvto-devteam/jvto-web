@@ -1,0 +1,216 @@
+{
+  "version": "2026-04-06",
+  "scope": {
+    "whatsapp_number": "6282244788833",
+    "brand": "JVTO",
+    "mode": "semi-chatbot"
+  },
+  "defaults": {
+    "language": "en",
+    "fallback_language": "id",
+    "max_auto_replies_before_handoff": 3
+  },
+  "global_templates": {
+    "greeting": "Hi! Welcome to JVTO. I can help with package options, prices, dates, and booking steps. What trip are you planning (Bromo / Ijen / Tumpak Sewu)?",
+    "fallback": "Thanks for your message. I want to make sure I give the right answer. Could you share your travel date, number of guests, and pickup city? Our team can then confirm quickly.",
+    "handoff": "Thanks. This needs a human specialist to confirm details safely and accurately. I am handing this to the JVTO team now."
+  },
+  "required_slots": [
+    "travel_dates",
+    "pax_total",
+    "pickup_city",
+    "tour_preference"
+  ],
+  "intents": [
+    {
+      "id": "price_and_package",
+      "priority": 1,
+      "keywords": [
+        "price",
+        "cost",
+        "how much",
+        "harga",
+        "paket",
+        "recommend",
+        "best tour"
+      ],
+      "reply_template": "Sure. We can recommend the best private package based on your plan. Please share: 1) travel dates, 2) number of guests, 3) pickup city (Surabaya/Malang/Bali), and 4) destination preference (Bromo/Ijen/Tumpak Sewu/combo).",
+      "next_questions": [
+        "What dates are you considering?",
+        "How many guests in total?",
+        "Where should we pick you up?"
+      ]
+    },
+    {
+      "id": "availability_and_schedule",
+      "priority": 2,
+      "keywords": [
+        "available",
+        "availability",
+        "slot",
+        "date",
+        "tomorrow",
+        "jadwal",
+        "tanggal"
+      ],
+      "reply_template": "Got it. We will check live availability for your date. Please send your exact date range, total guests, and pickup city. JVTO tours are private, so schedule confirmation depends on vehicle and crew allocation.",
+      "next_questions": [
+        "Exact travel dates?",
+        "How many guests?",
+        "Pickup point?"
+      ]
+    },
+    {
+      "id": "inclusions_exclusions",
+      "priority": 3,
+      "keywords": [
+        "include",
+        "included",
+        "exclude",
+        "inclusion",
+        "not include",
+        "sudah termasuk",
+        "belum termasuk"
+      ],
+      "reply_template": "Our private tours typically include private transport, accommodation with breakfast, entry tickets/permits, Bromo jeep, Ijen health screening, key safety gear, water, and JVTO T-shirt. Personal expenses and some meals are usually excluded unless written in your voucher.",
+      "next_questions": [
+        "Which package are you checking?",
+        "Would you like a detailed include/exclude breakdown per day?"
+      ]
+    },
+    {
+      "id": "booking_and_payment",
+      "priority": 4,
+      "keywords": [
+        "book",
+        "booking",
+        "reserve",
+        "deposit",
+        "payment",
+        "pay",
+        "checkout",
+        "cara booking"
+      ],
+      "reply_template": "Booking flow: choose package and date -> pay deposit/full payment based on schedule window -> receive official e-voucher. Standard deposit is 20% (when eligible by booking window).",
+      "next_questions": [
+        "Do you want the booking link now?",
+        "Will you pay by card or bank transfer?"
+      ]
+    },
+    {
+      "id": "pickup_dropoff",
+      "priority": 5,
+      "keywords": [
+        "pickup",
+        "dropoff",
+        "drop off",
+        "airport",
+        "hotel",
+        "surabaya",
+        "malang",
+        "bali"
+      ],
+      "reply_template": "Yes, we support flexible pickup/drop-off (Surabaya, Malang, Bali handover routes, and selected nearby points depending on package). Please share your exact pickup address and desired drop-off point.",
+      "next_questions": [
+        "Pickup location detail?",
+        "Drop-off location detail?",
+        "Estimated arrival time?"
+      ]
+    },
+    {
+      "id": "cancellation_reschedule",
+      "priority": 6,
+      "keywords": [
+        "cancel",
+        "cancellation",
+        "refund",
+        "reschedule",
+        "ubah jadwal",
+        "batal"
+      ],
+      "reply_template": "JVTO policy baseline: cancel more than 48 hours before Day 1 -> 100% travel credit (transferable, no expiry). Less than 48 hours -> payment forfeited. No cash refund. One free reschedule is possible if requested more than 48 hours before Day 1 (subject to availability).",
+      "next_questions": [
+        "Please share your booking code so we can check exact policy applied to your voucher."
+      ],
+      "handoff_if_contains": [
+        "chargeback",
+        "dispute",
+        "lawsuit",
+        "urgent refund"
+      ]
+    },
+    {
+      "id": "ijen_health_screening",
+      "priority": 7,
+      "keywords": [
+        "ijen",
+        "medical",
+        "health certificate",
+        "check up",
+        "asma",
+        "fit",
+        "safety check"
+      ],
+      "reply_template": "For Ijen, health screening is mandatory by regulation. JVTO arranges it and it is included in eligible Ijen packages. If you have medical concerns, please tell us in advance so team can advise route suitability.",
+      "next_questions": [
+        "Any health condition we should note?",
+        "Do you prefer slower pace support?"
+      ],
+      "always_handoff": true
+    },
+    {
+      "id": "gear_weather_difficulty",
+      "priority": 8,
+      "keywords": [
+        "what to bring",
+        "packing",
+        "weather",
+        "cold",
+        "difficulty",
+        "trek",
+        "wear"
+      ],
+      "reply_template": "Bring warm layers (Bromo can be cold), trekking shoes, and personal essentials. For waterfall routes, quick-dry outfit and good grip footwear are recommended. We can send you a route-specific packing list.",
+      "next_questions": [
+        "Which route will you take so we can send exact checklist?"
+      ]
+    },
+    {
+      "id": "private_vs_shared_custom",
+      "priority": 9,
+      "keywords": [
+        "private",
+        "shared",
+        "join group",
+        "customize",
+        "custom tour",
+        "itinerary change"
+      ],
+      "reply_template": "JVTO tours are private. We can adjust route details based on your time and priorities, then team will confirm feasibility and final quote.",
+      "next_questions": [
+        "Which destinations do you want to combine?",
+        "How many days do you have?"
+      ],
+      "always_handoff": true
+    },
+    {
+      "id": "trust_and_verification",
+      "priority": 10,
+      "keywords": [
+        "official number",
+        "official account",
+        "is this legit",
+        "scam",
+        "fraud",
+        "rekening valid",
+        "verify payment"
+      ],
+      "reply_template": "For security, please verify all payment and booking instructions only through official JVTO channels. If you share the payment detail you received, our team will verify it before you pay.",
+      "next_questions": [
+        "Please send screenshot or details to verify."
+      ],
+      "always_handoff": true
+    }
+  ]
+}
+
