@@ -4,10 +4,12 @@
 
 - Repo aktif: `jvto-web`
 - Basis diff: working tree saat ini dibanding base commit workspace `2379de7604d56f81969f3b60061a34a48109a81f`
+- Dokumen ini sudah diperluas sampai update final `2026-04-08`
 - Fokus dokumen ini:
   - perubahan frontend yang aktif
   - helper/source layer yang dipakai frontend
   - API route internal yang menopang frontend baru
+  - perubahan source-contract terbaru yang diperlukan agar frontend aktif benar-benar bertumpu pada `DB mirror`
 - Tidak dicampur:
   - dokumen analisis lama
   - queue transfer DB sementara yang sudah dihapus
@@ -21,7 +23,67 @@
 - Checkout diubah dari proxy buta menjadi alur yang memvalidasi pricing contract.
 - Trust/support architecture dipecah tegas menjadi `why-jvto`, `verify-jvto`, dan `travel-guide`.
 - SEO/entity/source layer diperketat dengan pinned overrides, fallback normalization, dan schema cleanup.
+- Final source ownership ke `DB mirror` ditutup lewat reconciliation pass langsung ke DB.
+- Schema `crew_members` diperluas agar metadata SSOT tidak lagi hidup hanya di frontend/local.
+- Assets, partner proofs, press proofs, crew enrichment, dan destination enrichment sekarang sudah punya penutupan DB yang eksplisit.
 - Banyak file duplikat lama dihapus agar codebase aktif lebih bersih.
+
+## 0. Update Terbaru Setelah Map Awal Dibuat
+
+Bagian ini adalah delta terbaru yang belum tercakup penuh di map awal.
+
+Perubahan ini penting karena walaupun tidak semuanya mengubah UI secara langsung, mereka mengubah status source ownership yang dipakai frontend aktif.
+
+- `prisma/schema.prisma`
+  - model `crew_members` ditambah field enrichment SSOT:
+    - `ssot_id`
+    - `ssot_numeric_id`
+    - `role_label`
+    - `archetype`
+    - `archetype_tags`
+    - `knows_about`
+    - `evidence_review_quotes`
+    - `forensic_evidence`
+    - `social_links`
+    - `internal_contact`
+    - `profile_snapshot`
+    - `known_for`
+    - `operating_style`
+    - `self_quote`
+    - `ssot_payload`
+  - Tujuan:
+    - crew registry dari SSOT sekarang punya rumah permanen di DB
+    - frontend tidak perlu lagi menganggap crew richness sebagai fallback-only content
+
+- `scripts/reconcile-final-matrix.js`
+  - file baru sebagai executor final reconciliation ke `DB mirror`
+  - Fungsi utamanya:
+    - baca `JVTO_SSOT_v4_0_CLEAN.json`
+    - cocokkan `assets_inventory`
+    - tambah proof/link assets yang belum ada
+    - enrich `crew_members`
+    - update `destinations`
+    - audit hasil write setelah selesai
+  - Tujuan:
+    - menutup domain yang sebelumnya masih status `PARTIAL` atau `UNPROVEN`
+
+- `src/generated/prisma/*`
+  - diregenerate setelah schema change
+  - Tujuan:
+    - menjaga repo tetap sinkron dengan schema DB contract terbaru
+
+- `FINAL_RECONCILIATION_MATRIX.md`
+  - status domain lama diperbarui dari open menjadi closed bila sudah terbukti lewat direct DB audit
+
+- `FINAL_RECONCILIATION_AUDIT_REPORT.md`
+  - dokumen final yang merekam apa yang dieksekusi ke DB, apa hasilnya, dan bukti audit setelah write
+
+Makna praktis ke frontend:
+
+- package/trust/support/crew/destination surfaces sekarang lebih kuat karena source DB yang mendasarinya sudah ditutup, bukan lagi sekadar “direncanakan untuk sync”
+- fallback frontend yang masih ada sekarang lebih jelas posisinya:
+  - guard/resilience
+  - bukan backlog migrasi yang belum selesai
 
 ## 1. Homepage Cluster
 
@@ -607,4 +669,3 @@
   - trust routes hidup tapi tidak lengkap
   - metadata/H1 balik ke source lama yang lemah
   - founder/schema jatuh lagi ke placeholder lama
-

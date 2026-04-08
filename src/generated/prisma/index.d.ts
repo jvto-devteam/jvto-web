@@ -55789,11 +55789,13 @@ export namespace Prisma {
   export type Crew_membersAvgAggregateOutputType = {
     id: number | null
     year_of_joining: number | null
+    ssot_numeric_id: number | null
   }
 
   export type Crew_membersSumAggregateOutputType = {
     id: bigint | null
     year_of_joining: number | null
+    ssot_numeric_id: number | null
   }
 
   export type Crew_membersMinAggregateOutputType = {
@@ -55806,6 +55808,11 @@ export namespace Prisma {
     facebook_url: string | null
     instagram_url: string | null
     about_me: string | null
+    ssot_id: string | null
+    ssot_numeric_id: number | null
+    role_label: string | null
+    archetype: string | null
+    self_quote: string | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -55826,6 +55833,11 @@ export namespace Prisma {
     facebook_url: string | null
     instagram_url: string | null
     about_me: string | null
+    ssot_id: string | null
+    ssot_numeric_id: number | null
+    role_label: string | null
+    archetype: string | null
+    self_quote: string | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -55846,6 +55858,21 @@ export namespace Prisma {
     facebook_url: number
     instagram_url: number
     about_me: number
+    ssot_id: number
+    ssot_numeric_id: number
+    role_label: number
+    archetype: number
+    archetype_tags: number
+    knows_about: number
+    evidence_review_quotes: number
+    forensic_evidence: number
+    social_links: number
+    internal_contact: number
+    profile_snapshot: number
+    known_for: number
+    operating_style: number
+    self_quote: number
+    ssot_payload: number
     type: number
     tags: number
     photo_url: number
@@ -55861,11 +55888,13 @@ export namespace Prisma {
   export type Crew_membersAvgAggregateInputType = {
     id?: true
     year_of_joining?: true
+    ssot_numeric_id?: true
   }
 
   export type Crew_membersSumAggregateInputType = {
     id?: true
     year_of_joining?: true
+    ssot_numeric_id?: true
   }
 
   export type Crew_membersMinAggregateInputType = {
@@ -55878,6 +55907,11 @@ export namespace Prisma {
     facebook_url?: true
     instagram_url?: true
     about_me?: true
+    ssot_id?: true
+    ssot_numeric_id?: true
+    role_label?: true
+    archetype?: true
+    self_quote?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -55898,6 +55932,11 @@ export namespace Prisma {
     facebook_url?: true
     instagram_url?: true
     about_me?: true
+    ssot_id?: true
+    ssot_numeric_id?: true
+    role_label?: true
+    archetype?: true
+    self_quote?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -55918,6 +55957,21 @@ export namespace Prisma {
     facebook_url?: true
     instagram_url?: true
     about_me?: true
+    ssot_id?: true
+    ssot_numeric_id?: true
+    role_label?: true
+    archetype?: true
+    archetype_tags?: true
+    knows_about?: true
+    evidence_review_quotes?: true
+    forensic_evidence?: true
+    social_links?: true
+    internal_contact?: true
+    profile_snapshot?: true
+    known_for?: true
+    operating_style?: true
+    self_quote?: true
+    ssot_payload?: true
     type?: true
     tags?: true
     photo_url?: true
@@ -56025,6 +56079,21 @@ export namespace Prisma {
     facebook_url: string | null
     instagram_url: string | null
     about_me: string | null
+    ssot_id: string | null
+    ssot_numeric_id: number | null
+    role_label: string | null
+    archetype: string | null
+    archetype_tags: string[]
+    knows_about: JsonValue | null
+    evidence_review_quotes: JsonValue | null
+    forensic_evidence: JsonValue | null
+    social_links: JsonValue | null
+    internal_contact: JsonValue | null
+    profile_snapshot: JsonValue | null
+    known_for: JsonValue | null
+    operating_style: JsonValue | null
+    self_quote: string | null
+    ssot_payload: JsonValue | null
     type: string | null
     tags: string | null
     photo_url: string | null
@@ -56064,6 +56133,21 @@ export namespace Prisma {
     facebook_url?: boolean
     instagram_url?: boolean
     about_me?: boolean
+    ssot_id?: boolean
+    ssot_numeric_id?: boolean
+    role_label?: boolean
+    archetype?: boolean
+    archetype_tags?: boolean
+    knows_about?: boolean
+    evidence_review_quotes?: boolean
+    forensic_evidence?: boolean
+    social_links?: boolean
+    internal_contact?: boolean
+    profile_snapshot?: boolean
+    known_for?: boolean
+    operating_style?: boolean
+    self_quote?: boolean
+    ssot_payload?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -56091,6 +56175,21 @@ export namespace Prisma {
     facebook_url?: boolean
     instagram_url?: boolean
     about_me?: boolean
+    ssot_id?: boolean
+    ssot_numeric_id?: boolean
+    role_label?: boolean
+    archetype?: boolean
+    archetype_tags?: boolean
+    knows_about?: boolean
+    evidence_review_quotes?: boolean
+    forensic_evidence?: boolean
+    social_links?: boolean
+    internal_contact?: boolean
+    profile_snapshot?: boolean
+    known_for?: boolean
+    operating_style?: boolean
+    self_quote?: boolean
+    ssot_payload?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -56111,6 +56210,21 @@ export namespace Prisma {
     facebook_url?: boolean
     instagram_url?: boolean
     about_me?: boolean
+    ssot_id?: boolean
+    ssot_numeric_id?: boolean
+    role_label?: boolean
+    archetype?: boolean
+    archetype_tags?: boolean
+    knows_about?: boolean
+    evidence_review_quotes?: boolean
+    forensic_evidence?: boolean
+    social_links?: boolean
+    internal_contact?: boolean
+    profile_snapshot?: boolean
+    known_for?: boolean
+    operating_style?: boolean
+    self_quote?: boolean
+    ssot_payload?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -56131,6 +56245,21 @@ export namespace Prisma {
     facebook_url?: boolean
     instagram_url?: boolean
     about_me?: boolean
+    ssot_id?: boolean
+    ssot_numeric_id?: boolean
+    role_label?: boolean
+    archetype?: boolean
+    archetype_tags?: boolean
+    knows_about?: boolean
+    evidence_review_quotes?: boolean
+    forensic_evidence?: boolean
+    social_links?: boolean
+    internal_contact?: boolean
+    profile_snapshot?: boolean
+    known_for?: boolean
+    operating_style?: boolean
+    self_quote?: boolean
+    ssot_payload?: boolean
     type?: boolean
     tags?: boolean
     photo_url?: boolean
@@ -56141,7 +56270,7 @@ export namespace Prisma {
     email?: boolean
   }
 
-  export type crew_membersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "phone" | "full_name" | "year_of_joining" | "facebook_url" | "instagram_url" | "about_me" | "type" | "tags" | "photo_url" | "created_at" | "updated_at" | "deleted_at" | "password" | "email", ExtArgs["result"]["crew_members"]>
+  export type crew_membersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "phone" | "full_name" | "year_of_joining" | "facebook_url" | "instagram_url" | "about_me" | "ssot_id" | "ssot_numeric_id" | "role_label" | "archetype" | "archetype_tags" | "knows_about" | "evidence_review_quotes" | "forensic_evidence" | "social_links" | "internal_contact" | "profile_snapshot" | "known_for" | "operating_style" | "self_quote" | "ssot_payload" | "type" | "tags" | "photo_url" | "created_at" | "updated_at" | "deleted_at" | "password" | "email", ExtArgs["result"]["crew_members"]>
   export type crew_membersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking_crew_members?: boolean | crew_members$booking_crew_membersArgs<ExtArgs>
     booking_review_crews?: boolean | crew_members$booking_review_crewsArgs<ExtArgs>
@@ -56174,6 +56303,21 @@ export namespace Prisma {
       facebook_url: string | null
       instagram_url: string | null
       about_me: string | null
+      ssot_id: string | null
+      ssot_numeric_id: number | null
+      role_label: string | null
+      archetype: string | null
+      archetype_tags: string[]
+      knows_about: Prisma.JsonValue | null
+      evidence_review_quotes: Prisma.JsonValue | null
+      forensic_evidence: Prisma.JsonValue | null
+      social_links: Prisma.JsonValue | null
+      internal_contact: Prisma.JsonValue | null
+      profile_snapshot: Prisma.JsonValue | null
+      known_for: Prisma.JsonValue | null
+      operating_style: Prisma.JsonValue | null
+      self_quote: string | null
+      ssot_payload: Prisma.JsonValue | null
       type: string | null
       tags: string | null
       photo_url: string | null
@@ -56620,6 +56764,21 @@ export namespace Prisma {
     readonly facebook_url: FieldRef<"crew_members", 'String'>
     readonly instagram_url: FieldRef<"crew_members", 'String'>
     readonly about_me: FieldRef<"crew_members", 'String'>
+    readonly ssot_id: FieldRef<"crew_members", 'String'>
+    readonly ssot_numeric_id: FieldRef<"crew_members", 'Int'>
+    readonly role_label: FieldRef<"crew_members", 'String'>
+    readonly archetype: FieldRef<"crew_members", 'String'>
+    readonly archetype_tags: FieldRef<"crew_members", 'String[]'>
+    readonly knows_about: FieldRef<"crew_members", 'Json'>
+    readonly evidence_review_quotes: FieldRef<"crew_members", 'Json'>
+    readonly forensic_evidence: FieldRef<"crew_members", 'Json'>
+    readonly social_links: FieldRef<"crew_members", 'Json'>
+    readonly internal_contact: FieldRef<"crew_members", 'Json'>
+    readonly profile_snapshot: FieldRef<"crew_members", 'Json'>
+    readonly known_for: FieldRef<"crew_members", 'Json'>
+    readonly operating_style: FieldRef<"crew_members", 'Json'>
+    readonly self_quote: FieldRef<"crew_members", 'String'>
+    readonly ssot_payload: FieldRef<"crew_members", 'Json'>
     readonly type: FieldRef<"crew_members", 'String'>
     readonly tags: FieldRef<"crew_members", 'String'>
     readonly photo_url: FieldRef<"crew_members", 'String'>
@@ -139902,6 +140061,21 @@ export namespace Prisma {
     facebook_url: 'facebook_url',
     instagram_url: 'instagram_url',
     about_me: 'about_me',
+    ssot_id: 'ssot_id',
+    ssot_numeric_id: 'ssot_numeric_id',
+    role_label: 'role_label',
+    archetype: 'archetype',
+    archetype_tags: 'archetype_tags',
+    knows_about: 'knows_about',
+    evidence_review_quotes: 'evidence_review_quotes',
+    forensic_evidence: 'forensic_evidence',
+    social_links: 'social_links',
+    internal_contact: 'internal_contact',
+    profile_snapshot: 'profile_snapshot',
+    known_for: 'known_for',
+    operating_style: 'operating_style',
+    self_quote: 'self_quote',
+    ssot_payload: 'ssot_payload',
     type: 'type',
     tags: 'tags',
     photo_url: 'photo_url',
@@ -141106,20 +141280,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Decimal'
-   */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-  /**
-   * Reference to a field of type 'Decimal[]'
-   */
-  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -141130,6 +141290,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 
@@ -144397,6 +144571,21 @@ export namespace Prisma {
     facebook_url?: StringNullableFilter<"crew_members"> | string | null
     instagram_url?: StringNullableFilter<"crew_members"> | string | null
     about_me?: StringNullableFilter<"crew_members"> | string | null
+    ssot_id?: StringNullableFilter<"crew_members"> | string | null
+    ssot_numeric_id?: IntNullableFilter<"crew_members"> | number | null
+    role_label?: StringNullableFilter<"crew_members"> | string | null
+    archetype?: StringNullableFilter<"crew_members"> | string | null
+    archetype_tags?: StringNullableListFilter<"crew_members">
+    knows_about?: JsonNullableFilter<"crew_members">
+    evidence_review_quotes?: JsonNullableFilter<"crew_members">
+    forensic_evidence?: JsonNullableFilter<"crew_members">
+    social_links?: JsonNullableFilter<"crew_members">
+    internal_contact?: JsonNullableFilter<"crew_members">
+    profile_snapshot?: JsonNullableFilter<"crew_members">
+    known_for?: JsonNullableFilter<"crew_members">
+    operating_style?: JsonNullableFilter<"crew_members">
+    self_quote?: StringNullableFilter<"crew_members"> | string | null
+    ssot_payload?: JsonNullableFilter<"crew_members">
     type?: StringNullableFilter<"crew_members"> | string | null
     tags?: StringNullableFilter<"crew_members"> | string | null
     photo_url?: StringNullableFilter<"crew_members"> | string | null
@@ -144423,6 +144612,21 @@ export namespace Prisma {
     facebook_url?: SortOrderInput | SortOrder
     instagram_url?: SortOrderInput | SortOrder
     about_me?: SortOrderInput | SortOrder
+    ssot_id?: SortOrderInput | SortOrder
+    ssot_numeric_id?: SortOrderInput | SortOrder
+    role_label?: SortOrderInput | SortOrder
+    archetype?: SortOrderInput | SortOrder
+    archetype_tags?: SortOrder
+    knows_about?: SortOrderInput | SortOrder
+    evidence_review_quotes?: SortOrderInput | SortOrder
+    forensic_evidence?: SortOrderInput | SortOrder
+    social_links?: SortOrderInput | SortOrder
+    internal_contact?: SortOrderInput | SortOrder
+    profile_snapshot?: SortOrderInput | SortOrder
+    known_for?: SortOrderInput | SortOrder
+    operating_style?: SortOrderInput | SortOrder
+    self_quote?: SortOrderInput | SortOrder
+    ssot_payload?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     tags?: SortOrderInput | SortOrder
     photo_url?: SortOrderInput | SortOrder
@@ -144452,6 +144656,21 @@ export namespace Prisma {
     facebook_url?: StringNullableFilter<"crew_members"> | string | null
     instagram_url?: StringNullableFilter<"crew_members"> | string | null
     about_me?: StringNullableFilter<"crew_members"> | string | null
+    ssot_id?: StringNullableFilter<"crew_members"> | string | null
+    ssot_numeric_id?: IntNullableFilter<"crew_members"> | number | null
+    role_label?: StringNullableFilter<"crew_members"> | string | null
+    archetype?: StringNullableFilter<"crew_members"> | string | null
+    archetype_tags?: StringNullableListFilter<"crew_members">
+    knows_about?: JsonNullableFilter<"crew_members">
+    evidence_review_quotes?: JsonNullableFilter<"crew_members">
+    forensic_evidence?: JsonNullableFilter<"crew_members">
+    social_links?: JsonNullableFilter<"crew_members">
+    internal_contact?: JsonNullableFilter<"crew_members">
+    profile_snapshot?: JsonNullableFilter<"crew_members">
+    known_for?: JsonNullableFilter<"crew_members">
+    operating_style?: JsonNullableFilter<"crew_members">
+    self_quote?: StringNullableFilter<"crew_members"> | string | null
+    ssot_payload?: JsonNullableFilter<"crew_members">
     type?: StringNullableFilter<"crew_members"> | string | null
     tags?: StringNullableFilter<"crew_members"> | string | null
     photo_url?: StringNullableFilter<"crew_members"> | string | null
@@ -144478,6 +144697,21 @@ export namespace Prisma {
     facebook_url?: SortOrderInput | SortOrder
     instagram_url?: SortOrderInput | SortOrder
     about_me?: SortOrderInput | SortOrder
+    ssot_id?: SortOrderInput | SortOrder
+    ssot_numeric_id?: SortOrderInput | SortOrder
+    role_label?: SortOrderInput | SortOrder
+    archetype?: SortOrderInput | SortOrder
+    archetype_tags?: SortOrder
+    knows_about?: SortOrderInput | SortOrder
+    evidence_review_quotes?: SortOrderInput | SortOrder
+    forensic_evidence?: SortOrderInput | SortOrder
+    social_links?: SortOrderInput | SortOrder
+    internal_contact?: SortOrderInput | SortOrder
+    profile_snapshot?: SortOrderInput | SortOrder
+    known_for?: SortOrderInput | SortOrder
+    operating_style?: SortOrderInput | SortOrder
+    self_quote?: SortOrderInput | SortOrder
+    ssot_payload?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
     tags?: SortOrderInput | SortOrder
     photo_url?: SortOrderInput | SortOrder
@@ -144506,6 +144740,21 @@ export namespace Prisma {
     facebook_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     instagram_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     about_me?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    ssot_id?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    ssot_numeric_id?: IntNullableWithAggregatesFilter<"crew_members"> | number | null
+    role_label?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    archetype?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    archetype_tags?: StringNullableListFilter<"crew_members">
+    knows_about?: JsonNullableWithAggregatesFilter<"crew_members">
+    evidence_review_quotes?: JsonNullableWithAggregatesFilter<"crew_members">
+    forensic_evidence?: JsonNullableWithAggregatesFilter<"crew_members">
+    social_links?: JsonNullableWithAggregatesFilter<"crew_members">
+    internal_contact?: JsonNullableWithAggregatesFilter<"crew_members">
+    profile_snapshot?: JsonNullableWithAggregatesFilter<"crew_members">
+    known_for?: JsonNullableWithAggregatesFilter<"crew_members">
+    operating_style?: JsonNullableWithAggregatesFilter<"crew_members">
+    self_quote?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
+    ssot_payload?: JsonNullableWithAggregatesFilter<"crew_members">
     type?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     tags?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
     photo_url?: StringNullableWithAggregatesFilter<"crew_members"> | string | null
@@ -153752,6 +154001,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -153778,6 +154042,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -153804,6 +154083,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153830,6 +154124,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153856,6 +154165,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -153876,6 +154200,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153896,6 +154235,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162867,6 +163221,29 @@ export namespace Prisma {
     crew_member_id?: SortOrder
     crew_role_id?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type Crew_member_rolesListRelationFilter = {
     every?: crew_member_rolesWhereInput
@@ -162908,6 +163285,21 @@ export namespace Prisma {
     facebook_url?: SortOrder
     instagram_url?: SortOrder
     about_me?: SortOrder
+    ssot_id?: SortOrder
+    ssot_numeric_id?: SortOrder
+    role_label?: SortOrder
+    archetype?: SortOrder
+    archetype_tags?: SortOrder
+    knows_about?: SortOrder
+    evidence_review_quotes?: SortOrder
+    forensic_evidence?: SortOrder
+    social_links?: SortOrder
+    internal_contact?: SortOrder
+    profile_snapshot?: SortOrder
+    known_for?: SortOrder
+    operating_style?: SortOrder
+    self_quote?: SortOrder
+    ssot_payload?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -162921,6 +163313,7 @@ export namespace Prisma {
   export type crew_membersAvgOrderByAggregateInput = {
     id?: SortOrder
     year_of_joining?: SortOrder
+    ssot_numeric_id?: SortOrder
   }
 
   export type crew_membersMaxOrderByAggregateInput = {
@@ -162933,6 +163326,11 @@ export namespace Prisma {
     facebook_url?: SortOrder
     instagram_url?: SortOrder
     about_me?: SortOrder
+    ssot_id?: SortOrder
+    ssot_numeric_id?: SortOrder
+    role_label?: SortOrder
+    archetype?: SortOrder
+    self_quote?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -162953,6 +163351,11 @@ export namespace Prisma {
     facebook_url?: SortOrder
     instagram_url?: SortOrder
     about_me?: SortOrder
+    ssot_id?: SortOrder
+    ssot_numeric_id?: SortOrder
+    role_label?: SortOrder
+    archetype?: SortOrder
+    self_quote?: SortOrder
     type?: SortOrder
     tags?: SortOrder
     photo_url?: SortOrder
@@ -162966,6 +163369,33 @@ export namespace Prisma {
   export type crew_membersSumOrderByAggregateInput = {
     id?: SortOrder
     year_of_joining?: SortOrder
+    ssot_numeric_id?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type Transport_crew_rulesListRelationFilter = {
@@ -163530,29 +163960,6 @@ export namespace Prisma {
     vendor_id?: SortOrder
     price?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type Activity_endsListRelationFilter = {
     every?: activity_endsWhereInput
@@ -163822,32 +164229,6 @@ export namespace Prisma {
     physical_demand?: SortOrder
     cultural_depth?: SortOrder
     photo_potential?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type destination_gearsCountOrderByAggregateInput = {
@@ -169556,6 +169937,10 @@ export namespace Prisma {
     update?: XOR<XOR<crew_rolesUpdateToOneWithWhereWithoutCrew_member_rolesInput, crew_rolesUpdateWithoutCrew_member_rolesInput>, crew_rolesUncheckedUpdateWithoutCrew_member_rolesInput>
   }
 
+  export type crew_membersCreatearchetype_tagsInput = {
+    set: string[]
+  }
+
   export type booking_crew_membersCreateNestedManyWithoutCrew_membersInput = {
     create?: XOR<booking_crew_membersCreateWithoutCrew_membersInput, booking_crew_membersUncheckedCreateWithoutCrew_membersInput> | booking_crew_membersCreateWithoutCrew_membersInput[] | booking_crew_membersUncheckedCreateWithoutCrew_membersInput[]
     connectOrCreate?: booking_crew_membersCreateOrConnectWithoutCrew_membersInput | booking_crew_membersCreateOrConnectWithoutCrew_membersInput[]
@@ -169638,6 +170023,11 @@ export namespace Prisma {
     connectOrCreate?: crew_reviewsCreateOrConnectWithoutCrewInput | crew_reviewsCreateOrConnectWithoutCrewInput[]
     createMany?: crew_reviewsCreateManyCrewInputEnvelope
     connect?: crew_reviewsWhereUniqueInput | crew_reviewsWhereUniqueInput[]
+  }
+
+  export type crew_membersUpdatearchetype_tagsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type booking_crew_membersUpdateManyWithoutCrew_membersNestedInput = {
@@ -174920,6 +175310,29 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
@@ -174946,29 +175359,6 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -177353,6 +177743,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -177378,6 +177783,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -177542,6 +177962,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177567,6 +178002,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182417,6 +182867,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -182442,6 +182907,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -182508,6 +182988,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182533,6 +183028,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186292,6 +186802,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -186317,6 +186842,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -186481,6 +187021,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186506,6 +187061,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186531,6 +187101,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -186556,6 +187141,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -186630,6 +187230,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186655,6 +187270,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187255,6 +187885,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -187280,6 +187925,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -187321,6 +187981,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187346,6 +188021,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187934,6 +188624,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -187959,6 +188664,21 @@ export namespace Prisma {
     facebook_url?: string | null
     instagram_url?: string | null
     about_me?: string | null
+    ssot_id?: string | null
+    ssot_numeric_id?: number | null
+    role_label?: string | null
+    archetype?: string | null
+    archetype_tags?: crew_membersCreatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: string | null
     tags?: string | null
     photo_url?: string | null
@@ -188045,6 +188765,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188070,6 +188805,21 @@ export namespace Prisma {
     facebook_url?: NullableStringFieldUpdateOperationsInput | string | null
     instagram_url?: NullableStringFieldUpdateOperationsInput | string | null
     about_me?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_id?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_numeric_id?: NullableIntFieldUpdateOperationsInput | number | null
+    role_label?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetype_tags?: crew_membersUpdatearchetype_tagsInput | string[]
+    knows_about?: NullableJsonNullValueInput | InputJsonValue
+    evidence_review_quotes?: NullableJsonNullValueInput | InputJsonValue
+    forensic_evidence?: NullableJsonNullValueInput | InputJsonValue
+    social_links?: NullableJsonNullValueInput | InputJsonValue
+    internal_contact?: NullableJsonNullValueInput | InputJsonValue
+    profile_snapshot?: NullableJsonNullValueInput | InputJsonValue
+    known_for?: NullableJsonNullValueInput | InputJsonValue
+    operating_style?: NullableJsonNullValueInput | InputJsonValue
+    self_quote?: NullableStringFieldUpdateOperationsInput | string | null
+    ssot_payload?: NullableJsonNullValueInput | InputJsonValue
     type?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: NullableStringFieldUpdateOperationsInput | string | null
     photo_url?: NullableStringFieldUpdateOperationsInput | string | null

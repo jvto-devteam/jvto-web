@@ -28,6 +28,7 @@
 
 - Frontend logic/UI/metadata/schema lives in this repo.
 - DB-owned content for trust/support SEO, `why-jvto` SSOT pages, FAQ categories/questions, `site_identity`, and `organization_profile` was synced to `DB mirror` on `2026-04-06`.
+- The exact reconciliation status across old repo, SSOT JSON, and `DB mirror` is tracked in `FINAL_RECONCILIATION_MATRIX.md`.
 
 ## Key Files To Read First
 

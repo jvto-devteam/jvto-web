@@ -649,6 +649,21 @@ model crew_members {
   facebook_url    String?  @db.VarChar(255)
   instagram_url   String?  @db.VarChar(255)
   about_me        String?  @db.Text
+  ssot_id         String?  @db.Text
+  ssot_numeric_id Int?
+  role_label      String?  @db.Text
+  archetype       String?  @db.Text
+  archetype_tags  String[] @default([]) @db.Text
+  knows_about     Json?    @default("[]")
+  evidence_review_quotes Json? @default("[]")
+  forensic_evidence Json?  @default("[]")
+  social_links    Json?    @default("{}")
+  internal_contact Json?   @default("{}")
+  profile_snapshot Json?   @default("{}")
+  known_for       Json?    @default("[]")
+  operating_style Json?    @default("[]")
+  self_quote      String?  @db.Text
+  ssot_payload    Json?
   type                  String?
   tags                  String?
   photo_url             String?

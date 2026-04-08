@@ -6,6 +6,7 @@
 - Dibandingkan terhadap base commit workspace: `2379de7604d56f81969f3b60061a34a48109a81f`
 - Scope: `src`, `scripts/deploy-preview.ps1`, `.gitignore`
 - Total file berubah dalam scope ini: **87**
+- Dokumen ini ditambah delta teknis terbaru per `2026-04-08` untuk perubahan yang menutup source reconciliation ke `DB mirror`
 
 ## Cara Baca
 
@@ -13,6 +14,116 @@
 - `Hunk` menunjukkan lokasi perubahan terhadap base commit.
 - `Old lines` = posisi di base commit. `New lines` = posisi di workspace sekarang.
 - `Added snippets` dan `Removed snippets` adalah cuplikan teknis dari baris yang berubah, bukan narasi umum.
+
+## Supplemental Update 2026-04-08
+
+Bagian ini mencatat perubahan teknis terbaru yang belum masuk ke map awal.
+
+Perubahan ini tidak semuanya mengubah UI secara langsung, tetapi mereka mengubah contract aktif antara frontend dan `DB mirror`.
+
+## Source / DB Contract Closure
+
+### prisma/schema.prisma
+
+- Status: `M`
+- Total hunk: **1**
+
+#### Hunk 1
+
+- Old lines: `649-651`
+- New lines: `649-666`
+- Context: `about_me`
+- Added snippets:
+  - `ssot_id         String?  @db.Text`
+  - `ssot_numeric_id Int?`
+  - `role_label      String?  @db.Text`
+  - `archetype       String?  @db.Text`
+  - `archetype_tags  String[] @default([]) @db.Text`
+  - `knows_about     Json?    @default("[]")`
+  - `evidence_review_quotes Json? @default("[]")`
+  - `forensic_evidence Json?  @default("[]")`
+  - `social_links    Json?    @default("{}")`
+  - `internal_contact Json?   @default("{}")`
+  - `profile_snapshot Json?   @default("{}")`
+  - `known_for       Json?    @default("[]")`
+  - `operating_style Json?    @default("[]")`
+  - `self_quote      String?  @db.Text`
+  - `ssot_payload    Json?`
+
+Fungsi perubahan:
+
+- menambahkan storage layer resmi untuk enrichment `crew_registry` dari SSOT
+- menghapus kebutuhan menyimpan crew richness hanya di fallback/frontend/local docs
+
+### scripts/reconcile-final-matrix.js
+
+- Status: `A`
+- New file lines: `1-571`
+- Key functions:
+  - line `25`: `getConnectionString`
+  - line `92`: `ensureCrewColumns`
+  - line `138`: `reconcileAssets`
+  - line `269`: `reconcileCrew`
+  - line `433`: `reconcileDestinations`
+  - line `535`: `auditStatus`
+  - final block: `main().catch((error) => { ... })`
+
+Added snippets:
+  - `const SSOT_PATH = path.resolve(__dirname, "..", "JVTO_SSOT_v4_0_CLEAN.json");`
+  - `async function ensureCrewColumns(client) {`
+  - `async function reconcileAssets(client, ssot) {`
+  - `async function reconcileCrew(client, ssot) {`
+  - `async function reconcileDestinations(client, ssot) {`
+  - `async function auditStatus(client, ssot) {`
+
+Fungsi perubahan:
+
+- mengeksekusi final reconciliation ke `DB mirror`
+- menutup domain yang sebelumnya masih `PARTIAL` / `UNPROVEN`
+- memberikan audit JSON sesudah write sehingga hasilnya bisa diverifikasi ulang
+
+### src/generated/prisma/*
+
+- Status: `M` pada file generated:
+  - `src/generated/prisma/edge.js`
+  - `src/generated/prisma/index-browser.js`
+  - `src/generated/prisma/index.d.ts`
+  - `src/generated/prisma/index.js`
+  - `src/generated/prisma/package.json`
+  - `src/generated/prisma/schema.prisma`
+  - `src/generated/prisma/wasm.js`
+
+Fungsi perubahan:
+
+- ini adalah output `npx prisma generate` setelah schema `crew_members` diperluas
+- file-file ini tidak diubah manual
+- mereka harus dianggap bagian dari contract update, bukan feature surface baru
+
+### FINAL_RECONCILIATION_MATRIX.md
+
+- Status: `A`
+- New file lines: `1-95`
+
+Fungsi perubahan:
+
+- merekam status akhir domain source ownership
+- domain yang awalnya masih open sekarang ditandai closed bila sudah terbukti lewat direct DB audit
+
+### FINAL_RECONCILIATION_AUDIT_REPORT.md
+
+- Status: `A`
+- New file lines: `1-169`
+
+Fungsi perubahan:
+
+- merekam command eksekusi final ke DB
+- merekam hasil:
+  - `assets_inventory 58/58`
+  - `crew_registry 14/14`
+  - `destinations 9/9`
+  - `partner_network closed`
+  - `press_coverage closed`
+  - `package editorial doctrine proven in DB`
 
 ## Root / Tooling
 

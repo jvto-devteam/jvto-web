@@ -11,7 +11,10 @@ Do not reset context back to `JVTO-Why-JVTO-Next15`, `remix-why-jvto`, or `jvto-
 Those are not active workspaces.
 
 Read these files first and use them as the project handoff:
+- `SESSION_ARTIFACT_INDEX.md`
 - `WORKSPACE_HANDOFF.md`
+- `SESSION_FULL_HANDOFF.md`
+- `FINAL_RECONCILIATION_MATRIX.md`
 - `src/lib/homepage/homepageDoctrine.ts`
 - `src/lib/trust/trustSupportDoctrine.ts`
 - `src/lib/packages/packageDoctrine.ts`
