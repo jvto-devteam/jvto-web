@@ -28,56 +28,47 @@ Tujuan utama dari proyek ini adalah melakukan pembangunan ulang sistem dari **La
 ---
 
 ## 3. Akses & Kredensial
+
+> ⚠️ **PERINGATAN KEAMANAN:** Jangan pernah menyimpan password, API key, atau token akses di file yang di-commit ke repository. Semua kredensial harus disimpan di password manager tim (misalnya Bitwarden, 1Password) dan di-share secara aman antar anggota tim yang berwenang.
+
 ### Akses Hostinger (SSH)
 Akses ke server dilakukan melalui SSH sebagai user `root`.
 ```bash
 Email : devteam.jvto@gmail.com
-Bismill@hsukses1
-
+Password : [simpan di password manager tim]
 ```
 
 ### Akses Server (SSH)
 Akses ke server dilakukan melalui SSH sebagai user `root`.
 ```bash
 ssh root@31.97.223.43
-Bismill@hsukses1
-
+Password : [simpan di password manager tim]
 ```
+
 ### Akses GIT
 Github Repository:
 https://github.com/jvto-devteam/jvto-web.git
 
-Personal Access Token : 
+Personal Access Token: [generate baru di https://github.com/settings/tokens dan simpan di password manager tim]
 
-```bash
-david
-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
-```
 ### Mailgun
-API KEY `e06c423b06428cdf0a2458e5abaec48a-1ae02a08-6959b3ee`
+API KEY: [simpan di password manager tim]
 
-### PostgreSQL Metrics 
-`BismillahMetrics1`
+### PostgreSQL Metrics
+Password: [simpan di password manager tim]
 
-### PostgreSQL Pgbouncer 
+### PostgreSQL Pgbouncer
 ```bash
-app_user
-BismillahPgbouncer1
-
-pgbouncer
-BismillahPgbouncer1
+app_user / pgbouncer
+Password : [simpan di password manager tim]
 ```
 
 ### Akses Adminer
 https://db.java-tour.com
 
 ```bash
-admin
-Bismill@hsukses1
-```
-```bash
-postgres
-Bismill@hsukses1
+admin / postgres
+Password : [simpan di password manager tim]
 ```
 
 ### Akses Grafana
@@ -85,7 +76,7 @@ http://31.97.223.43:4000/login
 
 ```bash
 admin
-Bismill@hadmin1
+Password : [simpan di password manager tim]
 ```
 
 ## 4. Runbook Operasional (Panduan Teknis)
