@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
 import {
   HelpCircle,
-  ShieldCheck,
   LayoutDashboard,
   Settings,
   Globe,
@@ -23,6 +22,7 @@ import {
   Handshake,
   Image as ImageIcon,
   LayoutTemplate,
+  MessageSquare,
 } from "lucide-react";
 
 type NavChild = {
@@ -43,6 +43,11 @@ const navItems: NavItem[] = [
     href: "/cms",
     label: "Dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    href: "/cms/whatsapp",
+    label: "WhatsApp Ops",
+    icon: MessageSquare,
   },
   // === Global Singletons (sudah ada) ===
   {
@@ -74,6 +79,12 @@ const navItems: NavItem[] = [
     label: "Core Collections",
     icon: FolderTree,
     children: [
+      // Content Pages
+      {
+        href: "/cms/collections/content-pages",
+        label: "Content Pages",
+        icon: LayoutTemplate,
+      },
       // 2.1 tourPackages
       {
         href: "/cms/tour-packages",
@@ -100,7 +111,7 @@ const navItems: NavItem[] = [
       },
       // 2.5 faqItems
       {
-        href: "/cms/faq",
+        href: "/cms/collections/faq-manager",
         label: "FAQ Items",
         icon: HelpCircle,
       },
@@ -112,7 +123,7 @@ const navItems: NavItem[] = [
       },
       // 2.7 insightPosts
       {
-        href: "/cms/blog",
+        href: "/cms/collections/blog-manager",
         label: "Blog / Insight Posts",
         icon: Newspaper,
       },
