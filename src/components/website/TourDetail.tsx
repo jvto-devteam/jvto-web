@@ -275,6 +275,7 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
           icon: <MessageCircle size={18} className="text-lime-600" />,
         },
   ];
+  const hasTieredPricing = pkg.offers.tiers.length > 0;
   const decisionSnapshotCards = [
     {
       title: "Route Shape",
@@ -404,7 +405,6 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
   const selectedTierLabel = selectedPriceTier
     ? formatPriceTierRange(selectedPriceTier)
     : null;
-  const hasTieredPricing = pkg.offers.tiers.length > 0;
   const livePricePerPerson = pricePerPerson ?? startingPrice;
   const livePriceLabel = pricePerPerson ? "Selected Pax Price" : "Starts From";
   const total = pricePerPerson ? pricePerPerson * Number(pax) : 0;

@@ -761,7 +761,7 @@
       "id": "dika",
       "name": "Dika",
       "role": "Driver",
-      "numeric_id": 72.0,
+      "numeric_id": 72,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -781,7 +781,8 @@
         "Safety-first",
         "Great logistics",
         "Knowledgeable guide"
-      ]
+      ],
+      "db_id": 72
     },
     {
       "id": "fredi",
@@ -805,7 +806,7 @@
         }
       ],
       "evidence_needed": [],
-      "numeric_id": 7.0,
+      "numeric_id": 7,
       "social_links": {
         "facebook": "https://www.facebook.com/share/1BY73z5qs5/",
         "instagram": "https://www.instagram.com/frdyska"
@@ -825,13 +826,14 @@
       "archetype_tags": [
         "Reliable Operator"
       ],
-      "knows_about": []
+      "knows_about": [],
+      "db_id": 7
     },
     {
       "id": "holili",
       "name": "Holili",
       "role": "Driver",
-      "numeric_id": 28.0,
+      "numeric_id": 28,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -857,13 +859,14 @@
         "Friendly & fun",
         "Safety-first",
         "Great logistics"
-      ]
+      ],
+      "db_id": 28
     },
     {
       "id": "joyo",
       "name": "Joyo",
       "role": "Driver",
-      "numeric_id": 73.0,
+      "numeric_id": 73,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -889,7 +892,8 @@
         "Safety-first",
         "Great logistics",
         "Knowledgeable guide"
-      ]
+      ],
+      "db_id": 73
     },
     {
       "id": "pras",
@@ -927,13 +931,17 @@
       "archetype_tags": [
         "Reliable Operator"
       ],
-      "knows_about": []
+      "knows_about": [],
+      "db_id": 77,
+      "internal_contact": {
+        "phone": "6281336336317"
+      }
     },
     {
       "id": "yandi",
       "name": "Yandi",
       "role": "Driver",
-      "numeric_id": 1.0,
+      "numeric_id": 1,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -961,13 +969,14 @@
         "Always on time",
         "Safety-first",
         "Great photos"
-      ]
+      ],
+      "db_id": 1
     },
     {
       "id": "yusuf",
       "name": "Yusuf",
       "role": "Driver",
-      "numeric_id": 62.0,
+      "numeric_id": 62,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -986,7 +995,8 @@
         "Friendly & fun",
         "Great photos",
         "Great logistics"
-      ]
+      ],
+      "db_id": 62
     },
     {
       "id": "anjas",
@@ -1010,7 +1020,7 @@
         }
       ],
       "evidence_needed": [],
-      "numeric_id": 3.0,
+      "numeric_id": 3,
       "social_links": {
         "instagram": "https://www.instagram.com/anjasstywn"
       },
@@ -1030,7 +1040,8 @@
       "archetype_tags": [
         "Reliable Operator"
       ],
-      "knows_about": []
+      "knows_about": [],
+      "db_id": 3
     },
     {
       "id": "boy",
@@ -1054,7 +1065,7 @@
         }
       ],
       "evidence_needed": [],
-      "numeric_id": 68.0,
+      "numeric_id": 68,
       "social_links": {
         "facebook": "https://www.facebook.com/muhammad.trezzakuzha",
         "instagram": "https://www.instagram.com/trisbalii?igsh=NDhmcHd2cW94MWpr"
@@ -1075,13 +1086,14 @@
         "Reliable Operator"
       ],
       "knows_about": [],
-      "_merge_note": "Canonical entry. Merged from duplicate id=crew-boy (same person: numeric_id=68, same Facebook/Instagram). Backfilled: profile_snapshot.image_url, self_quote, phone + prefix. id=crew-boy entry removed."
+      "_merge_note": "Canonical entry. Merged from duplicate id=crew-boy (same person: numeric_id=68, same Facebook/Instagram). Backfilled: profile_snapshot.image_url, self_quote, phone + prefix. id=crew-boy entry removed.",
+      "db_id": 68
     },
     {
       "id": "fauzi",
       "name": "Fauzi",
       "role": "Guide",
-      "numeric_id": 46.0,
+      "numeric_id": 46,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -1109,7 +1121,8 @@
         "Great logistics",
         "Great photos",
         "Safety-first"
-      ]
+      ],
+      "db_id": 46
     },
     {
       "id": "gufron",
@@ -1139,7 +1152,7 @@
         }
       ],
       "evidence_needed": [],
-      "numeric_id": 39.0,
+      "numeric_id": 39,
       "social_links": {
         "facebook": "https://www.facebook.com/ghufrano.septian",
         "instagram": "https://www.instagram.com/gfranosept"
@@ -1160,13 +1173,14 @@
       "archetype_tags": [
         "Reliable Operator"
       ],
-      "knows_about": []
+      "knows_about": [],
+      "db_id": 39
     },
     {
       "id": "kiki",
       "name": "Kiki",
       "role": "Guide",
-      "numeric_id": 17.0,
+      "numeric_id": 17,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -1195,7 +1209,8 @@
         "Great logistics",
         "Great photos",
         "Safety-first"
-      ]
+      ],
+      "db_id": 17
     },
     {
       "id": "rendi",
@@ -1225,7 +1240,7 @@
         }
       ],
       "evidence_needed": [],
-      "numeric_id": 13.0,
+      "numeric_id": 13,
       "social_links": {
         "facebook": "https://www.facebook.com/share/14TiR46vXSx/",
         "instagram": "https://www.instagram.com/rrivaldy17?igsh=dHh1c2d0NXNvZHdn"
@@ -1246,13 +1261,14 @@
       "archetype_tags": [
         "Reliable Operator"
       ],
-      "knows_about": []
+      "knows_about": [],
+      "db_id": 13
     },
     {
       "id": "taufik",
       "name": "Taufik",
       "role": "Guide",
-      "numeric_id": 4.0,
+      "numeric_id": 4,
       "archetype": "Reliable Operator",
       "knows_about": [],
       "evidence_review_quotes": [],
@@ -1282,7 +1298,8 @@
         "Safety-first",
         "Always on time",
         "Great photos"
-      ]
+      ],
+      "db_id": 4
     }
   ],
   "verification_credentials": [
@@ -5434,7 +5451,7 @@
       "latitude": -7.942,
       "longitude": 112.953,
       "altitude_masl": 2329,
-      "area_hectares": 5800.0,
+      "area_hectares": 5800,
       "terrain": "Volcanic sand sea, gentle slopes, stone stairs to crater rim",
       "best_time_to_visit": "April–September",
       "difficulty_level": "moderate",
@@ -5477,7 +5494,179 @@
         "Yadnya Kasada Festival",
         "Karo Festival",
         "Unan-Unan Ceremony"
-      ]
+      ],
+      "description": "Mount Bromo, standing at 2,\r\n329 meters, is one of the most iconic volcanoes in Indonesia and the most famous in East Java. It is located within the massive Tengger Caldera, surrounded by the Sea of Sand (Lautan Pasir). The name 'Bromo' is derived from the Javanese pronunciation of Brahma, the Hindu creator god.\r\n\r\nThe volcano is part of the Bromo Tengger Semeru National Park and is sacred to the Tenggerese people, who are the descendants of the Majapahit empire. Every year, the Tenggerese hold the Yadnya Kasada ceremony where offerings are thrown into the crater to honor the mountain gods.\r\n\r\nThe sunrise view from viewpoints like Penanjakan or Kingkong Hill is considered one of the most spectacular in Southeast Asia, with Mount Semeru occasionally erupting in the background. The experience represents the perfect harmony between natural wonder and living culture.",
+      "weather_by_season": "Dry season (Apr-Sep): Clear skies, excellent sunrise visibility. Wet season (Oct-Mar): Frequent fog, rain, and limited visibility. Cold temperatures year-round at high altitude.",
+      "trail_details": "Jeep transfer to viewpoint (30 mins),\r\n1km walk across sand sea (20-30 mins),\r\n250 steps to crater rim (15-20 mins). Mostly flat with final ascent via stairs.",
+      "main_attractions": [
+        {
+          "title": "Sunrise from Kingkong Hill",
+          "description": "Spectacular sunrise over the Tengger Caldera with Mount Semeru in background"
+        },
+        {
+          "title": "Sea of Sand Jeep Tour",
+          "description": "Adventure across the vast volcanic sand plain in 4WD vehicles"
+        },
+        {
+          "title": "Pura Luhur Poten Temple",
+          "description": "Visit the sacred Hindu temple at the base of Bromo"
+        },
+        {
+          "title": "Horse Riding Experience",
+          "description": "Traditional horse ride across the sand sea to the crater stairs"
+        }
+      ],
+      "key_highlights": [
+        {
+          "title": "Iconic Sunrise Views",
+          "description": "One of Indonesia's most photographed sunrise destinations"
+        },
+        {
+          "title": "Active Volcano Experience",
+          "description": "Witness steam vents and occasional rumbling from the active crater"
+        },
+        {
+          "title": "Tenggerese Hindu Culture",
+          "description": "Experience ancient Hindu traditions in Muslim-majority Java"
+        },
+        {
+          "title": "Sea of Sand Adventure",
+          "description": "Vast volcanic plain offering unique desert-like landscape"
+        }
+      ],
+      "facilities": [
+        {
+          "cost": 600000,
+          "name": "Jeep Rental",
+          "details": "4WD vehicles for sand sea tour - included in JVTO packages",
+          "available": true
+        },
+        {
+          "cost": 150000,
+          "name": "Horse Rental",
+          "details": "Traditional horses for sand crossing - optional add-on",
+          "available": true
+        },
+        {
+          "name": "Accommodation",
+          "details": "Various hotels and homestays in Sukapura and Cemoro Lawang - included in JVTO packages",
+          "available": true
+        },
+        {
+          "name": "Restaurants",
+          "details": "Local warung and restaurants in Sukapura and Ngadisari",
+          "available": true
+        },
+        {
+          "name": "Parking",
+          "details": "Multiple parking areas at viewpoints and base",
+          "available": true
+        },
+        {
+          "name": "Viewpoint Platforms",
+          "details": "Designated sunrise viewing areas at Kingkong Hill and Penanjakan",
+          "available": true
+        }
+      ],
+      "safety_notes": [
+        "Warm clothing essential for sunrise (temperatures 5-10°C)",
+        "Dust mask recommended for sand sea area - provided by JVTO",
+        "Stay on marked paths near crater rim",
+        "Check volcanic activity status before visit - JVTO monitors continuously",
+        "Acclimatize to altitude if coming from sea level",
+        "Follow guide instructions during jeep transfers"
+      ],
+      "risk_factors": [
+        {
+          "type": "weather",
+          "level": "medium",
+          "mitigation": "Wear multiple warm layers, gloves, and beanie. JVTO provides blankets and hot drinks.",
+          "description": "Extreme cold at sunrise viewpoints"
+        },
+        {
+          "type": "terrain",
+          "level": "low",
+          "mitigation": "Wear sturdy shoes and watch footing on stairs. JVTO guides assist with difficult sections.",
+          "description": "Volcanic ash and sand can be slippery"
+        },
+        {
+          "type": "health",
+          "level": "low",
+          "mitigation": "Take time to acclimatize, stay hydrated. JVTO plans gradual altitude exposure.",
+          "description": "Altitude effects for some visitors"
+        },
+        {
+          "type": "crowd",
+          "level": "medium",
+          "mitigation": "JVTO uses scheduled Jeep rotations and alternative viewpoints to avoid crowds",
+          "description": "High visitor density at sunrise viewpoints"
+        }
+      ],
+      "environmental_factors": [
+        {
+          "unit": "km/h",
+          "value": "15-35",
+          "factor": "wind_speed",
+          "impact": "Increases wind chill factor at sunrise",
+          "condition": "Strong at viewpoints"
+        },
+        {
+          "unit": "%",
+          "value": "60-90",
+          "factor": "humidity",
+          "impact": "Affects visibility and photography conditions",
+          "condition": "High in early morning"
+        },
+        {
+          "value": "50-100",
+          "factor": "air_quality_index",
+          "impact": "Occasional dust from sand sea",
+          "condition": "Generally good"
+        },
+        {
+          "unit": "index",
+          "value": "8-12",
+          "factor": "uv_radiation",
+          "impact": "Strong sun protection required after sunrise",
+          "condition": "High at altitude"
+        },
+        {
+          "unit": "km",
+          "value": "2-15",
+          "factor": "visibility",
+          "impact": "Affects sunrise viewing experience",
+          "condition": "Varies with weather"
+        }
+      ],
+      "emergency_contacts": [
+        {
+          "name": "Bromo National Park Rescue",
+          "type": "rescue",
+          "phone": "+62-341-491015",
+          "location": "National Park Office, Tosari"
+        },
+        {
+          "name": "Probolinggo General Hospital",
+          "type": "hospital",
+          "phone": "+62-335-427214",
+          "location": "Jalan Dr. Moh. Saleh, Probolinggo"
+        },
+        {
+          "name": "Local Police - Sukapura",
+          "type": "police",
+          "phone": "+62-335-441117",
+          "location": "Sukapura Police Station"
+        },
+        {
+          "name": "JVTO Emergency Hotline",
+          "type": "rescue",
+          "phone": "+62-822-4478-8833",
+          "location": "24/7 JVTO Operations Center"
+        }
+      ],
+      "physical_requirements": "Moderate physical condition required. The main challenge is the 250-step staircase to the crater rim. Suitable for most fitness levels with proper pacing.",
+      "cultural_context": "Mount Bromo is sacred to the Tenggerese Hindus, who believe it was created when a Hindu god cut off the top of Mount Semeru to place it where Bromo now stands. The Tenggerese are the only Hindu community in predominantly Muslim East Java, maintaining ancient Javanese Hindu traditions unchanged for centuries. Their connection to the volcano is central to their identity and spiritual practices. Bromo represents the element of Earth in Javanese cosmology - symbolizing fertility, endurance, and the bridge between divine and human.",
+      "tips_for_visitors": "Depart around 3: 00 AM for sunrise viewing, wear multiple warm layers as temperatures drop to 5°C, bring camera for spectacular photos, consider horse ride across sand sea for authentic experience, respect temple and ceremonial areas, check weather forecast before visit"
     },
     {
       "db_id": 2,
@@ -5491,7 +5680,7 @@
       "latitude": -8.058,
       "longitude": 114.242,
       "altitude_masl": 2769,
-      "area_hectares": 2500.0,
+      "area_hectares": 2500,
       "terrain": "Steep volcanic gravel trails, rocky crater descent, sulfur-rich areas",
       "best_time_to_visit": "April–October",
       "difficulty_level": "moderate",
@@ -5555,7 +5744,183 @@
           "type": "provided",
           "source": "destination_gears.sql id=3"
         }
-      ]
+      ],
+      "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The blue fire is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
+      "weather_by_season": "Dry season (Apr-Oct): Clear skies, minimal fog. Wet season (Nov-Mar): Frequent rain, dense fog, higher gas concentration.",
+      "trail_details": "3km ascent (1.5-2 hours) to crater rim, 1km descent (30-45 mins) to crater floor. Steep gradient (30-40°), volcanic gravel surface.",
+      "main_attractions": [
+        {
+          "title": "Blue Fire Phenomenon",
+          "description": "Witness the surreal blue flames that appear only at night due to combustion of sulfuric gases"
+        },
+        {
+          "title": "Acidic Crater Lake",
+          "description": "See the world's largest acidic lake with stunning turquoise color and pH levels below 0.5"
+        },
+        {
+          "title": "Sulfur Mining Culture",
+          "description": "Observe traditional sulfur miners extracting and carrying sulfur blocks in extreme conditions"
+        },
+        {
+          "title": "Sunrise Panorama",
+          "description": "Experience breathtaking sunrise views over the crater lake and surrounding mountains"
+        }
+      ],
+      "key_highlights": [
+        {
+          "title": "Natural Blue Fire",
+          "description": "One of only two places on Earth where blue fire occurs naturally"
+        },
+        {
+          "title": "World's Largest Acidic Lake",
+          "description": "Turquoise crater lake with pH levels as low as 0.2"
+        },
+        {
+          "title": "Traditional Sulfur Mining",
+          "description": "Witness miners carrying 70-90kg sulfur loads up steep crater walls"
+        },
+        {
+          "title": "Milky Way Visibility",
+          "description": "Clear night skies offer spectacular Milky Way views from May to September"
+        }
+      ],
+      "facilities": [
+        {
+          "name": "Parking Area",
+          "details": "Secure parking at Paltuding base camp",
+          "available": true
+        },
+        {
+          "name": "Toilets",
+          "details": "Basic facilities available at base camp",
+          "available": true
+        },
+        {
+          "cost": 50000,
+          "name": "Gas Mask Rental",
+          "details": "Essential for crater visit - included in JVTO packages",
+          "available": true
+        },
+        {
+          "cost": 300000,
+          "name": "Guide Services",
+          "details": "Mandatory for night trek - included in JVTO packages",
+          "available": true
+        },
+        {
+          "name": "Warung/Stalls",
+          "details": "Simple food and drink vendors",
+          "available": true
+        },
+        {
+          "name": "First Aid Post",
+          "details": "Basic medical assistance",
+          "available": true
+        },
+        {
+          "name": "Health Screening",
+          "details": "Mandatory health clearance for high-exertion activities",
+          "available": true
+        }
+      ],
+      "safety_notes": [
+        "Gas mask mandatory near crater - sulfur dioxide levels can be dangerous",
+        "Stay on marked paths and follow guide instructions at all times",
+        "Carry sufficient water and energy snacks for the trek",
+        "Wear appropriate hiking shoes with good grip",
+        "Complete health screening as required by JVTO safety protocols"
+      ],
+      "risk_factors": [
+        {
+          "type": "health",
+          "level": "high",
+          "mitigation": "Use provided gas masks, limit time near active vents, immediate descent if feeling unwell. JVTO provides professional equipment and health screening.",
+          "description": "Toxic sulfur gas exposure causing respiratory issues"
+        },
+        {
+          "type": "terrain",
+          "level": "medium",
+          "mitigation": "Use headlamps, trekking poles, and proper footwear. Follow guide closely. JVTO guides are trained in night navigation.",
+          "description": "Steep, slippery paths especially in darkness"
+        },
+        {
+          "type": "weather",
+          "level": "medium",
+          "mitigation": "Bring warm layers, rain jacket, and check weather forecast. JVTO monitors conditions and may adjust timing.",
+          "description": "Rapid weather changes and cold temperatures at night"
+        },
+        {
+          "type": "health",
+          "level": "medium",
+          "mitigation": "JVTO conducts pre-ascent health screening. Guests must disclose relevant medical conditions.",
+          "description": "High altitude and physical exertion"
+        }
+      ],
+      "environmental_factors": [
+        {
+          "unit": "km/h",
+          "value": "10-25",
+          "factor": "wind_speed",
+          "impact": "Can disperse or concentrate sulfur gases",
+          "condition": "Higher at crater rim"
+        },
+        {
+          "unit": "%",
+          "value": "70-95",
+          "factor": "humidity",
+          "impact": "Affects gas dispersion and visibility",
+          "condition": "High in early morning"
+        },
+        {
+          "value": "150-300",
+          "factor": "air_quality_index",
+          "impact": "Unhealthy to hazardous due to SO2",
+          "condition": "Near active vents"
+        },
+        {
+          "unit": "index",
+          "value": "8-11",
+          "factor": "uv_radiation",
+          "impact": "Strong sun protection required",
+          "condition": "High at altitude"
+        },
+        {
+          "unit": "km",
+          "value": "1-10",
+          "factor": "visibility",
+          "impact": "Affects photography and safety",
+          "condition": "Varies with weather"
+        }
+      ],
+      "emergency_contacts": [
+        {
+          "name": "Ijen Rescue Team",
+          "type": "rescue",
+          "phone": "+62-813-5333-7890",
+          "location": "Paltuding Base Camp"
+        },
+        {
+          "name": "Banyuwangi General Hospital",
+          "type": "hospital",
+          "phone": "+62-333-421118",
+          "location": "Jalan Dr. Sutomo 65, Banyuwangi"
+        },
+        {
+          "name": "Local Police",
+          "type": "police",
+          "phone": "+62-333-421110",
+          "location": "Banyuwangi Police Station"
+        },
+        {
+          "name": "JVTO Emergency Hotline",
+          "type": "rescue",
+          "phone": "+62-822-4478-8833",
+          "location": "24/7 JVTO Operations Center"
+        }
+      ],
+      "physical_requirements": "Good physical condition required for steep ascent and high altitude. Not recommended for people with respiratory or heart conditions.",
+      "cultural_context": "Locals view Ijen as 'Gunung sing urip' — the living mountain. The Tenggerese and Osing communities consider the volcano sacred and make offerings during the Javanese month of Suro for protection and gratitude. The sulfur miners, known as 'Wong Ijen', have worked the volcano for generations, developing unique cultural practices around their dangerous profession. The volcano represents the element of Fire in Javanese cosmology - symbolizing power, creation, and purification.",
+      "tips_for_visitors": "Start trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights"
     },
     {
       "db_id": 6,
@@ -5569,7 +5934,7 @@
       "latitude": -7.933,
       "longitude": 113.008,
       "altitude_masl": 620,
-      "area_hectares": 150.0,
+      "area_hectares": 150,
       "terrain": "River canyon with rocky paths, river crossings, slippery stones, and waterfall spray zone",
       "best_time_to_visit": "May–October",
       "difficulty_level": "moderate",
@@ -5618,7 +5983,172 @@
           "type": "provided",
           "source": "destination_gears.sql id=4"
         }
-      ]
+      ],
+      "description": "Madakaripura Waterfall is a spectacular 200-meter tall waterfall located in a deep canyon in Probolinggo Regency, East Java. The name 'Madakaripura' translates to 'the place that is eternally kept or preserved,' reflecting its significance as a spiritual sanctuary.\r\n\r\nThis waterfall holds immense historical importance as it is believed to be the final meditation site of Gajah Mada, the legendary prime minister of the Majapahit Empire who swore the famous Palapa Oath to unite the Indonesian archipelago. The waterfall cascades down sheer cliff walls, creating a mystical atmosphere with constant mist and occasional rainbows when sunlight penetrates the canyon between 08:30–09:30 AM.\r\n\r\nThe site represents the element of Water in Javanese cosmology - symbolizing cleansing, renewal, and the flow of devotion that never ends.",
+      "weather_by_season": "Dry season (May-Oct): Optimal conditions with minimal rain, clear water flow. Wet season (Nov-Apr): Heavy rainfall increases flash flood risk, stronger water currents.",
+      "trail_details": "800m river trek through canyon (30-45 mins), multiple river crossings, final approach through waterfall spray zone. Total elevation gain: 50m.",
+      "main_attractions": [
+        {
+          "title": "Sacred Meditation Cave",
+          "description": "Visit the cave where Gajah Mada is believed to have meditated until his death"
+        },
+        {
+          "title": "Rainbow Light Beams",
+          "description": "Witness magical light shafts creating rainbows through the waterfall mist"
+        },
+        {
+          "title": "Vertical Mist Wall",
+          "description": "Experience the powerful curtain of mist from the 200-meter waterfall"
+        },
+        {
+          "title": "Historical Significance",
+          "description": "Connect with the legacy of Gajah Mada and the Majapahit Empire"
+        }
+      ],
+      "key_highlights": [
+        {
+          "title": "Indonesia's Tallest Waterfall",
+          "description": "200-meter vertical drop in a spectacular canyon setting"
+        },
+        {
+          "title": "Gajah Mada's Sanctuary",
+          "description": "Final meditation site of the legendary Majapahit prime minister"
+        },
+        {
+          "title": "Rainbow Phenomenon",
+          "description": "Daily rainbow displays through waterfall mist in morning hours"
+        },
+        {
+          "title": "Majapahit Heritage",
+          "description": "Direct connection to Indonesia's greatest Hindu-Buddhist empire"
+        }
+      ],
+      "facilities": [
+        {
+          "name": "Parking Area",
+          "details": "Secure parking near the trailhead",
+          "available": true
+        },
+        {
+          "cost": 100000,
+          "name": "Guide Services",
+          "details": "Local guides familiar with river conditions - included in JVTO packages",
+          "available": true
+        },
+        {
+          "name": "Warung/Stalls",
+          "details": "Local food and drink vendors",
+          "available": true
+        },
+        {
+          "name": "Rest Areas",
+          "details": "Simple shelters along the trail",
+          "available": true
+        },
+        {
+          "name": "Toilets",
+          "details": "Basic facilities available",
+          "available": true
+        },
+        {
+          "cost": 15000,
+          "name": "Raincoat Rental",
+          "details": "Protection from waterfall spray",
+          "available": true
+        }
+      ],
+      "safety_notes": [
+        "Wear secure water shoes with good grip",
+        "Use waterproof bags for electronics and valuables",
+        "Follow guide instructions for river crossings",
+        "Be cautious on slippery rocks and uneven terrain",
+        "Check weather conditions before departure"
+      ],
+      "risk_factors": [
+        {
+          "type": "weather",
+          "level": "high",
+          "mitigation": "JVTO monitors weather conditions and may cancel visits during unsafe conditions. Guides are trained in river safety.",
+          "description": "Flash floods during heavy rainfall"
+        },
+        {
+          "type": "terrain",
+          "level": "medium",
+          "mitigation": "Proper footwear provided in JVTO packages. Guides assist with difficult sections.",
+          "description": "Slippery rocks and uneven riverbed"
+        },
+        {
+          "type": "health",
+          "level": "low",
+          "mitigation": "Safety briefing provided. JVTO guides are trained in first aid and emergency response.",
+          "description": "Slips and falls on wet surfaces"
+        }
+      ],
+      "environmental_factors": [
+        {
+          "unit": "m³/s",
+          "value": "10-50",
+          "factor": "water_flow",
+          "impact": "Affects accessibility and safety",
+          "condition": "Varies with rainfall"
+        },
+        {
+          "unit": "%",
+          "value": "80-95",
+          "factor": "humidity",
+          "impact": "Creates constant mist and spray",
+          "condition": "High in canyon"
+        },
+        {
+          "unit": "°C",
+          "value": "18-22",
+          "factor": "water_temperature",
+          "impact": "Refreshing but can be cold for some",
+          "condition": "Cool mountain water"
+        },
+        {
+          "unit": "meters",
+          "value": "50-200",
+          "factor": "visibility",
+          "impact": "Affects photography and experience",
+          "condition": "Varies with mist"
+        },
+        {
+          "value": "High risk",
+          "factor": "rainfall_alert",
+          "impact": "Flash flood warnings in effect",
+          "condition": "During wet season"
+        }
+      ],
+      "emergency_contacts": [
+        {
+          "name": "Local Guide Association",
+          "type": "rescue",
+          "phone": "+62-335-441234",
+          "location": "Lumbang Village"
+        },
+        {
+          "name": "Probolinggo General Hospital",
+          "type": "hospital",
+          "phone": "+62-335-427214",
+          "location": "Jalan Dr. Moh. Saleh, Probolinggo"
+        },
+        {
+          "name": "Local Police - Lumbang",
+          "type": "police",
+          "phone": "+62-335-441119",
+          "location": "Lumbang Police Station"
+        },
+        {
+          "name": "JVTO Emergency Hotline",
+          "type": "rescue",
+          "phone": "+62-822-4478-8833",
+          "location": "24/7 JVTO Operations Center"
+        }
+      ],
+      "physical_requirements": "Moderate fitness required for river trekking and navigating slippery surfaces. Must be comfortable walking in water and on uneven terrain.",
+      "cultural_context": "Madakaripura is deeply connected to the legacy of Gajah Mada, the 14th-century prime minister of the Majapahit Empire who swore the Palapa Oath, vowing not to enjoy earthly pleasures until the entire archipelago was united. Local belief holds that this waterfall was his final meditation site, where he achieved spiritual enlightenment. The constant flow of water symbolizes eternal loyalty and unwavering commitment. Locals often place offerings (sesajen) at the meditation cave to honor his memory and seek blessings for unity and devotion.",
+      "tips_for_visitors": "Visit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety"
     },
     {
       "db_id": 7,
@@ -5632,7 +6162,7 @@
       "latitude": -8.227,
       "longitude": 112.915,
       "altitude_masl": 500,
-      "area_hectares": 300.0,
+      "area_hectares": 300,
       "terrain": "Volcanic canyon with steep cliffs, rocky paths, bamboo ladders, rope sections, and slippery surfaces",
       "best_time_to_visit": "May–July",
       "difficulty_level": "hard",
@@ -5674,7 +6204,171 @@
       "rituals": [
         "Water Thanksgiving"
       ],
-      "_note": "schema_json contains reference to Goa Tetes Cave — potential future destination page /destinations/goa-tetes"
+      "_note": "schema_json contains reference to Goa Tetes Cave — potential future destination page /destinations/goa-tetes",
+      "description": "Tumpak Sewu, which translates to 'A Thousand Waterfalls' in Javanese, is one of Indonesia's most spectacular waterfall formations. Located on the border between Lumajang and Malang regencies, this horseshoe-shaped waterfall cascades down a volcanic cliff face in hundreds of individual streams, creating a breathtaking natural curtain of water.\r\n\r\nThe waterfall is fed by the Glidik River, which originates from the slopes of Mount Semeru, Java's highest and most active volcano. The panoramic viewpoint offers a stunning perspective with Semeru often visible in the background, especially during sunrise. The descent to the waterfall base involves navigating bamboo ladders, ropes, and rocky paths, making it an adventurous experience.\r\n\r\nLocals refer to Tumpak Sewu as 'Semeru's Breath,' representing the continuous flow of life from the volcano to the earth below.",
+      "weather_by_season": "Dry season (May-Oct): Best conditions with minimal rain, clear skies. Wet season (Nov-Apr): Heavy rainfall increases water flow and flash flood risk.",
+      "trail_details": "Panoramic viewpoint accessible by short walk, then 45-60 minute descent to waterfall base using bamboo ladders, ropes, and rocky paths. Total distance: 1.5km round trip with 150m elevation change.",
+      "main_attractions": [
+        {
+          "title": "Panoramic Sunrise Viewpoint",
+          "description": "Spectacular sunrise over the waterfall with Mount Semeru backdrop"
+        },
+        {
+          "title": "Canyon Descent Adventure",
+          "description": "Exciting descent using ropes and bamboo ladders to the waterfall base"
+        },
+        {
+          "title": "Thousand Water Streams",
+          "description": "Witness hundreds of individual water streams forming a natural curtain"
+        },
+        {
+          "title": "Goa Tetes Cave Connection",
+          "description": "Explore the nearby cave system connected to the waterfall"
+        }
+      ],
+      "key_highlights": [
+        {
+          "title": "Indonesia's Most Photogenic Waterfall",
+          "description": "Stunning horseshoe-shaped curtain of water with volcanic backdrop"
+        },
+        {
+          "title": "Adventure Canyon Descent",
+          "description": "Thrilling descent using ropes and ladders for an up-close experience"
+        },
+        {
+          "title": "Mount Semeru Backdrop",
+          "description": "Unique photography opportunity with Java's highest volcano in background"
+        },
+        {
+          "title": "Unique Geological Formation",
+          "description": "Volcanic erosion created this spectacular multi-stream waterfall"
+        }
+      ],
+      "facilities": [
+        {
+          "name": "Parking Area",
+          "details": "Secure parking at the main entrance",
+          "available": true
+        },
+        {
+          "cost": 150000,
+          "name": "Guide Services",
+          "details": "Mandatory for canyon descent - included in JVTO packages",
+          "available": true
+        },
+        {
+          "name": "Viewpoint Platforms",
+          "details": "Multiple safe viewing platforms",
+          "available": true
+        },
+        {
+          "name": "Warung/Stalls",
+          "details": "Local food and refreshments",
+          "available": true
+        },
+        {
+          "name": "Rest Hut",
+          "details": "Shelter area for resting",
+          "available": true
+        },
+        {
+          "name": "Equipment Rental",
+          "details": "Water shoes, dry bags, and gloves available",
+          "available": true
+        }
+      ],
+      "safety_notes": [
+        "Guide mandatory for canyon descent - do not attempt alone",
+        "Wear proper trekking shoes with excellent grip",
+        "Use gloves for rope sections during descent",
+        "Secure all electronics in waterproof bags",
+        "Follow guide instructions carefully at all times"
+      ],
+      "risk_factors": [
+        {
+          "type": "terrain",
+          "level": "high",
+          "mitigation": "JVTO provides experienced guides and safety equipment. Descent is controlled and assisted.",
+          "description": "Steep and slippery descent with rope sections"
+        },
+        {
+          "type": "weather",
+          "level": "high",
+          "mitigation": "JVTO monitors weather conditions and cancels visits during unsafe conditions. Emergency evacuation plans in place.",
+          "description": "Flash floods during rainfall"
+        },
+        {
+          "type": "health",
+          "level": "medium",
+          "mitigation": "Safety briefing and physical assessment. JVTO guides are trained in wilderness first aid.",
+          "description": "Physical exertion and potential for slips/falls"
+        }
+      ],
+      "environmental_factors": [
+        {
+          "unit": "m³/s",
+          "value": "20-100",
+          "factor": "water_flow",
+          "impact": "Affects accessibility and safety of descent",
+          "condition": "Varies with rainfall and season"
+        },
+        {
+          "unit": "%",
+          "value": "75-95",
+          "factor": "humidity",
+          "impact": "Creates slippery conditions and affects photography",
+          "condition": "High in canyon due to spray"
+        },
+        {
+          "unit": "km",
+          "value": "1-5",
+          "factor": "visibility",
+          "impact": "Affects views of Semeru and waterfall",
+          "condition": "Varies with weather and mist"
+        },
+        {
+          "value": "High risk",
+          "factor": "rainfall_alert",
+          "impact": "Flash flood warnings in effect, descent may be closed",
+          "condition": "During wet season"
+        },
+        {
+          "unit": "index",
+          "value": "8-12",
+          "factor": "uv_radiation",
+          "impact": "Sun protection recommended",
+          "condition": "High at open areas"
+        }
+      ],
+      "emergency_contacts": [
+        {
+          "name": "Local Guide Association - Sidomulyo",
+          "type": "rescue",
+          "phone": "+62-334-531234",
+          "location": "Sidomulyo Village"
+        },
+        {
+          "name": "Lumajang General Hospital",
+          "type": "hospital",
+          "phone": "+62-334-881118",
+          "location": "Jalan Basuki Rahmat, Lumajang"
+        },
+        {
+          "name": "Local Police - Lumajang",
+          "type": "police",
+          "phone": "+62-334-881100",
+          "location": "Lumajang Police Station"
+        },
+        {
+          "name": "JVTO Emergency Hotline",
+          "type": "rescue",
+          "phone": "+62-822-4478-8833",
+          "location": "24/7 JVTO Operations Center"
+        }
+      ],
+      "physical_requirements": "Excellent physical condition required. Must be comfortable with heights, steep descents, and using ropes. Not recommended for people with mobility issues, fear of heights, or heart conditions.",
+      "cultural_context": "Tumpak Sewu holds deep significance for the local communities who view the waterfall as 'Semeru's Breath' - the physical manifestation of the volcano's life force flowing to the earth. The continuous flow of water symbolizes renewal, humility, and the natural cycle of life. While less explicitly ritualized than other sites, the waterfall represents the power and generosity of nature in local cosmology. The name itself, 'A Thousand Waterfalls,' reflects the Javanese appreciation for nature's abundance and complexity.",
+      "tips_for_visitors": "Start early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions"
     },
     {
       "db_id": 9,
@@ -5688,7 +6382,7 @@
       "latitude": -8.4725,
       "longitude": 113.4562,
       "altitude_masl": 5,
-      "area_hectares": 75.0,
+      "area_hectares": 75,
       "terrain": "White sandy beach with unique rock formations, coastal cliffs, and turquoise waters",
       "best_time_to_visit": "April–October (dry season)",
       "difficulty_level": "easy",
@@ -5729,7 +6423,173 @@
       ],
       "rituals": [
         "Beach Cleanup Events"
-      ]
+      ],
+      "description": "Papuma Beach, located in Jember Regency of East Java, is renowned for its stunning white sand and crystal-clear turquoise waters. The name 'Papuma' is an acronym from 'Pasir Putih Malikan' which means Malikan's White Sand. The beach features unique rock formations scattered along the coastline and offers panoramic views from nearby hilltops.\r\n\r\nUnlike many other beaches in East Java, Papuma boasts fine white sand and relatively calm waters during the dry season. The beach is surrounded by lush green hills and features several small islands that can be reached during low tide. While swimming is limited due to strong Indian Ocean currents, the beach offers excellent opportunities for photography, relaxation, and enjoying spectacular sunsets.\r\n\r\nThe combination of white sand, turquoise waters, and unique geological formations makes Papuma one of East Java's most picturesque coastal destinations.",
+      "weather_by_season": "Dry season (Apr-Oct): Clear skies, calm waters, ideal for beach activities. Wet season (Nov-Mar): Higher waves, occasional rain, stronger currents.",
+      "trail_details": "Easy access with paved paths to beach, minimal walking required. Rocky areas require careful footing.",
+      "main_attractions": [
+        {
+          "title": "White Sand Beach",
+          "description": "Enjoy the rare white sand beach with clear turquoise waters"
+        },
+        {
+          "title": "Unique Rock Formations",
+          "description": "Explore the fascinating rock formations along the coastline"
+        },
+        {
+          "title": "Panoramic Hilltop Views",
+          "description": "Capture stunning photos from viewpoints overlooking the bay"
+        },
+        {
+          "title": "Coastal Photography",
+          "description": "Perfect setting for landscape and seascape photography"
+        }
+      ],
+      "key_highlights": [
+        {
+          "title": "White Sand Paradise",
+          "description": "One of few white sand beaches on Java's south coast"
+        },
+        {
+          "title": "Turquoise Waters",
+          "description": "Crystal-clear waters ideal for photography and wading"
+        },
+        {
+          "title": "Unique Geology",
+          "description": "Spectacular rock formations created by coastal erosion"
+        },
+        {
+          "title": "Easy Accessibility",
+          "description": "Well-maintained access suitable for all visitors"
+        }
+      ],
+      "facilities": [
+        {
+          "name": "Parking Area",
+          "details": "Secure parking available near entrance",
+          "available": true
+        },
+        {
+          "name": "Changing Rooms",
+          "details": "Basic changing facilities available",
+          "available": true
+        },
+        {
+          "name": "Freshwater Showers",
+          "details": "Showers for rinsing after beach activities",
+          "available": true
+        },
+        {
+          "name": "Food Stalls",
+          "details": "Local warung serving snacks and drinks",
+          "available": true
+        },
+        {
+          "cost": 50000,
+          "name": "Beach Chair Rental",
+          "details": "Beach chairs and umbrella rental",
+          "available": true
+        },
+        {
+          "name": "Viewpoint Platforms",
+          "details": "Designated areas for photography",
+          "available": true
+        }
+      ],
+      "safety_notes": [
+        "Swim only in designated safe areas",
+        "Avoid swimming during high tide and strong currents",
+        "Wear appropriate footwear on rocky areas",
+        "Use sunscreen and hat for sun protection",
+        "Monitor tide conditions and follow local guidance",
+        "Keep safe distance from surf zone"
+      ],
+      "risk_factors": [
+        {
+          "type": "marine",
+          "level": "medium",
+          "mitigation": "Swim only in designated safe areas. Follow lifeguard instructions if available.",
+          "description": "Strong currents and powerful waves"
+        },
+        {
+          "type": "terrain",
+          "level": "low",
+          "mitigation": "Wear water shoes with good grip on rocky surfaces",
+          "description": "Slippery rocks when wet"
+        },
+        {
+          "type": "weather",
+          "level": "low",
+          "mitigation": "Use sunscreen, hat, and seek shade during peak hours",
+          "description": "Strong sun exposure"
+        }
+      ],
+      "environmental_factors": [
+        {
+          "unit": "meters",
+          "value": "1-3",
+          "factor": "wave_height",
+          "impact": "Affects swimming safety and beach activities",
+          "condition": "Varies with season"
+        },
+        {
+          "unit": "meters",
+          "value": "1-2",
+          "factor": "tide_level",
+          "impact": "Affects beach access and rock formations visibility",
+          "condition": "Daily variation"
+        },
+        {
+          "unit": "index",
+          "value": "9-12",
+          "factor": "uv_radiation",
+          "impact": "Strong sun protection required",
+          "condition": "High throughout day"
+        },
+        {
+          "unit": "km/h",
+          "value": "10-20",
+          "factor": "wind_speed",
+          "impact": "Creates comfortable conditions but affects waves",
+          "condition": "Coastal breeze"
+        },
+        {
+          "unit": "°C",
+          "value": "26-29",
+          "factor": "water_temperature",
+          "impact": "Comfortable for wading and water activities",
+          "condition": "Warm tropical waters"
+        }
+      ],
+      "emergency_contacts": [
+        {
+          "name": "Local Beach Management",
+          "type": "rescue",
+          "phone": "+62-331-421234",
+          "location": "Papuma Beach Entrance"
+        },
+        {
+          "name": "Jember General Hospital",
+          "type": "hospital",
+          "phone": "+62-331-487441",
+          "location": "Jalan Letjen Suprapto, Jember"
+        },
+        {
+          "name": "Local Police - Jember",
+          "type": "police",
+          "phone": "+62-331-421110",
+          "location": "Jember Police Station"
+        },
+        {
+          "name": "JVTO Emergency Hotline",
+          "type": "rescue",
+          "phone": "+62-822-4478-8833",
+          "location": "24/7 JVTO Operations Center"
+        }
+      ],
+      "physical_requirements": "Minimal physical requirements. Suitable for all ages and fitness levels. Basic mobility required for beach access.",
+      "cultural_context": "Papuma Beach holds significance as one of the few white sand beaches in East Java's southern coast. The name 'Papuma' comes from 'Pasir Putih Malikan' (Malikan's White Sand), reflecting local pride in this natural treasure. While less steeped in ancient traditions than volcanic sites, the beach represents the element of Water in local cosmology and serves as an important recreational space for local communities.",
+      "tips_for_visitors": "Visit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views"
     },
     {
       "db_id": 3,
@@ -10931,7 +11791,9 @@
       "PATCH_v3_1+v3_2 applied 2026-03-12: C6+C8 evidence_slugs filled, live_url assets added, policy title_tags applied, roadmap populated, reputation_triangulation updated (4.9/5, 112 reviews).",
       "PHASE 0 CLEAN — 2026-03-16: All 51 pages: title ≤65c, meta ≤155c, H1 validated, encoding errors fixed. Live homepage title adopted (Tourist Police-Led). GEO-optimised copy throughout."
     ],
-    "phase0_clean": true
+    "phase0_clean": true,
+    "last_db_sync": "2026-04-07T05:43:43.416Z",
+    "sync_version": 2
   },
   "canonical_context": {
     "name": "JVTO Single Context Master",
