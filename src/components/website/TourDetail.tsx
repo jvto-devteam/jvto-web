@@ -306,7 +306,8 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
     { start: "2026-03-16", end: "2026-03-20" },
     { start: "2026-04-05", end: "2026-04-11" },
     { start: "2026-04-30", end: "2026-05-01" },
-    { start: "2026-05-30", end: "2026-06-02" },
+    { start: "2026-05-30", end: "2026-05-30" },
+    { start: "2026-06-02", end: "2026-06-02" },
   ];
 
   const isDateBlocked = (dateStr) => {
