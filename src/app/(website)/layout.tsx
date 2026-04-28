@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
+import StickyWhatsApp from "@/components/website/LandingPage/StickyWhatsApp";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
@@ -81,6 +82,7 @@ export default function WebsiteLayout({
             <main className="flex-1">{children}</main>
 
             <Footer />
+            <StickyWhatsApp />
           </div>
         </div>
       </Providers>
