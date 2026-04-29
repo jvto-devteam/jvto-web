@@ -1,0 +1,574 @@
+⚠ `eslint` configuration in next.config.ts is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+⚠ Slow filesystem detected. The benchmark took 421ms. If F:\jvto-web\.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+
+
+
+<--- Last few GCs --->
+<--- Last few GCs --->
+<--- Last few GCs --->
+
+
+
+[65692:000001D547AB5000]    11725 ms: Scavenge 24.3 (33.7) -> 23.2 (35.2) MB, pooled: 0 MB, 101.99 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[65568:000001E01A116000]    11490 ms: Scavenge 24.4 (33.7) -> 22.7 (35.2) MB, pooled: 0 MB, 33.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[65552:000002691EA4A000]    12899 ms: Scavenge 24.3 (33.5) -> 22.7 (35.0) MB, pooled: 0 MB, 62.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[65692:000001D547AB5000]    12538 ms: Scavenge 26.0 (35.2) -> 25.3 (56.0) MB, pooled: 0 MB, 130.74 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[65568:000001E01A116000]    14040 ms: Scavenge 26.6 (35.4) -> 25.5 (56.7) MB, pooled: 0 MB, 1301.12 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[65552:000002691EA4A000]    14545 ms: Scavenge 26.5 (35.2) -> 26.0 (56.2) MB, pooled: 0 MB, 402.62 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+
+
+
+FATAL ERROR: Zone Allocation failed - process out of memory
+FATAL ERROR: Zone Allocation failed - process out of memory
+FATAL ERROR: Zone Allocation failed - process out of memory
+----- Native stack trace -----
+----- Native stack trace -----
+----- Native stack trace -----
+
+
+
+ 1: 00007FF62BC0C36F node::OnFatalError+1343
+ 1: 00007FF62BC0C36F node::OnFatalError+1343
+ 1: 00007FF62BC0C36F node::OnFatalError+1343
+ 2: 00007FF62C854D77 v8::Function::NewInstance+423
+ 2: 00007FF62C854D77 v8::Function::NewInstance+423
+ 2: 00007FF62C854D77 v8::Function::NewInstance+423
+ 3: 00007FF62C1CFBD6 v8::SnapshotCreator::GetIsolate+56566
+ 3: 00007FF62C1CFBD6 v8::SnapshotCreator::GetIsolate+56566
+ 3: 00007FF62C1CFBD6 v8::SnapshotCreator::GetIsolate+56566
+ 4: 00007FF62C080550 SSL_CTX_get_client_CA_list+562624
+ 4: 00007FF62D74000F v8::platform::DelayedTaskQueue::Terminate+4828671
+ 4: 00007FF62BD90C26 X509_get0_tbs_sigalg+8726
+ 5: 00007FF62C0805FB SSL_CTX_get_client_CA_list+562795
+ 5: 00007FF62D73FDCA v8::platform::DelayedTaskQueue::Terminate+4828090
+ 5: 00007FF62D450147 v8::platform::DelayedTaskQueue::Terminate+1748791
+ 6: 00007FF62D7146FA v8::platform::DelayedTaskQueue::Terminate+4650218
+ 6: 00007FF62D337BBD v8::platform::DelayedTaskQueue::Terminate+600493
+ 6: 00007FF62D44F828 v8::platform::DelayedTaskQueue::Terminate+1746456
+ 7: 00007FF62D71649D v8::platform::DelayedTaskQueue::Terminate+4657805
+ 7: 00007FF62D270AA9 v8::base::DiyFp::Multiply+551337
+ 7: 00007FF62D44743F v8::platform::DelayedTaskQueue::Terminate+1712687
+ 8: 00007FF62D70F514 v8::platform::DelayedTaskQueue::Terminate+4629252
+ 8: 00007FF62D338468 v8::platform::DelayedTaskQueue::Terminate+602712
+ 8: 00007FF62D446F1F v8::platform::DelayedTaskQueue::Terminate+1711375
+ 9: 00007FF62D70B90C v8::platform::DelayedTaskQueue::Terminate+4613884
+ 9: 00007FF62D33812C v8::platform::DelayedTaskQueue::Terminate+601884
+ 9: 00007FF62D442F7E v8::platform::DelayedTaskQueue::Terminate+1695086
+10: 00007FF62D337BBD v8::platform::DelayedTaskQueue::Terminate+600493
+10: 00007FF62D337E98 v8::platform::DelayedTaskQueue::Terminate+601224
+10: 00007FF62D442A69 v8::platform::DelayedTaskQueue::Terminate+1693785
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+11: 00007FF62D270AA9 v8::base::DiyFp::Multiply+551337
+11: 00007FF62D271777 v8::base::DiyFp::Multiply+554615
+11: 00007FF62D44D259 v8::platform::DelayedTaskQueue::Terminate+1736777
+12: 00007FF62D338468 v8::platform::DelayedTaskQueue::Terminate+602712
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+12: 00007FF62D24A9A0 v8::base::DiyFp::Multiply+395424
+12: 00007FF62D44BF22 v8::platform::DelayedTaskQueue::Terminate+1731858
+13: 00007FF62D33812C v8::platform::DelayedTaskQueue::Terminate+601884
+13: 00007FF62D24789F v8::base::DiyFp::Multiply+382879
+13: 00007FF62D4472A7 v8::platform::DelayedTaskQueue::Terminate+1712279
+14: 00007FF62D337E98 v8::platform::DelayedTaskQueue::Terminate+601224
+14: 00007FF62D2471ED v8::base::DiyFp::Multiply+381165
+14: 00007FF62D446431 v8::platform::DelayedTaskQueue::Terminate+1708577
+15: 00007FF62D27064D v8::base::DiyFp::Multiply+550221
+15: 00007FF62C7C89AF X509_STORE_set_get_issuer+200559
+
+
+15: 00007FF62D442F7E v8::platform::DelayedTaskQueue::Terminate+1695086
+16: 00007FF62D24A4C0 v8::base::DiyFp::Multiply+394176
+16: 00007FF62C78DA3D v8::internal::OptimizingCompileInputQueue::Prioritize+1773
+
+
+16: 00007FF62D442A69 v8::platform::DelayedTaskQueue::Terminate+1693785
+17: 00007FF62D2475C2 v8::base::DiyFp::Multiply+382146
+17: 00007FF62C78D735 v8::internal::OptimizingCompileInputQueue::Prioritize+997
+#
+#
+17: 00007FF62D442524 v8::platform::DelayedTaskQueue::Terminate+1692436
+18: 00007FF62D2471DE v8::base::DiyFp::Multiply+381150
+18: 00007FF62D03570F v8::platform::DefaultJobHandle::UpdatePriority+591
+# Fatal error in , line 0
+# Fatal error in , line 0
+18: 00007FF62D441AB1 v8::platform::DelayedTaskQueue::Terminate+1689761
+19: 00007FF62C7C89AF X509_STORE_set_get_issuer+200559
+19: 00007FF62BB5CD8E node::GetNodeReport+90334
+# Out of memory: HashMap::Initialize
+19: 00007FF62D44180F v8::platform::DelayedTaskQueue::Terminate+1689087
+20: 00007FF62C78DA3D v8::internal::OptimizingCompileInputQueue::Prioritize+1773
+20: 00007FF62C8AA096 uv_thread_detach+150
+# Out of memory: HashMap::Initialize
+#
+20: 00007FF62D24F5D6 v8::base::DiyFp::Multiply+414934
+21: 00007FF62C78D735 v8::internal::OptimizingCompileInputQueue::Prioritize+997
+21: 00007FF62DB092B3 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2904003
+#
+#
+21: 00007FF62D247E46 v8::base::DiyFp::Multiply+384326
+22: 00007FF62D03570F v8::platform::DefaultJobHandle::UpdatePriority+591
+22: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+#
+#
+22: 00007FF62D2472C0 v8::base::DiyFp::Multiply+381376
+23: 00007FF62BB5CD8E node::GetNodeReport+90334
+23: 00007FFCAAA2C3FC RtlUserThreadStart+44
+#
+#FailureMessage Object: 0000009AB1BFA750
+23: 00007FF62C7C89AF X509_STORE_set_get_issuer+200559
+24: 00007FF62C8AA096 uv_thread_detach+150
+#FailureMessage Object: 000000618C5F9D30
+----- Native stack trace -----
+24: 00007FF62C78DA3D v8::internal::OptimizingCompileInputQueue::Prioritize+1773
+25: 00007FF62DB092B3 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2904003
+----- Native stack trace -----
+
+25: 00007FF62C78D735 v8::internal::OptimizingCompileInputQueue::Prioritize+997
+26: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+
+ 1: 00007FF62BB60ECD node::MultiIsolatePlatform::DisposeIsolate+5341
+26: 00007FF62D03570F v8::platform::DefaultJobHandle::UpdatePriority+591
+27: 00007FFCAAA2C3FC RtlUserThreadStart+44
+ 1: 00007FF62BB60ECD 
+ 2: 00007FF62CFC2B0F V8_Fatal+287
+27: 00007FF62BB5CD8E node::GetNodeReport+90334
+ 2: 00007FF62CFC2B0F 
+ 3: 00007FF62C852E16 X509_STORE_set_get_issuer+766934
+28: 00007FF62C8AA096 uv_thread_detach+150
+ 3: 00007FF62C852E16 
+ 4: 00007FF62C852502 X509_STORE_set_get_issuer+764610
+29: 00007FF62DB092B3 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2904003
+ 4: 00007FF62C852502 
+ 5: 00007FF62C852330 X509_STORE_set_get_issuer+764144
+30: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+ 5: 00007FF62C852330 
+ 6: 00007FF62C2DAA9F EC_KEY_METHOD_set_verify+79647
+31: 00007FFCAAA2C3FC RtlUserThreadStart+44
+ 6: 00007FF62C2DAA9F 
+ 7: 00007FF62C2FB6C6 EC_KEY_METHOD_set_verify+213830
+ 7: 00007FF62C31A297 
+ 8: 00007FF62C311DBB EC_KEY_METHOD_set_verify+305723
+ 8: 00007FF62C3190C6 
+ 9: 00007FF62C310F8E EC_KEY_METHOD_set_verify+302094
+ 9: 00007FF62C3106B6 
+10: 00007FF62C310C49 EC_KEY_METHOD_set_verify+301257
+10: 00007FF62C311DBB 
+11: 00007FF62C310021 EC_KEY_METHOD_set_verify+298145
+11: 00007FF62C310F8E 
+12: 00007FF62C311DBB EC_KEY_METHOD_set_verify+305723
+12: 00007FF62C322E62 
+13: 00007FF62C310F8E EC_KEY_METHOD_set_verify+302094
+13: 00007FF62C302935 
+14: 00007FF62C3177F2 EC_KEY_METHOD_set_verify+328818
+14: 00007FF62C30B53B 
+15: 00007FF62C315AC0 EC_KEY_METHOD_set_verify+321344
+15: 00007FF62C300F7A 
+16: 00007FF62C311DBB EC_KEY_METHOD_set_verify+305723
+16: 00007FF62C3001A0 
+17: 00007FF62C310F8E EC_KEY_METHOD_set_verify+302094
+17: 00007FF62C2FEEAA 
+18: 00007FF62C322E62 EC_KEY_METHOD_set_verify+375522
+18: 00007FF62C2F7B4E 
+19: 00007FF62C302935 EC_KEY_METHOD_set_verify+243125
+19: 00007FF62C7CFB60 
+20: 00007FF62C30B53B EC_KEY_METHOD_set_verify+278971
+20: 00007FF62C7D064C 
+21: 00007FF62C30AA3A EC_KEY_METHOD_set_verify+276154
+21: 00007FF62C253DBB 
+22: 00007FF62C2FE137 EC_KEY_METHOD_set_verify+224695
+22: 00000232543B733A 
+23: 00007FF62C2FD304 EC_KEY_METHOD_set_verify+221060
+24: 00007FF62C2FC5F2 EC_KEY_METHOD_set_verify+217714
+25: 00007FF62C2FC29A EC_KEY_METHOD_set_verify+216858
+26: 00007FF62C2F78C9 EC_KEY_METHOD_set_verify+197961
+27: 00007FF62C7D271F X509_STORE_set_get_issuer+240863
+28: 00007FF62C7D5521 X509_STORE_set_get_issuer+252641
+29: 00007FF62C85E233 v8::ScriptCompiler::CompileFunction+1011
+30: 00007FF62BC28F83 node::GetCurrentEnvironment+20883
+31: 00007FF62BC2772E node::GetCurrentEnvironment+14654
+32: 00000292EA54F64D 
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+
+<--- Last few GCs --->
+
+[16000:000002D767B94000]     8907 ms: Scavenge 18.6 (24.0) -> 17.9 (33.7) MB, pooled: 0 MB, 3.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[16000:000002D767B94000]     8941 ms: Scavenge 24.4 (33.7) -> 22.8 (35.0) MB, pooled: 0 MB, 4.52 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[16000:000002D767B94000]     9051 ms: Scavenge 26.6 (35.2) -> 25.6 (56.4) MB, pooled: 0 MB, 8.67 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+
+FATAL ERROR: Zone Allocation failed - process out of memory
+----- Native stack trace -----
+
+ 1: 00007FF62BC0C36F node::OnFatalError+1343
+ 2: 00007FF62C854D77 v8::Function::NewInstance+423
+ 3: 00007FF62C1CFBD6 v8::SnapshotCreator::GetIsolate+56566
+ 4: 00007FF62BD90D56 X509_get0_tbs_sigalg+9030
+ 5: 00007FF62BD90C97 X509_get0_tbs_sigalg+8839
+ 6: 00007FF62D450103 v8::platform::DelayedTaskQueue::Terminate+1748723
+ 7: 00007FF62D44F828 v8::platform::DelayedTaskQueue::Terminate+1746456
+ 8: 00007FF62D44743F v8::platform::DelayedTaskQueue::Terminate+1712687
+ 9: 00007FF62D446F1F v8::platform::DelayedTaskQueue::Terminate+1711375
+10: 00007FF62D442F7E v8::platform::DelayedTaskQueue::Terminate+1695086
+11: 00007FF62D442A69 v8::platform::DelayedTaskQueue::Terminate+1693785
+12: 00007FF62D442524 v8::platform::DelayedTaskQueue::Terminate+1692436
+13: 00007FF62D441AB1 v8::platform::DelayedTaskQueue::Terminate+1689761
+14: 00007FF62D44180F v8::platform::DelayedTaskQueue::Terminate+1689087
+15: 00007FF62D24F5D6 v8::base::DiyFp::Multiply+414934
+16: 00007FF62D247E46 v8::base::DiyFp::Multiply+384326
+17: 00007FF62D2472C0 v8::base::DiyFp::Multiply+381376
+18: 00007FF62C7C89AF X509_STORE_set_get_issuer+200559
+19: 00007FF62C78DA3D v8::internal::OptimizingCompileInputQueue::Prioritize+1773
+20: 00007FF62C78D735 v8::internal::OptimizingCompileInputQueue::Prioritize+997
+21: 00007FF62D03570F v8::platform::DefaultJobHandle::UpdatePriority+591
+22: 00007FF62BB5CD8E node::GetNodeReport+90334
+23: 00007FF62C8AA096 uv_thread_detach+150
+24: 00007FF62DB092B3 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2904003
+25: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+26: 00007FFCAAA2C3FC RtlUserThreadStart+44
+
+<--- Last few GCs --->
+
+[59464:000001AC62733000]     3285 ms: Scavenge 8.8 (11.9) -> 7.5 (11.6) MB, pooled: 0 MB, 2025.92 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+
+[59464:000001AC62733000]     3485 ms: Scavenge 13.5 (16.2) -> 12.7 (21.2) MB, pooled: 0 MB, 18.59 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+
+
+
+#
+
+# Fatal process out of memory: Re-embedded builtins: set permissions
+#
+FATAL ERROR: Zone Allocation failed - process out of memory
+# Fatal process out of memory: Re-embedded builtins: set permissions
+----- Native stack trace -----
+#
+
+#
+----- Native stack trace -----
+----- Native stack trace -----
+
+ 1: 00007FF62BC0C36F node::OnFatalError+1343
+
+ 2: 00007FF62C854D77 v8::Function::NewInstance+423
+ 1: 00007FF62BB60ECD 
+ 1: 00007FF62BB60ECD 
+ 3: 00007FF62C1CFBD6 v8::SnapshotCreator::GetIsolate+56566
+ 2: 00007FF62CFC2576 
+ 2: 00007FF62CFC2576 
+ 4: 00007FF62C2FE4F9 EC_KEY_METHOD_set_verify+225657
+ 3: 00007FF62C854D56 
+ 3: 00007FF62C854D56 
+ 5: 00007FF62C316233 EC_KEY_METHOD_set_verify+323251
+ 4: 00007FF62C6BBCFE 
+ 4: 00007FF62C6BBCFE 
+ 6: 00007FF62C311DBB EC_KEY_METHOD_set_verify+305723
+ 5: 00007FF62C6EF2DF 
+ 5: 00007FF62C6EF2DF 
+ 7: 00007FF62C310F8E EC_KEY_METHOD_set_verify+302094
+ 6: 00007FF62C6EFD92 
+ 6: 00007FF62C6EFD92 
+ 8: 00007FF62C3117F6 EC_KEY_METHOD_set_verify+304246
+ 7: 00007FF62C6F0772 
+ 7: 00007FF62C6F0772 
+ 9: 00007FF62C310FD4 EC_KEY_METHOD_set_verify+302164
+ 8: 00007FF62C1EDDC3 
+ 8: 00007FF62C1EDDC3 
+10: 00007FF62C316954 EC_KEY_METHOD_set_verify+325076
+ 9: 00007FF62C87FEE6 
+ 9: 00007FF62C87FEE6 
+11: 00007FF62C321D6F EC_KEY_METHOD_set_verify+371183
+10: 00007FF62BD1A14D 
+10: 00007FF62BD1A14D 
+12: 00007FF62C30B53B EC_KEY_METHOD_set_verify+278971
+11: 00007FF62BA75B73 
+11: 00007FF62BA75B73 
+13: 00007FF62C300F7A EC_KEY_METHOD_set_verify+236538
+12: 00007FF62BA74F09 
+12: 00007FF62BA74F09 
+14: 00007FF62C3001A0 EC_KEY_METHOD_set_verify+232992
+13: 00007FF62BA7EA90 
+13: 00007FF62BA7EA90 
+15: 00007FF62C2FEEAA EC_KEY_METHOD_set_verify+228138
+14: 00007FF62C8AA096 
+14: 00007FF62C8AA096 
+16: 00007FF62C2F7B4E EC_KEY_METHOD_set_verify+198606
+15: 00007FF62DB092B3 
+17: 00007FF62C7CFB60 X509_STORE_set_get_issuer+229664
+15: 00007FF62DB092B3 
+16: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+16: 00007FFCA8D4E8D7 BaseThreadInitThunk+23
+18: 00007FF62C7D064C X509_STORE_set_get_issuer+232460
+17: 00007FFCAAA2C3FC 
+17: 00007FFCAAA2C3FC RtlUserThreadStart+44
+19: 00007FF62C253DBB v8::String::Utf8Value::~Utf8Value+172283
+20: 000001AC1FE7733A 
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
+Error: Can't resolve 'tailwindcss' in 'F:\'
+    [2m[at finishWithoutResolve (F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:565:18)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:657:14][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\DescriptionFilePlugin.js:89:43][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m
+    [2m[at eval (eval at create (F:\jvto-web\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+    [2m[at F:\jvto-web\node_modules\enhanced-resolve\lib\Resolver.js:718:5][0m {
+  details: "resolve 'tailwindcss' in 'F:\\'\n" +
+    '  Parsed request is a module\n' +
+    '  using description file: F:\\package.json (relative path: .)\n' +
+    '    resolve as module\n' +
+    "      F:\\node_modules doesn't exist or is not a directory\n" +
+    "      F:\\node_modules doesn't exist or is not a directory"
+}
