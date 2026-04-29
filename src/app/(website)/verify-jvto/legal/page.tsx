@@ -5,6 +5,11 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
+import {
+  buildVerifyFaqSchema,
+  LEGAL_DIGITAL_DOCUMENTS,
+} from "@/lib/schemas/buildVerifySchemas";
+import { LEGAL_FAQS } from "@/lib/verifyFaqs";
 
 const fallbackSeo = {
   title: "Verify: Legal Documents",
@@ -53,6 +58,11 @@ export default async function LegalPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
+          // AEO/GEO port (2026-04-29): canonical DigitalDocument chain (NIB/TDUP/HPWKI)
+          // with DefinedTerm cross-refs (#term-nib/#term-tdup/#term-hpwki) + canonical Q&A.
+          // Per cluster_role_contracts.md Cluster 4 /legal MH.
+          ...LEGAL_DIGITAL_DOCUMENTS,
+          buildVerifyFaqSchema(LEGAL_FAQS, "legal"),
         ]}
       />
       <VerifyJvtoClient

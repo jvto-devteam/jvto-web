@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
+import { buildVerifyFaqSchema } from "@/lib/schemas/buildVerifySchemas";
+import { PRESS_RECOGNITION_FAQS } from "@/lib/verifyFaqs";
 
 const fallbackSeo = {
   title: "Verify: Press Recognition",
@@ -52,6 +54,9 @@ export default async function PressRecognitionPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
+          // AEO/GEO port (2026-04-29): canonical Q&A on Stefan Loose 2018 + Detik 2021 + press evidence.
+          // Per cluster_role_contracts.md Cluster 4 /press-recognition MH.
+          buildVerifyFaqSchema(PRESS_RECOGNITION_FAQS, "press-recognition"),
         ]}
       />
       <VerifyJvtoClient

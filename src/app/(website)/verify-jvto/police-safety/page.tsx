@@ -4,6 +4,11 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
+import {
+  buildVerifyFaqSchema,
+  POLICE_SAFETY_DIGITAL_DOCUMENTS,
+} from "@/lib/schemas/buildVerifySchemas";
+import { POLICE_SAFETY_FAQS } from "@/lib/verifyFaqs";
 
 const fallbackSeo = {
   title: "Verify: Police Authority & Safety Protocols",
@@ -52,6 +57,11 @@ export default async function PoliceSafetyPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
+          // AEO/GEO port (2026-04-29): canonical DigitalDocument chain (SPRIN-POLPAR + SPRIN-WAL-TRAVEL)
+          // cross-ref to founder (#agung-sambuko) + canonical Q&A on POLPAR + Detik 2021 evidence.
+          // Per cluster_role_contracts.md Cluster 4 /police-safety MH.
+          ...POLICE_SAFETY_DIGITAL_DOCUMENTS,
+          buildVerifyFaqSchema(POLICE_SAFETY_FAQS, "police-safety"),
         ]}
       />
       <VerifyJvtoClient

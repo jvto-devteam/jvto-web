@@ -4,6 +4,8 @@ import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { buildVerifyFaqSchema } from "@/lib/schemas/buildVerifySchemas";
+import { VERIFY_HUB_FAQS } from "@/lib/verifyFaqs";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -796,7 +798,11 @@ export default async function VerifyJvtoPage() {
 
   return (
     <>
-      <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={[jsonLd]} />
+      {/* AEO/GEO port (2026-04-29): canonical hub Q&A FAQPage. Per cluster_role_contracts.md Cluster 4 hub MH. */}
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={[jsonLd, buildVerifyFaqSchema(VERIFY_HUB_FAQS, "")]}
+      />
       <VerifyJvtoClient
         heroTitle={seo.h1}
         heroDescription={seo.description}
