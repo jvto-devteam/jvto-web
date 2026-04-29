@@ -6,6 +6,12 @@ import Sidebar from "../sidebar";
 import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import {
+  buildTgFaqSchema,
+  buildIjenHealthMedicalWebPageSchema,
+  buildIjenHealthHowToSchema,
+} from "@/lib/schemas/buildTravelGuideSchemas";
+import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,6 +49,20 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
   const body = content?.body_md ?? "";
 
+  // AEO/GEO port (2026-04-29): per-slug schema injection.
+  // Per cluster_role_contracts.md Cluster 5:
+  //   - Any slug: FAQPage from narrative_claims (primary_page='/travel-guide/{slug}') if wired.
+  //   - 'ijen-health-screening': MedicalWebPage + HowTo cross-ref to globally-injected DOCTOR/BBKSDA/SE1658.
+  const claims = await getNarrativeClaimsByPage(`/travel-guide/${slug}`);
+  const faqSchema = buildTgFaqSchema(claims, slug);
+
+  const ijenHealthSchemas =
+    slug === "ijen-health-screening"
+      ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema()]
+      : [];
+
+  const slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
+
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
@@ -54,6 +74,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
           created_at: row.created_at,
           updated_at: row.updated_at,
         }}
+        extraSchemas={slugExtraSchemas}
       />
       <Sidebar />
 
