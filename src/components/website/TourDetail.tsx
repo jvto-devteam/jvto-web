@@ -10,6 +10,7 @@ import LegalBadge from "@/components/website/LegalBadge";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
+import { getTourSpineQaPairs } from "@/lib/tourFaqs";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -60,6 +61,8 @@ import {
 interface Props {
   initialData: TourPackageDetail;
   reviews?: any[];
+  /** AEO/GEO port (2026-04-29): when true, includes the Ijen-specific spine Q&A pair (BBKSDA SE.1658). */
+  ijenRelevant?: boolean;
 }
 
 // ... (Utilities formatCurrency & getPriceForPax TETAP SAMA) ...
@@ -194,9 +197,14 @@ const stripHtml = (html) => {
   return html.replace(/<[^>]+>/g, "");
 };
 
-export default function PackageDetailPage({ initialData,reviews }: Props) {
+export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false }: Props) {
   const router = useRouter();
   const pkg = initialData.product;
+
+  // AEO/GEO port (2026-04-29): canonical spine Q&A pairs for visible AnswerBlock cluster.
+  // Same source as the FAQPage JSON-LD on the server (single source of truth via lib/tourFaqs.ts).
+  // Inlined here to avoid prop drilling 4-5 strings; pure data — zero runtime cost.
+  const spineQaPairs = getTourSpineQaPairs({ ijenRelevant });
 
   // --- STATE ---
   // State untuk Hero Background (tetap ada jika ingin bisa ganti hero, tapi trigger lightbox beda)
@@ -658,6 +666,35 @@ export default function PackageDetailPage({ initialData,reviews }: Props) {
                     )}
                   </button>
                 )}
+              </div>
+            </div>
+            {/* AEO/GEO port (2026-04-29): Quick Answers cluster — visible Q&A bridges that mirror */}
+            {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
+            {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
+            <div>
+              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+                <span className="w-8 h-1 bg-lime-500 block"></span>
+                Quick Answers
+              </h2>
+              <div className="space-y-5">
+                {spineQaPairs.map((qa) => (
+                  <div
+                    key={qa.question}
+                    className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <h3 className="text-base font-bold text-slate-900 mb-3 leading-snug">
+                      {qa.question}
+                    </h3>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-3">
+                      {qa.answer}
+                    </p>
+                    {qa.uiMeta && (
+                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-lime-700 bg-lime-50 px-3 py-1 rounded-full">
+                        {qa.uiMeta}
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
             {/* Highlights (Design Gambar 2) */}
