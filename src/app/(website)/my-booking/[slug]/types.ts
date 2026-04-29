@@ -83,6 +83,8 @@ finance: {
     balance_payment_method: string | null; // Bisa null jika belum pilih
     
     payment_link: string | null;
+    pending_upload_proof: boolean;
+    uploaded_payment_proof: string | null;
     payment_history: Array<{
       id: number;
       nominal: number;

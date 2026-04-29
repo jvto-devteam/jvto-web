@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { HelpCircle, Backpack, CheckSquare, Camera, Star, ExternalLink } from "lucide-react";
+import { HelpCircle, Backpack, CheckSquare } from "lucide-react";
 
 interface Props {
   faq: Record<string, Record<string, string>>;
   packing: Record<string, string[]>;
-  mediaLink?: string | null;
+  mediaLink?: string | null; // kept for API compatibility, no longer used here
 }
 
 export default function BookingInformation({ faq, packing, mediaLink }: Props) {
@@ -75,38 +75,6 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
                 </div>
             )}
         </div>
-      </div>
-
-      {/* 2. REVIEWS & MEDIA SECTION */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          {/* Trip Media */}
-          <a href={mediaLink || "#"} target="_blank" className="group bg-orange-50 hover:bg-orange-100 border border-orange-100 rounded-2xl p-6 text-center transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-orange-100 group-hover:bg-white text-orange-600 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
-                  <Camera size={24} />
-              </div>
-              <h4 className="font-bold text-orange-800 mb-1">Your Trip Media</h4>
-              <p className="text-xs text-orange-600/80">Download photos & videos</p>
-          </a>
-
-          {/* Trustpilot */}
-          <a href="https://www.trustpilot.com/review/javavolcano-touroperator.com" target="_blank" className="group bg-green-50 hover:bg-green-100 border border-green-100 rounded-2xl p-6 text-center transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-green-100 group-hover:bg-white text-green-600 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
-                  <Star size={24} />
-              </div>
-              <h4 className="font-bold text-green-800 mb-1">Trustpilot Review</h4>
-              <p className="text-xs text-green-600/80">Rate us on Trustpilot</p>
-          </a>
-
-          {/* Google Review */}
-          <a href="https://g.page/r/Cb3i9Eu0K5MREB0/review" target="_blank" className="group bg-blue-50 hover:bg-blue-100 border border-blue-100 rounded-2xl p-6 text-center transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-blue-100 group-hover:bg-white text-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 transition-colors">
-                  <ExternalLink size={24} />
-              </div>
-              <h4 className="font-bold text-blue-800 mb-1">Google Review</h4>
-              <p className="text-xs text-blue-600/80">Share your experience</p>
-          </a>
-
       </div>
 
     </div>
