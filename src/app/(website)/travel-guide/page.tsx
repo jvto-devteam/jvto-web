@@ -7,11 +7,8 @@ import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
 import { getContentPage } from "@/lib/content/getContentPage";
-import {
-  buildTgHubItemListSchema,
-  buildTgFaqSchema,
-} from "@/lib/schemas/buildTravelGuideSchemas";
-import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
+import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -202,12 +199,13 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TravelGuideHubPage() {
   const row = await getContentPage("/travel-guide", "en");
   const content = (row?.content as Record<string, any> | null) ?? {};
-  // AEO/GEO port (2026-04-29): canonical hub Q&A from narrative_claims wired to '/travel-guide'
-  // + ItemList of 11 sub-pages. Per cluster_role_contracts.md Cluster 5 hub MH.
-  const hubClaims = await getNarrativeClaimsByPage("/travel-guide");
+  // Phase 5 (2026-04-29): canonical hub Q&A via resolver + ItemList of 11 sub-pages.
+  // /travel-guide has 0 narrative_claims wired → falls through to CMS fallback (no override).
+  // Per cluster_role_contracts.md Cluster 5 hub MH.
+  const faqResolution = await resolveFaqsForPage("/travel-guide");
   const tgHubExtraSchemas = [
     buildTgHubItemListSchema(),
-    buildTgFaqSchema(hubClaims, ""),
+    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
   ].filter(Boolean);
   const pageRow = row
     ? {
@@ -603,7 +601,11 @@ export default async function TravelGuideHubPage() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={tgHubExtraSchemas} />
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={tgHubExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
+      />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section className="bg-accent border-b pb-12">

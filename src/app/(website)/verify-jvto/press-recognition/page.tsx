@@ -4,8 +4,7 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import { buildVerifyFaqSchema } from "@/lib/schemas/buildVerifySchemas";
-import { PRESS_RECOGNITION_FAQS } from "@/lib/verifyFaqs";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const fallbackSeo = {
   title: "Verify: Press Recognition",
@@ -22,6 +21,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PressRecognitionPage() {
   const seo = await getPageSeo("/verify-jvto/press-recognition", fallbackSeo);
   const docs = getDocsByGroup("pressRecognition");
+  // Phase 5 (2026-04-29): canonical FAQ via resolver. /verify-jvto/press-recognition has 1 narrative_claim wired
+  // → narrative_claims overrides PRESS_RECOGNITION_FAQS canonical → suppresses CMS FAQ.
+  const faqResolution = await resolveFaqsForPage("/verify-jvto/press-recognition");
+  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/press-recognition");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -54,10 +57,10 @@ export default async function PressRecognitionPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          // AEO/GEO port (2026-04-29): canonical Q&A on Stefan Loose 2018 + Detik 2021 + press evidence.
-          // Per cluster_role_contracts.md Cluster 4 /press-recognition MH.
-          buildVerifyFaqSchema(PRESS_RECOGNITION_FAQS, "press-recognition"),
+          // Phase 5 (2026-04-29): resolver-driven canonical FAQ. Per cluster_role_contracts.md Cluster 4 /press-recognition MH.
+          faqResolvedNode,
         ]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <VerifyJvtoClient
         initialDocs={docs}

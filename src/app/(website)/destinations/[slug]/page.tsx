@@ -10,6 +10,12 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getWebDestinationDetail } from "@/lib/destinations/getWebDestinationDetail";
+import { getToursByDestination } from "@/lib/queries/toursByDestination";
+import {
+  buildToursIncludingDestSchema,
+  buildDestinationTravelGuideHandoffSchema,
+} from "@/lib/schemas/buildDestinationsSchemas";
 export const revalidate = 3600;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -38,12 +44,14 @@ export async function generateStaticParams() {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestination(slug: string): Promise<DestinationDetail | null> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-    next: { revalidate: 3600 },
-  });
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);
-  return res.json();
+  // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
+  try {
+    const data = await getWebDestinationDetail(slug);
+    return (data as DestinationDetail | null) ?? null;
+  } catch (error) {
+    console.error("Failed to fetch destination", error);
+    return null;
+  }
 }
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
@@ -119,9 +127,30 @@ export default async function DestinationDetailPage({ params }: Props) {
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const destNodes = extractDestinationNodes(data.schema_json ?? null);
 
+  // AEO/GEO port (2026-04-29) Phase 4.8: reverse-lookup tours-including ItemList +
+  // travel-guide cross-link handoff. Per cluster_role_contracts.md Cluster 7 destination MH
+  // (un-orphans the cluster — gives AI a discoverable tours list per destination).
+  const tours = await getToursByDestination(slug);
+  const destinationName = data.name ?? slug;
+  const toursIncludingNode = buildToursIncludingDestSchema({
+    destinationSlug: slug,
+    destinationName,
+    tours,
+  });
+  const travelGuideHandoffNode = buildDestinationTravelGuideHandoffSchema({
+    destinationSlug: slug,
+    destinationName,
+  });
+
   const schema = {
     "@context": "https://schema.org",
-    "@graph": [orgNode, siteNode, ...destNodes].filter(Boolean),
+    "@graph": [
+      orgNode,
+      siteNode,
+      ...destNodes,
+      toursIncludingNode,
+      travelGuideHandoffNode,
+    ].filter(Boolean),
   };
 
   return (

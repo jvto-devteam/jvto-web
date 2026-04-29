@@ -4,8 +4,7 @@ import VerifyJvtoClient from "./VerifyJvtoClient";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { buildVerifyFaqSchema } from "@/lib/schemas/buildVerifySchemas";
-import { VERIFY_HUB_FAQS } from "@/lib/verifyFaqs";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -796,12 +795,18 @@ export default async function VerifyJvtoPage() {
     ],
   };
 
+  // Phase 5 (2026-04-29): canonical hub Q&A via resolver. /verify-jvto has 2 narrative_claims wired
+  // → narrative_claims overrides VERIFY_HUB_FAQS canonical (which would otherwise apply) → suppresses CMS FAQ.
+  // Per cluster_role_contracts.md Cluster 4 hub MH.
+  const hubFaqResolution = await resolveFaqsForPage("/verify-jvto");
+  const hubFaqResolvedNode = buildResolvedFaqSchema(hubFaqResolution, "/verify-jvto");
+
   return (
     <>
-      {/* AEO/GEO port (2026-04-29): canonical hub Q&A FAQPage. Per cluster_role_contracts.md Cluster 4 hub MH. */}
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[jsonLd, buildVerifyFaqSchema(VERIFY_HUB_FAQS, "")]}
+        extraSchemas={[jsonLd, hubFaqResolvedNode]}
+        suppressCmsFaq={hubFaqResolution.suppressCmsFaq}
       />
       <VerifyJvtoClient
         heroTitle={seo.h1}

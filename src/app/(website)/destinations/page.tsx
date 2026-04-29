@@ -11,6 +11,7 @@ import {
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -62,11 +63,13 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getAllDestinations(): Promise<Destination[]> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error("Failed to fetch destinations");
-  return res.json();
+  // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
+  try {
+    return (await getWebDestinationsList()) as unknown as Destination[];
+  } catch (error) {
+    console.error("Failed to fetch destinations", error);
+    return [];
+  }
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

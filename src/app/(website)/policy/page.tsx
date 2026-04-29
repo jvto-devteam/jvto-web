@@ -5,11 +5,8 @@ import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getContentPage } from "@/lib/content/getContentPage";
 import { Faq } from "@/components/content/Faq";
-import {
-  buildPolicyHubItemListSchema,
-  buildPolicyFaqSchema,
-} from "@/lib/schemas/buildPolicySchemas";
-import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
+import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -82,12 +79,13 @@ export default async function PolicyHubPage() {
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const content = row.content as any;
   const h1 = content?.h1 ?? seo.title ?? "JVTO Policies";
-  // AEO/GEO port (2026-04-29): canonical hub Q&A + ItemList of 3 sub-pages.
+  // Phase 5 (2026-04-29): canonical hub Q&A via resolver + ItemList of 3 sub-pages.
+  // /policy has 0 narrative_claims wired → falls through to CMS fallback (no override).
   // Per cluster_role_contracts.md Cluster 6 hub MH.
-  const hubClaims = await getNarrativeClaimsByPage("/policy");
+  const faqResolution = await resolveFaqsForPage("/policy");
   const policyHubExtraSchemas = [
     buildPolicyHubItemListSchema(),
-    buildPolicyFaqSchema(hubClaims, ""),
+    buildResolvedFaqSchema(faqResolution, "/policy"),
   ].filter(Boolean);
 
   return (
@@ -103,6 +101,7 @@ export default async function PolicyHubPage() {
           updated_at: row.updated_at,
         }}
         extraSchemas={policyHubExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">

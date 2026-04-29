@@ -8,11 +8,10 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
   buildPolicyWebPageSchema,
-  buildPolicyFaqSchema,
   buildJvtoTravelCreditAnnouncementSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
-import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -50,19 +49,21 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const h1 = content?.h1 ?? seo.title ?? "Policy";
   const body = content?.body_md ?? "";
 
-  // AEO/GEO port (2026-04-29): per-slug brand-anchor WebPage with mentions cross-refs to
+  // Phase 5 (2026-04-29): per-slug brand-anchor WebPage with mentions cross-refs to
   // globally-injected custom DefinedTerms (#term-jvto-travel-credit, #term-jvto-foc-scheme).
+  // FAQ via resolver (narrative_claims-first; /policy/booking-payment-cancellation has 1 wired).
   // booking-payment-cancellation also gets SpecialAnnouncement for travel credit policy.
   // Per cluster_role_contracts.md Cluster 6.
   const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
-  const claims = await getNarrativeClaimsByPage(`/policy/${slug}`);
+  const route = `/policy/${slug}`;
+  const faqResolution = await resolveFaqsForPage(route);
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
     name: seo.title ?? h1,
     description: seo.description ?? `JVTO ${h1} policy.`,
     mentionsTermIds,
   });
-  const faqSchema = buildPolicyFaqSchema(claims, slug);
+  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
   const announcementSchema =
     slug === "booking-payment-cancellation"
       ? buildJvtoTravelCreditAnnouncementSchema()
@@ -86,6 +87,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
           updated_at: row.updated_at,
         }}
         extraSchemas={slugExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Sidebar />
 
