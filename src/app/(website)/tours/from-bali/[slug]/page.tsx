@@ -13,6 +13,7 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
+import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -144,30 +145,16 @@ function getDestinationUrl(name: string) {
 }
 
 // --- 3. DATA FETCHING (DEDUPLICATED) ---
-
-// Menggunakan React 'cache' untuk Request Memoization
-// API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
+// Refactored 2026-04-29: was self-fetch to /api/packages/web/details (broke SSG with ECONNREFUSED).
+// Now calls the same transform logic directly via shared helper. React `cache` still memoizes per-request
+// so generateMetadata + Page don't double-query Prisma.
 const getTourData = cache(async (slugParam: string) => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
   const slugString = slugParam;
-
-  // Sesuaikan logic path ini dengan struktur URL API Anda
-  // Jika URL browser: /tours/from-bali/bromo-3d2n, maka slugString sudah lengkap jika file di [...slug]
-  // Jika file di [slug] tapi API butuh full path:
   const fullSlug = slugString.includes("tours/")
     ? slugString
     : `tours/from-bali/${slugString}`;
-
   try {
-    const res = await fetch(
-      `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { next: { revalidate: 3600 } },
-    );
-
-    if (!res.ok) return null;
-    return (await res.json()) as TourPackageDetailResponse;
+    return (await getWebPackageDetail(fullSlug)) as TourPackageDetailResponse | null;
   } catch (error) {
     console.error("Error fetching tour details:", error);
     return null;
