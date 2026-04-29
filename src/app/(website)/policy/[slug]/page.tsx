@@ -6,6 +6,13 @@ import Sidebar from "../sidebar";
 import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import {
+  buildPolicyWebPageSchema,
+  buildPolicyFaqSchema,
+  buildJvtoTravelCreditAnnouncementSchema,
+  POLICY_SLUG_MENTIONS,
+} from "@/lib/schemas/buildPolicySchemas";
+import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -35,13 +42,37 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const { slug } = await params;
 
   const row = await getContentPage(`/policy/${slug}`, "en");
-  
+
   if (!row) return notFound();
 
   const content = row.content as any;
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Policy";
   const body = content?.body_md ?? "";
+
+  // AEO/GEO port (2026-04-29): per-slug brand-anchor WebPage with mentions cross-refs to
+  // globally-injected custom DefinedTerms (#term-jvto-travel-credit, #term-jvto-foc-scheme).
+  // booking-payment-cancellation also gets SpecialAnnouncement for travel credit policy.
+  // Per cluster_role_contracts.md Cluster 6.
+  const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
+  const claims = await getNarrativeClaimsByPage(`/policy/${slug}`);
+  const policyAnchorSchema = buildPolicyWebPageSchema({
+    subpath: slug,
+    name: seo.title ?? h1,
+    description: seo.description ?? `JVTO ${h1} policy.`,
+    mentionsTermIds,
+  });
+  const faqSchema = buildPolicyFaqSchema(claims, slug);
+  const announcementSchema =
+    slug === "booking-payment-cancellation"
+      ? buildJvtoTravelCreditAnnouncementSchema()
+      : null;
+
+  const slugExtraSchemas = [
+    policyAnchorSchema,
+    faqSchema,
+    announcementSchema,
+  ].filter(Boolean);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -54,6 +85,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
           created_at: row.created_at,
           updated_at: row.updated_at,
         }}
+        extraSchemas={slugExtraSchemas}
       />
       <Sidebar />
 
