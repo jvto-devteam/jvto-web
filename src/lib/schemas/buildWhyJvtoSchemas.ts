@@ -4,6 +4,7 @@
 // Per cluster_role_contracts.md Cluster 3: WebPage + BreadcrumbList per page; FAQPage from narrative_claims;
 // hub adds mainEntity ItemList(sub-pages); /reviews adds AggregateRating.
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
+import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -44,6 +45,25 @@ export function buildWhyJvtoBreadcrumbSchema({ subpath, pageName }: WhyPageArgs)
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items,
+  };
+}
+
+/**
+ * FAQPage from narrative_claims wired to a why-jvto page (primary_page = '/why-jvto/...').
+ * Empty input → returns null (no schema injection). Each claim's pillar = Question, core_claim = Answer.
+ */
+export function buildWhyJvtoFaqSchema(claims: NarrativeClaim[], subpath: WhyPageArgs['subpath']) {
+  const usable = claims.filter((c) => c.pillar && c.core_claim);
+  if (!usable.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${pageUrl(subpath)}#faq`,
+    mainEntity: usable.map((c) => ({
+      '@type': 'Question',
+      name: c.pillar as string,
+      acceptedAnswer: { '@type': 'Answer', text: c.core_claim as string },
+    })),
   };
 }
 
