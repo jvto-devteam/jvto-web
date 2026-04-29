@@ -8,6 +8,11 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import {
+  buildToursHubFaqSchema,
+  buildToursHubAggregateRatingSchema,
+} from "@/lib/schemas/buildToursHubSchemas";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -26,18 +31,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch global (tanpa filter from=...)
-  const res = await fetch(`${siteUrl}/api/packages/web?category=1`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch all tours");
+  // Refactored 2026-04-29: direct helper call (was self-fetch broke SSG with ECONNREFUSED).
+  try {
+    return (await getWebPackagesList({ categoryId: 1 })) as unknown as ListTourPackage[];
+  } catch (error) {
+    console.error("Failed to fetch all tours", error);
     return [];
   }
-  return res.json();
 }
 
 export default async function ToursPageGlobal() {
@@ -99,11 +99,18 @@ export default async function ToursPageGlobal() {
     ],
   };
 
+  // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs)
+  // + standalone AggregateRating cross-ref to Organization. Per cluster_role_contracts.md Cluster 1 hub MH.
+  const hubFaqSchema = buildToursHubFaqSchema();
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '' });
+
   return (
     <>
       <StructuredData data={schema} />
+      <StructuredData data={hubFaqSchema} />
+      <StructuredData data={hubAggregateRatingSchema} />
       <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
-        <ToursPageClient 
+        <ToursPageClient
           initialTours={initialTours}
           destinationName="All Destinations"
           title={seo.h1}

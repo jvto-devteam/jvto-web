@@ -8,6 +8,11 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import {
+  buildToursHubFaqSchema,
+  buildToursHubAggregateRatingSchema,
+} from "@/lib/schemas/buildToursHubSchemas";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -26,18 +31,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch khusus ID 3 (Bali)
-  const res = await fetch(`${siteUrl}/api/packages/web?from=3&category=1`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch bali tours");
+  // Refactored 2026-04-29: direct helper call (was self-fetch broke SSG with ECONNREFUSED).
+  // fromId=3 = Bali start_destination per live's data convention.
+  try {
+    return (await getWebPackagesList({ fromId: 3, categoryId: 1 })) as unknown as ListTourPackage[];
+  } catch (error) {
+    console.error("Failed to fetch bali tours", error);
     return [];
   }
-  return res.json();
 }
 
 export default async function ToursPageBali() {
@@ -111,11 +112,17 @@ export default async function ToursPageBali() {
     ],
   };
 
+  // AEO/GEO port (2026-04-29): hub-level FAQPage + standalone AggregateRating per Cluster 1 hub MH.
+  const hubFaqSchema = buildToursHubFaqSchema();
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: 'from-bali' });
+
   return (
     <>
       <StructuredData data={schema} />
+      <StructuredData data={hubFaqSchema} />
+      <StructuredData data={hubAggregateRatingSchema} />
       <section className="pt-28 pb-20 md:pt-40 md:pb-24 bg-gray-50 min-h-screen">
-        <ToursPageClient 
+        <ToursPageClient
           initialTours={initialTours}
           destinationName="Bali"
           title={seo.h1}
