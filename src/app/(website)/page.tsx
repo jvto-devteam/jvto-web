@@ -17,6 +17,10 @@ import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
 import { miniFaqs, faqsCopy } from "@/constants";
+import {
+  buildHomepageFaqSchema,
+  buildHomepageAggregateRatingSchema,
+} from "@/lib/schemas/buildHomepageSchemas";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
 export const revalidate = 3600;
@@ -133,21 +137,11 @@ const Home = async () => {
     })
     .filter(Boolean);
 
-  // ── FAQPage ───────────────────────────────────────────────────────────────
-  const faqNode =
-    miniFaqs?.length > 0
-      ? {
-          "@type": "FAQPage",
-          "@id": `${SITE_URL}/#faqpage`,
-          mainEntity: miniFaqs.map(
-            (faq: { question: string; answer: string }) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            }),
-          ),
-        }
-      : null;
+  // ── FAQPage (canonical 9 Q&A, AEO-tuned) ──────────────────────────────────
+  // AEO/GEO port (2026-04-29): use HOMEPAGE_FAQS canonical instead of inline miniFaqs.
+  // Per cluster_role_contracts.md Cluster 2 hub MH. Visible miniFaqs UI preserved below.
+  const faqNode = buildHomepageFaqSchema();
+  const aggregateRatingNode = buildHomepageAggregateRatingSchema();
 
   // ── WebApplication (Ijen Health Screening) ────────────────────────────────
   const healthAppNode = {
@@ -181,7 +175,7 @@ const Home = async () => {
     <main>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[serviceNode, ...attractionNodes, faqNode, healthAppNode]}
+        extraSchemas={[serviceNode, ...attractionNodes, faqNode, aggregateRatingNode, healthAppNode]}
       />
       <Hero title={seo.h1} description={seo.description} />
       {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}
