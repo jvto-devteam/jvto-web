@@ -17,10 +17,9 @@ import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
 import { miniFaqs, faqsCopy } from "@/constants";
-import {
-  buildHomepageFaqSchema,
-  buildHomepageAggregateRatingSchema,
-} from "@/lib/schemas/buildHomepageSchemas";
+import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
+import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
 export const revalidate = 3600;
@@ -49,12 +48,9 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestinations(): Promise<Destination[]> {
+  // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
   try {
-    const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [];
-    return res.json();
+    return (await getWebDestinationsList()) as unknown as Destination[];
   } catch {
     return [];
   }
@@ -137,10 +133,11 @@ const Home = async () => {
     })
     .filter(Boolean);
 
-  // ── FAQPage (canonical 9 Q&A, AEO-tuned) ──────────────────────────────────
-  // AEO/GEO port (2026-04-29): use HOMEPAGE_FAQS canonical instead of inline miniFaqs.
-  // Per cluster_role_contracts.md Cluster 2 hub MH. Visible miniFaqs UI preserved below.
-  const faqNode = buildHomepageFaqSchema();
+  // ── FAQPage (Phase 5 resolver-driven) ─────────────────────────────────────
+  // Precedence: narrative_claims → canonical hardcoded (HOMEPAGE_FAQS, 9 Q&A) → CMS.
+  // resolveFaqsForPage handles the precedence; suppressCmsFaq ensures no double-FAQPage emission.
+  const faqResolution = await resolveFaqsForPage("/");
+  const faqNode = buildResolvedFaqSchema(faqResolution, "/");
   const aggregateRatingNode = buildHomepageAggregateRatingSchema();
 
   // ── WebApplication (Ijen Health Screening) ────────────────────────────────
@@ -176,6 +173,7 @@ const Home = async () => {
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[serviceNode, ...attractionNodes, faqNode, aggregateRatingNode, healthAppNode]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Hero title={seo.h1} description={seo.description} />
       {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}

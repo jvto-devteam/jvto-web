@@ -5,11 +5,8 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import {
-  buildVerifyFaqSchema,
-  LEGAL_DIGITAL_DOCUMENTS,
-} from "@/lib/schemas/buildVerifySchemas";
-import { LEGAL_FAQS } from "@/lib/verifyFaqs";
+import { LEGAL_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const fallbackSeo = {
   title: "Verify: Legal Documents",
@@ -26,6 +23,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LegalPage() {
   const seo = await getPageSeo("/verify-jvto/legal", fallbackSeo);
   const docs = getDocsByGroup("legal");
+  // Phase 5 (2026-04-29): canonical FAQ via resolver. /verify-jvto/legal has 0 narrative_claims wired
+  // → falls through to LEGAL_FAQS canonical (4 Q) → suppresses CMS FAQ.
+  const faqResolution = await resolveFaqsForPage("/verify-jvto/legal");
+  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/legal");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -59,11 +60,13 @@ export default async function LegalPage() {
             docs,
           }),
           // AEO/GEO port (2026-04-29): canonical DigitalDocument chain (NIB/TDUP/HPWKI)
-          // with DefinedTerm cross-refs (#term-nib/#term-tdup/#term-hpwki) + canonical Q&A.
+          // with DefinedTerm cross-refs (#term-nib/#term-tdup/#term-hpwki).
           // Per cluster_role_contracts.md Cluster 4 /legal MH.
           ...LEGAL_DIGITAL_DOCUMENTS,
-          buildVerifyFaqSchema(LEGAL_FAQS, "legal"),
+          // Phase 5: resolver-driven canonical FAQ.
+          faqResolvedNode,
         ]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <VerifyJvtoClient
         initialDocs={docs}

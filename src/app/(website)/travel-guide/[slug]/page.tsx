@@ -7,11 +7,10 @@ import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildTgFaqSchema,
   buildIjenHealthMedicalWebPageSchema,
   buildIjenHealthHowToSchema,
 } from "@/lib/schemas/buildTravelGuideSchemas";
-import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -49,12 +48,13 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
   const body = content?.body_md ?? "";
 
-  // AEO/GEO port (2026-04-29): per-slug schema injection.
+  // Phase 5 (2026-04-29): per-slug schema injection via FAQ resolver.
   // Per cluster_role_contracts.md Cluster 5:
-  //   - Any slug: FAQPage from narrative_claims (primary_page='/travel-guide/{slug}') if wired.
+  //   - Any slug: FAQPage from narrative_claims (primary_page='/travel-guide/{slug}') if wired, else CMS fallback.
   //   - 'ijen-health-screening': MedicalWebPage + HowTo cross-ref to globally-injected DOCTOR/BBKSDA/SE1658.
-  const claims = await getNarrativeClaimsByPage(`/travel-guide/${slug}`);
-  const faqSchema = buildTgFaqSchema(claims, slug);
+  const route = `/travel-guide/${slug}`;
+  const faqResolution = await resolveFaqsForPage(route);
+  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
 
   const ijenHealthSchemas =
     slug === "ijen-health-screening"
@@ -75,6 +75,7 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
           updated_at: row.updated_at,
         }}
         extraSchemas={slugExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Sidebar />
 

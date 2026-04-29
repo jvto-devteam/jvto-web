@@ -4,11 +4,8 @@ import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
-import {
-  buildVerifyFaqSchema,
-  POLICE_SAFETY_DIGITAL_DOCUMENTS,
-} from "@/lib/schemas/buildVerifySchemas";
-import { POLICE_SAFETY_FAQS } from "@/lib/verifyFaqs";
+import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
+import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 const fallbackSeo = {
   title: "Verify: Police Authority & Safety Protocols",
@@ -25,6 +22,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PoliceSafetyPage() {
   const seo = await getPageSeo("/verify-jvto/police-safety", fallbackSeo);
   const docs = getDocsByGroup("policeSafety");
+  // Phase 5 (2026-04-29): canonical FAQ via resolver. /verify-jvto/police-safety has 0 narrative_claims
+  // → falls through to POLICE_SAFETY_FAQS canonical (3 Q) → suppresses CMS FAQ.
+  const faqResolution = await resolveFaqsForPage("/verify-jvto/police-safety");
+  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/police-safety");
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -58,11 +59,12 @@ export default async function PoliceSafetyPage() {
             docs,
           }),
           // AEO/GEO port (2026-04-29): canonical DigitalDocument chain (SPRIN-POLPAR + SPRIN-WAL-TRAVEL)
-          // cross-ref to founder (#agung-sambuko) + canonical Q&A on POLPAR + Detik 2021 evidence.
-          // Per cluster_role_contracts.md Cluster 4 /police-safety MH.
+          // cross-ref to founder (#agung-sambuko). Per cluster_role_contracts.md Cluster 4 /police-safety MH.
           ...POLICE_SAFETY_DIGITAL_DOCUMENTS,
-          buildVerifyFaqSchema(POLICE_SAFETY_FAQS, "police-safety"),
+          // Phase 5: resolver-driven canonical FAQ.
+          faqResolvedNode,
         ]}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <VerifyJvtoClient
         initialDocs={docs}
