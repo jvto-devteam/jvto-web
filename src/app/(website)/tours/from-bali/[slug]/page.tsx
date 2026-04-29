@@ -12,6 +12,7 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
+import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -19,6 +20,7 @@ import {
   type FullPackageDbDataSeed,
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
+import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 
 export const revalidate = 3600;
 
@@ -426,15 +428,19 @@ export async function generateMetadata(
 }
 
 // --- 6. AEO/GEO PORT (2026-04-29): FAQPage + narrative_claims composition ---
-// Heuristic: any tour whose name/slug references "ijen" routes through the BBKSDA SE.1658
-// health-screening protocol; this gates whether the Ijen-specific spine Q&A pair appears.
-function deriveIjenRelevant(name: string, slug: string | string[]): boolean {
+// Better-than-regex Ijen detection: prefer pkg.route[] (destinations array) which carries
+// canonical destination names like "Kawah Ijen". Fallback to name/slug regex for resilience.
+function deriveIjenRelevant(
+  name: string,
+  slug: string | string[],
+  route: string[] | undefined,
+): boolean {
+  if (route?.some((r) => /ijen/i.test(r))) return true;
   const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
   return /ijen/i.test(name) || /ijen/i.test(slugStr);
 }
 
 // Adapter: live's TourPackageDetailResponse → ported builders' minimal seed contracts.
-// Only the subset of fields needed by buildTourFaqSchema (which composes spine Q&A + claims + DB faqs).
 function adaptToTourDetailSeed(
   data: TourPackageDetailResponse,
 ): TourDetailSeed {
@@ -446,21 +452,30 @@ function adaptToTourDetailSeed(
     priceFrom: pkg.offers?.aggregateOffer?.lowPrice ?? 0,
     duration: `${pkg.itineraryDays?.length ?? 1}D${(pkg.itineraryDays?.length ?? 1) - 1}N`,
     origin: pkg.originCity,
-    ijenRelevant: deriveIjenRelevant(pkg.name, pkg.slug),
-    inclusions: [],
+    ijenRelevant: deriveIjenRelevant(pkg.name, pkg.slug, (pkg as any).route),
+    inclusions: pkg.inclusions ?? [],
     itinerary: pkg.itineraryDays?.map((d) => ({ day: `Day ${d.day}`, title: d.title, summary: d.summary })) ?? [],
   };
+}
+
+// Build the slug used for DB package_faqs lookup. Live stores Bali tour slugs as full path
+// (e.g., "tours/from-bali/bromo-ijen-3d2n"); the URL slug param is just the bare name.
+function dbSlugForBali(bareSlug: string | string[]): string {
+  const s = Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
+  return s.includes("tours/") ? s : `tours/from-bali/${s}`;
 }
 
 // --- 7. MAIN PAGE COMPONENT ---
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims] = await Promise.all([
+  const dbSlug = dbSlugForBali(slug);
+  const [data, reviews, org, allClaims, dbFaqs] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
     getAllNarrativeClaims().catch(() => []),
+    getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
   ]);
 
   if (!data) notFound();
@@ -471,21 +486,55 @@ export default async function Page({ params }: Props) {
     buildWebSiteJsonLd(siteUrl),
   ].filter(Boolean);
 
-  // FAQPage: spine Q&A + narrative_claims relevant to this tour. Composed server-side; lives alongside
-  // (not replacing) live's existing rich graph schema (WebPage + Breadcrumb + TouristTrip + Product + Offers + subTrip).
+  // FAQPage composed from 3 sources: spine Q&A + narrative_claims relevant + published package_faqs.
+  // Spine pairs hand-written canonical (always present); narrative_claims wired per-tour-relevance;
+  // DB faqs add tour-specific Q&A from CMS-managed master (filtered is_published=true).
   const tourSeed = adaptToTourDetailSeed(data);
   const claimsLite: NarrativeClaimLite[] = (allClaims ?? [])
     .filter((c) => c.pillar && c.core_claim)
     .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
   const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
-  const fullData: FullPackageDbDataSeed | null = null; // Live's package_faqs DB integration deferred to Phase 5.
+  const fullData: FullPackageDbDataSeed | null = {
+    destinations: [],
+    faqs: dbFaqs ?? [],
+  };
   const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
+
+  // Augment live's existing TouristTrip + Product nodes with mentions[] (DefinedTerm @ids) +
+  // subjectOf founder. Emitted as a small additional schema block that AI engines correlate via @id.
+  const slugString = Array.isArray(data.product.slug) ? data.product.slug.join("/") : data.product.slug;
+  const pageUrl = `${siteUrl}/${slugString.startsWith("/") ? slugString.substring(1) : slugString}`;
+  const tourMentions: { "@id": string }[] = [
+    { "@id": DEFINED_TERMS.NIB["@id"] },
+    { "@id": DEFINED_TERMS.TDUP["@id"] },
+    { "@id": DEFINED_TERMS.HPWKI["@id"] },
+    { "@id": DEFINED_TERMS.POLPAR["@id"] },
+  ];
+  if (tourSeed.ijenRelevant) {
+    tourMentions.push(
+      { "@id": DEFINED_TERMS.KTA["@id"] },
+      { "@id": DEFINED_TERMS.BBKSDA["@id"] },
+      { "@id": DEFINED_TERMS.SE1658["@id"] },
+    );
+  }
+  const tourEntityAugmentSchema = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "@id": `${pageUrl}#tour`,
+    subjectOf: { "@id": `${siteUrl}/#agung-sambuko` },
+    mentions: tourMentions,
+  };
+
+  // Spine Q&A pairs for client-side AnswerBlock rendering (single source of truth with FAQPage schema).
+  const spineQa = relevantClaims.length > 0 ? null : null; // computed inside TourDetail via getTourSpineQaPairs to avoid prop drilling
+  void spineQa;
 
   return (
     <>
       <StructuredData data={data} globalNodes={globalNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
-      <TourDetail initialData={data} reviews={reviews} />{" "}
+      <JsonLd data={tourEntityAugmentSchema} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} />
     </>
   );
 }

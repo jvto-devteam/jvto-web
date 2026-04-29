@@ -12,6 +12,7 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
+import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -19,6 +20,7 @@ import {
   type FullPackageDbDataSeed,
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
+import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 
 export const revalidate = 3600;
 
@@ -427,8 +429,13 @@ const getReviewsData = cache(async () => {
   }));
 });
 
-// AEO/GEO PORT (2026-04-29): heuristic-based ijenRelevant + adapter to ported schema builders.
-function deriveIjenRelevant(name: string, slug: string | string[]): boolean {
+// AEO/GEO PORT (2026-04-29): destinations-based ijenRelevant (route[] preferred over name regex).
+function deriveIjenRelevant(
+  name: string,
+  slug: string | string[],
+  route: string[] | undefined,
+): boolean {
+  if (route?.some((r) => /ijen/i.test(r))) return true;
   const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
   return /ijen/i.test(name) || /ijen/i.test(slugStr);
 }
@@ -444,19 +451,26 @@ function adaptToTourDetailSeed(
     priceFrom: pkg.offers?.aggregateOffer?.lowPrice ?? 0,
     duration: `${pkg.itineraryDays?.length ?? 1}D${(pkg.itineraryDays?.length ?? 1) - 1}N`,
     origin: pkg.originCity,
-    ijenRelevant: deriveIjenRelevant(pkg.name, pkg.slug),
-    inclusions: [],
+    ijenRelevant: deriveIjenRelevant(pkg.name, pkg.slug, (pkg as any).route),
+    inclusions: pkg.inclusions ?? [],
     itinerary: pkg.itineraryDays?.map((d) => ({ day: `Day ${d.day}`, title: d.title, summary: d.summary })) ?? [],
   };
 }
 
+// Surabaya tours store the bare slug in DB (no "tours/from-surabaya/" prefix needed for package_faqs lookup).
+function dbSlugForSurabaya(bareSlug: string | string[]): string {
+  return Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
+}
+
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org, allClaims] = await Promise.all([
+  const dbSlug = dbSlugForSurabaya(slug);
+  const [data, reviews, org, allClaims, dbFaqs] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
     getAllNarrativeClaims().catch(() => []),
+    getPublishedPackageFaqsBySlug(dbSlug).catch(() => [] as Array<{ question: string; answer: string }>),
   ]);
 
   if (!data) notFound();
@@ -467,20 +481,47 @@ export default async function Page({ params }: Props) {
     buildWebSiteJsonLd(siteUrl),
   ].filter(Boolean);
 
-  // FAQPage composed from spine Q&A + tour-relevant narrative_claims (Ijen tours include C4).
   const tourSeed = adaptToTourDetailSeed(data);
   const claimsLite: NarrativeClaimLite[] = (allClaims ?? [])
     .filter((c) => c.pillar && c.core_claim)
     .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
   const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
-  const fullData: FullPackageDbDataSeed | null = null;
+  const fullData: FullPackageDbDataSeed | null = {
+    destinations: [],
+    faqs: dbFaqs ?? [],
+  };
   const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
+
+  // Augment existing TouristTrip with mentions[] + subjectOf founder.
+  const slugString = Array.isArray(data.product.slug) ? data.product.slug.join("/") : data.product.slug;
+  const pageUrl = `${siteUrl}/${slugString.startsWith("/") ? slugString.substring(1) : slugString}`;
+  const tourMentions: { "@id": string }[] = [
+    { "@id": DEFINED_TERMS.NIB["@id"] },
+    { "@id": DEFINED_TERMS.TDUP["@id"] },
+    { "@id": DEFINED_TERMS.HPWKI["@id"] },
+    { "@id": DEFINED_TERMS.POLPAR["@id"] },
+  ];
+  if (tourSeed.ijenRelevant) {
+    tourMentions.push(
+      { "@id": DEFINED_TERMS.KTA["@id"] },
+      { "@id": DEFINED_TERMS.BBKSDA["@id"] },
+      { "@id": DEFINED_TERMS.SE1658["@id"] },
+    );
+  }
+  const tourEntityAugmentSchema = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    "@id": `${pageUrl}#tour`,
+    subjectOf: { "@id": `${siteUrl}/#agung-sambuko` },
+    mentions: tourMentions,
+  };
 
   return (
     <>
       <StructuredData data={data} globalNodes={globalNodes} />
       {faqSchema && <JsonLd data={faqSchema} />}
-      <TourDetail initialData={data} reviews={reviews} />{" "}
+      <JsonLd data={tourEntityAugmentSchema} />
+      <TourDetail initialData={data} reviews={reviews} ijenRelevant={tourSeed.ijenRelevant} />
     </>
   );
 }
