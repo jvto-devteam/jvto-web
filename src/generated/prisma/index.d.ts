@@ -550,6 +550,11 @@ export type eav_value = $Result.DefaultSelection<Prisma.$eav_valuePayload>
  * 
  */
 export type eav_relation = $Result.DefaultSelection<Prisma.$eav_relationPayload>
+/**
+ * Model narrative_claims
+ * 
+ */
+export type narrative_claims = $Result.DefaultSelection<Prisma.$narrative_claimsPayload>
 
 /**
  * Enums
@@ -1774,6 +1779,16 @@ export class PrismaClient<
     * ```
     */
   get eav_relation(): Prisma.eav_relationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.narrative_claims`: Exposes CRUD operations for the **narrative_claims** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Narrative_claims
+    * const narrative_claims = await prisma.narrative_claims.findMany()
+    * ```
+    */
+  get narrative_claims(): Prisma.narrative_claimsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -2319,7 +2334,8 @@ export namespace Prisma {
     eav_entity: 'eav_entity',
     eav_attribute: 'eav_attribute',
     eav_value: 'eav_value',
-    eav_relation: 'eav_relation'
+    eav_relation: 'eav_relation',
+    narrative_claims: 'narrative_claims'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -2338,7 +2354,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation" | "narrative_claims"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -10112,6 +10128,80 @@ export namespace Prisma {
           }
         }
       }
+      narrative_claims: {
+        payload: Prisma.$narrative_claimsPayload<ExtArgs>
+        fields: Prisma.narrative_claimsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.narrative_claimsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.narrative_claimsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          findFirst: {
+            args: Prisma.narrative_claimsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.narrative_claimsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          findMany: {
+            args: Prisma.narrative_claimsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>[]
+          }
+          create: {
+            args: Prisma.narrative_claimsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          createMany: {
+            args: Prisma.narrative_claimsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.narrative_claimsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>[]
+          }
+          delete: {
+            args: Prisma.narrative_claimsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          update: {
+            args: Prisma.narrative_claimsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          deleteMany: {
+            args: Prisma.narrative_claimsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.narrative_claimsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.narrative_claimsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>[]
+          }
+          upsert: {
+            args: Prisma.narrative_claimsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$narrative_claimsPayload>
+          }
+          aggregate: {
+            args: Prisma.Narrative_claimsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNarrative_claims>
+          }
+          groupBy: {
+            args: Prisma.narrative_claimsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Narrative_claimsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.narrative_claimsCountArgs<ExtArgs>
+            result: $Utils.Optional<Narrative_claimsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -10313,6 +10403,7 @@ export namespace Prisma {
     eav_attribute?: eav_attributeOmit
     eav_value?: eav_valueOmit
     eav_relation?: eav_relationOmit
+    narrative_claims?: narrative_claimsOmit
   }
 
   /* Types for Logging */
@@ -139144,6 +139235,1050 @@ export namespace Prisma {
 
 
   /**
+   * Model narrative_claims
+   */
+
+  export type AggregateNarrative_claims = {
+    _count: Narrative_claimsCountAggregateOutputType | null
+    _min: Narrative_claimsMinAggregateOutputType | null
+    _max: Narrative_claimsMaxAggregateOutputType | null
+  }
+
+  export type Narrative_claimsMinAggregateOutputType = {
+    id: string | null
+    pillar: string | null
+    core_claim: string | null
+    primary_page: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Narrative_claimsMaxAggregateOutputType = {
+    id: string | null
+    pillar: string | null
+    core_claim: string | null
+    primary_page: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type Narrative_claimsCountAggregateOutputType = {
+    id: number
+    pillar: number
+    core_claim: number
+    mechanism: number
+    evidence_hooks: number
+    nlp_variants: number
+    evidence_slugs: number
+    primary_page: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type Narrative_claimsMinAggregateInputType = {
+    id?: true
+    pillar?: true
+    core_claim?: true
+    primary_page?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Narrative_claimsMaxAggregateInputType = {
+    id?: true
+    pillar?: true
+    core_claim?: true
+    primary_page?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type Narrative_claimsCountAggregateInputType = {
+    id?: true
+    pillar?: true
+    core_claim?: true
+    mechanism?: true
+    evidence_hooks?: true
+    nlp_variants?: true
+    evidence_slugs?: true
+    primary_page?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type Narrative_claimsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which narrative_claims to aggregate.
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of narrative_claims to fetch.
+     */
+    orderBy?: narrative_claimsOrderByWithRelationInput | narrative_claimsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: narrative_claimsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` narrative_claims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` narrative_claims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned narrative_claims
+    **/
+    _count?: true | Narrative_claimsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Narrative_claimsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Narrative_claimsMaxAggregateInputType
+  }
+
+  export type GetNarrative_claimsAggregateType<T extends Narrative_claimsAggregateArgs> = {
+        [P in keyof T & keyof AggregateNarrative_claims]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNarrative_claims[P]>
+      : GetScalarType<T[P], AggregateNarrative_claims[P]>
+  }
+
+
+
+
+  export type narrative_claimsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: narrative_claimsWhereInput
+    orderBy?: narrative_claimsOrderByWithAggregationInput | narrative_claimsOrderByWithAggregationInput[]
+    by: Narrative_claimsScalarFieldEnum[] | Narrative_claimsScalarFieldEnum
+    having?: narrative_claimsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Narrative_claimsCountAggregateInputType | true
+    _min?: Narrative_claimsMinAggregateInputType
+    _max?: Narrative_claimsMaxAggregateInputType
+  }
+
+  export type Narrative_claimsGroupByOutputType = {
+    id: string
+    pillar: string | null
+    core_claim: string | null
+    mechanism: JsonValue | null
+    evidence_hooks: JsonValue | null
+    nlp_variants: JsonValue | null
+    evidence_slugs: string[]
+    primary_page: string | null
+    created_at: Date
+    updated_at: Date
+    _count: Narrative_claimsCountAggregateOutputType | null
+    _min: Narrative_claimsMinAggregateOutputType | null
+    _max: Narrative_claimsMaxAggregateOutputType | null
+  }
+
+  type GetNarrative_claimsGroupByPayload<T extends narrative_claimsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Narrative_claimsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Narrative_claimsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Narrative_claimsGroupByOutputType[P]>
+            : GetScalarType<T[P], Narrative_claimsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type narrative_claimsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pillar?: boolean
+    core_claim?: boolean
+    mechanism?: boolean
+    evidence_hooks?: boolean
+    nlp_variants?: boolean
+    evidence_slugs?: boolean
+    primary_page?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["narrative_claims"]>
+
+  export type narrative_claimsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pillar?: boolean
+    core_claim?: boolean
+    mechanism?: boolean
+    evidence_hooks?: boolean
+    nlp_variants?: boolean
+    evidence_slugs?: boolean
+    primary_page?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["narrative_claims"]>
+
+  export type narrative_claimsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pillar?: boolean
+    core_claim?: boolean
+    mechanism?: boolean
+    evidence_hooks?: boolean
+    nlp_variants?: boolean
+    evidence_slugs?: boolean
+    primary_page?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["narrative_claims"]>
+
+  export type narrative_claimsSelectScalar = {
+    id?: boolean
+    pillar?: boolean
+    core_claim?: boolean
+    mechanism?: boolean
+    evidence_hooks?: boolean
+    nlp_variants?: boolean
+    evidence_slugs?: boolean
+    primary_page?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type narrative_claimsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pillar" | "core_claim" | "mechanism" | "evidence_hooks" | "nlp_variants" | "evidence_slugs" | "primary_page" | "created_at" | "updated_at", ExtArgs["result"]["narrative_claims"]>
+
+  export type $narrative_claimsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "narrative_claims"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pillar: string | null
+      core_claim: string | null
+      mechanism: Prisma.JsonValue | null
+      evidence_hooks: Prisma.JsonValue | null
+      nlp_variants: Prisma.JsonValue | null
+      evidence_slugs: string[]
+      primary_page: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["narrative_claims"]>
+    composites: {}
+  }
+
+  type narrative_claimsGetPayload<S extends boolean | null | undefined | narrative_claimsDefaultArgs> = $Result.GetResult<Prisma.$narrative_claimsPayload, S>
+
+  type narrative_claimsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<narrative_claimsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Narrative_claimsCountAggregateInputType | true
+    }
+
+  export interface narrative_claimsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['narrative_claims'], meta: { name: 'narrative_claims' } }
+    /**
+     * Find zero or one Narrative_claims that matches the filter.
+     * @param {narrative_claimsFindUniqueArgs} args - Arguments to find a Narrative_claims
+     * @example
+     * // Get one Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends narrative_claimsFindUniqueArgs>(args: SelectSubset<T, narrative_claimsFindUniqueArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Narrative_claims that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {narrative_claimsFindUniqueOrThrowArgs} args - Arguments to find a Narrative_claims
+     * @example
+     * // Get one Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends narrative_claimsFindUniqueOrThrowArgs>(args: SelectSubset<T, narrative_claimsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Narrative_claims that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsFindFirstArgs} args - Arguments to find a Narrative_claims
+     * @example
+     * // Get one Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends narrative_claimsFindFirstArgs>(args?: SelectSubset<T, narrative_claimsFindFirstArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Narrative_claims that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsFindFirstOrThrowArgs} args - Arguments to find a Narrative_claims
+     * @example
+     * // Get one Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends narrative_claimsFindFirstOrThrowArgs>(args?: SelectSubset<T, narrative_claimsFindFirstOrThrowArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Narrative_claims that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findMany()
+     * 
+     * // Get first 10 Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const narrative_claimsWithIdOnly = await prisma.narrative_claims.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends narrative_claimsFindManyArgs>(args?: SelectSubset<T, narrative_claimsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Narrative_claims.
+     * @param {narrative_claimsCreateArgs} args - Arguments to create a Narrative_claims.
+     * @example
+     * // Create one Narrative_claims
+     * const Narrative_claims = await prisma.narrative_claims.create({
+     *   data: {
+     *     // ... data to create a Narrative_claims
+     *   }
+     * })
+     * 
+     */
+    create<T extends narrative_claimsCreateArgs>(args: SelectSubset<T, narrative_claimsCreateArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Narrative_claims.
+     * @param {narrative_claimsCreateManyArgs} args - Arguments to create many Narrative_claims.
+     * @example
+     * // Create many Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends narrative_claimsCreateManyArgs>(args?: SelectSubset<T, narrative_claimsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Narrative_claims and returns the data saved in the database.
+     * @param {narrative_claimsCreateManyAndReturnArgs} args - Arguments to create many Narrative_claims.
+     * @example
+     * // Create many Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Narrative_claims and only return the `id`
+     * const narrative_claimsWithIdOnly = await prisma.narrative_claims.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends narrative_claimsCreateManyAndReturnArgs>(args?: SelectSubset<T, narrative_claimsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Narrative_claims.
+     * @param {narrative_claimsDeleteArgs} args - Arguments to delete one Narrative_claims.
+     * @example
+     * // Delete one Narrative_claims
+     * const Narrative_claims = await prisma.narrative_claims.delete({
+     *   where: {
+     *     // ... filter to delete one Narrative_claims
+     *   }
+     * })
+     * 
+     */
+    delete<T extends narrative_claimsDeleteArgs>(args: SelectSubset<T, narrative_claimsDeleteArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Narrative_claims.
+     * @param {narrative_claimsUpdateArgs} args - Arguments to update one Narrative_claims.
+     * @example
+     * // Update one Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends narrative_claimsUpdateArgs>(args: SelectSubset<T, narrative_claimsUpdateArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Narrative_claims.
+     * @param {narrative_claimsDeleteManyArgs} args - Arguments to filter Narrative_claims to delete.
+     * @example
+     * // Delete a few Narrative_claims
+     * const { count } = await prisma.narrative_claims.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends narrative_claimsDeleteManyArgs>(args?: SelectSubset<T, narrative_claimsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Narrative_claims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends narrative_claimsUpdateManyArgs>(args: SelectSubset<T, narrative_claimsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Narrative_claims and returns the data updated in the database.
+     * @param {narrative_claimsUpdateManyAndReturnArgs} args - Arguments to update many Narrative_claims.
+     * @example
+     * // Update many Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Narrative_claims and only return the `id`
+     * const narrative_claimsWithIdOnly = await prisma.narrative_claims.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends narrative_claimsUpdateManyAndReturnArgs>(args: SelectSubset<T, narrative_claimsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Narrative_claims.
+     * @param {narrative_claimsUpsertArgs} args - Arguments to update or create a Narrative_claims.
+     * @example
+     * // Update or create a Narrative_claims
+     * const narrative_claims = await prisma.narrative_claims.upsert({
+     *   create: {
+     *     // ... data to create a Narrative_claims
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Narrative_claims we want to update
+     *   }
+     * })
+     */
+    upsert<T extends narrative_claimsUpsertArgs>(args: SelectSubset<T, narrative_claimsUpsertArgs<ExtArgs>>): Prisma__narrative_claimsClient<$Result.GetResult<Prisma.$narrative_claimsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Narrative_claims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsCountArgs} args - Arguments to filter Narrative_claims to count.
+     * @example
+     * // Count the number of Narrative_claims
+     * const count = await prisma.narrative_claims.count({
+     *   where: {
+     *     // ... the filter for the Narrative_claims we want to count
+     *   }
+     * })
+    **/
+    count<T extends narrative_claimsCountArgs>(
+      args?: Subset<T, narrative_claimsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Narrative_claimsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Narrative_claims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Narrative_claimsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Narrative_claimsAggregateArgs>(args: Subset<T, Narrative_claimsAggregateArgs>): Prisma.PrismaPromise<GetNarrative_claimsAggregateType<T>>
+
+    /**
+     * Group by Narrative_claims.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {narrative_claimsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends narrative_claimsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: narrative_claimsGroupByArgs['orderBy'] }
+        : { orderBy?: narrative_claimsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, narrative_claimsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNarrative_claimsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the narrative_claims model
+   */
+  readonly fields: narrative_claimsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for narrative_claims.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__narrative_claimsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the narrative_claims model
+   */
+  interface narrative_claimsFieldRefs {
+    readonly id: FieldRef<"narrative_claims", 'String'>
+    readonly pillar: FieldRef<"narrative_claims", 'String'>
+    readonly core_claim: FieldRef<"narrative_claims", 'String'>
+    readonly mechanism: FieldRef<"narrative_claims", 'Json'>
+    readonly evidence_hooks: FieldRef<"narrative_claims", 'Json'>
+    readonly nlp_variants: FieldRef<"narrative_claims", 'Json'>
+    readonly evidence_slugs: FieldRef<"narrative_claims", 'String[]'>
+    readonly primary_page: FieldRef<"narrative_claims", 'String'>
+    readonly created_at: FieldRef<"narrative_claims", 'DateTime'>
+    readonly updated_at: FieldRef<"narrative_claims", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * narrative_claims findUnique
+   */
+  export type narrative_claimsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter, which narrative_claims to fetch.
+     */
+    where: narrative_claimsWhereUniqueInput
+  }
+
+  /**
+   * narrative_claims findUniqueOrThrow
+   */
+  export type narrative_claimsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter, which narrative_claims to fetch.
+     */
+    where: narrative_claimsWhereUniqueInput
+  }
+
+  /**
+   * narrative_claims findFirst
+   */
+  export type narrative_claimsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter, which narrative_claims to fetch.
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of narrative_claims to fetch.
+     */
+    orderBy?: narrative_claimsOrderByWithRelationInput | narrative_claimsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for narrative_claims.
+     */
+    cursor?: narrative_claimsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` narrative_claims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` narrative_claims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of narrative_claims.
+     */
+    distinct?: Narrative_claimsScalarFieldEnum | Narrative_claimsScalarFieldEnum[]
+  }
+
+  /**
+   * narrative_claims findFirstOrThrow
+   */
+  export type narrative_claimsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter, which narrative_claims to fetch.
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of narrative_claims to fetch.
+     */
+    orderBy?: narrative_claimsOrderByWithRelationInput | narrative_claimsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for narrative_claims.
+     */
+    cursor?: narrative_claimsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` narrative_claims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` narrative_claims.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of narrative_claims.
+     */
+    distinct?: Narrative_claimsScalarFieldEnum | Narrative_claimsScalarFieldEnum[]
+  }
+
+  /**
+   * narrative_claims findMany
+   */
+  export type narrative_claimsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter, which narrative_claims to fetch.
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of narrative_claims to fetch.
+     */
+    orderBy?: narrative_claimsOrderByWithRelationInput | narrative_claimsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing narrative_claims.
+     */
+    cursor?: narrative_claimsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` narrative_claims from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` narrative_claims.
+     */
+    skip?: number
+    distinct?: Narrative_claimsScalarFieldEnum | Narrative_claimsScalarFieldEnum[]
+  }
+
+  /**
+   * narrative_claims create
+   */
+  export type narrative_claimsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a narrative_claims.
+     */
+    data: XOR<narrative_claimsCreateInput, narrative_claimsUncheckedCreateInput>
+  }
+
+  /**
+   * narrative_claims createMany
+   */
+  export type narrative_claimsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many narrative_claims.
+     */
+    data: narrative_claimsCreateManyInput | narrative_claimsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * narrative_claims createManyAndReturn
+   */
+  export type narrative_claimsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * The data used to create many narrative_claims.
+     */
+    data: narrative_claimsCreateManyInput | narrative_claimsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * narrative_claims update
+   */
+  export type narrative_claimsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a narrative_claims.
+     */
+    data: XOR<narrative_claimsUpdateInput, narrative_claimsUncheckedUpdateInput>
+    /**
+     * Choose, which narrative_claims to update.
+     */
+    where: narrative_claimsWhereUniqueInput
+  }
+
+  /**
+   * narrative_claims updateMany
+   */
+  export type narrative_claimsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update narrative_claims.
+     */
+    data: XOR<narrative_claimsUpdateManyMutationInput, narrative_claimsUncheckedUpdateManyInput>
+    /**
+     * Filter which narrative_claims to update
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * Limit how many narrative_claims to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * narrative_claims updateManyAndReturn
+   */
+  export type narrative_claimsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * The data used to update narrative_claims.
+     */
+    data: XOR<narrative_claimsUpdateManyMutationInput, narrative_claimsUncheckedUpdateManyInput>
+    /**
+     * Filter which narrative_claims to update
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * Limit how many narrative_claims to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * narrative_claims upsert
+   */
+  export type narrative_claimsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the narrative_claims to update in case it exists.
+     */
+    where: narrative_claimsWhereUniqueInput
+    /**
+     * In case the narrative_claims found by the `where` argument doesn't exist, create a new narrative_claims with this data.
+     */
+    create: XOR<narrative_claimsCreateInput, narrative_claimsUncheckedCreateInput>
+    /**
+     * In case the narrative_claims was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<narrative_claimsUpdateInput, narrative_claimsUncheckedUpdateInput>
+  }
+
+  /**
+   * narrative_claims delete
+   */
+  export type narrative_claimsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+    /**
+     * Filter which narrative_claims to delete.
+     */
+    where: narrative_claimsWhereUniqueInput
+  }
+
+  /**
+   * narrative_claims deleteMany
+   */
+  export type narrative_claimsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which narrative_claims to delete
+     */
+    where?: narrative_claimsWhereInput
+    /**
+     * Limit how many narrative_claims to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * narrative_claims without action
+   */
+  export type narrative_claimsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the narrative_claims
+     */
+    select?: narrative_claimsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the narrative_claims
+     */
+    omit?: narrative_claimsOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -140828,6 +141963,22 @@ export namespace Prisma {
   };
 
   export type Eav_relationScalarFieldEnum = (typeof Eav_relationScalarFieldEnum)[keyof typeof Eav_relationScalarFieldEnum]
+
+
+  export const Narrative_claimsScalarFieldEnum: {
+    id: 'id',
+    pillar: 'pillar',
+    core_claim: 'core_claim',
+    mechanism: 'mechanism',
+    evidence_hooks: 'evidence_hooks',
+    nlp_variants: 'nlp_variants',
+    evidence_slugs: 'evidence_slugs',
+    primary_page: 'primary_page',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type Narrative_claimsScalarFieldEnum = (typeof Narrative_claimsScalarFieldEnum)[keyof typeof Narrative_claimsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -150073,6 +151224,83 @@ export namespace Prisma {
     rel_type?: StringWithAggregatesFilter<"eav_relation"> | string
     to_entity_id?: UuidWithAggregatesFilter<"eav_relation"> | string
     ord?: IntNullableWithAggregatesFilter<"eav_relation"> | number | null
+  }
+
+  export type narrative_claimsWhereInput = {
+    AND?: narrative_claimsWhereInput | narrative_claimsWhereInput[]
+    OR?: narrative_claimsWhereInput[]
+    NOT?: narrative_claimsWhereInput | narrative_claimsWhereInput[]
+    id?: StringFilter<"narrative_claims"> | string
+    pillar?: StringNullableFilter<"narrative_claims"> | string | null
+    core_claim?: StringNullableFilter<"narrative_claims"> | string | null
+    mechanism?: JsonNullableFilter<"narrative_claims">
+    evidence_hooks?: JsonNullableFilter<"narrative_claims">
+    nlp_variants?: JsonNullableFilter<"narrative_claims">
+    evidence_slugs?: StringNullableListFilter<"narrative_claims">
+    primary_page?: StringNullableFilter<"narrative_claims"> | string | null
+    created_at?: DateTimeFilter<"narrative_claims"> | Date | string
+    updated_at?: DateTimeFilter<"narrative_claims"> | Date | string
+  }
+
+  export type narrative_claimsOrderByWithRelationInput = {
+    id?: SortOrder
+    pillar?: SortOrderInput | SortOrder
+    core_claim?: SortOrderInput | SortOrder
+    mechanism?: SortOrderInput | SortOrder
+    evidence_hooks?: SortOrderInput | SortOrder
+    nlp_variants?: SortOrderInput | SortOrder
+    evidence_slugs?: SortOrder
+    primary_page?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type narrative_claimsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: narrative_claimsWhereInput | narrative_claimsWhereInput[]
+    OR?: narrative_claimsWhereInput[]
+    NOT?: narrative_claimsWhereInput | narrative_claimsWhereInput[]
+    pillar?: StringNullableFilter<"narrative_claims"> | string | null
+    core_claim?: StringNullableFilter<"narrative_claims"> | string | null
+    mechanism?: JsonNullableFilter<"narrative_claims">
+    evidence_hooks?: JsonNullableFilter<"narrative_claims">
+    nlp_variants?: JsonNullableFilter<"narrative_claims">
+    evidence_slugs?: StringNullableListFilter<"narrative_claims">
+    primary_page?: StringNullableFilter<"narrative_claims"> | string | null
+    created_at?: DateTimeFilter<"narrative_claims"> | Date | string
+    updated_at?: DateTimeFilter<"narrative_claims"> | Date | string
+  }, "id">
+
+  export type narrative_claimsOrderByWithAggregationInput = {
+    id?: SortOrder
+    pillar?: SortOrderInput | SortOrder
+    core_claim?: SortOrderInput | SortOrder
+    mechanism?: SortOrderInput | SortOrder
+    evidence_hooks?: SortOrderInput | SortOrder
+    nlp_variants?: SortOrderInput | SortOrder
+    evidence_slugs?: SortOrder
+    primary_page?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: narrative_claimsCountOrderByAggregateInput
+    _max?: narrative_claimsMaxOrderByAggregateInput
+    _min?: narrative_claimsMinOrderByAggregateInput
+  }
+
+  export type narrative_claimsScalarWhereWithAggregatesInput = {
+    AND?: narrative_claimsScalarWhereWithAggregatesInput | narrative_claimsScalarWhereWithAggregatesInput[]
+    OR?: narrative_claimsScalarWhereWithAggregatesInput[]
+    NOT?: narrative_claimsScalarWhereWithAggregatesInput | narrative_claimsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"narrative_claims"> | string
+    pillar?: StringNullableWithAggregatesFilter<"narrative_claims"> | string | null
+    core_claim?: StringNullableWithAggregatesFilter<"narrative_claims"> | string | null
+    mechanism?: JsonNullableWithAggregatesFilter<"narrative_claims">
+    evidence_hooks?: JsonNullableWithAggregatesFilter<"narrative_claims">
+    nlp_variants?: JsonNullableWithAggregatesFilter<"narrative_claims">
+    evidence_slugs?: StringNullableListFilter<"narrative_claims">
+    primary_page?: StringNullableWithAggregatesFilter<"narrative_claims"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"narrative_claims"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"narrative_claims"> | Date | string
   }
 
   export type activitiesCreateInput = {
@@ -159960,6 +161188,97 @@ export namespace Prisma {
     ord?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
+  export type narrative_claimsCreateInput = {
+    id: string
+    pillar?: string | null
+    core_claim?: string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsCreateevidence_slugsInput | string[]
+    primary_page?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type narrative_claimsUncheckedCreateInput = {
+    id: string
+    pillar?: string | null
+    core_claim?: string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsCreateevidence_slugsInput | string[]
+    primary_page?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type narrative_claimsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pillar?: NullableStringFieldUpdateOperationsInput | string | null
+    core_claim?: NullableStringFieldUpdateOperationsInput | string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsUpdateevidence_slugsInput | string[]
+    primary_page?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type narrative_claimsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pillar?: NullableStringFieldUpdateOperationsInput | string | null
+    core_claim?: NullableStringFieldUpdateOperationsInput | string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsUpdateevidence_slugsInput | string[]
+    primary_page?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type narrative_claimsCreateManyInput = {
+    id: string
+    pillar?: string | null
+    core_claim?: string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsCreateevidence_slugsInput | string[]
+    primary_page?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type narrative_claimsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pillar?: NullableStringFieldUpdateOperationsInput | string | null
+    core_claim?: NullableStringFieldUpdateOperationsInput | string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsUpdateevidence_slugsInput | string[]
+    primary_page?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type narrative_claimsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pillar?: NullableStringFieldUpdateOperationsInput | string | null
+    core_claim?: NullableStringFieldUpdateOperationsInput | string | null
+    mechanism?: NullableJsonNullValueInput | InputJsonValue
+    evidence_hooks?: NullableJsonNullValueInput | InputJsonValue
+    nlp_variants?: NullableJsonNullValueInput | InputJsonValue
+    evidence_slugs?: narrative_claimsUpdateevidence_slugsInput | string[]
+    primary_page?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -166738,6 +168057,37 @@ export namespace Prisma {
 
   export type eav_relationSumOrderByAggregateInput = {
     ord?: SortOrder
+  }
+
+  export type narrative_claimsCountOrderByAggregateInput = {
+    id?: SortOrder
+    pillar?: SortOrder
+    core_claim?: SortOrder
+    mechanism?: SortOrder
+    evidence_hooks?: SortOrder
+    nlp_variants?: SortOrder
+    evidence_slugs?: SortOrder
+    primary_page?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type narrative_claimsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pillar?: SortOrder
+    core_claim?: SortOrder
+    primary_page?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type narrative_claimsMinOrderByAggregateInput = {
+    id?: SortOrder
+    pillar?: SortOrder
+    core_claim?: SortOrder
+    primary_page?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type activity_categoriesCreateNestedOneWithoutActivitiesInput = {
@@ -174344,6 +175694,15 @@ export namespace Prisma {
     upsert?: eav_entityUpsertWithoutIncoming_relationsInput
     connect?: eav_entityWhereUniqueInput
     update?: XOR<XOR<eav_entityUpdateToOneWithWhereWithoutIncoming_relationsInput, eav_entityUpdateWithoutIncoming_relationsInput>, eav_entityUncheckedUpdateWithoutIncoming_relationsInput>
+  }
+
+  export type narrative_claimsCreateevidence_slugsInput = {
+    set: string[]
+  }
+
+  export type narrative_claimsUpdateevidence_slugsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NestedBigIntFilter<$PrismaModel = never> = {

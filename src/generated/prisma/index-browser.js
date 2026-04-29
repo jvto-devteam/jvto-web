@@ -1478,6 +1478,19 @@ exports.Prisma.Eav_relationScalarFieldEnum = {
   ord: 'ord'
 };
 
+exports.Prisma.Narrative_claimsScalarFieldEnum = {
+  id: 'id',
+  pillar: 'pillar',
+  core_claim: 'core_claim',
+  mechanism: 'mechanism',
+  evidence_hooks: 'evidence_hooks',
+  nlp_variants: 'nlp_variants',
+  evidence_slugs: 'evidence_slugs',
+  primary_page: 'primary_page',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1635,7 +1648,8 @@ exports.Prisma.ModelName = {
   eav_entity: 'eav_entity',
   eav_attribute: 'eav_attribute',
   eav_value: 'eav_value',
-  eav_relation: 'eav_relation'
+  eav_relation: 'eav_relation',
+  narrative_claims: 'narrative_claims'
 };
 
 /**
