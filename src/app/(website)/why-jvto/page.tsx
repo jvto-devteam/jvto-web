@@ -25,6 +25,11 @@ import {
   Newspaper,
 } from "lucide-react";
 import { getContentPage } from "@/lib/content/getContentPage";
+import {
+  buildWhyJvtoFaqSchema,
+  buildWhyJvtoHubItemListSchema,
+} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
 const siteUrl = "https://javavolcano-touroperator.com";
 import Sidebar from "./sidebar";
 
@@ -168,6 +173,13 @@ export default async function WhyJvtoPage() {
   const row = await getContentPage("/why-jvto", "en");
   const content = (row?.content as Record<string, any> | null) ?? {};
   const heroH1 = content.h1 ?? defaultWhyTitle;
+  // AEO/GEO port (2026-04-29): canonical hub Q&A from narrative_claims (primary_page='/why-jvto')
+  // + ItemList of 5 sub-pages. Per cluster_role_contracts.md Cluster 3 hub MH.
+  const hubClaims = await getNarrativeClaimsByPage("/why-jvto");
+  const whyJvtoExtraSchemas = [
+    buildWhyJvtoHubItemListSchema(),
+    buildWhyJvtoFaqSchema(hubClaims, ""),
+  ].filter(Boolean);
   const pageRow = row
     ? {
         route: row.route,
@@ -725,7 +737,7 @@ export default async function WhyJvtoPage() {
 
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <PageJsonLdCombined pageRow={pageRow as any} />
+        <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={whyJvtoExtraSchemas} />
 
         <main className="pt-24 w-full jvto-page">
           {/* ══════════ HERO ══════════ */}

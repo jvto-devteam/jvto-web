@@ -10,6 +10,35 @@ import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import Sidebar from "../sidebar";
 import { ChevronRight, Home } from "lucide-react";
+import {
+  buildWhyJvtoFaqSchema,
+  buildWhyJvtoReviewsAggregateRatingSchema,
+} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
+import { getActiveCrewMembers } from "@/lib/queries/crewMembers";
+import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
+
+type WhyJvtoSubpath =
+  | ""
+  | "our-story"
+  | "our-team"
+  | "the-jvto-difference"
+  | "community-standards"
+  | "reviews";
+
+const KNOWN_WHY_JVTO_SUBPATHS: ReadonlyArray<Exclude<WhyJvtoSubpath, "">> = [
+  "our-story",
+  "our-team",
+  "the-jvto-difference",
+  "community-standards",
+  "reviews",
+];
+
+function isKnownWhyJvtoSubpath(
+  slug: string,
+): slug is Exclude<WhyJvtoSubpath, ""> {
+  return (KNOWN_WHY_JVTO_SUBPATHS as ReadonlyArray<string>).includes(slug);
+}
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -100,6 +129,30 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
 
+  // AEO/GEO port (2026-04-29): per-slug schema injection.
+  // Per cluster_role_contracts.md Cluster 3 sub-pages MH:
+  //   - Any slug: FAQPage from narrative_claims (primary_page='/why-jvto/{slug}') if wired.
+  //   - 'our-team': Person schemas per active crew via buildCrewPersonSchema().
+  //   - 'reviews': standalone AggregateRating cross-ref to Organization.
+  const subpath: WhyJvtoSubpath = isKnownWhyJvtoSubpath(slug) ? slug : "";
+
+  const claims = await getNarrativeClaimsByPage(`/why-jvto/${slug}`);
+  const faqSchema = buildWhyJvtoFaqSchema(claims, subpath);
+
+  const crewSchemas =
+    slug === "our-team"
+      ? (await getActiveCrewMembers()).map((m) => buildCrewPersonSchema(m))
+      : [];
+
+  const reviewsAggregateSchema =
+    slug === "reviews" ? buildWhyJvtoReviewsAggregateRatingSchema() : null;
+
+  const slugExtraSchemas = [
+    faqSchema,
+    ...crewSchemas,
+    reviewsAggregateSchema,
+  ].filter(Boolean);
+
   return (
     <>
       {/* Font import */}
@@ -122,6 +175,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
             created_at: row.created_at,
             updated_at: row.updated_at,
           }}
+          extraSchemas={slugExtraSchemas}
         />
 
         <main
