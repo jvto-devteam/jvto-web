@@ -11,6 +11,14 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
+import {
+  buildTourFaqSchema,
+  pickTourRelevantClaims,
+  type TourDetailSeed,
+  type FullPackageDbDataSeed,
+  type NarrativeClaimLite,
+} from "@/lib/schemas/buildTourSchemas";
 
 export const revalidate = 3600;
 
@@ -417,16 +425,44 @@ export async function generateMetadata(
   };
 }
 
-// --- 6. MAIN PAGE COMPONENT ---
+// --- 6. AEO/GEO PORT (2026-04-29): FAQPage + narrative_claims composition ---
+// Heuristic: any tour whose name/slug references "ijen" routes through the BBKSDA SE.1658
+// health-screening protocol; this gates whether the Ijen-specific spine Q&A pair appears.
+function deriveIjenRelevant(name: string, slug: string | string[]): boolean {
+  const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
+  return /ijen/i.test(name) || /ijen/i.test(slugStr);
+}
+
+// Adapter: live's TourPackageDetailResponse → ported builders' minimal seed contracts.
+// Only the subset of fields needed by buildTourFaqSchema (which composes spine Q&A + claims + DB faqs).
+function adaptToTourDetailSeed(
+  data: TourPackageDetailResponse,
+): TourDetailSeed {
+  const pkg = data.product;
+  return {
+    name: pkg.name,
+    shortDesc: stripHtml(pkg.description).substring(0, 160),
+    image: pkg.imageUrl ?? (pkg.gallery && pkg.gallery[0]) ?? "",
+    priceFrom: pkg.offers?.aggregateOffer?.lowPrice ?? 0,
+    duration: `${pkg.itineraryDays?.length ?? 1}D${(pkg.itineraryDays?.length ?? 1) - 1}N`,
+    origin: pkg.originCity,
+    ijenRelevant: deriveIjenRelevant(pkg.name, pkg.slug),
+    inclusions: [],
+    itinerary: pkg.itineraryDays?.map((d) => ({ day: `Day ${d.day}`, title: d.title, summary: d.summary })) ?? [],
+  };
+}
+
+// --- 7. MAIN PAGE COMPONENT ---
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, reviews, org] = await Promise.all([
+  const [data, reviews, org, allClaims] = await Promise.all([
     getTourData(slug),
     getReviewsData(),
     getOrganizationProfile(),
+    getAllNarrativeClaims().catch(() => []),
   ]);
-  
+
   if (!data) notFound();
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -435,9 +471,20 @@ export default async function Page({ params }: Props) {
     buildWebSiteJsonLd(siteUrl),
   ].filter(Boolean);
 
+  // FAQPage: spine Q&A + narrative_claims relevant to this tour. Composed server-side; lives alongside
+  // (not replacing) live's existing rich graph schema (WebPage + Breadcrumb + TouristTrip + Product + Offers + subTrip).
+  const tourSeed = adaptToTourDetailSeed(data);
+  const claimsLite: NarrativeClaimLite[] = (allClaims ?? [])
+    .filter((c) => c.pillar && c.core_claim)
+    .map((c) => ({ id: c.id, pillar: c.pillar as string, core_claim: c.core_claim as string }));
+  const relevantClaims = pickTourRelevantClaims(tourSeed, claimsLite);
+  const fullData: FullPackageDbDataSeed | null = null; // Live's package_faqs DB integration deferred to Phase 5.
+  const faqSchema = buildTourFaqSchema({ tour: tourSeed, fullData, narrativeClaims: relevantClaims });
+
   return (
     <>
       <StructuredData data={data} globalNodes={globalNodes} />
+      {faqSchema && <JsonLd data={faqSchema} />}
       <TourDetail initialData={data} reviews={reviews} />{" "}
     </>
   );
