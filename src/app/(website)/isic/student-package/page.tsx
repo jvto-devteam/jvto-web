@@ -13,6 +13,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -31,18 +32,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch with a limit to match the design (e.g., 8)
-  const res = await fetch(`${siteUrl}/api/packages/web?category=2&limit=8`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch tours");
+  // Refactored 2026-04-29 (Phase 7 deploy-readiness): direct helper call
+  // (was self-fetch broke SSG with ECONNREFUSED). categoryId=2 = student package.
+  try {
+    return (await getWebPackagesList({ categoryId: 2, limit: 8 })) as unknown as ListTourPackage[];
+  } catch (error) {
+    console.error("Failed to fetch student tours", error);
     return [];
   }
-  return res.json();
 }
 
 export default async function IsicStudentPackagePage() {
