@@ -13,6 +13,7 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
+import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -148,26 +149,15 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
-
+  // Refactored 2026-04-29: direct helper call (no self-fetch). Unblocks SSG build.
   const slugString = slugParam;
-
-  // Sesuaikan logic path ini dengan struktur URL API Anda
-  // Jika URL browser: /tours/from-surabaya/bromo-3d2n, maka slugString sudah lengkap jika file di [...slug]
-  // Jika file di [slug] tapi API butuh full path:
   const fullSlug = slugString.includes("tours/")
     ? slugString
     : `tours/from-surabaya/${slugString}`;
-
   try {
-    const res = await fetch(
-      `${siteUrl}/api/packages/web/details?slug=${fullSlug}`,
-      { next: { revalidate: 3600 } }
-    );
-
-    if (!res.ok) return null;
-    return (await res.json()) as TourPackageDetailResponse;
+    const data = await getWebPackageDetail(fullSlug);
+    if (!data) return null;
+    return data as TourPackageDetailResponse;
   } catch (error) {
     console.error("Error fetching tour details:", error);
     return null;
