@@ -2,6 +2,8 @@ import React from 'react';
 import { Instagram, Facebook, Twitter, Shield, MapPin, FileCheck } from 'lucide-react';
 import Link from "next/link";
 import Image from "next/image";
+import TrackedContactLink from "./TrackedContactLink";
+import { contactInfo } from "@/constants";
 
 const Footer: React.FC = () => {
   return (
@@ -71,8 +73,27 @@ const Footer: React.FC = () => {
                Bondowoso, East Java 68214, Indonesia
              </p>
              <p className="text-sm text-slate-300 mb-6">
-               WhatsApp: +62 822-4478-8833<br/>
-               Email: hello@javavolcano-touroperator.com
+               WhatsApp:{" "}
+               <TrackedContactLink
+                 channel="whatsapp"
+                 href={contactInfo.whatsappLink}
+                 source="footer"
+                 linkText={contactInfo.whatsapp}
+                 className="hover:text-jvto-green underline-offset-2 hover:underline"
+               >
+                 {contactInfo.whatsapp}
+               </TrackedContactLink>
+               <br />
+               Email:{" "}
+               <TrackedContactLink
+                 channel="email"
+                 href={`mailto:${contactInfo.email}`}
+                 source="footer"
+                 linkText={contactInfo.email}
+                 className="hover:text-jvto-green underline-offset-2 hover:underline break-all"
+               >
+                 {contactInfo.email}
+               </TrackedContactLink>
              </p>
              <Link href="/contact" className="inline-block bg-jvto-green text-jvto-dark font-bold uppercase px-6 py-2 text-xs rounded-sm">Contact Us</Link>
           </div>

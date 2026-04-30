@@ -1,6 +1,7 @@
 // components/website/ContactPage.tsx
 
-import BookingForm from './BookingForm'; 
+import BookingForm from './BookingForm';
+import TrackedContactLink from './TrackedContactLink';
 import { contactInfo, proofLinks } from '@/constants';
 import { MapPin, Phone, Mail } from "lucide-react";
 
@@ -71,14 +72,15 @@ const ContactPage = ({
                         </div>
                         <div>
                             <h3 className="text-lg font-bold text-gray-900">Phone & WhatsApp</h3>
-                            <a 
-                              href={contactInfo.whatsappLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
+                            <TrackedContactLink
+                              channel="whatsapp"
+                              href={contactInfo.whatsappLink}
+                              source="contact_page"
+                              linkText={contactInfo.whatsapp}
                               className="text-gray-600 mt-1 hover:text-green-600 transition-colors block font-medium"
                             >
                               {contactInfo.whatsapp}
-                            </a>
+                            </TrackedContactLink>
                             <p className="text-sm text-gray-600 mt-1">Available 08:00 - 22:00 WIB</p>
                         </div>
                     </div>
@@ -92,12 +94,15 @@ const ContactPage = ({
                         </div>
                         <div>
                             <h3 className="text-lg font-bold text-gray-900">Email</h3>
-                            <a 
-                              href={`mailto:${contactInfo.email}`} 
+                            <TrackedContactLink
+                              channel="email"
+                              href={`mailto:${contactInfo.email}`}
+                              source="contact_page"
+                              linkText={contactInfo.email}
                               className="text-gray-600 mt-1 hover:text-green-600 transition-colors block font-medium"
                             >
                               {contactInfo.email}
-                            </a>
+                            </TrackedContactLink>
                             <p className="text-sm text-gray-600 mt-1">We generally reply within a few business hours.</p>
                         </div>
                     </div>

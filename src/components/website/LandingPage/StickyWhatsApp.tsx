@@ -2,6 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { pushWaEvent } from "@/lib/analytics-events";
+
+export { pushWaEvent };
 
 const WA_NUMBER = "6282244788833";
 const WA_BASE = `https://wa.me/${WA_NUMBER}`;
@@ -23,26 +26,6 @@ const PAGE_MESSAGES: Record<string, string> = {
 
 const DEFAULT_MESSAGE =
   "Hi JVTO, I'm interested in booking a private tour to Bromo & Ijen. Can you share options and pricing?";
-
-export function pushWaEvent(source: string) {
-  if (typeof window === "undefined") return;
-
-  // Push Custom Event to GTM dataLayer — update GTM trigger to "Custom Event: contact_whatsapp"
-  if (Array.isArray(window.dataLayer)) {
-    window.dataLayer.push({
-      event: "contact_whatsapp",
-      wa_source: source,
-    });
-  }
-
-  // Direct GA4 call as backup (in case GTM tag is misconfigured)
-  if (typeof window.gtag === "function") {
-    window.gtag("event", "contact_whatsapp", {
-      event_category: "engagement",
-      event_label: source,
-    });
-  }
-}
 
 export default function StickyWhatsApp({
   message,
@@ -95,7 +78,7 @@ export default function StickyWhatsApp({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        onClick={() => pushWaEvent(source)}
+        onClick={() => pushWaEvent(source, href, "Chat on WhatsApp")}
         className="relative flex items-center gap-2.5 bg-[#25D366] text-white pl-4 pr-5 py-3 rounded-full shadow-2xl hover:bg-[#1ebe5d] transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
       >
         <WhatsAppIcon />
