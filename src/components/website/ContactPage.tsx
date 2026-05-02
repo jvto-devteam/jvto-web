@@ -18,7 +18,7 @@ const ContactPage = ({
       
       {/* Header Section (Text Only) */}
       <header className="pt-24 pb-8 md:pt-32 md:pb-12 container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
+        <h1 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-4">
           {title}
         </h1>
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">

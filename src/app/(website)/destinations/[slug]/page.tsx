@@ -129,7 +129,7 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   // AEO/GEO port (2026-04-29) Phase 4.8: reverse-lookup tours-including ItemList +
   // travel-guide cross-link handoff. Per cluster_role_contracts.md Cluster 7 destination MH
-  // (un-orphans the cluster — gives AI a discoverable tours list per destination).
+  // (un-orphans the cluster: gives AI a discoverable tours list per destination).
   const tours = await getToursByDestination(slug);
   const destinationName = data.name ?? slug;
   const toursIncludingNode = buildToursIncludingDestSchema({

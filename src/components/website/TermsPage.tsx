@@ -21,7 +21,7 @@ const TermsPage: React.FC = () => {
             <div className="container mx-auto px-4">
                 <Breadcrumbs crumbs={breadcrumbCrumbs} />
                 <div className="mt-4">
-                    <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Booking, Payment, Cancellation & Guest Policy</h1>
+                    <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Booking, Payment, Cancellation & Guest Policy</h1>
                     <p className="mt-2 text-sm text-ink-neutral-500 dark:text-ink-neutral-400">Last updated: October 30, 2025</p>
                     <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200 max-w-3xl">
                         Applies to all paid tours booked with Java Volcano Tour Operator (“JVTO”), operated by PT Java Volcano Rendezvous.

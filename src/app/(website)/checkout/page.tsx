@@ -189,7 +189,7 @@ const JVTOButton = ({
     className={`
       group relative flex items-center justify-center gap-2 overflow-hidden rounded-sm 
       bg-jvto-green px-6 py-4 font-bold uppercase tracking-wider text-slate-900 
-      transition-all hover:bg-jvto-green hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50
+      transition-all hover:bg-[#8cb82b] hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50
       ${fullWidth ? "w-full" : ""}
     `}
   >
@@ -271,7 +271,7 @@ const StickyOrderSummary = ({
           </div>
 
           {payload.addon && payload.addon.length > 0 && (
-            <div className="space-y-1 border-l-2 border-jvto-green/30 pl-3">
+            <div className="space-y-1 bg-jvto-green/5 px-3 py-2 rounded-sm">
               <p className="text-xs font-bold uppercase text-slate-400">
                 Add-ons Included
               </p>
@@ -498,7 +498,7 @@ const StepOneDetails = ({
               min={today}
               value={payload.date}
               onChange={handleDateChange}
-              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all"
               required
             />
           </div>
@@ -519,7 +519,7 @@ const StepOneDetails = ({
               min={payload.paxMin}
               value={paxCount}
               onChange={handlePaxChange}
-              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all"
             />
             {payload.totalDiscount > 0 && (
               <p className="mt-2 text-xs font-bold text-jvto-green">
@@ -591,7 +591,7 @@ const StepOneDetails = ({
                       onChange={(e) =>
                         handleIsicChange(index, e.target.value.toUpperCase())
                       }
-                      className="w-full rounded-sm border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all uppercase"
+                      className="w-full rounded-sm border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none transition-all uppercase"
                       required
                     />
                   </div>
@@ -608,7 +608,7 @@ const StepOneDetails = ({
                   href="https://www.isic.org/discounts/?providerId=259268"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-slate-900 underline decoration-lime-400 decoration-2 hover:no-underline"
+                  className="font-bold text-slate-900 underline decoration-jvto-green decoration-2 hover:no-underline"
                 >
                   ISIC Website
                 </a>
@@ -676,7 +676,7 @@ const StepOneDetails = ({
                     className="rounded-full border-2 border-white shadow-sm"
                   />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-lime-200 flex items-center justify-center font-bold text-jvto-green">
+                  <div className="h-10 w-10 rounded-full bg-jvto-green/20 flex items-center justify-center font-bold text-jvto-green">
                     {session.user?.name?.charAt(0)}
                   </div>
                 )}
@@ -709,7 +709,7 @@ const StepOneDetails = ({
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Full name as per ID"
-              className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
+              className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
               required
             />
           </div>
@@ -724,7 +724,7 @@ const StepOneDetails = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ticket@example.com"
-                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
                 required
               />
             </div>
@@ -737,7 +737,7 @@ const StepOneDetails = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+62..."
-                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-jvto-green/20 focus:outline-none"
                 required
               />
             </div>
@@ -1012,7 +1012,7 @@ const StepTwoPayment = ({
               <a
                 target="_blank"
                 href="/travel-guide/booking-information"
-                className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2"
+                className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
               >
                 Terms & Conditions
               </a>{" "}
@@ -1020,7 +1020,7 @@ const StepTwoPayment = ({
               <a
                 target="_blank"
                 href="/travel-guide/booking-information"
-                className="font-bold underline decoration-lime-400 decoration-2 underline-offset-2"
+                className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
               >
                 Cancellation Policy
               </a>
@@ -1095,7 +1095,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto max-w-6xl px-4 py-26 md:py-40">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-extrabold uppercase tracking-tight text-slate-900 md:text-4xl">
+          <h1 className="text-3xl font-black uppercase tracking-tight text-slate-900 md:text-4xl">
             Secure Your{" "}
             <span className="text-jvto-green">
               Spot

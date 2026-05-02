@@ -21,11 +21,11 @@ const travelGuideData = {
   route: "/travel-guide",
   seo: {
     title:
-      "Travel Guide — Booking, Safety & Practical Info | Java Volcano Tour Operator",
+      "Travel Guide: Booking, Safety & Practical Info | Java Volcano Tour Operator",
     metaDescription:
       "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
   },
-  h1: "Travel Guide — Booking, Safety & Practical Info",
+  h1: "Travel Guide: Booking, Safety & Practical Info",
   hero: {
     introParagraphs: [
       "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO).",
@@ -33,7 +33,7 @@ const travelGuideData = {
     ],
     primaryCtas: [
       {
-        label: "FAQ — Short Answers to Common Questions",
+        label: "FAQ: Short Answers to Common Questions",
         href: "/travel-guide/faq",
       },
       {
@@ -64,7 +64,7 @@ const travelGuideData = {
   toc: {
     title: "On This Page",
     items: [
-      { id: "faq", label: "FAQ — Short Answers to Common Questions" },
+      { id: "faq", label: "FAQ: Short Answers to Common Questions" },
       { id: "booking-information", label: "Booking & Payments" },
       { id: "ijen-health-screening", label: "Ijen Health Screening" },
       { id: "safety-on-tours", label: "Safety on Tours" },
@@ -76,7 +76,7 @@ const travelGuideData = {
   panels: [
     {
       id: "faq",
-      title: "FAQ — Short Answers to Common Questions",
+      title: "FAQ: Short Answers to Common Questions",
       summaryParagraphs: [
         "Start here if you're not sure where to look. We answer the most common questions about private tours, what's included, payments, reschedules, and safety.",
       ],
@@ -148,7 +148,7 @@ const travelGuideData = {
       title: "Police Escort for Groups",
       summaryParagraphs: [
         "When and how official traffic police escort can be arranged for large groups, and why it is always done through formal channels.",
-        "In some situations, large tourist groups may benefit from official traffic police escort — when moving several vehicles together through busy routes.",
+        "In some situations, large tourist groups may benefit from official traffic police escort: when moving several vehicles together through busy routes.",
       ],
       cta: {
         label: "Read Police Escort for Groups",
@@ -394,7 +394,7 @@ export default async function TravelGuideHubPage() {
         "@type": ["WebPage", "CollectionPage"],
         "@id": siteUrl + "/travel-guide#webpage",
         url: siteUrl + "/travel-guide",
-        name: "Travel Guide — Booking, Safety & Practical Info",
+        name: "Travel Guide: Booking, Safety & Practical Info",
         description:
           "This Travel Guide is your practical handbook for traveling with Java Volcano Tour Operator (JVTO). Here you'll find clear information on bookings, payments, reschedules, health screening for Ijen, safety on tours, packing, weather-related closures, and when police escort can be arranged for groups.",
         inLanguage: "en",
@@ -415,7 +415,7 @@ export default async function TravelGuideHubPage() {
           {
             "@type": "WebPageElement",
             "@id": `${siteUrl}/travel-guide#faq`,
-            name: "FAQ — Short Answers to Common Questions",
+            name: "FAQ: Short Answers to Common Questions",
             description:
               "Answers to common questions about private tours, inclusions, and payments.",
             url: `${siteUrl}/travel-guide/faq`,
@@ -485,12 +485,12 @@ export default async function TravelGuideHubPage() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Frequently Asked Questions — Short Answers to Common Questions",
+            name: "Frequently Asked Questions: Short Answers to Common Questions",
             item: {
               "@type": "WebPage",
               "@id": siteUrl + "/travel-guide/faq#webpage",
               url: siteUrl + "/travel-guide/faq",
-              name: "Frequently Asked Questions — Short Answers to Common Questions",
+              name: "Frequently Asked Questions: Short Answers to Common Questions",
               description:
                 "Clear answers to the most common questions about private Bromo, Ijen and Tumpak Sewu tours with JVTO – bookings, payments, Travel Credit, health screening, safety, packing and groups.",
             },
@@ -645,7 +645,7 @@ export default async function TravelGuideHubPage() {
             <main>
               <Card className="bg-jvto-green/5 border-jvto-green/80 border-2 mb-12">
                 <CardHeader>
-                  <CardTitle className="text-lime-800 font-black">
+                  <CardTitle className="text-jvto-green font-black">
                     {latestUpdate.title}
                   </CardTitle>
                 </CardHeader>

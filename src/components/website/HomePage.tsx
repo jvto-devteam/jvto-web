@@ -82,7 +82,7 @@ const HomePage = () => {
     return (
         <>
             <SEO
-                title="East Java Volcano Tours — Private & All‑Inclusive | JVTO"
+                title="East Java Volcano Tours: Private & All‑Inclusive | JVTO"
                 description="Private Bromo & Ijen tours from Surabaya or Bali. All‑inclusive, licensed operator. No hidden fees. Explore custom itineraries and book your adventure today."
             />
             <StructuredData data={travelAgencySchema} />

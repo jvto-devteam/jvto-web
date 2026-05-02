@@ -5,7 +5,7 @@ import { getReviewPlatforms } from "@/lib/why-ssot";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
 const fallbackSeo = {
-  title: "ISIC Student Deals — JVTO",
+  title: "ISIC Student Deals: JVTO",
   h1: "ISIC Student Deals",
   description:
     "Student verification and fair pricing context: Alive Verify API handshake concept, and the practical reason JVTO uses it.",

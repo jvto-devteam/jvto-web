@@ -81,7 +81,7 @@ export default async function DestinationsPage() {
     getOrganizationProfile(),
   ]);
 
-  // Build @graph — tidak ada @context di tiap node, hanya di root
+  // Build @graph: tidak ada @context di tiap node, hanya di root
   const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const breadcrumb = buildBreadcrumbJsonLd(ROUTE, SITE_URL);

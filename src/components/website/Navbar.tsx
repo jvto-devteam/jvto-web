@@ -187,7 +187,7 @@ const LoginModal = ({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 rounded-sm border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-lime-200 focus:border-jvto-green outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-sm border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-jvto-green/20 focus:border-jvto-green outline-none transition-all"
                   />
                   <button
                     type="submit"

@@ -5,9 +5,6 @@ const WhyJVTO: React.FC = () => {
   return (
     <section className="py-24 bg-jvto-dark text-white relative overflow-hidden">
 
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-jvto-green/5 skew-x-12 transform translate-x-20"></div>
-      
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
@@ -77,9 +74,6 @@ const WhyJVTO: React.FC = () => {
               </div>
             </div>
 
-            {/* Decorative Elements */}
-            <div className="absolute -top-10 -right-10 w-64 h-64 bg-jvto-green/10 rounded-full blur-3xl -z-10"></div>
-            <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
           </div>
 
         </div>

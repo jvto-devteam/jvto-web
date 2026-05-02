@@ -6,7 +6,7 @@ import { buildBreadcrumbJsonLd, buildOrganizationJsonLd, buildWebPageJsonLd } fr
 import { getPageByRoute } from "@/lib/why-ssot";
 
 export const metadata: Metadata = {
-  title: "Proof & Transparency — Verify Everything",
+  title: "Proof & Transparency: Verify Everything",
   description: "Proof-backed documents and artifacts. Start here for legality, police & safety, history, and press context.",
 };
 

@@ -22,7 +22,7 @@ const ISICPage = () => {
             <div className="mt-4 max-w-3xl">
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <img src="https://www.isic.org/wp-content/uploads/2020/08/isic-logo-horizontal-1.png" alt="ISIC Logo" className="h-12 bg-white p-2 rounded-md self-start sm:self-center" />
-                <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">ISIC Student Deals</h1>
+                <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">ISIC Student Deals</h1>
               </div>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                 Official partnership details for verified ISIC cardholders.

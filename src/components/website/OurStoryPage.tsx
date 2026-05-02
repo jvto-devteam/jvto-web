@@ -54,8 +54,8 @@ const OurStoryPage = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-4xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">
-                Our Story — From Homestay Host to Police-Led Tour Operator
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">
+                Our Story: From Homestay Host to Police-Led Tour Operator
               </h1>
             </div>
           </div>
@@ -71,7 +71,7 @@ const OurStoryPage = () => {
               <p>
                 Since 2016, Agung (“Mr. Sam”) has welcomed travelers heading to
                 Ijen through a locally-run homestay and early guiding services.
-                Those first guests — backpackers, students, families — came for
+                Those first guests: backpackers, students, families: came for
                 the crater and blue fire, and left recommending a small team
                 that cared more about safety and fairness than quick profit.
               </p>
@@ -138,7 +138,7 @@ const OurStoryPage = () => {
               </ul>
             </Section>
             <Section
-              title="From Incidents to Innovation — Ijen Health Screening"
+              title="From Incidents to Innovation: Ijen Health Screening"
               image="/screening/ijen-screening-hotel-01.jpeg"
               imageAlt="Nurse checks blood pressure during Ijen pre-ascent screening at hotel lobby."
               reverse

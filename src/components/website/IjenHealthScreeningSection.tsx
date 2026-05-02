@@ -10,7 +10,7 @@ const IjenHealthScreeningSection = () => (
         {/* Content */}
         <div>
           <h2 className="text-3xl font-bold text-ink-primary dark:text-white">
-            Real Ijen Health Screening — Included for JVTO Guests
+            Real Ijen Health Screening: Included for JVTO Guests
           </h2>
 
           <p className="mt-4 text-ink-neutral-700 dark:text-ink-neutral-200">

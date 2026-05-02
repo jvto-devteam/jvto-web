@@ -48,7 +48,7 @@ const CommunityStandardsPage = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Community & Sustainability Standards</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Community & Sustainability Standards</h1>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                 Tourism should benefit the places we visit. This is our commitment to local hiring, sustainable practices, and ethical operations.
               </p>

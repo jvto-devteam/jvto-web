@@ -96,7 +96,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                   disabled={loading}
                   className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
+                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 group-hover:bg-jvto-green/20 group-hover:text-jvto-green transition-colors">
                     <CreditCard size={24} />
                   </div>
                   <div>
@@ -110,7 +110,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                   disabled={loading}
                   className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-green-100 p-3 rounded-full text-green-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
+                  <div className="bg-green-100 p-3 rounded-full text-green-600 group-hover:bg-jvto-green/20 group-hover:text-jvto-green transition-colors">
                     <Banknote size={24} />
                   </div>
                   <div>
@@ -124,7 +124,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                   disabled={loading}
                   className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-orange-100 p-3 rounded-full text-orange-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
+                  <div className="bg-orange-100 p-3 rounded-full text-orange-600 group-hover:bg-jvto-green/20 group-hover:text-jvto-green transition-colors">
                     <Wallet size={24} />
                   </div>
                   <div>

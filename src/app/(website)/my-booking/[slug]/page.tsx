@@ -374,7 +374,7 @@ export default async function MyBookingPage({
           {/* --- RIGHT COLUMN (SIDEBAR) --- */}
           <div className="lg:col-span-1 space-y-6">
 
-            {/* 0. TRIP MEDIA & REVIEWS — top of sidebar for visibility */}
+            {/* 0. TRIP MEDIA & REVIEWS: top of sidebar for visibility */}
             <div className="bg-white rounded-sm border border-slate-200 shadow-sm overflow-hidden">
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 px-6 pt-5 pb-3 border-b border-slate-100">
                 Your Trip
@@ -563,12 +563,12 @@ export default async function MyBookingPage({
       </div>
       </div>{/* end desktop */}
 
-      {/* ── STICKY CHAT BUTTON (desktop only — mobile has its own in MobileBookingView) ── */}
+      {/* ── STICKY CHAT BUTTON (desktop only: mobile has its own in MobileBookingView) ── */}
       <a
         href={`https://chat.javavolcano-touroperator.com/chat/${booking.url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-jvto-green text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
+        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-[#8cb82b] text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
       >
         <MessageCircle size={18} />
         Chat with Us

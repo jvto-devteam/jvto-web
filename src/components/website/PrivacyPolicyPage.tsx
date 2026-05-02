@@ -20,7 +20,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="container mx-auto px-4">
                 <Breadcrumbs crumbs={breadcrumbCrumbs} />
                 <div className="mt-4">
-                    <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Privacy Policy</h1>
+                    <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Privacy Policy</h1>
                     <p className="mt-2 text-sm text-ink-neutral-500 dark:text-ink-neutral-400">Last Updated: October 29, 2025</p>
                     <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200 max-w-3xl">
                         Applies to all bookings and enquiries made with JVTO (PT Java Volcano Rendezvous).
@@ -269,7 +269,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             <section className="mt-8">
                 <h2>13. Security</h2>
-                <p>JVTO is built around safety and compliance — our operating model is led by professional, vetted local teams, and our founder is an active officer with the East Java Tourist Police Unit.</p>
+                <p>JVTO is built around safety and compliance: our operating model is led by professional, vetted local teams, and our founder is an active officer with the East Java Tourist Police Unit.</p>
                 <p>We apply reasonable technical, physical, and administrative safeguards intended to:</p>
                 <ul>
                     <li>prevent unauthorized access,</li>

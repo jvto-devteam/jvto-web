@@ -104,7 +104,7 @@ const RiskAccordion = ({ risk }: { risk: any }) => {
       {isOpen && (
         <div className="p-4 pt-0 text-sm">
           <p className="text-gray-600 mb-3">{risk.description}</p>
-          <div className="bg-white p-3 rounded-sm border-l-4 border-[#B2F35F] shadow-sm">
+          <div className="bg-jvto-green/5 p-3 rounded-sm border border-jvto-green/30">
             <p className="text-black font-bold text-xs mb-1 uppercase">
               Mitigation Strategy:
             </p>
@@ -232,7 +232,7 @@ export default function DestinationDetailView({
             </div>
 
             <div className="prose prose-lg text-gray-700 max-w-none mb-8">
-              <p className="font-light text-xl leading-relaxed border-l-4 border-[#B2F35F] pl-6 mb-6">
+              <p className="font-light text-xl leading-relaxed italic pl-0 mb-6">
                 {data.summary}
               </p>
               <div className="text-base text-gray-600 whitespace-pre-line">

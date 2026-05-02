@@ -268,7 +268,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                     <MapPin className="h-5 w-5 text-jvto-green mr-2 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-gray-500 text-sm mb-0.5">Pickup</p>
-                      <p className="font-medium">{booking.pickup} — {booking.pickup_time}</p>
+                      <p className="font-medium">{booking.pickup}: {booking.pickup_time}</p>
                     </div>
                   </div>
                   {booking.drop && (
@@ -276,7 +276,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                       <MapPin className="h-5 w-5 text-gray-400 mr-2 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-gray-500 text-sm mb-0.5">Drop-off</p>
-                        <p className="font-medium">{booking.drop} — {booking.drop_time}</p>
+                        <p className="font-medium">{booking.drop}: {booking.drop_time}</p>
                       </div>
                     </div>
                   )}

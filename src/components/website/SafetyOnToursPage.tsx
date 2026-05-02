@@ -15,7 +15,7 @@ const SafetyOnToursPage = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Safety on Our Tours</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Safety on Our Tours</h1>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                 Our commitment to safety is not just a slogan; {`it's`} the foundation of every tour we operate, informed by our {`founder's`} experience as an active police officer.
               </p>

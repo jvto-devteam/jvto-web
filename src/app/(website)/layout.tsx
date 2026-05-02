@@ -73,9 +73,9 @@ export default function WebsiteLayout({
 }) {
   return (
     <>
-      {/* Global entity graph — Founder + Doctor + BBKSDA + 9 DefinedTerms (NIB/TDUP/HPWKI/KTA/POLPAR/BBKSDA/SE1658 + 2 brand-custom JVTO_TRAVEL_CREDIT/JVTO_FOC_SCHEME). */}
+      {/* Global entity graph: Founder + Doctor + BBKSDA + 9 DefinedTerms (NIB/TDUP/HPWKI/KTA/POLPAR/BBKSDA/SE1658 + 2 brand-custom JVTO_TRAVEL_CREDIT/JVTO_FOC_SCHEME). */}
       {/* Stable @id refs available on every (website) page; per-page schemas cross-reference via @id, no re-inject. */}
-      {/* Organization schema is NOT injected here — live's per-page PageJsonLdCombined handles it via getOrganizationProfile DB-driven. */}
+      {/* Organization schema is NOT injected here: live's per-page PageJsonLdCombined handles it via getOrganizationProfile DB-driven. */}
       <JsonLd data={FOUNDER_SCHEMA} />
       <JsonLd data={DOCTOR_SCHEMA} />
       <JsonLd data={BBKSDA_REGULATION_SCHEMA} />

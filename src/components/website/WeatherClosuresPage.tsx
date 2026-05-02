@@ -15,7 +15,7 @@ const WeatherClosuresPage = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Weather, Volcanic Alerts & Closures</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Weather, Volcanic Alerts & Closures</h1>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                 Our policy on handling itinerary changes due to unforeseen events.
               </p>

@@ -134,7 +134,7 @@ const FeaturedToursClient = ({
           Start Your Route
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-          Choose your origin. We handle the rest — private vehicle, drivers, Bromo jeep, permits, and no shared groups.
+          Choose your origin. We handle the rest: private vehicle, drivers, Bromo jeep, permits, and no shared groups.
         </p>
         {/* --- NAVIGATION BUTTONS --- */}
         <div className="flex mt-8 items-center justify-center md:gap-4 gap-2 relative z-10">

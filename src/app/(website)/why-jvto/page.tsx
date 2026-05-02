@@ -933,7 +933,7 @@ export default async function WhyJvtoPage() {
                       style={{ padding: "0.4rem 0.75rem" }}
                     >
                       <span className="browser-url" style={{ flex: 1 }}>
-                        Radar Jember — Polpar Formation
+                        Radar Jember: Polpar Formation
                       </span>
                     </div>
                     <img
@@ -983,12 +983,12 @@ export default async function WhyJvtoPage() {
                 <div className="verify-links">
                   {[
                     {
-                      label: "Start here — The JVTO Difference",
+                      label: "Start here: The JVTO Difference",
                       href: "/why-jvto/the-jvto-difference",
                       note: "Safety leadership overview & proof index",
                     },
                     {
-                      label: "Quick checklist — How Proof Works",
+                      label: "Quick checklist: How Proof Works",
                       href: "/why-jvto/the-jvto-difference#how-proof-works",
                       note: "Step-by-step verification guide",
                     },

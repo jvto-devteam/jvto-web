@@ -160,7 +160,7 @@ export default function MyBookingPage() {
     <div className="min-h-screen bg-gray-100 md:bg-[#F8F9FA] pb-28 pt-20 md:pt-32">
 
       {/* desktop decoration */}
-      <div className="hidden md:block fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-lime-50/50 to-transparent -z-10 pointer-events-none" />
+      <div className="hidden md:block fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-jvto-green/5 to-transparent -z-10 pointer-events-none" />
 
       <div className="container mx-auto px-4">
 
@@ -169,7 +169,7 @@ export default function MyBookingPage() {
           <div className="bg-white rounded-sm shadow-md p-4">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Hello, {firstName}</h1>
+                <h1 className="text-xl font-black text-gray-800">Hello, {firstName}</h1>
                 <p className="text-gray-500 text-sm mt-0.5">Member Dashboard · JVTO</p>
               </div>
               <div className="bg-jvto-green/10 rounded-full p-3">
@@ -378,7 +378,7 @@ export default function MyBookingPage() {
                   </div>
 
                   {/* Action footer (sam-app colored footer strip) */}
-                  <div className="bg-jvto-green/5 px-4 py-3 border-t border-lime-100">
+                  <div className="bg-jvto-green/5 px-4 py-3 border-t border-jvto-green/15">
                     <Link
                       href={`/my-booking/${booking.url}`}
                       className="text-jvto-green text-sm font-medium"
@@ -393,7 +393,7 @@ export default function MyBookingPage() {
           ) : (
             <div className="text-center py-24 bg-white rounded-sm border border-dashed border-slate-200">
               <div className="relative inline-block mb-6">
-                <div className="absolute inset-0 bg-lime-200 rounded-full blur-xl opacity-50"></div>
+                <div className="absolute inset-0 bg-jvto-green/20 rounded-full blur-xl opacity-50"></div>
                 <div className="relative w-24 h-24 bg-jvto-green/5 rounded-full flex items-center justify-center">
                   <Palmtree size={40} className="text-jvto-green" />
                 </div>
@@ -406,7 +406,7 @@ export default function MyBookingPage() {
               </p>
               <Link
                 href="/tours"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-green hover:bg-jvto-green text-slate-900 font-black text-lg rounded-sm transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-black text-lg rounded-sm transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
               >
                 Start an Adventure <Sparkles size={20} />
               </Link>

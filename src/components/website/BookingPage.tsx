@@ -154,7 +154,7 @@ const Section: React.FC<SectionProps> = ({ icon: Icon, title, children, badge })
       <div className="w-10 h-10 rounded-sm bg-gray-900 text-white flex items-center justify-center"><Icon className="w-5 h-5"/></div>
       <div>
         <h3 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">{title} {badge && (<span className="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">{badge}</span>)}</h3>
-        <p className="text-sm text-gray-600">Interactive demo — no real payment required.</p>
+        <p className="text-sm text-gray-600">Interactive demo: no real payment required.</p>
       </div>
     </div>
     {children}
@@ -202,7 +202,7 @@ const OrderSummaryCard: React.FC<{
         </div>
         {showSecureMessage && (
             <div className="mt-4 text-xs text-gray-600 flex items-center gap-2">
-                <Shield className="w-4 h-4"/> Secure checkout — your payment is encrypted.
+                <Shield className="w-4 h-4"/> Secure checkout: your payment is encrypted.
             </div>
         )}
     </div>
@@ -427,7 +427,7 @@ export default function BookingPage() {
                 </div>
 
                 <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                  <div className="text-sm text-gray-600 flex items-center gap-2"><Shield className="w-4 h-4"/> Secure checkout — your payment is encrypted.</div>
+                  <div className="text-sm text-gray-600 flex items-center gap-2"><Shield className="w-4 h-4"/> Secure checkout: your payment is encrypted.</div>
                   <button
                     onClick={handlePay}
                     disabled={!readyStep2}

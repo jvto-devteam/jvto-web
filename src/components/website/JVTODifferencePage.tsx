@@ -107,7 +107,7 @@ const JVTODifferencePage = () => {
             <div className="container mx-auto px-4">
                 <Breadcrumbs crumbs={breadcrumbCrumbs} />
                 <div className="mt-4 max-w-4xl">
-                    <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">The JVTO Difference — Verified, Private, Responsible</h1>
+                    <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">The JVTO Difference: Verified, Private, Responsible</h1>
                     <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                         This page turns our story into clear standards. These are the rules we operate by, so you know exactly what you’re buying.
                     </p>
