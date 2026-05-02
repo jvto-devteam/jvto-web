@@ -127,7 +127,7 @@ const TravelGuidePage: React.FC = () => {
           }}
         />
         <div className="relative container mx-auto px-4">
-          <h1 className="text-4xl md:text-6xl font-bold">
+          <h1 className="text-4xl md:text-6xl font-black">
             Travel Guide & Help Center
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">

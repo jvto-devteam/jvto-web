@@ -23,7 +23,7 @@ const IjenHealthScreeningPage: React.FC = () => {
             <div className="container mx-auto px-4">
                 <Breadcrumbs crumbs={breadcrumbCrumbs} />
                 <div className="mt-4 max-w-4xl">
-                    <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Ijen Health Screening — Real Checks, Digital Proof</h1>
+                    <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Ijen Health Screening: Real Checks, Digital Proof</h1>
                 </div>
             </div>
         </header>

@@ -210,7 +210,7 @@ export default async function FaqPage() {
             </nav>
 
             <div className=" mb-12">
-              <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight">
+              <h1 className="font-headline text-4xl md:text-5xl font-black tracking-tight">
                 {seo.h1}
               </h1>
               <p className="mt-4 max-w-3xl text-lg text-muted-foreground">

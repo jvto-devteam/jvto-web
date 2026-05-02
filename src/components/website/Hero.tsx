@@ -42,7 +42,7 @@ const Hero: React.FC<HeroProps> = ({ heroCopy }) => {
             </p>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-extrabold tracking-tighter text-white animate-slide-in-up leading-tight  mx-auto md:mx-0">
+            <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-black tracking-tighter text-white animate-slide-in-up leading-tight  mx-auto md:mx-0">
               {parts.length === 3 ? (
                 <>
                   {parts[0]}

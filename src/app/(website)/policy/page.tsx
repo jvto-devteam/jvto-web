@@ -131,7 +131,7 @@ export default async function PolicyHubPage() {
 
             {/* Notice: precedence + contact */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left rounded-r-lg">
+              <div className="bg-yellow-50 border border-yellow-200 p-4 text-left rounded-sm">
                 <p className="text-sm italic mb-2">
                   Document precedence (if anything differs):
                 </p>
@@ -149,7 +149,7 @@ export default async function PolicyHubPage() {
                 </ol>
               </div>
 
-              <div className="bg-blue-50 border-l-4 border-blue-400 p-4 text-left rounded-r-lg">
+              <div className="bg-blue-50 border border-blue-200 p-4 text-left rounded-sm">
                 <p className="font-semibold text-foreground mb-2">
                   Need help? Contact JVTO:
                 </p>
@@ -185,7 +185,7 @@ export default async function PolicyHubPage() {
                   key={card.id}
                   className={`rounded-sm border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
                 >
-                  <div className={`p-5 border-l-4 ${card.accent}`}>
+                  <div className={`p-5 ${card.accent}`}>
                     <div className="flex justify-between items-start mb-2">
                       <h2 className="text-xl font-black text-foreground">
                         {card.title}

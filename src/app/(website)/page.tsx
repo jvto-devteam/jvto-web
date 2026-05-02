@@ -60,7 +60,7 @@ async function getDestinations(): Promise<Destination[]> {
 
 const Home = async () => {
   const seo = await getPageSeo("/", fallbackSeo);
-  // Fetch sekali — dipakai untuk schema DAN HomeDestinations
+  // Fetch sekali: dipakai untuk schema DAN HomeDestinations
   const destinations = await getDestinations();
   const pageRow = seo.row
     ? {
@@ -103,7 +103,7 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // ── TouristAttraction — dari schema_json DB (konsisten dengan detail pages)
+  // ── TouristAttraction: dari schema_json DB (konsisten dengan detail pages)
   const attractionNodes = destinations
     .map((dest) => {
       const graph: any[] = Array.isArray(dest.schema_json?.["@graph"])
@@ -119,7 +119,7 @@ const Home = async () => {
 
       if (!node) return null;
 
-      // Strip verbose fields — homepage hanya butuh core identity
+      // Strip verbose fields: homepage hanya butuh core identity
       const {
         "@context": _ctx,
         additionalProperty: _ap,
@@ -176,7 +176,7 @@ const Home = async () => {
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Hero title={seo.h1} description={seo.description} />
-      {/* Pass destinations dari sini — tidak perlu fetch ulang di HomeDestinations */}
+      {/* Pass destinations dari sini: tidak perlu fetch ulang di HomeDestinations */}
       <HomeDestinations destinations={destinations} />
       <FeaturedTours />
       <WhyJVTO />

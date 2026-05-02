@@ -39,32 +39,16 @@ const Hero: React.FC<HeroProps> = ({
           {description}
         </p>
 
-        <div className="flex gap-4 justify-center md:hidden">
-          <Button target="_blank" to="/tours" variant="primary" size="md">
-            Private Tours
-          </Button>
-          <Button
-            to="/verify-jvto"
-            variant="outline"
-            size="md"
-            className="border-white text-white hover:bg-white hover:!text-black"
-          >
-            Verify JVTO
-          </Button>
-        </div>
-        <div className="md:flex gap-4 justify-center hidden">
+        <div className="flex flex-col items-center gap-4">
           <Button target="_blank" to="/tours" variant="primary" size="lg">
-            Private Tours
+            View Private Tours
           </Button>
-          <Button
-            target="_blank"
-            to="/verify-jvto"
-            variant="outline"
-            size="lg"
-            className="border-white text-white hover:bg-white hover:!text-black"
+          <a
+            href="/verify-jvto"
+            className="text-sm text-gray-300 hover:text-white underline underline-offset-4 transition-colors"
           >
-            Verify JVTO
-          </Button>
+            Verify our licenses and credentials
+          </a>
         </div>
         <div className="mt-10">
           <a

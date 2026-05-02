@@ -207,7 +207,7 @@ export default function BankTransferUploadPage() {
                 placeholder="Full name on bank account"
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-jvto-green focus:ring-4 focus:ring-lime-100 outline-none transition-all font-bold"
+                className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-jvto-green focus:ring-4 focus:ring-jvto-green/10 outline-none transition-all font-bold"
               />
             </div>
 
@@ -290,7 +290,7 @@ export default function BankTransferUploadPage() {
             <button
               type="submit"
               disabled={isSubmitting || !file}
-              className="w-full bg-jvto-green hover:bg-jvto-green disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-sm shadow-lg shadow-lime-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-jvto-green hover:bg-[#8cb82b] disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-sm shadow-lg shadow-jvto-green/20 transition-all flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

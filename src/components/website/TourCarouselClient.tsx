@@ -55,9 +55,9 @@ export default function TourCarouselClient({
 
   return (
     <>
-      {/* SEMUA DI KIRI — RATA KIRI SEPERTI JUDUL & PARAGRAF DI ATASNYA */}
+      {/* SEMUA DI KIRI: RATA KIRI SEPERTI JUDUL & PARAGRAF DI ATASNYA */}
       <div className="mt-6 flex flex-col gap-5 max-w-8xl mx-auto text-left">
-        {/* Tabs — rata kiri */}
+        {/* Tabs: rata kiri */}
         <div className="flex items-center gap-1 p-1 bg-ink-neutral-100 dark:bg-background-dark rounded-full shadow-inner w-fit">
           <button
             onClick={() => handleTabClick("surabaya")}
@@ -81,12 +81,12 @@ export default function TourCarouselClient({
           </button>
         </div>
 
-        {/* Microcopy — rata kiri */}
+        {/* Microcopy: rata kiri */}
         <p className="text-sm text-ink-neutral-600 dark:text-ink-neutral-300 leading-relaxed max-w-2xl">
           No transport-only bookings. Every itinerary is a complete private tour with clear inclusions and support from our local team.
         </p>
 
-        {/* Duration Chips — rata kiri + wrap rapi */}
+        {/* Duration Chips: rata kiri + wrap rapi */}
         <div className="flex flex-wrap items-center gap-3">
           {/* All Durations */}
           <button

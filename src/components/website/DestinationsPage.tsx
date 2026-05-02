@@ -13,7 +13,7 @@ const DestinationsPage = ({destinations}:DestinationsPageProps) => {
         <header className="relative  py-28 md:py-48 bg-ink-primary text-white text-center">
           <div className="absolute inset-0 bg-cover bg-bottom opacity-30" style={{backgroundImage: `url('/assets/img/hero/ijen.jpg')`}}></div>
           <div className="relative container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-bold">Destinations</h1>
+            <h1 className="text-4xl md:text-6xl font-black">Destinations</h1>
             <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">Discover the breathtaking landscapes and cultural gems of East Java.</p>
           </div>
         </header>

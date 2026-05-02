@@ -44,7 +44,7 @@ const SitemapPage: React.FC = () => {
                     <div className="container mx-auto px-4">
                         <Breadcrumbs crumbs={breadcrumbCrumbs} />
                         <div className="text-center mt-4">
-                            <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Sitemap</h1>
+                            <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Sitemap</h1>
                             <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200 max-w-2xl mx-auto">An overview of our {`website's`} structure and pages.</p>
                         </div>
                     </div>

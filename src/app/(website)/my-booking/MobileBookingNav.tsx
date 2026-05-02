@@ -16,7 +16,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-// ── Stub DrawerContext (no-op — drawer removed) ───────────────────────────────
+// ── Stub DrawerContext (no-op: drawer removed) ───────────────────────────────
 export const DrawerContext = createContext<{ open: () => void; close: () => void }>(
   { open: () => {}, close: () => {} }
 );

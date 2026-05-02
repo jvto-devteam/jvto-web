@@ -203,7 +203,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
   // AEO/GEO port (2026-04-29): canonical spine Q&A pairs for visible AnswerBlock cluster.
   // Same source as the FAQPage JSON-LD on the server (single source of truth via lib/tourFaqs.ts).
-  // Inlined here to avoid prop drilling 4-5 strings; pure data — zero runtime cost.
+  // Inlined here to avoid prop drilling 4-5 strings; pure data: zero runtime cost.
   const spineQaPairs = getTourSpineQaPairs({ ijenRelevant });
 
   // --- STATE ---
@@ -520,7 +520,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-jvto-green text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-lime-900/50"
+                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-green/30"
               >
                 Dates & Prices
               </button>
@@ -668,7 +668,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 )}
               </div>
             </div>
-            {/* AEO/GEO port (2026-04-29): Quick Answers cluster — visible Q&A bridges that mirror */}
+            {/* AEO/GEO port (2026-04-29): Quick Answers cluster: visible Q&A bridges that mirror */}
             {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
@@ -769,7 +769,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       <button
                         key={day.day}
                         onClick={() => setOpenDay(day.day)}
-                        className={`w-full text-left p-4 rounded-sm border-l-4 transition-all duration-300 group ${
+                        className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${
                           isActive
                             ? "bg-white border-jvto-green shadow-md translate-x-2"
                             : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
@@ -834,7 +834,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                         {/* Content */}
                         <div className="p-8">
-                          <div className="mb-10 p-4 border-l-4 border-jvto-green/40 bg-slate-50 rounded-r-lg italic text-slate-600 text-sm leading-relaxed">
+                          <div className="mb-10 p-4 border border-slate-200 bg-slate-50 rounded-sm italic text-slate-600 text-sm leading-relaxed">
                             {`"${day.summary}"`}
                           </div>
 
@@ -907,7 +907,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   {pkg.itineraryDays[0] && (
                     <div className="flex gap-4 items-start">
                       <div className="flex flex-col items-center mt-1.5">
-                        <div className="w-3 h-3 rounded-full bg-jvto-green ring-4 ring-lime-100"></div>
+                        <div className="w-3 h-3 rounded-full bg-jvto-green ring-4 ring-jvto-green/10"></div>
                         <div className="w-0.5 h-full border-l-2 border-dashed border-slate-300 min-h-[40px] mt-1"></div>
                       </div>
                       <div className="flex-1 space-y-3 pb-8">
@@ -1495,7 +1495,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <div className="bg-slate-50 p-6 rounded-sm border border-slate-100 relative h-full">
                             <Quote
                               size={40}
-                              className="text-lime-300 absolute top-4 left-4 opacity-40"
+                              className="text-jvto-green/60 absolute top-4 left-4 opacity-40"
                             />
                             <div className="relative z-10 pt-2">
                               <p className="text-base text-slate-700 leading-relaxed mb-6 italic font-medium">
@@ -1631,7 +1631,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       min={todayISO}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-lime-200"
+                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-jvto-green/20"
                       required
                     />
                   </div>
@@ -1793,7 +1793,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <button
                     type="submit"
-                    className="w-full bg-jvto-green text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-jvto-green transition-all shadow-md active:scale-[0.98]"
+                    className="w-full bg-jvto-green text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
                   >
                     Instant Book
                   </button>
@@ -2010,7 +2010,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 <button
                   type="button"
                   onClick={handleConfirmAddOns}
-                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-slate-900 hover:bg-jvto-green shadow-md"
+                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-slate-900 hover:bg-[#8cb82b] shadow-md"
                 >
                   Continue
                 </button>

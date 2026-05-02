@@ -87,7 +87,7 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
   //     url: "https://www.trustpilot.com/reviews/696ccc50a8dcb95a58473ac5",
   //     stars: 5,
   //     title: "Amazing trip",
-  //     text: "Had an amazing trip visiting Bromo, Ijen Crater, and Tumpak Sewu Waterfall! Everything was well organized and the price was really good. The staff were super kind and helpful — special thanks to Yandi (our driver who’s been staying with us the whole trip) and Boy (our guide to Ijen crater). They were so friendly and shared lots of useful info. Even though we had to wake up in the middle of the night, it was totally worth it! Highly recommended",
+  //     text: "Had an amazing trip visiting Bromo, Ijen Crater, and Tumpak Sewu Waterfall! Everything was well organized and the price was really good. The staff were super kind and helpful: special thanks to Yandi (our driver who’s been staying with us the whole trip) and Boy (our guide to Ijen crater). They were so friendly and shared lots of useful info. Even though we had to wake up in the middle of the night, it was totally worth it! Highly recommended",
   //     verified: true,
   //   },
   //   {

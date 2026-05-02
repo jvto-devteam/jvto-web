@@ -34,7 +34,7 @@ const PlanMyTripPage: React.FC = () => {
                     <div className="container mx-auto px-4">
                         <Breadcrumbs crumbs={breadcrumbCrumbs} />
                         <div className="mt-4 max-w-3xl">
-                            <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Plan Your Custom Trip</h1>
+                            <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Plan Your Custom Trip</h1>
                             <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                                 Tell us your travel plans, and our team will craft a personalized, all-inclusive itinerary just for you. Get a clear quote with no hidden fees.
                             </p>

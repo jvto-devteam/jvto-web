@@ -18,7 +18,7 @@ const VerifyJVTOPage: React.FC = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-4xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">
                 Verify JVTO – Legal Registration & Official Proof
               </h1>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">

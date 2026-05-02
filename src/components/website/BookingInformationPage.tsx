@@ -46,7 +46,7 @@ const BookingInformationPage: React.FC = () => {
             <div className="container mx-auto px-4">
                 <Breadcrumbs crumbs={breadcrumbCrumbs} />
                 <div className="mt-4">
-                    <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Booking, Payment & Cancellation</h1>
+                    <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Booking, Payment & Cancellation</h1>
                     <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200 max-w-3xl">
                         This page summarises how JVTO bookings work. It applies to every private tour booked directly with us. JVTO does not issue cash refunds. Instead, we issue JVTO Travel Credit equal to 100% of what you already paid if you cancel ≥48 hours before Day 1.
                     </p>

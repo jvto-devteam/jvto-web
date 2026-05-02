@@ -15,7 +15,7 @@ const PoliceEscortPage = () => {
           <div className="container mx-auto px-4">
             <Breadcrumbs crumbs={breadcrumbCrumbs} />
             <div className="mt-4 max-w-3xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-ink-primary dark:text-white">Police Escort for Tourist Groups in East Java</h1>
+              <h1 className="text-4xl md:text-5xl font-black text-ink-primary dark:text-white">Police Escort for Tourist Groups in East Java</h1>
               <p className="mt-4 text-lg text-ink-neutral-500 dark:text-ink-neutral-200">
                 A clear explanation of how this regulated service works for large groups traveling with JVTO.
               </p>

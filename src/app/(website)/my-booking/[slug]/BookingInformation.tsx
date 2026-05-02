@@ -41,7 +41,7 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
                 <div className="space-y-6">
                     {Object.entries(faq).map(([category, questions], idx) => (
                         <div key={idx}>
-                            <h4 className="font-bold text-slate-900 mb-3 uppercase text-xs tracking-widest border-l-4 border-jvto-green pl-3">{category}</h4>
+                            <h4 className="font-bold text-slate-900 mb-3 uppercase text-xs tracking-widest">{category}</h4>
                             <div className="space-y-4">
                                 {Object.entries(questions).map(([q, a], i) => (
                                     <div key={i} className="bg-slate-50 p-4 rounded-sm">
