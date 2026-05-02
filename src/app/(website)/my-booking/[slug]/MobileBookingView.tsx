@@ -29,7 +29,7 @@ function Section({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="bg-white rounded-xl shadow-md mb-4">
+    <div className="bg-white rounded-sm shadow-md mb-4">
       <div
         className="p-4 border-b border-gray-100 flex justify-between items-center cursor-pointer"
         onClick={() => setOpen(!open)}
@@ -121,7 +121,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
           <>
             {/* Grand total banner */}
             {booking.channel !== "KLOOK" && (
-              <div className="bg-white rounded-xl shadow-md p-4 mb-4">
+              <div className="bg-white rounded-sm shadow-md p-4 mb-4">
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="text-gray-500 text-sm mb-1">Grand Total</p>
@@ -149,7 +149,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                     <span className="font-semibold text-orange-500">{fmtIDR(booking.finance.balance)}</span>.
                   </p>
                   {booking.finance.balance_payment_method && (
-                    <div className="bg-gray-50 p-3 rounded-lg mb-3">
+                    <div className="bg-gray-50 p-3 rounded-sm mb-3">
                       <p className="text-gray-500 text-sm mb-1">Selected Method</p>
                       <p className="font-medium capitalize">
                         {booking.finance.balance_payment_method === "cc" ? "Credit Card (Xendit)"
@@ -165,7 +165,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                   />
                 </Section>
               ) : (
-                <div className="bg-white rounded-xl shadow-md mb-4 overflow-hidden">
+                <div className="bg-white rounded-sm shadow-md mb-4 overflow-hidden">
                   <div className="p-4 border-b border-gray-100">
                     <div className="flex items-center">
                       <div className="bg-orange-100 p-2 rounded-full mr-3">
@@ -188,14 +188,14 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                     <p className="text-3xl font-bold text-gray-900 mb-4">{fmtIDR(booking.finance.balance)}</p>
                     {!booking.finance.pending_upload_proof && (
                       <a href={booking.finance.payment_link || "#"}
-                        className="block w-full text-center py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors">
+                        className="block w-full text-center py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-sm transition-colors">
                         Pay Now →
                       </a>
                     )}
                     {booking.finance.pending_upload_proof && (
                       <a href={booking.finance.uploaded_payment_proof ?? "#"}
                         target="_blank" rel="noopener noreferrer"
-                        className="block w-full text-center py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg border border-gray-200">
+                        className="block w-full text-center py-3 bg-gray-100 text-gray-700 font-semibold rounded-sm border border-gray-200">
                         View Payment Proof
                       </a>
                     )}
@@ -205,7 +205,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
             )}
 
             {/* ── QUICK ACTIONS: Media & Reviews ── */}
-            <div className="bg-white rounded-xl shadow-md mb-4 overflow-hidden">
+            <div className="bg-white rounded-sm shadow-md mb-4 overflow-hidden">
               <div className="px-4 py-3 border-b border-gray-100">
                 <h2 className="font-semibold text-gray-900">Your Trip</h2>
               </div>
@@ -255,7 +255,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
             </div>
 
             {/* Trip details */}
-            <Section iconBg="bg-lime-100" iconColor="text-lime-600" icon={Calendar} title="Trip Details">
+            <Section iconBg="bg-jvto-green/10" iconColor="text-jvto-green" icon={Calendar} title="Trip Details">
               <InfoGrid items={[
                 { label: "Departure Date", value: fmtDate(booking.travel_date_start) },
                 { label: "Duration",       value: booking.duration },
@@ -265,7 +265,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
               {booking.pickup && (
                 <div className="mt-4 pt-4 border-t border-gray-100">
                   <div className="flex items-start">
-                    <MapPin className="h-5 w-5 text-lime-600 mr-2 mt-0.5 shrink-0" />
+                    <MapPin className="h-5 w-5 text-jvto-green mr-2 mt-0.5 shrink-0" />
                     <div>
                       <p className="text-gray-500 text-sm mb-0.5">Pickup</p>
                       <p className="font-medium">{booking.pickup} — {booking.pickup_time}</p>
@@ -298,7 +298,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
               >
                 <div className="space-y-3">
                   {booking.addons.map((addon, idx) => (
-                    <div key={addon.id} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+                    <div key={addon.id} className="bg-gray-50 p-3 rounded-sm flex justify-between items-start">
                       <div className="flex items-start gap-2">
                         <span className="bg-white border border-gray-200 rounded-full w-6 h-6 flex items-center justify-center text-xs font-medium text-gray-500 shrink-0 mt-0.5">
                           {idx + 1}
@@ -352,7 +352,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
         {activeTab === "payment" && (
           <>
             {booking.channel === "KLOOK" ? (
-              <div className="bg-white rounded-xl shadow-md p-8 text-center text-gray-500 mb-4">
+              <div className="bg-white rounded-sm shadow-md p-8 text-center text-gray-500 mb-4">
                 <Wallet className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                 <p className="font-medium">Payment is managed by KLOOK.</p>
               </div>
@@ -363,18 +363,18 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                   <p className="text-gray-500 text-sm mb-3">Invoice #{booking.booking_code}</p>
                   <div className="flex gap-2">
                     <a href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice/${booking.url}`}
-                      className="flex-1 flex flex-col items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-all">
+                      className="flex-1 flex flex-col items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-sm border border-blue-200 transition-all">
                       <Download className="h-8 w-8 text-blue-600 mb-2" />
                       <span className="font-medium text-sm text-blue-700 text-center">Invoice</span>
                     </a>
                     <a href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/receipt/${booking.url}`}
-                      className="flex-1 flex flex-col items-center p-3 bg-green-50 hover:bg-green-100 rounded-lg border border-green-200 transition-all">
+                      className="flex-1 flex flex-col items-center p-3 bg-green-50 hover:bg-green-100 rounded-sm border border-green-200 transition-all">
                       <Download className="h-8 w-8 text-green-600 mb-2" />
                       <span className="font-medium text-sm text-green-700 text-center">Receipt</span>
                     </a>
                     {booking.addons.length > 0 && (
                       <a href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice-addon/${booking.url}`}
-                        className="flex-1 flex flex-col items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-lg border border-purple-200 transition-all">
+                        className="flex-1 flex flex-col items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-sm border border-purple-200 transition-all">
                         <Download className="h-8 w-8 text-purple-600 mb-2" />
                         <span className="font-medium text-sm text-purple-700 text-center">Add-on</span>
                       </a>
@@ -395,7 +395,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                   >
                     <div className="space-y-3">
                       {booking.finance.payment_history.map((hist, i) => (
-                        <div key={i} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
+                        <div key={i} className="bg-gray-50 p-3 rounded-sm flex justify-between items-start">
                           <div>
                             <p className="font-medium text-gray-900 text-sm">{hist.method}</p>
                             <p className="text-xs text-gray-500 mt-0.5">{fmtShort(hist.created_at)}</p>
@@ -430,7 +430,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
             <Section iconBg="bg-blue-100" iconColor="text-blue-600" icon={Phone} title="Need Help?">
               <div className="space-y-3">
                 <a href="https://wa.me/6282244788833" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                  className="flex items-center bg-gray-50 p-3 rounded-sm hover:bg-gray-100 transition-colors">
                   <div className="bg-green-100 p-2 rounded-full mr-3">
                     <Phone className="h-5 w-5 text-green-600" />
                   </div>
@@ -439,7 +439,7 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
                     <p className="font-medium">+62 822-4478-8833</p>
                   </div>
                 </a>
-                <div className="flex items-center bg-gray-50 p-3 rounded-lg">
+                <div className="flex items-center bg-gray-50 p-3 rounded-sm">
                   <div className="bg-gray-200 p-2 rounded-full mr-3">
                     <Mail className="h-5 w-5 text-gray-600" />
                   </div>

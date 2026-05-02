@@ -57,10 +57,10 @@ const HubCard: React.FC<HubLink> = ({
 }) => (
   <Link
     href={link}
-    className="group block p-6 bg-white dark:bg-background-dark rounded-2xl shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
+    className="group block p-6 bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
   >
     <div className="flex items-start gap-4">
-      <div className="bg-primary/10 text-primary p-3 rounded-lg">
+      <div className="bg-primary/10 text-primary p-3 rounded-sm">
         <Icon size={26} strokeWidth={1.75} />
       </div>
       <div>
@@ -124,13 +124,13 @@ const WhyJVTOPage: React.FC = () => {
             </div>
 
             {/* CTA */}
-            <div className="mt-12 text-center p-6 bg-white dark:bg-background-dark rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+            <div className="mt-12 text-center p-6 bg-white dark:bg-background-dark rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
               <p className="text-lg font-semibold text-ink-primary dark:text-white">
                 Ready to explore East Java with a trusted partner?
               </p>
               <Link
                 href="/tours"
-                className="mt-4 inline-block px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
+                className="mt-4 inline-block px-8 py-3 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
               >
                 Browse Our Private Tours
               </Link>

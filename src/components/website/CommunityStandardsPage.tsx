@@ -9,9 +9,9 @@ const PartnerCard: React.FC<{ partner: CommunityPartner }> = ({ partner }) => {
   const commonClassName = "mt-4 inline-block text-sm font-semibold text-primary group-hover:underline";
 
   return (
-    <div className="group flex flex-col p-6 bg-white dark:bg-background-dark rounded-2xl shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 transition-all">
+    <div className="group flex flex-col p-6 bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 transition-all">
       <div className="flex items-center gap-4">
-        <div className="bg-primary/10 text-primary p-3 rounded-lg">
+        <div className="bg-primary/10 text-primary p-3 rounded-sm">
           <span className="material-symbols-outlined text-3xl">{partner.icon}</span>
         </div>
         <h3 className="text-xl font-bold text-ink-primary dark:text-white">{partner.title}</h3>

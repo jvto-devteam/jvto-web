@@ -74,7 +74,7 @@ const BookingForm: React.FC = () => {
   };
 
   // Styles Updated: Removed Dark Mode, cleaner gray borders, better focus states
-  const inputStyles = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-transparent transition-all text-gray-800 placeholder-gray-400";
+  const inputStyles = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white focus:border-transparent transition-all text-gray-800 placeholder-gray-400";
   const labelStyles = "block text-sm font-bold mb-2 text-gray-700";
   const tooltipStyles = "absolute bottom-full mb-2 left-0 w-max max-w-xs p-2 text-xs text-white bg-gray-800 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible transition-all duration-200 z-10 pointer-events-none";
 
@@ -160,7 +160,7 @@ const BookingForm: React.FC = () => {
             <label htmlFor="travelers" className={labelStyles}>
             Travelers
             </label>
-            <div className="flex items-center h-[50px] border border-gray-200 rounded-lg overflow-hidden">
+            <div className="flex items-center h-[50px] border border-gray-200 rounded-sm overflow-hidden">
                 <button 
                     type="button" 
                     onClick={() => handleTravelersChange(-1)} 
@@ -191,7 +191,7 @@ const BookingForm: React.FC = () => {
         <label className={labelStyles}>
             Trip Type
         </label>
-        <div className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-lg flex items-center gap-2 text-gray-500 cursor-not-allowed">
+        <div className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-sm flex items-center gap-2 text-gray-500 cursor-not-allowed">
             <span className="material-symbols-outlined text-sm">lock</span>
             <span className="font-medium">Private Tour</span>
         </div>
@@ -200,7 +200,7 @@ const BookingForm: React.FC = () => {
       
       <button
         type="submit"
-        className="w-full px-6 py-4 mt-4 rounded-xl bg-green-600 text-white font-bold text-lg shadow-lg hover:bg-green-700 hover:shadow-green-200 hover:-translate-y-0.5 transition-all duration-200"
+        className="w-full px-6 py-4 mt-4 rounded-sm bg-green-600 text-white font-bold text-lg shadow-lg hover:bg-green-700 hover:shadow-green-200 hover:-translate-y-0.5 transition-all duration-200"
       >
         Request to Book
       </button>

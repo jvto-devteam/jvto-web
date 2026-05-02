@@ -75,9 +75,9 @@ const pillars = [
 ];
 
 const PillarCard: React.FC<typeof pillars[0]> = ({ icon, title, content, footer }) => (
-    <div className="bg-white dark:bg-background-dark p-6 rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700 shadow-card hover:shadow-cardHover transition-shadow flex flex-col">
+    <div className="bg-white dark:bg-background-dark p-6 rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700 shadow-card hover:shadow-cardHover transition-shadow flex flex-col">
         <div className="flex items-center gap-3 mb-4">
-            <div className="bg-primary/10 text-primary p-3 rounded-lg">
+            <div className="bg-primary/10 text-primary p-3 rounded-sm">
                 <span className="material-symbols-outlined">{icon}</span>
             </div>
             <h3 className="text-xl font-bold text-ink-primary dark:text-white">{title}</h3>

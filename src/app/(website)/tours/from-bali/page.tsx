@@ -130,7 +130,7 @@ export default async function ToursPageBali() {
         />
 
         <section className="container mx-auto px-6 mt-16">
-          <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-10">
+          <div className="rounded-sm border border-gray-200 bg-white p-8 md:p-10">
             <h2 className="text-2xl md:text-3xl font-black uppercase mb-8 text-jvto-dark">
               Travelling from Singapore, Malaysia, Hong Kong, or Taiwan?
             </h2>

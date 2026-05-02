@@ -107,7 +107,7 @@ const ContactPage = ({
 
             {/* Right Column: Form */}
             <div className="w-full lg:w-7/12">
-                 <div className="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100">
+                 <div className="bg-white p-8 md:p-10 rounded-sm shadow-xl border border-gray-100">
                     <BookingForm />
                  </div>
             </div>

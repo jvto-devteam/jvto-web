@@ -29,7 +29,7 @@ import type { DestinationDetail } from "@/interfaces";
 
 const SectionHeader = ({ title, icon: Icon }: { title: string; icon: any }) => (
   <div className="flex items-center gap-3 mb-6">
-    <div className="p-2 rounded-lg bg-gray-100 text-black">
+    <div className="p-2 rounded-sm bg-gray-100 text-black">
       <Icon size={24} />
     </div>
     <h2 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">
@@ -47,7 +47,7 @@ const StatCard = ({
   label: string;
   value: string | number;
 }) => (
-  <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-xl flex items-center gap-4 hover:border-[#B2F35F] transition-colors">
+  <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-sm flex items-center gap-4 hover:border-[#B2F35F] transition-colors">
     <div className="p-2 rounded-full bg-gray-100 text-gray-900">
       <Icon size={20} />
     </div>
@@ -66,7 +66,7 @@ const RiskAccordion = ({ risk }: { risk: any }) => {
 
   return (
     <div
-      className={`border rounded-xl mb-3 overflow-hidden transition-all ${
+      className={`border rounded-sm mb-3 overflow-hidden transition-all ${
         isOpen ? "bg-gray-50 border-gray-300" : "bg-white border-gray-200"
       }`}
     >
@@ -104,7 +104,7 @@ const RiskAccordion = ({ risk }: { risk: any }) => {
       {isOpen && (
         <div className="p-4 pt-0 text-sm">
           <p className="text-gray-600 mb-3">{risk.description}</p>
-          <div className="bg-white p-3 rounded-lg border-l-4 border-[#B2F35F] shadow-sm">
+          <div className="bg-white p-3 rounded-sm border-l-4 border-[#B2F35F] shadow-sm">
             <p className="text-black font-bold text-xs mb-1 uppercase">
               Mitigation Strategy:
             </p>
@@ -244,7 +244,7 @@ export default function DestinationDetailView({
               {data.main_attractions.map((h, i) => (
                 <div
                   key={i}
-                  className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all group"
+                  className="bg-white p-5 rounded-sm border border-gray-200 shadow-sm hover:shadow-md transition-all group"
                 >
                   <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-3 group-hover:bg-[#B2F35F] transition-colors">
                     <Star size={18} className="text-black" />
@@ -260,7 +260,7 @@ export default function DestinationDetailView({
           <section id="logistics" className="scroll-mt-10">
             <SectionHeader title="Trail & Logistics" icon={Footprints} />
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div className="bg-white rounded-sm border border-gray-200 shadow-sm overflow-hidden mb-8">
               <div className="p-6 md:p-8 border-b border-gray-100">
                 <div className="flex flex-col md:flex-row gap-8">
                   <div className="flex-1">
@@ -324,7 +324,7 @@ export default function DestinationDetailView({
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-100 p-5 rounded-xl">
+            <div className="bg-blue-50 border border-blue-100 p-5 rounded-sm">
               <h4 className="font-bold text-blue-900 flex items-center gap-2 mb-2">
                 <Info size={18} /> Visitor Tips
               </h4>
@@ -349,7 +349,7 @@ export default function DestinationDetailView({
               ))}
             </div>
 
-            <div className="p-5 rounded-xl bg-gray-100 border border-gray-200">
+            <div className="p-5 rounded-sm bg-gray-100 border border-gray-200">
               <h5 className="font-bold text-gray-900 text-sm mb-3">
                 Important Safety Notes
               </h5>
@@ -370,7 +370,7 @@ export default function DestinationDetailView({
           {/* 4. CULTURE */}
           <section id="culture" className="scroll-mt-10">
             <SectionHeader title="Cultural Significance" icon={Award} />
-            <div className="bg-white border border-gray-200 shadow-sm p-8 rounded-2xl relative overflow-hidden">
+            <div className="bg-white border border-gray-200 shadow-sm p-8 rounded-sm relative overflow-hidden">
               <div className="relative z-10">
                 <p className="text-lg text-gray-600 italic mb-6 leading-relaxed">
                   "{data.cultural_context}"
@@ -395,8 +395,8 @@ export default function DestinationDetailView({
         <aside className="lg:col-span-1">
           <div className="space-y-6">
             {/* INFO CARD (Permit Details) */}
-            <div className="rounded-2xl p-1 bg-[#B2F35F] shadow-lg">
-              <div className="bg-white rounded-xl p-6 h-full">
+            <div className="rounded-sm p-1 bg-[#B2F35F] shadow-lg">
+              <div className="bg-white rounded-sm p-6 h-full">
                 <div className="mb-6">
                   <p className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1">
                     Permit & Entry
@@ -407,7 +407,7 @@ export default function DestinationDetailView({
                 </div>
 
                 <div className="space-y-4 mb-6">
-                  <div className="text-sm bg-gray-50 p-3 rounded-lg border border-gray-100">
+                  <div className="text-sm bg-gray-50 p-3 rounded-sm border border-gray-100">
                     <p className="font-bold text-gray-900 mb-1">
                       Permit Details
                     </p>
@@ -447,7 +447,7 @@ export default function DestinationDetailView({
             </div>
 
             {/* Quick Summary Card */}
-            <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6">
+            <div className="bg-white border border-gray-200 shadow-sm rounded-sm p-6">
               <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <Calendar size={18} /> Seasonality
               </h4>

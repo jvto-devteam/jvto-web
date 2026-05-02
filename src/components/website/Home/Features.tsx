@@ -31,7 +31,7 @@ const Features: React.FC = () => {
           {features.map((item, index) => (
             <div
               key={index}
-              className="flex items-start gap-4 p-4 rounded-lg bg-white shadow-sm border border-gray-100"
+              className="flex items-start gap-4 p-4 rounded-sm bg-white shadow-sm border border-gray-100"
             >
               <div className="mt-1">{item.icon}</div>
               <div>

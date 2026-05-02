@@ -31,7 +31,7 @@ const CarouselCard: React.FC<CarouselCardProps> = ({ tour }) => {
     <div className="snap-start flex-shrink-0 w-80 md:w-96">
       <Link
         href={fullTourSlug}
-        className="group rounded-2xl bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover overflow-hidden block transition-shadow duration-300"
+        className="group rounded-sm bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover overflow-hidden block transition-shadow duration-300"
       >
         {/* Image */}
         <div className="relative overflow-hidden">

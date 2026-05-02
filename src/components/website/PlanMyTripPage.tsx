@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const TrustPoint: React.FC<{ icon: string; title: string; description: string; }> = ({ icon, title, description }) => (
     <div className="flex items-start gap-4">
-        <div className="bg-primary/10 text-primary p-2 rounded-lg mt-1">
+        <div className="bg-primary/10 text-primary p-2 rounded-sm mt-1">
             <span className="material-symbols-outlined">{icon}</span>
         </div>
         <div>
@@ -45,7 +45,7 @@ const PlanMyTripPage: React.FC = () => {
                 <main className="container mx-auto px-4 py-12 md:py-16">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                         {/* Form Section */}
-                        <div className="lg:col-span-2 bg-white dark:bg-background-dark p-6 md:p-8 rounded-2xl shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
+                        <div className="lg:col-span-2 bg-white dark:bg-background-dark p-6 md:p-8 rounded-sm shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
                             <h2 className="text-2xl font-bold text-ink-primary dark:text-white mb-6 text-center">Your Trip Details</h2>
                             <QuickQuoteForm />
                         </div>
@@ -73,7 +73,7 @@ const PlanMyTripPage: React.FC = () => {
                                 </div>
                             </div>
                             
-                            <div className="p-6 bg-white dark:bg-ink-primary rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+                            <div className="p-6 bg-white dark:bg-ink-primary rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
                                 <h3 className="text-xl font-bold text-ink-primary dark:text-white mb-4">Need Help?</h3>
                                 <p className="text-sm text-ink-neutral-700 dark:text-ink-neutral-200 mb-4">
                                     Our team is ready to answer your questions and help you build the perfect itinerary.
@@ -82,14 +82,14 @@ const PlanMyTripPage: React.FC = () => {
                                     href={contactInfo.whatsappLink} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors"
+                                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-sm bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors"
                                 >
                                     <span className="material-symbols-outlined">chat_bubble</span>
                                     Chat on WhatsApp
                                 </a>
                                 <Link 
                                     href="/contact" 
-                                    className="w-full mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-ink-neutral-300 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold hover:bg-ink-neutral-100 dark:hover:bg-ink-neutral-800 transition-colors"
+                                    className="w-full mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-sm border border-ink-neutral-300 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold hover:bg-ink-neutral-100 dark:hover:bg-ink-neutral-800 transition-colors"
                                 >
                                     <span className="material-symbols-outlined">email</span>
                                     More Contact Options

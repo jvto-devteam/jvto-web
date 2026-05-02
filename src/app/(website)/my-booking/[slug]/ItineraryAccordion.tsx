@@ -18,9 +18,9 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
       <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-lime-500"></span>
+        <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
         Daily Itinerary
       </h3>
 
@@ -33,8 +33,8 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
           return (
             <div 
               key={item.day} 
-              className={`rounded-xl border transition-all duration-300 overflow-hidden ${
-                isOpen ? "border-lime-500 shadow-md bg-white" : "border-slate-200 bg-slate-50"
+              className={`rounded-sm border transition-all duration-300 overflow-hidden ${
+                isOpen ? "border-jvto-green shadow-md bg-white" : "border-slate-200 bg-slate-50"
               }`}
             >
               {/* Header Accordion */}
@@ -43,8 +43,8 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
                 className="w-full flex items-center justify-between p-4 text-left focus:outline-none"
               >
                 <div className="flex items-center gap-4">
-                  <div className={`flex flex-col items-center justify-center w-12 h-12 rounded-lg font-bold ${
-                    isOpen ? "bg-lime-100 text-lime-700" : "bg-white border border-slate-200 text-slate-400"
+                  <div className={`flex flex-col items-center justify-center w-12 h-12 rounded-sm font-bold ${
+                    isOpen ? "bg-jvto-green/10 text-jvto-green" : "bg-white border border-slate-200 text-slate-400"
                   }`}>
                     <span className="text-[10px] uppercase">Day</span>
                     <span className="text-lg leading-none">{item.day}</span>
@@ -76,13 +76,13 @@ export default function ItineraryAccordion({ itineraries, accommodations }: Prop
                   <div className="p-4 pt-0 border-t border-dashed border-slate-100 bg-white">
                     
                     {/* Activity List (HTML Content) */}
-                    <div className="prose prose-sm max-w-none text-slate-600 mt-4 pl-4 border-l-2 border-lime-200">
+                    <div className="prose prose-sm max-w-none text-slate-600 mt-4 pl-4 border-l-2 border-jvto-green/30">
                         <div dangerouslySetInnerHTML={{ __html: item.activity }} />
                     </div>
 
                     {/* Hotel Card (If Exists) */}
                     {hotel && (
-                        <div className="mt-6 flex items-start gap-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <div className="mt-6 flex items-start gap-4 bg-slate-50 p-3 rounded-sm border border-slate-100">
                             <div className="relative w-16 h-16 shrink-0 rounded-md overflow-hidden bg-slate-200">
                                 <Image 
                                     src={hotel.banner} 

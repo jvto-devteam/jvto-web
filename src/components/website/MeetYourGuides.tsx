@@ -7,7 +7,7 @@ import { Guide } from "@/types";
 const GuideCard: React.FC<{ guide: Guide }> = ({ guide }) => {
   const role = guide.specialties[0] || "Team Member";
   return (
-    <div className="group relative aspect-[3/4] w-full rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
+    <div className="group relative aspect-[3/4] w-full rounded-sm overflow-hidden shadow-lg transform transition-transform duration-300 hover:-translate-y-2">
       <Image
         src={guide.imageUrl}
         alt={guide.name}
@@ -67,7 +67,7 @@ const MeetYourGuides: React.FC = () => {
             </p>
             <Link
               href="/why-jvto/our-story"
-              className="mt-8 group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-ink-primary dark:bg-white text-white dark:text-ink-primary font-semibold hover:bg-opacity-90 dark:hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
+              className="mt-8 group inline-flex items-center gap-2 px-6 py-3 rounded-sm bg-ink-primary dark:bg-white text-white dark:text-ink-primary font-semibold hover:bg-opacity-90 dark:hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
             >
               View All Members
               <span className="material-symbols-outlined transition-transform group-hover:translate-x-1">

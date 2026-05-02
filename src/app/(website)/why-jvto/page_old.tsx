@@ -449,7 +449,7 @@ export default function WhyJvtoPage() {
                       <Card className="h-full transition-all duration-300 hover:shadow-xl hover:border-primary/50">
                         <CardHeader className="flex-col items-start gap-4 md:flex-row">
                           <div
-                            className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl shrink-0 bg-lime-400 text-primary`}
+                            className={`w-12 h-12 rounded-sm flex items-center justify-center text-2xl shrink-0 bg-jvto-green text-primary`}
                           >
                             <card.icon className="w-6 h-6" />
                           </div>
@@ -482,7 +482,7 @@ export default function WhyJvtoPage() {
                   {trustTiles.map((tile, index) => (
                     <Link key={index} href={tile.link} className="group block">
                       <Card className="h-full p-6 text-center transition-all duration-300 hover:shadow-xl hover:border-primary/50">
-                        <div className="w-16 h-16 rounded-lg bg-lime-400 flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                        <div className="w-16 h-16 rounded-sm bg-jvto-green flex items-center justify-center text-2xl mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                           <tile.icon className="w-8 h-8 text-primary" />
                         </div>
                         <h3 className="font-black text-lg md:text-xl group-hover:text-primary mb-2">

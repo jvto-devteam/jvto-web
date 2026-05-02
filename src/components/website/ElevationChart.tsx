@@ -31,7 +31,7 @@ const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
 
   if (isLoading || !Recharts) {
     return (
-      <div className="flex items-center justify-center h-48 w-full rounded-lg bg-ink-neutral-100 dark:bg-ink-neutral-800">
+      <div className="flex items-center justify-center h-48 w-full rounded-sm bg-ink-neutral-100 dark:bg-ink-neutral-800">
         <p className="text-sm text-ink-neutral-500 animate-pulse">
           Loading elevation chart...
         </p>
@@ -52,7 +52,7 @@ const ElevationChart: React.FC<ElevationChartProps> = ({ data }) => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md rounded-lg shadow-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+        <div className="p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md rounded-sm shadow-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
           <p className="text-sm font-semibold">
             Distance: <span className="text-ink-neutral-700 dark:text-ink-neutral-300">{label.toFixed(1)} km</span>
           </p>

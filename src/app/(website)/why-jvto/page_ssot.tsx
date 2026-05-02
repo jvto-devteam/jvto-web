@@ -513,7 +513,7 @@ export default function WhyJvtoPage() {
                     <Link key={index} href={card.href} className="group block">
                       <Card className="h-full transition-all duration-300 hover:shadow-xl hover:border-primary/50">
                         <CardHeader className="flex-col items-start gap-4 md:flex-row">
-                          <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 bg-lime-400 text-primary">
+                          <div className="w-12 h-12 rounded-sm flex items-center justify-center shrink-0 bg-jvto-green text-primary">
                             <card.icon className="w-6 h-6" />
                           </div>
                           <div>
@@ -564,7 +564,7 @@ export default function WhyJvtoPage() {
                           href={item.href}
                           className="group flex items-center gap-3 text-sm"
                         >
-                          <CheckCircle className="w-5 h-5 text-lime-500 shrink-0" />
+                          <CheckCircle className="w-5 h-5 text-jvto-green shrink-0" />
                           <span className="font-medium text-foreground group-hover:text-primary transition-colors">
                             {item.label}
                           </span>
@@ -595,7 +595,7 @@ export default function WhyJvtoPage() {
                       className="p-6 transition-all duration-300 hover:shadow-md hover:border-primary/30"
                     >
                       <div className="flex gap-4 items-start">
-                        <div className="w-10 h-10 rounded-lg bg-lime-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-10 h-10 rounded-sm bg-jvto-green flex items-center justify-center shrink-0 mt-0.5">
                           <MessageCircleQuestion className="w-5 h-5 text-primary" />
                         </div>
                         <div className="flex-1">

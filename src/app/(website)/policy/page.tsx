@@ -183,7 +183,7 @@ export default async function PolicyHubPage() {
               {policyCards.map((card) => (
                 <div
                   key={card.id}
-                  className={`rounded-2xl border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
+                  className={`rounded-sm border shadow-sm overflow-hidden bg-card hover:shadow-md transition-shadow duration-300`}
                 >
                   <div className={`p-5 border-l-4 ${card.accent}`}>
                     <div className="flex justify-between items-start mb-2">
@@ -206,7 +206,7 @@ export default async function PolicyHubPage() {
 
                     <Link
                       href={card.href}
-                      className="inline-flex items-center justify-center w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
+                      className="inline-flex items-center justify-center w-full rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
                     >
                       {card.cta}
                     </Link>

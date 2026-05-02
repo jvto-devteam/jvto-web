@@ -82,10 +82,10 @@ const GuideCard: React.FC<GuideCardProps> = ({
 }) => (
   <Link
     href={link}
-    className="group block p-6 bg-white dark:bg-background-dark rounded-2xl shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
+    className="group block p-6 bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
   >
     <div className="flex items-start gap-4">
-      <div className="bg-primary/10 text-primary p-3 rounded-lg shrink-0">
+      <div className="bg-primary/10 text-primary p-3 rounded-sm shrink-0">
         <Icon size={24} strokeWidth={1.75} />
       </div>
       <div>
@@ -153,7 +153,7 @@ const TravelGuidePage: React.FC = () => {
           </div>
 
           {/* CTA */}
-          <div className="mt-12 text-center p-6 bg-white dark:bg-background-dark rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+          <div className="mt-12 text-center p-6 bg-white dark:bg-background-dark rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
             <p className="text-lg font-semibold text-ink-primary dark:text-white">
               Still have questions?
             </p>
@@ -165,7 +165,7 @@ const TravelGuidePage: React.FC = () => {
               href={contactInfo.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-block px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
+              className="mt-4 inline-block px-8 py-3 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
             >
               Chat on WhatsApp
             </a>

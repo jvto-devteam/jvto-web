@@ -34,7 +34,7 @@ const TravelGuideTeaser: React.FC = () => {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/travel-guide"
-                className="px-6 py-3 bg-ink-primary dark:bg-white text-white dark:text-ink-primary font-semibold rounded-lg hover:bg-opacity-90 transition-all flex items-center gap-2"
+                className="px-6 py-3 bg-ink-primary dark:bg-white text-white dark:text-ink-primary font-semibold rounded-sm hover:bg-opacity-90 transition-all flex items-center gap-2"
               >
                 Open the Guide
                 <BookOpen size={20} strokeWidth={1.75} />
@@ -42,7 +42,7 @@ const TravelGuideTeaser: React.FC = () => {
 
               <Link
                 href="/travel-guide/booking-information"
-                className="px-6 py-3 border border-ink-neutral-300 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold rounded-lg hover:bg-ink-neutral-200 dark:hover:bg-ink-neutral-800 transition-all"
+                className="px-6 py-3 border border-ink-neutral-300 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold rounded-sm hover:bg-ink-neutral-200 dark:hover:bg-ink-neutral-800 transition-all"
               >
                 Booking Policies
               </Link>
@@ -54,7 +54,7 @@ const TravelGuideTeaser: React.FC = () => {
             
             <Link
               href="/travel-guide/ijen-health-screening"
-              className="p-4 bg-white dark:bg-ink-primary rounded-xl shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
+              className="p-4 bg-white dark:bg-ink-primary rounded-sm shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
             >
               <HeartPulse className="text-primary" size={28} strokeWidth={1.75} />
               <span className="font-bold text-ink-primary dark:text-white">
@@ -64,7 +64,7 @@ const TravelGuideTeaser: React.FC = () => {
 
             <Link
               href="/travel-guide/weather-and-closures"
-              className="p-4 bg-white dark:bg-ink-primary rounded-xl shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
+              className="p-4 bg-white dark:bg-ink-primary rounded-sm shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
             >
               <CloudLightning className="text-primary" size={28} strokeWidth={1.75} />
               <span className="font-bold text-ink-primary dark:text-white">
@@ -74,7 +74,7 @@ const TravelGuideTeaser: React.FC = () => {
 
             <Link
               href="/travel-guide/packing-and-fitness"
-              className="p-4 bg-white dark:bg-ink-primary rounded-xl shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
+              className="p-4 bg-white dark:bg-ink-primary rounded-sm shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
             >
               <Backpack className="text-primary" size={28} strokeWidth={1.75} />
               <span className="font-bold text-ink-primary dark:text-white">
@@ -84,7 +84,7 @@ const TravelGuideTeaser: React.FC = () => {
 
             <Link
               href="/travel-guide/police-escort-for-groups"
-              className="p-4 bg-white dark:bg-ink-primary rounded-xl shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
+              className="p-4 bg-white dark:bg-ink-primary rounded-sm shadow-sm hover:shadow-md transition-shadow border border-ink-neutral-200 dark:border-ink-neutral-700 flex flex-col gap-2"
             >
               <ShieldCheck className="text-primary" size={28} strokeWidth={1.75} />
               <span className="font-bold text-ink-primary dark:text-white">

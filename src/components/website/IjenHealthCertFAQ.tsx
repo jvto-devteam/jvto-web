@@ -4,7 +4,7 @@ import React from 'react';
 const IjenHealthCertFAQ: React.FC = () => {
   return (
     <div className="mt-12">
-      <div className="bg-yellow-50 dark:bg-yellow-900/30 p-6 rounded-2xl border border-yellow-200 dark:border-yellow-700 text-ink-neutral-700 dark:text-ink-neutral-200">
+      <div className="bg-yellow-50 dark:bg-yellow-900/30 p-6 rounded-sm border border-yellow-200 dark:border-yellow-700 text-ink-neutral-700 dark:text-ink-neutral-200">
         {/* Existing Health Check section */}
         <div className="flex items-start gap-4">
           <span className="material-symbols-outlined text-3xl text-yellow-500 mt-1">medical_information</span>

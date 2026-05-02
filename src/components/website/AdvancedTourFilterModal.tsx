@@ -168,7 +168,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
       role="dialog"
     >
       <div
-        className="bg-white dark:bg-background-dark rounded-2xl shadow-xl w-11/12 max-w-3xl m-4 relative animate-slide-in-up"
+        className="bg-white dark:bg-background-dark rounded-sm shadow-xl w-11/12 max-w-3xl m-4 relative animate-slide-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -205,7 +205,7 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
               max="7"
               value={maxDuration}
               onChange={(e) => setMaxDuration(Number(e.target.value))}
-              className="w-full h-2 bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-lg appearance-none cursor-pointer accent-primary"
+              className="w-full h-2 bg-ink-neutral-200 dark:bg-ink-neutral-700 rounded-sm appearance-none cursor-pointer accent-primary"
             />
             <div className="flex justify-between text-sm text-ink-neutral-500 dark:text-ink-neutral-400 mt-1">
               <span>1 day</span>
@@ -276,13 +276,13 @@ const AdvancedTourFilterModal: React.FC<AdvancedTourFilterModalProps> = ({
         <div className="flex flex-col sm:flex-row justify-between items-center p-4 md:p-6 border-t border-ink-neutral-200 dark:border-ink-neutral-700">
           <button
             onClick={handleReset}
-            className="font-semibold text-ink-neutral-500 dark:text-ink-neutral-400 hover:text-primary dark:hover:text-white transition-colors py-2 px-4 rounded-lg"
+            className="font-semibold text-ink-neutral-500 dark:text-ink-neutral-400 hover:text-primary dark:hover:text-white transition-colors py-2 px-4 rounded-sm"
           >
             Reset Filters
           </button>
           <button
             onClick={handleApply}
-            className="w-full sm:w-auto mt-2 sm:mt-0 px-8 py-4 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors"
+            className="w-full sm:w-auto mt-2 sm:mt-0 px-8 py-4 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors"
           >
             Show {matchingTourCount} Matching Tour
             {matchingTourCount !== 1 ? "s" : ""}

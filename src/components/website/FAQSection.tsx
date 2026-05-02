@@ -63,7 +63,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ faq, isOpen, onClick }) => {
           <div className="mt-4 text-right">
             <button
               onClick={handleCopy}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-ink-neutral-300 text-ink-neutral-500 hover:bg-ink-neutral-100  transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-sm border border-ink-neutral-300 text-ink-neutral-500 hover:bg-ink-neutral-100  transition-colors"
               aria-live="polite"
             >
               {copyStatus === "Copied!" ? (
@@ -111,7 +111,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <p className="text-lime-700 font-semibold tracking-wide uppercase">
+          <p className="text-jvto-green font-semibold tracking-wide uppercase">
             {copy.overline}
           </p>
           <h2 className="text-3xl font-bold text-ink-primary mt-1">
@@ -130,7 +130,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({ copy, faqs, imageUrl }) => {
               <img
                 src={imageUrl}
                 alt="A friendly JVTO guide ready to answer your questions"
-                className="rounded-2xl shadow-lg w-full h-auto object-cover aspect-[3/4]"
+                className="rounded-sm shadow-lg w-full h-auto object-cover aspect-[3/4]"
               />
             </div>
           </div>

@@ -16,7 +16,7 @@ const Section: React.FC<{
     >
       {image && (
         <div className={`md:col-span-2 ${reverse ? "md:col-start-4" : ""}`}>
-          <div className="relative w-full aspect-square rounded-2xl shadow-lg overflow-hidden">
+          <div className="relative w-full aspect-square rounded-sm shadow-lg overflow-hidden">
             <Image
               src={image}
               alt={imageAlt || ""}

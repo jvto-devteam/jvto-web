@@ -140,14 +140,14 @@ const FeaturedToursClient = ({
         <div className="flex mt-8 items-center justify-center md:gap-4 gap-2 relative z-10">
           <button
             onClick={() => scrollToSection("surabaya")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-sm shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Surabaya
           </button>
           
           <button
             onClick={() => scrollToSection("bali")}
-            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
+            className="w-full sm:w-auto md:px-8 py-3 bg-white border-2 border-jvto-dark text-jvto-dark font-bold uppercase tracking-wider rounded-sm shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-jvto-dark hover:text-white transition-all duration-300"
           >
             From Bali
           </button>
@@ -174,7 +174,7 @@ const FeaturedToursClient = ({
         <Link
           target="_blank"
           href="/tours"
-          className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
+          className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-sm shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
         >
           View All Tours
           <ArrowRight className="w-5 h-5" />

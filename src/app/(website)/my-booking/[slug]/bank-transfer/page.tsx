@@ -97,14 +97,14 @@ export default function BankTransferUploadPage() {
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="animate-spin text-lime-500" size={40} />
+        <Loader2 className="animate-spin text-jvto-green" size={40} />
       </div>
     );
 
   if (isSuccess)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 px-4 text-center">
-        <div className="h-20 w-20 bg-lime-100 rounded-full flex items-center justify-center text-lime-600 mb-6">
+        <div className="h-20 w-20 bg-jvto-green/10 rounded-full flex items-center justify-center text-jvto-green mb-6">
           <CheckCircle size={40} />
         </div>
         <h1 className="text-3xl font-black text-slate-900 uppercase">
@@ -131,12 +131,12 @@ export default function BankTransferUploadPage() {
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+        <div className="bg-white rounded-sm border border-slate-200 shadow-xl overflow-hidden">
           {/* HEADER */}
           <div className="bg-slate-900 p-8 text-white">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-lime-400 text-xs font-black uppercase tracking-widest mb-1">
+                <p className="text-jvto-green text-xs font-black uppercase tracking-widest mb-1">
                   Payment Confirmation
                 </p>
                 <h2 className="text-2xl font-black">Upload Proof</h2>
@@ -153,12 +153,12 @@ export default function BankTransferUploadPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 space-y-8">
-                        <div className="mb-8 p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div className="mb-8 p-6 bg-slate-50 rounded-sm border border-slate-200">
               <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
                 Bank Transfer Information
               </p>
               <div className="space-y-3">
-                <div className="bg-white p-4 rounded-xl border border-slate-200">
+                <div className="bg-white p-4 rounded-sm border border-slate-200">
                   <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
                     Bank BRI
                   </p>
@@ -170,7 +170,7 @@ export default function BankTransferUploadPage() {
                   </p>
                   <p className="text-xs text-slate-500">SWIFT: BRINIDJAXXX</p>
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-slate-200">
+                <div className="bg-white p-4 rounded-sm border border-slate-200">
                   <p className="text-[10px] font-bold uppercase text-slate-400 mb-1">
                     Bank BCA
                   </p>
@@ -189,7 +189,7 @@ export default function BankTransferUploadPage() {
                   href="https://javavolcano-touroperator.com/policy/booking-payment-cancellation"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-lime-600 hover:text-lime-700 font-bold underline"
+                  className="text-jvto-green hover:text-jvto-green font-bold underline"
                 >
                   Booking & Payment Policy
                 </a>
@@ -207,7 +207,7 @@ export default function BankTransferUploadPage() {
                 placeholder="Full name on bank account"
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-lime-500 focus:ring-4 focus:ring-lime-100 outline-none transition-all font-bold"
+                className="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-jvto-green focus:ring-4 focus:ring-lime-100 outline-none transition-all font-bold"
               />
             </div>
 
@@ -217,9 +217,9 @@ export default function BankTransferUploadPage() {
                 Transfer Receipt
               </label>
               <div
-                className={`relative border-2 border-dashed rounded-2xl transition-all ${
+                className={`relative border-2 border-dashed rounded-sm transition-all ${
                   previewUrl
-                    ? "border-lime-500 bg-lime-50/30"
+                    ? "border-jvto-green bg-jvto-green/5/30"
                     : "border-slate-200 bg-slate-50 hover:border-slate-300"
                 }`}
               >
@@ -237,8 +237,8 @@ export default function BankTransferUploadPage() {
                       {/* CHECK IF FILE IS PDF OR IMAGE */}
                       {file?.type === "application/pdf" ? (
                         /* 1. PDF ICON VIEW */
-                        <div className="h-40 w-40 mx-auto rounded-lg bg-white flex flex-col items-center justify-center border border-slate-200 shadow-sm">
-                          <div className="h-16 w-16 bg-red-50 rounded-lg flex items-center justify-center text-red-500 mb-2">
+                        <div className="h-40 w-40 mx-auto rounded-sm bg-white flex flex-col items-center justify-center border border-slate-200 shadow-sm">
+                          <div className="h-16 w-16 bg-red-50 rounded-sm flex items-center justify-center text-red-500 mb-2">
                             <FileText size={32} />
                           </div>
                           <span className="text-[10px] font-bold uppercase text-slate-400 px-2 truncate w-full">
@@ -250,7 +250,7 @@ export default function BankTransferUploadPage() {
                         </div>
                       ) : (
                         /* 2. IMAGE PREVIEW VIEW */
-                        <div className="relative h-40 w-40 mx-auto rounded-lg overflow-hidden border-2 border-white shadow-md">
+                        <div className="relative h-40 w-40 mx-auto rounded-sm overflow-hidden border-2 border-white shadow-md">
                           <Image
                             src={previewUrl}
                             alt="Preview"
@@ -260,7 +260,7 @@ export default function BankTransferUploadPage() {
                         </div>
                       )}
 
-                      <p className="text-xs font-bold text-lime-600 flex items-center justify-center gap-1">
+                      <p className="text-xs font-bold text-jvto-green flex items-center justify-center gap-1">
                         <CheckCircle size={14} />{" "}
                         {file?.type === "application/pdf"
                           ? "PDF Document"
@@ -290,7 +290,7 @@ export default function BankTransferUploadPage() {
             <button
               type="submit"
               disabled={isSubmitting || !file}
-              className="w-full bg-lime-400 hover:bg-lime-500 disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-xl shadow-lg shadow-lime-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-jvto-green hover:bg-jvto-green disabled:bg-slate-100 disabled:text-slate-400 text-slate-900 font-black uppercase tracking-wider py-4 rounded-sm shadow-lg shadow-lime-500/20 transition-all flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

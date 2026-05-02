@@ -166,7 +166,7 @@ function recalculateTotals(
 
 const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
   <div className="mb-6 flex items-center gap-3 border-b border-slate-200 pb-3">
-    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm text-lime-400">
+    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm text-jvto-green">
       {icon}
     </span>
     <h3 className="text-lg font-bold uppercase tracking-wide text-slate-900">
@@ -187,9 +187,9 @@ const JVTOButton = ({
     onClick={onClick}
     disabled={disabled}
     className={`
-      group relative flex items-center justify-center gap-2 overflow-hidden rounded-lg 
-      bg-lime-400 px-6 py-4 font-bold uppercase tracking-wider text-slate-900 
-      transition-all hover:bg-lime-500 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50
+      group relative flex items-center justify-center gap-2 overflow-hidden rounded-sm 
+      bg-jvto-green px-6 py-4 font-bold uppercase tracking-wider text-slate-900 
+      transition-all hover:bg-jvto-green hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50
       ${fullWidth ? "w-full" : ""}
     `}
   >
@@ -210,7 +210,7 @@ const ProgressIndicator = ({ currentStep }: { currentStep: number }) => (
     </div>
     <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-slate-200">
       <div
-        className="h-full bg-lime-500 transition-all duration-500 ease-out"
+        className="h-full bg-jvto-green transition-all duration-500 ease-out"
         style={{ width: currentStep === 1 ? "50%" : "100%" }}
       />
     </div>
@@ -225,7 +225,7 @@ const StickyOrderSummary = ({
   if (!payload) return null;
 
   return (
-    <div className="sticky top-36 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+    <div className="sticky top-36 overflow-hidden rounded-sm border border-slate-200 bg-white shadow-xl">
       <div className="relative h-40 bg-slate-900">
         {payload.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -239,7 +239,7 @@ const StickyOrderSummary = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-90" />
         <div className="absolute bottom-4 left-4 right-4">
-          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-lime-400">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-jvto-green">
             Selected Adventure
           </span>
           <h3 className="line-clamp-2 text-lg font-bold leading-tight text-white">
@@ -271,7 +271,7 @@ const StickyOrderSummary = ({
           </div>
 
           {payload.addon && payload.addon.length > 0 && (
-            <div className="space-y-1 border-l-2 border-lime-200 pl-3">
+            <div className="space-y-1 border-l-2 border-jvto-green/30 pl-3">
               <p className="text-xs font-bold uppercase text-slate-400">
                 Add-ons Included
               </p>
@@ -290,7 +290,7 @@ const StickyOrderSummary = ({
 
           {/* DISKON SECTION */}
           {payload.totalDiscount > 0 && (
-            <div className="flex justify-between text-lime-600 font-bold bg-lime-50 px-2 py-1 rounded">
+            <div className="flex justify-between text-jvto-green font-bold bg-jvto-green/5 px-2 py-1 rounded">
               <span>{payload.discountLabel || "Group Discount"}</span>
               <span>- {formatCurrency(payload.totalDiscount)}</span>
             </div>
@@ -481,7 +481,7 @@ const StepOneDetails = ({
       onSubmit={handleSubmit}
       className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-sm border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="1" title="Trip Configuration" />
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -498,7 +498,7 @@ const StepOneDetails = ({
               min={today}
               value={payload.date}
               onChange={handleDateChange}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
               required
             />
           </div>
@@ -519,10 +519,10 @@ const StepOneDetails = ({
               min={payload.paxMin}
               value={paxCount}
               onChange={handlePaxChange}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
+              className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-900 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all"
             />
             {payload.totalDiscount > 0 && (
-              <p className="mt-2 text-xs font-bold text-lime-600">
+              <p className="mt-2 text-xs font-bold text-jvto-green">
                 🎉 {payload.discountLabel} Applied!
               </p>
             )}
@@ -531,7 +531,7 @@ const StepOneDetails = ({
       </div>
       {/* --- EXCLUSIVE STUDENT VERIFICATION SECTION --- */}
       {payload.packageCategory === "student" && (
-        <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <div className="mt-8 overflow-hidden rounded-sm border border-slate-200 bg-slate-50">
           {/* Header Section */}
           <div className="border-b border-slate-200 bg-white px-6 py-5">
             <div className="flex items-start justify-between gap-4">
@@ -542,7 +542,7 @@ const StepOneDetails = ({
                 <div>
                   <h4 className="flex items-center gap-2 text-base font-bold text-slate-900">
                     Student Verification
-                    <span className="rounded bg-lime-400 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900">
+                    <span className="rounded bg-jvto-green px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900">
                       Required
                     </span>
                   </h4>
@@ -564,14 +564,14 @@ const StepOneDetails = ({
             <div className="grid gap-5 md:grid-cols-2">
               {isicCodes.map((code, index) => (
                 <div key={index} className="group relative">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-lime-600">
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500 transition-colors group-focus-within:text-jvto-green">
                     Traveler #{index + 1} Discount Code
                   </label>
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                       {/* SVG Card Icon */}
                       <svg
-                        className="h-5 w-5 transition-colors group-focus-within:text-lime-600"
+                        className="h-5 w-5 transition-colors group-focus-within:text-jvto-green"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -591,7 +591,7 @@ const StepOneDetails = ({
                       onChange={(e) =>
                         handleIsicChange(index, e.target.value.toUpperCase())
                       }
-                      className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all uppercase"
+                      className="w-full rounded-sm border border-slate-300 bg-white py-3 pl-10 pr-4 font-mono text-sm font-medium text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none transition-all uppercase"
                       required
                     />
                   </div>
@@ -600,7 +600,7 @@ const StepOneDetails = ({
             </div>
 
             {/* Footer Note */}
-            <div className="mt-6 flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+            <div className="mt-6 flex items-center gap-2 rounded-sm border border-slate-200 bg-white p-3 shadow-sm">
               <span className="text-lg">💡</span>
               <p className="text-xs text-slate-500">
                 Get your discount code from the official{" "}
@@ -619,12 +619,12 @@ const StepOneDetails = ({
         </div>
       )}
 
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-sm border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="2" title="Contact Details" />
         <div className="mb-8 border-b border-slate-100 pb-8">
           {!session ? (
             // TAMPILAN BELUM LOGIN (GUEST)
-            <div className="rounded-lg bg-slate-50 p-5 border border-slate-200">
+            <div className="rounded-sm bg-slate-50 p-5 border border-slate-200">
               <div className="mb-4">
                 <h3 className="font-bold text-slate-800 text-base">
                   Express Checkout
@@ -639,7 +639,7 @@ const StepOneDetails = ({
                 <button
                   type="button"
                   onClick={() => signIn("google")}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 transition-all"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-sm bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 transition-all"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
                     <path
@@ -665,7 +665,7 @@ const StepOneDetails = ({
             </div>
           ) : (
             // TAMPILAN SUDAH LOGIN (SESSION ACTIVE)
-            <div className="flex items-center justify-between rounded-lg bg-lime-50 p-4 border border-lime-200">
+            <div className="flex items-center justify-between rounded-sm bg-jvto-green/5 p-4 border border-jvto-green/30">
               <div className="flex items-center gap-3">
                 {session.user?.image ? (
                   <Image
@@ -676,7 +676,7 @@ const StepOneDetails = ({
                     className="rounded-full border-2 border-white shadow-sm"
                   />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-lime-200 flex items-center justify-center font-bold text-lime-700">
+                  <div className="h-10 w-10 rounded-full bg-lime-200 flex items-center justify-center font-bold text-jvto-green">
                     {session.user?.name?.charAt(0)}
                   </div>
                 )}
@@ -709,7 +709,7 @@ const StepOneDetails = ({
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Full name as per ID"
-              className="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none"
+              className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
               required
             />
           </div>
@@ -724,7 +724,7 @@ const StepOneDetails = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ticket@example.com"
-                className="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
                 required
               />
             </div>
@@ -737,7 +737,7 @@ const StepOneDetails = ({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+62..."
-                className="w-full rounded-lg border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-lime-500 focus:ring-2 focus:ring-lime-200 focus:outline-none"
+                className="w-full rounded-sm border border-slate-300 px-4 py-3 text-slate-900 placeholder:text-slate-300 focus:border-jvto-green focus:ring-2 focus:ring-lime-200 focus:outline-none"
                 required
               />
             </div>
@@ -881,9 +881,9 @@ const StepTwoPayment = ({
       onSubmit={handlePay}
       className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
     >
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+      <div className="rounded-sm border border-slate-200 bg-white p-6 shadow-sm md:p-8">
         <SectionHeader icon="3" title="Review & Payment" />
-        <div className="mb-6 rounded-xl bg-slate-50 p-5 text-sm border border-slate-100">
+        <div className="mb-6 rounded-sm bg-slate-50 p-5 text-sm border border-slate-100">
           <div className="space-y-2 pb-4 border-b border-slate-200">
             <p className="flex justify-between">
               <span className="font-medium text-slate-600">
@@ -905,7 +905,7 @@ const StepTwoPayment = ({
                   ? "Due Now (Full Payment):"
                   : "Due Now (20% Deposit):"}
               </span>
-              <span className="text-xl font-black text-lime-600">
+              <span className="text-xl font-black text-jvto-green">
                 {formatCurrency(payload.downPayment)}
               </span>
             </p>
@@ -939,8 +939,8 @@ const StepTwoPayment = ({
         <div className="space-y-3">
           {diffDays >= 6 ? (
             /* 1. XENDIT VERSION (AUTOMATIC FOR >= 6 DAYS) */
-            <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
+            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-green bg-jvto-green/5/50 shadow-sm ring-1 ring-jvto-green">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-green/80 bg-jvto-green/80 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
               </div>
 
@@ -979,8 +979,8 @@ const StepTwoPayment = ({
             </div>
           ) : (
             /* 2. BANK TRANSFER VERSION (AUTOMATIC FOR < 6 DAYS) */
-            <div className="relative flex items-center gap-4 rounded-xl border p-4 transition-all border-lime-500 bg-lime-50/50 shadow-sm ring-1 ring-lime-500">
-              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-lime-600 bg-lime-600 transition-all">
+            <div className="relative flex items-center gap-4 rounded-sm border p-4 transition-all border-jvto-green bg-jvto-green/5/50 shadow-sm ring-1 ring-jvto-green">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-jvto-green/80 bg-jvto-green/80 transition-all">
                 <div className="h-2 w-2 rounded-full bg-white" />
               </div>
 
@@ -1005,7 +1005,7 @@ const StepTwoPayment = ({
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-lime-500 focus:ring-lime-500"
+              className="mt-1 h-5 w-5 cursor-pointer rounded border-slate-300 text-jvto-green focus:ring-jvto-green"
             />
             <span className="text-sm leading-relaxed text-slate-600 group-hover:text-slate-800">
               I agree to the{" "}
@@ -1083,7 +1083,7 @@ export default function CheckoutPage() {
   if (loading || !payload) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-50">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-lime-400 border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-jvto-green border-t-transparent"></div>
         <p className="font-bold uppercase tracking-widest text-slate-400">
           Loading Adventure...
         </p>
@@ -1097,7 +1097,7 @@ export default function CheckoutPage() {
         <div className="mb-12 text-center">
           <h1 className="text-3xl font-extrabold uppercase tracking-tight text-slate-900 md:text-4xl">
             Secure Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-500 to-green-600">
+            <span className="text-jvto-green">
               Spot
             </span>
           </h1>

@@ -55,7 +55,7 @@ const GpxMap: React.FC<GpxMapProps> = ({ track, bounds }) => {
   return (
     <div 
         ref={mapContainerRef} 
-        className="h-64 w-full rounded-lg shadow-inner border border-ink-neutral-200 dark:border-ink-neutral-700"
+        className="h-64 w-full rounded-sm shadow-inner border border-ink-neutral-200 dark:border-ink-neutral-700"
         aria-label="GPX route map"
     />
   );

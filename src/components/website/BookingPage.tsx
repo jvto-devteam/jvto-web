@@ -99,7 +99,7 @@ const TierCard: React.FC<TierCardProps> = ({ tier, selected, onSelect, quantity,
     <motion.div
       layout
       onClick={() => onSelect(tier.id)}
-      className={`group cursor-pointer rounded-2xl border p-4 md:p-5 shadow-sm transition ${selected ? "border-black shadow-card" : "border-gray-200 hover:border-gray-300"}`}
+      className={`group cursor-pointer rounded-sm border p-4 md:p-5 shadow-sm transition ${selected ? "border-black shadow-card" : "border-gray-200 hover:border-gray-300"}`}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -149,9 +149,9 @@ interface SectionProps {
 }
 
 const Section: React.FC<SectionProps> = ({ icon: Icon, title, children, badge }) => (
-  <div className="rounded-3xl border bg-white shadow-card p-5 md:p-6">
+  <div className="rounded-sm border bg-white shadow-card p-5 md:p-6">
     <div className="flex items-center gap-3 mb-4">
-      <div className="w-10 h-10 rounded-2xl bg-gray-900 text-white flex items-center justify-center"><Icon className="w-5 h-5"/></div>
+      <div className="w-10 h-10 rounded-sm bg-gray-900 text-white flex items-center justify-center"><Icon className="w-5 h-5"/></div>
       <div>
         <h3 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">{title} {badge && (<span className="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">{badge}</span>)}</h3>
         <p className="text-sm text-gray-600">Interactive demo — no real payment required.</p>
@@ -182,7 +182,7 @@ const OrderSummaryCard: React.FC<{
   onReset: () => void;
   showSecureMessage?: boolean;
 }> = ({ date, tierLabel, unitPrice, tier, quantity, total, onReset, showSecureMessage = false }) => (
-    <div className="sticky top-24 rounded-2xl border bg-white p-5 shadow-card">
+    <div className="sticky top-24 rounded-sm border bg-white p-5 shadow-card">
         <div className="flex items-center justify-between gap-3 mb-3">
             <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5"/>
@@ -335,10 +335,10 @@ export default function BookingPage() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-800">Date</label>
-                    <input type="date" value={date} onChange={e=> setDate(e.target.value)} className="mt-1 w-full rounded-xl border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
+                    <input type="date" value={date} onChange={e=> setDate(e.target.value)} className="mt-1 w-full rounded-sm border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
                     {!date && (<p className="text-xs text-gray-500 mt-1">Pick your preferred tour date.</p>)}
                   </div>
-                  <div className="rounded-xl border p-3 bg-gray-50">
+                  <div className="rounded-sm border p-3 bg-gray-50">
                     <p className="text-sm font-medium text-gray-800 mb-2">Group Discount Available</p>
                     <div className="text-xs bg-emerald-100 text-emerald-700 inline-block px-2 py-0.5 rounded-full mb-2">FREE OF CHARGE</div>
                     <p className="text-sm text-gray-700">Book for larger groups and save more! Special discounts apply for bookings of 18+ people.</p>
@@ -356,7 +356,7 @@ export default function BookingPage() {
                       onQtyChange={(q)=> setQuantity(Math.max(t.min, Math.min(q, t.max ?? 99)))}
                     />
                   )) : (
-                    <div className="rounded-xl border p-4 bg-gray-50 text-center">
+                    <div className="rounded-sm border p-4 bg-gray-50 text-center">
                       <p className="text-gray-700">Pricing for this tour is available on request.</p>
                       <p className="text-sm text-gray-500 mt-1">Please contact us for a custom quote.</p>
                     </div>
@@ -366,14 +366,14 @@ export default function BookingPage() {
                 <div className="grid md:grid-cols-2 gap-4 mt-4">
                   <div>
                     <label className="text-sm font-medium text-gray-800">Email</label>
-                    <input type="email" value={email} onChange={e=> setEmail(e.target.value)} placeholder="you@example.com" className="mt-1 w-full rounded-xl border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
+                    <input type="email" value={email} onChange={e=> setEmail(e.target.value)} placeholder="you@example.com" className="mt-1 w-full rounded-sm border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
                     {email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) && (
                       <p className="text-xs text-red-600 mt-1">Enter a valid email address.</p>
                     )}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-800">WhatsApp / Phone</label>
-                    <input type="tel" value={phone} onChange={e=> setPhone(e.target.value)} placeholder="+62 812-xxxx-xxxx" className="mt-1 w-full rounded-xl border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
+                    <input type="tel" value={phone} onChange={e=> setPhone(e.target.value)} placeholder="+62 812-xxxx-xxxx" className="mt-1 w-full rounded-sm border px-4 h-12 focus:outline-none focus:ring-2 focus:ring-black"/>
                     {phone && !/^\+?\d[\d\s-]{7,}$/.test(phone) && (
                       <p className="text-xs text-red-600 mt-1">Enter a valid phone number.</p>
                     )}
@@ -385,7 +385,7 @@ export default function BookingPage() {
                   <button
                     onClick={()=> setStep(2)}
                     disabled={!readyStep1}
-                    className={`inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-xl text-white ${readyStep1 ? "bg-black hover:bg-gray-900" : "bg-gray-300 cursor-not-allowed"}`}
+                    className={`inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-sm text-white ${readyStep1 ? "bg-black hover:bg-gray-900" : "bg-gray-300 cursor-not-allowed"}`}
                   >Continue <ArrowRight className="w-4 h-4"/></button>
                 </div>
               </Section>
@@ -410,7 +410,7 @@ export default function BookingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <Section icon={CreditCard} title="Review & Pay">
-                <div className="rounded-xl border p-4 bg-gray-50">
+                <div className="rounded-sm border p-4 bg-gray-50">
                   <div className="grid md:grid-cols-2 gap-3 text-sm">
                     <div className="flex justify-between"><span>Tour</span><span className="font-medium text-right">{tour.label}</span></div>
                     <div className="flex justify-between"><span>Date</span><span className="font-medium">{date}</span></div>
@@ -431,7 +431,7 @@ export default function BookingPage() {
                   <button
                     onClick={handlePay}
                     disabled={!readyStep2}
-                    className={`inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-xl text-white ${readyStep2 ? "bg-black hover:bg-gray-900" : "bg-gray-300 cursor-not-allowed"}`}
+                    className={`inline-flex items-center gap-2 px-6 py-3 min-h-[48px] rounded-sm text-white ${readyStep2 ? "bg-black hover:bg-gray-900" : "bg-gray-300 cursor-not-allowed"}`}
                   >
                     {paid ? "Processing…" : "Pay Now"} <ArrowRight className="w-4 h-4"/>
                   </button>
@@ -458,7 +458,7 @@ export default function BookingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <Section icon={CheckCircle2} title="You're booked!">
-                <div className="grid md:grid-cols-2 gap-3 text-sm bg-gray-50 border rounded-xl p-4">
+                <div className="grid md:grid-cols-2 gap-3 text-sm bg-gray-50 border rounded-sm p-4">
                   <div className="flex justify-between"><span>Booking reference</span><span className="font-medium">{bookingRef}</span></div>
                   <div className="flex justify-between"><span>Date</span><span>{date}</span></div>
                   <div className="flex justify-between"><span>Tier</span><span>{tierLabel}</span></div>
@@ -467,10 +467,10 @@ export default function BookingPage() {
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <a href={voucherHref} download={`JVTO-${bookingRef}-voucher.txt`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border hover:bg-gray-50"><Download className="w-4 h-4"/> Download voucher</a>
-                  <a href={icsHref} download={`JVTO-${bookingRef}.ics`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border hover:bg-gray-50"><CalendarDays className="w-4 h-4"/> Add to Calendar</a>
-                  <button onClick={()=> document.getElementById("details")?.scrollIntoView({behavior:'smooth'})} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white hover:bg-gray-900"><FileText className="w-4 h-4"/> Complete Your Details</button>
-                  <a href="#" onClick={(e)=> e.preventDefault()} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border hover:bg-gray-50"><MessageSquare className="w-4 h-4"/> WhatsApp support</a>
+                  <a href={voucherHref} download={`JVTO-${bookingRef}-voucher.txt`} className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border hover:bg-gray-50"><Download className="w-4 h-4"/> Download voucher</a>
+                  <a href={icsHref} download={`JVTO-${bookingRef}.ics`} className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border hover:bg-gray-50"><CalendarDays className="w-4 h-4"/> Add to Calendar</a>
+                  <button onClick={()=> document.getElementById("details")?.scrollIntoView({behavior:'smooth'})} className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-black text-white hover:bg-gray-900"><FileText className="w-4 h-4"/> Complete Your Details</button>
+                  <a href="#" onClick={(e)=> e.preventDefault()} className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border hover:bg-gray-50"><MessageSquare className="w-4 h-4"/> WhatsApp support</a>
                 </div>
               </Section>
 
@@ -479,23 +479,23 @@ export default function BookingPage() {
                   <div>
                     <label className="text-sm font-medium text-gray-800">Pickup option</label>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      <button onClick={()=> setPickupType("airport")} className={`px-4 py-3 min-h-[48px] rounded-xl border ${pickupType==='airport' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Airport</button>
-                      <button onClick={()=> setPickupType("hotel")} className={`px-4 py-3 min-h-[48px] rounded-xl border ${pickupType==='hotel' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Hotel</button>
-                      <button onClick={()=> setPickupType("meet")} className={`px-4 py-3 min-h-[48px] rounded-xl border ${pickupType==='meet' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Meet point</button>
+                      <button onClick={()=> setPickupType("airport")} className={`px-4 py-3 min-h-[48px] rounded-sm border ${pickupType==='airport' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Airport</button>
+                      <button onClick={()=> setPickupType("hotel")} className={`px-4 py-3 min-h-[48px] rounded-sm border ${pickupType==='hotel' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Hotel</button>
+                      <button onClick={()=> setPickupType("meet")} className={`px-4 py-3 min-h-[48px] rounded-sm border ${pickupType==='meet' ? 'bg-black text-white border-black' : 'hover:bg-gray-50'}`}>Meet point</button>
                     </div>
                   </div>
 
-                  {pickupType === "airport" && (<div className="grid md:grid-cols-3 gap-3"><div><label className="text-sm font-medium text-gray-800">Arrival flight</label><input value={flight} onChange={e=> setFlight(e.target.value)} placeholder="QZ 123" className="mt-1 w-full rounded-xl border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Arrival date</label><input type="date" value={arrivalDate} onChange={e=> setArrivalDate(e.target.value)} className="mt-1 w-full rounded-xl border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Arrival time</label><input type="time" value={arrivalTime} onChange={e=> setArrivalTime(e.target.value)} className="mt-1 w-full rounded-xl border px-4 h-12"/></div></div>)}
-                  {pickupType === "hotel" && (<div className="grid md:grid-cols-2 gap-3"><div><label className="text-sm font-medium text-gray-800">Hotel name</label><input value={hotelName} onChange={e=> setHotelName(e.target.value)} className="mt-1 w-full rounded-xl border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Address</label><input value={hotelAddr} onChange={e=> setHotelAddr(e.target.value)} className="mt-1 w-full rounded-xl border px-4 h-12"/></div></div>)}
-                  {pickupType === "meet" && (<div className="rounded-xl border p-4 bg-gray-50 text-sm text-gray-700">Meeting point: <strong>Probolinggo Station (Demo)</strong><br/> Show this voucher to your guide.</div>)}
+                  {pickupType === "airport" && (<div className="grid md:grid-cols-3 gap-3"><div><label className="text-sm font-medium text-gray-800">Arrival flight</label><input value={flight} onChange={e=> setFlight(e.target.value)} placeholder="QZ 123" className="mt-1 w-full rounded-sm border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Arrival date</label><input type="date" value={arrivalDate} onChange={e=> setArrivalDate(e.target.value)} className="mt-1 w-full rounded-sm border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Arrival time</label><input type="time" value={arrivalTime} onChange={e=> setArrivalTime(e.target.value)} className="mt-1 w-full rounded-sm border px-4 h-12"/></div></div>)}
+                  {pickupType === "hotel" && (<div className="grid md:grid-cols-2 gap-3"><div><label className="text-sm font-medium text-gray-800">Hotel name</label><input value={hotelName} onChange={e=> setHotelName(e.target.value)} className="mt-1 w-full rounded-sm border px-4 h-12"/></div><div><label className="text-sm font-medium text-gray-800">Address</label><input value={hotelAddr} onChange={e=> setHotelAddr(e.target.value)} className="mt-1 w-full rounded-sm border px-4 h-12"/></div></div>)}
+                  {pickupType === "meet" && (<div className="rounded-sm border p-4 bg-gray-50 text-sm text-gray-700">Meeting point: <strong>Probolinggo Station (Demo)</strong><br/> Show this voucher to your guide.</div>)}
 
                   <div>
                     <label className="text-sm font-medium text-gray-800">Additional requests (optional)</label>
-                    <textarea value={notes} onChange={e=> setNotes(e.target.value)} rows={3} className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Dietary, mobility, infant seat, etc."/>
+                    <textarea value={notes} onChange={e=> setNotes(e.target.value)} rows={3} className="mt-1 w-full rounded-sm border px-3 py-2" placeholder="Dietary, mobility, infant seat, etc."/>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <button onClick={()=> setDetailsSaved(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white hover:bg-gray-900">Save Details <CheckCircle2 className="w-4 h-4"/></button>
+                    <button onClick={()=> setDetailsSaved(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-black text-white hover:bg-gray-900">Save Details <CheckCircle2 className="w-4 h-4"/></button>
                     {detailsSaved && <span className="text-sm text-emerald-700">Details saved</span>}
                   </div>
                   <div className="text-xs text-gray-600 flex items-center gap-2 mt-2"><Clock className="w-4 h-4"/> Please complete your pickup details at least **48 hours** before your tour.</div>
@@ -521,9 +521,9 @@ export default function BookingPage() {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t bg-white/95 backdrop-blur p-3">
         <div className="max-w-6xl mx-auto px-1 flex items-center justify-between">
           <div><p className="text-xs text-gray-500">Total</p><p className="text-base font-semibold">{formatIDR(total)}</p></div>
-          {step === 1 && (<button onClick={()=> readyStep1 && setStep(2)} disabled={!readyStep1} className={`inline-flex items-center justify-center gap-2 px-6 h-12 rounded-xl text-white ${readyStep1 ? 'bg-black hover:bg-gray-900' : 'bg-gray-300 cursor-not-allowed'}`}>Continue <ArrowRight className="w-4 h-4"/></button>)}
-          {step === 2 && (<button onClick={handlePay} disabled={!readyStep2} className={`inline-flex items-center justify-center gap-2 px-6 h-12 rounded-xl text-white ${readyStep2 ? 'bg-black hover:bg-gray-900' : 'bg-gray-300 cursor-not-allowed'}`}>Pay Now <ArrowRight className="w-4 h-4"/></button>)}
-          {step === 3 && (<a href={voucherHref} download={`JVTO-${bookingRef}-voucher.txt`} className="inline-flex items-center justify-center gap-2 px-6 h-12 rounded-xl border hover:bg-gray-50"><Download className="w-4 h-4"/> Voucher</a>)}
+          {step === 1 && (<button onClick={()=> readyStep1 && setStep(2)} disabled={!readyStep1} className={`inline-flex items-center justify-center gap-2 px-6 h-12 rounded-sm text-white ${readyStep1 ? 'bg-black hover:bg-gray-900' : 'bg-gray-300 cursor-not-allowed'}`}>Continue <ArrowRight className="w-4 h-4"/></button>)}
+          {step === 2 && (<button onClick={handlePay} disabled={!readyStep2} className={`inline-flex items-center justify-center gap-2 px-6 h-12 rounded-sm text-white ${readyStep2 ? 'bg-black hover:bg-gray-900' : 'bg-gray-300 cursor-not-allowed'}`}>Pay Now <ArrowRight className="w-4 h-4"/></button>)}
+          {step === 3 && (<a href={voucherHref} download={`JVTO-${bookingRef}-voucher.txt`} className="inline-flex items-center justify-center gap-2 px-6 h-12 rounded-sm border hover:bg-gray-50"><Download className="w-4 h-4"/> Voucher</a>)}
         </div>
       </div>
     </div>

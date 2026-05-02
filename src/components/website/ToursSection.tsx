@@ -51,7 +51,7 @@ const ToursSection: React.FC<ToursSectionProps> = ({
           <div className="flex justify-center flex-wrap gap-3 mb-12">
             <button
               onClick={handleFindClick}
-              className="flex items-center gap-2 px-6 py-3 text-lg rounded-xl font-semibold shadow-lg transition-all duration-200 transform hover:scale-105 bg-white text-ink-primary hover:bg-primary hover:text-white"
+              className="flex items-center gap-2 px-6 py-3 text-lg rounded-sm font-semibold shadow-lg transition-all duration-200 transform hover:scale-105 bg-white text-ink-primary hover:bg-primary hover:text-white"
             >
               <SlidersHorizontal size={20} />
               Find Your Perfect Tour
@@ -66,7 +66,7 @@ const ToursSection: React.FC<ToursSectionProps> = ({
             ))}
           </div>
         ) : (
-          <div className="text-center bg-white/30 dark:bg-ink-primary/50 backdrop-blur-sm p-8 rounded-2xl max-w-md mx-auto">
+          <div className="text-center bg-white/30 dark:bg-ink-primary/50 backdrop-blur-sm p-8 rounded-sm max-w-md mx-auto">
             <SearchX
               size={56}
               className="mx-auto text-ink-primary dark:text-white"
@@ -81,7 +81,7 @@ const ToursSection: React.FC<ToursSectionProps> = ({
         )}
 
         {/* <div className="mt-12 text-center">
-            <a href="#" className="px-8 py-3 rounded-xl border-2 border-primary text-primary text-center font-semibold hover:bg-primary hover:text-white transition-colors duration-300">
+            <a href="#" className="px-8 py-3 rounded-sm border-2 border-primary text-primary text-center font-semibold hover:bg-primary hover:text-white transition-colors duration-300">
                 View All Tours
             </a>
         </div> */}

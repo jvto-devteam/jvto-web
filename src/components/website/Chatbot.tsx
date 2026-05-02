@@ -97,7 +97,7 @@ const Chatbot: React.FC = () => {
                 ></div>
             )}
             
-            <div className={`fixed bottom-24 right-6 z-50 w-[calc(100%-3rem)] max-w-md bg-white dark:bg-background-dark rounded-2xl shadow-lg transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+            <div className={`fixed bottom-24 right-6 z-50 w-[calc(100%-3rem)] max-w-md bg-white dark:bg-background-dark rounded-sm shadow-lg transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
                 <div className="flex flex-col h-[60vh] max-h-[700px]">
                     <header className="flex justify-between items-center p-4 border-b border-ink-neutral-200 dark:border-ink-neutral-700">
                         <h3 className="text-lg font-bold text-ink-primary dark:text-white">JVTO AI Assistant</h3>
@@ -110,7 +110,7 @@ const Chatbot: React.FC = () => {
                         {messages.map((msg, index) => (
                             <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 {msg.role === 'model' && <span className="material-symbols-outlined text-primary mr-2">smart_toy</span>}
-                                <div className={`max-w-xs md:max-w-sm rounded-2xl px-4 py-2 ${msg.role === 'user' ? 'bg-primary text-white rounded-br-none' : 'bg-ink-neutral-50 dark:bg-ink-neutral-700 text-ink-primary dark:text-white rounded-bl-none'}`}>
+                                <div className={`max-w-xs md:max-w-sm rounded-sm px-4 py-2 ${msg.role === 'user' ? 'bg-primary text-white rounded-br-none' : 'bg-ink-neutral-50 dark:bg-ink-neutral-700 text-ink-primary dark:text-white rounded-bl-none'}`}>
                                    {msg.role === 'model' ? <MarkdownRenderer text={msg.content} /> : <p>{msg.content}</p>}
                                 </div>
                             </div>
@@ -118,7 +118,7 @@ const Chatbot: React.FC = () => {
                         {isLoading && (
                             <div className="flex justify-start">
                                <span className="material-symbols-outlined text-primary mr-2">smart_toy</span>
-                               <div className="max-w-xs rounded-2xl px-4 py-2 bg-ink-neutral-50 dark:bg-ink-neutral-700 rounded-bl-none">
+                               <div className="max-w-xs rounded-sm px-4 py-2 bg-ink-neutral-50 dark:bg-ink-neutral-700 rounded-bl-none">
                                    <div className="flex items-center gap-1.5">
                                        <span className="h-2 w-2 bg-primary rounded-full animate-pulse [animation-delay:-0.3s]"></span>
                                        <span className="h-2 w-2 bg-primary rounded-full animate-pulse [animation-delay:-0.15s]"></span>
@@ -131,7 +131,7 @@ const Chatbot: React.FC = () => {
                     </div>
 
                     <div className="p-4 border-t border-ink-neutral-200 dark:border-ink-neutral-700">
-                        <div className="flex items-end gap-2 bg-ink-neutral-50 dark:bg-ink-neutral-700 rounded-lg p-1">
+                        <div className="flex items-end gap-2 bg-ink-neutral-50 dark:bg-ink-neutral-700 rounded-sm p-1">
                             <textarea
                                 ref={textareaRef}
                                 value={input}
@@ -146,7 +146,7 @@ const Chatbot: React.FC = () => {
                                 className="flex-grow bg-transparent p-2 focus:outline-none resize-none max-h-32 text-ink-primary dark:text-white"
                                 rows={1}
                             />
-                            <button onClick={handleSend} disabled={isLoading || !input.trim()} className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-lg flex-shrink-0 disabled:bg-opacity-50 disabled:cursor-not-allowed">
+                            <button onClick={handleSend} disabled={isLoading || !input.trim()} className="w-12 h-12 flex items-center justify-center bg-primary text-white rounded-sm flex-shrink-0 disabled:bg-opacity-50 disabled:cursor-not-allowed">
                                 <span className="material-symbols-outlined">send</span>
                             </button>
                         </div>

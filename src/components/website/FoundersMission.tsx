@@ -32,7 +32,7 @@ const FoundersMission: React.FC<FoundersMissionProps> = ({ onCtaClick }) => {
             <img
               src={foundersMissionCopy.imageUrl}
               alt="JVTO Founder, Mr. Sam"
-              className="object-contain w-full h-auto max-h-[600px] rounded-lg shadow-lg"
+              className="object-contain w-full h-auto max-h-[600px] rounded-sm shadow-lg"
             />
           </div>
 
@@ -63,7 +63,7 @@ const FoundersMission: React.FC<FoundersMissionProps> = ({ onCtaClick }) => {
                     "founders_mission"
                   )
                 }
-                className="group inline-flex items-center gap-3 px-6 py-3 bg-primary rounded-lg text-white font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
+                className="group inline-flex items-center gap-3 px-6 py-3 bg-primary rounded-sm text-white font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105"
               >
                 <span>{foundersMissionCopy.cta}</span>
                 <ArrowRight

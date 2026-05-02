@@ -17,7 +17,7 @@ const StartingPointCard: React.FC<StartingPointCardProps> = ({
 }) => (
   <Link
     href={to}
-    className="group relative block bg-black rounded-2xl overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform duration-300"
+    className="group relative block bg-black rounded-sm overflow-hidden shadow-lg transform hover:-translate-y-1 transition-transform duration-300"
   >
     <img
       src={imageUrl}
