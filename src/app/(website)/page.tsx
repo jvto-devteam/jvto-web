@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
+import Features from "@/components/website/Home/Features";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import Reviews from "@/components/website/Home/Reviews";
@@ -176,6 +177,7 @@ const Home = async () => {
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Hero title={seo.h1} description={seo.description} />
+      <Features />
       {/* Pass destinations dari sini: tidak perlu fetch ulang di HomeDestinations */}
       <HomeDestinations destinations={destinations} />
       <FeaturedTours />
