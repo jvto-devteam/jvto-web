@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-02T00:00:00Z",
+  "title": "Design System: JVTO",
+  "extensions": {
+    "colorMeta": {
+      "phosphor-green": {
+        "role": "primary",
+        "displayName": "Phosphor Green",
+        "canonical": "oklch(79% 0.19 127)",
+        "tonalRamp": ["#0f2200", "#1e3c00", "#2f5500", "#437100", "#5d8f00", "#7cb00a", "#9fce33", "#c6e877"]
+      },
+      "phosphor-green-hover": {
+        "role": "primary-hover",
+        "displayName": "Phosphor Green (Pressed)",
+        "canonical": "oklch(72% 0.18 127)",
+        "tonalRamp": ["#0f2200", "#1c3a00", "#2d5500", "#406f00", "#598b00", "#74a600", "#8cb82b", "#b9d87a"]
+      },
+      "obsidian": {
+        "role": "neutral-dark",
+        "displayName": "Obsidian",
+        "canonical": "oklch(13% 0.002 0)",
+        "tonalRamp": ["#111111", "#1a1a1a", "#303030", "#494949", "#636363", "#888888", "#ababab", "#d4d4d4"]
+      },
+      "field-surface": {
+        "role": "neutral-bg",
+        "displayName": "Field Surface",
+        "canonical": "oklch(96% 0.002 0)",
+        "tonalRamp": ["#1c1c1c", "#323232", "#4e4e4e", "#6b6b6b", "#8e8e8e", "#b5b5b5", "#d9d9d9", "#f5f5f5"]
+      },
+      "field-text": {
+        "role": "neutral-text",
+        "displayName": "Field Text",
+        "canonical": "oklch(24% 0.003 0)",
+        "tonalRamp": ["#111111", "#1a1a1a", "#333333", "#4d4d4d", "#737373", "#999999", "#c4c4c4", "#e8e8e8"]
+      },
+      "neutral-white": {
+        "role": "neutral-surface",
+        "displayName": "Pure White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": ["#1a1a1a", "#303030", "#505050", "#757575", "#9c9c9c", "#c0c0c0", "#e0e0e0", "#ffffff"]
+      },
+      "neutral-muted": {
+        "role": "neutral-secondary",
+        "displayName": "Muted Label",
+        "canonical": "oklch(51% 0.007 264)",
+        "tonalRamp": ["#111214", "#1f2025", "#2f3138", "#464850", "#6b7280", "#9ca3af", "#d1d5db", "#f9fafb"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headings and primary section titles. Weight 900 + uppercase creates authority without requiring extreme scale."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, feature card titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card headings, sub-section labels."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Narrative text, tour descriptions, FAQ answers. Cap at 65-75ch on reading-heavy pages."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "UI chrome only: buttons, badges, nav items, category tags. All-caps at 11px with wide tracking."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-lift",
+        "value": "0 20px 60px rgba(0,0,0,0.12)",
+        "purpose": "Interactive cards and tour items on hover. Paired with translateY(-4px)."
+      },
+      {
+        "name": "floating-surface",
+        "value": "0 25px 50px rgba(0,0,0,0.25)",
+        "purpose": "Mega menu dropdowns, modals — surfaces that communicate z-plane separation."
+      },
+      {
+        "name": "grounding-tint",
+        "value": "0 2px 8px rgba(0,0,0,0.06)",
+        "purpose": "Optional ambient anchor for cards in dense grids. Use conservatively."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-default",
+        "value": "0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96)",
+        "purpose": "Default state transitions: color, border, background."
+      },
+      {
+        "name": "ease-quart",
+        "value": "0.2s cubic-bezier(0.77, 0, 0.18, 1)",
+        "purpose": "Hover lifts and card elevations."
+      },
+      {
+        "name": "ease-long",
+        "value": "0.64s cubic-bezier(0.65, 0.05, 0.36, 1)",
+        "purpose": "Navigation open/close, drawer slides."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The sole conversion CTA. Phosphor green. Used for Book Now, submit, confirm actions.",
+      "html": "<button class=\"ds-btn-primary\">BOOK THIS TOUR</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background-color: #9fce33; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96), transform 0.15s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-primary:hover { background-color: #8cb82b; } .ds-btn-primary:focus-visible { outline: 2px solid #9fce33; outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Secondary action. Obsidian fill. Used for View All Tours, navigate, non-booking flows.",
+      "html": "<button class=\"ds-btn-secondary\">VIEW ALL TOURS</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; background-color: #1a1a1a; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-secondary:hover { background-color: #333333; } .ds-btn-secondary:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Tertiary action. 2px obsidian border, transparent fill. Fills to obsidian on hover.",
+      "html": "<button class=\"ds-btn-outline\">LEARN MORE</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 10px 22px; border: 2px solid #1a1a1a; border-radius: 4px; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96), color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-btn-outline:hover { background-color: #1a1a1a; color: #ffffff; } .ds-btn-outline:focus-visible { outline: 2px solid #9fce33; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tour Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Primary content unit for tour listings. Flat at rest, lifts on hover. Used in from-bali and from-surabaya listings.",
+      "html": "<div class=\"ds-tour-card\"><div class=\"ds-tour-card-img\">TOUR IMAGE</div><div class=\"ds-tour-card-body\"><span class=\"ds-tour-card-tag\">PRIVATE TOUR</span><h3 class=\"ds-tour-card-title\">Bromo + Ijen 3D2N</h3><p class=\"ds-tour-card-desc\">Overnight at Bromo, full Ijen trek. Medical check-up included.</p><div class=\"ds-tour-card-footer\"><span class=\"ds-tour-card-price\">From USD 195 / pax</span><button class=\"ds-btn-primary\">BOOK NOW</button></div></div></div>",
+      "css": ".ds-tour-card { background-color: #ffffff; border-radius: 4px; border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s cubic-bezier(0.77, 0, 0.18, 1), box-shadow 0.2s cubic-bezier(0.77, 0, 0.18, 1); } .ds-tour-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.12); } .ds-tour-card-img { width: 100%; height: 200px; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #6b7280; font-family: 'Inter', sans-serif; font-size: 0.75rem; } .ds-tour-card-body { padding: 24px; } .ds-tour-card-tag { display: inline-block; background-color: #f5f5f5; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; } .ds-tour-card-title { font-family: 'Inter', sans-serif; font-size: 1.125rem; font-weight: 800; color: #1a1a1a; margin: 0 0 8px 0; line-height: 1.3; } .ds-tour-card-desc { font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 400; color: #333333; line-height: 1.65; margin: 0 0 16px 0; } .ds-tour-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; } .ds-tour-card-price { font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; color: #1a1a1a; } .ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background-color: #9fce33; color: #1a1a1a; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; line-height: 1; letter-spacing: 0.075em; text-transform: uppercase; padding: 10px 18px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; } .ds-btn-primary:hover { background-color: #8cb82b; }"
+    },
+    {
+      "name": "Trust Badge",
+      "kind": "custom",
+      "description": "Verification chip for legal credentials, police association, and review scores. Always links to source. The green checkmark is the signal — its presence means the claim is documented.",
+      "html": "<a href=\"#\" class=\"ds-trust-badge\"><svg class=\"ds-trust-badge-icon\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\" stroke=\"#9fce33\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span class=\"ds-trust-badge-label\">GOVERNMENT LICENSED</span></a>",
+      "css": ".ds-trust-badge { display: inline-flex; align-items: center; gap: 6px; background-color: #f5f5f5; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 10px; text-decoration: none; transition: border-color 0.2s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-trust-badge:hover { border-color: #9fce33; } .ds-trust-badge-icon { flex-shrink: 0; } .ds-trust-badge-label { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #333333; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "description": "Standard text input. Bordered, flat, 4px radius. Focus shifts border weight — no color glow.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-input-demo\">FULL NAME</label><input class=\"ds-field-input\" id=\"ds-input-demo\" type=\"text\" placeholder=\"Enter your full name\"/></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; } .ds-field-label { font-family: 'Inter', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1a1a; } .ds-field-input { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 400; color: #333333; background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 4px; padding: 10px 14px; outline: none; transition: border-color 0.15s cubic-bezier(0.46, 0.03, 0.52, 0.96); } .ds-field-input::placeholder { color: #9ca3af; } .ds-field-input:focus { border-color: #6b7280; } .ds-field-input:focus-visible { outline: 2px solid #9fce33; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Operator's Clipboard",
+    "overview": "This system treats every screen like a pre-expedition briefing document: purposeful, structured, nothing wasted. The visual language of a trusted operator who has run 200 tours doesn't need decoration — it needs clarity. Every element earns its place the same way a line item on a safety checklist earns its place: because it's true, not because it looks good.\n\nThe palette is deliberately minimal. Near-black for authority. A single phosphor green for action and verification. White for content surfaces. Off-white for section breathing room. The green functions like a trail marker in low-visibility conditions — not decorative, immediately readable, trusted because it's functional.\n\nThis system rejects warmth as a design strategy. Warmth compensates for weak trust signals. JVTO's trust signals are documented and verifiable — they don't need softening. The UI should feel the way the operator feels: direct, reliable, ready.",
+    "keyCharacteristics": [
+      "Single-font system (Inter) with weight as the primary hierarchy tool",
+      "Sharp edges throughout — no soft card corners, no rounded-xl on containers",
+      "One active color (phosphor green) as the sole signal color per screen",
+      "Flat surfaces at rest; elevation only appears on interaction",
+      "All-caps labels for UI chrome and buttons",
+      "Content-first layouts with zero decorative elements"
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Phosphor green appears on at most one interactive element per viewport. Its scarcity is the signal. Decorative use on non-interactive elements is prohibited.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lime Drift Rule",
+        "body": "Some legacy components use bg-lime-400 or bg-lime-600 instead of the canonical #9fce33. These are audit targets. Never mix Tailwind lime-scale utilities with the custom token on the same surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Weight-as-Hierarchy Rule",
+        "body": "Hierarchy is expressed through Inter's weight axis — not by introducing a second typeface. If a design requires a third weight step to create distinction, the layout has too many levels. Reduce levels; don't add fonts.",
+        "section": "typography"
+      },
+      {
+        "name": "The All-Caps Constraint",
+        "body": "All-caps is reserved for UI chrome: buttons, labels, badges, nav items. Never apply to body copy or any text block longer than six words.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "A surface with no interactive function has no shadow. Decorative box-shadows on static cards, dividers, or hero sections are prohibited.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use phosphor green (#9fce33) exclusively for interactive elements and verification markers. One green signal per viewport.",
+      "Do use Inter font-black (weight 900) + uppercase + tracking-wider for section headings and hero copy.",
+      "Do default to rounded-sm (4px) for all interactive and container elements.",
+      "Do keep surfaces flat at rest. Add elevation only on hover.",
+      "Do cap body text line-length at 65-75ch on content-heavy pages.",
+      "Do use bg-jvto-green (#9fce33) — not Tailwind's bg-lime-400 or bg-lime-600.",
+      "Do link every trust badge and credential chip to its source document."
+    ],
+    "donts": [
+      "Don't use border-left or border-right greater than 1px as a colored stripe accent on cards or callouts.",
+      "Don't round cards or panels beyond rounded-sm. rounded-xl, rounded-2xl, rounded-3xl on containers is prohibited.",
+      "Don't style like a backpacker listing — Viator-style photo tiles with overlay price badges and orange CTAs are exactly what this system rejects.",
+      "Don't use gradient text (background-clip: text). Use a single solid color.",
+      "Don't apply the TipTap purple (--tt-brand-color-*) to public-facing surfaces — it is scoped to the (cms) route only.",
+      "Don't add shadows to non-interactive static elements.",
+      "Don't use identical icon-card grids (same size, repeated 4-8 times).",
+      "Don't animate layout properties (height, width, padding, margin)."
+    ]
+  }
+}
