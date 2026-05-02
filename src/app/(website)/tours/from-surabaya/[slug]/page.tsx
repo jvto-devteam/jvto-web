@@ -447,9 +447,9 @@ function adaptToTourDetailSeed(
   };
 }
 
-// Surabaya tours store the bare slug in DB (no "tours/from-surabaya/" prefix needed for package_faqs lookup).
 function dbSlugForSurabaya(bareSlug: string | string[]): string {
-  return Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
+  const s = Array.isArray(bareSlug) ? bareSlug.join("/") : bareSlug;
+  return s.includes("tours/") ? s : `tours/from-surabaya/${s}`;
 }
 
 export default async function Page({ params }: Props) {

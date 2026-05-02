@@ -142,7 +142,7 @@ Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt
 ### Prisma Models (notable)
 
 - `narrative_claims` — added Phase 3 of port. 9 canonical brand claims (C1–C9) with `primary_page` field for FAQ wiring.
-- `packages` (16 active + 12 soft-deleted) — slug shape heterogeneous: Surabaya bare names (`bromo-1d1n`), Bali full path (`tours/from-bali/bromo-ijen-3d2n`).
+- `packages` (16 active + 12 soft-deleted) — slug shape uniform full-path: both Surabaya (`tours/from-surabaya/bromo-1d1n`) and Bali (`tours/from-bali/bromo-ijen-3d2n`) use the full prefix. Fixed 2026-05-02 (jvto_dev Surabaya slugs were bare, causing 404).
 - `destinations` (5 published + 5 NULL-slug city/departure refs) — `id IN (3, 4)` filtered out (Bali / Surabaya departure refs, not real destinations).
 - `crew_members` — used by `/why-jvto/our-team` Person schema injection via `getActiveCrewMembers()`.
 - `content_pages` — CMS-managed SEO + content.faq per route.
@@ -155,7 +155,7 @@ Live's Prisma returns `BigInt` for `id` columns. JSON.stringify chokes on BigInt
 - `/why-jvto/[slug]`, `/travel-guide/[slug]`, `/policy/[slug]` — dynamic CMS-driven sub-pages with per-slug schema augmentation
 - `/verify-jvto/{legal,police-safety,press-recognition,history-artifacts}/page.tsx` — separate folders (not [slug] dynamic)
 
-Slug shape (heterogeneous, intentional): Surabaya tours = bare names; Bali tours = full path. Reason: collisions between cities. Don't migrate.
+Slug shape: both cities use full-path format — `tours/from-surabaya/{slug}` and `tours/from-bali/{slug}`. The bare-name format for Surabaya was a jvto_dev data bug (fixed 2026-05-02), not intentional design.
 
 ## Auto-Memory
 
