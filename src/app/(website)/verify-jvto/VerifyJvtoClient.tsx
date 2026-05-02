@@ -149,7 +149,7 @@ export default function VerifyJvtoClient({
     <div className="flex py-30 flex-col min-h-screen bg-[#f6f6f8] font-sans text-slate-800">
       <main className="flex-grow p-6 md:p-8 max-w-[1600px] mx-auto w-full">
         {/* HERO SECTION */}
-        <section className="mb-10 bg-white rounded-2xl p-8 md:p-10 border border-slate-200 shadow-sm relative overflow-hidden group">
+        <section className="mb-10 bg-white rounded-sm p-8 md:p-10 border border-slate-200 shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full -mr-16 -mt-16 pointer-events-none"></div>
           <div className="absolute bottom-0 right-20 w-32 h-32 bg-yellow-50/50 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -194,7 +194,7 @@ export default function VerifyJvtoClient({
               </div>
             </div>
             <div className="hidden lg:flex gap-4">
-              <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 text-center min-w-[140px]">
+              <div className="bg-slate-50 p-5 rounded-sm border border-slate-100 text-center min-w-[140px]">
                 <p className="text-3xl font-black text-[#1445b8] mb-1">
                   {filteredDocuments.length}
                 </p>
@@ -202,13 +202,13 @@ export default function VerifyJvtoClient({
                   Verified Assets
                 </p>
               </div>
-              <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 text-center min-w-[140px]">
+              <div className="bg-slate-50 p-5 rounded-sm border border-slate-100 text-center min-w-[140px]">
                 <p className="text-3xl font-black text-slate-900 mb-1">100%</p>
                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">
                   Audit Pass Rate
                 </p>
               </div>
-              <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 text-center min-w-[140px]">
+              <div className="bg-slate-50 p-5 rounded-sm border border-slate-100 text-center min-w-[140px]">
                 <p className="text-3xl font-black text-slate-900 mb-1">2015</p>
                 <p className="text-xs text-slate-500 uppercase font-bold tracking-wide">
                   Since
@@ -291,7 +291,7 @@ export default function VerifyJvtoClient({
             return (
               <div
                 key={i}
-                className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 flex flex-col h-full"
+                className="group bg-white rounded-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 flex flex-col h-full"
               >
                 {/* Thumbnail */}
                 <div
@@ -416,7 +416,7 @@ export default function VerifyJvtoClient({
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          <div className="relative w-full max-w-7xl bg-white dark:bg-[#111621] rounded-none md:rounded-xl shadow-2xl overflow-hidden flex flex-col h-full md:h-[95vh] border border-gray-200 dark:border-gray-800">
+          <div className="relative w-full max-w-7xl bg-white dark:bg-[#111621] rounded-none md:rounded-sm shadow-2xl overflow-hidden flex flex-col h-full md:h-[95vh] border border-gray-200 dark:border-gray-800">
             <div className="md:hidden p-4 bg-white border-b flex justify-between items-center">
               <h3 className="font-bold text-sm truncate pr-4">
                 {selectedDoc.official_title}
@@ -447,7 +447,7 @@ export default function VerifyJvtoClient({
                   </div>
 
                   {selectedDoc.external_validation_url ? (
-                    <div className="p-5 bg-white rounded-xl border border-blue-100 shadow-sm relative overflow-hidden group">
+                    <div className="p-5 bg-white rounded-sm border border-blue-100 shadow-sm relative overflow-hidden group">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
                       <div className="flex items-center gap-2 mb-4 relative z-10">
                         <Landmark className="w-4 h-4 text-blue-700" />
@@ -456,7 +456,7 @@ export default function VerifyJvtoClient({
                         </p>
                       </div>
                       <div className="flex gap-4 items-center relative z-10">
-                        <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 shrink-0">
+                        <div className="bg-blue-50 p-3 rounded-sm border border-blue-100 shrink-0">
                           <Shield className="w-8 h-8 text-blue-600" />
                         </div>
                         <div className="flex flex-col gap-2 w-full">
@@ -464,7 +464,7 @@ export default function VerifyJvtoClient({
                             href={selectedDoc.external_validation_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center rounded-lg h-9 px-4 bg-blue-600 text-white font-bold text-xs gap-2 hover:bg-blue-700 transition-all shadow-md shadow-blue-200"
+                            className="flex items-center justify-center rounded-sm h-9 px-4 bg-blue-600 text-white font-bold text-xs gap-2 hover:bg-blue-700 transition-all shadow-md shadow-blue-200"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
                             Verify Source Live
@@ -486,7 +486,7 @@ export default function VerifyJvtoClient({
                       </div>
                     </div>
                   ) : (
-                    <div className="p-5 bg-white rounded-xl border border-slate-200 text-center shadow-sm">
+                    <div className="p-5 bg-white rounded-sm border border-slate-200 text-center shadow-sm">
                       <BadgeCheck className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                       <p className="text-xs text-slate-500 font-bold">
                         Internal Forensic Asset
@@ -498,7 +498,7 @@ export default function VerifyJvtoClient({
                   )}
 
                   {/* Context & Metadata */}
-                  <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
+                  <div className="bg-white rounded-sm border border-slate-200 overflow-hidden shadow-sm">
                     <div className="p-4 border-b border-slate-100">
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
                         <FileText className="w-3 h-3" /> Context
@@ -554,7 +554,7 @@ export default function VerifyJvtoClient({
 
               {/* Main Preview */}
               <div className="w-full lg:w-[65%] bg-slate-200 relative flex flex-col overflow-hidden">
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-4 z-20 flex gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-lg shadow-lg border border-white/50">
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-4 z-20 flex gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-sm shadow-lg border border-white/50">
                   <button
                     onClick={() => setZoomLevel((z) => Math.min(z + 0.25, 3))}
                     className="p-2 rounded-md hover:bg-slate-100 text-slate-700 transition-colors"
@@ -639,7 +639,7 @@ export default function VerifyJvtoClient({
               <div className="flex gap-3 w-full md:w-auto">
                 <button
                   onClick={() => setSelectedDoc(null)}
-                  className="flex-1 md:flex-none flex items-center justify-center rounded-lg h-10 px-6 bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-all"
+                  className="flex-1 md:flex-none flex items-center justify-center rounded-sm h-10 px-6 bg-white border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-all"
                 >
                   Close
                 </button>
@@ -647,7 +647,7 @@ export default function VerifyJvtoClient({
                   href={selectedDoc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 md:flex-none flex items-center justify-center rounded-lg h-10 px-8 bg-[#1445b8] text-white font-bold text-sm gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/20"
+                  className="flex-1 md:flex-none flex items-center justify-center rounded-sm h-10 px-8 bg-[#1445b8] text-white font-bold text-sm gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/20"
                 >
                   <Eye className="w-4 h-4" />
                   Open Original

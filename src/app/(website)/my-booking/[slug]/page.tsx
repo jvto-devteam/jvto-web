@@ -74,7 +74,7 @@ export default async function MyBookingPage({
       <div className="bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="container mx-auto px-4 py-4 md:flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 bg-slate-900 rounded-lg flex items-center justify-center text-lime-400 font-black text-xs">
+            <div className="h-8 w-8 bg-slate-900 rounded-sm flex items-center justify-center text-jvto-green font-black text-xs">
               JV
             </div>
             <div>
@@ -89,7 +89,7 @@ export default async function MyBookingPage({
           {booking.channel != "KLOOK" && (
             <div className="mt-2 md:mt-0 md:text-right">
               {isFullyPaid ? (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-lime-100 text-lime-700 border border-lime-200">
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-jvto-green/10 text-jvto-green border border-jvto-green/30">
                   <CheckCircle size={12} /> Confirmed & Paid
                 </span>
               ) : isConfirmed ? (
@@ -120,7 +120,7 @@ export default async function MyBookingPage({
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-slate-900">
             Hello,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime-500 to-green-600">
+            <span className="text-jvto-green">
               {booking.customer_name}
             </span>
             ! 👋
@@ -143,7 +143,7 @@ export default async function MyBookingPage({
                 {isConfirmed ? (
                   // 1. TAMPILAN CONFIRMED (STYLE: WHITE CARD, BLUE TEXT, ORANGE BUTTON)
                   // Menggunakan bg-white (bukan blue-50) agar sama dengan Legacy
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                  <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
                     <div className="flex flex-col md:flex-row gap-4">
                       <div className="shrink-0 mt-1">
                         <Info className="text-blue-500" size={24} />
@@ -166,7 +166,7 @@ export default async function MyBookingPage({
 
                           {/* LOGIC METHOD: Hanya tampil jika user SUDAH MEMILIH sebelumnya */}
                           {booking.finance.balance_payment_method && (
-                            <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 mt-2">
+                            <div className="bg-slate-50 p-3 rounded-sm border border-slate-100 mt-2">
                               <p className="font-bold text-xs uppercase text-slate-400 mb-1">
                                 Selected Method
                               </p>
@@ -193,7 +193,7 @@ export default async function MyBookingPage({
                   </div>
                 ) : (
                   // 2. TAMPILAN AWAITING DEPOSIT (Orange Alert)
-                  <div className="bg-white rounded-2xl border border-orange-100 p-6 shadow-sm relative overflow-hidden">
+                  <div className="bg-white rounded-sm border border-orange-100 p-6 shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
 
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -230,7 +230,7 @@ export default async function MyBookingPage({
                         {!booking.finance.pending_upload_proof && (
                           <a
                             href={booking.finance.payment_link || "#"}
-                            className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-wide px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all inline-block"
+                            className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase tracking-wide px-6 py-3 rounded-sm shadow-lg shadow-orange-500/30 transition-all inline-block"
                           >
                             Pay Now &rarr;
                           </a>
@@ -242,7 +242,7 @@ export default async function MyBookingPage({
                             href={booking.finance.uploaded_payment_proof ?? "#"}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold uppercase tracking-wide px-6 py-3 rounded-lg border border-slate-200 transition-all inline-block"
+                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold uppercase tracking-wide px-6 py-3 rounded-sm border border-slate-200 transition-all inline-block"
                           >
                             View Payment Proof
                           </a>
@@ -255,13 +255,13 @@ export default async function MyBookingPage({
             )}
 
             {/* B. TRIP OVERVIEW */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-4">
                 Trip Details
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4">
                 <div>
-                  <div className="flex items-center gap-2 text-lime-600 mb-1">
+                  <div className="flex items-center gap-2 text-jvto-green mb-1">
                     <Calendar size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Date</span>
                   </div>
@@ -270,7 +270,7 @@ export default async function MyBookingPage({
                   </p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-lime-600 mb-1">
+                  <div className="flex items-center gap-2 text-jvto-green mb-1">
                     <Clock size={16} />{" "}
                     <span className="text-xs font-bold uppercase">
                       Duration
@@ -279,7 +279,7 @@ export default async function MyBookingPage({
                   <p className="font-bold text-slate-900">{booking.duration}</p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-lime-600 mb-1">
+                  <div className="flex items-center gap-2 text-jvto-green mb-1">
                     <Users size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Pax</span>
                   </div>
@@ -288,7 +288,7 @@ export default async function MyBookingPage({
                   </p>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2 text-lime-600 mb-1">
+                  <div className="flex items-center gap-2 text-jvto-green mb-1">
                     <MapPin size={16} />{" "}
                     <span className="text-xs font-bold uppercase">Start</span>
                   </div>
@@ -304,7 +304,7 @@ export default async function MyBookingPage({
 
             {/* C. ADD-ONS LIST */}
             {booking.addons.length > 0 && (
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-4">
                   Purchased Add-ons
                 </h3>
@@ -334,7 +334,7 @@ export default async function MyBookingPage({
                   ))}
                   <div className="flex justify-between items-center pt-4">
                     <p className="font-bold text-slate-500">Total Add-ons</p>
-                    <p className="text-xl font-black text-lime-600">
+                    <p className="text-xl font-black text-jvto-green">
                       {formatIDR(booking.finance.total_addons)}
                     </p>
                   </div>
@@ -375,7 +375,7 @@ export default async function MyBookingPage({
           <div className="lg:col-span-1 space-y-6">
 
             {/* 0. TRIP MEDIA & REVIEWS — top of sidebar for visibility */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-sm border border-slate-200 shadow-sm overflow-hidden">
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 px-6 pt-5 pb-3 border-b border-slate-100">
                 Your Trip
               </h3>
@@ -420,7 +420,7 @@ export default async function MyBookingPage({
             </div>
 
             {/* 1. CONTACT OPERATOR */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                 Need Help?
               </h3>
@@ -428,7 +428,7 @@ export default async function MyBookingPage({
                 <a
                   href="https://wa.me/6282244788833"
                   target="_blank"
-                  className="flex items-center gap-3 text-slate-700 hover:text-lime-600 transition-colors"
+                  className="flex items-center gap-3 text-slate-700 hover:text-jvto-green transition-colors"
                 >
                   <div className="p-2 bg-slate-100 rounded-full">
                     <Phone size={18} />
@@ -458,9 +458,9 @@ export default async function MyBookingPage({
 
             {/* 2. DOCUMENTS DOWNLOAD */}
             {booking.channel != "KLOOK" && (
-              <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-10 bg-lime-500 blur-3xl opacity-20 rounded-full pointer-events-none"></div>
-                <h3 className="font-bold uppercase tracking-widest mb-2 text-lime-400 text-xs relative z-10">
+              <div className="bg-slate-900 text-white rounded-sm p-6 shadow-lg overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-10 bg-jvto-green blur-3xl opacity-20 rounded-full pointer-events-none"></div>
+                <h3 className="font-bold uppercase tracking-widest mb-2 text-jvto-green text-xs relative z-10">
                   Documents
                 </h3>
                 <p className="text-white/60 text-xs mb-4 relative z-10 font-mono">
@@ -469,7 +469,7 @@ export default async function MyBookingPage({
                 <div className="space-y-3 relative z-10">
                   <a
                     href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice/${booking.url}`}
-                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
+                    className="flex items-center justify-between w-full px-4 py-3 rounded-sm bg-white/10 hover:bg-white/20 transition-all group"
                   >
                     <span className="font-bold text-sm">Invoice</span>
                     <Download
@@ -480,7 +480,7 @@ export default async function MyBookingPage({
 
                   <a
                     href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/receipt/${booking.url}`}
-                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
+                    className="flex items-center justify-between w-full px-4 py-3 rounded-sm bg-white/10 hover:bg-white/20 transition-all group"
                   >
                     <span className="font-bold text-sm">Receipt</span>
                     <Download
@@ -492,7 +492,7 @@ export default async function MyBookingPage({
                   {booking.addons.length > 0 && (
                     <a
                       href={`${process.env.NEXT_PUBLIC_LEGACY_URL_DOMAIN}/bookings/invoice-addon/${booking.url}`}
-                      className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all group"
+                      className="flex items-center justify-between w-full px-4 py-3 rounded-sm bg-white/10 hover:bg-white/20 transition-all group"
                     >
                       <span className="font-bold text-sm">Add-on Invoice</span>
                       <Download
@@ -505,7 +505,7 @@ export default async function MyBookingPage({
               </div>
             )}
             {booking.channel != "KLOOK" && (
-              <div className="bg-gradient-to-br from-lime-500 to-green-600 text-white rounded-2xl p-6 shadow-lg overflow-hidden relative">
+              <div className="bg-gradient-to-br from-jvto-green to-green-600 text-white rounded-sm p-6 shadow-lg overflow-hidden relative">
                 <div className="absolute top-0 right-0 p-10 bg-white blur-3xl opacity-20 rounded-full pointer-events-none"></div>
                 <h3 className="font-bold uppercase tracking-widest mb-4 text-white/80 text-xs relative z-10">
                   Grand Total
@@ -527,7 +527,7 @@ export default async function MyBookingPage({
             {/* 3. PAYMENT HISTORY */}
             {booking.channel != "KLOOK" &&
               booking.finance.payment_history.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
                   <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
                     Payment History
                   </h3>
@@ -549,7 +549,7 @@ export default async function MyBookingPage({
                           <p className="font-bold text-slate-900 text-sm">
                             {formatIDR(hist.nominal)}
                           </p>
-                          <span className="text-[10px] uppercase font-bold text-lime-600 bg-lime-100 px-1.5 py-0.5 rounded">
+                          <span className="text-[10px] uppercase font-bold text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded">
                             Success
                           </span>
                         </div>
@@ -568,7 +568,7 @@ export default async function MyBookingPage({
         href={`https://chat.javavolcano-touroperator.com/chat/${booking.url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-lime-400 text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
+        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-jvto-green text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
       >
         <MessageCircle size={18} />
         Chat with Us

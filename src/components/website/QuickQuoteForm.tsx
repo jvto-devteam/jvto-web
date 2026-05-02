@@ -15,7 +15,7 @@ const QuickQuoteForm: React.FC = () => {
     alert('Quote request sent! Check the console for data.');
   };
 
-  const inputStyles = "w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-ink-neutral-200 dark:border-ink-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-colors text-base";
+  const inputStyles = "w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-ink-neutral-200 dark:border-ink-neutral-700 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary transition-colors text-base";
   const labelStyles = "block text-sm font-semibold mb-1 text-ink-neutral-700 dark:text-ink-neutral-200";
 
   return (
@@ -51,7 +51,7 @@ const QuickQuoteForm: React.FC = () => {
             <label htmlFor="notes" className={labelStyles}>Notes (optional)</label>
             <textarea id="notes" value={notes} onChange={e => setNotes(e.target.value)} className={inputStyles} placeholder="Any special requests or questions?" rows={3}></textarea>
         </div>
-        <button type="submit" className="w-full px-6 py-3 mt-2 rounded-xl bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors duration-200">
+        <button type="submit" className="w-full px-6 py-3 mt-2 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-colors duration-200">
             Get a Clear Quote
         </button>
     </form>

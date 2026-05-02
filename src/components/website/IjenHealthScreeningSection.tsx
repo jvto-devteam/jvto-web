@@ -5,7 +5,7 @@ import { CheckCircle2, Globe } from "lucide-react";
 const IjenHealthScreeningSection = () => (
   <section className="py-16 md:py-24 bg-white dark:bg-background-dark">
     <div className="container mx-auto px-4">
-      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center bg-blue-50 dark:bg-blue-900/30 p-8 rounded-2xl border border-blue-200 dark:border-blue-700">
+      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center bg-blue-50 dark:bg-blue-900/30 p-8 rounded-sm border border-blue-200 dark:border-blue-700">
         
         {/* Content */}
         <div>
@@ -54,7 +54,7 @@ const IjenHealthScreeningSection = () => (
 
           <Link
             href="/travel-guide/ijen-health-screening"
-            className="mt-6 inline-block font-semibold text-primary bg-primary/5 hover:bg-primary/10 transition-colors px-6 py-3 rounded-lg"
+            className="mt-6 inline-block font-semibold text-primary bg-primary/5 hover:bg-primary/10 transition-colors px-6 py-3 rounded-sm"
           >
             How Ijen Screening Works →
           </Link>
@@ -65,7 +65,7 @@ const IjenHealthScreeningSection = () => (
           <img
             src="https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg"
             alt="Nurse checks blood pressure during Ijen pre-ascent screening at hotel lobby."
-            className="rounded-xl shadow-md w-full object-cover"
+            className="rounded-sm shadow-md w-full object-cover"
           />
         </div>
 

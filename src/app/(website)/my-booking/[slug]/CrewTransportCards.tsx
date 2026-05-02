@@ -17,14 +17,14 @@ export default function CrewTransportCards({ crews, vehicles }: Props) {
       
       {/* 1. CREW SECTION */}
       {allCrews.length > 0 && (
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-lime-500"></span>
+                <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
                 Meet Your Crew
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {allCrews.map((person, idx) => (
-                    <div key={idx} className="group border border-slate-100 rounded-xl overflow-hidden hover:shadow-md transition-all">
+                    <div key={idx} className="group border border-slate-100 rounded-sm overflow-hidden hover:shadow-md transition-all">
                         <div className="relative h-40 w-full bg-slate-100">
                             <Image 
                                 src={person.photo} 
@@ -48,14 +48,14 @@ export default function CrewTransportCards({ crews, vehicles }: Props) {
 
       {/* 2. TRANSPORT SECTION */}
       {vehicles.length > 0 && (
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-lime-500"></span>
+                <span className="w-2 h-2 rounded-full bg-jvto-green"></span>
                 Transportation Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {vehicles.map((car, idx) => (
-                    <div key={idx} className="flex flex-col border border-slate-200 rounded-xl overflow-hidden">
+                    <div key={idx} className="flex flex-col border border-slate-200 rounded-sm overflow-hidden">
                         <div className="relative h-48 w-full bg-slate-50 p-4">
                             <Image 
                                 src={car.banner} 

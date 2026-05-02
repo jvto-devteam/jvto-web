@@ -173,7 +173,7 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
       {/* Product / Package */}
       {review.package && (
-        <section className="border rounded-xl p-6 bg-gray-50">
+        <section className="border rounded-sm p-6 bg-gray-50">
           <h2 className="font-bold text-lg mb-2">Related Tour Package</h2>
 
           <p className="font-semibold text-slate-800">{review.package.name}</p>

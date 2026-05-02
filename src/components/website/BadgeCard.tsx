@@ -26,7 +26,7 @@ const BadgeCard: React.FC<{ badge: Badge }> = ({ badge }) => {
   const Icon = iconMap[badge.icon] ?? Award; // fallback icon
 
   return (
-    <div className="bg-white dark:bg-background-dark p-6 rounded-2xl shadow-card hover:shadow-cardHover h-full flex flex-col items-center text-center transform hover:-translate-y-1 transition-transform duration-300">
+    <div className="bg-white dark:bg-background-dark p-6 rounded-sm shadow-card hover:shadow-cardHover h-full flex flex-col items-center text-center transform hover:-translate-y-1 transition-transform duration-300">
       <div
         className={`w-20 h-20 rounded-full flex items-center justify-center ${badge.iconBgColor}`}
       >

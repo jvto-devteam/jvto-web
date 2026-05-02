@@ -75,13 +75,13 @@ const Hero: React.FC<HeroProps> = ({ heroCopy }) => {
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <Link
                   href="/tours"
-                  className="w-full sm:w-auto text-center px-8 py-4 rounded-xl bg-primary text-white font-bold text-base transition-all duration-300 shadow-[0_4px_12px_rgba(255,106,61,0.3)] hover:bg-[#E65A2F] hover:shadow-[0_6px_16px_rgba(255,106,61,0.4)] hover:-translate-y-0.5 active:bg-[#CC4F29] active:translate-y-0 active:shadow-[0_2px_6px_rgba(255,106,61,0.3)]"
+                  className="w-full sm:w-auto text-center px-8 py-4 rounded-sm bg-primary text-white font-bold text-base transition-all duration-300 shadow-[0_4px_12px_rgba(255,106,61,0.3)] hover:bg-[#E65A2F] hover:shadow-[0_6px_16px_rgba(255,106,61,0.4)] hover:-translate-y-0.5 active:bg-[#CC4F29] active:translate-y-0 active:shadow-[0_2px_6px_rgba(255,106,61,0.3)]"
                 >
                   {heroCopy.ctaPrimary}
                 </Link>
                 <Link
                   href="/plan-my-trip"
-                  className="w-full sm:w-auto text-center px-8 py-4 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold border border-white/30 text-base transition-all duration-300 hover:bg-white/20 hover:border-white/50 active:bg-white/15 active:scale-[0.98]"
+                  className="w-full sm:w-auto text-center px-8 py-4 rounded-sm bg-white/10 backdrop-blur-sm text-white font-semibold border border-white/30 text-base transition-all duration-300 hover:bg-white/20 hover:border-white/50 active:bg-white/15 active:scale-[0.98]"
                 >
                   {heroCopy.ctaSecondary}
                 </Link>

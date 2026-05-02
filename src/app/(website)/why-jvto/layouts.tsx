@@ -13,7 +13,7 @@ export default function WhyLayout({ children }: { children: ReactNode }) {
       <div className="px-4">
       <button
         onClick={() => setOpen(!open)}
-        className="mb-4 flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium md:hidden"
+        className="mb-4 flex items-center gap-2 rounded-sm border px-4 py-2 text-sm font-medium md:hidden"
       >
         {open ? "Hide Menu" : "Show Menu"}
       </button>

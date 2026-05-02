@@ -92,7 +92,7 @@ const LoginModal = ({
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-white rounded-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
           <h3 className="font-bold text-slate-800 text-lg">
@@ -123,7 +123,7 @@ const LoginModal = ({
               </p>
               <button
                 onClick={onClose}
-                className="w-full py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-all"
+                className="w-full py-3 bg-slate-100 text-slate-700 font-bold rounded-sm hover:bg-slate-200 transition-all"
               >
                 Close
               </button>
@@ -131,8 +131,8 @@ const LoginModal = ({
           ) : (
             /* STATE 2: FORM LOGIN */
             <>
-              <div className="w-16 h-16 bg-lime-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User size={32} className="text-lime-600" />
+              <div className="w-16 h-16 bg-jvto-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User size={32} className="text-jvto-green" />
               </div>
 
               <h4 className="text-xl font-bold text-slate-900 mb-2">
@@ -146,7 +146,7 @@ const LoginModal = ({
                 {/* 1. Google Button */}
                 <button
                   onClick={() => signIn("google")}
-                  className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 bg-white px-4 py-3 font-bold text-slate-700 transition-all hover:bg-slate-50 hover:shadow-sm"
+                  className="flex w-full items-center justify-center gap-3 rounded-sm border border-slate-300 bg-white px-4 py-3 font-bold text-slate-700 transition-all hover:bg-slate-50 hover:shadow-sm"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 24 24">
                     <path
@@ -187,12 +187,12 @@ const LoginModal = ({
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-lime-200 focus:border-lime-500 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-sm border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-lime-200 focus:border-jvto-green outline-none transition-all"
                   />
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full flex items-center justify-center gap-2 py-3 bg-jvto-dark text-white font-bold rounded-xl hover:bg-black transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-jvto-dark text-white font-bold rounded-sm hover:bg-black transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <Loader2 size={20} className="animate-spin" />
@@ -267,7 +267,7 @@ const ToursDropdown: React.FC = () => {
         }`}
       >
         <div className="absolute -top-3 left-0 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[10px] border-b-gray-200"></div>
-        <div className="bg-white border border-gray-200 shadow-xl rounded-lg w-[800px] max-w-[90vw] overflow-hidden">
+        <div className="bg-white border border-gray-200 shadow-xl rounded-sm w-[800px] max-w-[90vw] overflow-hidden">
           <div className="flex">
             <div className="flex-1 p-8 grid grid-cols-2 gap-8 bg-white">
               <div>
@@ -367,7 +367,7 @@ const ProfileDropdown: React.FC = () => {
 
       {/* Dropdown Menu */}
       <div
-        className={`absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden transition-all duration-200 z-50 ${
+        className={`absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-sm shadow-xl overflow-hidden transition-all duration-200 z-50 ${
           isOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -742,7 +742,7 @@ const Navbar: React.FC = () => {
             onClick={() => setIsSearchOpen(false)}
           />
 
-          <div className="relative w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="relative w-full max-w-2xl bg-white shadow-2xl rounded-sm overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="flex items-center px-4 py-4 border-b border-gray-100">
               <Search className="text-gray-400 mr-3" size={20} />
               <input
@@ -770,10 +770,10 @@ const Navbar: React.FC = () => {
                         key={tour.id}
                         href={`/${tour.slug}`}
                         onClick={() => setIsSearchOpen(false)}
-                        className="flex items-center gap-4 p-3 mx-2 mb-2 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group"
+                        className="flex items-center gap-4 p-3 mx-2 mb-2 rounded-sm hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group"
                       >
                         {/* Thumbnail */}
-                        <div className="relative w-24 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm">
+                        <div className="relative w-24 h-20 rounded-sm overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm">
                           <Image
                             src={tour.banner.url}
                             alt={tour.banner.alt}

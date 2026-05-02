@@ -43,7 +43,7 @@ const VerifyJVTOPage: React.FC = () => {
 
         <main className="container mx-auto px-4 py-12 md:py-16 space-y-12">
           {/* Quick Summary */}
-          <section className="bg-white dark:bg-ink-primary p-6 rounded-2xl shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
+          <section className="bg-white dark:bg-ink-primary p-6 rounded-sm shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
             <h2 className="text-xl font-bold text-ink-primary dark:text-white mb-4">
               Quick Verification Summary
             </h2>
@@ -99,7 +99,7 @@ const VerifyJVTOPage: React.FC = () => {
                 Unlike freelance agents who operate from mobile phones, we
                 maintain a staffed headquarters. You are welcome to visit us.
               </p>
-              <div className="p-4 bg-ink-neutral-50 dark:bg-background-dark rounded-xl border border-ink-neutral-200 dark:border-ink-neutral-700">
+              <div className="p-4 bg-ink-neutral-50 dark:bg-background-dark rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
                 <p className="font-semibold text-ink-primary dark:text-white">
                   {contactInfo.officeAddress}
                 </p>
@@ -116,7 +116,7 @@ const VerifyJVTOPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
+            <div className="rounded-sm overflow-hidden shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
               <img
                 src="https://javavolcano-touroperator.com/legal/office-photo.jpg"
                 alt="JVTO Office Exterior in Bondowoso"
@@ -129,7 +129,7 @@ const VerifyJVTOPage: React.FC = () => {
           </section>
 
           {/* Tourist Police Context */}
-          <section className="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl border border-blue-200 dark:border-blue-800">
+          <section className="bg-blue-50 dark:bg-blue-900/20 p-8 rounded-sm border border-blue-200 dark:border-blue-800">
             <div className="flex flex-col md:flex-row gap-6 items-start">
               <div className="bg-blue-100 dark:bg-blue-800 p-4 rounded-full text-blue-600 dark:text-blue-300">
                 <span className="material-symbols-outlined text-4xl">
@@ -146,7 +146,7 @@ const VerifyJVTOPage: React.FC = () => {
                   ledger above to substantiate our{" "}
                   {`"Police-Led Safety Culture."`}
                 </p>
-                <div className="p-4 bg-white dark:bg-background-dark rounded-xl border border-blue-100 dark:border-blue-700 text-sm">
+                <div className="p-4 bg-white dark:bg-background-dark rounded-sm border border-blue-100 dark:border-blue-700 text-sm">
                   <p className="font-semibold text-ink-primary dark:text-white mb-1">
                     Important Clarification:
                   </p>
@@ -181,7 +181,7 @@ const VerifyJVTOPage: React.FC = () => {
                 href={proofLinks.tripadvisor}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-6 bg-white dark:bg-ink-primary rounded-xl shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
+                className="block p-6 bg-white dark:bg-ink-primary rounded-sm shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
               >
                 <img
                   src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
@@ -196,7 +196,7 @@ const VerifyJVTOPage: React.FC = () => {
                 href={proofLinks.googleMaps}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-6 bg-white dark:bg-ink-primary rounded-xl shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
+                className="block p-6 bg-white dark:bg-ink-primary rounded-sm shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png"
@@ -211,7 +211,7 @@ const VerifyJVTOPage: React.FC = () => {
                 href={proofLinks.trustpilot}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-6 bg-white dark:bg-ink-primary rounded-xl shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
+                className="block p-6 bg-white dark:bg-ink-primary rounded-sm shadow-card hover:shadow-cardHover transition-all border border-ink-neutral-200 dark:border-ink-neutral-700"
               >
                 <img
                   src="https://cdn.trustpilot.net/brand-assets/4.3.0/logo-wordmark/light-bg/logo-black.svg"

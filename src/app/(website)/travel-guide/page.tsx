@@ -643,13 +643,13 @@ export default async function TravelGuideHubPage() {
         <section className="pt-12">
           <div className="container mx-auto px-4 max-w-4xl">
             <main>
-              <Card className="bg-lime-50 border-lime-600 border-2 mb-12">
+              <Card className="bg-jvto-green/5 border-jvto-green/80 border-2 mb-12">
                 <CardHeader>
                   <CardTitle className="text-lime-800 font-black">
                     {latestUpdate.title}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="prose prose-sm max-w-none text-lime-700">
+                <CardContent className="prose prose-sm max-w-none text-jvto-green">
                   <p className="font-bold">
                     Last updated: {latestUpdate.lastUpdatedPlaceholder}
                   </p>

@@ -21,7 +21,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       role="dialog"
     >
       <div 
-        className="bg-white dark:bg-background-dark rounded-2xl shadow-xl w-11/12 max-w-2xl m-4 relative animate-slide-in-up"
+        className="bg-white dark:bg-background-dark rounded-sm shadow-xl w-11/12 max-w-2xl m-4 relative animate-slide-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center p-4 md:p-6 border-b border-ink-neutral-200 dark:border-ink-neutral-700">

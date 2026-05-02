@@ -239,7 +239,7 @@ export default function ToursPageClient({
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, search: e.target.value }))
           }
-          className="w-full pl-9 pr-4 py-3 border border-gray-200 bg-gray-50 rounded-lg text-sm focus:outline-none focus:border-jvto-dark focus:bg-white transition-all"
+          className="w-full pl-9 pr-4 py-3 border border-gray-200 bg-gray-50 rounded-sm text-sm focus:outline-none focus:border-jvto-dark focus:bg-white transition-all"
         />
       </div>
 
@@ -254,7 +254,7 @@ export default function ToursPageClient({
                   key={loc}
                   onClick={() => handleLocationToggle(loc as StartLocation)}
                   className={`
-                    flex items-center justify-between p-3 rounded-lg border transition-all text-sm group
+                    flex items-center justify-between p-3 rounded-sm border transition-all text-sm group
                     ${
                       isSelected
                         ? "border-jvto-dark bg-gray-50 text-jvto-dark font-semibold"
@@ -315,7 +315,7 @@ export default function ToursPageClient({
                 maxPrice: Number(e.target.value),
               }))
             }
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-jvto-dark"
+            className="w-full h-2 bg-gray-200 rounded-sm appearance-none cursor-pointer accent-jvto-dark"
           />
           <div className="flex justify-between items-center mt-3">
             <span className="text-xs text-gray-400">Up to</span>
@@ -343,7 +343,7 @@ export default function ToursPageClient({
                 key={type.value}
                 onClick={() => handleCategoryToggle(type.value as TourCategory)}
                 className={`
-                  flex items-center justify-between p-3 rounded-lg border transition-all text-sm group
+                  flex items-center justify-between p-3 rounded-sm border transition-all text-sm group
                   ${
                     isSelected
                       ? "border-jvto-dark bg-gray-50 text-jvto-dark font-semibold"
@@ -387,7 +387,7 @@ export default function ToursPageClient({
       <div className="flex flex-col lg:flex-row gap-8 relative">
         {/* --- DESKTOP SIDEBAR --- */}
         <aside className="hidden lg:block w-[300px] shrink-0">
-          <div className="sticky top-32 bg-white p-6 rounded-xl border border-gray-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
+          <div className="sticky top-32 bg-white p-6 rounded-sm border border-gray-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
               <h3 className="text-lg font-black uppercase tracking-wide">
                 Filters
@@ -403,7 +403,7 @@ export default function ToursPageClient({
         </aside>
 
         {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between sticky top-24 z-30">
+        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md p-4 rounded-sm shadow-sm border border-gray-200 flex items-center justify-between sticky top-24 z-30">
           <div>
             <span className="block text-xs text-gray-500 font-medium">
               Showing
@@ -414,7 +414,7 @@ export default function ToursPageClient({
           </div>
           <button
             onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-dark text-white rounded-lg text-sm font-bold shadow-lg active:scale-95 transition-transform"
+            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-dark text-white rounded-sm text-sm font-bold shadow-lg active:scale-95 transition-transform"
           >
             <Filter size={16} /> Filters
           </button>
@@ -454,7 +454,7 @@ export default function ToursPageClient({
             <div className="p-5 border-t border-gray-100 bg-white">
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-jvto-dark text-white py-3.5 rounded-lg font-bold shadow-lg hover:bg-gray-800 transition-colors"
+                className="w-full bg-jvto-dark text-white py-3.5 rounded-sm font-bold shadow-lg hover:bg-gray-800 transition-colors"
               >
                 Show {filteredTours.length} Results
               </button>
@@ -473,7 +473,7 @@ export default function ToursPageClient({
               ))}
             </div>
           ) : (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-sm border-2 border-dashed border-gray-200">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                 <Search className="w-8 h-8 text-gray-300" />
               </div>
@@ -486,7 +486,7 @@ export default function ToursPageClient({
               </p>
               <button
                 onClick={clearFilters}
-                className="px-8 py-3 bg-jvto-dark text-white rounded-lg font-bold text-sm hover:bg-gray-800 transition-all shadow-md"
+                className="px-8 py-3 bg-jvto-dark text-white rounded-sm font-bold text-sm hover:bg-gray-800 transition-all shadow-md"
               >
                 Clear All Filters
               </button>

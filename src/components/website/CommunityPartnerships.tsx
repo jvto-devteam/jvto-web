@@ -4,10 +4,10 @@ import { communityPartnershipsCopy, communityPartners } from '@/constants';
 import { CommunityPartner } from '@/types';
 
 const PartnerCard: React.FC<{ partner: CommunityPartner }> = ({ partner }) => {
-  const linkClassName = "mt-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-ink-neutral-400 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold hover:bg-ink-neutral-100 dark:hover:bg-ink-neutral-800 transition-colors";
+  const linkClassName = "mt-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-sm border border-ink-neutral-400 dark:border-ink-neutral-600 text-ink-primary dark:text-white font-semibold hover:bg-ink-neutral-100 dark:hover:bg-ink-neutral-800 transition-colors";
 
   return (
-    <div className="group flex flex-col rounded-2xl bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+    <div className="group flex flex-col rounded-sm bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <img 
           src={partner.imageUrl} 
@@ -47,12 +47,12 @@ const CommunityPartnerships: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
           {/* Large Green Card */}
-          <div className="lg:row-span-2 bg-ink-accentC text-ink-primary p-8 rounded-2xl flex flex-col items-center text-center justify-between shadow-card">
+          <div className="lg:row-span-2 bg-ink-accentC text-ink-primary p-8 rounded-sm flex flex-col items-center text-center justify-between shadow-card">
             <div>
               <img 
                 src="https://java-tour.com/uploads/1763409312246-551246661-yellow_and_black_ilustrative_technology_mobile_prototype.png"
                 alt="Community and local opportunity illustration"
-                className="w-full rounded-lg mb-6 shadow-md"
+                className="w-full rounded-sm mb-6 shadow-md"
               />
               <div className="inline-block bg-white/50 text-ink-primary px-3 py-1 rounded-full text-sm font-semibold mb-4">
                 Community
@@ -60,7 +60,7 @@ const CommunityPartnerships: React.FC = () => {
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">{communityPartnershipsCopy.title}</h2>
               <p className="leading-relaxed">{communityPartnershipsCopy.subhead}</p>
             </div>
-            <Link href="/why-jvto/community-standards" className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-ink-primary font-semibold hover:bg-ink-primary hover:text-white transition-colors">
+            <Link href="/why-jvto/community-standards" className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-sm border-2 border-ink-primary font-semibold hover:bg-ink-primary hover:text-white transition-colors">
               Our Impact
               <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
             </Link>

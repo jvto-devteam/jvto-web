@@ -49,11 +49,11 @@ const ISICPage = () => {
                 </ul>
             </section>
 
-            <div className="mt-12 not-prose p-6 bg-blue-50 dark:bg-blue-900/30 rounded-2xl border border-blue-200 dark:border-blue-700">
+            <div className="mt-12 not-prose p-6 bg-blue-50 dark:bg-blue-900/30 rounded-sm border border-blue-200 dark:border-blue-700">
                 <h3 className="text-xl font-bold text-ink-primary dark:text-white">Ready to Plan Your Student Trip?</h3>
                 <p className="mt-2 text-ink-neutral-700 dark:text-ink-neutral-200">Contact us via WhatsApp or email with your travel dates, group size, and valid ISIC card number to receive a custom quote with our student pricing.</p>
                 <div className="mt-4">
-                    <Link href="/contact" className="inline-block px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all">
+                    <Link href="/contact" className="inline-block px-8 py-3 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all">
                         Contact Us for Student Rates
                     </Link>
                 </div>

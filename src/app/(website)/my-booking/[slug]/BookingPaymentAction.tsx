@@ -55,7 +55,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
     return (
       <button 
         onClick={handleDirectPay}
-        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto flex items-center justify-center gap-2"
+        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-sm shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto flex items-center justify-center gap-2"
       >
         Pay Balance &rarr;
       </button>
@@ -67,7 +67,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-lg shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto"
+        className="bg-orange-500 hover:bg-orange-600 text-white font-bold uppercase px-6 py-3 rounded-sm shadow-lg shadow-orange-500/30 transition-all w-full md:w-auto"
       >
         Select Payment Method
       </button>
@@ -75,7 +75,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
       {/* MODAL */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
+          <div className="bg-white rounded-sm shadow-2xl w-full max-w-md overflow-hidden relative">
             
             <div className="bg-slate-900 p-4 text-white flex justify-between items-center">
               <h3 className="font-bold text-lg">Pay Remaining Balance</h3>
@@ -85,7 +85,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
             </div>
             
             <div className="p-6">
-              <div className="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+              <div className="mb-6 bg-slate-50 p-4 rounded-sm border border-slate-100 text-center">
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total to Pay</p>
                 <p className="text-2xl font-black text-slate-900">IDR {balance.toLocaleString('id-ID')}</p>
               </div>
@@ -94,9 +94,9 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                 <button 
                   onClick={() => handleSelectMethod('cc')}
                   disabled={loading}
-                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:border-lime-500 hover:bg-lime-50 transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 group-hover:bg-lime-200 group-hover:text-lime-700 transition-colors">
+                  <div className="bg-blue-100 p-3 rounded-full text-blue-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
                     <CreditCard size={24} />
                   </div>
                   <div>
@@ -108,9 +108,9 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                 <button 
                   onClick={() => handleSelectMethod('wise')}
                   disabled={loading}
-                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:border-lime-500 hover:bg-lime-50 transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-green-100 p-3 rounded-full text-green-600 group-hover:bg-lime-200 group-hover:text-lime-700 transition-colors">
+                  <div className="bg-green-100 p-3 rounded-full text-green-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
                     <Banknote size={24} />
                   </div>
                   <div>
@@ -122,9 +122,9 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
                 <button 
                   onClick={() => handleSelectMethod('cash')}
                   disabled={loading}
-                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-xl hover:border-lime-500 hover:bg-lime-50 transition-all text-left group"
+                  className="w-full flex items-center gap-4 p-4 border border-slate-200 rounded-sm hover:border-jvto-green hover:bg-jvto-green/5 transition-all text-left group"
                 >
-                  <div className="bg-orange-100 p-3 rounded-full text-orange-600 group-hover:bg-lime-200 group-hover:text-lime-700 transition-colors">
+                  <div className="bg-orange-100 p-3 rounded-full text-orange-600 group-hover:bg-lime-200 group-hover:text-jvto-green transition-colors">
                     <Wallet size={24} />
                   </div>
                   <div>
@@ -136,7 +136,7 @@ export default function BookingPaymentAction({ bookingUrl, balance, paymentLink 
 
               {loading && (
                 <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center z-10">
-                    <Loader2 size={40} className="text-lime-500 animate-spin mb-2" />
+                    <Loader2 size={40} className="text-jvto-green animate-spin mb-2" />
                     <p className="text-sm font-bold text-slate-600">Processing Request...</p>
                 </div>
               )}

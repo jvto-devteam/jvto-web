@@ -62,7 +62,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ stops }) => {
   return (
     <div 
       ref={mapContainerRef} 
-      className="h-80 w-full rounded-lg shadow-inner border border-ink-neutral-200 dark:border-ink-neutral-700"
+      className="h-80 w-full rounded-sm shadow-inner border border-ink-neutral-200 dark:border-ink-neutral-700"
       aria-label="Tour route map"
     />
   );

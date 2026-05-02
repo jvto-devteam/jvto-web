@@ -145,7 +145,7 @@ export default async function IsicStudentPackagePage() {
                   ))}
                 </div>
             ) : (
-                <div className="text-center py-12 bg-muted/20 rounded-xl">
+                <div className="text-center py-12 bg-muted/20 rounded-sm">
                     <p className="text-muted-foreground">No packages currently available.</p>
                 </div>
             )}
@@ -167,7 +167,7 @@ export default async function IsicStudentPackagePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {/* Feature 1 */}
-              <div className="bg-background border border-border p-8 rounded-2xl text-center flex flex-col items-center shadow-sm">
+              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <Users size={40} />
                 </div>
@@ -176,7 +176,7 @@ export default async function IsicStudentPackagePage() {
               </div>
 
               {/* Feature 2 */}
-              <div className="bg-background border border-border p-8 rounded-2xl text-center flex flex-col items-center shadow-sm">
+              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <Ticket size={40} />
                 </div>
@@ -185,7 +185,7 @@ export default async function IsicStudentPackagePage() {
               </div>
 
               {/* Feature 3 */}
-              <div className="bg-background border border-border p-8 rounded-2xl text-center flex flex-col items-center shadow-sm">
+              <div className="bg-background border border-border p-8 rounded-sm text-center flex flex-col items-center shadow-sm">
                 <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
                   <ShieldCheck size={40} />
                 </div>
@@ -199,7 +199,7 @@ export default async function IsicStudentPackagePage() {
         {/* ================= NEED AN ISIC CARD? SECTION ================= */}
         <section className="py-16 bg-background overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center gap-12 bg-muted/30 rounded-3xl p-8 md:p-12 relative">
+            <div className="flex flex-col md:flex-row items-center gap-12 bg-muted/30 rounded-sm p-8 md:p-12 relative">
               
               {/* Left Column: Image & Card Graphic */}
               <div className="flex-1 relative w-full max-w-md md:max-w-none">

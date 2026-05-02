@@ -11,7 +11,7 @@ export default function IsicSection() {
           <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
             {/* Icon Container - Clean & Modern */}
             <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700">
-              <GraduationCap className="w-8 h-8 text-lime-400" strokeWidth={2} />
+              <GraduationCap className="w-8 h-8 text-jvto-green" strokeWidth={2} />
             </div>
             
             <div>
@@ -28,7 +28,7 @@ export default function IsicSection() {
           <Link 
           target="_blank"
             href="/isic/student-package" 
-            className="group flex-shrink-0 inline-flex items-center justify-center px-8 py-3 text-sm font-bold text-black transition-all duration-200 bg-lime-400 hover:bg-lime-500 rounded-lg uppercase tracking-widest"
+            className="group flex-shrink-0 inline-flex items-center justify-center px-8 py-3 text-sm font-bold text-black transition-all duration-200 bg-jvto-green hover:bg-jvto-green rounded-sm uppercase tracking-widest"
           >
             Get Deals
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />

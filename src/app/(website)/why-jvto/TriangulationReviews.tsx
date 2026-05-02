@@ -101,7 +101,7 @@ export default function TriangulationReviews({
     <div>
       {/* Tabs */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-        <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm w-full md:w-auto">
+        <div className="inline-flex rounded-sm border border-slate-200 bg-white p-1 shadow-sm w-full md:w-auto">
           {TABS.map((t) => {
             const isActive = t === active;
             const count = reviews.filter((r) => r.platform === t).length;
@@ -111,7 +111,7 @@ export default function TriangulationReviews({
                 type="button"
                 onClick={() => setActive(t)}
                 className={[
-                  "h-11 px-5 rounded-lg font-bold text-sm transition-all w-full md:w-auto flex items-center justify-center gap-2",
+                  "h-11 px-5 rounded-sm font-bold text-sm transition-all w-full md:w-auto flex items-center justify-center gap-2",
                   isActive
                     ? "bg-[#111827] text-white shadow-sm"
                     : "bg-transparent text-slate-600 hover:bg-slate-50",
@@ -138,14 +138,14 @@ export default function TriangulationReviews({
             <button
               type="button"
               onClick={() => scrollByCards(-1)}
-              className="h-11 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-sm font-bold text-sm text-slate-700 transition-all"
+              className="h-11 px-4 rounded-sm border border-slate-200 bg-white hover:bg-slate-50 shadow-sm font-bold text-sm text-slate-700 transition-all"
             >
               Prev
             </button>
             <button
               type="button"
               onClick={() => scrollByCards(1)}
-              className="h-11 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-sm font-bold text-sm text-slate-700 transition-all"
+              className="h-11 px-4 rounded-sm border border-slate-200 bg-white hover:bg-slate-50 shadow-sm font-bold text-sm text-slate-700 transition-all"
             >
               Next
             </button>
@@ -167,7 +167,7 @@ export default function TriangulationReviews({
               <article
                 key={r.id}
                 data-review-card="true"
-                className="snap-start shrink-0 w-[86%] sm:w-[520px] bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_-2px_rgba(17,24,39,0.05)] hover:shadow-[0_20px_40px_-5px_rgba(17,24,39,0.1)] transition-all relative overflow-hidden"
+                className="snap-start shrink-0 w-[86%] sm:w-[520px] bg-white rounded-sm border border-slate-100 shadow-[0_4px_20px_-2px_rgba(17,24,39,0.05)] hover:shadow-[0_20px_40px_-5px_rgba(17,24,39,0.1)] transition-all relative overflow-hidden"
               >
                 <div
                   className={`absolute top-0 left-0 w-full h-1 ${acc.top}`}

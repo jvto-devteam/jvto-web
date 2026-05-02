@@ -124,7 +124,7 @@ const ProofLedger: React.FC = () => {
     <section
       id="proof-ledger"
       aria-labelledby="proof-ledger-title"
-      className="mt-14 rounded-2xl border border-ink-neutral-200 dark:border-ink-neutral-700 bg-white dark:bg-ink-primary p-6"
+      className="mt-14 rounded-sm border border-ink-neutral-200 dark:border-ink-neutral-700 bg-white dark:bg-ink-primary p-6"
     >
       <h2
         id="proof-ledger-title"

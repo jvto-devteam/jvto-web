@@ -37,7 +37,7 @@ export function DocumentPriorityNote() {
           <li>
             <Link
               href="/policy/booking-payment-cancellation"
-              className="text-primary hover:text-lime-600"
+              className="text-primary hover:text-jvto-green"
             >
               {documentPriorityNote.paragraphs[2].substring(
                 documentPriorityNote.paragraphs[2].indexOf(".") + 2,
@@ -47,7 +47,7 @@ export function DocumentPriorityNote() {
           <li>
             <Link
               href="/policy/inclusions-exclusions"
-              className="text-primary hover:text-lime-600"
+              className="text-primary hover:text-jvto-green"
             >
               {documentPriorityNote.paragraphs[3].substring(
                 documentPriorityNote.paragraphs[3].indexOf(".") + 2,

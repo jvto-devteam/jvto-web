@@ -65,7 +65,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Badge Physicality */}
-        <div className="absolute top-3 left-3 z-20 bg-lime-600/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
+        <div className="absolute top-3 left-3 z-20 bg-jvto-green/80/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
           <Dumbbell className="w-3.5 h-3.5" />
           <span className="capitalize">{tour.physicality}</span>
         </div>
@@ -76,11 +76,11 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         <div className="flex items-center justify-between mb-3 text-xs font-medium text-ink-neutral-500 dark:text-ink-neutral-400 uppercase tracking-wide">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4 text-lime-600" />
+              <Clock className="w-4 h-4 text-jvto-green" />
               <span>{durationString}</span>
             </div>
             <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-lime-600" />
+              <MapPin className="w-4 h-4 text-jvto-green" />
               <span>{tour.startDestination}</span>
             </div>
           </div>
@@ -99,7 +99,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         >
           <h3
             id={`tour-title-${tour.id}`}
-            className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-lime-600 transition-colors line-clamp-2"
+            className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-jvto-green transition-colors line-clamp-2"
           >
             {tour.name}
           </h3>
@@ -113,7 +113,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
           </span>
           <div className="flex items-center justify-between">
             <div className="flex gap-1 items-center">
-              <span className="text-2xl md:text-3xl font-black tracking-tight text-lime-600">
+              <span className="text-2xl md:text-3xl font-black tracking-tight text-jvto-green">
                 {formatIDR(tour.startFrom)}
               </span>
               <span className="text-sm text-nowrap text-ink-neutral-500 dark:text-ink-neutral-400">
@@ -125,7 +125,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
               target={isNewTab ? "_blank" : "_self"}
               href={fullTourSlug}
               aria-label={tourLinkLabel}
-              className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
+              className="text-jvto-green hover:text-jvto-green/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
             >
               <ArrowRight className="w-7 h-7" />
             </Link>

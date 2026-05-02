@@ -49,7 +49,7 @@ const PoliceEscortPage = () => {
             </section>
             
             <div className="mt-12 not-prose">
-                <Link href="/contact" className="inline-block px-8 py-3 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all">
+                <Link href="/contact" className="inline-block px-8 py-3 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all">
                     Contact Us for Group Bookings
                 </Link>
             </div>

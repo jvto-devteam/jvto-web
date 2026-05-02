@@ -11,7 +11,7 @@ const VideoSection: React.FC = () => {
           </p>
         </div>
         <div className="max-w-4xl mx-auto">
-          <div className="aspect-[16/9] w-full bg-black rounded-2xl overflow-hidden shadow-2xl">
+          <div className="aspect-[16/9] w-full bg-black rounded-sm overflow-hidden shadow-2xl">
             <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/rcMojEzWFkc"

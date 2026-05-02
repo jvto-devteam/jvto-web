@@ -18,10 +18,10 @@ const SocialProof: React.FC = () => {
               Recent guests consistently highlight safety briefings, smooth logistics, and genuine local insight.
             </h2>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                <blockquote className="p-4 bg-white dark:bg-background-dark rounded-xl shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
+                <blockquote className="p-4 bg-white dark:bg-background-dark rounded-sm shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
                     <p className="text-ink-neutral-700 dark:text-ink-neutral-200">“Flawless planning and calm, safety-first guidance at every step.”</p>
                 </blockquote>
-                <blockquote className="p-4 bg-white dark:bg-background-dark rounded-xl shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
+                <blockquote className="p-4 bg-white dark:bg-background-dark rounded-sm shadow-sm border border-ink-neutral-200 dark:border-ink-neutral-700">
                      <p className="text-ink-neutral-700 dark:text-ink-neutral-200">“Our guide’s local knowledge turned a good tour into a memorable journey.”</p>
                 </blockquote>
             </div>

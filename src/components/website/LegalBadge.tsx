@@ -1,7 +1,7 @@
 export default function LegalBadge() {
   return (
     <div className="border-t border-slate-200">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900 text-white p-6 rounded-lg">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900 text-white p-6 rounded-sm">
         <div>
           <h4 className="font-bold text-lg">Java Volcano Tour Operator</h4>
           <p className="text-slate-400 text-sm">PT Java Volcano Rendezvous</p>

@@ -219,7 +219,7 @@ export default async function FaqPage() {
             </div>
 
             {categories.length === 0 ? (
-              <div className=" text-muted-foreground py-10 bg-slate-50/50 rounded-lg border border-dashed">
+              <div className=" text-muted-foreground py-10 bg-slate-50/50 rounded-sm border border-dashed">
                 <p>No questions are available at the moment.</p>
               </div>
             ) : (
@@ -232,7 +232,7 @@ export default async function FaqPage() {
                     {category.faqs.map((it, idx) => (
                       <details
                         key={`${idx}-${it.question}`}
-                        className="rounded-lg border border-neutral-200 p-4"
+                        className="rounded-sm border border-neutral-200 p-4"
                       >
                         <summary className="cursor-pointer list-none font-medium">
                           {it.question}

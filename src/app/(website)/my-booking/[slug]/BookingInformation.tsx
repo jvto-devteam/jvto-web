@@ -16,12 +16,12 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
     <div className="space-y-8">
       
       {/* 1. TABS SECTION (FAQ & PACKING) */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-sm border border-slate-200 shadow-sm overflow-hidden">
         <div className="flex border-b border-slate-100">
             <button 
                 onClick={() => setActiveTab("faq")}
                 className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
-                    activeTab === "faq" ? "bg-slate-50 text-lime-600 border-b-2 border-lime-500" : "text-slate-400 hover:text-slate-600"
+                    activeTab === "faq" ? "bg-slate-50 text-jvto-green border-b-2 border-jvto-green" : "text-slate-400 hover:text-slate-600"
                 }`}
             >
                 <HelpCircle size={18} /> Information & FAQ
@@ -29,7 +29,7 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
             <button 
                 onClick={() => setActiveTab("packing")}
                 className={`flex-1 py-4 text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${
-                    activeTab === "packing" ? "bg-slate-50 text-lime-600 border-b-2 border-lime-500" : "text-slate-400 hover:text-slate-600"
+                    activeTab === "packing" ? "bg-slate-50 text-jvto-green border-b-2 border-jvto-green" : "text-slate-400 hover:text-slate-600"
                 }`}
             >
                 <Backpack size={18} /> Packing List
@@ -41,10 +41,10 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
                 <div className="space-y-6">
                     {Object.entries(faq).map(([category, questions], idx) => (
                         <div key={idx}>
-                            <h4 className="font-bold text-slate-900 mb-3 uppercase text-xs tracking-widest border-l-4 border-lime-400 pl-3">{category}</h4>
+                            <h4 className="font-bold text-slate-900 mb-3 uppercase text-xs tracking-widest border-l-4 border-jvto-green pl-3">{category}</h4>
                             <div className="space-y-4">
                                 {Object.entries(questions).map(([q, a], i) => (
-                                    <div key={i} className="bg-slate-50 p-4 rounded-xl">
+                                    <div key={i} className="bg-slate-50 p-4 rounded-sm">
                                         <p className="font-bold text-slate-800 text-sm mb-1">{q}</p>
                                         <p className="text-slate-600 text-sm leading-relaxed">{a}</p>
                                     </div>
@@ -58,9 +58,9 @@ export default function BookingInformation({ faq, packing, mediaLink }: Props) {
             {activeTab === "packing" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {Object.entries(packing).map(([category, items], idx) => (
-                        <div key={idx} className="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                        <div key={idx} className="bg-slate-50 p-5 rounded-sm border border-slate-100">
                             <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                                <CheckSquare size={16} className="text-lime-600"/> {category}
+                                <CheckSquare size={16} className="text-jvto-green"/> {category}
                             </h4>
                             <ul className="space-y-2">
                                 {items.map((item, i) => (

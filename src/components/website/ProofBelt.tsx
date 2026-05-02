@@ -34,7 +34,7 @@ const ProofBelt: React.FC = () => {
   return (
     <div className="relative md:-mt-24 z-10 py-8">
       <div className="container mx-auto px-5">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md border border-gray-100 dark:border-gray-800 p-6 md:p-8">
+        <div className="bg-white dark:bg-gray-900 rounded-sm shadow-md border border-gray-100 dark:border-gray-800 p-6 md:p-8">
 
           {/* Trust icons */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-7">

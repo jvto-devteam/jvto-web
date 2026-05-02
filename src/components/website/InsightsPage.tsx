@@ -49,7 +49,7 @@ const ArticleCard: React.FC<(typeof articles)[0]> = ({
 }) => (
   <Link
     href={link}
-    className="group block p-6 bg-white dark:bg-background-dark rounded-2xl shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
+    className="group block p-6 bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
   >
     <p className="text-sm font-semibold text-primary">{category}</p>
     <h3 className="mt-2 text-lg font-bold text-ink-primary dark:text-white">

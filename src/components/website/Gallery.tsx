@@ -14,7 +14,7 @@ const Gallery: React.FC<{copy: SectionCopy}> = ({ copy }) => {
         </div>
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6">
           {galleryImages.map((image) => (
-            <div key={image.id} className="break-inside-avoid relative group overflow-hidden rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <div key={image.id} className="break-inside-avoid relative group overflow-hidden rounded-sm shadow-lg transform hover:scale-105 transition-transform duration-300">
               <img
                 className="w-full h-auto block"
                 src={image.src}

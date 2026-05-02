@@ -283,7 +283,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <section className="mt-8">
                 <h2>14. Contacting us</h2>
                 <p>If you have questions about this Privacy Policy, want to exercise your rights, or believe your personal data has been mishandled, you can contact us:</p>
-                <div className="not-prose p-4 border border-ink-neutral-200 dark:border-ink-neutral-700 rounded-lg bg-gray-50 dark:bg-ink-primary">
+                <div className="not-prose p-4 border border-ink-neutral-200 dark:border-ink-neutral-700 rounded-sm bg-gray-50 dark:bg-ink-primary">
                     <p className="font-semibold">PT Java Volcano Rendezvous (JVTO)</p>
                     <p>Jl. Khairil Anwar No.102 A, Badean, Bondowoso, East Java 68214, Indonesia.</p>
                     <p><strong>WhatsApp:</strong> +62 822-4478-8833</p>
@@ -301,7 +301,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <p>Our website and booking portal may also use cookies or similar technologies to maintain secure sessions, prevent fraud, and understand which pages are most useful to guests. You can manage cookies through your browser settings.</p>
             </section>
 
-            <section className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg not-prose">
+            <section className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-sm not-prose">
                 <h2 className="text-xl font-bold text-ink-primary dark:text-white">Summary (Plain Language)</h2>
                 <ul className="mt-2 list-disc list-inside space-y-1 text-ink-neutral-700 dark:text-ink-neutral-200">
                     <li>We ask for only what we need to run your tour safely and legally.</li>

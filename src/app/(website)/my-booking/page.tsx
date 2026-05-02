@@ -133,9 +133,9 @@ export default function MyBookingPage() {
   if (status === "unauthenticated") {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
-          <div className="w-20 h-20 bg-lime-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Sparkles size={32} className="text-lime-600" />
+        <div className="text-center max-w-md bg-white p-8 rounded-sm shadow-xl border border-slate-100">
+          <div className="w-20 h-20 bg-jvto-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Sparkles size={32} className="text-jvto-green" />
           </div>
           <h2 className="text-2xl font-black text-slate-800 mb-2">
             Login Required
@@ -145,7 +145,7 @@ export default function MyBookingPage() {
           </p>
           <Link
             href="/"
-            className="inline-block w-full py-3 bg-jvto-dark text-white font-bold rounded-xl hover:bg-black transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="inline-block w-full py-3 bg-jvto-dark text-white font-bold rounded-sm hover:bg-black transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             Back to Home
           </Link>
@@ -166,14 +166,14 @@ export default function MyBookingPage() {
 
         {/* ── MOBILE: Welcome card ── */}
         <div className="md:hidden mb-3">
-          <div className="bg-white rounded-xl shadow-md p-4">
+          <div className="bg-white rounded-sm shadow-md p-4">
             <div className="flex justify-between items-center">
               <div>
                 <h1 className="text-xl font-bold text-gray-800">Hello, {firstName}</h1>
                 <p className="text-gray-500 text-sm mt-0.5">Member Dashboard · JVTO</p>
               </div>
-              <div className="bg-lime-100 rounded-full p-3">
-                <Palmtree className="h-6 w-6 text-lime-600" />
+              <div className="bg-jvto-green/10 rounded-full p-3">
+                <Palmtree className="h-6 w-6 text-jvto-green" />
               </div>
             </div>
           </div>
@@ -181,24 +181,24 @@ export default function MyBookingPage() {
 
         {/* ── MOBILE: Stats summary card ── */}
         <div className="md:hidden mb-3">
-          <div className="bg-white rounded-xl shadow-md p-4">
+          <div className="bg-white rounded-sm shadow-md p-4">
             <h2 className="text-sm font-semibold text-gray-700 mb-3">Trip Summary</h2>
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white rounded-lg shadow-sm p-3">
+              <div className="bg-white rounded-sm shadow-sm p-3">
                 <div className="flex">
-                  <div className="bg-lime-100 rounded-full p-2 mr-2 shrink-0">
-                    <Palmtree className="h-4 w-4 text-lime-600" />
+                  <div className="bg-jvto-green/10 rounded-full p-2 mr-2 shrink-0">
+                    <Palmtree className="h-4 w-4 text-jvto-green" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-gray-600 mb-1">Total Trips</p>
-                    <p className="text-xl font-bold text-lime-600">
+                    <p className="text-xl font-bold text-jvto-green">
                       {stats.total}{" "}
                       <span className="text-xs text-gray-500 font-normal">trips</span>
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="bg-white rounded-lg shadow-sm p-3">
+              <div className="bg-white rounded-sm shadow-sm p-3">
                 <div className="flex">
                   <div className="bg-blue-100 rounded-full p-2 mr-2 shrink-0">
                     <Calendar className="h-4 w-4 text-blue-600" />
@@ -234,11 +234,11 @@ export default function MyBookingPage() {
             </p>
           </div>
           <div className="flex gap-4">
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm min-w-[100px] text-center">
+            <div className="bg-white p-4 rounded-sm border border-slate-100 shadow-sm min-w-[100px] text-center">
               <p className="text-xs text-slate-400 font-bold uppercase">Total Trips</p>
               <p className="text-2xl font-black text-slate-900">{stats.total}</p>
             </div>
-            <div className="bg-jvto-dark p-4 rounded-2xl shadow-lg min-w-[100px] text-center transform rotate-2">
+            <div className="bg-jvto-dark p-4 rounded-sm shadow-lg min-w-[100px] text-center transform rotate-2">
               <p className="text-xs text-white/60 font-bold uppercase">Next Trip</p>
               <p className="text-2xl font-black text-white">
                 {stats.upcoming > 0 ? "Soon" : "-"}
@@ -255,7 +255,7 @@ export default function MyBookingPage() {
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                 activeTab === tab
-                  ? "bg-lime-500 text-white shadow-sm"
+                  ? "bg-jvto-green text-white shadow-sm"
                   : "bg-white text-gray-600 border border-gray-200"
               }`}
             >
@@ -271,9 +271,9 @@ export default function MyBookingPage() {
               <div key={booking.id}>
 
                 {/* ── DESKTOP CARD (md+) ── */}
-                <div className="hidden md:block group relative bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-lime-200 transition-all duration-300">
+                <div className="hidden md:block group relative bg-white rounded-sm p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-jvto-green/30 transition-all duration-300">
                   <div className="flex flex-col md:flex-row gap-6">
-                    <div className="relative w-full md:w-72 h-56 md:h-auto shrink-0 rounded-2xl overflow-hidden">
+                    <div className="relative w-full md:w-72 h-56 md:h-auto shrink-0 rounded-sm overflow-hidden">
                       <Image
                         src={booking.banner || "/assets/img/placeholder.jpg"}
                         alt={booking.package_name}
@@ -282,7 +282,7 @@ export default function MyBookingPage() {
                         unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
-                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm flex flex-col items-center min-w-[50px]">
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-sm shadow-sm flex flex-col items-center min-w-[50px]">
                         <span className="text-xs font-bold text-slate-400 uppercase">
                           {new Date(booking.travel_date_start).toLocaleString("default", { month: "short" })}
                         </span>
@@ -308,17 +308,17 @@ export default function MyBookingPage() {
                         <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 group-hover:text-jvto-green transition-colors leading-tight">
                           {booking.package_name}
                         </h3>
-                        <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600 bg-slate-50 p-4 rounded-sm border border-slate-100">
                           <div className="flex items-center gap-2">
-                            <Clock size={16} className="text-lime-600" />
+                            <Clock size={16} className="text-jvto-green" />
                             <span>{booking.duration}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Users size={16} className="text-lime-600" />
+                            <Users size={16} className="text-jvto-green" />
                             <span>{booking.total_pax} Travelers</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Calendar size={16} className="text-lime-600" />
+                            <Calendar size={16} className="text-jvto-green" />
                             <span>
                               {new Date(booking.travel_date_start).toLocaleDateString("id-ID", {
                                 day: "numeric",
@@ -332,7 +332,7 @@ export default function MyBookingPage() {
                       <div className="mt-6 flex items-center justify-end gap-3">
                         <Link
                           href={`/my-booking/${booking.url}`}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                          className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-sm transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                         >
                           View Itinerary <ChevronRight size={16} />
                         </Link>
@@ -342,7 +342,7 @@ export default function MyBookingPage() {
                 </div>
 
                 {/* ── MOBILE CARD (sam-app style) ── */}
-                <div className="md:hidden bg-white rounded-xl shadow-md overflow-hidden mb-4">
+                <div className="md:hidden bg-white rounded-sm shadow-md overflow-hidden mb-4">
                   <div className="p-4">
                     {/* Header: name + status */}
                     <div className="flex justify-between items-start mb-3 gap-2">
@@ -378,10 +378,10 @@ export default function MyBookingPage() {
                   </div>
 
                   {/* Action footer (sam-app colored footer strip) */}
-                  <div className="bg-lime-50 px-4 py-3 border-t border-lime-100">
+                  <div className="bg-jvto-green/5 px-4 py-3 border-t border-lime-100">
                     <Link
                       href={`/my-booking/${booking.url}`}
-                      className="text-lime-700 text-sm font-medium"
+                      className="text-jvto-green text-sm font-medium"
                     >
                       Lihat Detail Booking →
                     </Link>
@@ -391,11 +391,11 @@ export default function MyBookingPage() {
               </div>
             ))
           ) : (
-            <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
+            <div className="text-center py-24 bg-white rounded-sm border border-dashed border-slate-200">
               <div className="relative inline-block mb-6">
                 <div className="absolute inset-0 bg-lime-200 rounded-full blur-xl opacity-50"></div>
-                <div className="relative w-24 h-24 bg-lime-50 rounded-full flex items-center justify-center">
-                  <Palmtree size={40} className="text-lime-600" />
+                <div className="relative w-24 h-24 bg-jvto-green/5 rounded-full flex items-center justify-center">
+                  <Palmtree size={40} className="text-jvto-green" />
                 </div>
               </div>
               <h3 className="text-2xl font-black text-slate-900 mb-2">
@@ -406,7 +406,7 @@ export default function MyBookingPage() {
               </p>
               <Link
                 href="/tours"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-green hover:bg-lime-400 text-slate-900 font-black text-lg rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-jvto-green hover:bg-jvto-green text-slate-900 font-black text-lg rounded-sm transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
               >
                 Start an Adventure <Sparkles size={20} />
               </Link>

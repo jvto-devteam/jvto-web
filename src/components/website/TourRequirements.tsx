@@ -2,10 +2,10 @@ import React from 'react';
 
 const TourRequirements = () => {
   return (
-    <section className="my-8 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
+    <section className="my-8 p-6 bg-white rounded-sm shadow-sm border border-gray-100">
       
       <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-        <span className="w-8 h-1 bg-lime-500 block"></span>
+        <span className="w-8 h-1 bg-jvto-green block"></span>
         Mandatory Requirements: Ijen Crater Tour
       </h2>
 
@@ -84,7 +84,7 @@ const TourRequirements = () => {
         </h3>
 
         <div className="space-y-4">
-          <details className="group rounded-lg border border-gray-200 p-4">
+          <details className="group rounded-sm border border-gray-200 p-4">
             <summary className="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
               Do I really need a health certificate for Ijen?
               <span className="transition group-open:rotate-180">▾</span>
@@ -94,7 +94,7 @@ const TourRequirements = () => {
             </p>
           </details>
 
-          <details className="group rounded-lg border border-gray-200 p-4">
+          <details className="group rounded-sm border border-gray-200 p-4">
             <summary className="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
               Can children hike Ijen Crater?
               <span className="transition group-open:rotate-180">▾</span>

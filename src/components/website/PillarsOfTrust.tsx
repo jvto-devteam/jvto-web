@@ -30,7 +30,7 @@ const PillarCard: React.FC<PillarCardProps> = ({ pillar }) => {
   const Icon = iconMap[pillar.icon] ?? ShieldCheck; // fallback icon
 
   return (
-    <div className="group flex flex-col items-center text-center p-6 rounded-2xl bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover transition-all duration-300 transform hover:-translate-y-1 h-full">
+    <div className="group flex flex-col items-center text-center p-6 rounded-sm bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover transition-all duration-300 transform hover:-translate-y-1 h-full">
       
       <div className="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
         <Icon className="h-8 w-8" aria-hidden="true" />
@@ -46,7 +46,7 @@ const PillarCard: React.FC<PillarCardProps> = ({ pillar }) => {
 
       <Link
         href={pillar.link}
-        className="mt-6 inline-block px-6 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
+        className="mt-6 inline-block px-6 py-2 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
       >
         {pillar.cta}
       </Link>

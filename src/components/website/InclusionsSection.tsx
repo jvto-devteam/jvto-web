@@ -6,7 +6,7 @@ const InclusionsSection: React.FC = () => {
   return (
     <section className="py-16 md:py-28 bg-white dark:bg-background-dark">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto p-8 rounded-2xl bg-background-light dark:bg-ink-primary border border-ink-neutral-200 dark:border-ink-neutral-700">
+        <div className="max-w-4xl mx-auto p-8 rounded-sm bg-background-light dark:bg-ink-primary border border-ink-neutral-200 dark:border-ink-neutral-700">
           <div className="grid md:grid-cols-2 gap-8">
 
             {/* Included */}

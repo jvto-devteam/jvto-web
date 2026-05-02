@@ -64,7 +64,7 @@ const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-background-dark p-6 rounded-2xl shadow-card hover:shadow-cardHover h-full flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
+    <div className="bg-white dark:bg-background-dark p-6 rounded-sm shadow-card hover:shadow-cardHover h-full flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
       
       {/* Title */}
       <h3
