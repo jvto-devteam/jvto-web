@@ -342,6 +342,17 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
             {content?.faq && (
               <Faq items={content.faq} title={content?.faq_title ?? "FAQ"} />
             )}
+
+            {slug === "our-team" && (
+              <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid #dde3d0" }}>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", color: "#7aaa1a", marginBottom: "0.625rem" }}>
+                  Safety on Tours
+                </div>
+                <Link href="/travel-guide/safety-on-tours" style={{ fontSize: "0.9rem", fontWeight: 600, color: "#0c0e09", textDecoration: "none" }}>
+                  How JVTO manages safety on the road, at viewpoints, and on the mountain →
+                </Link>
+              </div>
+            )}
           </div>
         </main>
       </div>

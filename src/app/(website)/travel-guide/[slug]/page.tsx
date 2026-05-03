@@ -12,6 +12,24 @@ import {
 } from "@/lib/schemas/buildTravelGuideSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+const TRAVEL_GUIDE_DEST_LINKS: Record<string, Array<{ slug: string; name: string }>> = {
+  "ijen-health-screening": [{ slug: "ijen-crater", name: "Ijen Crater" }],
+  "packing-and-fitness": [
+    { slug: "ijen-crater", name: "Ijen Crater" },
+    { slug: "mount-bromo", name: "Mount Bromo" },
+    { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
+  ],
+  "weather-and-closures": [
+    { slug: "mount-bromo", name: "Mount Bromo" },
+    { slug: "ijen-crater", name: "Ijen Crater" },
+  ],
+  "safety-on-tours": [
+    { slug: "mount-bromo", name: "Mount Bromo" },
+    { slug: "ijen-crater", name: "Ijen Crater" },
+    { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
+  ],
+};
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
@@ -38,6 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TravelGuideDynamicPage({ params }: Props) {
   const { slug } = await params;
+  const destLinks = TRAVEL_GUIDE_DEST_LINKS[slug] ?? [];
 
   const row = await getContentPage(`/travel-guide/${slug}`, "en");
 
@@ -100,6 +119,18 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
           <MarkdownRendererTravelGuide markdown={body} />
           {content?.faq && (
             <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+          )}
+          {destLinks.length > 0 && (
+            <div className="mt-10 pt-8 border-t border-gray-200">
+              <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Related Destinations</p>
+              <div className="flex flex-wrap gap-6">
+                {destLinks.map((d) => (
+                  <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
+                    {d.name} →
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </main>
