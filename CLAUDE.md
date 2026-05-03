@@ -188,3 +188,62 @@ Update memory when significant work completes. They persist across sessions.
 - **Live dev server on Windows can be slow** with Turbopack + path resolution; verify changes via `npm run build` (SSG-safe post-port) rather than relying on dev server smoke tests.
 - **Prisma nullable field type narrowing**: a `where: { star: { not: null } }` clause does NOT narrow the TypeScript return type — the field stays `number | null`. In schema builders, always `.filter(r => r.field != null)` before `.map()` even when the DB query already excludes nulls. Use `r.field!` inside the filtered map. See `buildIndividualReviewSchemas()` for the pattern.
 - **Adding a new AI crawler to `public/robots.txt`** = also update `next.config.mjs` `images.remotePatterns` if their bot fetches avatars from external CDNs.
+
+## Session Operating Rules
+
+These rules are active every session. Claude must follow them without being reminded.
+
+**RULE 1 — No blind continuation**
+Never respond to vague prompts ("lanjutkan", "continue", "yes", "ok", "next") without first stating:
+- `→ ORIENTATION: I am currently [doing X] in [file Y].`
+- `→ NEXT ACTION : I will now [specific action Z].`
+If you cannot fill both, ask 1 specific question. Do not assume and proceed.
+
+**RULE 2 — Compact checkpoint at 60 calls**
+At every 60th tool call, output:
+`⚠ COMPACT CHECKPOINT — [N] calls. Done: [3 bullets]. → Recommend /compact.`
+
+**RULE 3 — External content protocol**
+If a URL or file path is pasted AND call count > 30:
+`⚠ External content in heavy context. Recommend /compact first.`
+Wait for user confirmation before fetching.
+
+**RULE 4 — Subagent selection (enforce every spawn)**
+- Read-only (search, analyze, inspect) → always `Explore`
+- Writes, bash, DB changes → `general-purpose`
+- Code quality, lint → `code-reviewer`
+State the type and reason before spawning. Never use `general-purpose` for read-only tasks.
+
+**RULE 5 — No mid-session /init**
+If context feels unclear, read CLAUDE.md directly. `/init` is for fresh session starts only — never run it mid-session.
+
+**RULE 6 — Drift check every 20 calls**
+Before any file edit at call N (multiple of 20):
+`→ DRIFT CHECK [N]: [current task] → serves [sprint goal] ✓`
+If you cannot connect them: flag drift and stop before continuing.
+
+**RULE 7 — Phase transition format**
+Before starting any new phase, output or require:
+```
+## PHASE START: [name]
+Previous phase completed: [1 sentence]
+Current state: [last file touched]
+This phase goal: [1 sentence]
+Scope: ONLY [files/folders]
+Do NOT: [what must stay unchanged]
+```
+
+Use `/phase-start` to run this automatically. Use `/session-close` to commit + handoff.
+
+## Current Sprint
+
+**Last completed:** individual `@type:Review` schema activated on `/why-jvto/reviews` via `buildIndividualReviewSchemas()` + `src/lib/queries/schemaReviews.ts` (2026-05-03)
+**Completed date:** 2026-05-03
+**Next task:** Add 7 AI crawlers to `public/robots.txt` — Claude-User, Claude-SearchBot, Google-CloudVertexBot, MistralAI-User, xAI-Bot, Applebot, Applebot-Extended (~30 min)
+**Build status:** ✓ Clean (108 routes SSG, verified Phase 7 2026-04-29)
+**Open items:**
+- llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
+- Production deploy after robots.txt + llms.txt done (~1 hr)
+- cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
+- SH cross-cluster links: our-team → safety-on-tours missing link (~2 hrs)
+- package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
