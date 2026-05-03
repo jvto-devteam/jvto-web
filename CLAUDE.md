@@ -237,13 +237,13 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Added 7 session operating rules + phase/drift/checkpoint protocol to CLAUDE.md (2026-05-03)
+**Last completed:** Added 7 AI crawlers to `public/robots.txt` (Claude-User, Claude-SearchBot, Google-CloudVertexBot, MistralAI-User, xAI-Bot, Applebot, Applebot-Extended) (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** Add 7 AI crawlers to `public/robots.txt` — Claude-User, Claude-SearchBot, Google-CloudVertexBot, MistralAI-User, xAI-Bot, Applebot, Applebot-Extended (~30 min)
+**Next task:** Production deploy ke Vercel — build clean 108 routes
 **Build status:** ✓ Clean (108 routes SSG, verified Phase 7 2026-04-29)
 **Open items:**
 - llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
-- Production deploy after robots.txt + llms.txt done (~1 hr)
+- Production deploy (~1 hr)
 - cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
 - SH cross-cluster links: our-team → safety-on-tours missing link (~2 hrs)
 - package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
