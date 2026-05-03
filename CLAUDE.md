@@ -239,7 +239,7 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 **Last completed:** FAQPage audit — verified 26 published destination FAQs surface correctly in buildTourFaqSchema output (283 package_faqs rows, 16 packages); zero duplicates against spine Q&A or narrative_claims C1–C7; pipeline query sound (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** (open — decide next AEO/GEO priority per priority_order_canonical.md)
+**Next task:** AnswerBlock audit — verify TourDetail.tsx client-side Q&A rendering mirrors the FAQPage schema spine pairs (MH checklist item, cluster 1 package detail)
 **Build status:** ✓ Compiled (108/108 routes; 0 new errors — no code changed this session)
 **Open items:**
 - Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
