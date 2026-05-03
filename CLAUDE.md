@@ -63,12 +63,14 @@ When adding new credentials/terms: add to `DEFINED_TERMS` (auto-injects globally
 | Tours hub | `src/lib/schemas/buildToursHubSchemas.ts` | `src/lib/tourFaqs.ts` (`getToursHubQaPairs`) |
 | Homepage | `src/lib/schemas/buildHomepageSchemas.ts` | `src/lib/homepageFaqs.ts` (`HOMEPAGE_FAQS`) |
 | Verify-JVTO | `src/lib/schemas/buildVerifySchemas.ts` | `src/lib/verifyFaqs.ts` (`LEGAL_FAQS`, `POLICE_SAFETY_FAQS`, `PRESS_RECOGNITION_FAQS`, `VERIFY_HUB_FAQS`) |
-| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | DB `narrative_claims` (via `getNarrativeClaimsByPage`) |
+| Why-JVTO | `src/lib/schemas/buildWhyJvtoSchemas.ts` | DB `narrative_claims` + individual `@type:Review` nodes on `/reviews` |
 | Travel-guide | `src/lib/schemas/buildTravelGuideSchemas.ts` | DB `narrative_claims` |
 | Policy | `src/lib/schemas/buildPolicySchemas.ts` | DB `narrative_claims` |
 | Destinations | `src/lib/schemas/buildDestinationsSchemas.ts` | DB `schema_json` per row |
 
 **Rule:** edit Q&A copy → only `src/lib/*Faqs.ts` or DB `narrative_claims`. Edit schema fields → only `src/lib/schemas/build*.ts`. FAQ source resolution is centralized.
+
+New query helper: `src/lib/queries/schemaReviews.ts` — minimal Prisma query (no joins) feeding `buildIndividualReviewSchemas()`. Activated 2026-05-03; individual `@type:Review` schema is now live on `/why-jvto/reviews`.
 
 ### FAQ Source Resolver (CRITICAL): `src/lib/content/resolveFaqs.ts`
 
@@ -184,4 +186,5 @@ Update memory when significant work completes. They persist across sessions.
 - **Sed-based file copies truncate large TSX files** in this Windows/Bash setup. For files >100 lines, use `Read` + `Write` directly, not shell pipelines.
 - **`page copy.tsx` clutter files** in `src/app/(website)/why-jvto/our-story/` — pre-existing backup files with TS errors. Ignore unless owner asks for cleanup.
 - **Live dev server on Windows can be slow** with Turbopack + path resolution; verify changes via `npm run build` (SSG-safe post-port) rather than relying on dev server smoke tests.
+- **Prisma nullable field type narrowing**: a `where: { star: { not: null } }` clause does NOT narrow the TypeScript return type — the field stays `number | null`. In schema builders, always `.filter(r => r.field != null)` before `.map()` even when the DB query already excludes nulls. Use `r.field!` inside the filtered map. See `buildIndividualReviewSchemas()` for the pattern.
 - **Adding a new AI crawler to `public/robots.txt`** = also update `next.config.mjs` `images.remotePatterns` if their bot fetches avatars from external CDNs.
