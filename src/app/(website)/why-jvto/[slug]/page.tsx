@@ -10,10 +10,11 @@ import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import Sidebar from "../sidebar";
 import { ChevronRight, Home } from "lucide-react";
-import { buildWhyJvtoReviewsAggregateRatingSchema } from "@/lib/schemas/buildWhyJvtoSchemas";
+import { buildWhyJvtoReviewsAggregateRatingSchema, buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { getActiveCrewMembers } from "@/lib/queries/crewMembers";
 import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
+import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 
 
 type Props = {
@@ -122,10 +123,16 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   const reviewsAggregateSchema =
     slug === "reviews" ? buildWhyJvtoReviewsAggregateRatingSchema() : null;
 
+  const reviewsIndividualSchemas =
+    slug === "reviews"
+      ? buildIndividualReviewSchemas(await getReviewsForSchema())
+      : [];
+
   const slugExtraSchemas = [
     faqSchema,
     ...crewSchemas,
     reviewsAggregateSchema,
+    ...reviewsIndividualSchemas,
   ].filter(Boolean);
 
   return (

@@ -5,6 +5,7 @@
 // hub adds mainEntity ItemList(sub-pages); /reviews adds AggregateRating.
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
 import type { NarrativeClaim } from '@/lib/queries/narrativeClaims';
+import type { ReviewForSchema } from '@/lib/queries/schemaReviews';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -85,6 +86,37 @@ export function buildWhyJvtoHubItemListSchema() {
       { '@type': 'ListItem', position: 5, url: `${BASE_URL}/why-jvto/reviews`, name: 'Reviews — Multi-Platform' },
     ],
   };
+}
+
+/**
+ * Individual @type:Review nodes for /why-jvto/reviews — one node per DB review row.
+ * Wrapped in a single @graph object so the caller injects one extraSchema entry.
+ * itemReviewed cross-refs Organization @id (globally injected); url omitted when null.
+ */
+export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record<string, unknown>[] {
+  return reviews.filter((r) => r.star != null).map((r) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    '@id': `${BASE_URL}/#review-${r.id}`,
+    author: {
+      '@type': 'Person',
+      name: r.customer_name,
+    },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: String(r.star!),
+      bestRating: '5',
+      worstRating: '1',
+    },
+    reviewBody: r.review,
+    datePublished: r.date.toISOString().split('T')[0],
+    ...(r.url || r.url_reference ? { url: (r.url || r.url_reference) as string } : {}),
+    itemReviewed: { '@id': `${BASE_URL}/#organization` },
+    publisher: {
+      '@type': 'Organization',
+      name: r.platform,
+    },
+  }));
 }
 
 /**
