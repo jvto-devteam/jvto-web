@@ -237,7 +237,7 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** individual `@type:Review` schema activated on `/why-jvto/reviews` via `buildIndividualReviewSchemas()` + `src/lib/queries/schemaReviews.ts` (2026-05-03)
+**Last completed:** Added 7 session operating rules + phase/drift/checkpoint protocol to CLAUDE.md (2026-05-03)
 **Completed date:** 2026-05-03
 **Next task:** Add 7 AI crawlers to `public/robots.txt` — Claude-User, Claude-SearchBot, Google-CloudVertexBot, MistralAI-User, xAI-Bot, Applebot, Applebot-Extended (~30 min)
 **Build status:** ✓ Clean (108 routes SSG, verified Phase 7 2026-04-29)
