@@ -237,11 +237,14 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Inspected `.claude/settings.json` + `settings.local.json` — confirmed no Python hooks exist; created `E:\test-2-2026\.remember\logs` directory (2026-05-03)
+**Last completed:** Vercel deploy preflight ran (CLI ✓, project NOT yet linked); gap inventory E:\test-2-2026 produced — 3 high/medium gaps identified (route geometry, siteConfig stub, FounderSpotlight missing) (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** Production deploy ke Vercel — build clean 108 routes
+**Next task:** Run `vercel link` interactively, then deploy F:\jvto-web to Vercel production
 **Build status:** ✓ Clean (108 routes SSG, verified Phase 7 2026-04-29)
 **Open items:**
+- Vercel deploy BLOCKED: `vercel link` not yet run — must be done interactively in terminal
+- Route geometry migration: `E:\test-2-2026\data\routes\` (10 GPX/GeoJSON files) not in live repo — migrate to `public/routes/` before archived repo is deleted
+- siteConfig enrichment: live `src/lib/site-config.ts` is 77-line stub vs rewrite's 6.5 KB (founder image, police unit, crew roles missing)
 - llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
 - cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
 - SH cross-cluster links: our-team → safety-on-tours missing link (~2 hrs)
