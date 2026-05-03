@@ -237,10 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** siteConfig enrichment — `src/lib/site-config.ts` 77→160 lines: founder image+portraitUrl+policeUnit+unitFullName+description+knowsAbout added; socialProof fixed (2016→2015, 200→47); reputation/reviewPlatforms/bankAccounts/bookingPolicy/whatsapp/assets/exchangeRates/crewRoles sections added; WhyJVTO.tsx + OurStoryPage.tsx wired to SITE_CONFIG (2026-05-03)
+**Last completed:** cluster_role_contracts.md @id registry — JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME moved from "Reserved" to "Globally injected" (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** llms.txt refresh — founding year "2016" → 2015, add AEO/GEO architecture section
+**Next task:** package_faqs content review — 75/78 package-linked FAQs unpublished, evaluate which warrant publishing
 **Build status:** ✓ Compiled (108/108 routes; 0 new errors)
 **Open items:**
-- cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
 - package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
