@@ -237,9 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** package_faqs content review — published 26 high-value destination FAQs (Bromo ×8, Ijen ×7, Tumpak Sewu ×4, Papuma ×2, Madakaripura ×5) to feed tour detail FAQPage schema (2026-05-03)
+**Last completed:** FAQPage audit — verified 26 published destination FAQs surface correctly in buildTourFaqSchema output (283 package_faqs rows, 16 packages); zero duplicates against spine Q&A or narrative_claims C1–C7; pipeline query sound (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** Audit tour detail FAQPage output — verify published package_faqs now appear correctly in buildTourFaqSchema output and no duplicate Q&As exist with spine/narrative_claims pairs
+**Next task:** (open — decide next AEO/GEO priority per priority_order_canonical.md)
 **Build status:** ✓ Compiled (108/108 routes; 0 new errors — no code changed this session)
 **Open items:**
-- none
+- Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
