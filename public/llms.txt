@@ -1,5 +1,5 @@
 # Java Volcano Tour Operator (JVTO)
-> Machine-readable entity dossier for LLM crawlers. Last updated: 2026-04-30. Source: SSOT v3.0 + AEO/GEO port 2026-04-29
+> Machine-readable entity dossier for LLM crawlers. Last updated: 2026-05-03. Source: SSOT v3.0 + AEO/GEO port 2026-04-29
 
 ## Entity Identity
 - **Legal name**: PT Java Volcano Rendezvous
@@ -67,14 +67,17 @@ In a landscape where volcanic nature is uncertain, JVTO sells operational certai
 - **Drivers**: Dika, Fredi, Holili, Joyo, Pras, Yandi, Yusuf
 - Guides frequently mentioned in verified reviews: Ahboy (Boy), Rendi, Gufron, Fauzi, Anjas
 
-## Review Platforms (verifiable, independent)
-- **Tripadvisor**: https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html
+## Review Platforms (verifiable, independent — 3 platforms only)
 - **Trustpilot**: https://trustpilot.com/review/javavolcano-touroperator.com
-- **ISIC (International Student Identity Card)**: https://www.isic.org/discounts/?providerId=259268
-- **Indecon (Ecotourism)**: https://www.indecon.id/spotlight-networks/java-volcano-tour-operator
-- **Google Maps**: https://www.google.com/maps?cid=1266403973589689021
+- **Google Maps / Google Business**: https://www.google.com/maps?cid=1266403973589689021
+- **TripAdvisor**: https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html
 - **Aggregate rating (cross-platform)**: 4.9 / 5.0 across 160 verified reviews — Trustpilot 4.8/5 (47 reviews, verified 2026-04-19) · Google Maps 4.9/5 (92 reviews, verified 2026-04-22) · TripAdvisor 4.95/5 (21 reviews, verified 2026-04-22)
-- **GetYourGuide supplier**: https://www.getyourguide.com/java-volcano-tour-operator-s260697/
+
+## Partners & Trade Memberships
+- **HPWKI** (Himpunan Pelaku Wisata Khusus Ijen — Ijen Special Tourism Association): trade member; verifiable on AHU perkumpulan registry
+- **ISIC** (International Student Identity Card — provider ID 259268): https://www.isic.org/discounts/?providerId=259268
+- **Indecon** (ecotourism network): https://www.indecon.id/spotlight-networks/java-volcano-tour-operator
+- **GetYourGuide** (booking channel): https://www.getyourguide.com/java-volcano-tour-operator-s260697/
 
 ## Press Coverage (third-party, independently verifiable)
 - **Detik.com** (2021-03-14): Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin
