@@ -242,6 +242,5 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 **Next task:** llms.txt refresh — founding year "2016" → 2015, add AEO/GEO architecture section
 **Build status:** ✓ Compiled (108/108 routes; 0 new errors)
 **Open items:**
-- llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
 - cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
 - package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
