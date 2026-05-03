@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const WhyJVTO: React.FC = () => {
   return (
@@ -56,7 +57,7 @@ const WhyJVTO: React.FC = () => {
             {/* Main Image */}
             <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl border-4 border-white/10 w-full max-w-md aspect-[4/5]">
               <Image
-                src="/founder/agung_sambuko.jpg"
+                src={SITE_CONFIG.founder.image}
                 alt='Agung "Mr. Sam" Sambuko - JVTO Founder'
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
