@@ -1,0 +1,145 @@
+{
+  "generated_at": "2026-04-27T17:47:10.840Z",
+  "routes": [
+    {
+      "slug": "ijen-crater",
+      "gpx_file": "ijen-crater.gpx",
+      "geojson_file": "ijen-crater.geojson",
+      "name": null,
+      "source": "AllTrails.com",
+      "points": 673,
+      "length_m": 8977,
+      "length_km": 8.98,
+      "elev_gain_m": 797,
+      "elev_loss_m": 797,
+      "elev_min_m": 1872,
+      "elev_max_m": 2379,
+      "bbox": [
+        114.22426,
+        -8.07316,
+        114.24812,
+        -8.0539
+      ],
+      "start": [
+        114.22426,
+        -8.07316
+      ],
+      "end": [
+        114.22426,
+        -8.07316
+      ]
+    },
+    {
+      "slug": "madakaripura-waterfall",
+      "gpx_file": "madakaripura-waterfall.gpx",
+      "geojson_file": "madakaripura-waterfall.geojson",
+      "name": null,
+      "source": "AllTrails.com",
+      "points": 417,
+      "length_m": 3712,
+      "length_km": 3.71,
+      "elev_gain_m": 492,
+      "elev_loss_m": 492,
+      "elev_min_m": 555,
+      "elev_max_m": 824,
+      "bbox": [
+        113.00867,
+        -7.85401,
+        113.01865,
+        -7.84388
+      ],
+      "start": [
+        113.01865,
+        -7.84388
+      ],
+      "end": [
+        113.01865,
+        -7.84388
+      ]
+    },
+    {
+      "slug": "mount-bromo",
+      "gpx_file": "mount-bromo.gpx",
+      "geojson_file": "mount-bromo.geojson",
+      "name": null,
+      "source": "AllTrails.com",
+      "points": 809,
+      "length_m": 5309,
+      "length_km": 5.31,
+      "elev_gain_m": 351,
+      "elev_loss_m": 351,
+      "elev_min_m": 2120,
+      "elev_max_m": 2277,
+      "bbox": [
+        112.95277,
+        -7.93998,
+        112.9635,
+        -7.9217
+      ],
+      "start": [
+        112.9635,
+        -7.92181
+      ],
+      "end": [
+        112.9635,
+        -7.92181
+      ]
+    },
+    {
+      "slug": "papuma-beach",
+      "gpx_file": "papuma-beach.gpx",
+      "geojson_file": "papuma-beach.geojson",
+      "name": null,
+      "source": "AllTrails.com",
+      "points": 169,
+      "length_m": 4399,
+      "length_km": 4.4,
+      "elev_gain_m": 335,
+      "elev_loss_m": 335,
+      "elev_min_m": 0,
+      "elev_max_m": 86,
+      "bbox": [
+        113.54986,
+        -8.43559,
+        113.56033,
+        -8.42432
+      ],
+      "start": [
+        113.56028,
+        -8.42445
+      ],
+      "end": [
+        113.56028,
+        -8.42445
+      ]
+    },
+    {
+      "slug": "tumpak-sewu-waterfall",
+      "gpx_file": "tumpak-sewu-waterfall.gpx",
+      "geojson_file": "tumpak-sewu-waterfall.geojson",
+      "name": null,
+      "source": "AllTrails.com",
+      "points": 125,
+      "length_m": 719,
+      "length_km": 0.72,
+      "elev_gain_m": 63,
+      "elev_loss_m": 63,
+      "elev_min_m": 508,
+      "elev_max_m": 568,
+      "bbox": [
+        112.91781,
+        -8.23184,
+        112.91997,
+        -8.23028
+      ],
+      "start": [
+        112.91997,
+        -8.23028
+      ],
+      "end": [
+        112.91997,
+        -8.23028
+      ]
+    }
+  ]
+}
