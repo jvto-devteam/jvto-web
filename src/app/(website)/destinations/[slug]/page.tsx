@@ -1,5 +1,6 @@
 // app/(website)/destinations/[slug]/page.tsx
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
@@ -17,6 +18,21 @@ import {
   buildDestinationTravelGuideHandoffSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
 export const revalidate = 3600;
+
+const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
+  "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
+  "mount-bromo": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "tumpak-sewu-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "madakaripura-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+};
+
+const DEST_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
+  "ijen-crater": [{ slug: "mount-bromo", name: "Mount Bromo" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "mount-bromo": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "tumpak-sewu-waterfall": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+  "madakaripura-waterfall": [{ slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+};
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -153,10 +169,39 @@ export default async function DestinationDetailPage({ params }: Props) {
     ].filter(Boolean),
   };
 
+  const travelGuideLink = DEST_TRAVEL_GUIDE_LINKS[slug];
+  const relatedDests = DEST_RELATED[slug] ?? [];
+
   return (
     <>
       <JsonLd data={schema} />
       <DestinationDetailView data={data} />
+      {(travelGuideLink || relatedDests.length > 0) && (
+        <div className="border-t border-gray-200 bg-gray-50">
+          <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">
+            {travelGuideLink && (
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Travel Guide</p>
+                <Link href={travelGuideLink.href} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
+                  {travelGuideLink.label} →
+                </Link>
+              </div>
+            )}
+            {relatedDests.length > 0 && (
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Related Destinations</p>
+                <div className="flex flex-wrap gap-6">
+                  {relatedDests.map((d) => (
+                    <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
+                      {d.name} →
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
