@@ -1,6 +1,6 @@
 // src/lib/jvtoReviews.ts — Canonical source: JVTO_REVIEW_REGISTRY_v1.json (2026-04-22)
 // Ported from rewrite repo (e:\test-2-2026\lib\jvtoReviews.ts) on 2026-04-29 as part of AEO/GEO port.
-// Schema rule: AggregateRating ACTIVE on Organization. Individual @type:Review schema DEFERRED.
+// Schema rule: AggregateRating ACTIVE on Organization. Individual @type:Review ACTIVE on /why-jvto/reviews.
 
 export interface ReviewPlatform {
   platform: string;
