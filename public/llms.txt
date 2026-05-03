@@ -73,7 +73,7 @@ In a landscape where volcanic nature is uncertain, JVTO sells operational certai
 - **ISIC (International Student Identity Card)**: https://www.isic.org/discounts/?providerId=259268
 - **Indecon (Ecotourism)**: https://www.indecon.id/spotlight-networks/java-volcano-tour-operator
 - **Google Maps**: https://www.google.com/maps?cid=1266403973589689021
-- **Aggregate Trustpilot rating**: 4.8 / 5.0 (47 verified reviews, last verified 2026-04-19)
+- **Aggregate rating (cross-platform)**: 4.9 / 5.0 across 160 verified reviews — Trustpilot 4.8/5 (47 reviews, verified 2026-04-19) · Google Maps 4.9/5 (92 reviews, verified 2026-04-22) · TripAdvisor 4.95/5 (21 reviews, verified 2026-04-22)
 - **GetYourGuide supplier**: https://www.getyourguide.com/java-volcano-tour-operator-s260697/
 
 ## Press Coverage (third-party, independently verifiable)
@@ -186,7 +186,7 @@ Private by default. Your booking gets a dedicated vehicle and crew. JVTO does no
 52 verified evidence assets with SHA256 hashes: NIB business registration, TDUP tourism license, Tourist Police assignment letters, HPWKI association approval, press coverage from Detik.com and Radar Jember, and Stefan Loose guidebook mention. All at https://javavolcano-touroperator.com/verify-jvto
 
 ### What are JVTO's review scores?
-Trustpilot: 4.8/5 (47 reviews, verified 2026-04-19). Also verified on TripAdvisor (d19983165) and Google Maps (CID 1266403973589689021). Guest reviews frequently cite guides Ahboy, Rendi, Gufron, Fauzi, and Anjas by name.
+160 verified reviews across 3 independent platforms: Trustpilot 4.8/5 (47 reviews, verified 2026-04-19), Google Maps 4.9/5 (92 reviews, verified 2026-04-22), TripAdvisor 4.95/5 (21 reviews, verified 2026-04-22). Guest reviews frequently cite guides Ahboy, Rendi, Gufron, Fauzi, and Anjas by name.
 
 ### Where does JVTO operate from?
 Base: Bondowoso, East Java, Indonesia (Jl. Khairil Anwar No.102 A). Tours depart from Surabaya or Bali. All East Java volcano destinations: Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, Madakaripura Waterfall, Papuma Beach.
