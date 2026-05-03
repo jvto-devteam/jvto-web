@@ -239,12 +239,11 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 **Last completed:** Confirmed route geometry files already committed to `public/routes/` (f45e832); verified all 11 files valid (5 destinations × GPX + GeoJSON + index.json) (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** Run `vercel link` interactively, then deploy F:\jvto-web to Vercel production
+**Next task:** SH cross-cluster links — destinations↔travel-guide, our-team→safety-on-tours, Ijen↔Bromo↔Tumpak
 **Build status:** ✓ Clean (108 routes SSG, verified Phase 7 2026-04-29)
 **Open items:**
-- Vercel deploy BLOCKED: `vercel link` not yet run — must be done interactively in terminal (`! vercel link` in prompt)
+- SH cross-cluster links: destinations↔travel-guide, our-team→safety-on-tours, Ijen↔Bromo↔Tumpak (~2 hrs)
 - siteConfig enrichment: live `src/lib/site-config.ts` is 77-line stub vs rewrite's 6.5 KB (founder image, police unit, crew roles missing)
 - llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
 - cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
-- SH cross-cluster links: our-team → safety-on-tours missing link (~2 hrs)
 - package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
