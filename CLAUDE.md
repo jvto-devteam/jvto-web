@@ -237,12 +237,11 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** SH cross-cluster HTML links — destinations↔travel-guide (bidirectional), our-team→safety-on-tours, Ijen↔Bromo↔Tumpak cross-refs (2026-05-03)
+**Last completed:** siteConfig enrichment — `src/lib/site-config.ts` 77→160 lines: founder image+portraitUrl+policeUnit+unitFullName+description+knowsAbout added; socialProof fixed (2016→2015, 200→47); reputation/reviewPlatforms/bankAccounts/bookingPolicy/whatsapp/assets/exchangeRates/crewRoles sections added; WhyJVTO.tsx + OurStoryPage.tsx wired to SITE_CONFIG (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** siteConfig enrichment — live `src/lib/site-config.ts` is 77-line stub vs rewrite's 6.5 KB (founder image, police unit, crew roles missing)
-**Build status:** ✓ Compiled (TypeScript: 0 new errors in changed files; pre-existing 14 errors unchanged)
+**Next task:** llms.txt refresh — founding year "2016" → 2015, add AEO/GEO architecture section
+**Build status:** ✓ Compiled (108/108 routes; 0 new errors)
 **Open items:**
-- siteConfig enrichment: live `src/lib/site-config.ts` is 77-line stub vs rewrite's 6.5 KB (founder image, police unit, crew roles missing)
 - llms.txt refresh: founding year "2016" → 2015, add AEO/GEO architecture section (~1 hr)
 - cluster_role_contracts.md: mark JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME as injected (was "reserved") (~15 min)
 - package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)

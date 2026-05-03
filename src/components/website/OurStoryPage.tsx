@@ -1,5 +1,6 @@
 import Breadcrumbs from "./Breadcrumbs";
 import Image from "next/image";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 const Section: React.FC<{
   title: string;
@@ -111,7 +112,7 @@ const OurStoryPage = () => {
             </Section>
             <Section
               title="Active Tourist Police Leadership"
-              image="/founder/mr-sam-tourist-police-portrait.png"
+              image={SITE_CONFIG.founder.portraitUrl}
               imageAlt="Mr. Sam, active Tourist Police officer and founder of JVTO."
             >
               <p>
