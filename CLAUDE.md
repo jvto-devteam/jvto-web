@@ -237,9 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** cluster_role_contracts.md @id registry — JVTO_TRAVEL_CREDIT + JVTO_FOC_SCHEME moved from "Reserved" to "Globally injected" (2026-05-03)
+**Last completed:** package_faqs content review — published 26 high-value destination FAQs (Bromo ×8, Ijen ×7, Tumpak Sewu ×4, Papuma ×2, Madakaripura ×5) to feed tour detail FAQPage schema (2026-05-03)
 **Completed date:** 2026-05-03
-**Next task:** package_faqs content review — 75/78 package-linked FAQs unpublished, evaluate which warrant publishing
-**Build status:** ✓ Compiled (108/108 routes; 0 new errors)
+**Next task:** Audit tour detail FAQPage output — verify published package_faqs now appear correctly in buildTourFaqSchema output and no duplicate Q&As exist with spine/narrative_claims pairs
+**Build status:** ✓ Compiled (108/108 routes; 0 new errors — no code changed this session)
 **Open items:**
-- package_faqs content review: 75/78 package-linked FAQs unpublished (~2 hrs)
+- none
