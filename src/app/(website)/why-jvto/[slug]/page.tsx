@@ -110,7 +110,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
   // Per cluster_role_contracts.md Cluster 3 sub-pages MH:
   //   - Any slug: FAQPage from narrative_claims (primary_page='/why-jvto/{slug}') if wired, else CMS fallback.
   //   - 'our-team': Person schemas per active crew via buildCrewPersonSchema().
-  //   - 'reviews': standalone AggregateRating cross-ref to Organization.
+  //   - 'reviews': AggregateRating + individual @type:Review nodes (one per DB row).
   const route = `/why-jvto/${slug}`;
   const faqResolution = await resolveFaqsForPage(route);
   const faqSchema = buildResolvedFaqSchema(faqResolution, route);

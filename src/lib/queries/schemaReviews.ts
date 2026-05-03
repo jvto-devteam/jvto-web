@@ -25,7 +25,8 @@ export async function getReviewsForSchema(): Promise<ReviewForSchema[]> {
     },
     where: {
       star: { not: null, gte: 1 },
-      platform: { not: 'Klook' },
+      platform: { in: ['Trustpilot', 'TripAdvisor', 'Google'] },
+      review: { not: '' },
     },
     orderBy: { date: 'desc' },
   });

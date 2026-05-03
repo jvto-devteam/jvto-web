@@ -90,11 +90,13 @@ export function buildWhyJvtoHubItemListSchema() {
 
 /**
  * Individual @type:Review nodes for /why-jvto/reviews — one node per DB review row.
- * Wrapped in a single @graph object so the caller injects one extraSchema entry.
+ * Returns a flat array spread individually into the caller's extraSchemas; not wrapped in @graph.
  * itemReviewed cross-refs Organization @id (globally injected); url omitted when null.
  */
 export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record<string, unknown>[] {
-  return reviews.filter((r) => r.star != null).map((r) => ({
+  return reviews
+    .filter((r): r is ReviewForSchema & { star: number } => r.star != null)
+    .map((r) => ({
     '@context': 'https://schema.org',
     '@type': 'Review',
     '@id': `${BASE_URL}/#review-${r.id}`,
@@ -104,7 +106,7 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record
     },
     reviewRating: {
       '@type': 'Rating',
-      ratingValue: String(r.star!),
+      ratingValue: String(r.star),
       bestRating: '5',
       worstRating: '1',
     },
