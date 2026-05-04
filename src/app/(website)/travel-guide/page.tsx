@@ -200,12 +200,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TravelGuideHubPage() {
-  const row = await getContentPage("/travel-guide", "en");
+  const [row, faqResolution] = await Promise.all([
+    getContentPage("/travel-guide", "en"),
+    resolveFaqsForPage("/travel-guide"),
+  ]);
   const content = (row?.content as Record<string, any> | null) ?? {};
-  // Phase 5 (2026-04-29): canonical hub Q&A via resolver + ItemList of 11 sub-pages.
-  // /travel-guide has 0 narrative_claims wired → falls through to CMS fallback (no override).
-  // Per cluster_role_contracts.md Cluster 5 hub MH.
-  const faqResolution = await resolveFaqsForPage("/travel-guide");
   const tgHubExtraSchemas = [
     buildTgHubItemListSchema(),
     buildResolvedFaqSchema(faqResolution, "/travel-guide"),

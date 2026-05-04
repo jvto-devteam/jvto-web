@@ -175,17 +175,13 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const row = await getContentPage("/why-jvto", "en");
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const heroH1 = content.h1 ?? defaultWhyTitle;
-  // Phase 6 (2026-05-04): Primary spine — fetch all 9 narrative claims for FAQPage + AnswerBlock HTML.
-  // Hub shows ALL claims (not just those wired to /why-jvto) — intentional: hub = claim index.
-  // Suppress CMS FAQ since we're providing a proper FAQPage from narrative_claims.
-  // Per cluster_role_contracts.md Cluster 3 hub MH: FAQPage + mainEntity ItemList(narrative_claims).
-  const [allClaims, faqResolution] = await Promise.all([
+  const [allClaims, row, faqResolution] = await Promise.all([
     getAllNarrativeClaims(),
+    getContentPage("/why-jvto", "en"),
     resolveFaqsForPage("/why-jvto"),
   ]);
+  const content = (row?.content as Record<string, any> | null) ?? {};
+  const heroH1 = content.h1 ?? defaultWhyTitle;
   const whyJvtoExtraSchemas = [
     buildWhyJvtoHubItemListSchema(),
     // All 9 narrative claims as FAQPage (replaces CMS fallback — more authoritative source)

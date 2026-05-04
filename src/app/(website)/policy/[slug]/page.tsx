@@ -54,7 +54,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PolicyDynamicPage({ params }: Props) {
   const { slug } = await params;
 
-  const row = await getContentPage(`/policy/${slug}`, "en");
+  const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
+  const route = `/policy/${slug}`;
+  const [row, faqResolution] = await Promise.all([
+    getContentPage(route, "en"),
+    resolveFaqsForPage(route),
+  ]);
 
   if (!row) return notFound();
 
@@ -62,15 +67,6 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Policy";
   const body = content?.body_md ?? "";
-
-  // Phase 5 (2026-04-29): per-slug brand-anchor WebPage with mentions cross-refs to
-  // globally-injected custom DefinedTerms (#term-jvto-travel-credit, #term-jvto-foc-scheme).
-  // FAQ via resolver (narrative_claims-first; /policy/booking-payment-cancellation has 1 wired).
-  // booking-payment-cancellation also gets SpecialAnnouncement for travel credit policy.
-  // Per cluster_role_contracts.md Cluster 6.
-  const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
-  const route = `/policy/${slug}`;
-  const faqResolution = await resolveFaqsForPage(route);
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
     name: seo.title ?? h1,

@@ -42,8 +42,8 @@ async function getToursFromBali(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageBali() {
-  const seo = await getPageSeo("/tours/from-bali", fallbackSeo);
-  const [initialTours, org] = await Promise.all([
+  const [seo, initialTours, org] = await Promise.all([
+    getPageSeo("/tours/from-bali", fallbackSeo),
     getToursFromBali(),
     getOrganizationProfile(),
   ]);

@@ -411,10 +411,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <div className="relative h-[80vh] w-full bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
           {/* Tampilkan Hero Image (bisa statis dari pkg.imageUrl atau dinamis jika kita tambah tombol ganti hero) */}
-          <img
+          <Image
             src={heroImage}
             alt={pkg.name}
-            className="h-full w-full object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+            fill
+            priority
+            className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/30"></div>
         </div>
@@ -556,10 +559,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 // Class: shrink-0 & fixed width pada mobile agar bisa di-scroll
                 className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-sm bg-slate-800"
               >
-                <img
+                <Image
                   src={img}
-                  alt={`Gallery ${idx}`}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  alt={`Gallery ${idx + 1}`}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                  sizes="(max-width: 768px) 128px, 200px"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="bg-black/50 p-2 rounded-full text-white backdrop-blur-sm">
@@ -822,10 +827,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       >
                         {/* Header Image */}
                         <div className="relative h-64 w-full">
-                          <img
+                          <Image
                             src={dayImage}
                             alt={day.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 800px"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
                           <div className="absolute bottom-0 left-0 p-6 text-white w-full">
@@ -1097,11 +1104,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           {/* Image Container */}
                           <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
                             {acc.image && acc.image.includes("http") ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
+                              <Image
                                 src={acc.image}
                                 alt={`Accommodation in ${acc.area}`}
-                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                sizes="(max-width: 768px) 100vw, 400px"
                               />
                             ) : (
                               <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
