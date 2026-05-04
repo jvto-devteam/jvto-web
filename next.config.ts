@@ -105,6 +105,23 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // MERGE: guest-voices-reviews is a duplicate of reviews (identical H1 + purpose, no FAQ).
+      {
+        source: "/why-jvto/guest-voices-reviews",
+        destination: "/why-jvto/reviews",
+        permanent: true,
+      },
+      // MERGE: history-roots covers the same topic as our-story (GEO doc: our-story = (history-roots)).
+      // our-story is the narrative-complete canonical; history-roots audit-trail framing is secondary.
+      {
+        source: "/why-jvto/history-roots",
+        destination: "/why-jvto/our-story",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
