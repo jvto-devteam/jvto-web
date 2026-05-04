@@ -41,8 +41,8 @@ async function getAllTours(): Promise<ListTourPackage[]> {
 }
 
 export default async function ToursPageGlobal() {
-  const seo = await getPageSeo("/tours", fallbackSeo);
-  const [initialTours, org] = await Promise.all([
+  const [seo, initialTours, org] = await Promise.all([
+    getPageSeo("/tours", fallbackSeo),
     getAllTours(),
     getOrganizationProfile(),
   ]);

@@ -54,42 +54,27 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getFaqData() {
-  // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
-  const categories = await prisma.category_faqs.findMany({
-    where: {
-      is_active: true,
-      // LOGIKA UTAMA: Filter ini memastikan kategori kosong tidak akan terambil
-      faqs: {
-        some: {
-          is_published: true,
+  const [categories, uncategorizedFaqs] = await Promise.all([
+    // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
+    prisma.category_faqs.findMany({
+      where: {
+        is_active: true,
+        faqs: { some: { is_published: true } },
+      },
+      orderBy: { sort_order: "asc" },
+      include: {
+        faqs: {
+          where: { is_published: true },
+          orderBy: { sort_order: "asc" },
         },
       },
-    },
-    orderBy: {
-      sort_order: "asc",
-    },
-    include: {
-      faqs: {
-        where: {
-          is_published: true, // Pastikan isinya pun hanya yang published
-        },
-        orderBy: {
-          sort_order: "asc",
-        },
-      },
-    },
-  });
-
-  // 2. Ambil Uncategorized FAQ (jika ada)
-  const uncategorizedFaqs = await prisma.faqs.findMany({
-    where: {
-      is_published: true,
-      category_id: null,
-    },
-    orderBy: {
-      sort_order: "asc",
-    },
-  });
+    }),
+    // 2. Ambil Uncategorized FAQ (jika ada)
+    prisma.faqs.findMany({
+      where: { is_published: true, category_id: null },
+      orderBy: { sort_order: "asc" },
+    }),
+  ]);
 
   // Gabungkan Uncategorized hanya jika ada isinya
   // If there are uncategorized FAQs
@@ -108,8 +93,10 @@ async function getFaqData() {
 }
 
 export default async function FaqPage() {
-  const seo = await getPageSeo("/travel-guide/faq", fallbackSeo);
-  const categoriesData = await getFaqData();
+  const [seo, categoriesData] = await Promise.all([
+    getPageSeo("/travel-guide/faq", fallbackSeo),
+    getFaqData(),
+  ]);
   const pageRow = seo.row
     ? {
         route: seo.row.route,

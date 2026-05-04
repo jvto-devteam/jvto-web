@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { cache } from "react";
 import prisma from "@/lib/prisma";
 
 const getContentPageCached = unstable_cache(
@@ -14,6 +15,8 @@ const getContentPageCached = unstable_cache(
   },
 );
 
-export async function getContentPage(route: string, lang = "en") {
+// cache() adds per-request memoization on top of unstable_cache's persistent layer.
+// This deduplicates calls within the same render pass (e.g. generateMetadata + page component).
+export const getContentPage = cache(async (route: string, lang = "en") => {
   return getContentPageCached(route, lang);
-}
+});
