@@ -237,9 +237,10 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Verified both history artifact image URLs live (200 OK): stefan_loose_crop_enh.jpg (138KB) + booking-2015-plaque.jpg (91KB) — schema image properties intact, no fix needed; noted booking-2015-plaque.jpg XMP shows AI-generated flag (possible Canva mock-up vs. real photo — flag for owner review) (2026-05-04)
+**Last completed:** Read 3 GEO/AEO strategy Drive docs; deployed public/.well-known/ai-agent-config.json (per-crawler GPTBot/ClaudeBot/Google-Extended permissions + SHA-256 credential anchors); built VolcanicStatusBadge.tsx + SpecialAnnouncement schema (72h expires) on Ijen + Bromo destination pages; created docs/STRATEGIC_REFERENCE.md with extracted strategic findings (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** /verify-jvto/police-safety — add HTML body sections (POLPAR + SPRIN credential context, founder cross-ref rendered) to close out Cluster 4 Verify-JVTO (last sub-page needing HTML body)
+**Next task:** /verify-jvto/police-safety — add HTML body sections (POLPAR + SPRIN credential context, founder cross-ref rendered) to close out Cluster 4 Verify-JVTO
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:**
-- booking-2015-plaque.jpg XMP metadata shows "AI-Generated Content: Yes" (Canva) — owner should verify this is the real plaque photo, not a mock-up
+- booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
+- GAP 4 from GEO doc: /team/[slug] pages for named guides (Anjas, Boy, Gufron, Rendi, Taufik) not yet built — future sprint
