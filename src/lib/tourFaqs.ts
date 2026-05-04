@@ -68,6 +68,17 @@ export function getToursHubQaPairs(): QaPair[] {
 export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
   const pairs: QaPair[] = [
     {
+      question: 'What exactly is covered in the all-inclusive price?',
+      answer:
+        `Every JVTO booking covers: private transport throughout, accommodation with breakfast, all park and crater entrance fees, ` +
+        `a HPWKI-licensed guide, unlimited mineral water, and a JVTO travel T-shirt. ` +
+        `Bromo packages additionally include the mandatory 4WD jeep for caldera access. ` +
+        `Ijen packages include the professional gas mask required under BBKSDA SE.1658 regulations. ` +
+        `There are no surprise "local payments" — every cost is itemised in your booking confirmation.`,
+      uiMeta: 'See inclusions & exclusions',
+      uiLink: '/policy/booking-payment-cancellation',
+    },
+    {
       question: 'Is JVTO a licensed Indonesian tour operator?',
       answer:
         `Yes. JVTO operates as PT Java Volcano Rendezvous, AHU-registered February 2023, with NIB ${NIB_NUMBER} ` +
