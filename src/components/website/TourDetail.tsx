@@ -10,6 +10,7 @@ import LegalBadge from "@/components/website/LegalBadge";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
+import Link from "next/link";
 import { getTourSpineQaPairs } from "@/lib/tourFaqs";
 
 // Import CSS Swiper (Wajib)
@@ -689,9 +690,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       {qa.answer}
                     </p>
                     {qa.uiMeta && (
-                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full">
-                        {qa.uiMeta}
-                      </span>
+                      qa.uiLink ? (
+                        <Link
+                          href={qa.uiLink}
+                          className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full hover:bg-jvto-green/15 transition-colors"
+                        >
+                          {qa.uiMeta} →
+                        </Link>
+                      ) : (
+                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full">
+                          {qa.uiMeta}
+                        </span>
+                      )
                     )}
                   </div>
                 ))}
