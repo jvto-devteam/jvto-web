@@ -11,6 +11,7 @@ import {
   Backpack,
   CloudSun,
   ShieldAlert,
+  CalendarDays,
   ArrowLeft,
 } from "lucide-react";
 
@@ -42,6 +43,11 @@ const MENU_ITEMS = [
     href: "/travel-guide/packing-and-fitness",
     label: "Packing & Fitness",
     icon: Backpack,
+  },
+  {
+    href: "/travel-guide/best-time-to-visit",
+    label: "Best Time to Visit",
+    icon: CalendarDays,
   },
   {
     href: "/travel-guide/weather-and-closures",
