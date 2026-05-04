@@ -19,7 +19,8 @@
       "Bash(identify public/assets/img/icons/isic-logo.png)",
       "Bash(curl -L -o public/assets/img/icons/indecon-logo.png https://www.indecon.id/wp-content/uploads/2022/04/Indecon-Web-Logo-3.png -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36' --silent --show-error)",
       "WebFetch(domain:javavolcano-touroperator.com)",
-      "mcp__claude_ai_Google_Drive__read_file_content"
+      "mcp__claude_ai_Google_Drive__read_file_content",
+      "Bash(npx tsc *)"
     ]
   },
   "outputStyle": "Explanatory"
