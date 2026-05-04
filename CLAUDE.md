@@ -237,8 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** /verify-jvto/history-artifacts complete — Timeline ItemList schema (5 Event anchors: 2015 Booking.com / 2016 Stefan Loose / 2021 Detik / 2023 PT / Today) + FAQ resolver (falls through to 3 CMS items) + vertical HTML timeline with artifact images + continuity note section (2026-05-04)
+**Last completed:** Verified both history artifact image URLs live (200 OK): stefan_loose_crop_enh.jpg (138KB) + booking-2015-plaque.jpg (91KB) — schema image properties intact, no fix needed; noted booking-2015-plaque.jpg XMP shows AI-generated flag (possible Canva mock-up vs. real photo — flag for owner review) (2026-05-04)
 **Completed date:** 2026-05-04
 **Next task:** /verify-jvto/police-safety — add HTML body sections (POLPAR + SPRIN credential context, founder cross-ref rendered) to close out Cluster 4 Verify-JVTO (last sub-page needing HTML body)
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
-**Open items:** none
+**Open items:**
+- booking-2015-plaque.jpg XMP metadata shows "AI-Generated Content: Yes" (Canva) — owner should verify this is the real plaque photo, not a mock-up
