@@ -237,9 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Cluster 1 MH outbound link audit — AnswerBlock uiMeta badges converted to real `<Link>` elements; added `uiLink` field to `QaPair`; 2 new Q&A pairs added (volcano closure → /travel-guide/weather-and-closures; reviews → /why-jvto/reviews). All 5 MH outbound links now satisfied as clickable HTML (2026-05-04)
+**Last completed:** Cluster 1 MH copy signals audit complete — all 5 signals (NIB, police credential, gas mask, 4WD jeep, all-inclusive) confirmed present; T-shirt gap closed by adding new "all-inclusive price" Q&A pair as first item in getTourSpineQaPairs() in tourFaqs.ts (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Cluster 1 MH tier checklist — verify copy signals (NIB number, police credential, gas mask/4WD jeep, all-inclusive, T-shirt) appear in TourDetail.tsx rendered body copy
+**Next task:** Cluster 1 MH tier checklist — verify NTH signals: schema breadcrumb depth, BreadcrumbList JSON-LD emitted on tour detail pages, and WebPage dateModified freshness
 **Build status:** ✓ Compiled (0 new errors — 1 pre-existing Turbopack NFT warning unchanged)
 **Open items:**
 - Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
