@@ -27,6 +27,9 @@ import {
 import { getContentPage } from "@/lib/content/getContentPage";
 import { buildWhyJvtoHubItemListSchema } from "@/lib/schemas/buildWhyJvtoSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+
+export const revalidate = 3600;
+
 const siteUrl = "https://javavolcano-touroperator.com";
 import Sidebar from "./sidebar";
 

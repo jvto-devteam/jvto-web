@@ -9,6 +9,9 @@ import Sidebar from "./sidebar";
 import { getContentPage } from "@/lib/content/getContentPage";
 import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+
+export const revalidate = 86400;
+
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {

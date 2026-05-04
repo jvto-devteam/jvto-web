@@ -3,6 +3,8 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
+export const revalidate = 3600;
+
 const fallbackSeo = {
   title: "Insights | JVTO's Blog on Safety, Planning & Community",
   h1: "Insights & Explainers",
