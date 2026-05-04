@@ -423,14 +423,16 @@ const StepOneDetails = ({
 
       try {
         // --- LOGIC BARU: BULK CHECK (1 Request) ---
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SITE_URL}/api/check-isic`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ codes: isicCodes }), // Kirim Array ['A', 'B']
-          },
-        );
+        const isicController = new AbortController();
+        const isicTimeout = setTimeout(() => isicController.abort(), 30000);
+
+        const res = await fetch("/api/check-isic", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codes: isicCodes }),
+          signal: isicController.signal,
+        });
+        clearTimeout(isicTimeout);
 
         const data = await res.json();
 
@@ -453,8 +455,11 @@ const StepOneDetails = ({
           setIsVerifying(false);
           return; // STOP
         }
-      } catch (error) {
-        alert("System error. Please try again.");
+      } catch (error: any) {
+        const msg = error.name === "AbortError"
+          ? "Verification timed out. Please check your connection and try again."
+          : "System error. Please try again.";
+        alert(msg);
         setIsVerifying(false);
         return;
       }
@@ -852,15 +857,17 @@ const StepTwoPayment = ({
       },
     };
 
-    try {
-      const internalApiUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/checkout`;
-      console.log("🚀 Sending Payload to Internal Proxy:", internalApiUrl);
+    const checkoutController = new AbortController();
+    const checkoutTimeout = setTimeout(() => checkoutController.abort(), 30000);
 
-      const response = await fetch(internalApiUrl, {
+    try {
+      const response = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(legacyPayload),
+        signal: checkoutController.signal,
       });
+      clearTimeout(checkoutTimeout);
 
       const result = await response.json();
       if (response.ok && result.success && result.payment_link) {
@@ -870,9 +877,16 @@ const StepTwoPayment = ({
         throw new Error(result.message || "Gagal memproses booking.");
       }
     } catch (error: any) {
+      clearTimeout(checkoutTimeout);
       console.error("❌ Checkout Error:", error);
       setProcessing(false);
-      alert(`Error: ${error.message}`);
+      if (error.name === "AbortError") {
+        alert("Request timed out. Please check your connection and try again.");
+      } else if (error.message === "Failed to fetch") {
+        alert("Connection error. Please try again in a moment.");
+      } else {
+        alert(`Error: ${error.message}`);
+      }
     }
   };
 
