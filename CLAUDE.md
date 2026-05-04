@@ -237,11 +237,12 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** (1) TouristTrip YMYL safety properties for Ijen — touristType Non-Asthmatic, healthRequirement SE.1658 screening, amenityFeature Gas Mask added to buildTourSchemas.ts; (2) dedicated /why-jvto/our-story page with artifact timeline + 6 images from HISTORY_HERITAGE + FOUNDER_LEADERSHIP; (3) dedicated /why-jvto/the-jvto-difference page with police photo + FIELD_OPERATIONS evidence + proof library grid; build ✓ 137/137 (2026-05-04)
-**Completed date:** 2026-05-04
-**Next task:** Cluster 3 Why-JVTO fills — community-standards + reviews sub-pages; OR Cluster 7 destinations schema densification (Place/Volcano + SE1658 + DOCTOR cross-ref)
+**Last completed:** E:\test-2-2026 full audit (8 undeployed travel-guide pages found, no ads landing pages exist); robots.ts expanded from 7 → 22 AI crawlers + Disallow /api/ /_next/; WhatsAppFAB global component added to (website) layout with pre-filled booking message; session-close.md updated with DB safety rules (2026-05-05)
+**Completed date:** 2026-05-05
+**Next task:** Cluster 3 Why-JVTO — port 6 undeployed travel-guide pages from E: as CMS content_pages (mount-bromo-logistics, tumpak-sewu-logistics, packing-and-fitness, safety-on-tours, weather-and-closures, packing-list); OR GAP 4 individual /team/[slug] pages per guide
 **Build status:** ✓ Compiled (0 new errors — 137/137 static pages)
 **Open items:**
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
 - /blog route vs /insights/[slug] URL mismatch — documented, migration deferred
 - KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
+- 6 undeployed travel-guide pages from E: repo identified — content ready to port as CMS DB rows (no new code needed, use travel-guide/[slug] dynamic route)
