@@ -13,6 +13,7 @@ export function sitemapTravelGuide(
     { url: url("/travel-guide/weather-and-closures"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/weather-and-closures", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/packing-and-fitness"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/packing-and-fitness", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/booking-information"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/booking-information", t), changeFrequency: "monthly", priority: 0.8 },
+    { url: url("/travel-guide/best-time-to-visit"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/best-time-to-visit", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/police-escort-for-groups"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/police-escort-for-groups", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/travel-guide/ijen-health-screening"), lastModified: getLastModified(lastModifiedMap, "/travel-guide/ijen-health-screening", t), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/policy/booking-payment-cancellation"), lastModified: getLastModified(lastModifiedMap, "/policy/booking-payment-cancellation", t), changeFrequency: "monthly", priority: 0.8 },

@@ -237,9 +237,9 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** FAQPage audit — verified 26 published destination FAQs surface correctly in buildTourFaqSchema output (283 package_faqs rows, 16 packages); zero duplicates against spine Q&A or narrative_claims C1–C7; pipeline query sound (2026-05-03)
-**Completed date:** 2026-05-03
-**Next task:** AnswerBlock audit — verify TourDetail.tsx client-side Q&A rendering mirrors the FAQPage schema spine pairs (MH checklist item, cluster 1 package detail)
-**Build status:** ✓ Compiled (108/108 routes; 0 new errors — no code changed this session)
+**Last completed:** /travel-guide/best-time-to-visit scaffolded + published — static page (SSG), 8-pair canonical FAQPage, month-by-month table, per-destination breakdown (Bromo/Ijen/Tumpak Sewu), registered in resolveFaqs.ts + hub ItemList (2026-05-04)
+**Completed date:** 2026-05-04
+**Next task:** cluster 1 MH checklist — next unchecked item (review cluster_role_contracts.md MH list for package detail cluster)
+**Build status:** ✓ Compiled (109/109 routes; 0 new errors — 1 pre-existing Turbopack NFT warning unchanged)
 **Open items:**
 - Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
