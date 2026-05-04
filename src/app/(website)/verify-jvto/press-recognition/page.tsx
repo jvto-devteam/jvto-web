@@ -6,6 +6,8 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+export const revalidate = 86400;
+
 const fallbackSeo = {
   title: "Verify: Press Recognition",
   h1: "Press Recognition",

@@ -6,6 +6,8 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+export const revalidate = 86400;
+
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
 

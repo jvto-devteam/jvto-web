@@ -8,6 +8,8 @@ import { buildVerifySubpageSchema } from "../schema";
 import { LEGAL_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+export const revalidate = 86400;
+
 const fallbackSeo = {
   title: "Verify: Legal Documents",
   h1: "Legal Documents",

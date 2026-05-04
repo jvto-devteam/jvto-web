@@ -36,6 +36,8 @@ function ratingClass(rating: string): string {
   return 'text-orange-500';
 }
 
+export const revalidate = 86400;
+
 export const metadata: Metadata = {
   title: PAGE_META.title,
   description: PAGE_META.description,

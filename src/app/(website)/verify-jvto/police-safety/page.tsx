@@ -7,6 +7,8 @@ import { buildVerifySubpageSchema } from "../schema";
 import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+export const revalidate = 86400;
+
 const fallbackSeo = {
   title: "Verify: Police Authority & Safety Protocols",
   h1: "Police & Safety",
