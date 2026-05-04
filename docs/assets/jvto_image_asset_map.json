@@ -1,0 +1,799 @@
+{
+  "total_unique_images": 54,
+  "group_counts": {
+    "crew_portraits": 11,
+    "field_operations": 8,
+    "crew_credentials": 5,
+    "health_screening": 5,
+    "history_heritage": 5,
+    "police_authority_documents": 4,
+    "founder_leadership": 3,
+    "press_mentions": 3,
+    "brand_identity": 2,
+    "legal_business_identity": 2,
+    "legal_membership": 2,
+    "legal_tourism_license": 2,
+    "partner_validation": 1,
+    "uncertain": 1
+  },
+  "groups": {
+    "brand_identity": [
+      {
+        "url": "https://javavolcano-touroperator.com/assets/img/hero/home.webp",
+        "title": "JVTO Hero Landscape",
+        "caption": "Website Hero Image.",
+        "alt_text": "Scenic view of Java volcanoes.",
+        "group": "brand_identity",
+        "source": "organization.hero_image_url",
+        "source_category": "Brand",
+        "recommended_filename": "brand_identity/01-jvto-hero-landscape.webp",
+        "recommended_pages": [
+          "homepage",
+          "sitewide header/footer"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
+        "title": "JVTO Official Logo",
+        "caption": "JVTO Official Logo.",
+        "alt_text": "Java Volcano Tour Operator Logo.",
+        "group": "brand_identity",
+        "source": "organization.logo_url",
+        "source_category": "Brand",
+        "recommended_filename": "brand_identity/02-jvto-official-logo.png",
+        "recommended_pages": [
+          "homepage",
+          "sitewide header/footer"
+        ]
+      }
+    ],
+    "crew_credentials": [
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1771428489070-55145932-kta_kiki.jpg",
+        "title": "Kiki Ijen License Card",
+        "caption": "Official Ijen climbing license for Kiki.",
+        "alt_text": "Ijen climbing license card for Kiki.",
+        "group": "crew_credentials",
+        "source": "crew_registry[12].profile_snapshot.ijen_license_card_url",
+        "source_category": "Credentials",
+        "recommended_filename": "crew_credentials/01-kiki-ijen-license-card.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "why-jvto/our-team"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1771428583288-513992233-kta_anjas.jpg",
+        "title": "Anjas Ijen License Card",
+        "caption": "Official Ijen climbing license for Anjas.",
+        "alt_text": "Ijen climbing license card for Anjas.",
+        "group": "crew_credentials",
+        "source": "crew_registry[8].profile_snapshot.ijen_license_card_url",
+        "source_category": "Credentials",
+        "recommended_filename": "crew_credentials/02-anjas-ijen-license-card.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "why-jvto/our-team"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1771428704448-911506028-kta_taufik.jpg",
+        "title": "Taufik Ijen License Card",
+        "caption": "Official Ijen climbing license for Taufik.",
+        "alt_text": "Ijen climbing license card for Taufik.",
+        "group": "crew_credentials",
+        "source": "crew_registry[14].profile_snapshot.ijen_license_card_url",
+        "source_category": "Credentials",
+        "recommended_filename": "crew_credentials/03-taufik-ijen-license-card.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "why-jvto/our-team"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1771428741674-842615436-kta_gufron.jpg",
+        "title": "Gufron Ijen License Card",
+        "caption": "Official Ijen climbing license for Gufron.",
+        "alt_text": "Ijen climbing license card for Gufron.",
+        "group": "crew_credentials",
+        "source": "crew_registry[11].profile_snapshot.ijen_license_card_url",
+        "source_category": "Credentials",
+        "recommended_filename": "crew_credentials/04-gufron-ijen-license-card.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "why-jvto/our-team"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1771428760524-516116110-kta_rendi.jpg",
+        "title": "Rendi Ijen License Card",
+        "caption": "Official Ijen climbing license for Rendi.",
+        "alt_text": "Ijen climbing license card for Rendi.",
+        "group": "crew_credentials",
+        "source": "crew_registry[13].profile_snapshot.ijen_license_card_url",
+        "source_category": "Credentials",
+        "recommended_filename": "crew_credentials/05-rendi-ijen-license-card.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "why-jvto/our-team"
+        ]
+      }
+    ],
+    "crew_portraits": [
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768225567764-405955176-gufron.png",
+        "title": "Gufron - Guide",
+        "caption": "Gufron - Guide",
+        "alt_text": "Photo of Gufron, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[11].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/01-gufron-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768226003889-338819579-fauzi.png",
+        "title": "Fauzi - Guide",
+        "caption": "Fauzi - Guide",
+        "alt_text": "Photo of Fauzi, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[10].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/02-fauzi-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768228083285-919198019-taufik_1_.png",
+        "title": "Taufik - Guide",
+        "caption": "Taufik - Guide",
+        "alt_text": "Photo of Taufik, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[14].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/03-taufik-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768228191022-893381041-boy.png",
+        "title": "Boy (Ahboy) - Guide",
+        "caption": "Boy (Ahboy) - Guide",
+        "alt_text": "Photo of Boy (Ahboy), a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[9].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/04-boy-ahboy-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768228514527-518051332-rendi.png",
+        "title": "Rendi - Guide",
+        "caption": "Rendi - Guide",
+        "alt_text": "Photo of Rendi, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[13].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/05-rendi-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768270364125-144711646-yandi.png",
+        "title": "Yandi - Driver",
+        "caption": "Yandi - Driver",
+        "alt_text": "Photo of Yandi, a driver at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[6].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/06-yandi-driver.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768270423657-690185912-anjas.png",
+        "title": "Anjas - Guide",
+        "caption": "Anjas - Guide",
+        "alt_text": "Photo of Anjas, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[8].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/07-anjas-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768271545598-834784538-kiki.png",
+        "title": "Kiki - Guide",
+        "caption": "Kiki - Guide",
+        "alt_text": "Photo of Kiki, a guide at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[12].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/08-kiki-guide.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768276791622-262250680-freddy.png",
+        "title": "Fredi - Driver",
+        "caption": "Fredi - Driver",
+        "alt_text": "Photo of Fredi, a driver at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[2].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/09-fredi-driver.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768277053384-470130286-holili.jpg",
+        "title": "Holili - Driver",
+        "caption": "Holili - Driver",
+        "alt_text": "Photo of Holili, a driver at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[3].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/10-holili-driver.jpg",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/uploads/1768277336049-911840775-joyo.png",
+        "title": "Joyo - Driver",
+        "caption": "Joyo - Driver",
+        "alt_text": "Photo of Joyo, a driver at Java Volcano Tour Operator.",
+        "group": "crew_portraits",
+        "source": "crew_registry[4].profile_snapshot.image_url",
+        "source_category": "Crew",
+        "recommended_filename": "crew_portraits/11-joyo-driver.png",
+        "recommended_pages": [
+          "why-jvto/our-team",
+          "homepage trust section"
+        ]
+      }
+    ],
+    "field_operations": [
+      {
+        "url": "https://javavolcano-touroperator.com/legal/office-photo.jpg",
+        "title": "",
+        "caption": "JVTO Bondowoso operations office.",
+        "alt_text": "Photo of JVTO office at Jl. Khairil Anwar No.102 A, Bondowoso.",
+        "group": "field_operations",
+        "source": "assets_inventory[23].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/01-office-photo-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/baratha-hotel-departure-team.jpg",
+        "title": "",
+        "caption": "Pre-ascent lineup at Baratha Hotel with Tourist Police support.",
+        "alt_text": "Team and guests lined up outside Baratha Hotel before Ijen ascent with Tourist Police support vehicle.",
+        "group": "field_operations",
+        "source": "assets_inventory[19].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/02-baratha-hotel-departure-team-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/group-at-jvto-office.jpg",
+        "title": "",
+        "caption": "International group visiting JVTO Bondowoso operations office.",
+        "alt_text": "International travelers posing at JVTO Bondowoso operations office.",
+        "group": "field_operations",
+        "source": "assets_inventory[20].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/03-group-at-jvto-office-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/guest-welcome-evening.png",
+        "title": "",
+        "caption": "Evening welcome with guests at JVTO office.",
+        "alt_text": "Evening welcome and briefing with guests at JVTO office.",
+        "group": "field_operations",
+        "source": "assets_inventory[21].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/04-guest-welcome-evening-png.png",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/ijen-geopark-briefing.png",
+        "title": "",
+        "caption": "Tourist Police briefing at Ijen Geopark Information Center with local miners present.",
+        "alt_text": "Tourist Police briefing at Ijen Geopark Center with local miners present.",
+        "group": "field_operations",
+        "source": "assets_inventory[22].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/05-ijen-geopark-briefing-png.png",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
+        "title": "",
+        "caption": "Traffic Police escorted arrival at the hotel in Bondowoso group photo with the patrol car.",
+        "alt_text": "JVTO group standing with a traffic police officer and patrol car outside the hotel in daylight after an escorted drive.",
+        "group": "field_operations",
+        "source": "assets_inventory[24].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/06-jvto-police-escort-arrival-hotel-bondowoso-day-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
+        "title": "",
+        "caption": "Arriving in Bondowoso with a Traffic Police escort group photo at the hotel after the journey.",
+        "alt_text": "Group of JVTO travelers posing with a traffic police officer in the hotel courtyard at night after an escorted transfer.",
+        "group": "field_operations",
+        "source": "assets_inventory[25].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/07-jvto-police-escort-arrival-hotel-bondowoso-night-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/ops/police-vehicle-support.jpg",
+        "title": "",
+        "caption": "Police support vehicle and group prior to departure.",
+        "alt_text": "Police support vehicle with group prior to tour departure.",
+        "group": "field_operations",
+        "source": "assets_inventory[26].url",
+        "source_category": "OpsPhoto",
+        "recommended_filename": "field_operations/08-police-vehicle-support-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto",
+          "travel-guide"
+        ]
+      }
+    ],
+    "founder_leadership": [
+      {
+        "url": "https://javavolcano-touroperator.com/founder/agung_sambuko.jpg",
+        "title": "Agung Sambuko (Mr. Sam)",
+        "caption": "Founder of JVTO and active member of the East Java Tourist Police Unit (Ditpamobvit), specializing in tourist safety and risk management.",
+        "alt_text": "",
+        "group": "founder_leadership",
+        "source": "organization.schema_json.founder.image",
+        "source_category": "Founder",
+        "recommended_filename": "founder_leadership/01-agung-sambuko-mr-sam.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/founder/mr-sam-tourist-police-portrait.png",
+        "title": "",
+        "caption": "Active Tourist Police leadership behind every JVTO trip.",
+        "alt_text": "",
+        "group": "founder_leadership",
+        "source": "assets_inventory[7].url",
+        "source_category": "Founder",
+        "recommended_filename": "founder_leadership/02-mr-sam-tourist-police-portrait-png.png",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto"
+        ]
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Agung_Sambuko.jpg",
+        "title": "",
+        "caption": "Active Tourist Police leadership behind every JVTO trip.",
+        "alt_text": "Mr. Sam, active Tourist Police officer and founder of JVTO.",
+        "group": "founder_leadership",
+        "source": "assets_inventory[6].url",
+        "source_category": "Founder",
+        "recommended_filename": "founder_leadership/03-agung-sambuko-jpg.jpg",
+        "recommended_pages": [
+          "homepage",
+          "why-jvto"
+        ]
+      }
+    ],
+    "health_screening": [
+      {
+        "url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg",
+        "title": "",
+        "caption": "Pre-ascent health screening at partner hotel.",
+        "alt_text": "Nurse checks blood pressure during Ijen pre-ascent screening at hotel lobby.",
+        "group": "health_screening",
+        "source": "assets_inventory[36].url",
+        "source_category": "Screening",
+        "recommended_filename": "health_screening/01-ijen-screening-hotel-01-jpeg.jpeg",
+        "recommended_pages": [
+          "verify-jvto",
+          "travel-guide/ijen-health-screening"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/screening/ijen-screening-hotel-02.jpg",
+        "title": "",
+        "caption": "Vitals taken and logged before night ascent.",
+        "alt_text": "Medical staff measure vitals for adult traveler at a hotel table.",
+        "group": "health_screening",
+        "source": "assets_inventory[37].url",
+        "source_category": "Screening",
+        "recommended_filename": "health_screening/02-ijen-screening-hotel-02-jpg.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "travel-guide/ijen-health-screening"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-1.JPG",
+        "title": "",
+        "caption": "Digitally recorded, signed clearance issuance.",
+        "alt_text": "Nurse checking blood pressure at JVTO office before Ijen climb.",
+        "group": "health_screening",
+        "source": "assets_inventory[38].url",
+        "source_category": "Screening",
+        "recommended_filename": "health_screening/03-jvto-office-screening-1-jpg.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "travel-guide/ijen-health-screening"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/screening/jvto-office-screening-2.jpg",
+        "title": "",
+        "caption": "Screening can be done at hotel or office.",
+        "alt_text": "Oxygen saturation check recorded into JVTO system.",
+        "group": "health_screening",
+        "source": "assets_inventory[39].url",
+        "source_category": "Screening",
+        "recommended_filename": "health_screening/04-jvto-office-screening-2-jpg.jpg",
+        "recommended_pages": [
+          "verify-jvto",
+          "travel-guide/ijen-health-screening"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/screening/print-surat-sehat-preview.png",
+        "title": "",
+        "caption": "Sample printout of health clearance (surat sehat) preview image.",
+        "alt_text": "Preview of JVTO health clearance form ready for printing (PNG).",
+        "group": "health_screening",
+        "source": "assets_inventory[41].url",
+        "source_category": "Screening",
+        "recommended_filename": "health_screening/05-print-surat-sehat-preview-png.png",
+        "recommended_pages": [
+          "verify-jvto",
+          "travel-guide/ijen-health-screening"
+        ]
+      }
+    ],
+    "history_heritage": [
+      {
+        "url": "https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg",
+        "title": "Booking.com Guest Review Award 2015 — Plaque + Award Letter",
+        "caption": "Guesthouse era recognition (2015).",
+        "alt_text": "2015 Booking.com Guest Review Award plaque, Ijen Bondowoso Homestay (score 9.4/10).",
+        "group": "history_heritage",
+        "source": "assets_inventory[8].url",
+        "source_category": "History",
+        "recommended_filename": "history_heritage/01-booking-com-guest-review-award-2015-plaque-award-letter.jpg",
+        "recommended_pages": [
+          "why-jvto/our-story",
+          "verify-jvto/history-artifacts"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg",
+        "title": "Booking.com Guest Review Award 2015 — Shipping Label (box)",
+        "caption": "Award shipped to residential address used for the family-run guesthouse.",
+        "alt_text": "Booking.com package addressed to Ijen Bondowoso Homestay, Jl. Khairil Anwar No.102, Bondowoso.",
+        "group": "history_heritage",
+        "source": "assets_inventory[9].url",
+        "source_category": "History",
+        "recommended_filename": "history_heritage/02-booking-com-guest-review-award-2015-shipping-label-box.jpg",
+        "recommended_pages": [
+          "why-jvto/our-story",
+          "verify-jvto/history-artifacts"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
+        "title": "",
+        "caption": "Guests visiting Ijen Bondowoso Homestay after reading the Stefan Loose guide.",
+        "alt_text": "Mr. Sam with guests at Ijen Bondowoso Homestay, inspired by Stefan Loose travel guide.",
+        "group": "history_heritage",
+        "source": "assets_inventory[10].url",
+        "source_category": "History",
+        "recommended_filename": "history_heritage/03-guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired-jpg.jpg",
+        "recommended_pages": [
+          "why-jvto/our-story",
+          "verify-jvto/history-artifacts"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
+        "title": "",
+        "caption": "Early third-party mention in a European travel guide.",
+        "alt_text": "European travel handbook entry listing Ijen Bondowoso Homestay; notes tours arranged by Agung.",
+        "group": "history_heritage",
+        "source": "assets_inventory[12].url",
+        "source_category": "History",
+        "recommended_filename": "history_heritage/04-stefan-loose-ijen-bondowoso-page-png.png",
+        "recommended_pages": [
+          "why-jvto/our-story",
+          "verify-jvto/history-artifacts"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg",
+        "title": "",
+        "caption": "Cropped/enhanced screenshot of the Stefan Loose travel guide page (for clearer reading).",
+        "alt_text": "Cropped image of a German travel guide page referencing Ijen Bondowoso Homestay and tours.",
+        "group": "history_heritage",
+        "source": "assets_inventory[11].url",
+        "source_category": "History",
+        "recommended_filename": "history_heritage/05-stefan-loose-crop-enh-jpg.jpg",
+        "recommended_pages": [
+          "why-jvto/our-story",
+          "verify-jvto/history-artifacts"
+        ]
+      }
+    ],
+    "legal_business_identity": [
+      {
+        "url": "https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.png",
+        "title": "",
+        "caption": "NIB 1102230032918 preview image.",
+        "alt_text": "Preview of NIB certificate (PNG).",
+        "group": "legal_business_identity",
+        "source": "assets_inventory[4].url",
+        "source_category": "BusinessID",
+        "recommended_filename": "legal_business_identity/01-nib-1102230032918-preview-png.png",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/NIB-1102230032918-preview.webp",
+        "title": "",
+        "caption": "NIB 1102230032918 preview image (WebP).",
+        "alt_text": "Preview of NIB certificate (WebP).",
+        "group": "legal_business_identity",
+        "source": "assets_inventory[5].url",
+        "source_category": "BusinessID",
+        "recommended_filename": "legal_business_identity/02-nib-1102230032918-preview-webp.webp",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      }
+    ],
+    "legal_membership": [
+      {
+        "url": "https://javavolcano-touroperator.com/legal/HPWKI-approval-preview.png",
+        "title": "",
+        "caption": "HPWKI approval letter preview image.",
+        "alt_text": "Preview of HPWKI approval document (PNG).",
+        "group": "legal_membership",
+        "source": "assets_inventory[17].url",
+        "source_category": "Membership",
+        "recommended_filename": "legal_membership/01-hpwki-approval-preview-png.png",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/HPWKI-approval-preview.webp",
+        "title": "",
+        "caption": "HPWKI approval letter preview image (WebP).",
+        "alt_text": "Preview of HPWKI approval document (WebP).",
+        "group": "legal_membership",
+        "source": "assets_inventory[18].url",
+        "source_category": "Membership",
+        "recommended_filename": "legal_membership/02-hpwki-approval-preview-webp.webp",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      }
+    ],
+    "legal_tourism_license": [
+      {
+        "url": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918-preview.png",
+        "title": "",
+        "caption": "TDUP licence preview image.",
+        "alt_text": "Preview of TDUP licence (PNG).",
+        "group": "legal_tourism_license",
+        "source": "assets_inventory[14].url",
+        "source_category": "License",
+        "recommended_filename": "legal_tourism_license/01-tdup-1102230032918-preview-png.png",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/TDUP-1102230032918-preview.webp",
+        "title": "",
+        "caption": "TDUP licence preview image (WebP).",
+        "alt_text": "Preview of TDUP licence (WebP).",
+        "group": "legal_tourism_license",
+        "source": "assets_inventory[15].url",
+        "source_category": "License",
+        "recommended_filename": "legal_tourism_license/02-tdup-1102230032918-preview-webp.webp",
+        "recommended_pages": [
+          "verify-jvto/legal"
+        ]
+      }
+    ],
+    "partner_validation": [
+      {
+        "url": "https://javavolcano-touroperator.com/partner/screensot-isic-page-jvto.png",
+        "title": "International Student Identity Card",
+        "caption": "",
+        "alt_text": "",
+        "group": "partner_validation",
+        "source": "partner_network[2]",
+        "source_category": "PartnerVerification",
+        "recommended_filename": "partner_validation/01-international-student-identity-card.png",
+        "recommended_pages": [
+          "verify-jvto",
+          "student/isic page"
+        ]
+      }
+    ],
+    "police_authority_documents": [
+      {
+        "url": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.png",
+        "title": "",
+        "caption": "Tourist Police assignment letter (SPRIN POLPAR) image copy.",
+        "alt_text": "Image of 'SPRIN POLPAR' Tourist Police assignment letter (PNG).",
+        "group": "police_authority_documents",
+        "source": "assets_inventory[28].url",
+        "source_category": "PoliceDocs",
+        "recommended_filename": "police_authority_documents/01-sprin-polpar-png.png",
+        "recommended_pages": [
+          "verify-jvto/police-safety"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.webp",
+        "title": "",
+        "caption": "Tourist Police assignment letter (SPRIN POLPAR) preview image.",
+        "alt_text": "Scanned 'SPRIN POLPAR' Tourist Police assignment letter (WebP).",
+        "group": "police_authority_documents",
+        "source": "assets_inventory[29].url",
+        "source_category": "PoliceDocs",
+        "recommended_filename": "police_authority_documents/02-sprin-polpar-webp.webp",
+        "recommended_pages": [
+          "verify-jvto/police-safety"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.png",
+        "title": "",
+        "caption": "Police travel order (SPRIN WAL-TRAVEL), 12 Feb 2024 image copy.",
+        "alt_text": "Image of 'SPRIN WAL-TRAVEL' travel order dated 2024-02-12 (PNG).",
+        "group": "police_authority_documents",
+        "source": "assets_inventory[31].url",
+        "source_category": "PoliceDocs",
+        "recommended_filename": "police_authority_documents/03-sprin-wal-travel-2024-02-12-png.png",
+        "recommended_pages": [
+          "verify-jvto/police-safety"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp",
+        "title": "",
+        "caption": "Police travel order (SPRIN WAL-TRAVEL), 12 Feb 2024 preview image.",
+        "alt_text": "Scanned travel order 'SPRIN WAL-TRAVEL' dated 2024-02-12 (WebP).",
+        "group": "police_authority_documents",
+        "source": "assets_inventory[32].url",
+        "source_category": "PoliceDocs",
+        "recommended_filename": "police_authority_documents/04-sprin-wal-travel-2024-02-12-webp.webp",
+        "recommended_pages": [
+          "verify-jvto/police-safety"
+        ]
+      }
+    ],
+    "press_mentions": [
+      {
+        "url": "https://javavolcano-touroperator.com/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png",
+        "title": "",
+        "caption": "Press mention screenshot (Detik.com) with founder name variant in Tourist Police context.",
+        "alt_text": "Screenshot of Detik.com article 'Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin' showing date line and article header.",
+        "group": "press_mentions",
+        "source": "assets_inventory[34].url",
+        "source_category": "Press",
+        "recommended_filename": "press_mentions/01-screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02-48-41-png.png",
+        "recommended_pages": [
+          "verify-jvto/press-recognition"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
+        "title": "",
+        "caption": "BBKSDA Jatim official training article: HPWKI members participate in Ijen guide safety training (SAR & emergency first aid).",
+        "alt_text": "",
+        "group": "press_mentions",
+        "source": "assets_inventory[33].url",
+        "source_category": "Press",
+        "recommended_filename": "press_mentions/02-screenshot-bbksda-pelatihan-pemandu-kawah-ijen-png.png",
+        "recommended_pages": [
+          "verify-jvto/press-recognition"
+        ]
+      },
+      {
+        "url": "https://javavolcano-touroperator.com/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png",
+        "title": "",
+        "caption": "Press mention screenshot (Radar Jember) about Tourist Police formation for Ijen Geopark.",
+        "alt_text": "Screenshot of Radar Jember article 'Polpar Dibentuk untuk Mendukung Ijen Geopark' showing date line and article header.",
+        "group": "press_mentions",
+        "source": "assets_inventory[35].url",
+        "source_category": "Press",
+        "recommended_filename": "press_mentions/03-screenshot-radarjember-jawapos-com-polpar-dibentuk-untuk-mendukung-ijen-geopark-png.png",
+        "recommended_pages": [
+          "verify-jvto/press-recognition"
+        ]
+      }
+    ],
+    "uncertain": [
+      {
+        "url": "https://javavolcano-touroperator.com/screening/bbksda/bbksda-ticket-terms-screenshot.jpeg",
+        "title": "tiket.bbksdajatim.org — Terms & Conditions (screenshot): health requirements and doctor certificate",
+        "caption": "",
+        "alt_text": "",
+        "group": "uncertain",
+        "source": "assets_inventory[50].url",
+        "source_category": "",
+        "recommended_filename": "uncertain/01-tiket-bbksdajatim-org-terms-conditions-screenshot-health-requirements-and-doctor-certificate.jpeg",
+        "recommended_pages": [
+          "manual review"
+        ]
+      }
+    ]
+  }
+}
