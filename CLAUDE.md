@@ -237,8 +237,8 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Press & Recognition schema + HTML (Book/NewsArticle×2/Award schemas in buildVerifySchemas.ts; credential table + Stefan Loose + Detik + Booking sections in press-recognition/page.tsx); merged 2 duplicate why-jvto routes (guest-voices-reviews → reviews, history-roots → our-story) via 301 redirects in next.config.ts + is_active=false in DB (2026-05-04)
+**Last completed:** /verify-jvto/legal primary spine — added DOCTOR_SCHEMA + BBKSDA_REGULATION_SCHEMA to extraSchemas; added 3 HTML sections: credential table (NIB/TDUP/HPWKI), legal entity card (PT + AHU/OSS registry links), medical compliance chain (BBKSDA SE.1658 → Klinik Bakti Husada → dr. Ahmad SIP verify link) (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Review cluster_role_contracts.md for next AEO/GEO priority — press-recognition cluster now complete
+**Next task:** /verify-jvto/history-artifacts — add Timeline ItemList schema (5 anchors: 2015/2016/2018/2021/2023) + FAQ resolver + HTML timeline body (most bare-bones Cluster 4 page)
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:** none
