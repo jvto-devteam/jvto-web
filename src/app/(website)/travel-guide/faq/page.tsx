@@ -12,6 +12,8 @@ import Link from "next/link";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
+export const revalidate = 3600;
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
   title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",

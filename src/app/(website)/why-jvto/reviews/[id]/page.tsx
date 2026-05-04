@@ -11,6 +11,8 @@ import {
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 
+export const revalidate = 1800;
+
 interface PageProps {
   params: Promise<{
     id: string;

@@ -8,6 +8,8 @@ import { Faq } from "@/components/content/Faq";
 import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
+export const revalidate = 86400;
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata(): Promise<Metadata> {
