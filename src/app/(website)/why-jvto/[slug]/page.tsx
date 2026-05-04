@@ -113,33 +113,32 @@ function SectionNav({
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
+  const route = `/why-jvto/${slug}`;
+
+  const [row, faqResolution, crewMembers, reviewsData] = await Promise.all([
+    getContentPage(route, "en"),
+    resolveFaqsForPage(route),
+    slug === "our-team" ? getActiveCrewMembers() : Promise.resolve([]),
+    slug === "reviews" ? getReviewsForSchema() : Promise.resolve([]),
+  ]);
+
   if (!row) return notFound();
 
   const content = row.content as any;
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
 
-  // Phase 5 (2026-04-29): per-slug schema injection via FAQ resolver.
-  // Per cluster_role_contracts.md Cluster 3 sub-pages MH:
-  //   - Any slug: FAQPage from narrative_claims (primary_page='/why-jvto/{slug}') if wired, else CMS fallback.
-  //   - 'our-team': Person schemas per active crew via buildCrewPersonSchema().
-  //   - 'reviews': AggregateRating + individual @type:Review nodes (one per DB row).
-  const route = `/why-jvto/${slug}`;
-  const faqResolution = await resolveFaqsForPage(route);
   const faqSchema = buildResolvedFaqSchema(faqResolution, route);
 
-  const crewSchemas =
-    slug === "our-team"
-      ? (await getActiveCrewMembers()).map((m) => buildCrewPersonSchema(m))
-      : [];
+  const crewSchemas = (crewMembers as Awaited<ReturnType<typeof getActiveCrewMembers>>)
+    .map((m) => buildCrewPersonSchema(m));
 
   const reviewsAggregateSchema =
     slug === "reviews" ? buildWhyJvtoReviewsAggregateRatingSchema() : null;
 
   const reviewsIndividualSchemas =
     slug === "reviews"
-      ? buildIndividualReviewSchemas(await getReviewsForSchema())
+      ? buildIndividualReviewSchemas(reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>)
       : [];
 
   const slugExtraSchemas = [

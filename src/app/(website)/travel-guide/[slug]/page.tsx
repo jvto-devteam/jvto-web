@@ -72,7 +72,11 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const { slug } = await params;
   const destLinks = TRAVEL_GUIDE_DEST_LINKS[slug] ?? [];
 
-  const row = await getContentPage(`/travel-guide/${slug}`, "en");
+  const route = `/travel-guide/${slug}`;
+  const [row, faqResolution] = await Promise.all([
+    getContentPage(route, "en"),
+    resolveFaqsForPage(route),
+  ]);
 
   if (!row) return notFound();
 
@@ -80,13 +84,6 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
   const body = content?.body_md ?? "";
-
-  // Phase 5 (2026-04-29): per-slug schema injection via FAQ resolver.
-  // Per cluster_role_contracts.md Cluster 5:
-  //   - Any slug: FAQPage from narrative_claims (primary_page='/travel-guide/{slug}') if wired, else CMS fallback.
-  //   - 'ijen-health-screening': MedicalWebPage + HowTo cross-ref to globally-injected DOCTOR/BBKSDA/SE1658.
-  const route = `/travel-guide/${slug}`;
-  const faqResolution = await resolveFaqsForPage(route);
   const faqSchema = buildResolvedFaqSchema(faqResolution, route);
 
   const ijenHealthSchemas =

@@ -170,13 +170,12 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const row = await getContentPage("/why-jvto", "en");
+  const [row, faqResolution] = await Promise.all([
+    getContentPage("/why-jvto", "en"),
+    resolveFaqsForPage("/why-jvto"),
+  ]);
   const content = (row?.content as Record<string, any> | null) ?? {};
   const heroH1 = content.h1 ?? defaultWhyTitle;
-  // Phase 5 (2026-04-29): canonical hub Q&A via resolver + ItemList of 5 sub-pages.
-  // /why-jvto has 0 narrative_claims wired → no canonical → CMS fallback (no override).
-  // Per cluster_role_contracts.md Cluster 3 hub MH.
-  const faqResolution = await resolveFaqsForPage("/why-jvto");
   const whyJvtoExtraSchemas = [
     buildWhyJvtoHubItemListSchema(),
     buildResolvedFaqSchema(faqResolution, "/why-jvto"),
