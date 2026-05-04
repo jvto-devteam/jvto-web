@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import Navbar from "@/components/website/Navbar";
 import Footer from "@/components/website/Footer";
+import WhatsAppFAB from "@/components/website/WhatsAppFAB";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
@@ -99,6 +100,7 @@ export default function WebsiteLayout({
             <Footer />
           </div>
         </div>
+        <WhatsAppFAB />
       </Providers>
     </>
   );
