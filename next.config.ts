@@ -120,6 +120,60 @@ const nextConfig = {
         destination: "/why-jvto/our-story",
         permanent: true,
       },
+      // AUDIT 2026-05-04: safety-leadership is a duplicate of the-jvto-difference (same sections/body).
+      {
+        source: "/why-jvto/safety-leadership",
+        destination: "/why-jvto/the-jvto-difference",
+        permanent: true,
+      },
+      // AUDIT 2026-05-04: local-team-operations covers the same topic as our-team (team roster).
+      // our-team is canonical (dedicated page.tsx + full Person schemas).
+      {
+        source: "/why-jvto/local-team-operations",
+        destination: "/why-jvto/our-team",
+        permanent: true,
+      },
+      // AUDIT 2026-05-04: partners-verification content merged into community-standards.
+      {
+        source: "/why-jvto/partners-verification",
+        destination: "/why-jvto/community-standards",
+        permanent: true,
+      },
+      // Sub-pages of partners-verification — point to canonical locations.
+      {
+        source: "/why-jvto/partners-verification/hpwki",
+        destination: "/why-jvto/community-standards",
+        permanent: true,
+      },
+      {
+        source: "/why-jvto/partners-verification/indecon",
+        destination: "/why-jvto/community-standards",
+        permanent: true,
+      },
+      {
+        source: "/why-jvto/partners-verification/isic",
+        destination: "/isic/student-package",
+        permanent: true,
+      },
+      // AUDIT 2026-05-04: proof-transparency is a legacy page (SSOTRenderer, old builders).
+      // verify-jvto is the canonical proof hub with full schema injection.
+      {
+        source: "/why-jvto/proof-transparency",
+        destination: "/verify-jvto",
+        permanent: true,
+      },
+      // AUDIT 2026-05-04: packing-list is a subset of packing-and-fitness (same topic, less content).
+      {
+        source: "/travel-guide/packing-list",
+        destination: "/travel-guide/packing-and-fitness",
+        permanent: true,
+      },
+      // AUDIT 2026-05-04: student-deals/isic duplicate of isic/student-package.
+      {
+        source: "/student-deals/isic",
+        destination: "/isic/student-package",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
