@@ -18,8 +18,10 @@ export interface TourFaqSeed {
 export interface QaPair {
   question: string;
   answer: string;
-  /** Metadata badge text shown under the answer in the client UI; ignored by schema. */
+  /** Badge label shown under the answer in the client UI; ignored by schema. */
   uiMeta?: string;
+  /** Route for the badge link; renders badge as <Link> when present. */
+  uiLink?: string;
 }
 
 const NIB_NUMBER = '1102230032918';
@@ -68,10 +70,11 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     {
       question: 'Is JVTO a licensed Indonesian tour operator?',
       answer:
-        `Yes. JVTO operates as PT Java Volcano Rendezvous, AHU-registered February 2023, with NIB and TDUP ${NIB_NUMBER} ` +
+        `Yes. JVTO operates as PT Java Volcano Rendezvous, AHU-registered February 2023, with NIB ${NIB_NUMBER} ` +
         `(KBLI 79121 / 79911 — Travel Agency / Tour Operator) and HPWKI Ijen guide-association membership. ` +
         `Every credential is verifiable on Indonesian government registries.`,
       uiMeta: 'Verify on /verify-jvto/legal',
+      uiLink: '/verify-jvto/legal',
     },
     {
       question: 'Who runs my tour?',
@@ -79,7 +82,8 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
         `JVTO is founded by Bripka Agung Sambuko (Mr. Sam) — an active Tourist Police officer (POLPAR) under Indonesia's Ditpamobvit, ` +
         `also serving as HPWKI Pengawas. On-trip guides are HPWKI-licensed (KTA card) with annual BBKSDA-supervised volcanic-safety training. ` +
         `No anonymous freelancers.`,
-      uiMeta: 'See /why-jvto/our-team for crew profiles + KTA cards',
+      uiMeta: 'See our team + KTA cards',
+      uiLink: '/why-jvto/our-team',
     },
   ];
   if (tour.ijenRelevant) {
@@ -89,16 +93,38 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
         `BBKSDA Jawa Timur circular SE.1658/KSA.9/2024 requires Kawah Ijen visitors to present a clinic-issued certificate confirming ` +
         `blood pressure and SpO₂ are within safe limits before crater entry. JVTO coordinates the screening with Dr. Ahmad Irwandanu at ` +
         `Klinik Bakti Husada, Bondowoso — his licence is publicly verifiable on satusehat.kemkes.go.id.`,
-      uiMeta: 'See /travel-guide/ijen-health-screening',
+      uiMeta: 'See health screening guide',
+      uiLink: '/travel-guide/ijen-health-screening',
     });
   }
-  pairs.push({
-    question: 'What happens if I need to cancel?',
-    answer:
-      `Cancellations made ≥48 hours before Day 1 receive 100% Travel Credit — non-expiring, transferable to any traveler, denominated in IDR, ` +
-      `with no rebooking fee. Within 48 hours, the deposit is forfeited. Force-majeure closures (e.g., volcanic alert) are handled separately ` +
-      `under our weather-and-closures policy.`,
-    uiMeta: 'See /policy/booking-payment-cancellation',
-  });
+  pairs.push(
+    {
+      question: 'What happens if I need to cancel?',
+      answer:
+        `Cancellations made ≥48 hours before Day 1 receive 100% Travel Credit — non-expiring, transferable to any traveler, denominated in IDR, ` +
+        `with no rebooking fee. Within 48 hours, the deposit is forfeited. Force-majeure closures (e.g., volcanic alert) are handled under ` +
+        `a separate weather-and-closures protocol with full Travel Credit protection.`,
+      uiMeta: 'See cancellation policy',
+      uiLink: '/policy/booking-payment-cancellation',
+    },
+    {
+      question: 'What if the volcano closes on my trip date?',
+      answer:
+        `Volcanic alert level changes and BBKSDA closures are outside any operator's control. When a closure affects your confirmed dates, ` +
+        `JVTO issues 100% Travel Credit with no rebooking fee — valid indefinitely, transferable. We monitor PVMBG alerts and notify guests ` +
+        `proactively; our weather-and-closures policy documents the full SOP.`,
+      uiMeta: 'See weather & closures policy',
+      uiLink: '/travel-guide/weather-and-closures',
+    },
+    {
+      question: 'What do past guests say about JVTO?',
+      answer:
+        `JVTO holds 4.8 ★ across 47+ verified reviews on Trustpilot, Google Maps, TripAdvisor, and Booking.com. ` +
+        `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
+        `All review profiles link to the original platform so you can verify authenticity.`,
+      uiMeta: 'Read verified reviews',
+      uiLink: '/why-jvto/reviews',
+    },
+  );
   return pairs;
 }
