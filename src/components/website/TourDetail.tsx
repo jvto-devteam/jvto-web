@@ -319,6 +319,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
     { start: "2026-05-01", end: "2026-05-01" },
     { start: "2026-05-30", end: "2026-05-30" },
     { start: "2026-05-02", end: "2026-05-02" },
+    { start: "2026-05-29", end: "2026-06-01" },
   ];
 
   const isDateBlocked = (dateStr) => {
@@ -453,20 +454,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 <div className="flex gap-1 md:ml-2">
                   <div className="w-2 h-2 rounded-full bg-jvto-green"></div>
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      ["moderate", "hard"].includes(
-                        pkg.physicalDifficulty.toLowerCase(),
-                      )
-                        ? "bg-jvto-green"
-                        : "bg-slate-600"
-                    }`}
+                    className={`w-2 h-2 rounded-full ${["moderate", "hard"].includes(
+                      pkg.physicalDifficulty.toLowerCase(),
+                    )
+                      ? "bg-jvto-green"
+                      : "bg-slate-600"
+                      }`}
                   ></div>
                   <div
-                    className={`w-2 h-2 rounded-full ${
-                      ["hard"].includes(pkg.physicalDifficulty.toLowerCase())
-                        ? "bg-jvto-green"
-                        : "bg-slate-600"
-                    }`}
+                    className={`w-2 h-2 rounded-full ${["hard"].includes(pkg.physicalDifficulty.toLowerCase())
+                      ? "bg-jvto-green"
+                      : "bg-slate-600"
+                      }`}
                   ></div>
                 </div>
               </div>
@@ -646,7 +645,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         stripHtml(pkg.description).length < 350
                           ? pkg.description
                           : stripHtml(pkg.description).substring(0, 350) +
-                            "...",
+                          "...",
                     }}
                   />
                 )}
@@ -782,25 +781,22 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       <button
                         key={day.day}
                         onClick={() => setOpenDay(day.day)}
-                        className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${
-                          isActive
-                            ? "bg-white border-jvto-green shadow-md translate-x-2"
-                            : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
-                        }`}
+                        className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${isActive
+                          ? "bg-white border-jvto-green shadow-md translate-x-2"
+                          : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
+                          }`}
                       >
                         <span
-                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${
-                            isActive ? "text-jvto-green" : "text-slate-400"
-                          }`}
+                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-green" : "text-slate-400"
+                            }`}
                         >
                           Day {day.day.toString().padStart(2, "0")}
                         </span>
                         <h4
-                          className={`font-bold text-sm leading-tight ${
-                            isActive
-                              ? "text-slate-900"
-                              : "text-slate-500 group-hover:text-slate-700"
-                          }`}
+                          className={`font-bold text-sm leading-tight ${isActive
+                            ? "text-slate-900"
+                            : "text-slate-500 group-hover:text-slate-700"
+                            }`}
                         >
                           {day.title}
                         </h4>
@@ -856,11 +852,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             {day.activities.map((act: any, idx: number) => (
                               <div key={idx} className="relative pl-10">
                                 <div
-                                  className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${
-                                    idx % 2 === 0
-                                      ? "bg-jvto-green"
-                                      : "bg-slate-900"
-                                  }`}
+                                  className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${idx % 2 === 0
+                                    ? "bg-jvto-green"
+                                    : "bg-slate-900"
+                                    }`}
                                 >
                                   {getActivityIcon(act.name)}
                                 </div>
@@ -889,13 +884,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 ([meal, status]) => (
                                   <div
                                     key={meal}
-                                    className={`px-3 py-1.5 rounded text-xs font-bold uppercase border flex items-center gap-2 ${
-                                      (status as string)
-                                        .toLowerCase()
-                                        .includes("included")
-                                        ? "bg-jvto-green/5 text-jvto-green border-jvto-green/30"
-                                        : "bg-slate-50 text-slate-400 border-slate-100"
-                                    }`}
+                                    className={`px-3 py-1.5 rounded text-xs font-bold uppercase border flex items-center gap-2 ${(status as string)
+                                      .toLowerCase()
+                                      .includes("included")
+                                      ? "bg-jvto-green/5 text-jvto-green border-jvto-green/30"
+                                      : "bg-slate-50 text-slate-400 border-slate-100"
+                                      }`}
                                   >
                                     <span className="text-slate-900 capitalize">
                                       {meal}:
@@ -977,11 +971,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             <button
                               key={day.day}
                               onClick={() => setModalOpenDay(day.day)}
-                              className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${
-                                modalOpenDay === day.day
-                                  ? "border-jvto-green text-jvto-green"
-                                  : "border-transparent text-slate-400 hover:text-slate-600"
-                              }`}
+                              className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${modalOpenDay === day.day
+                                ? "border-jvto-green text-jvto-green"
+                                : "border-transparent text-slate-400 hover:text-slate-600"
+                                }`}
                             >
                               Day {day.day}
                             </button>
@@ -1052,13 +1045,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           {meal}
                                         </span>
                                         <span
-                                          className={`font-medium uppercase text-xs px-2 py-0.5 rounded ${
-                                            (status as string)
-                                              .toLowerCase()
-                                              .includes("included")
-                                              ? "bg-jvto-green/10 text-jvto-green"
-                                              : "bg-slate-100 text-slate-400"
-                                          }`}
+                                          className={`font-medium uppercase text-xs px-2 py-0.5 rounded ${(status as string)
+                                            .toLowerCase()
+                                            .includes("included")
+                                            ? "bg-jvto-green/10 text-jvto-green"
+                                            : "bg-slate-100 text-slate-400"
+                                            }`}
                                         >
                                           {status as string}
                                         </span>
@@ -1297,9 +1289,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               <div className="mb-12 relative">
                 {/* Collapsible Container */}
                 <div
-                  className={`transition-all duration-700 ease-in-out overflow-hidden ${
-                    isInclusionsExpanded ? "max-h-[2000px]" : "max-h-[320px]"
-                  }`}
+                  className={`transition-all duration-700 ease-in-out overflow-hidden ${isInclusionsExpanded ? "max-h-[2000px]" : "max-h-[320px]"
+                    }`}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-8">
                     {/* Covered */}
@@ -1353,11 +1344,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                 {/* Toggle Button for Part 1 Only */}
                 <div
-                  className={`text-center ${
-                    isInclusionsExpanded
-                      ? "mt-0"
-                      : "absolute bottom-0 left-0 w-full z-20 pb-0"
-                  }`}
+                  className={`text-center ${isInclusionsExpanded
+                    ? "mt-0"
+                    : "absolute bottom-0 left-0 w-full z-20 pb-0"
+                    }`}
                 >
                   <button
                     onClick={() =>
@@ -1695,11 +1685,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             return (
                               <div
                                 key={idx}
-                                className={`rounded-sm p-3 transition-all ${
-                                  isInRange
-                                    ? "bg-jvto-green/5 border-2 border-jvto-green"
-                                    : "bg-slate-50 border-2 border-slate-100"
-                                }`}
+                                className={`rounded-sm p-3 transition-all ${isInRange
+                                  ? "bg-jvto-green/5 border-2 border-jvto-green"
+                                  : "bg-slate-50 border-2 border-slate-100"
+                                  }`}
                               >
                                 {/* Header */}
                                 <div className="flex items-center justify-between">
@@ -1754,13 +1743,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                         const maxLimit =
                                           tier.paxMax === 0
                                             ? pkg.channelMetadata
-                                                .maxPaxRecommended
+                                              .maxPaxRecommended
                                             : tier.paxMax;
                                         if (
                                           newVal <= maxLimit &&
                                           newVal <=
-                                            pkg.channelMetadata
-                                              .maxPaxRecommended
+                                          pkg.channelMetadata
+                                            .maxPaxRecommended
                                         ) {
                                           setPax(newVal);
                                         }
@@ -1929,11 +1918,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   return (
                     <label
                       key={item.addOnId}
-                      className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${
-                        item.selected
-                          ? "border-jvto-green bg-jvto-green/5"
-                          : "border-slate-200 bg-white hover:border-jvto-green/40"
-                      }`}
+                      className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${item.selected
+                        ? "border-jvto-green bg-jvto-green/5"
+                        : "border-slate-200 bg-white hover:border-jvto-green/40"
+                        }`}
                     >
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
                       {item.type === "transport" && transportImage && (
