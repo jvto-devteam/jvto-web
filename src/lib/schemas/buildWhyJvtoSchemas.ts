@@ -122,6 +122,31 @@ export function buildIndividualReviewSchemas(reviews: ReviewForSchema[]): Record
 }
 
 /**
+ * Hub-level ItemList of all 9 narrative claims as mainEntity for /why-jvto WebPage.
+ * Signals to AI that the hub page IS the authoritative index of all JVTO trust pillars.
+ * Each claim links to its primary_page where the evidence is concentrated.
+ */
+export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
+  const usable = claims.filter((c) => c.pillar);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${BASE_URL}/why-jvto#narrative-claims`,
+    name: 'JVTO Trust Pillars — 9 Verifiable Claims',
+    description:
+      'Nine canonical narrative claims that define Java Volcano Tour Operator\'s operational identity, each with a dedicated evidence page for independent verification.',
+    mainEntityOfPage: { '@id': `${BASE_URL}/why-jvto#webpage` },
+    numberOfItems: usable.length,
+    itemListElement: usable.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.pillar as string,
+      url: c.primary_page ? `${BASE_URL}${c.primary_page}` : `${BASE_URL}/why-jvto`,
+    })),
+  };
+}
+
+/**
  * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level rating at reviews page level.
  * itemReviewed cross-refs Organization @id; same data as ORG schema's aggregateRating (jvtoReviews.ts canonical).
  */
