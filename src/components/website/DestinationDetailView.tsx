@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import {
   MapPin,
   Mountain,
@@ -175,10 +176,13 @@ export default function DestinationDetailView({
       <header className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
         <div className="absolute inset-0 bg-black/20 z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10" />
-        <img
+        <Image
           src={heroImageUrl}
           alt={data.name}
-          className="w-full h-full object-cover"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute bottom-0 left-0 w-full z-20 pb-12 px-4 md:px-8">
           <div className="container mx-auto">

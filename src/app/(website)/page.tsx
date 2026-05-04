@@ -60,9 +60,10 @@ async function getDestinations(): Promise<Destination[]> {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
-  const seo = await getPageSeo("/", fallbackSeo);
-  // Fetch sekali: dipakai untuk schema DAN HomeDestinations
-  const destinations = await getDestinations();
+  const [seo, destinations] = await Promise.all([
+    getPageSeo("/", fallbackSeo),
+    getDestinations(),
+  ]);
   const pageRow = seo.row
     ? {
         route: seo.row.route,

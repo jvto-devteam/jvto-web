@@ -74,17 +74,16 @@ export default async function PolicyHubPage() {
       lastUpdated: "17 January 2026",
     },
   ] as const;
-  const row = await getContentPage(`/policy`, "en");
+  const [row, faqResolution] = await Promise.all([
+    getContentPage("/policy", "en"),
+    resolveFaqsForPage("/policy"),
+  ]);
   if (!row) {
     return null;
   }
   const seo = (row.seo as Record<string, any> | null) ?? {};
   const content = row.content as any;
   const h1 = content?.h1 ?? seo.title ?? "JVTO Policies";
-  // Phase 5 (2026-04-29): canonical hub Q&A via resolver + ItemList of 3 sub-pages.
-  // /policy has 0 narrative_claims wired → falls through to CMS fallback (no override).
-  // Per cluster_role_contracts.md Cluster 6 hub MH.
-  const faqResolution = await resolveFaqsForPage("/policy");
   const policyHubExtraSchemas = [
     buildPolicyHubItemListSchema(),
     buildResolvedFaqSchema(faqResolution, "/policy"),
