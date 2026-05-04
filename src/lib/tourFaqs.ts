@@ -88,6 +88,15 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
       uiLink: '/verify-jvto/legal',
     },
     {
+      question: 'Do you offer student discounts through ISIC?',
+      answer:
+        `JVTO is a verified ISIC partner (Provider ID 259268). Valid ISIC cardholders receive a student rate on Ijen and Bromo tour packages. ` +
+        `Show your ISIC card when booking; the student rate is confirmed in your booking summary before deposit. ` +
+        `Verification: isic.org/discounts/?providerId=259268.`,
+      uiMeta: 'See ISIC student packages',
+      uiLink: '/isic/student-package',
+    },
+    {
       question: 'Who runs my tour?',
       answer:
         `JVTO is founded by Bripka Agung Sambuko (Mr. Sam) — an active Tourist Police officer (POLPAR) under Indonesia's Ditpamobvit, ` +
@@ -95,6 +104,14 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
         `No anonymous freelancers.`,
       uiMeta: 'See our team + KTA cards',
       uiLink: '/why-jvto/our-team',
+    },
+    {
+      question: 'Is JVTO an eco-responsible operator?',
+      answer:
+        `JVTO holds Spotlight Network membership in INDECON (Indonesian Ecotourism Network), the national ecotourism advocacy body. ` +
+        `All Ijen and Bromo operations follow BBKSDA Leave No Trace protocols; guides are HPWKI-certified in BBKSDA environmental compliance. ` +
+        `No off-trail access, no wildlife interference, and responsible waste-management standards on every trip.`,
+      uiMeta: 'INDECON Spotlight: indecon.id/spotlight-networks/java-volcano-tour-operator',
     },
   ];
   if (tour.ijenRelevant) {

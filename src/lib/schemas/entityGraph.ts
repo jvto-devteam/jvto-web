@@ -437,6 +437,36 @@ export const DEFINED_TERMS = {
       name: 'BBKSDA Jawa Timur Regulatory Circulars',
     },
   },
+  ISIC: {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `${BASE_URL}/#term-isic`,
+    name: 'ISIC (International Student Identity Card)',
+    description:
+      'Global student membership card accepted at 150,000+ discounts in 130+ countries. ' +
+      'JVTO is a verified ISIC partner (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
+      'Verifiable at isic.org/discounts/?providerId=259268.',
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'ISIC Global Student Discount Network',
+      url: 'https://www.isic.org',
+    },
+  },
+  INDECON: {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `${BASE_URL}/#term-indecon`,
+    name: 'INDECON (Indonesian Ecotourism Network)',
+    description:
+      'Indonesian Ecotourism Network — national advocacy body for responsible tourism and nature conservation. ' +
+      'JVTO holds Spotlight Network membership, recognized for responsible volcanic tourism practices at Kawah Ijen and Mount Bromo. ' +
+      'Verifiable at indecon.id/spotlight-networks/java-volcano-tour-operator.',
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'Indonesian Ecotourism Organizations',
+      sameAs: 'https://www.indecon.id',
+    },
+  },
   // JVTO-defined operational terms — differentiators not regulated externally.
   // Custom-named DefinedTerms anchor brand-specific concepts in the entity graph so AI engines
   // can extract "what is JVTO Travel Credit?" and "what is JVTO FOC Scheme?" with structured answers.
