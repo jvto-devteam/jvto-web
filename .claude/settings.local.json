@@ -12,7 +12,14 @@
       "Bash(Sort-Object Name)",
       "Bash(psql *)",
       "Bash(node *)",
-      "Bash(DATABASE_URL=\"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" npx prisma generate --silent)"
+      "Bash(DATABASE_URL=\"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" npx prisma generate --silent)",
+      "WebFetch(domain:www.isic.org)",
+      "WebFetch(domain:www.indecon.id)",
+      "Bash(curl -L -o public/assets/img/icons/isic-logo.png https://www.isic.org/wp-content/uploads/2022/10/isic-logo.png -A Mozilla/5.0 --silent --show-error)",
+      "Bash(identify public/assets/img/icons/isic-logo.png)",
+      "Bash(curl -L -o public/assets/img/icons/indecon-logo.png https://www.indecon.id/wp-content/uploads/2022/04/Indecon-Web-Logo-3.png -H 'User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36' --silent --show-error)",
+      "WebFetch(domain:javavolcano-touroperator.com)",
+      "mcp__claude_ai_Google_Drive__read_file_content"
     ]
   },
   "outputStyle": "Explanatory"
