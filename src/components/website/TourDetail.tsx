@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
+import AuthorityShield from "@/components/website/AuthorityShield";
+import TrustBar from "@/components/website/TrustBar";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
@@ -472,6 +474,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
         </div>
       </div>
+      <AuthorityShield ijenRelevant={ijenRelevant} />
       {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
       <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
         <div className="container mx-auto px-6">
@@ -1823,6 +1826,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
         </div>
       </div>
+      <TrustBar />
       {/* --- ADD-ON MODAL WITH SEARCH --- */}
       {showAddOnModal && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
