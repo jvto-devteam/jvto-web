@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getContentPage } from "@/lib/content/getContentPage";
+import { prisma } from "@/lib/prisma";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
@@ -17,9 +18,22 @@ import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
 import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 
 
+export const revalidate = 3600;
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const pages = await prisma.content_pages.findMany({
+    where: { route: { startsWith: '/why-jvto/' }, is_active: true, lang: 'en' },
+    select: { route: true },
+  });
+  return pages
+    .map(p => p.route.replace('/why-jvto/', ''))
+    .filter((slug): slug is string => Boolean(slug) && !slug.includes('/'))
+    .map(slug => ({ slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

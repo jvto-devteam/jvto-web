@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getContentPage } from "@/lib/content/getContentPage";
+import { prisma } from "@/lib/prisma";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 import Sidebar from "../sidebar";
 import Link from "next/link";
@@ -30,9 +31,22 @@ const TRAVEL_GUIDE_DEST_LINKS: Record<string, Array<{ slug: string; name: string
   ],
 };
 
+export const revalidate = 86400;
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateStaticParams() {
+  const pages = await prisma.content_pages.findMany({
+    where: { route: { startsWith: '/travel-guide/' }, is_active: true, lang: 'en' },
+    select: { route: true },
+  });
+  return pages
+    .map(p => p.route.replace('/travel-guide/', ''))
+    .filter((slug): slug is string => Boolean(slug) && !slug.includes('/'))
+    .map(slug => ({ slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

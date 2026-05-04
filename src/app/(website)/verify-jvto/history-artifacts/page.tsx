@@ -5,6 +5,8 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 
+export const revalidate = 86400;
+
 const fallbackSeo = {
   title: "Verify: History Artifacts",
   h1: "History Artifacts",

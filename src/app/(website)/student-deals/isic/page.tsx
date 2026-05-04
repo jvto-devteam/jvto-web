@@ -4,6 +4,8 @@ import { ButtonLink, Container, Divider, Grid, H1, Lead, Card, Section, Notice }
 import { getReviewPlatforms } from "@/lib/why-ssot";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 
+export const revalidate = 86400;
+
 const fallbackSeo = {
   title: "ISIC Student Deals: JVTO",
   h1: "ISIC Student Deals",

@@ -2,6 +2,9 @@ import ContactPage from "@/components/website/ContactPage";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+
+export const revalidate = 86400;
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
   title: "Contact JVTO Tours | Plan Your East Java Adventure",
