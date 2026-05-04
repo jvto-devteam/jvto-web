@@ -237,8 +237,8 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Inserted FAQ 72 into package_faqs for bromo-2d1n (DB, only true gap); downloaded ISIC + INDECON logos to public/assets/img/icons/; refactored TrustBar.tsx to discriminated-union LogoSpec so ISIC + INDECON show real images (HPWKI stays text chip) (2026-05-04)
+**Last completed:** Press & Recognition schema + HTML (Book/NewsArticle×2/Award schemas in buildVerifySchemas.ts; credential table + Stefan Loose + Detik + Booking sections in press-recognition/page.tsx); merged 2 duplicate why-jvto routes (guest-voices-reviews → reviews, history-roots → our-story) via 301 redirects in next.config.ts + is_active=false in DB (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Review cluster_role_contracts.md for next AEO/GEO densification priority (all prior open items closed)
-**Build status:** ✓ Compiled (0 new errors — 131/131 static pages)
+**Next task:** Review cluster_role_contracts.md for next AEO/GEO priority — press-recognition cluster now complete
+**Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:** none
