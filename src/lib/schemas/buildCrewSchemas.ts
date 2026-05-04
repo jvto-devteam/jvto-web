@@ -10,7 +10,7 @@
 // This enables photo enrichment cross-reference in our-team/page.tsx.
 //
 // @id registry entries (cluster_role_contracts.md @id Registry):
-//   ${BASE_URL}/#crew-anjas, /#crew-gufron, /#crew-rendi, /#crew-pras
+//   ${BASE_URL}/#crew-anjas, /#crew-gufron, /#crew-rendi
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID = `${BASE_URL}/#organization`;
@@ -78,22 +78,6 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
       'Group Safety Management on Volcanic and Canyon Terrain',
       'Papuma Coastal Route and East Java Extension Logistics',
       'HPWKI-Licensed Ijen Crater Night Hike Operations',
-    ],
-    knowsLanguage: ['Indonesian', 'English'],
-  },
-  {
-    code: 'pras',
-    name: 'Pras',
-    jobTitle: 'Senior East Java Tour Driver',
-    isGuide: false,
-    photoUrl: null,
-    description:
-      'Senior driver managing the Surabaya–Malang–Bromo–Ijen logistics circuit. Deep familiarity with cross-terrain vehicle planning, guest pickup coordination, and contingency routing for East Java tours.',
-    knowsAbout: [
-      'Surabaya–Malang–Bromo–Ijen Circuit Route Planning',
-      'Cross-Terrain Vehicle and Convoy Safety Management',
-      'Guest Pickup and Transfer Coordination from Surabaya and Malang',
-      'Emergency and Contingency Route Planning for East Java Volcanic Areas',
     ],
     knowsLanguage: ['Indonesian', 'English'],
   },

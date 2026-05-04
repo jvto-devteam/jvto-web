@@ -18,14 +18,15 @@ const ORG_ID = `${SITE_URL}/#organization`;
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const pages = await prisma.content_pages.findMany({
-    where: { route: { startsWith: "/team/" }, is_active: true, lang: "en" },
-    select: { route: true },
+  // Source from crew_members (authoritative) not content_pages.
+  // This prevents deleted crew (deleted_at IS NOT NULL) from generating stale pages.
+  const crew = await prisma.crew_members.findMany({
+    where: { deleted_at: null, code: { not: null } },
+    select: { code: true },
   });
-  return pages
-    .map((p) => p.route.replace("/team/", ""))
-    .filter((s): s is string => Boolean(s) && !s.includes("/"))
-    .map((slug) => ({ slug }));
+  return crew
+    .filter((m): m is { code: string } => Boolean(m.code))
+    .map((m) => ({ slug: m.code as string }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

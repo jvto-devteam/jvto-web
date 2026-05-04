@@ -237,13 +237,12 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Full site content audit 2026-05-04 — (A) fixed buildCrewSchemas.ts code mismatch (anj→anjas etc.); (B) 9 duplicate routes merged via 301 redirects in next.config.ts; (C) 8 DB routes set is_active=false; (D) /team hub + /team/[slug] pages created (GAP 4 closed); build ✓ 140/140 (+11 new team pages, 0 errors)
+**Last completed:** Orphaned crew cleanup — deleted /team/dika, /team/yusuf, /team/pras from content_pages DB; removed Pras from NAMED_GUIDE_PERSONAS (soft-deleted 2026-04-23); fixed generateStaticParams source from content_pages → crew_members WHERE deleted_at IS NULL; build ✓ 137/137 (−3 orphaned pages, 0 errors) (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Populate named guide photo URLs + KTA identifiers in buildCrewSchemas.ts; OR continue Cluster 3 Why-JVTO sub-pages (our-story, the-jvto-difference) per cluster_role_contracts.md build order
-**Build status:** ✓ Compiled (0 new errors — 140/140 static pages)
+**Next task:** Populate named guide photo URLs + KTA identifiers in buildCrewSchemas.ts (Anjas/Gufron/Rendi); OR continue Cluster 3 Why-JVTO sub-pages (our-story, the-jvto-difference) per cluster_role_contracts.md build order
+**Build status:** ✓ Compiled (0 new errors — 137/137 static pages)
 **Open items:**
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- Named guide photoUrl values in buildCrewSchemas.ts are null — populate with real /uploads/... paths
-- Named guide KTA card identifiers not yet added to hasCredential in buildCrewSchemas.ts — owner to supply KTA numbers
-- /blog route uses `InsightsPage` component but SSOT specifies /insights/[slug] — URL mismatch documented, migration deferred
-- /team/[slug] pages for dika/pras/yusuf exist in content_pages but those crew members are deleted from crew_members table — team pages render with no photo/type data (graceful fallback)
+- Named guide photoUrl values in buildCrewSchemas.ts are null — populate with /uploads/... paths from crew_members table
+- Named guide KTA card identifiers not yet added to hasCredential (owner to supply KTA numbers per guide)
+- /blog route vs /insights/[slug] URL mismatch — documented, migration deferred
