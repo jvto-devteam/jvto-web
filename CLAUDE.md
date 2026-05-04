@@ -237,8 +237,8 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Added ISIC logo (500×199 px) + INDECON logo (934×325 px) to public/assets/img/icons/; refactored TrustBar to discriminated-union LogoSpec (image | abbr) so ISIC + INDECON now show real logos; HPWKI retains text chip (2026-05-04)
+**Last completed:** Inserted FAQ 72 into package_faqs for bromo-2d1n (DB, only true gap); downloaded ISIC + INDECON logos to public/assets/img/icons/; refactored TrustBar.tsx to discriminated-union LogoSpec so ISIC + INDECON show real images (HPWKI stays text chip) (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** TBD — all open sprint items closed. Review cluster_role_contracts.md for next AEO/GEO priority.
+**Next task:** Review cluster_role_contracts.md for next AEO/GEO densification priority (all prior open items closed)
 **Build status:** ✓ Compiled (0 new errors — 131/131 static pages)
 **Open items:** none
