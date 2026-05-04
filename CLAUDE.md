@@ -237,10 +237,10 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Read 3 GEO/AEO strategy Drive docs; deployed public/.well-known/ai-agent-config.json (per-crawler GPTBot/ClaudeBot/Google-Extended permissions + SHA-256 credential anchors); built VolcanicStatusBadge.tsx + SpecialAnnouncement schema (72h expires) on Ijen + Bromo destination pages; created docs/STRATEGIC_REFERENCE.md with extracted strategic findings (2026-05-04)
+**Last completed:** Cluster 4 Verify-JVTO fully closed — (A) added shipping label as second evidence image in press-recognition Booking.com section + additionalProperty address-continuity in @type:Award schema; (B) police-safety got 3 HTML sections: SPRIN credential table with SHA-256, Bripka Agung Sambuko authority section + Ditpamobvit context, Detik.com + Radar Jember press confirmation (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** /verify-jvto/police-safety — add HTML body sections (POLPAR + SPRIN credential context, founder cross-ref rendered) to close out Cluster 4 Verify-JVTO
+**Next task:** Cluster 3 Why-JVTO hub — /why-jvto page.tsx primary spine (all 9 narrative_claims as FAQPage + ItemList schema, AnswerBlock pattern) per cluster_role_contracts.md build order
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:**
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- GAP 4 from GEO doc: /team/[slug] pages for named guides (Anjas, Boy, Gufron, Rendi, Taufik) not yet built — future sprint
+- GAP 4 (GEO doc): /team/[slug] pages for named guides not yet built — future sprint
