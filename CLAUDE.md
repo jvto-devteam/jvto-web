@@ -237,10 +237,12 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Cluster 4 Verify-JVTO fully closed — (A) added shipping label as second evidence image in press-recognition Booking.com section + additionalProperty address-continuity in @type:Award schema; (B) police-safety got 3 HTML sections: SPRIN credential table with SHA-256, Bripka Agung Sambuko authority section + Ditpamobvit context, Detik.com + Radar Jember press confirmation (2026-05-04)
+**Last completed:** "Personality Economy" — 4 named guide Person schemas (Anjas/Gufron/Rendi/Pras) with knowsAbout[] specialty signals; src/lib/schemas/buildCrewSchemas.ts created; /why-jvto/our-team/page.tsx created (dedicated route, overrides [slug]); @id registry updated for /#crew-anj/guf/ren/prs; cross-cluster link gap #2 fixed (→/travel-guide/safety-on-tours); build ✓ 129/129 (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Cluster 3 Why-JVTO hub — /why-jvto page.tsx primary spine (all 9 narrative_claims as FAQPage + ItemList schema, AnswerBlock pattern) per cluster_role_contracts.md build order
+**Next task:** Populate named guide photo URLs + KTA card identifiers (Anjas, Gufron, Rendi, Pras) in buildCrewSchemas.ts, OR continue Cluster 3 Why-JVTO sub-pages (our-story, the-jvto-difference) per cluster_role_contracts.md
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:**
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
+- Named guide photoUrl values in buildCrewSchemas.ts are null — populate with real /uploads/... paths
+- Named guide KTA card identifiers not yet added to hasCredential in buildCrewSchemas.ts — owner to supply KTA numbers
 - GAP 4 (GEO doc): /team/[slug] pages for named guides not yet built — future sprint
