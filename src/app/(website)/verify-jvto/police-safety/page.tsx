@@ -8,6 +8,8 @@ import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchema
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { ExternalLink, CheckCircle2, Shield, FileText } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { FOUNDER_LEADERSHIP, FIELD_OPERATIONS, POLICE_AUTHORITY_DOCUMENTS } from "@/lib/imageAssets";
 
 export const revalidate = 86400;
 
@@ -217,9 +219,24 @@ export default async function PoliceSafetyPage() {
               </div>
             </div>
 
-            {/* What Ditpamobvit means */}
-            <div className="border border-slate-800 rounded-lg p-6 bg-slate-950">
-              <div className="flex items-center gap-2 mb-4">
+            {/* Founder portrait + Ditpamobvit context */}
+            <div className="flex flex-col gap-4">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+                <Image
+                  src={FOUNDER_LEADERSHIP[1].url}
+                  alt={FOUNDER_LEADERSHIP[1].alt}
+                  fill
+                  className="object-cover object-top opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent px-4 py-3">
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    {FOUNDER_LEADERSHIP[1].caption}
+                  </p>
+                </div>
+              </div>
+              <div className="border border-slate-800 rounded-lg p-5 bg-slate-950">
+                <div className="flex items-center gap-2 mb-4">
                 <Shield size={16} className="text-jvto-green" />
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">
                   What This Means for Your Tour
@@ -245,6 +262,46 @@ export default async function PoliceSafetyPage() {
                 </p>
               </div>
             </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Operational Photo Evidence ── */}
+      <section className="bg-slate-950 border-t border-slate-800">
+        <div className="container mx-auto px-6 py-10">
+          <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-5">
+            Operational Photo Evidence
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <figure className="rounded-lg overflow-hidden border border-slate-800">
+              <div className="relative aspect-video bg-slate-900">
+                <Image
+                  src={FIELD_OPERATIONS[4].url}
+                  alt={FIELD_OPERATIONS[4].alt}
+                  fill
+                  className="object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <figcaption className="px-4 py-2.5 bg-slate-900 text-[10px] text-slate-500 leading-snug">
+                {FIELD_OPERATIONS[4].caption}
+              </figcaption>
+            </figure>
+            <figure className="rounded-lg overflow-hidden border border-slate-800">
+              <div className="relative aspect-video bg-slate-900">
+                <Image
+                  src={POLICE_AUTHORITY_DOCUMENTS[0].url}
+                  alt={POLICE_AUTHORITY_DOCUMENTS[0].alt}
+                  fill
+                  className="object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <figcaption className="px-4 py-2.5 bg-slate-900 text-[10px] text-slate-500 leading-snug">
+                {POLICE_AUTHORITY_DOCUMENTS[0].caption}
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>

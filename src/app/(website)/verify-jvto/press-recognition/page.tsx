@@ -11,6 +11,7 @@ import {
 } from "@/lib/schemas/buildVerifySchemas";
 import Image from "next/image";
 import { ExternalLink, CheckCircle2 } from "lucide-react";
+import { FOUNDER_WITH_GUESTS_STEFAN_LOOSE } from "@/lib/imageAssets";
 
 export const revalidate = 86400;
 
@@ -189,14 +190,30 @@ export default async function PressRecognitionPage() {
                 </div>
               </dl>
             </div>
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
-              <Image
-                src="https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg"
-                alt="Stefan Loose Reiseführer Indonesien page 287 — Ijen Massif section"
-                fill
-                className="object-cover object-top opacity-90"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            <div className="flex flex-col gap-3">
+              <figure className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+                <Image
+                  src="https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg"
+                  alt="Stefan Loose Reiseführer Indonesien page 287 — Ijen Massif section"
+                  fill
+                  className="object-cover object-top opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </figure>
+              <figure className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+                <Image
+                  src={FOUNDER_WITH_GUESTS_STEFAN_LOOSE.url}
+                  alt={FOUNDER_WITH_GUESTS_STEFAN_LOOSE.alt}
+                  fill
+                  className="object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent px-3 py-2">
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    {FOUNDER_WITH_GUESTS_STEFAN_LOOSE.caption}
+                  </p>
+                </div>
+              </figure>
             </div>
           </div>
         </div>

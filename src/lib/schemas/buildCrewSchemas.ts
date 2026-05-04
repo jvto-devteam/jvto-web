@@ -12,6 +12,8 @@
 // @id registry entries (cluster_role_contracts.md @id Registry):
 //   ${BASE_URL}/#crew-anjas, /#crew-gufron, /#crew-rendi
 
+import { CREW_PORTRAITS_BY_CODE, CREW_CREDENTIALS_BY_CODE } from '@/lib/imageAssets';
+
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID = `${BASE_URL}/#organization`;
 
@@ -35,7 +37,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     name: 'Anjas',
     jobTitle: 'Senior Ijen Photography Guide',
     isGuide: true,
-    photoUrl: null,
+    photoUrl: CREW_PORTRAITS_BY_CODE.anjas.url,
     description:
       'Senior Ijen specialist with deep expertise in pre-dawn crater ascents for photography clients. KTA-licensed HPWKI member, experienced in guiding long-exposure blue fire and astrophotography sessions at Kawah Ijen.',
     knowsAbout: [
@@ -52,7 +54,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     name: 'Gufron',
     jobTitle: 'Bromo & Tengger Specialist Guide',
     isGuide: true,
-    photoUrl: null,
+    photoUrl: CREW_PORTRAITS_BY_CODE.gufron.url,
     description:
       'Bromo and Tengger caldera specialist with experience optimizing 4WD jeep routes and multi-day Bromo–Ijen itineraries. KTA-licensed for Ijen crater operations with extensive Bromo sunrise logistics knowledge.',
     knowsAbout: [
@@ -69,7 +71,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     name: 'Rendi',
     jobTitle: 'Multi-Destination Senior Guide',
     isGuide: true,
-    photoUrl: null,
+    photoUrl: CREW_PORTRAITS_BY_CODE.rendi.url,
     description:
       'Multi-destination senior guide covering Tumpak Sewu canyon descents, Ijen crater, and Bromo circuits. Specialist in group expedition coordination and long-haul East Java itineraries.',
     knowsAbout: [
@@ -105,6 +107,10 @@ export function buildNamedGuidePersonaSchema(guide: NamedGuidePersona) {
         '@type': 'EducationalOccupationalCredential',
         name: 'KTA (Kartu Tanda Anggota) — HPWKI Guide Licence',
         credentialCategory: 'Indonesian Tour Guide Licence — Ijen Volcano',
+        // KTA card image URL from imageAssets.ts (null if guide not in CREW_CREDENTIALS_BY_CODE).
+        ...(CREW_CREDENTIALS_BY_CODE[guide.code]
+          ? { image: { '@type': 'ImageObject', url: CREW_CREDENTIALS_BY_CODE[guide.code].url, caption: CREW_CREDENTIALS_BY_CODE[guide.code].caption } }
+          : {}),
         recognizedBy: {
           '@type': 'Organization',
           name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',

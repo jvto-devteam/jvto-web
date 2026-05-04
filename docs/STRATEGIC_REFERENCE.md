@@ -161,4 +161,37 @@ Key URL patterns confirmed by strategy documents:
 
 ---
 
+## 10. Image Assets
+
+**Source of truth (typed constants):** `src/lib/imageAssets.ts`  
+**Raw data:** `docs/assets/jvto_image_asset_map.json`  
+**Human-readable tables:** `docs/assets/JVTO_SSOT_Image_Asset_Map.md`
+
+Total: **54 assets** in the JSON map + 1 additional (`FOUNDER_WITH_GUESTS_STEFAN_LOOSE`) from the Inventory.
+
+| Group | Count | Primary pages |
+|-------|------:|---------------|
+| `crew_portraits` | 11 | `/why-jvto/our-team`, `/team/[slug]` |
+| `field_operations` | 8 | `/homepage`, `/why-jvto`, `/travel-guide`, `/travel-guide/police-escort-for-groups` |
+| `crew_credentials` | 5 | `/verify-jvto`, `/why-jvto/our-team` |
+| `health_screening` | 5 | `/verify-jvto`, `/travel-guide/ijen-health-screening` |
+| `history_heritage` | 5 | `/why-jvto/our-story`, `/verify-jvto/history-artifacts` |
+| `police_authority_documents` | 4 | `/verify-jvto/police-safety` |
+| `founder_leadership` | 3 (+1) | `/homepage`, `/why-jvto`, `/verify-jvto/police-safety`, `/verify-jvto/press-recognition` |
+| `press_mentions` | 3 | `/verify-jvto/press-recognition` |
+| `brand_identity` | 2 | Sitewide |
+| `legal_business_identity` | 2 | `/verify-jvto/legal` |
+| `legal_membership` | 2 | `/verify-jvto/legal` |
+| `legal_tourism_license` | 2 | `/verify-jvto/legal` |
+| `partner_validation` | 1 | `/isic/student-package` |
+| `uncertain` | 1 | Manual review |
+
+Named lookup helpers in `imageAssets.ts`:
+- `CREW_PORTRAITS_BY_CODE[code]` — portrait by crew_members.code
+- `CREW_CREDENTIALS_BY_CODE[code]` — KTA card by crew_members.code
+- `FOUNDER_WITH_GUESTS_STEFAN_LOOSE` — special asset from Inventory, not in JSON map
+- `ALL_IMAGE_ASSETS` — flat array of all 55 assets for iteration
+
+---
+
 *Last updated: 2026-05-04. Re-fetch from Drive only if strategy changes.*
