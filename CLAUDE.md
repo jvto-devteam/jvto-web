@@ -237,12 +237,13 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** "Personality Economy" — 4 named guide Person schemas (Anjas/Gufron/Rendi/Pras) with knowsAbout[] specialty signals; src/lib/schemas/buildCrewSchemas.ts created; /why-jvto/our-team/page.tsx created (dedicated route, overrides [slug]); @id registry updated for /#crew-anj/guf/ren/prs; cross-cluster link gap #2 fixed (→/travel-guide/safety-on-tours); build ✓ 129/129 (2026-05-04)
+**Last completed:** Full site content audit 2026-05-04 — (A) fixed buildCrewSchemas.ts code mismatch (anj→anjas etc.); (B) 9 duplicate routes merged via 301 redirects in next.config.ts; (C) 8 DB routes set is_active=false; (D) /team hub + /team/[slug] pages created (GAP 4 closed); build ✓ 140/140 (+11 new team pages, 0 errors)
 **Completed date:** 2026-05-04
-**Next task:** Populate named guide photo URLs + KTA card identifiers (Anjas, Gufron, Rendi, Pras) in buildCrewSchemas.ts, OR continue Cluster 3 Why-JVTO sub-pages (our-story, the-jvto-difference) per cluster_role_contracts.md
-**Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
+**Next task:** Populate named guide photo URLs + KTA identifiers in buildCrewSchemas.ts; OR continue Cluster 3 Why-JVTO sub-pages (our-story, the-jvto-difference) per cluster_role_contracts.md build order
+**Build status:** ✓ Compiled (0 new errors — 140/140 static pages)
 **Open items:**
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
 - Named guide photoUrl values in buildCrewSchemas.ts are null — populate with real /uploads/... paths
 - Named guide KTA card identifiers not yet added to hasCredential in buildCrewSchemas.ts — owner to supply KTA numbers
-- GAP 4 (GEO doc): /team/[slug] pages for named guides not yet built — future sprint
+- /blog route uses `InsightsPage` component but SSOT specifies /insights/[slug] — URL mismatch documented, migration deferred
+- /team/[slug] pages for dika/pras/yusuf exist in content_pages but those crew members are deleted from crew_members table — team pages render with no photo/type data (graceful fallback)

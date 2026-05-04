@@ -1,22 +1,26 @@
 // src/lib/schemas/buildCrewSchemas.ts — "Personality Economy" named guide schemas.
-// These 4 guides have curated specialty knowsAbout[] signals for AI search entity matching.
+// These guides have curated specialty knowsAbout[] signals for AI search entity matching.
 // Hardcoded (not DB-driven) — specialty signals require editorial curation, not a DB row.
 // Generic crew Person schemas (DB-driven, 11 members) → entityGraph.ts buildCrewPersonSchema().
 //
 // AEO/GEO moat: "who is the best photography guide for Ijen crater?" →
 // Only JVTO has a structured Person entity with knowsAbout: Blue Fire Photography.
-// Competitors relying on anonymous staff cannot replicate identity-anchored entities.
 //
-// @id registry entries (added to cluster_role_contracts.md @id Registry):
-//   ${BASE_URL}/#crew-anj, /#crew-guf, /#crew-ren, /#crew-prs
+// IMPORTANT: code fields match crew_members.code in DB (full name, not abbreviation).
+// This enables photo enrichment cross-reference in our-team/page.tsx.
+//
+// @id registry entries (cluster_role_contracts.md @id Registry):
+//   ${BASE_URL}/#crew-anjas, /#crew-gufron, /#crew-rendi, /#crew-pras
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID = `${BASE_URL}/#organization`;
 
 export interface NamedGuidePersona {
+  /** Matches crew_members.code in DB — used as @id suffix and URL slug lookup. */
   code: string;
   name: string;
   jobTitle: string;
+  isGuide: boolean;
   photoUrl: string | null;
   knowsAbout: string[];
   knowsLanguage: string[];
@@ -27,9 +31,10 @@ export interface NamedGuidePersona {
 // Verify each knowsAbout entry directly with the named guide before production.
 export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   {
-    code: 'anj',
+    code: 'anjas',
     name: 'Anjas',
     jobTitle: 'Senior Ijen Photography Guide',
+    isGuide: true,
     photoUrl: null,
     description:
       'Senior Ijen specialist with deep expertise in pre-dawn crater ascents for photography clients. KTA-licensed HPWKI member, experienced in guiding long-exposure blue fire and astrophotography sessions at Kawah Ijen.',
@@ -43,9 +48,10 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     knowsLanguage: ['Indonesian', 'English'],
   },
   {
-    code: 'guf',
+    code: 'gufron',
     name: 'Gufron',
     jobTitle: 'Bromo & Tengger Specialist Guide',
+    isGuide: true,
     photoUrl: null,
     description:
       'Bromo and Tengger caldera specialist with experience optimizing 4WD jeep routes and multi-day Bromo–Ijen itineraries. KTA-licensed for Ijen crater operations with extensive Bromo sunrise logistics knowledge.',
@@ -59,9 +65,10 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     knowsLanguage: ['Indonesian', 'English'],
   },
   {
-    code: 'ren',
+    code: 'rendi',
     name: 'Rendi',
     jobTitle: 'Multi-Destination Senior Guide',
+    isGuide: true,
     photoUrl: null,
     description:
       'Multi-destination senior guide covering Tumpak Sewu canyon descents, Ijen crater, and Bromo circuits. Specialist in group expedition coordination and long-haul East Java itineraries.',
@@ -75,18 +82,18 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
     knowsLanguage: ['Indonesian', 'English'],
   },
   {
-    code: 'prs',
+    code: 'pras',
     name: 'Pras',
-    jobTitle: 'Ijen Guide & East Java Logistics Specialist',
+    jobTitle: 'Senior East Java Tour Driver',
+    isGuide: false,
     photoUrl: null,
     description:
-      'Ijen guide and logistics specialist managing the Surabaya–Malang–Bromo–Ijen circuit. Deep familiarity with cross-terrain vehicle planning, guest pickup coordination, and contingency routing for East Java tours.',
+      'Senior driver managing the Surabaya–Malang–Bromo–Ijen logistics circuit. Deep familiarity with cross-terrain vehicle planning, guest pickup coordination, and contingency routing for East Java tours.',
     knowsAbout: [
-      'Surabaya–Malang–Bromo–Ijen Tour Circuit Route Planning',
+      'Surabaya–Malang–Bromo–Ijen Circuit Route Planning',
       'Cross-Terrain Vehicle and Convoy Safety Management',
       'Guest Pickup and Transfer Coordination from Surabaya and Malang',
-      'Emergency and Contingency Route Planning for Volcanic Areas',
-      'HPWKI-Licensed Ijen Crater Trail Operations',
+      'Emergency and Contingency Route Planning for East Java Volcanic Areas',
     ],
     knowsLanguage: ['Indonesian', 'English'],
   },
@@ -100,6 +107,7 @@ export function buildNamedGuidePersonaSchema(guide: NamedGuidePersona) {
     name: guide.name,
     jobTitle: guide.jobTitle,
     description: guide.description,
+    url: `${BASE_URL}/team/${guide.code}`,
     worksFor: { '@id': ORG_ID },
     employmentType: 'FULL_TIME',
     knowsAbout: guide.knowsAbout,
@@ -107,17 +115,19 @@ export function buildNamedGuidePersonaSchema(guide: NamedGuidePersona) {
       '@type': 'Language',
       name: lang,
     })),
-    // KTA credential without identifier — update with actual KTA card numbers per guide.
-    hasCredential: {
-      '@type': 'EducationalOccupationalCredential',
-      name: 'KTA (Kartu Tanda Anggota) — HPWKI Guide Licence',
-      credentialCategory: 'Indonesian Tour Guide Licence — Ijen Volcano',
-      recognizedBy: {
-        '@type': 'Organization',
-        name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
-        description: 'Ijen volcano guide association supervised by BBKSDA Jawa Timur.',
+    // KTA credential only for licensed guides (not drivers).
+    ...(guide.isGuide ? {
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        name: 'KTA (Kartu Tanda Anggota) — HPWKI Guide Licence',
+        credentialCategory: 'Indonesian Tour Guide Licence — Ijen Volcano',
+        recognizedBy: {
+          '@type': 'Organization',
+          name: 'HPWKI (Himpunan Pelaku Wisata Khusus Ijen)',
+          description: 'Ijen volcano guide association supervised by BBKSDA Jawa Timur.',
+        },
       },
-    },
+    } : {}),
     ...(guide.photoUrl
       ? { image: { '@type': 'ImageObject', url: guide.photoUrl, caption: guide.name } }
       : {}),
@@ -129,7 +139,12 @@ export function buildAllNamedGuideSchemas() {
   return NAMED_GUIDE_PERSONAS.map(buildNamedGuidePersonaSchema);
 }
 
-/** ItemList of 4 named guides — signals our-team page is the canonical specialty index. */
+/** Look up a named persona by code (= URL slug = crew_members.code). */
+export function getPersonaByCode(code: string): NamedGuidePersona | undefined {
+  return NAMED_GUIDE_PERSONAS.find((p) => p.code === code);
+}
+
+/** ItemList of named guide personas — signals our-team page is the canonical specialty index. */
 export function buildNamedGuideItemListSchema() {
   return {
     '@context': 'https://schema.org',
@@ -137,7 +152,7 @@ export function buildNamedGuideItemListSchema() {
     '@id': `${BASE_URL}/why-jvto/our-team#named-guides`,
     name: 'JVTO Named Guide Specialists — Specialty Knowledge Index',
     description:
-      'Four named JVTO guides with documented specialty knowledge areas for East Java volcano tourism, each anchored by a unique @id entity.',
+      'Named JVTO guides and drivers with documented specialty knowledge areas for East Java volcano tourism, each anchored by a unique @id entity.',
     numberOfItems: NAMED_GUIDE_PERSONAS.length,
     itemListElement: NAMED_GUIDE_PERSONAS.map((g, i) => ({
       '@type': 'ListItem',
@@ -146,6 +161,7 @@ export function buildNamedGuideItemListSchema() {
         '@id': `${BASE_URL}/#crew-${g.code}`,
         '@type': 'Person',
         name: g.name,
+        url: `${BASE_URL}/team/${g.code}`,
       },
     })),
   };
