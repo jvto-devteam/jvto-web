@@ -6,7 +6,13 @@
       "Bash(npx prisma *)",
       "Bash(grep -E \"\\\\.\\(ts|json\\)$\")",
       "Bash(npm run *)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(Get-ChildItem -Path \"F:\\\\jvto-web\\\\src\\\\components\\\\website\" -File)",
+      "Bash(Select-Object Name)",
+      "Bash(Sort-Object Name)",
+      "Bash(psql *)",
+      "Bash(node *)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" npx prisma generate --silent)"
     ]
   },
   "outputStyle": "Explanatory"

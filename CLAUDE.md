@@ -237,9 +237,10 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Cluster 1 MH copy signals audit complete — all 5 signals (NIB, police credential, gas mask, 4WD jeep, all-inclusive) confirmed present; T-shirt gap closed by adding new "all-inclusive price" Q&A pair as first item in getTourSpineQaPairs() in tourFaqs.ts (2026-05-04)
+**Last completed:** Added ISIC + INDECON as DEFINED_TERMS (globally injected `/#term-isic` and `/#term-indecon`), wired 2 new Q&A pairs into `getTourSpineQaPairs`, and built AuthorityShield + TrustBar components placed in TourDetail (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Cluster 1 MH tier checklist — verify NTH signals: schema breadcrumb depth, BreadcrumbList JSON-LD emitted on tour detail pages, and WebPage dateModified freshness
-**Build status:** ✓ Compiled (0 new errors — 1 pre-existing Turbopack NFT warning unchanged)
+**Next task:** Close minor content gap — add Madakaripura FAQ 72 ("What is the main risk?") to package_faqs for bromo-madakaripura-ijen-3d2n and bromo-2d1n (DB insert, all other Madakaripura tours already have it)
+**Build status:** ✓ Compiled (0 new errors — 109/109 static pages)
 **Open items:**
 - Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
+- ISIC + INDECON logos not yet in public/ — TrustBar uses text chips as fallback; source SVG logos if available
