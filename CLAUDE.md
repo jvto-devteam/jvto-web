@@ -237,10 +237,8 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Added ISIC + INDECON as DEFINED_TERMS (globally injected `/#term-isic` and `/#term-indecon`), wired 2 new Q&A pairs into `getTourSpineQaPairs`, and built AuthorityShield + TrustBar components placed in TourDetail (2026-05-04)
+**Last completed:** Added ISIC logo (500×199 px) + INDECON logo (934×325 px) to public/assets/img/icons/; refactored TrustBar to discriminated-union LogoSpec (image | abbr) so ISIC + INDECON now show real logos; HPWKI retains text chip (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** Close minor content gap — add Madakaripura FAQ 72 ("What is the main risk?") to package_faqs for bromo-madakaripura-ijen-3d2n and bromo-2d1n (DB insert, all other Madakaripura tours already have it)
-**Build status:** ✓ Compiled (0 new errors — 109/109 static pages)
-**Open items:**
-- Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
-- ISIC + INDECON logos not yet in public/ — TrustBar uses text chips as fallback; source SVG logos if available
+**Next task:** TBD — all open sprint items closed. Review cluster_role_contracts.md for next AEO/GEO priority.
+**Build status:** ✓ Compiled (0 new errors — 131/131 static pages)
+**Open items:** none

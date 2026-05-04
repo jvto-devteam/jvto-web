@@ -2,10 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 
-const partners = [
+type LogoSpec =
+  | { kind: "image"; src: string; alt: string; width: number; height: number }
+  | { kind: "abbr"; text: string };
+
+interface Partner {
+  key: string;
+  logo: LogoSpec;
+  name: string;
+  sub: string;
+  href: string;
+  external: boolean;
+}
+
+const partners: Partner[] = [
   {
     key: "trustpilot",
-    image: { src: "/assets/img/icons/trustpilot-icon.webp", alt: "Trustpilot", size: 26 },
+    logo: { kind: "image", src: "/assets/img/icons/trustpilot-icon.webp", alt: "Trustpilot", width: 26, height: 26 },
     name: "Trustpilot",
     sub: "4.8 ★ · 47+ reviews",
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
@@ -13,7 +26,7 @@ const partners = [
   },
   {
     key: "hpwki",
-    abbr: "HPWKI",
+    logo: { kind: "abbr", text: "HPWKI" },
     name: "Ijen Guide Association",
     sub: "BBKSDA supervised",
     href: "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0",
@@ -21,7 +34,7 @@ const partners = [
   },
   {
     key: "isic",
-    abbr: "ISIC",
+    logo: { kind: "image", src: "/assets/img/icons/isic-logo.png", alt: "ISIC", width: 50, height: 20 },
     name: "Student Discount Partner",
     sub: "Provider ID 259268",
     href: "/isic/student-package",
@@ -29,35 +42,42 @@ const partners = [
   },
   {
     key: "indecon",
-    abbr: "INDECON",
+    logo: { kind: "image", src: "/assets/img/icons/indecon-logo.png", alt: "INDECON", width: 57, height: 20 },
     name: "Ecotourism Network",
     sub: "Spotlight member",
     href: "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
     external: true,
   },
-] as const;
+];
 
-function PartnerItem(p: (typeof partners)[number]) {
+function PartnerLogo({ logo }: { logo: LogoSpec }) {
+  if (logo.kind === "image") {
+    return (
+      <Image
+        src={logo.src}
+        alt={logo.alt}
+        width={logo.width}
+        height={logo.height}
+        className="object-contain opacity-60 group-hover:opacity-100 transition-opacity shrink-0"
+      />
+    );
+  }
+  return (
+    <span className="text-[10px] font-black text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
+      {logo.text}
+    </span>
+  );
+}
+
+function PartnerItem({ logo, name, sub }: Partner) {
   return (
     <div className="flex items-center gap-2.5 group">
-      {"image" in p ? (
-        <Image
-          src={p.image.src}
-          alt={p.image.alt}
-          width={p.image.size}
-          height={p.image.size}
-          className="object-contain opacity-60 group-hover:opacity-100 transition-opacity"
-        />
-      ) : (
-        <span className="text-[10px] font-black text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
-          {p.abbr}
-        </span>
-      )}
+      <PartnerLogo logo={logo} />
       <div>
         <p className="text-[10px] font-bold text-slate-400 group-hover:text-white transition-colors leading-none">
-          {p.name}
+          {name}
         </p>
-        <p className="text-[9px] text-slate-600 mt-0.5 leading-none">{p.sub}</p>
+        <p className="text-[9px] text-slate-600 mt-0.5 leading-none">{sub}</p>
       </div>
     </div>
   );
