@@ -4,7 +4,9 @@
       "Bash(PGPASSWORD='' psql -h 31.97.223.43 -U postgres -d jvto_dev -c \"SELECT id, code, slug, status FROM packages WHERE status = 'active' OR status = 'published' ORDER BY id LIMIT 30;\")",
       "Bash(psql postgresql://postgres@31.97.223.43:5432/jvto_dev -c \"SELECT id, code, slug, status FROM packages LIMIT 30;\")",
       "Bash(npx prisma *)",
-      "Bash(grep -E \"\\\\.\\(ts|json\\)$\")"
+      "Bash(grep -E \"\\\\.\\(ts|json\\)$\")",
+      "Bash(npm run *)",
+      "Bash(git *)"
     ]
   },
   "outputStyle": "Explanatory"
