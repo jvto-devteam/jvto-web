@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
+import VolcanicStatusBadge from "@/components/website/VolcanicStatusBadge";
+import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 
 const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
   ssr: false,
@@ -136,9 +138,11 @@ const RiskAccordion = ({ risk }: { risk: any }) => {
 export default function DestinationDetailView({
   data,
   routeStats,
+  volcanicStatus,
 }: {
   data: DestinationDetail;
   routeStats?: RouteStats | null;
+  volcanicStatus?: VolcanicStatusData | null;
 }) {
   const [activeSection, setActiveSection] = useState("overview");
 
@@ -460,6 +464,14 @@ export default function DestinationDetailView({
         {/* RIGHT COLUMN (Sidebar) */}
         <aside className="lg:col-span-1">
           <div className="space-y-6">
+            {/* Volcanic status badge — Ijen + Bromo only */}
+            {volcanicStatus && (
+              <VolcanicStatusBadge
+                destinationName={data.name}
+                status={volcanicStatus}
+              />
+            )}
+
             {/* INFO CARD (Permit Details) */}
             <div className="rounded-sm p-1 bg-[#B2F35F] shadow-lg">
               <div className="bg-white rounded-sm p-6 h-full">

@@ -19,6 +19,7 @@ import {
 } from "@/lib/schemas/buildDestinationsSchemas";
 import fs from "fs";
 import path from "path";
+import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 export const revalidate = 3600;
 
 export interface RouteStats {
@@ -39,6 +40,43 @@ function readRouteStats(slug: string): RouteStats | null {
   } catch {
     return null;
   }
+}
+
+// Volcanic status — only applies to Ijen + Bromo (the two monitored volcanoes)
+const VOLCANIC_STATUS_SLUGS = new Set(["ijen-crater", "mount-bromo"]);
+
+function readVolcanicStatus(slug: string): VolcanicStatusData | null {
+  if (!VOLCANIC_STATUS_SLUGS.has(slug)) return null;
+  try {
+    const statusPath = path.join(process.cwd(), "public", "ops", "volcanic-status.json");
+    const raw = fs.readFileSync(statusPath, "utf8");
+    const data = JSON.parse(raw) as { destinations: Record<string, VolcanicStatusData> };
+    return data.destinations[slug] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function buildStatusAnnouncementSchema(
+  slug: string,
+  destinationName: string,
+  status: VolcanicStatusData,
+  siteUrl: string,
+) {
+  // Expires 72 hours after last_verified (freshness signal for AI crawlers)
+  const lastVerifiedDate = new Date(status.last_verified + "T00:00:00");
+  const expiresDate = new Date(lastVerifiedDate.getTime() + 72 * 60 * 60 * 1000);
+  return {
+    "@type": "SpecialAnnouncement",
+    "@id": `${siteUrl}/destinations/${slug}#status`,
+    name: `${destinationName} Current Operational Status — ${status.last_verified}`,
+    text: `${destinationName} status: ${status.status} (${status.alert_level}). ${status.notes}`,
+    datePosted: status.last_verified,
+    expires: expiresDate.toISOString().split("T")[0],
+    category: "https://www.wikidata.org/wiki/Q83",
+    spatialCoverage: { "@id": `${siteUrl}/destinations/${slug}` },
+    about: { "@id": `${siteUrl}/#organization` },
+  };
 }
 
 const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
@@ -151,6 +189,7 @@ export default async function DestinationDetailPage({ params }: Props) {
     getOrganizationProfile(),
   ]);
   const routeStats = readRouteStats(slug);
+  const volcanicStatus = readVolcanicStatus(slug);
 
   if (!data) notFound();
 
@@ -181,6 +220,11 @@ export default async function DestinationDetailPage({ params }: Props) {
     destinationName,
   });
 
+  const statusAnnouncementNode =
+    volcanicStatus && data
+      ? buildStatusAnnouncementSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
+      : null;
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -189,6 +233,7 @@ export default async function DestinationDetailPage({ params }: Props) {
       ...destNodes,
       toursIncludingNode,
       travelGuideHandoffNode,
+      statusAnnouncementNode,
     ].filter(Boolean),
   };
 
@@ -198,7 +243,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView data={data} routeStats={routeStats} />
+      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} />
       {(travelGuideLink || relatedDests.length > 0) && (
         <div className="border-t border-gray-200 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">

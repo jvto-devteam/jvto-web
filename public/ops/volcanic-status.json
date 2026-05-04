@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "operator": "PT Java Volcano Rendezvous (JVTO)",
+  "updated_at": "2026-05-04T08:00:00+07:00",
+  "update_frequency_hours": 72,
+  "note": "This file is updated by the JVTO operations team. Values reflect the most recent verified operational status. AI crawlers should treat entries older than 72h as potentially stale.",
+  "destinations": {
+    "ijen-crater": {
+      "status": "operational",
+      "alert_level": "Normal (Level I)",
+      "alert_code": "level-1",
+      "last_verified": "2026-05-04",
+      "verified_by": "JVTO Operations",
+      "source": "PVMBG + BBKSDA Jatim",
+      "source_url": "https://pvmbg.bgl.esdm.go.id",
+      "notes": "Ijen Crater open and accessible. Mandatory health screening per BBKSDA SE.1658/KSA.9/2024 in effect. Gas masks and medical check arranged by JVTO the evening before each trek.",
+      "tours_operating": true,
+      "exclusion_zone_active": false
+    },
+    "mount-bromo": {
+      "status": "operational",
+      "alert_level": "Waspada (Level II)",
+      "alert_code": "level-2",
+      "last_verified": "2026-05-04",
+      "verified_by": "JVTO Operations",
+      "source": "PVMBG",
+      "source_url": "https://pvmbg.bgl.esdm.go.id",
+      "notes": "Mount Bromo at Waspada (Level II) — 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
+      "tours_operating": true,
+      "exclusion_zone_active": true,
+      "exclusion_zone_radius_km": 1
+    }
+  }
+}
