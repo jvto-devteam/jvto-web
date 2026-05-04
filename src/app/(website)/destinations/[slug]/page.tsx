@@ -1,6 +1,7 @@
 // app/(website)/destinations/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { cache } from "react";
 import type { Metadata } from "next";
 import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
@@ -59,8 +60,9 @@ export async function generateStaticParams() {
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
-async function getDestination(slug: string): Promise<DestinationDetail | null> {
+const getDestination = cache(async (slug: string): Promise<DestinationDetail | null> => {
   // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
+  // Wrapped in React cache() to deduplicate calls between generateMetadata and page component.
   try {
     const data = await getWebDestinationDetail(slug);
     return (data as DestinationDetail | null) ?? null;
@@ -68,7 +70,7 @@ async function getDestination(slug: string): Promise<DestinationDetail | null> {
     console.error("Failed to fetch destination", error);
     return null;
   }
-}
+});
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
 
