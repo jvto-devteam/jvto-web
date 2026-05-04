@@ -237,8 +237,8 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** /verify-jvto/legal primary spine — added DOCTOR_SCHEMA + BBKSDA_REGULATION_SCHEMA to extraSchemas; added 3 HTML sections: credential table (NIB/TDUP/HPWKI), legal entity card (PT + AHU/OSS registry links), medical compliance chain (BBKSDA SE.1658 → Klinik Bakti Husada → dr. Ahmad SIP verify link) (2026-05-04)
+**Last completed:** Interactive route map + trail stats live on all 5 destination pages — installed react-leaflet 5 + leaflet 1.9.4; built RouteMap.tsx (CartoDB dark tiles + lime GeoJSON polyline + SVG elevation profile); added 4-stat bar (distance/elev gain/max elev/min elev) to DestinationDetailView logistics section; page.tsx reads public/routes/index.json via fs at build time (2026-05-04)
 **Completed date:** 2026-05-04
-**Next task:** /verify-jvto/history-artifacts — add Timeline ItemList schema (5 anchors: 2015/2016/2018/2021/2023) + FAQ resolver + HTML timeline body (most bare-bones Cluster 4 page)
+**Next task:** /verify-jvto/history-artifacts — add Timeline ItemList schema (2015/2016/2018/2021/2023 anchors) + FAQ resolver + HTML timeline body (most bare-bones Cluster 4 page remaining)
 **Build status:** ✓ Compiled (0 new errors — 129/129 static pages)
 **Open items:** none
