@@ -234,7 +234,20 @@ export const PRESS_RECOGNITION_SCHEMAS = [
       url: 'https://www.booking.com',
     },
     about: { '@id': `${BASE_URL}/#organization` },
-    image: `${BASE_URL}/history/booking-2015-plaque.jpg`,
+    // Both plaque + shipping label as evidence pair
+    image: [
+      `${BASE_URL}/history/booking-2015-plaque.jpg`,
+      `${BASE_URL}/history/booking-2015-shipping-label.jpg`,
+    ],
+    // additionalProperty: shipping label proves address continuity (2015 delivery address = today's NIB address)
+    additionalProperty: {
+      '@type': 'PropertyValue',
+      propertyID: 'address_continuity_proof',
+      name: 'Address Continuity',
+      value: 'Jl. Khairil Anwar 102A, Bondowoso',
+      description:
+        'Original Booking.com award shipping label confirms delivery to Jl. Khairil Anwar 102A, Bondowoso — the same address registered under NIB 1102230032918 and current JVTO operational address. Establishes unbroken address continuity from 2015 guesthouse era to present.',
+    },
   },
 ];
 

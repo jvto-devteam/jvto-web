@@ -264,15 +264,32 @@ export default async function PressRecognitionPage() {
       <section className="bg-slate-900 border-t border-slate-800">
         <div className="container mx-auto px-6 py-14">
           <div className="grid md:grid-cols-2 gap-10 items-start">
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950 order-last md:order-first">
-              <Image
-                src="https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg"
-                alt="Booking.com Guest Review Award 2015 plaque — score 9.4/10"
-                fill
-                className="object-cover opacity-90"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            {/* Evidence images — plaque + shipping label */}
+            <div className="space-y-3 order-last md:order-first">
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+                <Image
+                  src="https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg"
+                  alt="Booking.com Guest Review Award 2015 plaque — score 9.4/10"
+                  fill
+                  className="object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+                <Image
+                  src="https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg"
+                  alt="Booking.com award shipping label addressed to Jl. Khairil Anwar 102A, Bondowoso"
+                  fill
+                  className="object-cover opacity-90"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+              <p className="text-[9px] text-slate-700 leading-snug">
+                Original shipping label confirming delivery to Jl. Khairil Anwar 102A,
+                Bondowoso — same address JVTO operates from today.
+              </p>
             </div>
+
             <div>
               <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-4">
                 Third-Party Award — Pre-Incorporation
@@ -283,8 +300,9 @@ export default async function PressRecognitionPage() {
               <p className="text-slate-400 text-sm leading-relaxed mb-5">
                 An independently calculated guest review award issued by Booking.com to the
                 guesthouse operated at Jl. Khairil Anwar 102A, Bondowoso — the same address
-                JVTO operates from today. The plaque and award letter are kept on-site as
-                accessible artifacts.
+                JVTO operates from today. The original shipping label confirms the delivery
+                address, establishing unbroken address continuity from the 2015 guesthouse era
+                to the current PT registration.
               </p>
               <dl className="space-y-2 text-xs text-slate-500">
                 <div className="flex gap-3">
@@ -302,6 +320,10 @@ export default async function PressRecognitionPage() {
                 <div className="flex gap-3">
                   <dt className="shrink-0 font-semibold text-slate-400 w-24">Issuer</dt>
                   <dd>Booking.com (independent platform)</dd>
+                </div>
+                <div className="flex gap-3">
+                  <dt className="shrink-0 font-semibold text-slate-400 w-24">Evidence</dt>
+                  <dd>Plaque + original shipping label (2 artifacts)</dd>
                 </div>
               </dl>
             </div>
