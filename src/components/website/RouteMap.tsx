@@ -1,71 +1,169 @@
+"use client";
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
+import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
+import type { FeatureCollection, GeoJsonObject } from "geojson";
+import "leaflet/dist/leaflet.css";
 
-declare const L: any;
+type Bbox = [number, number, number, number]; // [minLng, minLat, maxLng, maxLat]
 
-interface Stop {
-  name: string;
-  coords: [number, number];
+interface Props {
+  slug: string;
+  bbox: Bbox;
+  elevMinM: number;
+  elevMaxM: number;
 }
 
-interface RouteMapProps {
-  stops: Stop[];
-}
-
-const RouteMap: React.FC<RouteMapProps> = ({ stops }) => {
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-
+function FitBounds({ bbox }: { bbox: Bbox }) {
+  const map = useMap();
+  const fitted = useRef(false);
   useEffect(() => {
-    if (mapContainerRef.current && typeof L !== 'undefined' && !mapInstanceRef.current && stops.length > 0) {
-      const map = L.map(mapContainerRef.current, { scrollWheelZoom: false });
-      mapInstanceRef.current = map;
+    if (fitted.current) return;
+    fitted.current = true;
+    map.fitBounds(
+      [
+        [bbox[1], bbox[0]],
+        [bbox[3], bbox[2]],
+      ],
+      { padding: [24, 24], animate: false }
+    );
+  }, [map, bbox]);
+  return null;
+}
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18,
-      }).addTo(map);
+function ElevationProfile({
+  coords,
+  elevMinM,
+  elevMaxM,
+}: {
+  coords: [number, number, number][];
+  elevMinM: number;
+  elevMaxM: number;
+}) {
+  const W = 600;
+  const H = 60;
+  const step = Math.max(1, Math.floor(coords.length / 300));
+  const sampled = coords.filter((_, i) => i % step === 0);
+  const elevs = sampled.map((c) => c[2] ?? elevMinM);
+  const minE = Math.min(...elevs);
+  const maxE = Math.max(...elevs);
+  const range = maxE - minE || 1;
 
-      const latLngs = stops.map(stop => stop.coords);
+  const toXY = (e: number, i: number) => {
+    const x = (i / Math.max(elevs.length - 1, 1)) * W;
+    const y = H - ((e - minE) / range) * (H - 4);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  };
 
-      stops.forEach((stop, index) => {
-        const icon = L.divIcon({
-          className: 'custom-div-icon',
-          html: `<div style="background-color: #1e293b; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">${index + 1}</div>`,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
-        });
-        L.marker(stop.coords, { icon }).addTo(map).bindPopup(`<b>Stop ${index + 1}:</b> ${stop.name}`);
-      });
-
-      const polyline = L.polyline(latLngs, { 
-        color: '#FF6A3D',
-        weight: 3,
-        dashArray: '5, 10'
-      }).addTo(map);
-
-      map.fitBounds(polyline.getBounds(), { padding: [40, 40] });
-    }
-
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, [stops]);
-
-  if (stops.length === 0) {
-    return null;
-  }
+  const linePoints = elevs.map(toXY).join(" ");
+  const fillPoints = [
+    `0,${H}`,
+    ...elevs.map(toXY),
+    `${W},${H}`,
+  ].join(" ");
 
   return (
-    <div 
-      ref={mapContainerRef} 
-      className="h-80 w-full rounded-sm shadow-inner border border-ink-neutral-200 dark:border-ink-neutral-700"
-      aria-label="Tour route map"
-    />
+    <div className="bg-slate-950 border-t border-slate-800 px-4 pt-3 pb-2">
+      <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-2">
+        Elevation Profile&nbsp;
+        <span className="text-slate-700 font-normal normal-case tracking-normal">
+          {elevMinM}m – {elevMaxM}m
+        </span>
+      </p>
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="w-full h-12"
+        preserveAspectRatio="none"
+      >
+        <polygon
+          points={fillPoints}
+          fill="#B2F35F"
+          opacity="0.12"
+        />
+        <polyline
+          points={linePoints}
+          fill="none"
+          stroke="#B2F35F"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </svg>
+    </div>
   );
-};
+}
 
-export default RouteMap;
+export default function RouteMap({ slug, bbox, elevMinM, elevMaxM }: Props) {
+  const [geojson, setGeojson] = useState<FeatureCollection | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/routes/${slug}.geojson`)
+      .then((r) => r.json())
+      .then((data: FeatureCollection) => {
+        setGeojson(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [slug]);
+
+  const center: [number, number] = [
+    (bbox[1] + bbox[3]) / 2,
+    (bbox[0] + bbox[2]) / 2,
+  ];
+
+  const coords: [number, number, number][] =
+    geojson?.features?.[0]?.geometry?.type === "LineString"
+      ? (geojson.features[0].geometry as any).coordinates
+      : [];
+
+  return (
+    <div className="rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+      <div className="relative h-72 md:h-96">
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-950 z-[400]">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+              Loading trail…
+            </span>
+          </div>
+        )}
+        <MapContainer
+          center={center}
+          zoom={13}
+          className="h-full w-full"
+          scrollWheelZoom={false}
+          zoomControl={true}
+          attributionControl={true}
+        >
+          <TileLayer
+            attribution='© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> © <a href="https://carto.com/" target="_blank">CARTO</a>'
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          />
+          {geojson && (
+            <>
+              <FitBounds bbox={bbox} />
+              <GeoJSON
+                data={geojson as GeoJsonObject}
+                style={{
+                  color: "#B2F35F",
+                  weight: 3,
+                  opacity: 0.9,
+                  lineCap: "round",
+                  lineJoin: "round",
+                }}
+              />
+            </>
+          )}
+        </MapContainer>
+      </div>
+
+      {coords.length > 0 && (
+        <ElevationProfile
+          coords={coords}
+          elevMinM={elevMinM}
+          elevMaxM={elevMaxM}
+        />
+      )}
+    </div>
+  );
+}

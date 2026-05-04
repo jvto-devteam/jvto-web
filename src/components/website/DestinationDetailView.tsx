@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import {
   MapPin,
   Mountain,
@@ -22,8 +23,22 @@ import {
   Star,
   Calendar,
   XCircle,
+  TrendingUp,
+  Route,
 } from "lucide-react";
 import type { DestinationDetail } from "@/interfaces";
+import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
+
+const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-72 md:h-96 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center">
+      <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+        Loading map…
+      </span>
+    </div>
+  ),
+});
 
 // --- HELPER COMPONENTS ---
 
@@ -120,8 +135,10 @@ const RiskAccordion = ({ risk }: { risk: any }) => {
 
 export default function DestinationDetailView({
   data,
+  routeStats,
 }: {
   data: DestinationDetail;
+  routeStats?: RouteStats | null;
 }) {
   const [activeSection, setActiveSection] = useState("overview");
 
@@ -259,6 +276,55 @@ export default function DestinationDetailView({
           {/* 2. LOGISTICS */}
           <section id="logistics" className="scroll-mt-10">
             <SectionHeader title="Trail & Logistics" icon={Footprints} />
+
+            {/* Trail stats */}
+            {routeStats && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
+                  <Route size={18} className="text-jvto-green shrink-0" />
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Distance</p>
+                    <p className="text-white font-bold text-sm">{routeStats.length_km.toFixed(1)} km</p>
+                  </div>
+                </div>
+                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
+                  <TrendingUp size={18} className="text-jvto-green shrink-0" />
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Elev. Gain</p>
+                    <p className="text-white font-bold text-sm">+{routeStats.elev_gain_m} m</p>
+                  </div>
+                </div>
+                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
+                  <Mountain size={18} className="text-jvto-green shrink-0" />
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Max Elev.</p>
+                    <p className="text-white font-bold text-sm">{routeStats.elev_max_m} m</p>
+                  </div>
+                </div>
+                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
+                  <Mountain size={18} className="text-slate-500 shrink-0" />
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Min Elev.</p>
+                    <p className="text-white font-bold text-sm">{routeStats.elev_min_m} m</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Interactive route map */}
+            {routeStats && (
+              <div className="mb-8">
+                <RouteMap
+                  slug={routeStats.slug}
+                  bbox={routeStats.bbox}
+                  elevMinM={routeStats.elev_min_m}
+                  elevMaxM={routeStats.elev_max_m}
+                />
+                <p className="text-[9px] text-slate-700 mt-2 text-right">
+                  Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
+                </p>
+              </div>
+            )}
 
             <div className="bg-white rounded-sm border border-gray-200 shadow-sm overflow-hidden mb-8">
               <div className="p-6 md:p-8 border-b border-gray-100">
