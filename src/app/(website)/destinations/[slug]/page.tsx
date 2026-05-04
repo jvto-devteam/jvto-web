@@ -17,7 +17,29 @@ import {
   buildToursIncludingDestSchema,
   buildDestinationTravelGuideHandoffSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
+import fs from "fs";
+import path from "path";
 export const revalidate = 3600;
+
+export interface RouteStats {
+  slug: string;
+  length_km: number;
+  elev_gain_m: number;
+  elev_min_m: number;
+  elev_max_m: number;
+  bbox: [number, number, number, number];
+}
+
+function readRouteStats(slug: string): RouteStats | null {
+  try {
+    const indexPath = path.join(process.cwd(), "public", "routes", "index.json");
+    const raw = fs.readFileSync(indexPath, "utf8");
+    const index = JSON.parse(raw) as { routes: RouteStats[] };
+    return index.routes.find((r) => r.slug === slug) ?? null;
+  } catch {
+    return null;
+  }
+}
 
 const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
   "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
@@ -128,6 +150,7 @@ export default async function DestinationDetailPage({ params }: Props) {
     getDestination(slug),
     getOrganizationProfile(),
   ]);
+  const routeStats = readRouteStats(slug);
 
   if (!data) notFound();
 
@@ -175,7 +198,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView data={data} />
+      <DestinationDetailView data={data} routeStats={routeStats} />
       {(travelGuideLink || relatedDests.length > 0) && (
         <div className="border-t border-gray-200 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">
