@@ -44,3 +44,7 @@ next-env.d.ts
 
 # Remember plugin runtime logs
 .remember/logs/
+
+# Design atlas — screenshots are large, regenerate with: node scripts/generate-design-atlas.mjs
+docs/design_atlas/screenshots/
+docs/design_atlas/manifest.json
