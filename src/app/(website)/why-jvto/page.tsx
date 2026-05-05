@@ -348,7 +348,8 @@ export default async function WhyJvtoPage() {
 
   return (
     <>
-      <style>{`
+      {/* styles moved to globals.css */}
+      {false && <style>{`
         :root {
           --brand: #9fce33;
           --brand-dark: #7aaa1a;
@@ -733,10 +734,10 @@ export default async function WhyJvtoPage() {
         }
         .btn-dark:hover { background: rgba(255,255,255,0.12); }
         .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.18); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem; }
-      `}</style>
+      `}</style>}
 
       <div className="flex min-h-screen bg-background">
-        <Sidebar />
+        <Sidebar activePath="/why-jvto" />
         <PageJsonLdCombined
           pageRow={pageRow as any}
           extraSchemas={whyJvtoExtraSchemas}

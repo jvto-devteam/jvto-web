@@ -99,7 +99,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
         extraSchemas={slugExtraSchemas}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
-      <Sidebar />
+      <Sidebar activePath={route} />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <div className="container mx-auto px-4 max-w-4xl">

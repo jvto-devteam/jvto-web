@@ -150,17 +150,10 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   return (
     <>
-      {/* Font import */}
-      <style>{`
-        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
-        .jvto-lede .jvto-prose { font-size: 0.95rem; line-height: 1.75; color: #4a5a35; }
-.jvto-lede .jvto-prose p { margin: 0; }
-      `}</style>
-
       <div
         style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}
       >
-        <Sidebar />
+        <Sidebar activePath={route} />
         <PageJsonLdCombined
           pageRow={{
             route: row.route,

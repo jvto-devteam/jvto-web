@@ -13,6 +13,7 @@ import {
 interface SidebarProps {
   isMobile?: boolean;
   onBack?: () => void;
+  activePath?: string;
 }
 
 const POLICY_MENU = [
@@ -30,8 +31,9 @@ const POLICY_MENU = [
   { href: "/policy/privacy", label: "Privacy Policy", icon: Lock },
 ];
 
-export default function SidebarPolicy({ isMobile, onBack }: SidebarProps) {
+export default function SidebarPolicy({ isMobile, onBack, activePath }: SidebarProps) {
   const pathname = usePathname();
+  const currentPath = activePath ?? pathname;
 
   return (
     <aside
@@ -58,7 +60,7 @@ export default function SidebarPolicy({ isMobile, onBack }: SidebarProps) {
 
       <nav className="space-y-1">
         {POLICY_MENU.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = currentPath === item.href;
           return (
             <Link
               key={item.href}

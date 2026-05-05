@@ -91,7 +91,7 @@ export default async function PolicyHubPage() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar activePath="/policy" />
       <PageJsonLdCombined
         pageRow={{
           route: row.route,
