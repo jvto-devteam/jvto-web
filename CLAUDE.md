@@ -237,12 +237,13 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** E:\test-2-2026 full audit (8 undeployed travel-guide pages found, no ads landing pages exist); robots.ts expanded from 7 → 22 AI crawlers + Disallow /api/ /_next/; WhatsAppFAB global component added to (website) layout with pre-filled booking message; session-close.md updated with DB safety rules (2026-05-05)
+**Last completed:** Reverted to stable state 56eb849 (force-with-lease) — 137/137 clean. Built Visual Design Atlas: Playwright script captures 70 routes × 2 viewports (1440×900 desktop + 375×812 mobile); page_inventory.md with 70+ section IDs (HOME-01…CONTACT-04); standalone index.html atlas viewer (sidebar + screenshot + section overlays + info panel). Atlas regeneration: `npm run dev` → `node scripts/generate-design-atlas.mjs` (2026-05-05)
 **Completed date:** 2026-05-05
-**Next task:** Cluster 3 Why-JVTO — port 6 undeployed travel-guide pages from E: as CMS content_pages (mount-bromo-logistics, tumpak-sewu-logistics, packing-and-fitness, safety-on-tours, weather-and-closures, packing-list); OR GAP 4 individual /team/[slug] pages per guide
-**Build status:** ✓ Compiled (0 new errors — 137/137 static pages)
+**Next task:** Use atlas as reference for systematic visual design work — review HOME-01 through HOME-14 against design brief and prioritize next improvement sprint
+**Build status:** ✓ Compiled (137/137 static pages at commit 56eb849)
 **Open items:**
+- Design atlas screenshots gitignored — regenerate after any server restart: `npm run dev` → `node scripts/generate-design-atlas.mjs`
+- Section overlay positions in index.html are approximate % estimates — can be refined with real DOM measurements
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- /blog route vs /insights/[slug] URL mismatch — documented, migration deferred
 - KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
-- 6 undeployed travel-guide pages from E: repo identified — content ready to port as CMS DB rows (no new code needed, use travel-guide/[slug] dynamic route)
+- 6 undeployed travel-guide pages from E: repo identified — content ready to port as CMS DB rows

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVTO Design Atlas</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1B2A;
+    --navy-mid: #1C2E40;
+    --orange: #E8650A;
+    --lime: #8CC63F;
+    --off: #F6F5F2;
+    --muted: #4B5563;
+    --border: #E3E0DA;
+    --sidebar-w: 280px;
+    --header-h: 52px;
+  }
+
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--off); color: var(--navy); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+  /* ── Header ── */
+  header { height: var(--header-h); background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; z-index: 10; gap: 16px; }
+  header h1 { font-size: 14px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+  .header-controls { display: flex; align-items: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-viewport { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-viewport:hover, .btn-viewport.active { background: var(--orange); }
+  .btn-overlay { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-overlay:hover, .btn-overlay.active { background: var(--lime); color: var(--navy); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); display: inline-block; }
+  #page-count { font-size: 11px; color: rgba(255,255,255,0.5); white-space: nowrap; }
+
+  /* ── Layout ── */
+  .app-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── Sidebar ── */
+  aside { width: var(--sidebar-w); background: #fff; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0; }
+  .sidebar-search { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .sidebar-search input { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 12px; outline: none; background: var(--off); }
+  .sidebar-search input:focus { border-color: var(--navy); background: #fff; }
+  .sidebar-list { overflow-y: auto; flex: 1; }
+  .page-group { border-bottom: 1px solid var(--border); }
+  .page-group-header { padding: 10px 14px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--off); cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .page-group-header:hover { background: #eee; }
+  .page-group-header .chevron { transition: transform 0.2s; }
+  .page-group-header.collapsed .chevron { transform: rotate(-90deg); }
+  .page-item { padding: 9px 14px 9px 26px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.1s; border-left: 3px solid transparent; }
+  .page-item:hover { background: var(--off); }
+  .page-item.active { background: #e8f0ff; border-left-color: var(--orange); font-weight: 600; color: var(--navy); }
+  .page-thumb { width: 32px; height: 20px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); background: #eee; flex-shrink: 0; }
+  .page-thumb-placeholder { width: 32px; height: 20px; border-radius: 3px; background: var(--border); flex-shrink: 0; }
+  .section-list { padding: 4px 0; }
+  .section-item { padding: 5px 14px 5px 38px; font-size: 11px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .section-item:hover { color: var(--navy); background: var(--off); }
+  .section-id { font-family: 'Courier New', monospace; font-size: 9px; background: var(--off); border: 1px solid var(--border); border-radius: 3px; padding: 1px 4px; color: var(--muted); flex-shrink: 0; }
+
+  /* ── Main viewer ── */
+  main { flex: 1; overflow: auto; display: flex; flex-direction: column; background: #888; }
+  .screenshot-wrap { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 20px; min-height: 0; }
+  .screenshot-container { position: relative; background: #fff; box-shadow: 0 4px 40px rgba(0,0,0,0.3); border-radius: 4px; overflow: hidden; }
+  .screenshot-container img { display: block; max-width: 100%; }
+  .screenshot-placeholder { width: 800px; height: 500px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: #aaa; }
+  .screenshot-placeholder p { font-size: 13px; }
+  .screenshot-placeholder code { font-size: 11px; background: rgba(0,0,0,0.05); padding: 4px 8px; border-radius: 4px; }
+
+  /* Section overlays */
+  .section-overlay { position: absolute; border: 2px solid var(--orange); background: rgba(232,101,10,0.06); cursor: pointer; transition: background 0.15s; }
+  .section-overlay:hover { background: rgba(232,101,10,0.15); }
+  .section-overlay-label { position: absolute; top: 4px; left: 4px; background: var(--orange); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.06em; font-family: 'Courier New', monospace; pointer-events: none; }
+
+  /* ── Info panel ── */
+  .info-panel { width: 260px; background: #fff; border-left: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; padding: 16px; }
+  .info-panel h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
+  .info-empty { color: var(--muted); font-size: 12px; padding: 8px 0; }
+  .info-id { font-family: 'Courier New', monospace; font-size: 13px; font-weight: 700; color: var(--orange); background: rgba(232,101,10,0.08); padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; }
+  .info-field { margin-bottom: 10px; }
+  .info-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 3px; }
+  .info-value { font-size: 12px; color: var(--navy); word-break: break-word; }
+  .info-value code { font-family: 'Courier New', monospace; font-size: 11px; background: var(--off); padding: 2px 5px; border-radius: 3px; display: block; margin-top: 2px; }
+  .no-screenshot-note { background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.4); border-radius: 6px; padding: 8px 10px; font-size: 11px; color: #7a5f00; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⛰ JVTO Design Atlas</h1>
+  <div class="header-controls">
+    <span id="page-count">Loading…</span>
+    <button class="btn btn-viewport active" id="btn-desktop" onclick="setViewport('desktop')">🖥 Desktop</button>
+    <button class="btn btn-viewport" id="btn-mobile" onclick="setViewport('mobile')">📱 Mobile</button>
+    <button class="btn btn-overlay" id="btn-overlay" onclick="toggleOverlay()">🔲 Sections</button>
+  </div>
+</header>
+
+<div class="app-body">
+  <!-- Sidebar -->
+  <aside>
+    <div class="sidebar-search">
+      <input type="text" id="search" placeholder="Search pages or section IDs…" oninput="filterPages()">
+    </div>
+    <div class="sidebar-list" id="sidebar-list"></div>
+  </aside>
+
+  <!-- Main screenshot viewer -->
+  <main>
+    <div class="screenshot-wrap">
+      <div class="screenshot-container" id="screenshot-container">
+        <div class="screenshot-placeholder">
+          <p>Select a page from the sidebar</p>
+          <code>node scripts/generate-design-atlas.mjs</code>
+          <p style="font-size:11px">to capture screenshots</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Info panel -->
+  <div class="info-panel">
+    <h3>Section Info</h3>
+    <div id="info-content"><p class="info-empty">Click a section overlay or sidebar item to see details.</p></div>
+  </div>
+</div>
+
+<script>
+// ── Data ────────────────────────────────────────────────────────────────────
+
+// PAGE_SECTIONS maps route → array of sections with approximate viewport % positions
+// These positions are rough estimates for overlay rendering; screenshots show exact visuals.
+const PAGE_SECTIONS = {
+  '/': [
+    { id:'HOME-01', name:'Navbar',                  component:'Navbar.tsx',                      top:0,   height:5  },
+    { id:'HOME-02', name:'Hero',                     component:'Home/Hero.tsx',                   top:5,   height:28 },
+    { id:'HOME-03', name:'Features / Trust Badges',  component:'Home/Features.tsx',               top:33,  height:8  },
+    { id:'HOME-04', name:'Destinations Grid',         component:'Home/HomeDestinations.tsx',       top:41,  height:12 },
+    { id:'HOME-05', name:'Featured Tours',            component:'Home/FeaturedTours.tsx',          top:53,  height:15 },
+    { id:'HOME-06', name:'Why JVTO / Founder',        component:'Home/WhyJVTO.tsx',               top:68,  height:10 },
+    { id:'HOME-07', name:'Reviews',                   component:'Home/Reviews.tsx',                top:78,  height:8  },
+    { id:'HOME-08', name:'Ijen Health Screening',     component:'Home/IjenHealthScreeningSection.tsx', top:86, height:6 },
+    { id:'HOME-09', name:'ISIC Section',              component:'Home/IsicSection.tsx',            top:92,  height:3  },
+    { id:'HOME-10', name:'FAQ Accordion',             component:'FAQSection.tsx',                  top:95,  height:10 },
+    { id:'HOME-11', name:'Travel Guide Teaser',       component:'Home/TravelGuideTeaser.tsx',      top:105, height:8  },
+    { id:'HOME-12', name:'Contact Form',              component:'Contact.tsx',                     top:113, height:12 },
+    { id:'HOME-13', name:'Footer',                    component:'Footer.tsx',                      top:125, height:6  },
+  ],
+  '/tours/from-surabaya': [
+    { id:'TOUR-LIST-01', name:'Navbar',            component:'Navbar.tsx',          top:0,  height:5  },
+    { id:'TOUR-LIST-02', name:'Hub Hero + Filter', component:'ToursPageClient.tsx', top:5,  height:20 },
+    { id:'TOUR-LIST-03', name:'Tour Cards Grid',   component:'TourCard.tsx',        top:25, height:60 },
+    { id:'TOUR-LIST-04', name:'Footer',            component:'Footer.tsx',          top:85, height:6  },
+  ],
+  '/tours/from-bali': [
+    { id:'TOUR-LIST-05', name:'Navbar',            component:'Navbar.tsx',          top:0,  height:5  },
+    { id:'TOUR-LIST-06', name:'Hub Hero + Filter', component:'ToursPageClient.tsx', top:5,  height:20 },
+    { id:'TOUR-LIST-07', name:'Tour Cards Grid',   component:'TourCard.tsx',        top:25, height:60 },
+    { id:'TOUR-LIST-08', name:'Footer',            component:'Footer.tsx',          top:85, height:6  },
+  ],
+  '/destinations': [
+    { id:'DEST-LIST-01', name:'Navbar',              component:'Navbar.tsx',          top:0,  height:5  },
+    { id:'DEST-LIST-02', name:'Hub Hero',             component:'destinations/page.tsx', top:5, height:15 },
+    { id:'DEST-LIST-03', name:'Destination Cards',   component:'DestinationCard.tsx', top:20, height:65 },
+    { id:'DEST-LIST-04', name:'Footer',              component:'Footer.tsx',          top:85, height:6  },
+  ],
+  '/why-jvto': [
+    { id:'WHY-01', name:'Navbar',            component:'Navbar.tsx',        top:0,  height:5  },
+    { id:'WHY-02', name:'Hub Hero',           component:'why-jvto/page.tsx', top:5,  height:20 },
+    { id:'WHY-03', name:'Differentiators',   component:'WhyJVTOPage.tsx',   top:25, height:30 },
+    { id:'WHY-04', name:'Founder Block',     component:'FoundersMission.tsx', top:55, height:20 },
+    { id:'WHY-05', name:'Footer',            component:'Footer.tsx',        top:75, height:6  },
+  ],
+  '/verify-jvto': [
+    { id:'VERIFY-01', name:'Navbar',            component:'Navbar.tsx',          top:0,  height:5  },
+    { id:'VERIFY-02', name:'Hub + Category Grid', component:'VerifyJVTOPage.tsx', top:5,  height:50 },
+    { id:'VERIFY-03', name:'Proof Belt',         component:'ProofBelt.tsx',       top:55, height:25 },
+    { id:'VERIFY-04', name:'Footer',             component:'Footer.tsx',          top:80, height:6  },
+  ],
+  '/contact': [
+    { id:'CONTACT-01', name:'Navbar',        component:'Navbar.tsx',      top:0,  height:5  },
+    { id:'CONTACT-02', name:'Contact Info',  component:'ContactPage.tsx', top:5,  height:30 },
+    { id:'CONTACT-03', name:'Contact Form',  component:'Contact.tsx',     top:35, height:35 },
+    { id:'CONTACT-04', name:'Footer',        component:'Footer.tsx',      top:70, height:6  },
+  ],
+};
+
+// ── State ────────────────────────────────────────────────────────────────────
+
+let manifest = [];
+let currentRoute = null;
+let viewport = 'desktop'; // 'desktop' | 'mobile'
+let showOverlay = false;
+let selectedSection = null;
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+
+async function init() {
+  try {
+    const res = await fetch('manifest.json');
+    if (res.ok) {
+      manifest = await res.json();
+    }
+  } catch {
+    // manifest not generated yet — use static list
+    manifest = Object.keys(PAGE_SECTIONS).map(r => ({
+      route: r, filename: routeToFilename(r), label: r
+    }));
+  }
+  document.getElementById('page-count').textContent = `${manifest.length} pages`;
+  renderSidebar(manifest);
+}
+
+function routeToFilename(route) {
+  return (route === '/' ? 'home' : route.replace(/^\//, '').replace(/\//g, '-')) + '.png';
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+
+const PAGE_GROUPS = {
+  'Homepage':     ['/'],
+  'Tours':        ['/tours', '/tours/from-surabaya', '/tours/from-bali'],
+  'Destinations': ['/destinations'],
+  'Why JVTO':     ['/why-jvto', '/why-jvto/our-story', '/why-jvto/our-team', '/why-jvto/reviews'],
+  'Verify JVTO':  ['/verify-jvto', '/verify-jvto/legal', '/verify-jvto/police-safety', '/verify-jvto/press-recognition', '/verify-jvto/history-artifacts'],
+  'Travel Guide': ['/travel-guide', '/travel-guide/booking-information', '/travel-guide/ijen-health-screening'],
+  'Policy':       ['/policy', '/policy/booking-payment-cancellation'],
+  'Contact':      ['/contact'],
+  'Other':        [],
+};
+
+function renderSidebar(pages) {
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML = '';
+
+  const groupMap = {};
+  const assigned = new Set();
+
+  // Assign pages to groups
+  for (const [groupName, prefixes] of Object.entries(PAGE_GROUPS)) {
+    groupMap[groupName] = pages.filter(p => {
+      if (prefixes.includes(p.route)) { assigned.add(p.route); return true; }
+      // For dynamic routes like /tours/from-*/slug
+      if (prefixes.some(pf => pf !== '/' && p.route.startsWith(pf + '/'))) {
+        assigned.add(p.route); return true;
+      }
+      return false;
+    });
+  }
+  // Remaining
+  groupMap['Other'] = pages.filter(p => !assigned.has(p.route));
+
+  for (const [groupName, groupPages] of Object.entries(groupMap)) {
+    if (!groupPages.length) continue;
+
+    const group = document.createElement('div');
+    group.className = 'page-group';
+
+    const header = document.createElement('div');
+    header.className = 'page-group-header';
+    header.innerHTML = `${groupName} <span class="chevron">▾</span>`;
+    header.onclick = () => {
+      header.classList.toggle('collapsed');
+      items.style.display = header.classList.contains('collapsed') ? 'none' : 'block';
+    };
+    group.appendChild(header);
+
+    const items = document.createElement('div');
+    groupPages.forEach(page => {
+      const item = document.createElement('div');
+      item.className = 'page-item';
+      item.dataset.route = page.route;
+      item.onclick = () => selectPage(page.route, page.filename);
+
+      const thumb = document.createElement('img');
+      thumb.className = 'page-thumb';
+      thumb.src = `screenshots/${viewport}/${page.filename}`;
+      thumb.onerror = () => { thumb.style.display='none'; const ph=document.createElement('div'); ph.className='page-thumb-placeholder'; item.prepend(ph); };
+
+      item.appendChild(thumb);
+      item.appendChild(document.createTextNode(page.route));
+      items.appendChild(item);
+
+      // Section sub-items
+      const sections = PAGE_SECTIONS[page.route];
+      if (sections) {
+        const secList = document.createElement('div');
+        secList.className = 'section-list';
+        sections.forEach(sec => {
+          const si = document.createElement('div');
+          si.className = 'section-item';
+          si.onclick = (e) => { e.stopPropagation(); selectPage(page.route, page.filename); selectSection(sec); };
+          si.innerHTML = `<span class="section-id">${sec.id}</span>${sec.name}`;
+          secList.appendChild(si);
+        });
+        items.appendChild(secList);
+      }
+    });
+    group.appendChild(items);
+    list.appendChild(group);
+  }
+}
+
+function filterPages() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const items = document.querySelectorAll('.page-item');
+  items.forEach(item => {
+    const match = item.dataset.route?.toLowerCase().includes(q);
+    item.style.display = match || !q ? '' : 'none';
+  });
+}
+
+// ── Screenshot viewer ─────────────────────────────────────────────────────────
+
+function selectPage(route, filename) {
+  currentRoute = route;
+  selectedSection = null;
+
+  // Update sidebar active state
+  document.querySelectorAll('.page-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === route);
+  });
+
+  renderScreenshot(route, filename);
+  renderInfoPanel(null);
+}
+
+function renderScreenshot(route, filename) {
+  const container = document.getElementById('screenshot-container');
+  const src = `screenshots/${viewport}/${filename}`;
+
+  const img = new Image();
+  img.onload = () => {
+    container.innerHTML = '';
+    container.style.width = viewport === 'desktop' ? '1440px' : '375px';
+    container.appendChild(img);
+    if (showOverlay) renderOverlays(route, img);
+  };
+  img.onerror = () => {
+    container.innerHTML = `
+      <div class="screenshot-placeholder">
+        <p>No screenshot for <strong>${route}</strong></p>
+        <code>node scripts/generate-design-atlas.mjs</code>
+        <p style="font-size:11px">Make sure <code>npm run dev</code> is running first.</p>
+      </div>`;
+    container.style.width = '800px';
+  };
+  img.src = src;
+  img.style.maxWidth = '100%';
+  img.alt = route;
+}
+
+function renderOverlays(route, img) {
+  const sections = PAGE_SECTIONS[route];
+  if (!sections) return;
+
+  sections.forEach(sec => {
+    const overlay = document.createElement('div');
+    overlay.className = 'section-overlay';
+    // Positions are in % of image height
+    overlay.style.left = '0';
+    overlay.style.right = '0';
+    overlay.style.top = (sec.top / 130 * img.naturalHeight) + 'px';
+    overlay.style.height = (sec.height / 130 * img.naturalHeight) + 'px';
+
+    const label = document.createElement('div');
+    label.className = 'section-overlay-label';
+    label.textContent = sec.id;
+    overlay.appendChild(label);
+
+    overlay.onclick = () => selectSection(sec);
+    img.parentNode.appendChild(overlay);
+  });
+}
+
+function toggleOverlay() {
+  showOverlay = !showOverlay;
+  document.getElementById('btn-overlay').classList.toggle('active', showOverlay);
+
+  if (currentRoute) {
+    // Re-render to add/remove overlays
+    const page = manifest.find(p => p.route === currentRoute);
+    if (page) renderScreenshot(currentRoute, page.filename);
+  }
+}
+
+function setViewport(vp) {
+  viewport = vp;
+  document.getElementById('btn-desktop').classList.toggle('active', vp === 'desktop');
+  document.getElementById('btn-mobile').classList.toggle('active',  vp === 'mobile');
+
+  // Update thumbnails
+  document.querySelectorAll('.page-thumb').forEach(thumb => {
+    thumb.src = thumb.src.replace(/\/(desktop|mobile)\//, `/${vp}/`);
+  });
+
+  if (currentRoute) {
+    const page = manifest.find(p => p.route === currentRoute);
+    if (page) renderScreenshot(currentRoute, page.filename);
+  }
+}
+
+// ── Info panel ────────────────────────────────────────────────────────────────
+
+function selectSection(sec) {
+  selectedSection = sec;
+  renderInfoPanel(sec);
+}
+
+function renderInfoPanel(sec) {
+  const el = document.getElementById('info-content');
+  if (!sec) {
+    el.innerHTML = `<p class="info-empty">Click a section overlay or sidebar item to see details.</p>`;
+    return;
+  }
+
+  const screenshotPath = `screenshots/${viewport}/${manifest.find(p=>p.route===currentRoute)?.filename||''}`;
+  const screenshotExists = manifest.some(p => p.route === currentRoute);
+
+  el.innerHTML = `
+    <div class="info-id">${sec.id}</div>
+    <div class="info-field">
+      <div class="info-label">Section Name</div>
+      <div class="info-value">${sec.name}</div>
+    </div>
+    <div class="info-field">
+      <div class="info-label">Component</div>
+      <div class="info-value"><code>src/components/website/${sec.component}</code></div>
+    </div>
+    <div class="info-field">
+      <div class="info-label">Page Route</div>
+      <div class="info-value"><code>${currentRoute}</code></div>
+    </div>
+    ${sec.dataSource ? `<div class="info-field"><div class="info-label">Data Source</div><div class="info-value">${sec.dataSource}</div></div>` : ''}
+    ${sec.interactions ? `<div class="info-field"><div class="info-label">Interactions</div><div class="info-value">${sec.interactions}</div></div>` : ''}
+    ${!screenshotExists ? `<div class="no-screenshot-note">⚠ Run the atlas generator to capture screenshots for this page.</div>` : ''}
+  `;
+}
+
+init();
+</script>
+</body>
+</html>
