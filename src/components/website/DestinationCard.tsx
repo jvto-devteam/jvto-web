@@ -12,6 +12,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }
     <Link
       target={isHome ? "_blank" : "_self"}
       href={`/destinations/${destination.slug}`}
+      prefetch={false}
       aria-label={`Explore destination: ${destination.name}`}
     >
       <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">

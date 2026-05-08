@@ -36,6 +36,7 @@ const WhyJVTO: React.FC = () => {
               <Link
                 target="_blank"
                 href="/why-jvto/our-story"
+                prefetch={false}
                 className="font-bold border-b-2 border-jvto-green text-white hover:text-jvto-green transition-colors pb-1 text-lg"
               >
                 Read Full Story
@@ -44,6 +45,7 @@ const WhyJVTO: React.FC = () => {
               <Link
                 target="_blank"
                 href="/verify-jvto"
+                prefetch={false}
                 className="font-bold border-b-2 border-gray-600 text-gray-400 hover:text-white hover:border-white transition-colors pb-1 text-lg"
               >
                 How to Verify Us
