@@ -199,7 +199,7 @@ const Home = async () => {
       <IsicSection />
       <FAQSection copy={faqsCopy} faqs={miniFaqs} />
       <TravelGuideTeaser />
-      <Contact />
+      <Contact deferMap />
     </main>
   );
 };
