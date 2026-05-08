@@ -21,6 +21,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }
           src={destination.banner.url}
           alt={destination.banner.alt || destination.name}
           fill
+          unoptimized
           loading="lazy"
           decoding="async"
           sizes={
