@@ -1,14 +1,13 @@
 // app/(website)/page.tsx
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import Reviews from "@/components/website/Home/Reviews";
-import IjenHealthScreeningSection from "@/components/website/Home/IjenHealthScreeningSection";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import IsicSection from "@/components/website/Home/IsicSection";
-import FAQSection from "@/components/website/FAQSection";
 import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
@@ -18,6 +17,17 @@ import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
 import { miniFaqs, faqsCopy } from "@/constants";
+
+const IjenHealthScreeningSection = dynamic(
+  () => import("@/components/website/Home/IjenHealthScreeningSection"),
+  {
+    loading: () => <div className="min-h-[520px] bg-white" aria-hidden="true" />,
+  },
+);
+
+const FAQSection = dynamic(() => import("@/components/website/FAQSection"), {
+  loading: () => <div className="min-h-[420px] bg-white" aria-hidden="true" />,
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
 export const revalidate = 3600;
