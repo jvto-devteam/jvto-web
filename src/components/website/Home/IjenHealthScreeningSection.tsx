@@ -16,19 +16,19 @@ import {
 
 const IMAGES = [
   {
-    src: "/screening/ijen-screening-hotel-01.jpeg",
+    src: "/screening/ijen-screening-hotel-01.webp",
     alt: "Nurse performing medical check at hotel",
   },
   {
-    src: "/screening/ijen-screening-hotel-02.jpg",
+    src: "/screening/ijen-screening-hotel-02.webp",
     alt: "Health screening session at hotel lobby",
   },
   {
-    src: "/screening/jvto-office-screening-1.JPG",
+    src: "/screening/jvto-office-screening-1.webp",
     alt: "Medical screening at JVTO office",
   },
   {
-    src: "/screening/jvto-office-screening-2.jpg",
+    src: "/screening/jvto-office-screening-2.webp",
     alt: "Health check process at JVTO office",
   },
 ];

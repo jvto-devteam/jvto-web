@@ -16,12 +16,12 @@ const Hero: React.FC<HeroProps> = ({
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/img/hero/home.webp"
+          src="/assets/img/hero/home-optimized.webp"
           alt="Ijen Crater"
           fill
           priority
           sizes="100vw"
-          quality={80}
+          quality={72}
           className="object-cover"
         />
 
