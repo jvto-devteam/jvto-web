@@ -419,6 +419,7 @@ const NavbarInner: React.FC = () => {
                 width={80}
                 height={80}
                 priority
+                unoptimized
                 className="object-contain"
               />
             </Link>

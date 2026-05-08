@@ -51,6 +51,7 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
+            unoptimized
             loading="lazy"
             decoding="async"
             fetchPriority="low"
