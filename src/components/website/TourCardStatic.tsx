@@ -51,8 +51,11 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             sizes="(max-width: 640px) 80vw, 350px"
-            quality={64}
+            quality={56}
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           />
         </div>
