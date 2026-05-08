@@ -20,8 +20,7 @@ const Hero: React.FC<HeroProps> = ({
           alt="Ijen Crater"
           fill
           priority
-          sizes="100vw"
-          quality={72}
+          unoptimized
           className="object-cover"
         />
 

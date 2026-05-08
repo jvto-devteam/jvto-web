@@ -21,10 +21,12 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }
           src={destination.banner.url}
           alt={destination.banner.alt || destination.name}
           fill
+          loading="lazy"
+          decoding="async"
           sizes={
-            isHome ? "(max-width: 768px) 224px, 224px" : "(max-width: 768px) 100vw, 33vw"
+            isHome ? "(max-width: 768px) 42vw, 180px" : "(max-width: 768px) 100vw, 33vw"
           }
-          quality={64}
+          quality={52}
           className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
 
