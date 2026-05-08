@@ -30,7 +30,13 @@ type NavigationButtonProps = {
   disabled: boolean;
 };
 
-const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
+const TrustpilotWidget = ({
+  reviews = [],
+  totalCount,
+}: {
+  reviews?: ReviewItem[];
+  totalCount?: number;
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewsPerView, setReviewsPerView] = useState(1); // Default 1
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -399,6 +405,7 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
   // ];
 
   const mappedReviews = reviews;
+  const reviewCount = totalCount ?? mappedReviews.length;
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 520;
@@ -635,9 +642,9 @@ const TrustpilotWidget = ({ reviews = [] }: { reviews?: ReviewItem[] }) => {
           </span>
 
           <span className="block text-[13px] leading-4 mb-4 font-light">
-            Based on{" "}
+              Based on{" "}
             <strong className="border-b border-[rgba(25,25,25,0.6)] font-medium hover:border-transparent">
-              {mappedReviews.length} reviews
+              {reviewCount} reviews
             </strong>
           </span>
 
