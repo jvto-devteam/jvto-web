@@ -148,22 +148,22 @@ const faqItems = [
 const proofDocs = [
   {
     title: "NIB Entity",
-    img: `${siteUrl}/legal/NIB-1102230032918-preview.png`,
+    img: `${siteUrl}/legal/NIB-1102230032918-preview.webp`,
     hash: "FA20DDE3...",
   },
   {
     title: "Police SPRIN",
-    img: `${siteUrl}/legal/SPRIN-POLPAR.png`,
+    img: `${siteUrl}/legal/SPRIN-POLPAR.webp`,
     hash: "03C8578D...",
   },
   {
     title: "Health Screening",
-    img: `${siteUrl}/screening/ijen-screening-hotel-01.jpeg`,
+    img: `${siteUrl}/screening/ijen-screening-hotel-01.webp`,
     hash: "C52194BB...",
   },
   {
     title: "HPWKI License",
-    img: `${siteUrl}/uploads/1771428489070-55145932-kta_kiki.jpg`,
+    img: `${siteUrl}/uploads/1763205255605-141795118-kiki.webp`,
     hash: "CA1FB1A4...",
   },
 ];
@@ -719,8 +719,9 @@ export default async function WhyJvtoPage() {
           <section className="hero-section">
             <div className="hero-bg">
               <img
-                src={`${siteUrl}/assets/img/hero/home.webp`}
+                src={`${siteUrl}/assets/img/hero/home-optimized.webp`}
                 alt="East Java volcano"
+                decoding="async"
               />
               <div className="hero-bg-overlay" />
             </div>
@@ -960,8 +961,10 @@ export default async function WhyJvtoPage() {
                     </div>
                     <img
                       className="browser-img"
-                      src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png`}
+                      src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.webp`}
                       alt="Detik.com article screenshot"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="browser-footer">
                       <span className="browser-hash">
@@ -987,8 +990,10 @@ export default async function WhyJvtoPage() {
                         objectFit: "cover",
                         objectPosition: "top",
                       }}
-                      src={`${siteUrl}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png`}
+                      src={`${siteUrl}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.webp`}
                       alt="Radar Jember screenshot"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>
@@ -1075,7 +1080,12 @@ export default async function WhyJvtoPage() {
                 {proofDocs.map((doc, i) => (
                   <div key={i} className="proof-card">
                     <div className="proof-img-wrap">
-                      <img src={doc.img} alt={doc.title} />
+                      <img
+                        src={doc.img}
+                        alt={doc.title}
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <FileDigit size={28} className="proof-img-placeholder" />
                     </div>
                     <div className="proof-title">{doc.title}</div>
