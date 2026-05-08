@@ -4,6 +4,7 @@ import { now } from "@/lib/site";
 import { getContentPageLastModifiedMap } from "./sitemap-utils";
 
 import { sitemapRoot } from "./sitemap.data";
+import { sitemapBlog } from "./(website)/blog/sitemap.data";
 import { sitemapWhyJvto } from "./(website)/why-jvto/sitemap.data";
 import { sitemapTravelGuide } from "./(website)/travel-guide/sitemap.data";
 import { sitemapDestinations } from "./(website)/destinations/sitemap.data";
@@ -20,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModifiedMap = await getContentPageLastModifiedMap(
     [
       "/",
+      "/blog",
       "/contact",
       "/destinations",
       "/isic/student-package",
@@ -55,6 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [
     root,
+    blog,
     why,
     guide,
     dest,
@@ -63,6 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     fromBali,
   ] = await Promise.all([
     sitemapRoot(t, lastModifiedMap),
+    sitemapBlog(t, lastModifiedMap),
     sitemapWhyJvto(t, lastModifiedMap),
     sitemapTravelGuide(t, lastModifiedMap),
     sitemapDestinations(t, lastModifiedMap),
@@ -74,6 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...root,
+    ...blog,
     ...why,
     ...guide,
     ...dest,

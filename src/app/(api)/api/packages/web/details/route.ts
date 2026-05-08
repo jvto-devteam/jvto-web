@@ -1,9 +1,7 @@
-// src/app/(api)/api/packages/web/details/route.ts
-// Refactored 2026-04-29: transform logic moved to src/lib/packages/getWebPackageDetail.ts
-// so Server Components can call it directly (skipping HTTP) while this route still serves
-// external clients. Backward-compatible response shape preserved.
 import { NextRequest, NextResponse } from "next/server";
-import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
+import { MOCK_PACKAGE_DETAILS } from "@/data/mockData";
+import { getPackageDetailFromDatabase } from "@/lib/publicContent/databasePackageDetail";
+import { getPublicPackageDetail } from "@/lib/publicContent/packageDetailSnapshot";
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,15 +10,35 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
     }
 
-    const data = await getWebPackageDetail(slug);
-    if (!data) {
+    if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
+      const mockPkg = (MOCK_PACKAGE_DETAILS as any[]).find(
+        (pkg) => pkg.product?.slug === slug || pkg.slug === slug,
+      );
+
+      if (mockPkg) {
+        return NextResponse.json(mockPkg, { status: 200 });
+      }
+
       return NextResponse.json(
-        { message: "Paket tidak ditemukan atau belum dipublikasikan " + slug },
+        { message: "Paket tidak ditemukan (Mock)" },
         { status: 404 },
       );
     }
 
-    return NextResponse.json(data, {
+    const useSnapshots =
+      process.env.PUBLIC_CONTENT_USE_SNAPSHOT_DETAILS !== "false";
+    const pkg = useSnapshots
+      ? await getPublicPackageDetail(slug)
+      : await getPackageDetailFromDatabase(slug);
+
+    if (!pkg) {
+      return NextResponse.json(
+        { message: `Paket tidak ditemukan atau belum dipublikasikan ${slug}` },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(pkg, {
       status: 200,
       headers: {
         "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",

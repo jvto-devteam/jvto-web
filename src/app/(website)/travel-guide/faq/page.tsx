@@ -4,13 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { prisma } from "@/lib/prisma";
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Link from "next/link";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicFaqCategories } from "@/lib/publicContent/faqSnapshot";
 
 export const revalidate = 3600;
 
@@ -54,42 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getFaqData() {
-  const [categories, uncategorizedFaqs] = await Promise.all([
-    // 1. Ambil kategori yang HANYA memiliki minimal 1 FAQ published
-    prisma.category_faqs.findMany({
-      where: {
-        is_active: true,
-        faqs: { some: { is_published: true } },
-      },
-      orderBy: { sort_order: "asc" },
-      include: {
-        faqs: {
-          where: { is_published: true },
-          orderBy: { sort_order: "asc" },
-        },
-      },
-    }),
-    // 2. Ambil Uncategorized FAQ (jika ada)
-    prisma.faqs.findMany({
-      where: { is_published: true, category_id: null },
-      orderBy: { sort_order: "asc" },
-    }),
-  ]);
-
-  // Gabungkan Uncategorized hanya jika ada isinya
-  // If there are uncategorized FAQs
-  if (uncategorizedFaqs.length > 0) {
-    categories.push({
-      id: 9999,
-      name: "General / Others",
-      slug: "general",
-      sort_order: 9999,
-      is_active: true,
-      faqs: uncategorizedFaqs,
-    } as any);
-  }
-
-  return categories;
+  return getPublicFaqCategories();
 }
 
 export default async function FaqPage() {

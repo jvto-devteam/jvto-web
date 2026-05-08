@@ -14,6 +14,7 @@ import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
@@ -49,12 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestinations(): Promise<Destination[]> {
-  // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
-  try {
-    return (await getWebDestinationsList()) as unknown as Destination[];
-  } catch {
-    return [];
-  }
+  return getPublicDestinationList();
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

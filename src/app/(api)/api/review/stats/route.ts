@@ -1,63 +1,17 @@
-// app/api/review/stats/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPublicReviewStatsWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
 
 export async function GET() {
   try {
-    // Hitung TOTAL review per platform (tanpa limit)
-    const [google, trustpilot, tripadvisor] = await Promise.all([
-      prisma.reviews.count({
-        where: {
-          platform: "Google",
-          star: { gte: 1 },
-        },
-      }),
-      prisma.reviews.count({
-        where: {
-          platform: "Trustpilot",
-          star: { gte: 1 },
-        },
-      }),
-      prisma.reviews.count({
-        where: {
-          platform: "TripAdvisor",
-          star: { gte: 1 },
-        },
-      }),
-    ]);
+    const stats = await getPublicReviewStatsWithFallback();
 
-    // Hitung rating rata-rata dari SEMUA review (opsional)
-    const avgRating = await prisma.reviews.aggregate({
-      where: {
-        platform: { in: ["Google", "Trustpilot", "TripAdvisor"] },
-        star: { gte: 1 },
-      },
-      _avg: {
-        star: true,
+    return NextResponse.json(stats, {
+      headers: {
+        "Cache-Control":
+          "public, s-maxage=86400, stale-while-revalidate=604800",
+        "Content-Type": "application/json; charset=utf-8",
       },
     });
-
-    const total = google + trustpilot + tripadvisor;
-
-    return NextResponse.json(
-      {
-        success: true,
-        total,
-        platforms: {
-          google,
-          trustpilot,
-          tripadvisor,
-        },
-        average_rating: parseFloat(avgRating._avg.star?.toFixed(1) || "4.9"),
-      },
-      {
-        headers: {
-          "Cache-Control":
-            "public, s-maxage=86400, stale-while-revalidate=604800",
-          "Content-Type": "application/json; charset=utf-8",
-        },
-      },
-    );
   } catch (err) {
     console.error("Review stats error:", err);
     return NextResponse.json(

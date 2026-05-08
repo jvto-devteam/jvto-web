@@ -3,7 +3,9 @@
 // src/lib/destinations/getWebDestinationDetail.ts. Server Components (destinations/[slug]/page.tsx)
 // call the helper directly; this route still serves external clients.
 import { NextRequest, NextResponse } from "next/server";
-import { getWebDestinationDetail } from "@/lib/destinations/getWebDestinationDetail";
+import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
+import { getDestinationDetailFromDatabase } from "@/lib/publicContent/databaseDestinationDetail";
+import { getPublicDestinationDetail } from "@/lib/publicContent/destinationDetailSnapshot";
 
 export async function GET(
   _req: NextRequest,
@@ -20,7 +22,10 @@ export async function GET(
       );
     }
 
-    const dest = await getWebDestinationDetail(slug);
+    const useSnapshots = process.env.PUBLIC_CONTENT_USE_SNAPSHOT_DETAILS !== "false";
+    const dest = useSnapshots
+      ? await getPublicDestinationDetail(slug)
+      : await getDestinationDetailFromDatabase(slug);
 
     if (!dest) {
       return NextResponse.json(
