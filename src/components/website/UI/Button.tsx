@@ -14,6 +14,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   to?: string;
   target?: string;
+  prefetch?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   children,
   to,
+  prefetch,
   ...props
 }) => {
   const target = props.target || "_self";
@@ -54,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
 
   if (to) {
     return (
-      <Link target={target} href={to} className={classes}>
+      <Link target={target} href={to} prefetch={prefetch} className={classes}>
         {children}
       </Link>
     );

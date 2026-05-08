@@ -39,11 +39,18 @@ const Hero: React.FC<HeroProps> = ({
         </p>
 
         <div className="flex gap-4 justify-center md:hidden">
-          <Button target="_blank" to="/tours" variant="primary" size="md">
+          <Button
+            target="_blank"
+            to="/tours"
+            prefetch={false}
+            variant="primary"
+            size="md"
+          >
             Private Tours
           </Button>
           <Button
             to="/verify-jvto"
+            prefetch={false}
             variant="outline"
             size="md"
             className="border-white text-white hover:bg-white hover:!text-black"
@@ -52,12 +59,19 @@ const Hero: React.FC<HeroProps> = ({
           </Button>
         </div>
         <div className="md:flex gap-4 justify-center hidden">
-          <Button target="_blank" to="/tours" variant="primary" size="lg">
+          <Button
+            target="_blank"
+            to="/tours"
+            prefetch={false}
+            variant="primary"
+            size="lg"
+          >
             Private Tours
           </Button>
           <Button
             target="_blank"
             to="/verify-jvto"
+            prefetch={false}
             variant="outline"
             size="lg"
             className="border-white text-white hover:bg-white hover:!text-black"
