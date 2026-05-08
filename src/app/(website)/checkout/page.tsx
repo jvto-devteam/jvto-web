@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import { Providers } from "@/app/providers";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -1066,7 +1067,7 @@ const StepTwoPayment = ({
 // 5. MAIN PAGE
 // =================================================================
 
-export default function CheckoutPage() {
+function CheckoutPageInner() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -1151,5 +1152,13 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Providers>
+      <CheckoutPageInner />
+    </Providers>
   );
 }
