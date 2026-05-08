@@ -6,7 +6,6 @@ import Footer from "@/components/website/Footer";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
-import { Providers } from "../providers";
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl =
@@ -66,24 +65,22 @@ export default function WebsiteLayout({
 }) {
   return (
     <>
-      <Providers>
-        <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
-          {/* GA optional logic */}
-          {/* <Suspense>
+      <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
+        {/* GA optional logic */}
+        {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
         </Suspense> */}
 
-          <div className="min-h-screen flex flex-col bg-white">
-            <header>
-              <Navbar />
-            </header>
+        <div className="min-h-screen flex flex-col bg-white">
+          <header>
+            <Navbar />
+          </header>
 
-            <main className="flex-1">{children}</main>
+          <main className="flex-1">{children}</main>
 
-            <Footer />
-          </div>
+          <Footer />
         </div>
-      </Providers>
+      </div>
     </>
   );
 }

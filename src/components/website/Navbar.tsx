@@ -19,6 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Providers } from "@/app/providers";
 import SidebarTravelGuide from "@/app/(website)/travel-guide/sidebar";
 import SidebarPolicy from "@/app/(website)/policy/sidebar";
 import SidebarWhy from "@/app/(website)/why-jvto/sidebar";
@@ -400,7 +401,7 @@ const ProfileDropdown: React.FC = () => {
 
 // --- 5. MAIN NAVBAR COMPONENT ---
 
-const Navbar: React.FC = () => {
+const NavbarInner: React.FC = () => {
   const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -445,19 +446,47 @@ const Navbar: React.FC = () => {
   // Logic Search Data
   const [searchQuery, setSearchQuery] = useState("");
   const [allTours, setAllTours] = useState<any[]>([]);
+  const [hasLoadedTours, setHasLoadedTours] = useState(false);
+  const [isLoadingTours, setIsLoadingTours] = useState(false);
+  const [tourLoadError, setTourLoadError] = useState(false);
 
   useEffect(() => {
+    if (!isSearchOpen || hasLoadedTours || isLoadingTours) return;
+
+    let isMounted = true;
+
     const fetchTours = async () => {
+      setIsLoadingTours(true);
+      setTourLoadError(false);
+
       try {
         const res = await fetch("/api/packages/web");
+        if (!res.ok) {
+          throw new Error("Failed to fetch tours");
+        }
+
         const data = await res.json();
-        setAllTours(data);
+        if (!isMounted) return;
+
+        setAllTours(Array.isArray(data) ? data : []);
+        setHasLoadedTours(true);
       } catch (err) {
+        if (!isMounted) return;
         console.error("Error loading packages", err);
+        setTourLoadError(true);
+      } finally {
+        if (isMounted) {
+          setIsLoadingTours(false);
+        }
       }
     };
+
     fetchTours();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [hasLoadedTours, isLoadingTours, isSearchOpen]);
 
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -762,7 +791,15 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="max-h-[60vh] overflow-y-auto">
-              {searchQuery.length > 0 ? (
+              {isLoadingTours ? (
+                <div className="py-12 text-center text-gray-400 font-medium">
+                  Loading tours...
+                </div>
+              ) : tourLoadError ? (
+                <div className="py-12 text-center text-gray-400 font-medium">
+                  Search is temporarily unavailable.
+                </div>
+              ) : searchQuery.length > 0 ? (
                 filteredResults.length > 0 ? (
                   <div className="py-2">
                     {filteredResults.map((tour) => (
@@ -830,6 +867,14 @@ const Navbar: React.FC = () => {
         </div>
       )}
     </>
+  );
+};
+
+const Navbar: React.FC = () => {
+  return (
+    <Providers>
+      <NavbarInner />
+    </Providers>
   );
 };
 
