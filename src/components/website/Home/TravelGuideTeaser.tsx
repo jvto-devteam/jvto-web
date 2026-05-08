@@ -23,10 +23,10 @@ const TravelGuideTeaser: React.FC = () => {
               Read our Travel Guide to understand cancellations, health screening, packing lists, and safety protocols before you pay a deposit.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link target="_blank" href="/travel-guide" className="bg-jvto-green text-jvto-dark px-8 py-3 font-bold uppercase rounded-sm hover:bg-white transition-colors inline-flex items-center gap-2">
+              <Link target="_blank" href="/travel-guide" prefetch={false} className="bg-jvto-green text-jvto-dark px-8 py-3 font-bold uppercase rounded-sm hover:bg-white transition-colors inline-flex items-center gap-2">
                 Open Travel Guide <ArrowRight size={16} />
               </Link>
-              <Link target="_blank" href="/contact" className="border-2 border-white text-white px-8 py-3 font-bold uppercase rounded-sm hover:bg-white hover:text-jvto-dark transition-colors">
+              <Link target="_blank" href="/contact" prefetch={false} className="border-2 border-white text-white px-8 py-3 font-bold uppercase rounded-sm hover:bg-white hover:text-jvto-dark transition-colors">
                 Contact Us
               </Link>
             </div>
@@ -34,25 +34,25 @@ const TravelGuideTeaser: React.FC = () => {
 
           <div className="lg:w-1/2 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Link target="_blank" href="/travel-guide/faq" className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
+              <Link target="_blank" href="/travel-guide/faq" prefetch={false} className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
                 <HelpCircle className="text-jvto-green mb-4 w-8 h-8 group-hover:scale-110 transition-transform" />
                 <h3 className="font-bold text-lg mb-2 group-hover:text-jvto-green transition-colors">FAQ</h3>
                 <p className="text-sm text-gray-400">Common questions about private tours, logistics, and safety.</p>
               </Link>
               
-              <Link target="_blank" href="/travel-guide/booking-information" className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
+              <Link target="_blank" href="/travel-guide/booking-information" prefetch={false} className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
                 <div className="text-jvto-green mb-4 font-black text-2xl group-hover:scale-110 transition-transform origin-left">$</div>
                 <h3 className="font-bold text-lg mb-2 group-hover:text-jvto-green transition-colors">Booking & Payments</h3>
                 <p className="text-sm text-gray-400">Deposits, Travel Credit, and cancellation policies explained.</p>
               </Link>
 
-              <Link target="_blank" href="/travel-guide/ijen-health-screening" className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
+              <Link target="_blank" href="/travel-guide/ijen-health-screening" prefetch={false} className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
                 <div className="text-jvto-green mb-4 font-black text-2xl group-hover:scale-110 transition-transform origin-left">+</div>
                 <h3 className="font-bold text-lg mb-2 group-hover:text-jvto-green transition-colors">Ijen Screening</h3>
                 <p className="text-sm text-gray-400">Mandatory health checks and digital certificates for the crater hike.</p>
               </Link>
 
-              <Link target="_blank" href="/travel-guide/safety-on-tours" className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
+              <Link target="_blank" href="/travel-guide/safety-on-tours" prefetch={false} className="bg-gray-800 p-6 rounded-sm hover:bg-gray-700 transition-colors border border-gray-700 group">
                 <div className="text-jvto-green mb-4 font-black text-2xl group-hover:scale-110 transition-transform origin-left">!</div>
                 <h3 className="font-bold text-lg mb-2 group-hover:text-jvto-green transition-colors">Safety & Risks</h3>
                 <p className="text-sm text-gray-400">Our police-led safety culture and risk management protocols.</p>

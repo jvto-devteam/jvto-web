@@ -7,7 +7,7 @@ import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
-import Sidebar from "../sidebar";
+import SidebarDesktop from "../SidebarDesktop";
 import { ChevronRight, Home } from "lucide-react";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
@@ -131,7 +131,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
       <div
         style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}
       >
-        <Sidebar />
+        <SidebarDesktop currentPath={`/why-jvto/${slug}`} />
         <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main

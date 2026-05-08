@@ -37,30 +37,30 @@ const Footer: React.FC = () => {
           <div>
             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Company</h5>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/why-jvto" className="hover:text-jvto-green">Why JVTO</Link></li>
-              <li><Link href="/why-jvto/our-story" className="hover:text-jvto-green">Our Story</Link></li>
-              <li><Link href="/why-jvto/reviews" className="hover:text-jvto-green">Reviews</Link></li>
-              <li><Link href="/why-jvto/community-standards" className="hover:text-jvto-green">Community & Guides</Link></li>
-              <li><Link href="/verify-jvto" className="hover:text-jvto-green font-bold text-jvto-green">Verify Us</Link></li>
+              <li><Link href="/why-jvto" prefetch={false} className="hover:text-jvto-green">Why JVTO</Link></li>
+              <li><Link href="/why-jvto/our-story" prefetch={false} className="hover:text-jvto-green">Our Story</Link></li>
+              <li><Link href="/why-jvto/reviews" prefetch={false} className="hover:text-jvto-green">Reviews</Link></li>
+              <li><Link href="/why-jvto/community-standards" prefetch={false} className="hover:text-jvto-green">Community & Guides</Link></li>
+              <li><Link href="/verify-jvto" prefetch={false} className="hover:text-jvto-green font-bold text-jvto-green">Verify Us</Link></li>
             </ul>
           </div>
           <div>
             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Travel Guide</h5>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/travel-guide/faq" className="hover:text-jvto-green">FAQ</Link></li>
-              <li><Link href="/travel-guide/booking-information" className="hover:text-jvto-green">Booking & Payments</Link></li>
-              <li><Link href="/travel-guide/ijen-health-screening" className="hover:text-jvto-green">Ijen Health Screening</Link></li>
-              <li><Link href="/isic/student-package" className="hover:text-jvto-green">Student Deals (ISIC)</Link></li>
-              <li><Link href="/policy" className="hover:text-jvto-green">Policy</Link></li>
+              <li><Link href="/travel-guide/faq" prefetch={false} className="hover:text-jvto-green">FAQ</Link></li>
+              <li><Link href="/travel-guide/booking-information" prefetch={false} className="hover:text-jvto-green">Booking & Payments</Link></li>
+              <li><Link href="/travel-guide/ijen-health-screening" prefetch={false} className="hover:text-jvto-green">Ijen Health Screening</Link></li>
+              <li><Link href="/isic/student-package" prefetch={false} className="hover:text-jvto-green">Student Deals (ISIC)</Link></li>
+              <li><Link href="/policy" prefetch={false} className="hover:text-jvto-green">Policy</Link></li>
             </ul>
           </div>
           <div>
             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Destinations</h5>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/destinations" className="hover:text-jvto-green">Mount Bromo</Link></li>
-              <li><Link href="/destinations" className="hover:text-jvto-green">Ijen Crater</Link></li>
-              <li><Link href="/destinations" className="hover:text-jvto-green">Tumpak Sewu</Link></li>
-              <li><Link href="/tours" className="hover:text-jvto-green">All Private Tours</Link></li>
+              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Mount Bromo</Link></li>
+              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Ijen Crater</Link></li>
+              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Tumpak Sewu</Link></li>
+              <li><Link href="/tours" prefetch={false} className="hover:text-jvto-green">All Private Tours</Link></li>
             </ul>
           </div>
           <div className="col-span-2 lg:col-span-2">
@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
                WhatsApp: +62 822-4478-8833<br/>
                Email: hello@javavolcano-touroperator.com
              </p>
-             <Link href="/contact" className="inline-block bg-jvto-green text-jvto-dark font-bold uppercase px-6 py-2 text-xs rounded-sm">Contact Us</Link>
+             <Link href="/contact" prefetch={false} className="inline-block bg-jvto-green text-jvto-dark font-bold uppercase px-6 py-2 text-xs rounded-sm">Contact Us</Link>
           </div>
         </div>
 
@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
                 className="object-contain"
               />
             {/* <span className="font-black text-2xl italic tracking-tighter">JVTO</span> */}
-            <span className="text-xs text-slate-300">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous | East Java, Indonesia | All Rights Reserved. <br /><Link href="/policy/privacy" className="text-jvto-green underline">Privacy Policy</Link></span>
+            <span className="text-xs text-slate-300">©️ Copyright 2015-2026 PT. Java Volcano Rendezvous | East Java, Indonesia | All Rights Reserved. <br /><Link href="/policy/privacy" prefetch={false} className="text-jvto-green underline">Privacy Policy</Link></span>
             <span className="text-xs text-slate-300">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
           </div>
           

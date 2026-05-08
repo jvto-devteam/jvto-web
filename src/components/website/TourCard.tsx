@@ -48,6 +48,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
       <Link
         target={isNewTab ? "_blank" : "_self"}
         href={fullTourSlug}
+        prefetch={false}
         aria-label={tourLinkLabel}
         className="relative block overflow-hidden"
       >
@@ -94,6 +95,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         <Link
           target={isNewTab ? "_blank" : "_self"}
           href={fullTourSlug}
+          prefetch={false}
           aria-label={tourLinkLabel}
           className="group/title block mb-3"
         >
@@ -124,6 +126,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
             <Link
               target={isNewTab ? "_blank" : "_self"}
               href={fullTourSlug}
+              prefetch={false}
               aria-label={tourLinkLabel}
               className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
             >
