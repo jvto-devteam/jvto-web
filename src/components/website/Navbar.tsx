@@ -34,6 +34,7 @@ const MegaMenuLink: React.FC<{
   <li>
     <Link
       href={to}
+      prefetch={false}
       onClick={onClick}
       className="block py-2 text-sm font-medium text-gray-700 hover:text-jvto-green transition-colors"
     >
@@ -313,6 +314,7 @@ const ToursDropdown: React.FC = () => {
             <div className="w-[300px] bg-jvto-green border-l border-gray-200 p-6 flex flex-col justify-center">
               <Link
                 href="/tours"
+                prefetch={false}
                 onClick={handleClose}
                 className="bg-white border-4 border-black p-4 shadow-pop hover:-translate-y-1 transition-transform text-center"
               >
