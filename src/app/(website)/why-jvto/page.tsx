@@ -24,17 +24,7 @@ import {
   Fingerprint,
   Newspaper,
 } from "lucide-react";
-import { getContentPage } from "@/lib/content/getContentPage";
-import {
-  buildWhyJvtoHubItemListSchema,
-  buildWhyJvtoFaqSchema,
-  buildNarrativeClaimsItemList,
-} from "@/lib/schemas/buildWhyJvtoSchemas";
-import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import { resolveFaqsForPage } from "@/lib/content/resolveFaqs";
-
-export const revalidate = 3600;
-
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 const siteUrl = "https://javavolcano-touroperator.com";
 import Sidebar from "./sidebar";
 
@@ -43,11 +33,15 @@ const defaultWhyDescription =
   "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const row = await getContentPage("/why-jvto", "en");
-  const seo = (row?.seo as Record<string, any> | null) ?? {};
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const title = seo.title ?? defaultWhyTitle;
-  const description = seo.description ?? defaultWhyDescription;
+  const page = await getPublicPageSnapshot("/why-jvto", {
+    allowDatabaseFallback: false,
+  });
+  const title = page.snapshot.seo.title;
+  const description = page.snapshot.seo.description ?? defaultWhyDescription;
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : "Why JVTO";
 
   return {
     title,
@@ -64,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: siteUrl + "/assets/img/og/why-jvto.webp",
           width: 1200,
           height: 630,
-          alt: content.h1 ?? "Why JVTO",
+          alt: h1,
         },
       ],
     },
@@ -175,41 +169,13 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const [allClaims, row, faqResolution] = await Promise.all([
-    getAllNarrativeClaims(),
-    getContentPage("/why-jvto", "en"),
-    resolveFaqsForPage("/why-jvto"),
-  ]);
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const heroH1 = content.h1 ?? defaultWhyTitle;
-  const whyJvtoExtraSchemas = [
-    buildWhyJvtoHubItemListSchema(),
-    // All 9 narrative claims as FAQPage (replaces CMS fallback — more authoritative source)
-    buildWhyJvtoFaqSchema(allClaims, ''),
-    // Claims as mainEntity ItemList — signals hub page IS the canonical claim index
-    buildNarrativeClaimsItemList(allClaims),
-  ].filter(Boolean);
-  const pageRow = row
-    ? {
-        route: row.route,
-        lang: row.lang,
-        seo: row.seo,
-        content: row.content,
-        created_at: row.created_at,
-        updated_at: row.updated_at,
-      }
-    : {
-        route: "/why-jvto",
-        lang: "en",
-        seo: {
-          title: defaultWhyTitle,
-          description: defaultWhyDescription,
-        },
-        content: {
-          h1: heroH1,
-          faq: faqItems.map((item) => ({ q: item.q, a: item.a })),
-        },
-      };
+  const page = await getPublicPageSnapshot("/why-jvto", {
+    allowDatabaseFallback: false,
+  });
+  const heroH1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : defaultWhyTitle;
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -746,11 +712,7 @@ export default async function WhyJvtoPage() {
 
       <div className="flex min-h-screen bg-background">
         <Sidebar />
-        <PageJsonLdCombined
-          pageRow={pageRow as any}
-          extraSchemas={whyJvtoExtraSchemas}
-          suppressCmsFaq={true}
-        />
+        <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main className="pt-24 w-full jvto-page">
           {/* ══════════ HERO ══════════ */}

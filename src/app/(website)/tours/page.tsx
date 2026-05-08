@@ -4,6 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -31,13 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  // Refactored 2026-04-29: direct helper call (was self-fetch broke SSG with ECONNREFUSED).
-  try {
-    return (await getWebPackagesList({ categoryId: 1 })) as unknown as ListTourPackage[];
-  } catch (error) {
-    console.error("Failed to fetch all tours", error);
-    return [];
-  }
+  return getPublicPackageList({ categoryId: 1 });
 }
 
 export default async function ToursPageGlobal() {

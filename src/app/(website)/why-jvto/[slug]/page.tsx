@@ -2,8 +2,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getContentPage } from "@/lib/content/getContentPage";
-import { prisma } from "@/lib/prisma";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
@@ -11,38 +9,34 @@ import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import Sidebar from "../sidebar";
 import { ChevronRight, Home } from "lucide-react";
-import { buildWhyJvtoReviewsAggregateRatingSchema, buildIndividualReviewSchemas } from "@/lib/schemas/buildWhyJvtoSchemas";
-import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
-import { getActiveCrewMembers } from "@/lib/queries/crewMembers";
-import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
-import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
-
-
-export const revalidate = 3600;
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-  const pages = await prisma.content_pages.findMany({
-    where: { route: { startsWith: '/why-jvto/' }, is_active: true, lang: 'en' },
-    select: { route: true },
-  });
-  return pages
-    .map(p => p.route.replace('/why-jvto/', ''))
-    .filter((slug): slug is string => Boolean(slug) && !slug.includes('/'))
-    .map(slug => ({ slug }));
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return listPublicPageRoutesByPrefix("/why-jvto").map((route) => ({
+    slug: route.replace("/why-jvto/", ""),
+  }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
-  if (!row) return { title: "Page Not Found" };
-  const seo = (row.seo as Record<string, any> | null) ?? {};
-  const content = (row.content as Record<string, any> | null) ?? {};
+  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["sections"],
+  });
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
+  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
+  if (!Array.isArray(content.sections) || content.sections.length === 0) {
+    return { title: "Page Not Found" };
+  }
   return {
-    title: seo.title ?? content.h1 ?? row.route,
+    title: seo.title ?? content.h1 ?? page.pageRow.route,
     description: seo.description ?? undefined,
   };
 }
@@ -113,19 +107,16 @@ function SectionNav({
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
-  const route = `/why-jvto/${slug}`;
+  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["sections"],
+  });
+  const content = page.pageRow.content as any;
+  if (!Array.isArray(content?.sections) || content.sections.length === 0) {
+    return notFound();
+  }
 
-  const [row, faqResolution, crewMembers, reviewsData] = await Promise.all([
-    getContentPage(route, "en"),
-    resolveFaqsForPage(route),
-    slug === "our-team" ? getActiveCrewMembers() : Promise.resolve([]),
-    slug === "reviews" ? getReviewsForSchema() : Promise.resolve([]),
-  ]);
-
-  if (!row) return notFound();
-
-  const content = row.content as any;
-  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
 
   const faqSchema = buildResolvedFaqSchema(faqResolution, route);
@@ -161,18 +152,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
         style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}
       >
         <Sidebar />
-        <PageJsonLdCombined
-          pageRow={{
-            route: row.route,
-            lang: row.lang,
-            seo: row.seo,
-            content: row.content,
-            created_at: row.created_at,
-            updated_at: row.updated_at,
-          }}
-          extraSchemas={slugExtraSchemas}
-          suppressCmsFaq={faqResolution.suppressCmsFaq}
-        />
+        <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main
           className="pt-30 md:pt-40"

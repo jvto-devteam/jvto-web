@@ -9,7 +9,7 @@ type OrgRow = {
   legal_name?: string | null;
   brand_name?: string | null;
   alternate_name?: string | null;
-  founding_date?: Date | null;
+  founding_date?: Date | string | null;
   description?: string | null;
   price_range?: string | null;
   contact_email?: string | null;
@@ -99,6 +99,25 @@ function safeIso(d?: Date | null) {
   } catch {
     return undefined;
   }
+}
+
+function formatDateOnly(value?: Date | string | null) {
+  if (!value) return undefined;
+
+  if (value instanceof Date) {
+    const iso = safeIso(value);
+    return iso ? iso.slice(0, 10) : undefined;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString().slice(0, 10);
+  }
+
+  return trimmed.length >= 10 ? trimmed.slice(0, 10) : undefined;
 }
 
 function clean(obj: Record<string, any>) {
@@ -226,9 +245,7 @@ export function buildOrganizationJsonLd(
     email: org.contact_email || undefined,
     telephone: org.contact_phone || undefined,
     priceRange: org.price_range || undefined,
-    foundingDate: org.founding_date
-      ? (org.founding_date as Date).toISOString().slice(0, 10)
-      : undefined,
+    foundingDate: formatDateOnly(org.founding_date),
     alternateName: org.alternate_name || undefined,
     sameAs: sameAs.length ? sameAs : undefined,
     address,

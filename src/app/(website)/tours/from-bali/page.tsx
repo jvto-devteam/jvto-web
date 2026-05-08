@@ -4,6 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -31,14 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
-  // Refactored 2026-04-29: direct helper call (was self-fetch broke SSG with ECONNREFUSED).
-  // fromId=3 = Bali start_destination per live's data convention.
-  try {
-    return (await getWebPackagesList({ fromId: 3, categoryId: 1 })) as unknown as ListTourPackage[];
-  } catch (error) {
-    console.error("Failed to fetch bali tours", error);
-    return [];
-  }
+  return getPublicPackageList({ fromId: 3, categoryId: 1 });
 }
 
 export default async function ToursPageBali() {

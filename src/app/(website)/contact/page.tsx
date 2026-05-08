@@ -1,27 +1,26 @@
 import ContactPage from "@/components/website/ContactPage";
 import type { Metadata } from "next";
-import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-
-export const revalidate = 86400;
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-const fallbackSeo = {
-  title: "Contact JVTO Tours | Plan Your East Java Adventure",
-  h1: "Contact Us",
-  description:
-    "Get in touch with our expert team to plan your private, all-inclusive tour of Mount Bromo, Ijen, and more. We're here to help you 24/7.",
-};
+const ROUTE = "/contact";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getPageSeo("/contact", fallbackSeo);
+  const page = await getPublicPageSnapshot(ROUTE);
+  const title = page.snapshot.seo.title;
+  const description = page.snapshot.seo.description ?? "";
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : title;
 
   return {
-    title: seo.title,
-    description: seo.description,
+    title,
+    description,
     openGraph: {
-      title: seo.title,
-      description: seo.description,
+      title,
+      description,
       url: `${siteUrl}/contact`,
       siteName: "Java Volcano Tour Operator",
       locale: "en_US",
@@ -31,46 +30,31 @@ export async function generateMetadata(): Promise<Metadata> {
           url: siteUrl + "/assets/img/og/contact.webp",
           width: 1200,
           height: 630,
-          alt: seo.h1,
+          alt: h1,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: seo.title,
-      description: seo.description,
+      title,
+      description,
       images: [siteUrl + "/assets/img/og/contact.webp"],
     },
   };
 }
 
 export default async function Contact() {
-  const seo = await getPageSeo("/contact", fallbackSeo);
-  const pageRow = seo.row
-    ? {
-        route: seo.row.route,
-        lang: seo.row.lang,
-        seo: seo.row.seo,
-        content: seo.row.content,
-        created_at: seo.row.created_at,
-        updated_at: seo.row.updated_at,
-      }
-    : {
-        route: "/contact",
-        lang: "en",
-        seo: {
-          title: seo.title,
-          description: seo.description,
-        },
-        content: {
-          h1: seo.h1,
-        },
-      };
+  const page = await getPublicPageSnapshot(ROUTE);
+  const description = page.snapshot.seo.description ?? "";
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : page.snapshot.seo.title;
 
   return (
     <>
-      <PageJsonLdCombined pageRow={pageRow as any} />
-      <ContactPage title={seo.h1} description={seo.description} />;
+      <PageJsonLdCombined pageRow={page.pageRow} />
+      <ContactPage title={h1} description={description} />
     </>
   );
 }

@@ -1,84 +1,14 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPublicReviewFeedWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const platform = searchParams.get("platform");
 
   try {
-    const reviews = await prisma.reviews.findMany({
-      where: {
-        package_id: {
-          not: null,
-        },
-        platform: {
-          notIn: ["Klook"],
-          ...(platform ? { equals: platform } : {}),
-        },
-      },
-      include: {
-        crew_reviews: {
-          include: {
-            crew: {
-              select: {
-                id: true,
-                name: true,
-                type: true,
-                photo_url: true,
-                tags: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: {
-        date: "desc",
-      },
-    });
+    const reviews = await getPublicReviewFeedWithFallback(platform);
 
-    // Transform data untuk format yang lebih bersih
-    const transformedReviews = reviews.map((review) => {
-      // Deduplikasi crew berdasarkan crew_id
-      const uniqueCrewMap = new Map();
-
-      review.crew_reviews?.forEach((cr) => {
-        if (cr.crew && !uniqueCrewMap.has(cr.crew_id)) {
-          uniqueCrewMap.set(cr.crew_id, {
-            id: cr.crew.id,
-            name: cr.crew.name,
-            type: cr.crew.type,
-            photo_url: cr.crew.photo_url,
-            tags: cr.crew.tags,
-          });
-        }
-      });
-
-      return {
-        id: review.id,
-        customer_name: review.customer_name,
-        platform: review.platform,
-        date: review.date,
-        star: review.star,
-        review: review.review,
-        url: review.url || review.url_reference,
-        profile_photo: review.profile_photo,
-        package_id: review.package_id,
-        // Hanya field penting dari crew
-        crews: Array.from(uniqueCrewMap.values()),
-        // Flag untuk menunjukkan ini internal crew
-        has_internal_crew: uniqueCrewMap.size > 0,
-      };
-    });
-
-    // Custom replacer untuk handle BigInt
-    const jsonString = JSON.stringify(transformedReviews, (key, value) => {
-      if (typeof value === "bigint") {
-        return value.toString();
-      }
-      return value;
-    });
-
-    return new NextResponse(jsonString, {
+    return new NextResponse(JSON.stringify(reviews), {
       status: 200,
       headers: {
         "Content-Type": "application/json; charset=utf-8",

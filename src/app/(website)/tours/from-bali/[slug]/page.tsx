@@ -3,10 +3,13 @@ import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
-import { prisma } from "@/lib/prisma";
-import { routeSlugToParam } from "@/lib/routing/staticParams";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import {
+  getPublicPackageDetail,
+  getPublicPackageDetailStaticParams,
+} from "@/lib/publicContent/packageDetailSnapshot";
+import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -24,6 +27,7 @@ import {
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 
 export const revalidate = 3600;
+export const dynamicParams = false;
 
 // --- 1. TYPE DEFINITIONS (SESUAI JSON API) ---
 
@@ -83,20 +87,10 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const packages = await prisma.packages.findMany({
-    where: {
-      is_publish: true,
-      package_category_id: BigInt(1),
-      start_destination_id: BigInt(3),
-      slug: { not: null },
-    },
-    select: { slug: true },
+  return getPublicPackageDetailStaticParams("tours/from-bali", {
+    categoryId: 1,
+    fromId: 3,
   });
-
-  return packages
-    .map((pkg) => routeSlugToParam(pkg.slug, "tours/from-bali"))
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -149,16 +143,11 @@ function getDestinationUrl(name: string) {
 // Now calls the same transform logic directly via shared helper. React `cache` still memoizes per-request
 // so generateMetadata + Page don't double-query Prisma.
 const getTourData = cache(async (slugParam: string) => {
-  const slugString = slugParam;
-  const fullSlug = slugString.includes("tours/")
-    ? slugString
-    : `tours/from-bali/${slugString}`;
-  try {
-    return (await getWebPackageDetail(fullSlug)) as TourPackageDetailResponse | null;
-  } catch (error) {
-    console.error("Error fetching tour details:", error);
-    return null;
-  }
+  return getPublicPackageDetail(
+    slugParam.includes("tours/")
+      ? slugParam
+      : `tours/from-bali/${slugParam}`,
+  ) as Promise<TourPackageDetailResponse | null>;
 });
 
 // --- 4. INTERNAL COMPONENT: STRUCTURED DATA ---
@@ -337,22 +326,7 @@ function StructuredData({
 }
 
 // --- 5. METADATA GENERATION ---
-const getReviewsData = cache(async () => {
-  const raw = await prisma.reviews.findMany({
-    where: { platform: { equals: "Trustpilot" } },
-    orderBy: { date: "desc" },
-  });
-
-  return raw.map((r) => ({
-    name: r.customer_name,
-    date: r.date.toISOString(), // Ubah Date ke String
-    url: r.url || r.url_reference || "",
-    stars: Number(r.star),
-    title: r.review?.substring(0, 60) ?? "",
-    text: r.review ?? "",
-    verified: true,
-  }));
-});
+const getReviewsData = cache(async () => getPublicHomeReviews());
 
 export async function generateMetadata(
   { params }: Props,

@@ -4,6 +4,7 @@ import type { Destination } from "@/interfaces";
 import DestinationCard from "@/components/website/DestinationCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -63,13 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getAllDestinations(): Promise<Destination[]> {
-  // Refactored 2026-04-29 (Phase 4.8): direct helper call (was self-fetch broke SSG with ECONNREFUSED).
-  try {
-    return (await getWebDestinationsList()) as unknown as Destination[];
-  } catch (error) {
-    console.error("Failed to fetch destinations", error);
-    return [];
-  }
+  return getPublicDestinationList();
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
