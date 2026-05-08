@@ -2,9 +2,10 @@ import ReviewsClient from "./ReviewsClient";
 import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
 
 const Reviews = async () => {
-  const reviews = (await getPublicHomeReviews()).slice(0, 12);
+  const allReviews = await getPublicHomeReviews();
+  const reviews = allReviews.slice(0, 10);
 
-  return <ReviewsClient reviews={reviews} />;
+  return <ReviewsClient reviews={reviews} totalCount={allReviews.length} />;
 };
 
 export default Reviews;
