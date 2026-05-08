@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { Providers } from "@/app/providers";
 import {
   Calendar,
   Users,
@@ -59,7 +60,7 @@ const StatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-export default function MyBookingPage() {
+function MyBookingPageInner() {
   const { data: session, status } = useSession();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -415,5 +416,13 @@ export default function MyBookingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MyBookingPage() {
+  return (
+    <Providers>
+      <MyBookingPageInner />
+    </Providers>
   );
 }
