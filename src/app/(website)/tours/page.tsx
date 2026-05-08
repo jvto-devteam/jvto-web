@@ -4,6 +4,7 @@ import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -26,18 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  // Fetch global (tanpa filter from=...)
-  const res = await fetch(`${siteUrl}/api/packages/web?category=1`, {
-    method: "GET",
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch all tours");
-    return [];
-  }
-  return res.json();
+  return getPublicPackageList({ categoryId: 1 });
 }
 
 export default async function ToursPageGlobal() {

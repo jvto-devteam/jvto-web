@@ -1,16 +1,21 @@
 // app/(website)/destinations/[slug]/page.tsx
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import type { Metadata } from "next";
 import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { prisma } from "@/lib/prisma";
+import {
+  getPublicDestinationDetail,
+  getPublicDestinationDetailStaticParams,
+} from "@/lib/publicContent/destinationDetailSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
 export const revalidate = 3600;
+export const dynamicParams = false;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
 
@@ -19,32 +24,15 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const destinations = await prisma.destinations.findMany({
-    where: {
-      published: true,
-      deleted_at: null,
-      slug: { not: null },
-      id: { notIn: [3, 4] },
-    },
-    select: { slug: true },
-  });
-
-  return destinations
-    .map((destination) => destination.slug)
-    .filter((slug): slug is string => Boolean(slug))
-    .map((slug) => ({ slug }));
+  return getPublicDestinationDetailStaticParams();
 }
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
-async function getDestination(slug: string): Promise<DestinationDetail | null> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web/${slug}`, {
-    next: { revalidate: 3600 },
-  });
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to fetch destination: ${res.status}`);
-  return res.json();
-}
+const getDestination = cache(
+  async (slug: string): Promise<DestinationDetail | null> =>
+    getPublicDestinationDetail(slug),
+);
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
 

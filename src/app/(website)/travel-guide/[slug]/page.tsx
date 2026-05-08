@@ -1,32 +1,44 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getContentPage } from "@/lib/content/getContentPage";
 import { MarkdownRendererTravelGuide } from "@/components/content/MarkdownRendererTravelGuide";
 import Sidebar from "../sidebar";
 import Link from "next/link";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return listPublicPageRoutesByPrefix("/travel-guide")
+    .filter((route) => route !== "/travel-guide/faq")
+    .map((route) => ({
+      slug: route.replace("/travel-guide/", ""),
+    }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["body_md"],
+  });
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
+  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
 
-  const row = await getContentPage(`/travel-guide/${slug}`, "en");
-
-  if (!row) {
+  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
     return {
       title: "Page Not Found",
     };
   }
 
-  const seo = (row.seo as Record<string, any> | null) ?? {};
-  const content = (row.content as Record<string, any> | null) ?? {};
-
   return {
-    title: seo.title ?? content.h1 ?? row.route,
+    title: seo.title ?? content.h1 ?? page.pageRow.route,
     description: seo.description ?? undefined,
   };
 }
@@ -34,27 +46,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function TravelGuideDynamicPage({ params }: Props) {
   const { slug } = await params;
 
-  const row = await getContentPage(`/travel-guide/${slug}`, "en");
-
-  if (!row) return notFound();
-
-  const content = row.content as any;
-  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["body_md"],
+  });
+  const content = page.pageRow.content as any;
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
   const body = content?.body_md ?? "";
 
+  if (!body.trim().length) return notFound();
+
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined
-        pageRow={{
-          route: row.route,
-          lang: row.lang,
-          seo: row.seo,
-          content: row.content,
-          created_at: row.created_at,
-          updated_at: row.updated_at,
-        }}
-      />
+      <PageJsonLdCombined pageRow={page.pageRow} />
       <Sidebar />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">

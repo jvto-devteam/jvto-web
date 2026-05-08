@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_PACKAGES } from "@/data/mockData";
+import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 
 interface ImageAsset {
   url: string;
@@ -71,28 +72,29 @@ function serializePackage(pkg: any) {
 }
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const limitParam = searchParams.get("limit")?.trim() || undefined;
+  const fromIdParam = searchParams.get("from")?.trim() || undefined;
+  const durationIdParam = searchParams.get("duration")?.trim() || undefined;
+  const categoryIdParam = searchParams.get("category")?.trim() || undefined;
+
+  const fromId =
+    fromIdParam && !isNaN(Number(fromIdParam))
+      ? Number(fromIdParam)
+      : undefined;
+  const durationId =
+    durationIdParam && !isNaN(Number(durationIdParam))
+      ? Number(durationIdParam)
+      : undefined;
+  const categoryId =
+    categoryIdParam && !isNaN(Number(categoryIdParam))
+      ? Number(categoryIdParam)
+      : undefined;
+  const limit =
+    limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
+
   if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
     let filteredPackages = [...MOCK_PACKAGES];
-    const { searchParams } = new URL(request.url);
-    const limitParam = searchParams.get("limit")?.trim() || undefined;
-    const fromIdParam = searchParams.get("from")?.trim() || undefined;
-    const durationIdParam = searchParams.get("duration")?.trim() || undefined;
-    const categoryIdParam = searchParams.get("category")?.trim() || undefined;
-
-    const fromId =
-      fromIdParam && !isNaN(Number(fromIdParam))
-        ? Number(fromIdParam)
-        : undefined;
-    const durationId =
-      durationIdParam && !isNaN(Number(durationIdParam))
-        ? Number(durationIdParam)
-        : undefined;
-    const categoryId =
-      categoryIdParam && !isNaN(Number(categoryIdParam))
-        ? Number(categoryIdParam)
-        : undefined;
-    const limit =
-      limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
 
     if (fromId !== undefined) {
       if (fromId === 4) {
@@ -130,28 +132,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(filteredPackages, { status: 200 });
   }
 
+  if (process.env.PUBLIC_CONTENT_USE_SNAPSHOT_LISTS !== "false") {
+    const payload = getPublicPackageList({
+      fromId,
+      durationId,
+      categoryId,
+      limit,
+    });
+
+    if (!payload.length) {
+      return NextResponse.json(
+        { message: "Paket tidak ditemukan atau belum dipublikasikan" },
+        { status: 404 },
+      );
+    }
+
+    return NextResponse.json(payload, { status: 200 });
+  }
+
   try {
-    const { searchParams } = new URL(request.url);
-    const fromIdParam = searchParams.get("from")?.trim() || undefined;
-    const durationIdParam = searchParams.get("duration")?.trim() || undefined;
-    const categoryIdParam = searchParams.get("category")?.trim() || undefined;
-    const limitParam = searchParams.get("limit")?.trim() || undefined;
-
-    const fromId =
-      fromIdParam && !isNaN(Number(fromIdParam))
-        ? Number(fromIdParam)
-        : undefined;
-    const durationId =
-      durationIdParam && !isNaN(Number(durationIdParam))
-        ? Number(durationIdParam)
-        : undefined;
-    const categoryId =
-      categoryIdParam && !isNaN(Number(categoryIdParam))
-        ? Number(categoryIdParam)
-        : undefined;
-    const limit =
-      limitParam && !isNaN(Number(limitParam)) ? Number(limitParam) : undefined;
-
     const pkgs = await prisma.packages.findMany({
       where: {
         is_publish: true,

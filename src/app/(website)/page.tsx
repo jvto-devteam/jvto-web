@@ -13,6 +13,7 @@ import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import {
   DEFAULT_SITE,
 } from "@/lib/seo/jsonld/builders";
@@ -45,15 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getDestinations(): Promise<Destination[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
+  return getPublicDestinationList();
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

@@ -3,26 +3,22 @@ import Link from "next/link";
 import { type Metadata } from "next";
 import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import { getContentPage } from "@/lib/content/getContentPage";
 import { Faq } from "@/components/content/Faq";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+import { getPageSeo } from "@/lib/content/getPageSeo";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+const fallbackSeo = {
+  title: "JVTO Policies | Booking, Privacy & Inclusions",
+  h1: "JVTO Policies",
+  description:
+    "Navigation hub for JVTO policy documents covering privacy, booking, payment, cancellation, and inclusions/exclusions.",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
-  const row = await getContentPage(`/policy`, "en");
-
-  if (!row) {
-    return {
-      title: "Page Not Found",
-    };
-  }
-
-  const seo = (row.seo as Record<string, any> | null) ?? {};
-  const content = (row.content as Record<string, any> | null) ?? {};
+  const seo = await getPageSeo("/policy", fallbackSeo);
 
   return {
-    title: seo.title ?? content.h1 ?? row.route,
-    description: seo.description ?? undefined,
+    title: seo.title,
+    description: seo.description,
   };
 }
 export default async function PolicyHubPage() {
@@ -70,27 +66,17 @@ export default async function PolicyHubPage() {
       lastUpdated: "17 January 2026",
     },
   ] as const;
-  const row = await getContentPage(`/policy`, "en");
-  if (!row) {
-    return null;
-  }
-  const seo = (row.seo as Record<string, any> | null) ?? {};
-  const content = row.content as any;
-  const h1 = content?.h1 ?? seo.title ?? "JVTO Policies";
+  const page = await getPublicPageSnapshot("/policy", {
+    allowDatabaseFallback: false,
+  });
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
+  const content = page.pageRow.content as any;
+  const h1 = content?.h1 ?? seo.title ?? fallbackSeo.h1;
 
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <PageJsonLdCombined
-        pageRow={{
-          route: row.route,
-          lang: row.lang,
-          seo: row.seo,
-          content: row.content,
-          created_at: row.created_at,
-          updated_at: row.updated_at,
-        }}
-      />
+      <PageJsonLdCombined pageRow={page.pageRow} />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         {/* Header */}

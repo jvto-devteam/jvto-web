@@ -1,7 +1,8 @@
 // app/api/destinations/web/[slug]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATION_DETAILS } from "@/data/mockData";
+import { getDestinationDetailFromDatabase } from "@/lib/publicContent/databaseDestinationDetail";
+import { getPublicDestinationDetail } from "@/lib/publicContent/destinationDetailSnapshot";
 
 export async function GET(
   _req: NextRequest,
@@ -23,14 +24,10 @@ export async function GET(
       }
     }
 
-    const dest = await prisma.destinations.findUnique({
-      where: { slug: slug },
-      include: {
-        destination_assets: {
-          include: { asset: true },
-        },
-      },
-    });
+    const useSnapshots = process.env.PUBLIC_CONTENT_USE_SNAPSHOT_DETAILS !== "false";
+    const dest = useSnapshots
+      ? await getPublicDestinationDetail(slug)
+      : await getDestinationDetailFromDatabase(slug);
 
     if (!dest) {
       return NextResponse.json(
@@ -39,18 +36,13 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(
-      JSON.parse(
-        JSON.stringify(dest, (_, v) => (typeof v === "bigint" ? Number(v) : v)),
-      ),
-      {
-        status: 200,
-        headers: {
-          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-          "Content-Type": "application/json",
-        },
+    return NextResponse.json(dest, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Content-Type": "application/json",
       },
-    );
+    });
   } catch (error) {
     console.error("GET /api/destinations/web/[slug] error:", error);
     return NextResponse.json(
