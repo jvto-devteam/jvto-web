@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Check,
   QrCode,
@@ -35,18 +35,34 @@ const IMAGES = [
 
 const IjenHealthScreeningSection = () => {
   const [current, setCurrent] = useState(0);
+  const [shouldLoadImage, setShouldLoadImage] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const prev = () => setCurrent((i) => (i === 0 ? IMAGES.length - 1 : i - 1));
   const next = () => setCurrent((i) => (i === IMAGES.length - 1 ? 0 : i + 1));
 
-  // Auto-play setiap 4 detik
-//   useEffect(() => {
-//     const timer = setInterval(next, 4000);
-//     return () => clearInterval(timer);
-//   }, []);
+  useEffect(() => {
+    if (shouldLoadImage || !sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadImage(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "250px 0px" },
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [shouldLoadImage]);
 
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-16 md:py-24 bg-white relative overflow-hidden"
+    >
       <div className="container mx-auto px-4">
         <div className="bg-white rounded-sm shadow-xl border border-gray-100 overflow-hidden">
           <div className="grid md:grid-cols-2">
@@ -104,7 +120,8 @@ const IjenHealthScreeningSection = () => {
                 <Link
                   target="_blank"
                   href="/travel-guide/ijen-health-screening"
-                  className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-black hover:bg-[#8cb82b] rounded-sm uppercase tracking-widest group"
+                  prefetch={false}
+                  className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-black hover:bg-lime-600 rounded-lg uppercase tracking-widest group"
                 >
                   See How It Works
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -119,14 +136,21 @@ const IjenHealthScreeningSection = () => {
                 key={current}
                 className="absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100"
               >
-                <Image
-                  src={IMAGES[current].src}
-                  alt={IMAGES[current].alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 640px"
-                  quality={62}
-                  className="object-cover"
-                />
+                {shouldLoadImage ? (
+                  <Image
+                    src={IMAGES[current].src}
+                    alt={IMAGES[current].alt}
+                    fill
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                    sizes="(max-width: 768px) 100vw, 640px"
+                    quality={56}
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-slate-100" aria-hidden="true" />
+                )}
               </div>
 
               {/* Gradient Overlay */}
