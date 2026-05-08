@@ -16,7 +16,7 @@ const Hero: React.FC<HeroProps> = ({
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/img/hero/home-optimized.webp"
+          src="/assets/img/hero/home-lite.webp"
           alt="Ijen Crater"
           fill
           priority
