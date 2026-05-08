@@ -174,7 +174,8 @@ const FeaturedToursClient = ({
         <Link
           target="_blank"
           href="/tours"
-          className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-sm shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
+          prefetch={false}
+          className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
         >
           View All Tours
           <ArrowRight className="w-5 h-5" />

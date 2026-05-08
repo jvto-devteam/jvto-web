@@ -1,7 +1,12 @@
 import React from 'react';
 import { Mail, MessageCircle, MapPin } from 'lucide-react';
+import ContactMapEmbed from './ContactMapEmbed';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  deferMap?: boolean;
+}
+
+const Contact: React.FC<ContactProps> = ({ deferMap = false }) => {
   const contactInfo = [
     {
       icon: Mail,
@@ -82,26 +87,7 @@ const Contact: React.FC = () => {
 
           {/* Right Column: Map (Replacing the Form container style) */}
           <div className="w-full lg:w-7/12">
-            <div className="bg-white p-4 rounded-sm shadow-xl border border-gray-100 h-[500px] overflow-hidden relative group">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.437436214531!2d113.8085867759296!3d-7.916178892019881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6dce1d25a03db%3A0x11932bb44bf4e2bd!2sJava%20Volcano%20Tour%20Operator!5e0!3m2!1sen!2sid!4v1722839981585!5m2!1sen!2sid"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Java Volcano Tour Operator Location"
-                className="w-full h-full rounded-sm grayscale contrast-[1.1] group-hover:grayscale-0 transition-all duration-500"
-              ></iframe>
-              
-              {/* Optional: Floating Badge inside map similar to styling */}
-              <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-gray-200">
-                <p className="text-xs font-bold text-green-600 flex items-center gap-1">
-                  <MapPin className="w-3 h-3" /> Java Volcano Base
-                </p>
-              </div>
-            </div>
+            <ContactMapEmbed defer={deferMap} />
           </div>
 
         </div>

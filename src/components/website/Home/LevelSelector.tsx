@@ -30,6 +30,7 @@ const LevelSelector: React.FC = () => {
               </p>
               <Link
                 href="/tours/from-surabaya"
+                prefetch={false}
                 className="font-bold flex items-center gap-2 text-jvto-dark group-hover:text-jvto-green transition-colors"
               >
                 View Routes <ArrowRight size={16} />
@@ -60,6 +61,7 @@ const LevelSelector: React.FC = () => {
               </p>
               <Link
                 href="/tours/from-bali"
+                prefetch={false}
                 className="font-bold flex items-center gap-2 text-jvto-dark group-hover:text-jvto-green transition-colors"
               >
                 View Routes <ArrowRight size={16} />
