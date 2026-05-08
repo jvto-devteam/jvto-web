@@ -25,8 +25,8 @@ import {
   Newspaper,
 } from "lucide-react";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import SidebarDesktop from "./SidebarDesktop";
 const siteUrl = "https://javavolcano-touroperator.com";
-import Sidebar from "./sidebar";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
 const defaultWhyDescription =
@@ -711,7 +711,7 @@ export default async function WhyJvtoPage() {
       `}</style>
 
       <div className="flex min-h-screen bg-background">
-        <Sidebar />
+        <SidebarDesktop currentPath="/why-jvto" />
         <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main className="pt-24 w-full jvto-page">

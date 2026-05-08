@@ -26,9 +26,10 @@ export default function IsicSection() {
 
           {/* Right Side: Action Button */}
           <Link 
-          target="_blank"
+            target="_blank"
             href="/isic/student-package" 
-            className="group flex-shrink-0 inline-flex items-center justify-center px-8 py-3 text-sm font-bold text-black transition-all duration-200 bg-jvto-green hover:bg-[#8cb82b] rounded-sm uppercase tracking-widest"
+            prefetch={false}
+            className="group flex-shrink-0 inline-flex items-center justify-center px-8 py-3 text-sm font-bold text-black transition-all duration-200 bg-lime-400 hover:bg-lime-500 rounded-lg uppercase tracking-widest"
           >
             Get Deals
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
