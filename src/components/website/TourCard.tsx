@@ -57,7 +57,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 80vw, 350px"
+            quality={64}
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           />
         </div>

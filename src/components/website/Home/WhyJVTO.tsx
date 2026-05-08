@@ -64,7 +64,8 @@ const WhyJVTO: React.FC = () => {
                 src="/founder/agung_sambuko.webp"
                 alt='Agung "Mr. Sam" Sambuko - JVTO Founder'
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 448px"
+                quality={64}
                 className="object-cover"
               />
 

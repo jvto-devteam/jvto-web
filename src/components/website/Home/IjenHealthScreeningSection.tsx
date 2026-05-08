@@ -115,22 +115,19 @@ const IjenHealthScreeningSection = () => {
             {/* Image Carousel Side */}
             <div className="relative min-h-[300px] h-full overflow-hidden group/carousel">
               {/* Slides */}
-              {IMAGES.map((img, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    index === current ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              <div
+                key={current}
+                className="absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100"
+              >
+                <Image
+                  src={IMAGES[current].src}
+                  alt={IMAGES[current].alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 640px"
+                  quality={62}
+                  className="object-cover"
+                />
+              </div>
 
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:bg-gradient-to-l md:from-transparent md:to-transparent pointer-events-none" />

@@ -399,10 +399,77 @@ const ProfileDropdown: React.FC = () => {
   );
 };
 
+const DesktopGuestButton = ({
+  finalMenuIconClass,
+  onOpenLogin,
+}: {
+  finalMenuIconClass: string;
+  onOpenLogin: () => void;
+}) => (
+  <button
+    onClick={onOpenLogin}
+    aria-label="Open login"
+    className="hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
+  >
+    <User size={20} className={finalMenuIconClass} />
+  </button>
+);
+
+const NavbarDesktopAuth = ({
+  finalMenuIconClass,
+  onOpenLogin,
+}: {
+  finalMenuIconClass: string;
+  onOpenLogin: () => void;
+}) => {
+  const { data: session } = useSession();
+
+  return session ? (
+    <ProfileDropdown />
+  ) : (
+    <DesktopGuestButton
+      finalMenuIconClass={finalMenuIconClass}
+      onOpenLogin={onOpenLogin}
+    />
+  );
+};
+
+const NavbarMobileAuth = ({
+  onOpenMobileLogin,
+}: {
+  onOpenMobileLogin: () => void;
+}) => {
+  const { data: session } = useSession();
+
+  return session ? (
+    <>
+      <Link
+        href="/my-booking"
+        prefetch={false}
+        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
+      >
+        <LayoutDashboard size={20} /> My Booking
+      </Link>
+      <button
+        onClick={() => signOut()}
+        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-red-600 hover:text-red-800 transition-colors text-left"
+      >
+        <LogOut size={20} /> Log Out
+      </button>
+    </>
+  ) : (
+    <button
+      onClick={onOpenMobileLogin}
+      className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark hover:text-jvto-green transition-colors text-left"
+    >
+      <LogIn size={20} /> Log In
+    </button>
+  );
+};
+
 // --- 5. MAIN NAVBAR COMPONENT ---
 
 const NavbarInner: React.FC = () => {
-  const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -449,6 +516,7 @@ const NavbarInner: React.FC = () => {
   const [hasLoadedTours, setHasLoadedTours] = useState(false);
   const [isLoadingTours, setIsLoadingTours] = useState(false);
   const [tourLoadError, setTourLoadError] = useState(false);
+  const [shouldLoadAuth, setShouldLoadAuth] = useState(false);
 
   useEffect(() => {
     if (!isSearchOpen || hasLoadedTours || isLoadingTours) return;
@@ -487,6 +555,40 @@ const NavbarInner: React.FC = () => {
       isMounted = false;
     };
   }, [hasLoadedTours, isLoadingTours, isSearchOpen]);
+
+  useEffect(() => {
+    if (shouldLoadAuth) return;
+
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let idleCallbackId: number | undefined;
+
+    const enableAuth = () => {
+      if (!cancelled) {
+        setShouldLoadAuth(true);
+      }
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleCallbackId = window.requestIdleCallback(enableAuth, {
+        timeout: 2500,
+      });
+    } else {
+      timeoutId = setTimeout(enableAuth, 1500);
+    }
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      if (
+        idleCallbackId !== undefined &&
+        typeof window !== "undefined" &&
+        "cancelIdleCallback" in window
+      ) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+    };
+  }, [shouldLoadAuth]);
 
   const filteredResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -591,18 +693,21 @@ const NavbarInner: React.FC = () => {
               <ToursDropdown />
               <Link
                 href="/destinations"
+                prefetch={false}
                 className="hover:text-jvto-green transition-colors whitespace-nowrap"
               >
                 Destinations
               </Link>
               <Link
                 href="/why-jvto"
+                prefetch={false}
                 className="hover:text-jvto-green transition-colors whitespace-nowrap"
               >
                 Why JVTO
               </Link>
               <Link
                 href="/travel-guide"
+                prefetch={false}
                 className="hover:text-jvto-green transition-colors whitespace-nowrap"
               >
                 Travel Guide
@@ -611,10 +716,11 @@ const NavbarInner: React.FC = () => {
           </div>
 
           <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-50">
-            <Link
-              href="/"
-              className={`text-2xl font-black italic tracking-tighter flex items-center gap-1 ${finalLogoTextClass}`}
-            >
+              <Link
+                href="/"
+                prefetch={false}
+                className={`text-2xl font-black italic tracking-tighter flex items-center gap-1 ${finalLogoTextClass}`}
+              >
               <Image
                 src="/assets/img/jvto-logo.png"
                 alt="JVTO Logo"
@@ -636,18 +742,16 @@ const NavbarInner: React.FC = () => {
             </button>
 
             {/* --- AUTH LOGIC (DESKTOP) --- */}
-            {session ? (
-              // 1. SUDAH LOGIN -> Dropdown My Account
-              <ProfileDropdown />
+            {shouldLoadAuth ? (
+              <NavbarDesktopAuth
+                finalMenuIconClass={finalMenuIconClass}
+                onOpenLogin={() => setIsLoginOpen(true)}
+              />
             ) : (
-              // 2. BELUM LOGIN -> Tombol Log In Saja
-              <button
-                onClick={() => setIsLoginOpen(true)}
-                aria-label="Open login"
-                className="hidden md:inline-flex p-2 cursor-pointer hover:bg-black/5 rounded-full transition-colors"
-              >
-                <User size={20} className={finalMenuIconClass} />
-              </button>
+              <DesktopGuestButton
+                finalMenuIconClass={finalMenuIconClass}
+                onOpenLogin={() => setIsLoginOpen(true)}
+              />
             )}
           </div>
         </div>
@@ -681,24 +785,14 @@ const NavbarInner: React.FC = () => {
               <>
                 <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
                   {/* --- AUTH LOGIC (MOBILE) --- */}
-                  {session ? (
-                    <>
-                      {/* Tampilkan Menu User Jika Login */}
-                      <Link
-                        href="/my-booking"
-                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-green hover:text-jvto-dark transition-colors"
-                      >
-                        <LayoutDashboard size={20} /> My Booking
-                      </Link>
-                      <button
-                        onClick={() => signOut()}
-                        className="flex items-center gap-3 border-b border-gray-100 pb-4 text-red-600 hover:text-red-800 transition-colors text-left"
-                      >
-                        <LogOut size={20} /> Log Out
-                      </button>
-                    </>
+                  {shouldLoadAuth ? (
+                    <NavbarMobileAuth
+                      onOpenMobileLogin={() => {
+                        setIsMenuOpen(false);
+                        setIsLoginOpen(true);
+                      }}
+                    />
                   ) : (
-                    // Tampilkan Tombol Login Jika Guest
                     <button
                       onClick={() => {
                         setIsMenuOpen(false);
@@ -712,30 +806,35 @@ const NavbarInner: React.FC = () => {
 
                   <Link
                     href="/tours"
+                    prefetch={false}
                     className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
                     Private Tours
                   </Link>
                   <Link
                     href="/destinations"
+                    prefetch={false}
                     className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
                     Destinations
                   </Link>
                   <Link
                     href="/why-jvto"
+                    prefetch={false}
                     className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
                     Why JVTO
                   </Link>
                   <Link
                     href="/travel-guide"
+                    prefetch={false}
                     className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
                   >
                     Travel Guide
                   </Link>
                   <Link
                     href="/contact"
+                    prefetch={false}
                     className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
                   >
                     Contact
