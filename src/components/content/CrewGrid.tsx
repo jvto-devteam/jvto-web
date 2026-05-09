@@ -1,6 +1,7 @@
 // components/content/CrewGrid.tsx
 import Image from "next/image";
 import { Instagram, Facebook } from "lucide-react";
+import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 
 export type CrewMember = {
   name: string;
@@ -46,6 +47,10 @@ function roleBadge(role: string) {
 // ─── Satu card crew ───────────────────────────────────────────────────────────
 
 function CrewCard({ member }: { member: CrewMember }) {
+  const resolvedPhotoUrl = member.photo_url
+    ? getWhyJvtoOptimizedImageSrc(member.photo_url)
+    : null;
+
   return (
     <>
       <div className="jvto-crew-card">
@@ -55,8 +60,11 @@ function CrewCard({ member }: { member: CrewMember }) {
             member.photo_url.startsWith("/") ||
             member.photo_url.includes("javavolcano-touroperator.com") ? (
               <img
-                src={member.photo_url}
+                src={resolvedPhotoUrl ?? member.photo_url}
                 alt={`${member.name} – JVTO ${member.role}`}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
                 style={{
                   position: "absolute",
                   inset: 0,

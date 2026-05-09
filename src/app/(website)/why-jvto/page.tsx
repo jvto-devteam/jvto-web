@@ -719,7 +719,7 @@ export default async function WhyJvtoPage() {
           <section className="hero-section">
             <div className="hero-bg">
               <img
-                src={`${siteUrl}/assets/img/hero/home-optimized.webp`}
+                src={`${siteUrl}/assets/img/hero/home-lite.webp`}
                 alt="East Java volcano"
                 decoding="async"
               />
@@ -768,10 +768,10 @@ export default async function WhyJvtoPage() {
                 </a>
               </div>
               <div className="hero-ctas">
-                <Link href="/travel-guide" className="btn-primary">
+                <Link href="/travel-guide" prefetch={false} className="btn-primary">
                   <BookOpen size={17} /> Read Travel Guide
                 </Link>
-                <Link href="/verify-jvto" className="btn-ghost">
+                <Link href="/verify-jvto" prefetch={false} className="btn-ghost">
                   <Lock size={17} /> Verify Our Documents
                 </Link>
               </div>
@@ -817,7 +817,12 @@ export default async function WhyJvtoPage() {
                 {trustStackCards.map((card, i) => {
                   const Icon = card.icon;
                   return (
-                    <Link key={i} href={card.href} className="trust-card">
+                    <Link
+                      key={i}
+                      href={card.href}
+                      prefetch={false}
+                      className="trust-card"
+                    >
                       <div className="trust-card-icon">
                         <Icon />
                       </div>
@@ -1047,7 +1052,12 @@ export default async function WhyJvtoPage() {
                       note: "Legal docs, licenses, press, history",
                     },
                   ].map((item, i) => (
-                    <Link key={i} href={item.href} className="verify-link">
+                    <Link
+                      key={i}
+                      href={item.href}
+                      prefetch={false}
+                      className="verify-link"
+                    >
                       <CheckCircle2 size={18} className="verify-link-check" />
                       <span className="verify-link-text">
                         <span className="verify-link-title">{item.label}</span>
@@ -1072,7 +1082,7 @@ export default async function WhyJvtoPage() {
                     with cryptographic proofs.
                   </p>
                 </div>
-                <Link href="/verify-jvto" className="btn-sm-ghost">
+                <Link href="/verify-jvto" prefetch={false} className="btn-sm-ghost">
                   <Lock size={14} /> Enter Proof Library
                 </Link>
               </div>
@@ -1122,11 +1132,15 @@ export default async function WhyJvtoPage() {
                       <div className="faq-q">{item.q}</div>
                       <div className="faq-a">{item.a}</div>
                       <div className="faq-links">
-                        <Link href={item.link} className="faq-link">
+                        <Link href={item.link} prefetch={false} className="faq-link">
                           {item.linkLabel} <ArrowRight />
                         </Link>
                         {item.link2 && (
-                          <Link href={item.link2} className="faq-link">
+                          <Link
+                            href={item.link2}
+                            prefetch={false}
+                            className="faq-link"
+                          >
                             {item.linkLabel2} <ArrowRight />
                           </Link>
                         )}
@@ -1150,6 +1164,7 @@ export default async function WhyJvtoPage() {
               <div className="footer-cta-btns">
                 <Link
                   href="/travel-guide/booking-information"
+                  prefetch={false}
                   className="btn-primary"
                 >
                   How to Book <ArrowRight size={17} />
