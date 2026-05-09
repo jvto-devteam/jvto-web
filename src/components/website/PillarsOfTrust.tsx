@@ -46,7 +46,8 @@ const PillarCard: React.FC<PillarCardProps> = ({ pillar }) => {
 
       <Link
         href={pillar.link}
-        className="mt-6 inline-block px-6 py-2 rounded-sm bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
+        prefetch={false}
+        className="mt-6 inline-block px-6 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-opacity-90 transition-all"
       >
         {pillar.cta}
       </Link>

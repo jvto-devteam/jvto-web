@@ -39,6 +39,126 @@ const historyJobs = [
   },
 ];
 
+const sharedPublicJobs = [
+  {
+    input: "assets/img/hero/home.webp",
+    output: "assets/img/hero/home-lite.webp",
+    width: 1280,
+    quality: 46,
+  },
+  {
+    input: "legal/NIB-1102230032918-preview.png",
+    output: "legal/NIB-1102230032918-preview.webp",
+    width: 720,
+    quality: 56,
+  },
+  {
+    input: "legal/SPRIN-POLPAR.png",
+    output: "legal/SPRIN-POLPAR.webp",
+    width: 720,
+    quality: 54,
+  },
+  {
+    input: "screening/ijen-screening-hotel-01.jpeg",
+    output: "screening/ijen-screening-hotel-01.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "uploads/1763205255605-141795118-kiki.png",
+    output: "uploads/1763205255605-141795118-kiki.webp",
+    width: 720,
+    quality: 54,
+  },
+];
+
+const verifyJobs = [
+  {
+    input: "founder/mr-sam-tourist-police-portrait.png",
+    output: "founder/mr-sam-tourist-police-portrait-optimized.webp",
+    width: 900,
+    quality: 52,
+  },
+  {
+    input: "ops/baratha-hotel-departure-team.jpg",
+    output: "ops/baratha-hotel-departure-team-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "ops/group-at-jvto-office.jpg",
+    output: "ops/group-at-jvto-office-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "ops/guest-welcome-evening.png",
+    output: "ops/guest-welcome-evening-optimized.webp",
+    width: 900,
+    quality: 54,
+  },
+  {
+    input: "ops/ijen-geopark-briefing.png",
+    output: "ops/ijen-geopark-briefing-optimized.webp",
+    width: 900,
+    quality: 54,
+  },
+  {
+    input: "ops/jvto-police-escort-arrival-hotel-bondowoso-day.jpg",
+    output: "ops/jvto-police-escort-arrival-hotel-bondowoso-day-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "ops/jvto-police-escort-arrival-hotel-bondowoso-night.jpg",
+    output: "ops/jvto-police-escort-arrival-hotel-bondowoso-night-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "ops/police-vehicle-support.jpg",
+    output: "ops/police-vehicle-support-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "legal/office-photo.jpg",
+    output: "legal/office-photo-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen.png",
+    output: "press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen-optimized.webp",
+    width: 1200,
+    quality: 54,
+  },
+  {
+    input: "screening/SCREENSHOT_SIP_DOKTER_AHMAD_IRWANDANU_2026.png",
+    output: "screening/SCREENSHOT_SIP_DOKTER_AHMAD_IRWANDANU_2026.webp",
+    width: 1100,
+    quality: 54,
+  },
+  {
+    input: "screening/jvto-office-screening-1.JPG",
+    output: "screening/jvto-office-screening-1-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "screening/jvto-office-screening-2.jpg",
+    output: "screening/jvto-office-screening-2-optimized.webp",
+    width: 900,
+    quality: 56,
+  },
+  {
+    input: "screening/print-surat-sehat-preview-2026.png",
+    output: "screening/print-surat-sehat-preview-2026.webp",
+    width: 900,
+    quality: 54,
+  },
+];
+
 const crewJobs = [
   "uploads/1768225567764-405955176-gufron.png",
   "uploads/1768228514527-518051332-rendi.png",
@@ -56,8 +176,8 @@ const crewJobs = [
   return {
     input,
     output: input.replace(ext, "-thumb.webp"),
-    width: 800,
-    quality: 68,
+    width: 520,
+    quality: 54,
   };
 });
 
@@ -95,7 +215,7 @@ async function ensureGenerated(job) {
 }
 
 const results = [];
-for (const job of [...historyJobs, ...crewJobs]) {
+for (const job of [...historyJobs, ...sharedPublicJobs, ...verifyJobs, ...crewJobs]) {
   results.push(await ensureGenerated(job));
 }
 

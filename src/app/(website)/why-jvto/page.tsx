@@ -970,6 +970,7 @@ export default async function WhyJvtoPage() {
                       alt="Detik.com article screenshot"
                       loading="lazy"
                       decoding="async"
+                      fetchPriority="low"
                     />
                     <div className="browser-footer">
                       <span className="browser-hash">
@@ -999,6 +1000,7 @@ export default async function WhyJvtoPage() {
                       alt="Radar Jember screenshot"
                       loading="lazy"
                       decoding="async"
+                      fetchPriority="low"
                     />
                   </div>
                 </div>
@@ -1095,6 +1097,7 @@ export default async function WhyJvtoPage() {
                         alt={doc.title}
                         loading="lazy"
                         decoding="async"
+                        fetchPriority="low"
                       />
                       <FileDigit size={28} className="proof-img-placeholder" />
                     </div>

@@ -227,6 +227,7 @@ export default function VerifyJvtoClient({
           <div className="flex flex-wrap gap-2">
             <Link
               href="/verify-jvto"
+              prefetch={false}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 pathname === "/verify-jvto"
                   ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
@@ -237,6 +238,7 @@ export default function VerifyJvtoClient({
             </Link>
             <Link
               href="/verify-jvto/legal"
+              prefetch={false}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 pathname === "/verify-jvto/legal"
                   ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
@@ -247,6 +249,7 @@ export default function VerifyJvtoClient({
             </Link>
             <Link
               href="/verify-jvto/police-safety"
+              prefetch={false}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 pathname === "/verify-jvto/police-safety"
                   ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
@@ -257,6 +260,7 @@ export default function VerifyJvtoClient({
             </Link>
             <Link
               href="/verify-jvto/press-recognition"
+              prefetch={false}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 pathname === "/verify-jvto/press-recognition"
                   ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
@@ -267,6 +271,7 @@ export default function VerifyJvtoClient({
             </Link>
             <Link
               href="/verify-jvto/history-artifacts"
+              prefetch={false}
               className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 pathname === "/verify-jvto/history-artifacts"
                   ? "bg-[#1445b8] text-white shadow-md shadow-blue-900/20"
@@ -303,6 +308,7 @@ export default function VerifyJvtoClient({
                       src={displayImage}
                       alt={doc.caption}
                       fill
+                      unoptimized
                       className="object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       loading="lazy"
@@ -612,6 +618,7 @@ export default function VerifyJvtoClient({
                         alt={selectedDoc.caption}
                         width={800}
                         height={600}
+                        unoptimized
                         className="max-w-full md:max-w-[650px] h-auto object-contain bg-white"
                         style={{ width: "auto", height: "auto" }}
                         sizes="(max-width: 768px) 100vw, 650px"

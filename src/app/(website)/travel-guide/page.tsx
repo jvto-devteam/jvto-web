@@ -585,7 +585,7 @@ export default async function TravelGuideHubPage() {
         <section className="bg-accent border-b pb-12">
           <div className="container mx-auto px-4 max-w-4xl">
             <nav className="mb-4 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-primary">
+              <Link href="/" prefetch={false} className="hover:text-primary">
                 Home
               </Link>
               <span className="mx-2">›</span>
@@ -607,7 +607,7 @@ export default async function TravelGuideHubPage() {
                   size="lg"
                   variant={cta.href.includes("tours") ? "primary" : "outline"}
                 >
-                  <Link href={cta.href}>{cta.label}</Link>
+                  <Link href={cta.href} prefetch={false}>{cta.label}</Link>
                 </Button>
               ))}
             </div>
@@ -675,7 +675,7 @@ export default async function TravelGuideHubPage() {
                           size="sm"
                           className="p-0 flex h-auto"
                         >
-                          <Link className="flex" href={panel.cta.href}>
+                          <Link className="flex" href={panel.cta.href} prefetch={false}>
                             {panel.cta.label}{" "}
                             <ArrowRight className="ml-2 w-4 h-4" />
                           </Link>
