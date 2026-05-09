@@ -140,6 +140,7 @@ export default function SidebarDesktop({
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
                 className={`sidebar-link${isActive ? " active" : ""}`}
               >
                 <span className="sidebar-link-icon">
@@ -153,7 +154,7 @@ export default function SidebarDesktop({
 
         <div className="sidebar-divider" />
 
-        <Link href="/verify-jvto" className="sidebar-verify-badge">
+        <Link href="/verify-jvto" prefetch={false} className="sidebar-verify-badge">
           <span className="sidebar-verify-badge-label">◆ Quick Access</span>
           <span className="sidebar-verify-badge-text">Verify JVTO</span>
           <span className="sidebar-verify-badge-sub">
