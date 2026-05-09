@@ -24,7 +24,7 @@ import {
   Loader2,
   RefreshCw,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 /**
  * TYPES (CLIENT DTO)

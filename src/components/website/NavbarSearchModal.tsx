@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ArrowRight, Clock, Search, X } from "lucide-react";
 
 interface NavbarSearchModalProps {

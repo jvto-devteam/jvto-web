@@ -1,7 +1,7 @@
 import StructuredData from "@/components/website/StructuredData";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { Card, CardContent } from "@/components/ui/card";
 import Button from "@/components/website/UI/Button";
 import { companyHistory } from "@/lib/legal";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { usePathname } from "next/navigation";
 import { WHY_JVTO_ECOSYSTEM_LINKS } from "@/lib/why-ecosystem";
 

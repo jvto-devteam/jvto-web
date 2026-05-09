@@ -7,7 +7,7 @@ import {
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicFaqCategories } from "@/lib/publicContent/faqSnapshot";

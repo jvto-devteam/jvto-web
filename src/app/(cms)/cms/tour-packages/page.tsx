@@ -10,7 +10,7 @@ import {
   Download,
   Plus
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { useRouter } from 'next/navigation'
 
 

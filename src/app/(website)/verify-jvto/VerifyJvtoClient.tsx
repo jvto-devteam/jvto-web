@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import Button from "@/components/website/UI/Button";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { usePathname } from "next/navigation";
 
 export default function VerifyJvtoClient({

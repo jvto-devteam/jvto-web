@@ -1,5 +1,5 @@
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import {
   ShieldCheck,

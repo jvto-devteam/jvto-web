@@ -1,5 +1,5 @@
 // src/app/(website)/policy/inclusions-exclusions/page.tsx
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import Sidebar from "../sidebar";
 

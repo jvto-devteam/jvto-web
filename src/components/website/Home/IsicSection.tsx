@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { GraduationCap, ArrowRight } from "lucide-react";
 
 export default function IsicSection() {

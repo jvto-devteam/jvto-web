@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { useSession } from "next-auth/react";
 import { Providers } from "@/app/providers";
 import {

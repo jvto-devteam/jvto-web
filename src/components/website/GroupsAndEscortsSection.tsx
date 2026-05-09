@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const GroupsAndEscortsSection = () => (
     <div className="py-12 bg-background-light dark:bg-ink-primary">

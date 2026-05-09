@@ -3,7 +3,7 @@ import React from 'react';
 import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import StructuredData from './StructuredData';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const BookingInformationPage: React.FC = () => {
   const breadcrumbCrumbs = [

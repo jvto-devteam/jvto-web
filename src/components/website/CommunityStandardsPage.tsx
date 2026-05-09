@@ -3,7 +3,7 @@ import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import { communityPartners } from '@/constants';
 import { CommunityPartner } from '@/types';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const PartnerCard: React.FC<{ partner: CommunityPartner }> = ({ partner }) => {
   const commonClassName = "mt-4 inline-block text-sm font-semibold text-primary group-hover:underline";

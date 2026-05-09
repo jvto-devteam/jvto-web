@@ -1,5 +1,5 @@
 import Breadcrumbs from './Breadcrumbs';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const WeatherClosuresPage = () => {
   const breadcrumbCrumbs = [

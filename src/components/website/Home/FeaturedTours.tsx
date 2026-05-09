@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { MapPin, ArrowRight } from "lucide-react";
 import { ListTourPackage } from "@/types";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
