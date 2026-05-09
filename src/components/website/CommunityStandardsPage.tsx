@@ -22,7 +22,7 @@ const PartnerCard: React.FC<{ partner: CommunityPartner }> = ({ partner }) => {
           {partner.cta} →
         </a>
       ) : (
-        <Link href={partner.link} className={commonClassName}>
+        <Link href={partner.link} prefetch={false} className={commonClassName}>
           {partner.cta} →
         </Link>
       )}

@@ -390,6 +390,7 @@ function CardLink({ item }: { item: CardItem }) {
     return (
       <Link
         href={item.href}
+        prefetch={isExternal ? undefined : false}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
         style={base}

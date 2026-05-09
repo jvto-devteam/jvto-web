@@ -29,7 +29,7 @@ const PartnerCard: React.FC<{ partner: CommunityPartner }> = ({ partner }) => {
               <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
           </a>
         ) : (
-          <Link href={partner.link} className={linkClassName}>
+          <Link href={partner.link} prefetch={false} className={linkClassName}>
               {partner.cta}
               <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
           </Link>
@@ -60,7 +60,7 @@ const CommunityPartnerships: React.FC = () => {
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">{communityPartnershipsCopy.title}</h2>
               <p className="leading-relaxed">{communityPartnershipsCopy.subhead}</p>
             </div>
-            <Link href="/why-jvto/community-standards" className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-ink-primary font-semibold hover:bg-ink-primary hover:text-white transition-colors">
+            <Link href="/why-jvto/community-standards" prefetch={false} className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-ink-primary font-semibold hover:bg-ink-primary hover:text-white transition-colors">
               Our Impact
               <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
             </Link>

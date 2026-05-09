@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
                 alt="JVTO Logo Footer"
                 width={70}
                 height={70}
-                priority
+                unoptimized
                 className="object-contain"
               />
             {/* <span className="font-black text-2xl italic tracking-tighter">JVTO</span> */}
