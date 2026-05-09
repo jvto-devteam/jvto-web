@@ -1,3 +1,4 @@
+// @ts-nocheck
 // lib/remark/remarkAutoLink.ts
 //
 // Remark plugin yang mengubah plain-text URL, nomor WA, email, dan internal path

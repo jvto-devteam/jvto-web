@@ -9,8 +9,21 @@ import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
 import SidebarDesktop from "../SidebarDesktop";
 import { ChevronRight, Home } from "lucide-react";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import { getActiveCrewMembers } from "@/lib/queries/crewMembers";
+import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
+import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
+import {
+  buildIndividualReviewSchemas,
+  buildWhyJvtoBreadcrumbSchema,
+  buildWhyJvtoReviewsAggregateRatingSchema,
+  buildWhyJvtoWebPageSchema,
+} from "@/lib/schemas/buildWhyJvtoSchemas";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -107,10 +120,16 @@ function SectionNav({
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["sections"],
-  });
+  const route = `/why-jvto/${slug}`;
+  const [page, faqResolution, crewMembers, reviewsData] = await Promise.all([
+    getPublicPageSnapshot(route, {
+      allowDatabaseFallback: false,
+      requiredContentFields: ["sections"],
+    }),
+    resolveFaqsForPage(route),
+    slug === "our-team" ? getActiveCrewMembers().catch(() => []) : Promise.resolve([]),
+    slug === "reviews" ? getReviewsForSchema().catch(() => []) : Promise.resolve([]),
+  ]);
   const content = page.pageRow.content as any;
   if (!Array.isArray(content?.sections) || content.sections.length === 0) {
     return notFound();
@@ -121,8 +140,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   const faqSchema = buildResolvedFaqSchema(faqResolution, route);
 
-  const crewSchemas = (crewMembers as Awaited<ReturnType<typeof getActiveCrewMembers>>)
-    .map((m) => buildCrewPersonSchema(m));
+  const crewSchemas = crewMembers.map((m) => buildCrewPersonSchema(m));
 
   const reviewsAggregateSchema =
     slug === "reviews" ? buildWhyJvtoReviewsAggregateRatingSchema() : null;
@@ -133,6 +151,26 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
       : [];
 
   const slugExtraSchemas = [
+    buildWhyJvtoWebPageSchema({
+      subpath: slug as
+        | "our-story"
+        | "our-team"
+        | "the-jvto-difference"
+        | "community-standards"
+        | "reviews",
+      pageName: h1,
+      description: seo.description ?? h1,
+    }),
+    buildWhyJvtoBreadcrumbSchema({
+      subpath: slug as
+        | "our-story"
+        | "our-team"
+        | "the-jvto-difference"
+        | "community-standards"
+        | "reviews",
+      pageName: h1,
+      description: seo.description ?? h1,
+    }),
     faqSchema,
     ...crewSchemas,
     reviewsAggregateSchema,
@@ -152,7 +190,11 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
         style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}
       >
         <SidebarDesktop currentPath={`/why-jvto/${slug}`} />
-        <PageJsonLdCombined pageRow={page.pageRow} />
+        <PageJsonLdCombined
+          pageRow={page.pageRow}
+          extraSchemas={slugExtraSchemas}
+          suppressCmsFaq={faqResolution.suppressCmsFaq}
+        />
 
         <main
           className="pt-30 md:pt-40"

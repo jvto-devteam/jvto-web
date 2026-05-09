@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import { cache } from "react";
 import type { Metadata } from "next";
+import Link from "@/components/website/AppLink";
 import type { DestinationDetail } from "@/interfaces";
 import DestinationDetailView from "@/components/website/DestinationDetailView";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -20,13 +21,53 @@ import {
   buildToursIncludingDestSchema,
   buildDestinationTravelGuideHandoffSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
-import fs from "fs";
-import path from "path";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 export const revalidate = 3600;
 export const dynamicParams = false;
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
+
+export interface RouteStats {
+  slug: string;
+  length_km: number;
+  elev_gain_m: number;
+  elev_max_m: number;
+  elev_min_m: number;
+  bbox: [number, number, number, number];
+}
+
+const DEST_TRAVEL_GUIDE_LINKS: Record<
+  string,
+  { href: string; label: string } | undefined
+> = {
+  "mount-bromo": {
+    href: "/travel-guide/mount-bromo-logistics",
+    label: "Mount Bromo logistics and sunrise planning",
+  },
+  "ijen-crater": {
+    href: "/travel-guide/ijen-health-screening",
+    label: "Ijen health screening and pre-ascent process",
+  },
+  "tumpak-sewu-waterfall": {
+    href: "/travel-guide/tumpak-sewu-logistics",
+    label: "Tumpak Sewu logistics and descent planning",
+  },
+};
+
+const DEST_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
+  "mount-bromo": [
+    { slug: "ijen-crater", name: "Ijen Crater" },
+    { slug: "madakaripura-waterfall", name: "Madakaripura Waterfall" },
+  ],
+  "ijen-crater": [
+    { slug: "mount-bromo", name: "Mount Bromo" },
+    { slug: "papuma-beach", name: "Papuma Beach" },
+  ],
+  "tumpak-sewu-waterfall": [
+    { slug: "mount-bromo", name: "Mount Bromo" },
+    { slug: "madakaripura-waterfall", name: "Madakaripura Waterfall" },
+  ],
+};
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -38,10 +79,26 @@ export async function generateStaticParams() {
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
-const getDestination = cache(
-  async (slug: string): Promise<DestinationDetail | null> =>
-    getPublicDestinationDetail(slug),
+const getDestination = cache(async (slug: string): Promise<DestinationDetail | null> =>
+  getPublicDestinationDetail(slug),
 );
+
+function readRouteStats(_slug: string): RouteStats | null {
+  return null;
+}
+
+function readVolcanicStatus(_slug: string): VolcanicStatusData | null {
+  return null;
+}
+
+function buildStatusAnnouncementSchema(
+  _slug: string,
+  _destinationName: string,
+  _status: VolcanicStatusData,
+  _siteUrl: string,
+) {
+  return null;
+}
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
 
@@ -135,7 +192,12 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const statusAnnouncementNode =
     volcanicStatus && data
-      ? buildStatusAnnouncementSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
+      ? buildStatusAnnouncementSchema(
+          slug,
+          data.name ?? slug,
+          volcanicStatus,
+          SITE_URL,
+        )
       : null;
 
   const schema = {

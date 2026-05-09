@@ -164,7 +164,7 @@ const Testimonials: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {visibleReviews.map((review, idx) => (
               <div
-                key={`${review.Reviewer_Name}-${idx}`}
+                key={`${review.customer_name}-${idx}`}
                 // LOGIKA UTAMA DISINI:
                 // Jika index 0: Tampil (flex)
                 // Jika index > 0 (item ke-2 & ke-3): Sembunyi di mobile (hidden), tampil di desktop (md:flex)

@@ -68,7 +68,7 @@ export async function GET() {
       <g:image_link>${baseUrl + p.image_link}</g:image_link>
       ${p.additional_images
         .map(
-          (img) =>
+          (img: { url: string }) =>
             `<g:additional_image_link>${
               baseUrl + img.url
             }</g:additional_image_link>`

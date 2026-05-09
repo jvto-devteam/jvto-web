@@ -5,14 +5,33 @@ import Sidebar from "../sidebar";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import {
+  buildIjenHealthHowToSchema,
+  buildIjenHealthMedicalWebPageSchema,
+} from "@/lib/schemas/buildTravelGuideSchemas";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export const dynamicParams = false;
+
+const TRAVEL_GUIDE_DEST_LINKS: Record<
+  string,
+  Array<{ slug: string; name: string }>
+> = {
+  "ijen-health-screening": [{ slug: "ijen-crater", name: "Ijen Crater" }],
+  "mount-bromo-logistics": [{ slug: "mount-bromo", name: "Mount Bromo" }],
+  "tumpak-sewu-logistics": [
+    { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" },
+  ],
+};
 
 export function generateStaticParams() {
   return listPublicPageRoutesByPrefix("/travel-guide")
@@ -45,12 +64,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TravelGuideDynamicPage({ params }: Props) {
   const { slug } = await params;
+  const route = `/travel-guide/${slug}`;
   const destLinks = TRAVEL_GUIDE_DEST_LINKS[slug] ?? [];
 
-  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
-  });
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot(route, {
+      allowDatabaseFallback: false,
+      requiredContentFields: ["body_md"],
+    }),
+    resolveFaqsForPage(route),
+  ]);
   const content = page.pageRow.content as any;
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
@@ -68,7 +91,11 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={page.pageRow} />
+      <PageJsonLdCombined
+        pageRow={page.pageRow}
+        extraSchemas={slugExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
+      />
       <Sidebar />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">

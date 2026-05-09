@@ -183,6 +183,8 @@ export async function GET(request: NextRequest) {
       ...(limit !== undefined && { take: limit }),
     });
 
+    const payload = pkgs.map(serializePackage);
+
     if (!payload || payload.length === 0) {
       return NextResponse.json(
         { message: "Paket tidak ditemukan atau belum dipublikasikan" },

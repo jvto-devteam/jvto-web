@@ -5,8 +5,17 @@ import Sidebar from "../sidebar";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import {
+  buildJvtoTravelCreditAnnouncementSchema,
+  buildPolicyWebPageSchema,
+  POLICY_SLUG_MENTIONS,
+} from "@/lib/schemas/buildPolicySchemas";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -43,15 +52,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PolicyDynamicPage({ params }: Props) {
   const { slug } = await params;
+  const route = `/policy/${slug}`;
 
-  const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: false,
-    requiredContentFields: ["body_md"],
-  });
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot(route, {
+      allowDatabaseFallback: false,
+      requiredContentFields: ["body_md"],
+    }),
+    resolveFaqsForPage(route),
+  ]);
   const content = page.pageRow.content as any;
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Policy";
   const body = content?.body_md ?? "";
+  const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
     name: seo.title ?? h1,
@@ -74,7 +88,11 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={page.pageRow} />
+      <PageJsonLdCombined
+        pageRow={page.pageRow}
+        extraSchemas={slugExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
+      />
       <Sidebar />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
