@@ -21,9 +21,13 @@ const HomeDestinations: React.FC<HomeDestinationsProps> = ({
           </ul>
         </div>
         <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-          {destinations.map((dest) => (
+          {destinations.map((dest, index) => (
             <div key={dest.id} className="flex-shrink-0 w-56">
-              <DestinationCard isHome={true} destination={dest} />
+              <DestinationCard
+                isHome={true}
+                destination={dest}
+                prioritizeImage={index < 2}
+              />
             </div>
           ))}
         </div>

@@ -6,9 +6,14 @@ import { getHomeImageVariant } from "@/lib/assets/homeImageVariants";
 interface DestinationCardProps {
   destination: Destination;
   isHome?: boolean;
+  prioritizeImage?: boolean;
 }
 
-const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({
+  destination,
+  isHome,
+  prioritizeImage = false,
+}) => {
   const bannerSrc =
     (isHome ? getHomeImageVariant(destination.banner.url) : null) ||
     destination.banner.url;
@@ -27,8 +32,9 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, isHome }
           alt={destination.banner.alt || destination.name}
           fill
           unoptimized
-          loading="lazy"
+          loading={prioritizeImage ? "eager" : "lazy"}
           decoding="async"
+          fetchPriority={prioritizeImage ? "high" : "low"}
           sizes={
             isHome
               ? "(max-width: 768px) 42vw, 224px"

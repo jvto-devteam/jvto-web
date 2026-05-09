@@ -8,9 +8,14 @@ import { getHomeImageVariant } from "@/lib/assets/homeImageVariants";
 interface TourCardStaticProps {
   tour?: ListTourPackage;
   isNewTab?: boolean;
+  prioritizeImage?: boolean;
 }
 
-const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
+const TourCardStatic: React.FC<TourCardStaticProps> = ({
+  tour,
+  isNewTab,
+  prioritizeImage = false,
+}) => {
   if (!tour) return null;
 
   const bannerImage =
@@ -54,9 +59,9 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
             alt={bannerImage.alt}
             fill
             unoptimized
-            loading="lazy"
+            loading={prioritizeImage ? "eager" : "lazy"}
             decoding="async"
-            fetchPriority="low"
+            fetchPriority={prioritizeImage ? "high" : "low"}
             sizes="(max-width: 640px) 80vw, 320px"
             quality={48}
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"

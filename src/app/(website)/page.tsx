@@ -11,6 +11,7 @@ import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import IsicSection from "@/components/website/Home/IsicSection";
 import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
+import ViewportSection from "@/components/website/ViewportSection";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
@@ -205,11 +206,21 @@ const Home = async () => {
         </div>
       </div>
 
-      <IjenHealthScreeningSection />
-      <IsicSection />
-      <FAQSection copy={faqsCopy} faqs={miniFaqs} />
-      <TravelGuideTeaser />
-      <Contact deferMap />
+      <ViewportSection intrinsicSize="680px">
+        <IjenHealthScreeningSection />
+      </ViewportSection>
+      <ViewportSection intrinsicSize="560px">
+        <IsicSection />
+      </ViewportSection>
+      <ViewportSection intrinsicSize="520px">
+        <FAQSection copy={faqsCopy} faqs={miniFaqs} />
+      </ViewportSection>
+      <ViewportSection intrinsicSize="520px">
+        <TravelGuideTeaser />
+      </ViewportSection>
+      <ViewportSection intrinsicSize="760px">
+        <Contact deferMap />
+      </ViewportSection>
     </main>
   );
 };

@@ -7,6 +7,11 @@ import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { buildTgHubItemListSchema } from "@/lib/schemas/buildTravelGuideSchemas";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -199,9 +204,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TravelGuideHubPage() {
-  const page = await getPublicPageSnapshot("/travel-guide", {
-    allowDatabaseFallback: false,
-  });
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot("/travel-guide", {
+      allowDatabaseFallback: false,
+    }),
+    resolveFaqsForPage("/travel-guide"),
+  ]);
+  const tgHubExtraSchemas = [
+    buildTgHubItemListSchema(),
+    buildResolvedFaqSchema(faqResolution, "/travel-guide"),
+  ].filter(Boolean);
   const travelGuideSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -579,7 +591,11 @@ export default async function TravelGuideHubPage() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={page.pageRow} />
+      <PageJsonLdCombined
+        pageRow={page.pageRow}
+        extraSchemas={tgHubExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
+      />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section className="bg-accent border-b pb-12">
