@@ -40,6 +40,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ crumbs }) => {
               {index < crumbs.length - 1 ? (
                 <Link
                   href={crumb.path}
+                  prefetch={false}
                   className="hover:text-primary transition-colors"
                 >
                   {crumb.name}

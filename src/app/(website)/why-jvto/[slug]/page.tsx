@@ -185,6 +185,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
             >
               <Link
                 href="/"
+                prefetch={false}
                 style={{ color: "#6b7a55", textDecoration: "none" }}
               >
                 <Home size={13} />
@@ -192,6 +193,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
               <span style={{ color: "#c0cca8" }}>›</span>
               <Link
                 href="/why-jvto"
+                prefetch={false}
                 style={{ color: "#6b7a55", textDecoration: "none" }}
               >
                 Why JVTO
