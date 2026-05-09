@@ -20,8 +20,13 @@ import {
 } from "@/lib/seo/jsonld/builders";
 import { miniFaqs, faqsCopy } from "@/constants";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
-import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import {
+  BBKSDA_REGULATION_SCHEMA,
+  DEFINED_TERMS,
+  DOCTOR_SCHEMA,
+  FOUNDER_SCHEMA,
+} from "@/lib/schemas/entityGraph";
 
 const IjenHealthScreeningSection = dynamic(
   () => import("@/components/website/Home/IjenHealthScreeningSection"),
@@ -112,36 +117,6 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // ── TouristAttraction: dari schema_json DB (konsisten dengan detail pages)
-  const attractionNodes = destinations
-    .map((dest) => {
-      const graph: any[] = Array.isArray(dest.schema_json?.["@graph"])
-        ? dest.schema_json!["@graph"]
-        : [];
-
-      const node = graph.find((n: any) => {
-        const types = Array.isArray(n["@type"]) ? n["@type"] : [n["@type"]];
-        return types.some((t: string) =>
-          ["TouristAttraction", "Waterfall", "Beach"].includes(t),
-        );
-      });
-
-      if (!node) return null;
-
-      // Strip verbose fields: homepage hanya butuh core identity
-      const {
-        "@context": _ctx,
-        additionalProperty: _ap,
-        amenityFeature: _af,
-        subjectOf: _so,
-        mainEntityOfPage: _mep,
-        ...core
-      } = node;
-
-      return core;
-    })
-    .filter(Boolean);
-
   // ── FAQPage (Phase 5 resolver-driven) ─────────────────────────────────────
   // Precedence: narrative_claims → canonical hardcoded (HOMEPAGE_FAQS, 9 Q&A) → CMS.
   // resolveFaqsForPage handles the precedence; suppressCmsFaq ensures no double-FAQPage emission.
@@ -181,7 +156,16 @@ const Home = async () => {
     <main>
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[serviceNode, ...attractionNodes, faqNode, aggregateRatingNode, healthAppNode]}
+        extraSchemas={[
+          FOUNDER_SCHEMA,
+          DOCTOR_SCHEMA,
+          BBKSDA_REGULATION_SCHEMA,
+          ...Object.values(DEFINED_TERMS),
+          serviceNode,
+          healthAppNode,
+          aggregateRatingNode,
+          faqNode,
+        ]}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
       <Hero title={seo.h1} description={seo.description} />
