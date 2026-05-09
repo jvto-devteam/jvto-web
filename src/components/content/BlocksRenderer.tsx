@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { CrewGrid, type CrewMember } from "@/components/content/CrewGrid";
+import { getWhyJvtoOptimizedImageSrc } from "@/lib/assets/whyJvtoImageVariants";
 
 type Block =
   | { type: "markdown"; body_md: string }
@@ -269,6 +270,7 @@ function ImageFigure({
 }) {
   const aspectRatio = orientation === "portrait" ? "3/4" : "16/10";
   const maxWidth = orientation === "portrait" ? "420px" : undefined;
+  const resolvedSrc = getWhyJvtoOptimizedImageSrc(src);
 
   return (
     <figure
@@ -287,8 +289,11 @@ function ImageFigure({
           // Bypass Next.js image optimizer untuk gambar dari domain sendiri
           // /_next/image gagal karena server fetch ke dirinya sendiri (loopback)
           <img
-            src={src}
+            src={resolvedSrc}
             alt={alt}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             style={{
               position: "absolute",
               inset: 0,
