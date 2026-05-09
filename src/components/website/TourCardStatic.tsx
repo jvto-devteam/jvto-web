@@ -3,6 +3,7 @@ import Link from "@/components/website/AppLink";
 import { Dumbbell, Clock, MapPin, Star, ArrowRight } from "lucide-react";
 import { formatIDR } from "@/utils/formatting";
 import type { ListTourPackage } from "@/types";
+import { getHomeImageVariant } from "@/lib/assets/homeImageVariants";
 
 interface TourCardStaticProps {
   tour?: ListTourPackage;
@@ -28,6 +29,7 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
             url: "/images/fallback-banner.jpg",
             alt: tour.name || "Tour package",
           };
+  const homeBannerSrc = getHomeImageVariant(bannerImage.url) || bannerImage.url;
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const fullTourSlug = `/${tour.slug}`;
@@ -48,15 +50,15 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({ tour, isNewTab }) => {
       >
         <div className="relative aspect-[4/3] w-full bg-ink-neutral-200 dark:bg-ink-neutral-700">
           <Image
-            src={bannerImage.url}
+            src={homeBannerSrc}
             alt={bannerImage.alt}
             fill
             unoptimized
             loading="lazy"
             decoding="async"
             fetchPriority="low"
-            sizes="(max-width: 640px) 80vw, 350px"
-            quality={56}
+            sizes="(max-width: 640px) 80vw, 320px"
+            quality={48}
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           />
         </div>
