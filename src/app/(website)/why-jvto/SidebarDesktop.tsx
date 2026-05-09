@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { WHY_MENU } from "./sidebarMenu";
 
 export default function SidebarDesktop({

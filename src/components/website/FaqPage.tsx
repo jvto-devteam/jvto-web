@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import SEO from './SEO';
 import FAQSection from './FAQSection';
 import { faqs, faqsCopy, contactInfo } from '@/constants';

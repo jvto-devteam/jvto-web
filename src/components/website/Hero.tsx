@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import { HeroCopy } from "@/types";
 

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import { formatIDR } from "@/utils/formatting";
 import { notFound } from "next/navigation";

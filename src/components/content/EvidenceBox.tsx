@@ -1,5 +1,5 @@
 // components/content/EvidenceBox.tsx
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ShieldCheck, ArrowUpRight } from "lucide-react";
 
 type Evidence = {

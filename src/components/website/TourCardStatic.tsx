@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { Dumbbell, Clock, MapPin, Star, ArrowRight } from "lucide-react";
 import { formatIDR } from "@/utils/formatting";
 import type { ListTourPackage } from "@/types";

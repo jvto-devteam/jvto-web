@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const ISICPage = () => {
   const breadcrumbCrumbs = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Instagram, Facebook, Twitter, Shield, MapPin, FileCheck } from 'lucide-react';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
 
 const Footer: React.FC = () => {

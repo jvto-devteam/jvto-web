@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import Sidebar from "../sidebar";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";

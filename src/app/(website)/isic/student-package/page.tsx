@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import TourCard from "@/components/website/TourCard";
 import Button from "@/components/website/UI/Button";

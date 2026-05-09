@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, forwardRef } from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import TourCard from "../TourCard";
 import {MapPin, ArrowLeft, ArrowRight } from "lucide-react";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import type { ReactNode } from "react";
 
 export function Container({ children }: { children: ReactNode }) {

@@ -3,7 +3,7 @@ import SEO from "./SEO";
 import Breadcrumbs from "./Breadcrumbs";
 import ProofLedger from "./ProofLedger";
 import { contactInfo, proofLinks } from "@/constants";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const VerifyJVTOPage: React.FC = () => {
   const breadcrumbCrumbs = [

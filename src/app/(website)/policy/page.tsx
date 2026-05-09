@@ -1,5 +1,5 @@
 // src/app/(website)/policy/page.tsx
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import Sidebar from "./sidebar";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";

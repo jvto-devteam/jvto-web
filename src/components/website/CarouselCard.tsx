@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { Star, Dumbbell, ArrowRight } from "lucide-react";
 import { TourPackage } from "@/types";
 

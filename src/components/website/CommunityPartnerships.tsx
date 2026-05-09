@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { communityPartnershipsCopy, communityPartners } from '@/constants';
 import { CommunityPartner } from '@/types';
 

@@ -10,7 +10,7 @@ import {
   Search,
   User,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
