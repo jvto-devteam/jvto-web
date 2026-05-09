@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATIONS } from "@/data/mockData";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 
 // ─── Serializer ───────────────────────────────────────────────────────────────
 
@@ -90,21 +91,24 @@ function parseLimit(raw: string | null): number | undefined {
 // ─── GET Handler ──────────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const limit = parseLimit(searchParams.get("limit"));
+  const featured = searchParams.get("featured") === "true";
+
   // Mock mode
   if (process.env.NEXT_PUBLIC_IS_FIREBASE === "true") {
-    const { searchParams } = new URL(request.url);
-    const limit = parseLimit(searchParams.get("limit"));
     const data = limit
       ? MOCK_DESTINATIONS.slice(0, limit)
       : [...MOCK_DESTINATIONS];
     return NextResponse.json(data, { status: 200 });
   }
 
-  try {
-    const { searchParams } = new URL(request.url);
-    const limit = parseLimit(searchParams.get("limit"));
-    const featured = searchParams.get("featured") === "true";
+  if (process.env.PUBLIC_CONTENT_USE_SNAPSHOT_LISTS !== "false") {
+    const data = getPublicDestinationList({ featured, limit });
+    return NextResponse.json(data, { status: 200 });
+  }
 
+  try {
     const destinations = await prisma.destinations.findMany({
       where: {
         published: true,

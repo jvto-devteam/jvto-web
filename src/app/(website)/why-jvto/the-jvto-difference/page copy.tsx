@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { Check } from "lucide-react";
 import Button from "@/components/website/UI/Button";
 import { type Metadata } from "next";

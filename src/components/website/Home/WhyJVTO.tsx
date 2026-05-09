@@ -1,5 +1,5 @@
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
-import Link from "next/link";
 
 const WhyJVTO: React.FC = () => {
   return (
@@ -38,6 +38,7 @@ const WhyJVTO: React.FC = () => {
               <Link
                 target="_blank"
                 href="/why-jvto/our-story"
+                prefetch={false}
                 className="font-bold border-b-2 border-jvto-green text-white hover:text-jvto-green transition-colors pb-1 text-lg"
               >
                 Read Full Story
@@ -46,6 +47,7 @@ const WhyJVTO: React.FC = () => {
               <Link
                 target="_blank"
                 href="/verify-jvto"
+                prefetch={false}
                 className="font-bold border-b-2 border-gray-600 text-gray-400 hover:text-white hover:border-white transition-colors pb-1 text-lg"
               >
                 How to Verify Us
@@ -59,10 +61,13 @@ const WhyJVTO: React.FC = () => {
             {/* Main Image */}
             <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl border-4 border-white/10 w-full max-w-md aspect-[4/5]">
               <Image
-                src="/founder/agung_sambuko.jpg"
+                src="/founder/agung_sambuko.webp"
                 alt='Agung "Mr. Sam" Sambuko - JVTO Founder'
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                unoptimized
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 1024px) 100vw, 448px"
                 className="object-cover"
               />
 

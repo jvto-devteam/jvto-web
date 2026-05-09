@@ -16,7 +16,7 @@ import {
   ShieldAlert as LocalPolice,
   Activity as MonitorHeart,
 } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import TriangulationReviews from "./TriangulationReviews";
 
 type Crew = {

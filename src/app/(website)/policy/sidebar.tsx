@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { usePathname } from "next/navigation";
 import {
   ShieldCheck,
@@ -63,6 +63,7 @@ export default function SidebarPolicy({ isMobile, onBack }: SidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className={`flex items-center gap-3 px-4 py-3 md:py-2 text-[15px] md:text-[14px] font-medium transition-all  ${
                 isActive
                   ? "text-black bg-black/10 border-l-4 border-black/70 -ml-4 pl-8"

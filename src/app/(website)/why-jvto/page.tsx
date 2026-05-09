@@ -1,5 +1,5 @@
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import {
   ShieldCheck,
@@ -24,20 +24,24 @@ import {
   Fingerprint,
   Newspaper,
 } from "lucide-react";
-import { getContentPage } from "@/lib/content/getContentPage";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import SidebarDesktop from "./SidebarDesktop";
 const siteUrl = "https://javavolcano-touroperator.com";
-import Sidebar from "./sidebar";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
 const defaultWhyDescription =
   "Why travellers choose JVTO for private Bromo, Ijen and Tumpak Sewu tours: tourist police-led safety culture, registered Indonesian travel company, real health screening, local guides and transparent policies.";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const row = await getContentPage("/why-jvto", "en");
-  const seo = (row?.seo as Record<string, any> | null) ?? {};
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const title = seo.title ?? defaultWhyTitle;
-  const description = seo.description ?? defaultWhyDescription;
+  const page = await getPublicPageSnapshot("/why-jvto", {
+    allowDatabaseFallback: false,
+  });
+  const title = page.snapshot.seo.title;
+  const description = page.snapshot.seo.description ?? defaultWhyDescription;
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : "Why JVTO";
 
   return {
     title,
@@ -54,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: siteUrl + "/assets/img/og/why-jvto.webp",
           width: 1200,
           height: 630,
-          alt: content.h1 ?? "Why JVTO",
+          alt: h1,
         },
       ],
     },
@@ -144,51 +148,34 @@ const faqItems = [
 const proofDocs = [
   {
     title: "NIB Entity",
-    img: `${siteUrl}/legal/NIB-1102230032918-preview.png`,
+    img: `${siteUrl}/legal/NIB-1102230032918-preview.webp`,
     hash: "FA20DDE3...",
   },
   {
     title: "Police SPRIN",
-    img: `${siteUrl}/legal/SPRIN-POLPAR.png`,
+    img: `${siteUrl}/legal/SPRIN-POLPAR.webp`,
     hash: "03C8578D...",
   },
   {
     title: "Health Screening",
-    img: `${siteUrl}/screening/ijen-screening-hotel-01.jpeg`,
+    img: `${siteUrl}/screening/ijen-screening-hotel-01.webp`,
     hash: "C52194BB...",
   },
   {
     title: "HPWKI License",
-    img: `${siteUrl}/uploads/1771428489070-55145932-kta_kiki.jpg`,
+    img: `${siteUrl}/uploads/1763205255605-141795118-kiki.webp`,
     hash: "CA1FB1A4...",
   },
 ];
 
 export default async function WhyJvtoPage() {
-  const row = await getContentPage("/why-jvto", "en");
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const heroH1 = content.h1 ?? defaultWhyTitle;
-  const pageRow = row
-    ? {
-        route: row.route,
-        lang: row.lang,
-        seo: row.seo,
-        content: row.content,
-        created_at: row.created_at,
-        updated_at: row.updated_at,
-      }
-    : {
-        route: "/why-jvto",
-        lang: "en",
-        seo: {
-          title: defaultWhyTitle,
-          description: defaultWhyDescription,
-        },
-        content: {
-          h1: heroH1,
-          faq: faqItems.map((item) => ({ q: item.q, a: item.a })),
-        },
-      };
+  const page = await getPublicPageSnapshot("/why-jvto", {
+    allowDatabaseFallback: false,
+  });
+  const heroH1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : defaultWhyTitle;
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -724,16 +711,17 @@ export default async function WhyJvtoPage() {
       `}</style>
 
       <div className="flex min-h-screen bg-background">
-        <Sidebar />
-        <PageJsonLdCombined pageRow={pageRow as any} />
+        <SidebarDesktop currentPath="/why-jvto" />
+        <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main className="pt-24 w-full jvto-page">
           {/* ══════════ HERO ══════════ */}
           <section className="hero-section">
             <div className="hero-bg">
               <img
-                src={`${siteUrl}/assets/img/hero/home.webp`}
+                src={`${siteUrl}/assets/img/hero/home-lite.webp`}
                 alt="East Java volcano"
+                decoding="async"
               />
               <div className="hero-bg-overlay" />
             </div>
@@ -780,10 +768,10 @@ export default async function WhyJvtoPage() {
                 </a>
               </div>
               <div className="hero-ctas">
-                <Link href="/travel-guide" className="btn-primary">
+                <Link href="/travel-guide" prefetch={false} className="btn-primary">
                   <BookOpen size={17} /> Read Travel Guide
                 </Link>
-                <Link href="/verify-jvto" className="btn-ghost">
+                <Link href="/verify-jvto" prefetch={false} className="btn-ghost">
                   <Lock size={17} /> Verify Our Documents
                 </Link>
               </div>
@@ -829,7 +817,12 @@ export default async function WhyJvtoPage() {
                 {trustStackCards.map((card, i) => {
                   const Icon = card.icon;
                   return (
-                    <Link key={i} href={card.href} className="trust-card">
+                    <Link
+                      key={i}
+                      href={card.href}
+                      prefetch={false}
+                      className="trust-card"
+                    >
                       <div className="trust-card-icon">
                         <Icon />
                       </div>
@@ -902,8 +895,11 @@ export default async function WhyJvtoPage() {
                     </div>
                     <img
                       className="browser-img"
-                      src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png`}
+                      src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.webp`}
                       alt="Detik.com article screenshot"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                     />
                     <div className="browser-footer">
                       <span className="browser-hash">
@@ -929,8 +925,11 @@ export default async function WhyJvtoPage() {
                         objectFit: "cover",
                         objectPosition: "top",
                       }}
-                      src={`${siteUrl}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png`}
+                      src={`${siteUrl}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.webp`}
                       alt="Radar Jember screenshot"
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                     />
                   </div>
                 </div>
@@ -984,7 +983,12 @@ export default async function WhyJvtoPage() {
                       note: "Legal docs, licenses, press, history",
                     },
                   ].map((item, i) => (
-                    <Link key={i} href={item.href} className="verify-link">
+                    <Link
+                      key={i}
+                      href={item.href}
+                      prefetch={false}
+                      className="verify-link"
+                    >
                       <CheckCircle2 size={18} className="verify-link-check" />
                       <span className="verify-link-text">
                         <span className="verify-link-title">{item.label}</span>
@@ -1009,7 +1013,7 @@ export default async function WhyJvtoPage() {
                     with cryptographic proofs.
                   </p>
                 </div>
-                <Link href="/verify-jvto" className="btn-sm-ghost">
+                <Link href="/verify-jvto" prefetch={false} className="btn-sm-ghost">
                   <Lock size={14} /> Enter Proof Library
                 </Link>
               </div>
@@ -1017,7 +1021,13 @@ export default async function WhyJvtoPage() {
                 {proofDocs.map((doc, i) => (
                   <div key={i} className="proof-card">
                     <div className="proof-img-wrap">
-                      <img src={doc.img} alt={doc.title} />
+                      <img
+                        src={doc.img}
+                        alt={doc.title}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                      />
                       <FileDigit size={28} className="proof-img-placeholder" />
                     </div>
                     <div className="proof-title">{doc.title}</div>
@@ -1054,11 +1064,15 @@ export default async function WhyJvtoPage() {
                       <div className="faq-q">{item.q}</div>
                       <div className="faq-a">{item.a}</div>
                       <div className="faq-links">
-                        <Link href={item.link} className="faq-link">
+                        <Link href={item.link} prefetch={false} className="faq-link">
                           {item.linkLabel} <ArrowRight />
                         </Link>
                         {item.link2 && (
-                          <Link href={item.link2} className="faq-link">
+                          <Link
+                            href={item.link2}
+                            prefetch={false}
+                            className="faq-link"
+                          >
                             {item.linkLabel2} <ArrowRight />
                           </Link>
                         )}
@@ -1082,6 +1096,7 @@ export default async function WhyJvtoPage() {
               <div className="footer-cta-btns">
                 <Link
                   href="/travel-guide/booking-information"
+                  prefetch={false}
                   className="btn-primary"
                 >
                   How to Book <ArrowRight size={17} />

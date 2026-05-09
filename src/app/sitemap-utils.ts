@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getPublicPageSnapshotUpdatedAt } from "@/lib/publicContent/pageSnapshots";
 
 export type LastModifiedMap = Map<string, Date>;
 
@@ -6,9 +7,23 @@ export async function getContentPageLastModifiedMap(
   routes: string[],
   fallback: Date,
 ): Promise<LastModifiedMap> {
+  const snapshotEntries = routes
+    .map((route) => {
+      const updatedAt = getPublicPageSnapshotUpdatedAt(route);
+      return updatedAt ? [route, new Date(updatedAt)] : null;
+    })
+    .filter((entry): entry is [string, Date] => entry !== null);
+
+  const snapshotRoutes = new Set(snapshotEntries.map(([route]) => route));
+  const remainingRoutes = routes.filter((route) => !snapshotRoutes.has(route));
+
+  if (!remainingRoutes.length) {
+    return new Map(snapshotEntries);
+  }
+
   const rows = await prisma.content_pages.findMany({
     where: {
-      route: { in: routes },
+      route: { in: remainingRoutes },
       lang: "en",
       is_active: true,
     },
@@ -20,10 +35,13 @@ export async function getContentPageLastModifiedMap(
   });
 
   return new Map(
-    rows.map((row) => [
-      row.route,
-      row.updated_at ?? row.created_at ?? fallback,
-    ]),
+    [
+      ...snapshotEntries,
+      ...rows.map((row) => [
+        row.route,
+        row.updated_at ?? row.created_at ?? fallback,
+      ] as [string, Date]),
+    ],
   );
 }
 

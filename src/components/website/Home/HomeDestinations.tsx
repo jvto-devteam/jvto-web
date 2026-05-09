@@ -1,4 +1,3 @@
-// components/website/Home/HomeDestinations.tsx
 import DestinationCard from "@/components/website/DestinationCard";
 import type { Destination } from "@/interfaces";
 

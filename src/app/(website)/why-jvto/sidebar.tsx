@@ -1,38 +1,16 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { usePathname } from "next/navigation";
 import {
-  Sparkles,
-  BookOpen,
-  BadgeCheck,
-  Star,
-  Users,
-  HeartHandshake,
   ArrowLeft,
 } from "lucide-react";
+import { WHY_MENU } from "./sidebarMenu";
 
 interface SidebarProps {
   isMobile?: boolean;
   onBack?: () => void;
 }
-
-const WHY_MENU = [
-  { href: "/why-jvto", label: "Why JVTO", icon: Sparkles },
-  { href: "/why-jvto/our-story", label: "Our Story", icon: BookOpen },
-  {
-    href: "/why-jvto/the-jvto-difference",
-    label: "The JVTO Difference",
-    icon: BadgeCheck,
-  },
-  { href: "/why-jvto/reviews", label: "Reviews", icon: Star },
-  { href: "/why-jvto/our-team", label: "Our Team", icon: Users },
-  {
-    href: "/why-jvto/community-standards",
-    label: "Community Standards",
-    icon: HeartHandshake,
-  },
-];
 
 export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
   const pathname = usePathname();
@@ -237,6 +215,7 @@ export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
                 className={`sidebar-link${isActive ? " active" : ""}`}
               >
                 <span className="sidebar-link-icon">
@@ -252,7 +231,7 @@ export default function SidebarWhy({ isMobile, onBack }: SidebarProps) {
         <div className="sidebar-divider" />
 
         {/* Verify badge */}
-        <Link href="/verify-jvto" className="sidebar-verify-badge">
+        <Link href="/verify-jvto" prefetch={false} className="sidebar-verify-badge">
           <span className="sidebar-verify-badge-label">◆ Quick Access</span>
           <span className="sidebar-verify-badge-text">Verify JVTO</span>
           <span className="sidebar-verify-badge-sub">

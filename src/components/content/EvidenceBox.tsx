@@ -1,5 +1,5 @@
 // components/content/EvidenceBox.tsx
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ShieldCheck, ArrowUpRight } from "lucide-react";
 
 type Evidence = {
@@ -95,6 +95,7 @@ export function EvidenceBox({
       {/* Right: CTA button */}
       <Link
         href={proofHref}
+        prefetch={isExternal ? undefined : false}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
         style={{

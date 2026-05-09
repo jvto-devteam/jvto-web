@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { Star } from "lucide-react";
 import Button from "@/components/website/UI/Button";
 import { PlatformIcon } from "@/components/PlatformIcon";

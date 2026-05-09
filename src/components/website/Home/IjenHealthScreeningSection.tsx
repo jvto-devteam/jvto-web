@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Check,
   QrCode,
@@ -16,19 +16,19 @@ import {
 
 const IMAGES = [
   {
-    src: "/screening/ijen-screening-hotel-01.jpeg",
+    src: "/screening/ijen-screening-hotel-01.webp",
     alt: "Nurse performing medical check at hotel",
   },
   {
-    src: "/screening/ijen-screening-hotel-02.jpg",
+    src: "/screening/ijen-screening-hotel-02.webp",
     alt: "Health screening session at hotel lobby",
   },
   {
-    src: "/screening/jvto-office-screening-1.JPG",
+    src: "/screening/jvto-office-screening-1.webp",
     alt: "Medical screening at JVTO office",
   },
   {
-    src: "/screening/jvto-office-screening-2.jpg",
+    src: "/screening/jvto-office-screening-2.webp",
     alt: "Health check process at JVTO office",
   },
 ];
@@ -38,12 +38,6 @@ const IjenHealthScreeningSection = () => {
 
   const prev = () => setCurrent((i) => (i === 0 ? IMAGES.length - 1 : i - 1));
   const next = () => setCurrent((i) => (i === IMAGES.length - 1 ? 0 : i + 1));
-
-  // Auto-play setiap 4 detik
-//   useEffect(() => {
-//     const timer = setInterval(next, 4000);
-//     return () => clearInterval(timer);
-//   }, []);
 
   return (
     <section className="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -104,6 +98,7 @@ const IjenHealthScreeningSection = () => {
                 <Link
                   target="_blank"
                   href="/travel-guide/ijen-health-screening"
+                  prefetch={false}
                   className="inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-black hover:bg-lime-600 rounded-lg uppercase tracking-widest group"
                 >
                   See How It Works
@@ -115,22 +110,22 @@ const IjenHealthScreeningSection = () => {
             {/* Image Carousel Side */}
             <div className="relative min-h-[300px] h-full overflow-hidden group/carousel">
               {/* Slides */}
-              {IMAGES.map((img, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    index === current ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-              ))}
+              <div
+                key={current}
+                className="absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100"
+              >
+                <Image
+                  src={IMAGES[current].src}
+                  alt={IMAGES[current].alt}
+                  fill
+                  unoptimized
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  sizes="(max-width: 768px) 100vw, 640px"
+                  className="object-cover"
+                />
+              </div>
 
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent md:bg-gradient-to-l md:from-transparent md:to-transparent pointer-events-none" />

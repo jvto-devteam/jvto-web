@@ -1,0 +1,795 @@
+{
+  "generatedAt": "2026-05-08T01:56:34.178Z",
+  "items": [
+    {
+      "id": 28,
+      "name": "3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali",
+      "startDestination": "Surabaya",
+      "endDestination": "Bali",
+      "duration": {
+        "day": 3,
+        "night": 2
+      },
+      "banner": {
+        "url": "/uploads/3-day-bromo-madakaripura-waterfall-ijen-overland-from-surabaya-to-bali_0.jpg",
+        "alt": "3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/3-day-bromo-madakaripura-waterfall-ijen-overland-from-surabaya-to-bali_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 2450000,
+      "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
+      "physicality": "moderate",
+      "tags": [
+        "3d2n",
+        "surabaya",
+        "bali",
+        "bromo",
+        "ijen",
+        "madakaripura",
+        "overland",
+        "east-java",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private eastbound route from Surabaya through Bromo, Madakaripura, and Ijen before finishing in Bali",
+        "Combines sunrise, waterfall terrain, and the Ijen climb inside one compact forward journey",
+        "Best for travelers who want East Java highlights with a clean Bali continuation",
+        "Private handling keeps jeep timing, screening, and ferry handoff coherent across the route"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 2
+      }
+    },
+    {
+      "id": 29,
+      "name": "3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 3,
+        "night": 2
+      },
+      "banner": {
+        "url": "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_0.jpg",
+        "alt": "3 Day Ijen, Bromo & Madakaripura Waterfall Discovery from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 2450000,
+      "slug": "tours/from-surabaya/ijen-bromo-madakaripura-3d2n",
+      "physicality": "moderate",
+      "tags": [
+        "3d2n",
+        "surabaya",
+        "ijen",
+        "bromo",
+        "madakaripura",
+        "east-java",
+        "volcano-tour",
+        "site_visible"
+      ],
+      "highlights": [
+        "Balanced private Surabaya route combining Ijen, Bromo, and Madakaripura in one readable loop",
+        "Strong contrast between volcano handling and waterfall terrain without stretching into a longer expedition",
+        "Best for guests who want East Java variety while staying inside a manageable three-day structure",
+        "Private handling keeps the route coherent across screening, transfers, jeep access, and final return"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 2
+      }
+    },
+    {
+      "id": 32,
+      "name": "4 Day Ijen, Bromo & Madakaripura Waterfall Expedition from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 4,
+        "night": 3
+      },
+      "banner": {
+        "url": "/uploads/4-day-ijen-bromo-madakaripura-waterfall-expedition-from-surabaya_0.jpg",
+        "alt": "4 Day Ijen, Bromo & Madakaripura Waterfall Expedition from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/4-day-ijen-bromo-madakaripura-waterfall-expedition-from-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3025000,
+      "slug": "tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
+      "physicality": "moderate",
+      "tags": [
+        "4d3n",
+        "surabaya",
+        "ijen",
+        "bromo",
+        "madakaripura",
+        "east-java",
+        "expedition",
+        "site_visible"
+      ],
+      "highlights": [
+        "Extended private Surabaya route with Ijen, Bromo, and Madakaripura kept central across four days",
+        "Adds more breathing room and a final Surabaya night after the main route sequence",
+        "Best for guests who want the flagship loop without the tightest final-day compression",
+        "Private handling keeps screening, transfers, sunrise timing, and final airport logic coherent"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 3
+      }
+    },
+    {
+      "id": 33,
+      "name": "4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Journey from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 4,
+        "night": 3
+      },
+      "banner": {
+        "url": "/uploads/4-day-ijen-papuma-beach-tumpak-sewu-bromo-journey-from-surabaya_0.webp",
+        "alt": "4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Journey from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Papuma Beach Sunset Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/4-day-ijen-papuma-beach-tumpak-sewu-bromo-journey-from-surabaya_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3125000,
+      "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n",
+      "physicality": "moderate",
+      "tags": [
+        "4d3n",
+        "surabaya",
+        "ijen",
+        "papuma-beach",
+        "tumpak-sewu",
+        "bromo",
+        "beach-and-volcano",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private Surabaya route combining Ijen, Papuma, Tumpak Sewu, and Bromo inside four active days",
+        "Links volcano, coastline, and waterfall terrain in a compact but readable East Java overland sequence",
+        "Best for travelers who want strong regional contrast without committing to the longest itinerary",
+        "Private handling keeps screening, long transfers, and terrain changes coherent across the route"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 3
+      }
+    },
+    {
+      "id": 34,
+      "name": "4 Day Tumpak Sewu, Bromo & Ijen Adventure from Surabaya to Bali",
+      "startDestination": "Surabaya",
+      "endDestination": "Bali",
+      "duration": {
+        "day": 4,
+        "night": 3
+      },
+      "banner": {
+        "url": "/uploads/4-day-tumpak-sewu-bromo-ijen-adventure-from-surabaya-to-bali_0.webp",
+        "alt": "4 Day Tumpak Sewu, Bromo & Ijen Adventure from Surabaya to Bali"
+      },
+      "keyExperiences": [
+        "Bromo Sunrise Tour",
+        "Tumpak Sewu Waterfall Tour",
+        "Ijen Crater Hike"
+      ],
+      "images": [
+        {
+          "url": "/uploads/4-day-tumpak-sewu-bromo-ijen-adventure-from-surabaya-to-bali_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3125000,
+      "slug": "tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n",
+      "physicality": "moderate",
+      "tags": [
+        "4d3n",
+        "surabaya",
+        "bali",
+        "tumpak-sewu",
+        "bromo",
+        "ijen",
+        "blue-fire",
+        "waterfall",
+        "volcano",
+        "adventure",
+        "one-way",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private eastbound route from Surabaya through Tumpak Sewu, Bromo, and Ijen before finishing in Bali",
+        "Combines waterfall terrain with East Java's two signature volcanoes in one readable sequence",
+        "Best for travelers who want strong natural contrast and a clean Bali handoff at the end",
+        "Private handling keeps terrain shifts, screening, and ferry logistics coherent across four days"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 3
+      }
+    },
+    {
+      "id": 43,
+      "name": "5 Day Ijen, Bromo, Madakaripura & Malang City Adventure from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 5,
+        "night": 4
+      },
+      "banner": {
+        "url": "/uploads/5-day-ijen-bromo-madakaripura-malang-city-adventure-from-surabaya_0.webp",
+        "alt": "5 Day Ijen, Bromo, Madakaripura & Malang City Adventure from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/5-day-ijen-bromo-madakaripura-malang-city-adventure-from-surabaya_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3850000,
+      "slug": "tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n",
+      "physicality": "moderate",
+      "tags": [
+        "5d4n",
+        "surabaya",
+        "ijen",
+        "bromo",
+        "madakaripura",
+        "malang",
+        "site_visible"
+      ],
+      "highlights": [
+        "Extended private Surabaya route combining Ijen, Bromo, Madakaripura, and a Malang finish",
+        "Adds more breathing room after the volcano sequence and a softer city-based closing section",
+        "Best for guests who want the flagship East Java loop without ending immediately after the mountain days",
+        "Private handling keeps screening, sunrise timing, waterfall access, and final handoff coherent across five days"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 4
+      }
+    },
+    {
+      "id": 47,
+      "name": "2 Day Ijen Blue Fire Expedition from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 2,
+        "night": 1
+      },
+      "banner": {
+        "url": "/uploads/2-day-ijen-blue-fire-expedition-from-surabaya_0.webp",
+        "alt": "2 Day Ijen Blue Fire Expedition from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike"
+      ],
+      "images": [
+        {
+          "url": "/uploads/2-day-ijen-blue-fire-expedition-from-surabaya_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 1550000,
+      "slug": "tours/from-surabaya/ijen-2d1n",
+      "physicality": "moderate",
+      "tags": [
+        "2d1n",
+        "surabaya",
+        "ijen",
+        "blue-fire",
+        "crater-lake",
+        "volcano",
+        "adventure",
+        "site_visible"
+      ],
+      "highlights": [
+        "Focused private Ijen route from Surabaya with Bondowoso staging before the climb",
+        "Mandatory health screening and crater-readiness built into the route flow",
+        "Best for travelers who want Ijen handled seriously without forcing a broader combo",
+        "Private return to Surabaya after the Ijen sequence is complete"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 1
+      }
+    },
+    {
+      "id": 48,
+      "name": "2 Day Bromo Sunrise Adventure from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 2,
+        "night": 1
+      },
+      "banner": {
+        "url": "/uploads/2-day-bromo-sunrise-adventure-from-surabaya_0.jpg",
+        "alt": "2 Day Bromo Sunrise Adventure from Surabaya"
+      },
+      "keyExperiences": [
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/2-day-bromo-sunrise-adventure-from-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 1750000,
+      "slug": "tours/from-surabaya/bromo-2d1n",
+      "physicality": "moderate",
+      "tags": [
+        "2d1n",
+        "surabaya",
+        "bromo",
+        "madakaripura",
+        "sunrise",
+        "waterfall",
+        "short-trip",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private two-day Bromo route from Surabaya with overnight staging on the mountain side",
+        "Bromo sunrise, crater handling, and Madakaripura kept inside one compact but more readable sequence",
+        "Best for travelers who want a short East Java route without compressing everything into one night",
+        "Adds overnight comfort and cleaner timing compared with the faster one-day Bromo run"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 1
+      }
+    },
+    {
+      "id": 54,
+      "name": "4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Expedition from Bali to Surabaya",
+      "startDestination": "Bali",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 4,
+        "night": 3
+      },
+      "banner": {
+        "url": "/uploads/4-day-ijen-papuma-beach-tumpak-sewu-bromo-expedition-from-bali-to-surabaya_0.jpg",
+        "alt": "4 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Expedition from Bali to Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Papuma Beach Sunset Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/4-day-ijen-papuma-beach-tumpak-sewu-bromo-expedition-from-bali-to-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3475000,
+      "slug": "tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n",
+      "physicality": "moderate",
+      "tags": [
+        "4d3n",
+        "bali",
+        "ijen",
+        "papuma-beach",
+        "tumpak-sewu",
+        "bromo",
+        "surabaya",
+        "adventure",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private Bali-origin route linking Ijen, Papuma, Tumpak Sewu, and Bromo in one forward sequence",
+        "Adds coastline and waterfall contrast to the core volcano logic without stretching into the longest itinerary",
+        "Best for travelers who want East Java variety and a Surabaya finish after starting from Bali",
+        "Private handling keeps ferry, screening, long transfers, and terrain changes coherent across four days"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 3,
+        "durationId": 3
+      }
+    },
+    {
+      "id": 55,
+      "name": "5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Discovery from Bali to Surabaya",
+      "startDestination": "Bali",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 5,
+        "night": 4
+      },
+      "banner": {
+        "url": "/uploads/5-day-ijen-papuma-beach-tumpak-sewu-bromo-discovery-from-bali-to-surabaya_0.jpg",
+        "alt": "5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Discovery from Bali to Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Papuma Beach Sunset Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/5-day-ijen-papuma-beach-tumpak-sewu-bromo-discovery-from-bali-to-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 4050000,
+      "slug": "tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n",
+      "physicality": "moderate",
+      "tags": [
+        "5d4n",
+        "bali",
+        "ijen",
+        "papuma",
+        "tumpaksewu",
+        "bromo",
+        "surabaya",
+        "site_visible"
+      ],
+      "highlights": [
+        "Extended private Bali-origin overland route across Ijen, Papuma, Tumpak Sewu, and Bromo",
+        "Designed for travelers who want East Java breadth, contrast, and a cleaner progression into Surabaya",
+        "Best for guests who want more than a short volcano pairing and can benefit from the added room in the route",
+        "Private handling keeps ferry, screening, long overland segments, and multi-terrain logistics coordinated"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 3,
+        "durationId": 4
+      }
+    },
+    {
+      "id": 56,
+      "name": "5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Nature Trip from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 5,
+        "night": 4
+      },
+      "banner": {
+        "url": "/uploads/5-day-ijen-papuma-beach-tumpak-sewu-bromo-nature-trip-from-surabaya_0.webp",
+        "alt": "5 Day Ijen, Papuma Beach, Tumpak Sewu & Bromo Nature Trip from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Papuma Beach Sunset Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/5-day-ijen-papuma-beach-tumpak-sewu-bromo-nature-trip-from-surabaya_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3650000,
+      "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n",
+      "physicality": "moderate",
+      "tags": [
+        "5d4n",
+        "surabaya",
+        "ijen",
+        "papuma-beach",
+        "tumpak-sewu",
+        "bromo",
+        "extended-tour",
+        "nature-trip",
+        "site_visible"
+      ],
+      "highlights": [
+        "Extended private East Java overland route combining Ijen, Papuma, Tumpak Sewu, and Bromo",
+        "Built for travelers who want stronger landscape contrast rather than a short volcano-only sequence",
+        "Best for guests who want East Java to feel broad, varied, and intentionally overland",
+        "Private handling keeps screening, long transfers, terrain changes, and final return logic coherent"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 4
+      }
+    },
+    {
+      "id": 63,
+      "name": "3 Day Ijen, Bromo & Madakaripura Waterfall Journey from Bali to Surabaya",
+      "startDestination": "Bali",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 3,
+        "night": 2
+      },
+      "banner": {
+        "url": "/uploads/3-day-ijen-bromo-madakaripura-waterfall-journey-from-bali-to-surabaya_0.webp",
+        "alt": "3 Day Ijen, Bromo & Madakaripura Waterfall Journey from Bali to Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/3-day-ijen-bromo-madakaripura-waterfall-journey-from-bali-to-surabaya_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 2850000,
+      "slug": "tours/from-bali/ijen-bromo-madakaripura-3d2n",
+      "physicality": "moderate",
+      "tags": [
+        "3d2n",
+        "bali",
+        "surabaya",
+        "ijen",
+        "bromo",
+        "madakaripura",
+        "cross-province",
+        "ferry-included",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private Bali-origin route combining Ijen, Bromo, and Madakaripura with a Surabaya finish",
+        "Adds waterfall contrast to the core two-volcano sequence without stretching into a longer expedition",
+        "Best for Bali-based travelers who want East Java highlights and a clean forward handoff into Surabaya",
+        "Private handling keeps ferry, screening, sunrise timing, and final transfer logic coherent"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 3,
+        "durationId": 2
+      }
+    },
+    {
+      "id": 73,
+      "name": "1 Day Bromo Midnight Experience from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 1,
+        "night": 1
+      },
+      "banner": {
+        "url": "/uploads/1-day-bromo-midnight-experience-from-surabaya_0.jpg",
+        "alt": "1 Day Bromo Midnight Experience from Surabaya"
+      },
+      "keyExperiences": [
+        "Bromo Sunrise Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/1-day-bromo-midnight-experience-from-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 1000000,
+      "slug": "tours/from-surabaya/bromo-1d1n",
+      "physicality": "moderate",
+      "tags": [
+        "1d1n",
+        "surabaya",
+        "bromo",
+        "sunrise",
+        "midnight-tour",
+        "day-trip",
+        "quick-getaway",
+        "site_visible"
+      ],
+      "highlights": [
+        "Midnight departure for a focused private Bromo sunrise route from Surabaya",
+        "Jeep access, viewpoint timing, crater handling, and same-day return kept in one clean sequence",
+        "Best for travelers with limited time who still want a serious volcano route",
+        "Built for clarity and efficiency rather than for soft pacing or overnight comfort"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 8
+      }
+    },
+    {
+      "id": 74,
+      "name": "6 Day Ijen, Papuma Beach, Tumpak Sewu, Bromo & Malang City Discovery from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 6,
+        "night": 5
+      },
+      "banner": {
+        "url": "/uploads/6-day-ijen-papuma-beach-tumpak-sewu-bromo-malang-city-discovery-from-surabaya_0.jpg",
+        "alt": "6 Day Ijen, Papuma Beach, Tumpak Sewu, Bromo & Malang City Discovery from Surabaya"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Malang Tour",
+        "Papuma Beach Sunset Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/6-day-ijen-papuma-beach-tumpak-sewu-bromo-malang-city-discovery-from-surabaya_0.jpg",
+          "alt": ""
+        }
+      ],
+      "startFrom": 4750000,
+      "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n",
+      "physicality": "moderate",
+      "tags": [
+        "6d5n",
+        "surabaya",
+        "ijen",
+        "papuma",
+        "tumpaksewu",
+        "bromo",
+        "malang",
+        "site_visible"
+      ],
+      "highlights": [
+        "Extended private East Java route through Ijen, Papuma, Tumpak Sewu, Bromo, and a Malang finish",
+        "Designed for travelers who want broad regional contrast rather than only the shortest headline stops",
+        "Best for guests who want extra room around the mountain sequence and a softer city-based closing phase",
+        "Private handling keeps screening, overland transfers, terrain changes, and final handoff coordinated across six days"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 5
+      }
+    },
+    {
+      "id": 80,
+      "name": "3 Day Bromo & Ijen Volcano Discovery from Bali",
+      "startDestination": "Bali",
+      "endDestination": "Bali",
+      "duration": {
+        "day": 3,
+        "night": 2
+      },
+      "banner": {
+        "url": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+        "alt": "3 Day Bromo & Ijen Volcano Discovery from Bali"
+      },
+      "keyExperiences": [
+        "Ijen Crater Hike",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+          "alt": ""
+        }
+      ],
+      "startFrom": 2850000,
+      "slug": "tours/from-bali/bromo-ijen-3d2n",
+      "physicality": "moderate",
+      "tags": [
+        "3d2n",
+        "bali",
+        "bromo",
+        "ijen",
+        "blue-fire",
+        "madakaripura",
+        "volcano",
+        "adventure",
+        "cross-island",
+        "site_visible"
+      ],
+      "highlights": [
+        "Two-volcano private route from Bali with guided cross-island handling",
+        "Bromo sunrise and Ijen crater kept central without stretching into a longer expedition",
+        "Best for Bali-based travelers who want both signature volcanoes in one route",
+        "Round-trip Bali finish with private handling across ferry and overland segments"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 3,
+        "durationId": 2
+      }
+    },
+    {
+      "id": 91,
+      "name": "3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya",
+      "startDestination": "Surabaya",
+      "endDestination": "Surabaya",
+      "duration": {
+        "day": 3,
+        "night": 2
+      },
+      "banner": {
+        "url": "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
+        "alt": "3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya"
+      },
+      "keyExperiences": [
+        "Taman Safari Adventure",
+        "Bromo Sunrise Tour",
+        "Madakaripura Waterfall Tour"
+      ],
+      "images": [
+        {
+          "url": "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
+          "alt": ""
+        }
+      ],
+      "startFrom": 3450000,
+      "slug": "tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
+      "physicality": "easy",
+      "tags": [
+        "3d2n",
+        "surabaya",
+        "taman-safari",
+        "bromo",
+        "madakaripura",
+        "family-friendly",
+        "wildlife",
+        "adventure",
+        "site_visible"
+      ],
+      "highlights": [
+        "Private family-friendly route combining Taman Safari Prigen, Bromo, and Madakaripura from Surabaya",
+        "Balances wildlife activity with a clear volcano-and-waterfall sequence across three days",
+        "Best for families or mixed-interest groups who want East Java variety in a more accessible format",
+        "Private handling keeps safari timing, overnight staging, and final Bromo sequence coherent"
+      ],
+      "snapshotMeta": {
+        "packageCategoryId": 1,
+        "startDestinationId": 4,
+        "durationId": 2
+      }
+    }
+  ]
+}

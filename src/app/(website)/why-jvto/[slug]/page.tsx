@@ -1,28 +1,42 @@
 // app/(website)/why-jvto/[slug]/page.tsx
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getContentPage } from "@/lib/content/getContentPage";
+import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { Faq } from "@/components/content/Faq";
 import { EvidenceBox } from "@/components/content/EvidenceBox";
 import { BlocksRenderer } from "@/components/content/BlocksRenderer";
-import Sidebar from "../sidebar";
+import SidebarDesktop from "../SidebarDesktop";
 import { ChevronRight, Home } from "lucide-react";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return listPublicPageRoutesByPrefix("/why-jvto").map((route) => ({
+    slug: route.replace("/why-jvto/", ""),
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
-  if (!row) return { title: "Page Not Found" };
-  const seo = (row.seo as Record<string, any> | null) ?? {};
-  const content = (row.content as Record<string, any> | null) ?? {};
+  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["sections"],
+  });
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
+  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
+  if (!Array.isArray(content.sections) || content.sections.length === 0) {
+    return { title: "Page Not Found" };
+  }
   return {
-    title: seo.title ?? content.h1 ?? row.route,
+    title: seo.title ?? content.h1 ?? page.pageRow.route,
     description: seo.description ?? undefined,
   };
 }
@@ -93,11 +107,16 @@ function SectionNav({
 
 export default async function WhyJvtoDynamicPage({ params }: Props) {
   const { slug } = await params;
-  const row = await getContentPage(`/why-jvto/${slug}`, "en");
-  if (!row) return notFound();
+  const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
+    allowDatabaseFallback: false,
+    requiredContentFields: ["sections"],
+  });
+  const content = page.pageRow.content as any;
+  if (!Array.isArray(content?.sections) || content.sections.length === 0) {
+    return notFound();
+  }
 
-  const content = row.content as any;
-  const seo = (row.seo as Record<string, any> | null) ?? {};
+  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
 
   return (
@@ -112,17 +131,8 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
       <div
         style={{ display: "flex", minHeight: "100vh", background: "#ffffff" }}
       >
-        <Sidebar />
-        <PageJsonLdCombined
-          pageRow={{
-            route: row.route,
-            lang: row.lang,
-            seo: row.seo,
-            content: row.content,
-            created_at: row.created_at,
-            updated_at: row.updated_at,
-          }}
-        />
+        <SidebarDesktop currentPath={`/why-jvto/${slug}`} />
+        <PageJsonLdCombined pageRow={page.pageRow} />
 
         <main
           className="pt-30 md:pt-40"
@@ -155,6 +165,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
             >
               <Link
                 href="/"
+                prefetch={false}
                 style={{ color: "#6b7a55", textDecoration: "none" }}
               >
                 <Home size={13} />
@@ -162,6 +173,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
               <span style={{ color: "#c0cca8" }}>›</span>
               <Link
                 href="/why-jvto"
+                prefetch={false}
                 style={{ color: "#6b7a55", textDecoration: "none" }}
               >
                 Why JVTO

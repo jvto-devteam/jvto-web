@@ -16,12 +16,11 @@ const Hero: React.FC<HeroProps> = ({
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/img/hero/home.webp"
+          src="/assets/img/hero/home-lite.webp"
           alt="Ijen Crater"
           fill
           priority
-          sizes="100vw"
-          quality={80}
+          unoptimized
           className="object-cover"
         />
 
@@ -40,11 +39,18 @@ const Hero: React.FC<HeroProps> = ({
         </p>
 
         <div className="flex gap-4 justify-center md:hidden">
-          <Button target="_blank" to="/tours" variant="primary" size="md">
+          <Button
+            target="_blank"
+            to="/tours"
+            prefetch={false}
+            variant="primary"
+            size="md"
+          >
             Private Tours
           </Button>
           <Button
             to="/verify-jvto"
+            prefetch={false}
             variant="outline"
             size="md"
             className="border-white text-white hover:bg-white hover:!text-black"
@@ -53,12 +59,19 @@ const Hero: React.FC<HeroProps> = ({
           </Button>
         </div>
         <div className="md:flex gap-4 justify-center hidden">
-          <Button target="_blank" to="/tours" variant="primary" size="lg">
+          <Button
+            target="_blank"
+            to="/tours"
+            prefetch={false}
+            variant="primary"
+            size="lg"
+          >
             Private Tours
           </Button>
           <Button
             target="_blank"
             to="/verify-jvto"
+            prefetch={false}
             variant="outline"
             size="lg"
             className="border-white text-white hover:bg-white hover:!text-black"

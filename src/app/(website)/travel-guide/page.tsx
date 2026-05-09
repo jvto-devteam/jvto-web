@@ -1,12 +1,12 @@
 import { type Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Button from "@/components/website/UI/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
-import { getContentPage } from "@/lib/content/getContentPage";
+import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -159,12 +159,16 @@ const travelGuideData = {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const row = await getContentPage("/travel-guide", "en");
-  const seo = (row?.seo as Record<string, any> | null) ?? {};
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const title = seo.title ?? travelGuideData.seo.title;
+  const page = await getPublicPageSnapshot("/travel-guide", {
+    allowDatabaseFallback: false,
+  });
+  const title = page.snapshot.seo.title;
   const description =
-    seo.description ?? travelGuideData.seo.metaDescription;
+    page.snapshot.seo.description ?? travelGuideData.seo.metaDescription;
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : "Travel Guide";
 
   return {
     title,
@@ -181,7 +185,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: siteUrl + "/assets/img/og/travel-guide.webp",
           width: 1200,
           height: 630,
-          alt: content.h1 ?? "Travel Guide",
+          alt: h1,
         },
       ],
     },
@@ -195,28 +199,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TravelGuideHubPage() {
-  const row = await getContentPage("/travel-guide", "en");
-  const content = (row?.content as Record<string, any> | null) ?? {};
-  const pageRow = row
-    ? {
-        route: row.route,
-        lang: row.lang,
-        seo: row.seo,
-        content: row.content,
-        created_at: row.created_at,
-        updated_at: row.updated_at,
-      }
-    : {
-        route: "/travel-guide",
-        lang: "en",
-        seo: {
-          title: travelGuideData.seo.title,
-          description: travelGuideData.seo.metaDescription,
-        },
-        content: {
-          h1: travelGuideData.h1,
-        },
-      };
+  const page = await getPublicPageSnapshot("/travel-guide", {
+    allowDatabaseFallback: false,
+  });
   const travelGuideSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -587,17 +572,20 @@ export default async function TravelGuideHubPage() {
   };
 
   const { hero, latestUpdate, operatingStatus, toc, panels } = travelGuideData;
-  const h1 = content.h1 ?? travelGuideData.h1;
+  const h1 =
+    typeof page.snapshot.content.h1 === "string"
+      ? page.snapshot.content.h1
+      : travelGuideData.h1;
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={pageRow as any} />
+      <PageJsonLdCombined pageRow={page.pageRow} />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section className="bg-accent border-b pb-12">
           <div className="container mx-auto px-4 max-w-4xl">
             <nav className="mb-4 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-primary">
+              <Link href="/" prefetch={false} className="hover:text-primary">
                 Home
               </Link>
               <span className="mx-2">›</span>
@@ -619,7 +607,7 @@ export default async function TravelGuideHubPage() {
                   size="lg"
                   variant={cta.href.includes("tours") ? "primary" : "outline"}
                 >
-                  <Link href={cta.href}>{cta.label}</Link>
+                  <Link href={cta.href} prefetch={false}>{cta.label}</Link>
                 </Button>
               ))}
             </div>
@@ -687,7 +675,7 @@ export default async function TravelGuideHubPage() {
                           size="sm"
                           className="p-0 flex h-auto"
                         >
-                          <Link className="flex" href={panel.cta.href}>
+                          <Link className="flex" href={panel.cta.href} prefetch={false}>
                             {panel.cta.label}{" "}
                             <ArrowRight className="ml-2 w-4 h-4" />
                           </Link>

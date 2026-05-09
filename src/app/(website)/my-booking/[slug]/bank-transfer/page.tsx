@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import {
   ArrowLeft,
   Upload,

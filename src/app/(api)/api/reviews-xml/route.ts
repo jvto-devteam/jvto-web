@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPublicReviewXmlItemsWithFallback } from "@/lib/publicContent/reviewApiSnapshot";
 
 function escapeXml(str?: string | null) {
   if (!str) return "";
@@ -15,33 +15,23 @@ function escapeXml(str?: string | null) {
 function cleanContent(str?: string | null) {
   if (!str) return "";
   return str
-    .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "") // Hapus Emoji
-    .replace(/\s+/g, " ") // Rapikan spasi berlebih
+    .replace(
+      /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
+      "",
+    )
+    .replace(/\s+/g, " ")
     .trim();
 }
 
 export async function GET() {
   try {
-    const reviews = await prisma.reviews.findMany({
-      where: {
-        package_id: {
-          not: null,
-        },
-      },
-      include: {
-        package: true,
-      },
-      orderBy: {
-        date: "desc",
-      },
-    });
+    const reviews = await getPublicReviewXmlItemsWithFallback();
 
     const reviewsXml = reviews
-      .map((r) => {
-        const reviewId = `${r.id.toString()}`;
-
-        const productUrl = r.package?.slug
-          ? `https://javavolcano-touroperator.com/${r.package.slug}`
+      .map((review) => {
+        const reviewId = `${review.id}`;
+        const productUrl = review.package?.slug
+          ? `https://javavolcano-touroperator.com/${review.package.slug}`
           : "";
 
         return `
@@ -49,34 +39,34 @@ export async function GET() {
     <review_id>${reviewId}</review_id>
 
     <reviewer>
-      <name>${escapeXml(r.customer_name)}</name>
+      <name>${escapeXml(review.customer_name)}</name>
     </reviewer>
 
-    <review_timestamp>${r.date.toISOString()}</review_timestamp>
+    <review_timestamp>${review.date}</review_timestamp>
 
-    <content><![CDATA[${cleanContent(r.review)}]]></content>
+    <content><![CDATA[${cleanContent(review.review)}]]></content>
 
     <review_url type="singleton">https://javavolcano-touroperator.com/why-jvto/reviews/${reviewId}</review_url>
 
     <ratings>
-      <overall min="1" max="5">${r.star ?? 5}</overall>
+      <overall min="1" max="5">${review.star ?? 5}</overall>
     </ratings>
 
     <products>
       <product>
         <product_ids>
           <mpns>
-            <mpn>${escapeXml(r.package?.code)}</mpn>
+            <mpn>${escapeXml(review.package?.code)}</mpn>
           </mpns>
           <skus>
-            <sku>${escapeXml(r.package?.code)}</sku>
+            <sku>${escapeXml(review.package?.code)}</sku>
           </skus>
           <brands>
             <brand>JVTO</brand>
           </brands>
         </product_ids>
 
-        <product_name><![CDATA[ ${r.package?.name ?? ""} ]]></product_name>
+        <product_name><![CDATA[ ${review.package?.name ?? ""} ]]></product_name>
 
         <product_url>${productUrl}</product_url>
       </product>

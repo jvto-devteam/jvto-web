@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Button from "@/components/website/UI/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -37,6 +37,7 @@ export function DocumentPriorityNote() {
           <li>
             <Link
               href="/policy/booking-payment-cancellation"
+              prefetch={false}
               className="text-primary hover:text-lime-600"
             >
               {documentPriorityNote.paragraphs[2].substring(
@@ -47,6 +48,7 @@ export function DocumentPriorityNote() {
           <li>
             <Link
               href="/policy/inclusions-exclusions"
+              prefetch={false}
               className="text-primary hover:text-lime-600"
             >
               {documentPriorityNote.paragraphs[3].substring(

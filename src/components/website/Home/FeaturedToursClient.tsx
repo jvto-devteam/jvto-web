@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, forwardRef } from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import TourCard from "../TourCard";
 import {MapPin, ArrowLeft, ArrowRight } from "lucide-react";
@@ -174,6 +174,7 @@ const FeaturedToursClient = ({
         <Link
           target="_blank"
           href="/tours"
+          prefetch={false}
           className="inline-flex items-center gap-2 bg-jvto-dark text-white px-10 py-4 font-bold uppercase tracking-widest rounded-lg shadow-xl hover:bg-gray-800 hover:-translate-y-1 transition-all"
         >
           View All Tours

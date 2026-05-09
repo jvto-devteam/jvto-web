@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import { formatIDR } from "@/utils/formatting";
 import { notFound } from "next/navigation";
@@ -48,6 +48,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
       <Link
         target={isNewTab ? "_blank" : "_self"}
         href={fullTourSlug}
+        prefetch={false}
         aria-label={tourLinkLabel}
         className="relative block overflow-hidden"
       >
@@ -56,7 +57,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 80vw, 350px"
+            quality={64}
             className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           />
         </div>
@@ -94,6 +96,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         <Link
           target={isNewTab ? "_blank" : "_self"}
           href={fullTourSlug}
+          prefetch={false}
           aria-label={tourLinkLabel}
           className="group/title block mb-3"
         >
@@ -124,6 +127,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
             <Link
               target={isNewTab ? "_blank" : "_self"}
               href={fullTourSlug}
+              prefetch={false}
               aria-label={tourLinkLabel}
               className="text-lime-600 hover:text-lime-600/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
             >

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import StructuredData from "@/components/website/StructuredData";
 import Sidebar from "../sidebar";

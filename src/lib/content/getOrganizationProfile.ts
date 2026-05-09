@@ -1,11 +1,9 @@
 import { unstable_cache } from "next/cache";
-import prisma from "@/lib/prisma";
+import { getPublicOrganizationProfile } from "@/lib/publicContent/getPublicOrganizationProfile";
 
 const getOrganizationProfileCached = unstable_cache(
   async () => {
-    return prisma.organization_profile.findFirst({
-      orderBy: { id: "asc" },
-    });
+    return getPublicOrganizationProfile();
   },
   ["organization-profile"],
   {

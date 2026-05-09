@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { useSession } from "next-auth/react";
+import { Providers } from "@/app/providers";
 import {
   Calendar,
-  CreditCard,
   Users,
   ChevronRight,
   Clock,
   MapPin,
   Palmtree,
+  User,
   CheckCircle2,
   AlertCircle,
   XCircle,
@@ -20,7 +21,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-// --- 1. INTERFACES ---
 interface Booking {
   id: number;
   booking_code: string;
@@ -35,9 +35,6 @@ interface Booking {
   banner: string;
 }
 
-// --- 2. COMPONENTS ---
-
-// Badge Status yang Lebih Cantik
 const StatusBadge = ({ status }: { status: string }) => {
   const s = status.toLowerCase();
   let style = "bg-gray-100 text-gray-600 border-gray-200";
@@ -63,16 +60,12 @@ const StatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-// --- 3. MAIN PAGE ---
-export default function MyBookingPage() {
+function MyBookingPageInner() {
   const { data: session, status } = useSession();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"ALL" | "UPCOMING" | "COMPLETED">(
-    "ALL"
-  );
+  const [activeTab, setActiveTab] = useState<"ALL" | "UPCOMING" | "COMPLETED">("ALL");
 
-  // --- FETCH DATA ---
   useEffect(() => {
     if (status === "authenticated" && session?.user?.email) {
       const fetchBookings = async () => {
@@ -95,10 +88,8 @@ export default function MyBookingPage() {
     }
   }, [session, status]);
 
-  // --- LOGIC FILTERING & SORTING ---
   const processedBookings = useMemo(() => {
     const today = new Date();
-
     return bookings
       .filter((b) => {
         const startDate = new Date(b.travel_date_start);
@@ -106,7 +97,7 @@ export default function MyBookingPage() {
           return startDate >= today && b.status !== "cancelled";
         if (activeTab === "COMPLETED")
           return startDate < today || b.status === "completed";
-        return true; // ALL
+        return true;
       })
       .sort(
         (a, b) =>
@@ -115,7 +106,6 @@ export default function MyBookingPage() {
       );
   }, [bookings, activeTab]);
 
-  // Statistik Sederhana
   const stats = useMemo(() => {
     const total = bookings.length;
     const upcoming = bookings.filter(
@@ -124,8 +114,6 @@ export default function MyBookingPage() {
     ).length;
     return { total, upcoming };
   }, [bookings]);
-
-  // --- RENDERING ---
 
   if (status === "loading" || loading) {
     return (
@@ -154,8 +142,7 @@ export default function MyBookingPage() {
             Login Required
           </h2>
           <p className="text-slate-500 mb-8 leading-relaxed">
-            Please log in to access your dashboard and manage your upcoming
-            adventures.
+            Please log in to access your dashboard and manage your upcoming adventures.
           </p>
           <Link
             href="/"
@@ -168,14 +155,70 @@ export default function MyBookingPage() {
     );
   }
 
+  const firstName = session?.user?.name?.split(" ")[0];
+
   return (
-    <div className="min-h-screen bg-[#F8F9FA] pb-24 pt-32">
-      {/* --- BACKGROUND DECORATION --- */}
-      <div className="fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-lime-50/50 to-transparent -z-10 pointer-events-none" />
+    <div className="min-h-screen bg-gray-100 md:bg-[#F8F9FA] pb-28 pt-20 md:pt-32">
+
+      {/* desktop decoration */}
+      <div className="hidden md:block fixed top-0 left-0 right-0 h-96 bg-gradient-to-b from-lime-50/50 to-transparent -z-10 pointer-events-none" />
 
       <div className="container mx-auto px-4">
-        {/* --- HEADER & STATS --- */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+
+        {/* ── MOBILE: Welcome card ── */}
+        <div className="md:hidden mb-3">
+          <div className="bg-white rounded-xl shadow-md p-4">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-xl font-bold text-gray-800">Hello, {firstName}</h1>
+                <p className="text-gray-500 text-sm mt-0.5">Member Dashboard · JVTO</p>
+              </div>
+              <div className="bg-lime-100 rounded-full p-3">
+                <Palmtree className="h-6 w-6 text-lime-600" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MOBILE: Stats summary card ── */}
+        <div className="md:hidden mb-3">
+          <div className="bg-white rounded-xl shadow-md p-4">
+            <h2 className="text-sm font-semibold text-gray-700 mb-3">Trip Summary</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white rounded-lg shadow-sm p-3">
+                <div className="flex">
+                  <div className="bg-lime-100 rounded-full p-2 mr-2 shrink-0">
+                    <Palmtree className="h-4 w-4 text-lime-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-gray-600 mb-1">Total Trips</p>
+                    <p className="text-xl font-bold text-lime-600">
+                      {stats.total}{" "}
+                      <span className="text-xs text-gray-500 font-normal">trips</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white rounded-lg shadow-sm p-3">
+                <div className="flex">
+                  <div className="bg-blue-100 rounded-full p-2 mr-2 shrink-0">
+                    <Calendar className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-gray-600 mb-1">Upcoming</p>
+                    <p className="text-xl font-bold text-blue-600">
+                      {stats.upcoming}{" "}
+                      <span className="text-xs text-gray-500 font-normal">trips</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── DESKTOP HEADER (md+) ── */}
+        <div className="hidden md:flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="bg-white border border-slate-200 px-3 py-1 rounded-full text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -183,31 +226,21 @@ export default function MyBookingPage() {
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-              Hello, {session?.user?.name?.split(" ")[0]}! 👋
+              Hello, {firstName}! 👋
             </h1>
             <p className="text-slate-500 mt-2 text-lg">
               You have{" "}
-              <span className="font-bold text-jvto-green">
-                {stats.upcoming} upcoming
-              </span>{" "}
+              <span className="font-bold text-jvto-green">{stats.upcoming} upcoming</span>{" "}
               adventures waiting for you.
             </p>
           </div>
-
-          {/* Mini Stats Cards */}
           <div className="flex gap-4">
             <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm min-w-[100px] text-center">
-              <p className="text-xs text-slate-400 font-bold uppercase">
-                Total Trips
-              </p>
-              <p className="text-2xl font-black text-slate-900">
-                {stats.total}
-              </p>
+              <p className="text-xs text-slate-400 font-bold uppercase">Total Trips</p>
+              <p className="text-2xl font-black text-slate-900">{stats.total}</p>
             </div>
             <div className="bg-jvto-dark p-4 rounded-2xl shadow-lg min-w-[100px] text-center transform rotate-2">
-              <p className="text-xs text-white/60 font-bold uppercase">
-                Next Trip
-              </p>
+              <p className="text-xs text-white/60 font-bold uppercase">Next Trip</p>
               <p className="text-2xl font-black text-white">
                 {stats.upcoming > 0 ? "Soon" : "-"}
               </p>
@@ -215,120 +248,150 @@ export default function MyBookingPage() {
           </div>
         </div>
 
-        {/* --- TABS --- */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide animate-in fade-in slide-in-from-bottom-5 duration-700 delay-100">
+        {/* ── TABS ── */}
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-1 scrollbar-hide">
           {(["ALL", "UPCOMING", "COMPLETED"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap ${
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
                 activeTab === tab
-                  ? "bg-jvto-green text-jvto-dark shadow-md shadow-lime-200"
-                  : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
+                  ? "bg-lime-500 text-white shadow-sm"
+                  : "bg-white text-gray-600 border border-gray-200"
               }`}
             >
-              {tab === "ALL"
-                ? "All Trips"
-                : tab === "UPCOMING"
-                ? "Upcoming Adventures"
-                : "Past Memories"}
+              {tab === "ALL" ? "All" : tab === "UPCOMING" ? "Upcoming" : "Past"}
             </button>
           ))}
         </div>
 
-        {/* --- BOOKING LIST --- */}
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
+        {/* ── BOOKING LIST ── */}
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
           {processedBookings.length > 0 ? (
-            processedBookings.map((booking, index) => (
-              <div
-                key={booking.id}
-                className="group relative bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-lime-200 transition-all duration-300"
-              >
-                <div className="flex flex-col md:flex-row gap-6">
-                  {/* Image Section (Floating Look) */}
-                  <div className="relative w-full md:w-72 h-56 md:h-auto shrink-0 rounded-2xl overflow-hidden">
-                    <Image
-                      src={booking.banner || "/assets/img/placeholder.jpg"}
-                      alt={booking.package_name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
+            processedBookings.map((booking) => (
+              <div key={booking.id}>
 
-                    {/* Floating Date Badge on Image */}
-                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm flex flex-col items-center min-w-[50px]">
-                      <span className="text-xs font-bold text-slate-400 uppercase">
-                        {new Date(booking.travel_date_start).toLocaleString(
-                          "default",
-                          { month: "short" }
-                        )}
-                      </span>
-                      <span className="text-xl font-black text-slate-900 leading-none">
-                        {new Date(booking.travel_date_start).getDate()}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="flex-1 py-2 md:py-4 pr-4 flex flex-col justify-between">
-                    <div>
-                      <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
-                        <div className="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wide">
-                          <span className="bg-slate-50 px-2 py-1 rounded border border-slate-100">
-                            #{booking.booking_code}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1">
-                            <MapPin size={12} /> East Java
-                          </span>
-                        </div>
-                        <StatusBadge status={booking.status} />
-                      </div>
-
-                      <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 group-hover:text-jvto-green transition-colors leading-tight">
-                        {booking.package_name}
-                      </h3>
-
-                      <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                        <div className="flex items-center gap-2">
-                          <Clock size={16} className="text-lime-600" />
-                          <span>{booking.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Users size={16} className="text-lime-600" />
-                          <span>{booking.total_pax} Travelers</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar size={16} className="text-lime-600" />
-                          <span>
-                            {new Date(
-                              booking.travel_date_start
-                            ).toLocaleDateString("id-ID", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                            })}
-                          </span>
-                        </div>
+                {/* ── DESKTOP CARD (md+) ── */}
+                <div className="hidden md:block group relative bg-white rounded-3xl p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:border-lime-200 transition-all duration-300">
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <div className="relative w-full md:w-72 h-56 md:h-auto shrink-0 rounded-2xl overflow-hidden">
+                      <Image
+                        src={booking.banner || "/assets/img/placeholder.jpg"}
+                        alt={booking.package_name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        unoptimized
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-sm flex flex-col items-center min-w-[50px]">
+                        <span className="text-xs font-bold text-slate-400 uppercase">
+                          {new Date(booking.travel_date_start).toLocaleString("default", { month: "short" })}
+                        </span>
+                        <span className="text-xl font-black text-slate-900 leading-none">
+                          {new Date(booking.travel_date_start).getDate()}
+                        </span>
                       </div>
                     </div>
-
-                    {/* Footer Actions */}
-                    <div className="mt-6 flex items-center justify-end gap-3">
-                      <Link
-                        href={`/my-booking/${booking.url}`}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                      >
-                        View Itinerary <ChevronRight size={16} />
-                      </Link>
+                    <div className="flex-1 py-2 md:py-4 pr-4 flex flex-col justify-between">
+                      <div>
+                        <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
+                          <div className="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wide">
+                            <span className="bg-slate-50 px-2 py-1 rounded border border-slate-100">
+                              #{booking.booking_code}
+                            </span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1">
+                              <MapPin size={12} /> East Java
+                            </span>
+                          </div>
+                          <StatusBadge status={booking.status} />
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 group-hover:text-jvto-green transition-colors leading-tight">
+                          {booking.package_name}
+                        </h3>
+                        <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                          <div className="flex items-center gap-2">
+                            <Clock size={16} className="text-lime-600" />
+                            <span>{booking.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Users size={16} className="text-lime-600" />
+                            <span>{booking.total_pax} Travelers</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar size={16} className="text-lime-600" />
+                            <span>
+                              {new Date(booking.travel_date_start).toLocaleDateString("id-ID", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-6 flex items-center justify-end gap-3">
+                        <Link
+                          href={`/my-booking/${booking.url}`}
+                          className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                          View Itinerary <ChevronRight size={16} />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                {/* ── MOBILE CARD (sam-app style) ── */}
+                <div className="md:hidden bg-white rounded-xl shadow-md overflow-hidden mb-4">
+                  <div className="p-4">
+                    {/* Header: name + status */}
+                    <div className="flex justify-between items-start mb-3 gap-2">
+                      <div>
+                        <h3 className="font-medium text-lg text-gray-900 leading-snug">
+                          {booking.package_name}
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-0.5">{booking.duration}</p>
+                      </div>
+                      <StatusBadge status={booking.status} />
+                    </div>
+
+                    {/* Date row */}
+                    <div className="flex items-center mb-2 text-sm text-gray-600">
+                      <Calendar className="h-4 w-4 mr-1.5 shrink-0" />
+                      <span>
+                        {new Date(booking.travel_date_start).toLocaleDateString("en-US", {
+                          day: "numeric", month: "long", year: "numeric",
+                        })}
+                      </span>
+                    </div>
+
+                    {/* Footer: pax + code */}
+                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
+                      <div className="flex items-center text-sm text-gray-600">
+                        <Users className="h-4 w-4 mr-1.5 shrink-0" />
+                        <span>{booking.total_pax} pax</span>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium">
+                        #{booking.booking_code}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action footer (sam-app colored footer strip) */}
+                  <div className="bg-lime-50 px-4 py-3 border-t border-lime-100">
+                    <Link
+                      href={`/my-booking/${booking.url}`}
+                      className="text-lime-700 text-sm font-medium"
+                    >
+                      Lihat Detail Booking →
+                    </Link>
+                  </div>
+                </div>
+
               </div>
             ))
           ) : (
-            // EMPTY STATE YANG MENARIK
             <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
               <div className="relative inline-block mb-6">
                 <div className="absolute inset-0 bg-lime-200 rounded-full blur-xl opacity-50"></div>
@@ -340,8 +403,7 @@ export default function MyBookingPage() {
                 No {activeTab.toLowerCase()} trips found
               </h3>
               <p className="text-slate-500 max-w-md mx-auto mb-8 text-lg">
-                Your travel journal is empty. The volcanoes of East Java are
-                calling!
+                Your travel journal is empty. The volcanoes of East Java are calling!
               </p>
               <Link
                 href="/tours"
@@ -354,5 +416,13 @@ export default function MyBookingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MyBookingPage() {
+  return (
+    <Providers>
+      <MyBookingPageInner />
+    </Providers>
   );
 }

@@ -1,25 +1,11 @@
-import ReviewsClient from "./ReviewsClient";
-import { prisma } from "@/lib/prisma";
+import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
+import HomeReviewsStatic from "./HomeReviewsStatic";
 
 const Reviews = async () => {
-  const raw = await prisma.reviews.findMany({
-    where: {
-      platform: { equals: "Trustpilot" },
-    },
-    orderBy: { date: "desc" },
-  });
+  const allReviews = await getPublicHomeReviews();
+  const reviews = allReviews.slice(0, 10);
 
-  const reviews = raw.map((r) => ({
-    name: r.customer_name,
-    date: r.date.toISOString(),
-    url: r.url || r.url_reference,
-    stars: Number(r.star),
-    title: r.review?.substring(0, 60) ?? "",
-    text: r.review ?? "",
-    verified: true,
-  }));
-
-  return <ReviewsClient reviews={reviews} />;
+  return <HomeReviewsStatic reviews={reviews} totalCount={allReviews.length} />;
 };
 
 export default Reviews;

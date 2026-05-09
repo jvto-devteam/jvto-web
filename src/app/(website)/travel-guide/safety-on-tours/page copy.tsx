@@ -1,5 +1,5 @@
 import StructuredData from "@/components/website/StructuredData";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { type Metadata } from "next";
 import Sidebar from "../sidebar";
 

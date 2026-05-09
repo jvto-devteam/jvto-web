@@ -5,6 +5,7 @@ import EditBookingModals from "./EditBookingModals";
 import ItineraryAccordion from "./ItineraryAccordion";
 import CrewTransportCards from "./CrewTransportCards";
 import BookingInformation from "./BookingInformation";
+import MobileBookingView from "./MobileBookingView";
 import {
   MapPin,
   Calendar,
@@ -16,6 +17,10 @@ import {
   Info,
   CheckCircle,
   AlertCircle,
+  MessageCircle,
+  Camera,
+  Star,
+  ExternalLink,
 } from "lucide-react";
 
 // --- HELPERS ---
@@ -65,8 +70,8 @@ export default async function MyBookingPage({
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-24 pt-20 md:pt-30">
-      {/* 1. STICKY HEADER */}
-      <div className=" bg-white/80 backdrop-blur-md border-b border-slate-200">
+      {/* ── STICKY HEADER (shared) ── */}
+      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="container mx-auto px-4 py-4 md:flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 bg-slate-900 rounded-lg flex items-center justify-center text-lime-400 font-black text-xs">
@@ -104,6 +109,13 @@ export default async function MyBookingPage({
         </div>
       </div>
 
+      {/* ── MOBILE LAYOUT ── */}
+      <div className="md:hidden">
+        <MobileBookingView booking={booking} />
+      </div>
+
+      {/* ── DESKTOP LAYOUT ── */}
+      <div className="hidden md:block">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-slate-900">
@@ -227,7 +239,7 @@ export default async function MyBookingPage({
                         {/* tombol lihat bukti */}
                         {booking.finance.pending_upload_proof && (
                           <a
-                            href={booking.finance.uploaded_payment_proof}
+                            href={booking.finance.uploaded_payment_proof ?? "#"}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold uppercase tracking-wide px-6 py-3 rounded-lg border border-slate-200 transition-all inline-block"
@@ -361,6 +373,52 @@ export default async function MyBookingPage({
 
           {/* --- RIGHT COLUMN (SIDEBAR) --- */}
           <div className="lg:col-span-1 space-y-6">
+
+            {/* 0. TRIP MEDIA & REVIEWS — top of sidebar for visibility */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 px-6 pt-5 pb-3 border-b border-slate-100">
+                Your Trip
+              </h3>
+              <div className="grid grid-cols-3 divide-x divide-slate-100">
+                <a
+                  href={booking.media_link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-orange-50 hover:bg-orange-100 transition-colors"
+                >
+                  <div className="bg-orange-100 rounded-full p-2.5">
+                    <Camera size={18} className="text-orange-500" />
+                  </div>
+                  <p className="text-xs font-semibold text-orange-700 text-center leading-tight">Trip Media</p>
+                  <p className="text-[10px] text-orange-400 text-center">Photos & videos</p>
+                </a>
+                <a
+                  href="https://www.trustpilot.com/review/javavolcano-touroperator.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-green-50 hover:bg-green-100 transition-colors"
+                >
+                  <div className="bg-green-100 rounded-full p-2.5">
+                    <Star size={18} className="text-green-600" />
+                  </div>
+                  <p className="text-xs font-semibold text-green-700 text-center leading-tight">Trustpilot</p>
+                  <p className="text-[10px] text-green-400 text-center">Rate us</p>
+                </a>
+                <a
+                  href="https://g.page/r/Cb3i9Eu0K5MREB0/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-blue-50 hover:bg-blue-100 transition-colors"
+                >
+                  <div className="bg-blue-100 rounded-full p-2.5">
+                    <ExternalLink size={18} className="text-blue-600" />
+                  </div>
+                  <p className="text-xs font-semibold text-blue-700 text-center leading-tight">Google</p>
+                  <p className="text-[10px] text-blue-400 text-center">Review us</p>
+                </a>
+              </div>
+            </div>
+
             {/* 1. CONTACT OPERATOR */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
@@ -503,6 +561,18 @@ export default async function MyBookingPage({
           </div>
         </div>
       </div>
+      </div>{/* end desktop */}
+
+      {/* ── STICKY CHAT BUTTON (desktop only — mobile has its own in MobileBookingView) ── */}
+      <a
+        href={`https://chat.javavolcano-touroperator.com/chat/${booking.url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hidden md:flex fixed bottom-8 right-8 z-50 items-center gap-2 bg-jvto-green hover:bg-lime-400 text-jvto-dark font-semibold text-sm px-5 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all hover:-translate-y-0.5"
+      >
+        <MessageCircle size={18} />
+        Chat with Us
+      </a>
     </div>
   );
 }

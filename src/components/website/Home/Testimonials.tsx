@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { REVIEWS } from "@/services/mockData";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const Testimonials: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -4,6 +4,7 @@ import type { Destination } from "@/interfaces";
 import DestinationCard from "@/components/website/DestinationCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
+import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -62,11 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
 async function getAllDestinations(): Promise<Destination[]> {
-  const res = await fetch(`${SITE_URL}/api/destinations/web`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) throw new Error("Failed to fetch destinations");
-  return res.json();
+  return getPublicDestinationList();
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────

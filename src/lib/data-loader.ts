@@ -1,4 +1,5 @@
 import ssotData from "./Master_Dataset_JVTO.SSOT.v3.0.json";
+import { getVerifyJvtoOptimizedImageSrc } from "./assets/verifyJvtoImageVariants";
 
 export type Doc = {
   filename: string;
@@ -70,7 +71,10 @@ function mapAssetToDoc(asset: any): Doc {
   if (asset.preview) {
     const formatMatch = asset.preview.match(/\.(webp|png|jpg|jpeg)$/i);
     const format = formatMatch ? formatMatch[1].toUpperCase() : "IMAGE";
-    preview = { url: asset.preview, format };
+    preview = {
+      url: getVerifyJvtoOptimizedImageSrc(asset.preview),
+      format,
+    };
   }
 
   // URL file asli - sekarang menggunakan fungsi yang sudah disederhanakan
