@@ -123,7 +123,15 @@ const HISTORY_TIMELINE_SCHEMA = {
 
 // ── Timeline display data (HTML only — not schema) ────────────────────────────
 
-const TIMELINE_ENTRIES = [
+const TIMELINE_ENTRIES: Array<{
+  year: string;
+  event: string;
+  detail: string;
+  imageSrc: string | null;
+  imageAlt: string | null;
+  verifyHref: string | null;
+  verifyLabel: string | null;
+}> = [
   {
     year: "2015",
     event: "Booking.com Guest Review Award",

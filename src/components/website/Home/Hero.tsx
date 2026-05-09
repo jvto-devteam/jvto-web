@@ -77,7 +77,7 @@ const Hero: React.FC<HeroProps> = ({
             className="border-white text-white hover:bg-white hover:!text-black"
           >
             Verify our licenses and credentials
-          </a>
+          </Button>
         </div>
         <div className="mt-10">
           <a

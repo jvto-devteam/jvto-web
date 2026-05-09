@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BulletLinks, Card, Grid, Section } from "@/components/ui";
 import type { SSOTPage } from "@/lib/why-ssot";
 

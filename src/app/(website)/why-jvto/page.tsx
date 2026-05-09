@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import SidebarDesktop from "./SidebarDesktop";
+import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
+import { buildNarrativeClaimsItemList } from "@/lib/schemas/buildWhyJvtoSchemas";
 const siteUrl = "https://javavolcano-touroperator.com";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
@@ -169,9 +171,12 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const page = await getPublicPageSnapshot("/why-jvto", {
-    allowDatabaseFallback: false,
-  });
+  const [page, allClaims] = await Promise.all([
+    getPublicPageSnapshot("/why-jvto", {
+      allowDatabaseFallback: false,
+    }),
+    getAllNarrativeClaims().catch(() => []),
+  ]);
   const heroH1 =
     typeof page.snapshot.content.h1 === "string"
       ? page.snapshot.content.h1
@@ -320,6 +325,10 @@ export default async function WhyJvtoPage() {
       },
     ],
   };
+  const narrativeClaimSchemas = [
+    buildNarrativeClaimsItemList(allClaims),
+    whyJVTOSchema,
+  ];
 
   return (
     <>
@@ -712,7 +721,10 @@ export default async function WhyJvtoPage() {
 
       <div className="flex min-h-screen bg-background">
         <SidebarDesktop currentPath="/why-jvto" />
-        <PageJsonLdCombined pageRow={page.pageRow} />
+        <PageJsonLdCombined
+          pageRow={page.pageRow}
+          extraSchemas={narrativeClaimSchemas}
+        />
 
         <main className="pt-24 w-full jvto-page">
           {/* ══════════ HERO ══════════ */}

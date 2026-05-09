@@ -1,7 +1,4 @@
 // app/api/destinations/web/route.ts
-// Refactored 2026-04-29 (AEO/GEO port Phase 4.8): list transform + filter logic moved to
-// src/lib/destinations/getWebDestinationsList.ts. Server Components (destinations hub + homepage)
-// call the helper directly; this route still serves external clients.
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_DESTINATIONS } from "@/data/mockData";
@@ -91,6 +88,8 @@ function parseLimit(raw: string | null): number | undefined {
   return isNaN(n) || n <= 0 ? undefined : n;
 }
 
+// ─── GET Handler ──────────────────────────────────────────────────────────────
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const limit = parseLimit(searchParams.get("limit"));
@@ -125,8 +124,53 @@ export async function GET(request: NextRequest) {
         short_slug: true,
         featured: true,
 
+        // Content
+        summary: true,
+        highlight: true,
+        description: true,
+
+        // Geo
+        latitude: true,
+        longitude: true,
+        altitude: true,
+
+        // Key info
+        difficulty_level: true,
+        temperature_range: true,
+        best_time_to_visit: true,
+        permit_required: true,
+        permit_details: true,
+        physical_requirements: true,
+
+        // Rich content
+        main_attractions: true,
+        key_highlights: true,
+
+        // SEO
+        seo_title: true,
+        seo_description: true,
+
+        // Taxonomy
+        tags: true,
+        types: true,
+
+        // Schema.org JSON-LD lengkap per destination
+        schema_json: true,
+
+        // Banner — relasi yang sama dengan versi original
+        destination_assets: {
+          where: { asset: { type: "image" } },
+          include: { asset: true },
+        },
+      },
+      orderBy: { id: "asc" },
+      ...(limit !== undefined && { take: limit }),
+    });
+
+    const payload = destinations.map(serializeDestination);
     return NextResponse.json(payload, { status: 200 });
   } catch (error) {
+    // Detail error di log agar mudah debug
     console.error("[/api/destinations/web] error:", error);
     return NextResponse.json(
       {

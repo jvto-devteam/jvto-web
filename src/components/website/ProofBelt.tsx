@@ -3,7 +3,7 @@ import Link from "@/components/website/AppLink";
 import {
   BadgeCheck,
   Shield,
-  UsersX,
+  UserX,
   MapPin,
   CreditCard,
   UserCheck,
@@ -24,7 +24,7 @@ const trustItems = [
 const iconMap: Record<string, LucideIcon> = {
   badge: BadgeCheck,
   security: Shield,
-  group_off: UsersX,
+  group_off: UserX,
   location_on: MapPin,
   paid: CreditCard,
   verified_user: UserCheck,
