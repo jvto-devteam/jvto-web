@@ -65,11 +65,11 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <div className="container mx-auto px-4 max-w-4xl">
           <nav className="mb-4 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-primary">
+            <Link href="/" prefetch={false} className="hover:text-primary">
               Home
             </Link>
             <span className="mx-2">›</span>
-            <Link href="/travel-guide" className="hover:text-primary">
+            <Link href="/travel-guide" prefetch={false} className="hover:text-primary">
               Travel Guide
             </Link>
             <span className="mx-2">›</span>

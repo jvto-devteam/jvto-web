@@ -95,6 +95,7 @@ export function EvidenceBox({
       {/* Right: CTA button */}
       <Link
         href={proofHref}
+        prefetch={isExternal ? undefined : false}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
         style={{

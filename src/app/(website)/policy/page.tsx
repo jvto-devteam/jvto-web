@@ -84,7 +84,7 @@ export default async function PolicyHubPage() {
           <div className="container mx-auto px-4 max-w-5xl">
             {/* Breadcrumb */}
             <nav className="mb-4  text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-primary">
+              <Link href="/" prefetch={false} className="hover:text-primary">
                 Home
               </Link>
               <span className="mx-2">›</span>
@@ -180,6 +180,7 @@ export default async function PolicyHubPage() {
 
                     <Link
                       href={card.href}
+                      prefetch={false}
                       className="inline-flex items-center justify-center w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 transition"
                     >
                       {card.cta}
