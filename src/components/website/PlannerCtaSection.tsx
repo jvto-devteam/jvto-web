@@ -1,6 +1,6 @@
 import React from 'react';
 import { contactInfo } from '@/constants';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const PlannerCtaSection = () => (
     <section className="py-16 md:py-24 bg-gradient-to-br from-primary to-orange-500">

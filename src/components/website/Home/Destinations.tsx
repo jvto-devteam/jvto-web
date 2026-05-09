@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import DestinationCard from "@/components/website/DestinationCard";
 import type { Destination } from "@/interfaces";
 

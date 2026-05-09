@@ -1,7 +1,7 @@
 "use client";
 
 import { Providers } from "@/app/providers";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { useEffect, useRef, useState } from "react";
 import { LayoutDashboard, LogIn, LogOut, Mail, User, X } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";

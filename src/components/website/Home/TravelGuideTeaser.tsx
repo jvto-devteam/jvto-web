@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { BookOpen, HelpCircle, ArrowRight } from 'lucide-react';
 
 const TravelGuideTeaser: React.FC = () => {

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { WHY_JVTO_ECOSYSTEM_LINKS } from "@/lib/why-ecosystem";
 import { Card, Grid, Section } from "@/components/ui";
 

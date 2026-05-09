@@ -3,7 +3,7 @@ import SEO from './SEO';
 import Breadcrumbs from './Breadcrumbs';
 import QuickQuoteForm from './QuickQuoteForm';
 import { contactInfo, pillarsOfTrust } from '@/constants';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const TrustPoint: React.FC<{ icon: string; title: string; description: string; }> = ({ icon, title, description }) => (
     <div className="flex items-start gap-4">

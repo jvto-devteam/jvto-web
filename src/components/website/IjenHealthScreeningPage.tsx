@@ -1,6 +1,6 @@
 import React from 'react';
 import Breadcrumbs from './Breadcrumbs';
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 
 const faqs = [
     { question: "Is screening optional?", answer: "For JVTO Ijen tours, no. Screening is part of our standard. For other travelers, we strongly recommend it." },

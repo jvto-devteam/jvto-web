@@ -1,5 +1,5 @@
 // components/content/BlocksRenderer.tsx
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { ArrowRight, ExternalLink } from "lucide-react";

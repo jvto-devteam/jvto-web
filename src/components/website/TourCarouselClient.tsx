@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import TourCarouselRow from "./TourCarouselRow";
 
