@@ -20,9 +20,7 @@ import { getReviewsForSchema } from "@/lib/queries/schemaReviews";
 import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
 import {
   buildIndividualReviewSchemas,
-  buildWhyJvtoBreadcrumbSchema,
   buildWhyJvtoReviewsAggregateRatingSchema,
-  buildWhyJvtoWebPageSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
 
 type Props = {
@@ -151,26 +149,6 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
       : [];
 
   const slugExtraSchemas = [
-    buildWhyJvtoWebPageSchema({
-      subpath: slug as
-        | "our-story"
-        | "our-team"
-        | "the-jvto-difference"
-        | "community-standards"
-        | "reviews",
-      pageName: h1,
-      description: seo.description ?? h1,
-    }),
-    buildWhyJvtoBreadcrumbSchema({
-      subpath: slug as
-        | "our-story"
-        | "our-team"
-        | "the-jvto-difference"
-        | "community-standards"
-        | "reviews",
-      pageName: h1,
-      description: seo.description ?? h1,
-    }),
     faqSchema,
     ...crewSchemas,
     reviewsAggregateSchema,

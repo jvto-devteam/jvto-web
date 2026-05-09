@@ -27,7 +27,12 @@ import {
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import SidebarDesktop from "./SidebarDesktop";
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import { buildNarrativeClaimsItemList } from "@/lib/schemas/buildWhyJvtoSchemas";
+import {
+  buildNarrativeClaimsItemList,
+  buildWhyJvtoFaqSchema,
+  buildWhyJvtoHubItemListSchema,
+} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { resolveFaqsForPage } from "@/lib/content/resolveFaqs";
 const siteUrl = "https://javavolcano-touroperator.com";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
@@ -171,16 +176,22 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const [page, allClaims] = await Promise.all([
+  const [page, allClaims, faqResolution] = await Promise.all([
     getPublicPageSnapshot("/why-jvto", {
       allowDatabaseFallback: false,
     }),
     getAllNarrativeClaims().catch(() => []),
+    resolveFaqsForPage("/why-jvto"),
   ]);
   const heroH1 =
     typeof page.snapshot.content.h1 === "string"
       ? page.snapshot.content.h1
       : defaultWhyTitle;
+  const whyJvtoExtraSchemas = [
+    buildWhyJvtoHubItemListSchema(),
+    buildWhyJvtoFaqSchema(allClaims, ""),
+    buildNarrativeClaimsItemList(allClaims),
+  ].filter(Boolean);
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -325,11 +336,6 @@ export default async function WhyJvtoPage() {
       },
     ],
   };
-  const narrativeClaimSchemas = [
-    buildNarrativeClaimsItemList(allClaims),
-    whyJVTOSchema,
-  ];
-
   return (
     <>
       <style>{`
@@ -723,7 +729,8 @@ export default async function WhyJvtoPage() {
         <SidebarDesktop currentPath="/why-jvto" />
         <PageJsonLdCombined
           pageRow={page.pageRow}
-          extraSchemas={narrativeClaimSchemas}
+          extraSchemas={whyJvtoExtraSchemas}
+          suppressCmsFaq={faqResolution.suppressCmsFaq}
         />
 
         <main className="pt-24 w-full jvto-page">

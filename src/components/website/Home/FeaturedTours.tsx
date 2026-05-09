@@ -3,6 +3,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { ListTourPackage } from "@/types";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import TourCardStatic from "@/components/website/TourCardStatic";
+import ViewportSection from "@/components/website/ViewportSection";
 
 async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
   return getPublicPackageList({ fromId: id, limit: 6 });
@@ -80,9 +81,11 @@ function TourRowStatic({
   if (!tours.length) return null;
 
   return (
-    <section
+    <ViewportSection
+      as="section"
       id={id}
       className="py-6 md:py-12 scroll-mt-24 border-b border-gray-100 last:border-0"
+      intrinsicSize="780px"
     >
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
@@ -98,15 +101,19 @@ function TourRowStatic({
 
         <div className="relative -mx-6 md:mx-0 md:px-0">
           <div className="flex md:gap-6 gap-3 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide px-6 md:px-0">
-            {tours.map((tour) => (
+            {tours.map((tour, index) => (
               <div key={tour.id} className="flex-shrink-0 w-[80vw] sm:w-[350px]">
-                <TourCardStatic isNewTab tour={tour} />
+                <TourCardStatic
+                  isNewTab
+                  tour={tour}
+                  prioritizeImage={index === 0}
+                />
               </div>
             ))}
           </div>
         </div>
       </div>
-    </section>
+    </ViewportSection>
   );
 }
 

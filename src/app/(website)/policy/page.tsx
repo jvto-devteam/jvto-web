@@ -6,6 +6,11 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { buildPolicyHubItemListSchema } from "@/lib/schemas/buildPolicySchemas";
+import {
+  buildResolvedFaqSchema,
+  resolveFaqsForPage,
+} from "@/lib/content/resolveFaqs";
 const fallbackSeo = {
   title: "JVTO Policies | Booking, Privacy & Inclusions",
   h1: "JVTO Policies",
@@ -66,17 +71,28 @@ export default async function PolicyHubPage() {
       lastUpdated: "17 January 2026",
     },
   ] as const;
-  const page = await getPublicPageSnapshot("/policy", {
-    allowDatabaseFallback: false,
-  });
+  const [page, faqResolution] = await Promise.all([
+    getPublicPageSnapshot("/policy", {
+      allowDatabaseFallback: false,
+    }),
+    resolveFaqsForPage("/policy"),
+  ]);
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const content = page.pageRow.content as any;
   const h1 = content?.h1 ?? seo.title ?? fallbackSeo.h1;
+  const policyHubExtraSchemas = [
+    buildPolicyHubItemListSchema(),
+    buildResolvedFaqSchema(faqResolution, "/policy"),
+  ].filter(Boolean);
 
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <PageJsonLdCombined pageRow={page.pageRow} />
+      <PageJsonLdCombined
+        pageRow={page.pageRow}
+        extraSchemas={policyHubExtraSchemas}
+        suppressCmsFaq={faqResolution.suppressCmsFaq}
+      />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         {/* Header */}

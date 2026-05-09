@@ -22,6 +22,8 @@ import {
   buildDestinationTravelGuideHandoffSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
+import fs from "fs";
+import path from "path";
 export const revalidate = 3600;
 export const dynamicParams = false;
 const SITE_URL =
@@ -36,37 +38,18 @@ export interface RouteStats {
   bbox: [number, number, number, number];
 }
 
-const DEST_TRAVEL_GUIDE_LINKS: Record<
-  string,
-  { href: string; label: string } | undefined
-> = {
-  "mount-bromo": {
-    href: "/travel-guide/mount-bromo-logistics",
-    label: "Mount Bromo logistics and sunrise planning",
-  },
-  "ijen-crater": {
-    href: "/travel-guide/ijen-health-screening",
-    label: "Ijen health screening and pre-ascent process",
-  },
-  "tumpak-sewu-waterfall": {
-    href: "/travel-guide/tumpak-sewu-logistics",
-    label: "Tumpak Sewu logistics and descent planning",
-  },
+const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
+  "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
+  "mount-bromo": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "tumpak-sewu-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
+  "madakaripura-waterfall": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
 };
 
 const DEST_RELATED: Record<string, Array<{ slug: string; name: string }>> = {
-  "mount-bromo": [
-    { slug: "ijen-crater", name: "Ijen Crater" },
-    { slug: "madakaripura-waterfall", name: "Madakaripura Waterfall" },
-  ],
-  "ijen-crater": [
-    { slug: "mount-bromo", name: "Mount Bromo" },
-    { slug: "papuma-beach", name: "Papuma Beach" },
-  ],
-  "tumpak-sewu-waterfall": [
-    { slug: "mount-bromo", name: "Mount Bromo" },
-    { slug: "madakaripura-waterfall", name: "Madakaripura Waterfall" },
-  ],
+  "ijen-crater": [{ slug: "mount-bromo", name: "Mount Bromo" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "mount-bromo": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }],
+  "tumpak-sewu-waterfall": [{ slug: "ijen-crater", name: "Ijen Crater" }, { slug: "mount-bromo", name: "Mount Bromo" }],
+  "madakaripura-waterfall": [{ slug: "tumpak-sewu-waterfall", name: "Tumpak Sewu Waterfall" }, { slug: "mount-bromo", name: "Mount Bromo" }],
 };
 
 interface Props {
@@ -84,20 +67,48 @@ const getDestination = cache(async (slug: string): Promise<DestinationDetail | n
 );
 
 function readRouteStats(_slug: string): RouteStats | null {
-  return null;
+  try {
+    const indexPath = path.join(process.cwd(), "public", "routes", "index.json");
+    const raw = fs.readFileSync(indexPath, "utf8");
+    const index = JSON.parse(raw) as { routes: RouteStats[] };
+    return index.routes.find((r) => r.slug === _slug) ?? null;
+  } catch {
+    return null;
+  }
 }
 
 function readVolcanicStatus(_slug: string): VolcanicStatusData | null {
-  return null;
+  const volcanicStatusSlugs = new Set(["ijen-crater", "mount-bromo"]);
+  if (!volcanicStatusSlugs.has(_slug)) return null;
+  try {
+    const statusPath = path.join(process.cwd(), "public", "ops", "volcanic-status.json");
+    const raw = fs.readFileSync(statusPath, "utf8");
+    const data = JSON.parse(raw) as { destinations: Record<string, VolcanicStatusData> };
+    return data.destinations[_slug] ?? null;
+  } catch {
+    return null;
+  }
 }
 
 function buildStatusAnnouncementSchema(
-  _slug: string,
-  _destinationName: string,
-  _status: VolcanicStatusData,
-  _siteUrl: string,
+  slug: string,
+  destinationName: string,
+  status: VolcanicStatusData,
+  siteUrl: string,
 ) {
-  return null;
+  const lastVerifiedDate = new Date(status.last_verified + "T00:00:00");
+  const expiresDate = new Date(lastVerifiedDate.getTime() + 72 * 60 * 60 * 1000);
+  return {
+    "@type": "SpecialAnnouncement",
+    "@id": `${siteUrl}/destinations/${slug}#status`,
+    name: `${destinationName} Current Operational Status — ${status.last_verified}`,
+    text: `${destinationName} status: ${status.status} (${status.alert_level}). ${status.notes}`,
+    datePosted: status.last_verified,
+    expires: expiresDate.toISOString().split("T")[0],
+    category: "https://www.wikidata.org/wiki/Q83",
+    spatialCoverage: { "@id": `${siteUrl}/destinations/${slug}` },
+    about: { "@id": `${siteUrl}/#organization` },
+  };
 }
 
 // ─── generateMetadata ─────────────────────────────────────────────────────────
