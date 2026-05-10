@@ -1432,7 +1432,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Why Travel With Us?
               </h2>
-              <ReviewsClient reviews={reviews} />
+              <ReviewsClient
+                reviews={reviews}
+                totalCount={reviews?.length ?? 0}
+              />
               {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                 <div className="bg-white rounded-sm border border-slate-200 p-8 shadow-sm flex flex-col">
                   <h3 className="text-sm font-bold text-slate-800 mb-6 uppercase tracking-widest border-b border-slate-100 pb-4">
