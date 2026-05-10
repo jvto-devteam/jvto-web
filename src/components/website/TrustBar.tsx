@@ -69,7 +69,9 @@ function PartnerLogo({ logo }: { logo: LogoSpec }) {
   );
 }
 
-function PartnerItem({ logo, name, sub }: Partner) {
+type PartnerItemProps = Pick<Partner, "logo" | "name" | "sub">;
+
+function PartnerItem({ logo, name, sub }: PartnerItemProps) {
   return (
     <div className="flex items-center gap-2.5 group">
       <PartnerLogo logo={logo} />
@@ -91,25 +93,28 @@ export default function TrustBar() {
           Certified &amp; Partnered With
         </p>
         <div className="flex flex-wrap items-center justify-center gap-y-4 gap-x-6 md:gap-x-0">
-          {partners.map((p, i) => (
-            <Fragment key={p.key}>
+          {partners.map((partner, i) => {
+            const { key, ...partnerProps } = partner;
+            return (
+            <Fragment key={key}>
               {i > 0 && (
                 <div
                   className="hidden md:block h-6 w-px bg-slate-800 mx-6"
                   aria-hidden
                 />
               )}
-              {p.external ? (
-                <a href={p.href} target="_blank" rel="noopener noreferrer">
-                  <PartnerItem {...p} />
+              {partnerProps.external ? (
+                <a href={partnerProps.href} target="_blank" rel="noopener noreferrer">
+                  <PartnerItem {...partnerProps} />
                 </a>
               ) : (
-                <Link href={p.href}>
-                  <PartnerItem {...p} />
+                <Link href={partnerProps.href}>
+                  <PartnerItem {...partnerProps} />
                 </Link>
               )}
             </Fragment>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
