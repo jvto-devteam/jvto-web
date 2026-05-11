@@ -4,7 +4,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import { useSession } from "next-auth/react";
-import { Providers } from "@/app/providers";
 import {
   Calendar,
   Users,
@@ -420,9 +419,5 @@ function MyBookingPageInner() {
 }
 
 export default function MyBookingPage() {
-  return (
-    <Providers>
-      <MyBookingPageInner />
-    </Providers>
-  );
+  return <MyBookingPageInner />;
 }
