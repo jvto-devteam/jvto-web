@@ -429,16 +429,6 @@ export default function MobileBookingView({ booking }: { booking: BookingData })
           <>
             <Section iconBg="bg-blue-100" iconColor="text-blue-600" icon={Phone} title="Need Help?">
               <div className="space-y-3">
-                <a href="https://wa.me/6282244788833" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center bg-gray-50 p-3 rounded-sm hover:bg-gray-100 transition-colors">
-                  <div className="bg-green-100 p-2 rounded-full mr-3">
-                    <Phone className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-gray-500 text-sm mb-0.5">WhatsApp</p>
-                    <p className="font-medium">+62 822-4478-8833</p>
-                  </div>
-                </a>
                 <div className="flex items-center bg-gray-50 p-3 rounded-sm">
                   <div className="bg-gray-200 p-2 rounded-full mr-3">
                     <Mail className="h-5 w-5 text-gray-600" />

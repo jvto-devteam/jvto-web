@@ -425,21 +425,6 @@ export default async function MyBookingPage({
                 Need Help?
               </h3>
               <div className="space-y-4">
-                <a
-                  href="https://wa.me/6282244788833"
-                  target="_blank"
-                  className="flex items-center gap-3 text-slate-700 hover:text-jvto-green transition-colors"
-                >
-                  <div className="p-2 bg-slate-100 rounded-full">
-                    <Phone size={18} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase text-slate-400">
-                      WhatsApp
-                    </p>
-                    <p className="font-bold">+62 822-4478-8833</p>
-                  </div>
-                </a>
                 <div className="flex items-center gap-3 text-slate-700">
                   <div className="p-2 bg-slate-100 rounded-full">
                     <Mail size={18} />
