@@ -24,7 +24,7 @@ const CLINIC_ID = `${BASE_URL}/#klinik-bakti-husada`;
 // (DB-driven via getOrganizationProfile + buildOrganizationJsonLd). Same @id, so cross-page refs resolve.
 export const ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
-  '@type': ['TravelAgency', 'LocalBusiness'],
+  '@type': ['LocalBusiness', 'TravelAgency'],
   '@id': ORG_ID,
   name: 'Java Volcano Tour Operator',
   legalName: 'PT Java Volcano Rendezvous',
@@ -435,6 +435,36 @@ export const DEFINED_TERMS = {
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',
       name: 'BBKSDA Jawa Timur Regulatory Circulars',
+    },
+  },
+  ISIC: {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `${BASE_URL}/#term-isic`,
+    name: 'ISIC (International Student Identity Card)',
+    description:
+      'Global student membership card accepted at 150,000+ discounts in 130+ countries. ' +
+      'JVTO is a verified ISIC partner (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
+      'Verifiable at isic.org/discounts/?providerId=259268.',
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'ISIC Global Student Discount Network',
+      url: 'https://www.isic.org',
+    },
+  },
+  INDECON: {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `${BASE_URL}/#term-indecon`,
+    name: 'INDECON (Indonesian Ecotourism Network)',
+    description:
+      'Indonesian Ecotourism Network — national advocacy body for responsible tourism and nature conservation. ' +
+      'JVTO holds Spotlight Network membership, recognized for responsible volcanic tourism practices at Kawah Ijen and Mount Bromo. ' +
+      'Verifiable at indecon.id/spotlight-networks/java-volcano-tour-operator.',
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'Indonesian Ecotourism Organizations',
+      sameAs: 'https://www.indecon.id',
     },
   },
   // JVTO-defined operational terms — differentiators not regulated externally.

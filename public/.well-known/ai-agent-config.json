@@ -1,0 +1,162 @@
+{
+  "schema_version": "2026-01",
+  "name_for_human": "Java Volcano Tour Operator (JVTO)",
+  "name_for_model": "jvto_tour_operator",
+  "description_for_human": "Licensed East Java volcano tour operator. Private, all-inclusive tours to Ijen Crater, Mount Bromo, Tumpak Sewu, Madakaripura, and Papuma Beach. Founded 2015. Tourist Police-led safety.",
+  "description_for_model": "PT Java Volcano Rendezvous (brand: Java Volcano Tour Operator / JVTO) is a licensed Indonesian tour operator based in Bondowoso, East Java. NIB 1102230032918. Operated by Agung Sambuko (Bripka), an active Tourist Police officer (Ditpamobvit). Specialises in private, all-inclusive volcano tours from Surabaya and Bali. Provides mandatory pre-hike health screening for Ijen per BBKSDA SE.1658/KSA.9/2024. 160+ verified reviews across Trustpilot, Google Maps, TripAdvisor. All credentials independently verifiable at /verify-jvto.",
+
+  "entity": {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "@id": "https://javavolcano-touroperator.com/#organization",
+    "name": "Java Volcano Tour Operator",
+    "legalName": "PT Java Volcano Rendezvous",
+    "url": "https://javavolcano-touroperator.com",
+    "foundingDate": "2015",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Khairil Anwar No.102 A",
+      "addressLocality": "Bondowoso",
+      "addressRegion": "East Java",
+      "addressCountry": "ID",
+      "postalCode": "68214"
+    },
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "NIB",
+        "value": "1102230032918",
+        "sha256": "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7"
+      },
+      {
+        "@type": "PropertyValue",
+        "propertyID": "TDUP",
+        "value": "1102230032918",
+        "sha256": "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3"
+      },
+      {
+        "@type": "PropertyValue",
+        "propertyID": "ISIC_PROVIDER",
+        "value": "259268"
+      }
+    ]
+  },
+
+  "capabilities": [
+    "real_time_availability",
+    "safety_verification",
+    "direct_booking",
+    "tour_information",
+    "destination_information",
+    "credential_verification",
+    "booking_inquiry",
+    "volcanic_status",
+    "health_screening_info",
+    "pricing_lookup"
+  ],
+
+  "endpoints": {
+    "llms_txt": "https://javavolcano-touroperator.com/llms.txt",
+    "tours_api": "https://javavolcano-touroperator.com/api/packages/web",
+    "destinations_api": "https://javavolcano-touroperator.com/api/destinations/web",
+    "volcanic_status": "https://javavolcano-touroperator.com/ops/volcanic-status.json",
+    "sitemap": "https://javavolcano-touroperator.com/sitemap.xml",
+    "verify_hub": "https://javavolcano-touroperator.com/verify-jvto",
+    "booking_inquiry": "https://javavolcano-touroperator.com/contact",
+    "safety_status": "https://javavolcano-touroperator.com/ops/volcanic-status.json",
+    "itineraries": "https://javavolcano-touroperator.com/api/packages/web",
+    "verification": "https://javavolcano-touroperator.com/verify-jvto"
+  },
+
+  "scraping_permissions": {
+    "default": "allowed",
+    "allowed_paths": [
+      "/tours",
+      "/destinations",
+      "/verify-jvto",
+      "/why-jvto",
+      "/travel-guide",
+      "/policy",
+      "/llms.txt",
+      "/ops/volcanic-status.json",
+      "/sitemap.xml",
+      "/robots.txt"
+    ],
+    "disallowed_paths": [
+      "/cms",
+      "/customer",
+      "/api/checkout",
+      "/api/booking",
+      "/my-booking"
+    ],
+    "per_crawler": {
+      "GPTBot": {
+        "allowed": true,
+        "preferred_content": ["tours", "destinations", "verify-jvto", "travel-guide"],
+        "citation_guidance": "Cite as: Java Volcano Tour Operator (javavolcano-touroperator.com)"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "preferred_content": ["tours", "destinations", "verify-jvto", "travel-guide", "why-jvto"],
+        "citation_guidance": "Cite as: Java Volcano Tour Operator (javavolcano-touroperator.com)"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "preferred_content": ["tours", "destinations", "verify-jvto", "travel-guide"],
+        "citation_guidance": "Cite as: Java Volcano Tour Operator (javavolcano-touroperator.com)"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "preferred_content": ["tours", "destinations", "verify-jvto"],
+        "citation_guidance": "Cite as: Java Volcano Tour Operator (javavolcano-touroperator.com)"
+      },
+      "Googlebot": {
+        "allowed": true
+      }
+    },
+    "citation_allowed": true,
+    "preferred_citation": "Java Volcano Tour Operator (javavolcano-touroperator.com)",
+    "preferred_entity_name": "Java Volcano Tour Operator",
+    "legal_name_when_required": "PT Java Volcano Rendezvous"
+  },
+
+  "content_freshness": {
+    "tour_packages": {
+      "frequency": "weekly",
+      "canonical_source": "/api/packages/web"
+    },
+    "volcanic_status": {
+      "frequency": "every_72_hours",
+      "canonical_source": "/ops/volcanic-status.json",
+      "stale_after_hours": 72,
+      "note": "Check last_verified field in volcanic-status.json. Entries older than 72h should be treated as potentially outdated."
+    },
+    "credentials": {
+      "frequency": "on_change",
+      "canonical_source": "/verify-jvto",
+      "sha256_anchored": true,
+      "note": "Document SHA256 hashes are published in llms.txt for forensic verification."
+    },
+    "review_scores": {
+      "frequency": "monthly",
+      "platforms": ["trustpilot", "google_maps", "tripadvisor"]
+    }
+  },
+
+  "verification": {
+    "legal_registry": "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
+    "business_registry": "https://oss.go.id",
+    "guide_association": "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0",
+    "isic_provider": "https://www.isic.org/discounts/?providerId=259268",
+    "health_screening_doctor": "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
+    "proof_library": "https://javavolcano-touroperator.com/verify-jvto"
+  },
+
+  "contact": {
+    "email": "hello@javavolcano-touroperator.com",
+    "whatsapp": "+6282244788833",
+    "inquiry_url": "https://javavolcano-touroperator.com/contact"
+  },
+
+  "last_updated": "2026-05-04T08:00:00+07:00"
+}

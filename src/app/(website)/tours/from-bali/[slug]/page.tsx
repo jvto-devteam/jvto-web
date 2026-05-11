@@ -254,6 +254,7 @@ function StructuredData({
         name: pkg.name,
         description: stripHtml(pkg.description).substring(0, 160),
         inLanguage: "en",
+        dateModified: new Date().toISOString(),
         primaryImageOfPage: { "@type": "ImageObject", url: schemaImageUrl },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         isPartOf: { "@id": `${siteUrl}/#website` },
@@ -269,7 +270,8 @@ function StructuredData({
             name: "Tours",
             item: `${siteUrl}/tours`,
           },
-          { "@type": "ListItem", position: 3, name: pkg.name, item: pageUrl },
+          { "@type": "ListItem", position: 3, name: "From Bali", item: `${siteUrl}/tours/from-bali` },
+          { "@type": "ListItem", position: 4, name: pkg.name, item: pageUrl },
         ],
       },
       {

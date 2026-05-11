@@ -9,6 +9,42 @@ import type { ToursByDestinationItem } from '@/lib/queries/toursByDestination';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
+const DESTINATION_GEO: Record<string, { lat: number; lng: number; hazardousSubstance?: string }> = {
+  'ijen-crater':            { lat: -8.0584, lng: 114.2420, hazardousSubstance: 'Sulfur dioxide (SO₂) up to 50,000 ppm' },
+  'mount-bromo':            { lat: -7.9425, lng: 112.9531 },
+  'madakaripura-waterfall': { lat: -7.9136, lng: 113.0472 },
+  'tumpak-sewu-waterfall':  { lat: -8.2342, lng: 112.9158 },
+  'papuma-beach':           { lat: -8.2780, lng: 113.6283 },
+};
+
+/**
+ * GeoCoordinates + optional hazardousSubstance stub for each destination.
+ * Emitted as a standalone Place node (distinct @id) so it doesn't collide with
+ * the TouristAttraction node already stored in DB schema_json.
+ */
+export function buildDestinationGeoSchema({
+  destinationSlug,
+  destinationName,
+}: {
+  destinationSlug: string;
+  destinationName: string;
+}) {
+  const geo = DESTINATION_GEO[destinationSlug];
+  if (!geo) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Place',
+    '@id': `${BASE_URL}/destinations/${destinationSlug}#place-geo`,
+    name: destinationName,
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: geo.lat,
+      longitude: geo.lng,
+    },
+    ...(geo.hazardousSubstance ? { hazardousSubstance: geo.hazardousSubstance } : {}),
+  };
+}
+
 /**
  * Map of destination slug → travel-guide path for cross-cluster handoff.
  * Single source of truth — adding a new destination-to-guide link = one entry here.

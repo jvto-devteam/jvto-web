@@ -94,8 +94,30 @@ export function buildTourTouristTripSchema({ tour, dbData, fullData, routePrefix
     name: tour.name,
     description: dbData?.ai_summary ?? tour.shortDesc,
     image: tour.image,
-    touristType: dbData?.suitable_for ?? 'Adventure travelers',
     provider: { '@id': `${BASE_URL}/#organization` },
+    // Ijen tours emit YMYL-specific safety signals — touristType, healthRequirement, amenityFeature.
+    // These are AI-parseable structured signals for queries like "is Ijen safe for asthmatics?" or
+    // "what safety equipment is provided?". healthRequirement and amenityFeature extend TouristTrip
+    // beyond strict Schema.org spec; AI engines parse the properties regardless of spec alignment.
+    ...(tour.ijenRelevant
+      ? {
+          touristType: dbData?.suitable_for
+            ? [dbData.suitable_for, 'Non-Asthmatic']
+            : ['Adventure Traveler', 'Non-Asthmatic'],
+          // SE.1658/KSA.9/2024 — BBKSDA regulation mandating health screening for Ijen crater access.
+          healthRequirement:
+            'Mandatory Medical Screening required: Blood Pressure, Heart Rate, and O2 Saturation (SpO₂) checks by a licensed physician. Regulatory basis: SE.1658/KSA.9/2024 issued by BBKSDA Jawa Timur.',
+          amenityFeature: [
+            {
+              '@type': 'LocationFeatureSpecification',
+              name: 'Professional Dual-Filter Gas Mask',
+              value: 'Provided by JVTO for every guest — ISO-certified volcanic SO₂ gas protection',
+            },
+          ],
+        }
+      : {
+          touristType: dbData?.suitable_for ?? 'Adventure Traveler',
+        }),
     // Founder cross-ref reinforces police-led safety story at the trip level.
     subjectOf: { '@id': `${BASE_URL}/#agung-sambuko` },
     // Cross-reference globally-injected DefinedTerms — gives AI a stable entity graph

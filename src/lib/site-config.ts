@@ -176,7 +176,9 @@ export const SITE_CONFIG = {
     cancellationOutcomeBefore:
       "100% non-expiring travel credit, transferable to any traveler",
     cancellationOutcomeAfter: "Deposit forfeited",
-    paymentMethod: "Bank transfer only — BRI or BCA",
+    // Deposit: card (Xendit) or bank transfer BRI/BCA.
+    // Balance: card ≥5 days before Day 1, bank transfer/Wise ≥3 days, cash at office (pre-approved only).
+    acceptedPaymentMethods: "Card (Xendit) · Bank transfer BRI/BCA · Wise · Cash at JVTO office (pre-approved)",
   },
 
   // ── WhatsApp (post-booking CS / general contact — NOT for package inquiries)

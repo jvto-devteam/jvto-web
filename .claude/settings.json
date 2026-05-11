@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where psql *)",
+      "Bash(where pg_dump)",
+      "Bash(xargs grep *)",
+      "Bash(\"/c/Program Files/PostgreSQL/16/bin/psql.exe\" \"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" -f \"F:/jvto-web/sql/why_jvto_content_pages.sql\")",
+      "Bash(\"/c/Program Files/PostgreSQL/16/bin/psql.exe\" \"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" --file=\"F:/jvto-web/sql/why_jvto_content_pages.sql\")",
+      "Bash(\"/c/Program Files/PostgreSQL/16/bin/psql.exe\" \"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\" -c \"SELECT route, h1, \\(content->>'hero_subhead'\\) as hero_subhead, jsonb_array_length\\(content->'sections'\\) as sections_count FROM content_pages WHERE route = '/why-jvto/community-standards';\")",
+      "Bash(\"/c/Program Files/PostgreSQL/16/bin/psql.exe\" \"postgresql://postgres:SuksesL%40ncarRezek1@31.97.223.43:5432/jvto_dev\")",
+      "Bash(2>&1)",
+      "Read(//c/Users/JAVA VOLCANO/.claude/projects/f--jvto-web/memory/**)",
+      "Bash(grep -v \"//.*node_modules\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\JAVA VOLCANO\\.claude\\commands"
+    ]
+  }
+}

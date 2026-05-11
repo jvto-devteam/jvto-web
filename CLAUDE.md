@@ -237,9 +237,12 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Cluster 1 MH copy signals audit complete — all 5 signals (NIB, police credential, gas mask, 4WD jeep, all-inclusive) confirmed present; T-shirt gap closed by adding new "all-inclusive price" Q&A pair as first item in getTourSpineQaPairs() in tourFaqs.ts (2026-05-04)
-**Completed date:** 2026-05-04
-**Next task:** Cluster 1 MH tier checklist — verify NTH signals: schema breadcrumb depth, BreadcrumbList JSON-LD emitted on tour detail pages, and WebPage dateModified freshness
-**Build status:** ✓ Compiled (0 new errors — 1 pre-existing Turbopack NFT warning unchanged)
+**Last completed:** SSOT docs archived to docs/ssot/ (7 files); geo coordinates + hazardousSubstance added to all 5 destinations via buildDestinationGeoSchema(); ORGANIZATION_SCHEMA @type reordered to [LocalBusiness, TravelAgency]; insights/[slug] date serialization crash fixed; STRATEGIC_REFERENCE §11 SSOT Documents added — build ✓ 144/144 (2026-05-05)
+**Completed date:** 2026-05-05
+**Next task:** Redirect /blog → /insights (301 URL unification); OR destinations Cluster 7 SE1658 + DOCTOR cross-ref densification per cluster_role_contracts.md
+**Build status:** ✓ Compiled (0 new errors — 144/144 static pages, pushed to main e123455)
 **Open items:**
-- Minor content gap: Madakaripura FAQ 72 ("What is the main risk?") missing from bromo-madakaripura-ijen-3d2n and bromo-2d1n package_faqs (all other Madakaripura tours have it)
+- booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
+- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
+- /blog route still active alongside /insights — unification deferred (add 301 redirect /blog → /insights when ready)
+- builders.ts fallback @type is ["Organization", "LocalBusiness"] (missing TravelAgency) — only fires when org.schema_json is null in DB; low priority

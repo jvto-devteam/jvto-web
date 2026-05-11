@@ -163,3 +163,107 @@ export const POLICE_SAFETY_DIGITAL_DOCUMENTS = [
  * Re-export DOCTOR_SCHEMA for cross-cluster use on /verify-jvto/legal — proves regulatory chain end-to-end.
  */
 export { DOCTOR_SCHEMA };
+
+const PRESS_URL = `${BASE_URL}/verify-jvto/press-recognition`;
+
+/**
+ * Third-party citation schemas for /verify-jvto/press-recognition.
+ * Each node stands alone via @id; PRESS_ORGANIZATION_SUBJECTS wires them back to /#organization via subjectOf.
+ * Types: Book (Stefan Loose), NewsArticle ×2 (Detik + Radar Jember), Award (Booking.com 2015).
+ */
+export const PRESS_RECOGNITION_SCHEMAS = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    '@id': `${PRESS_URL}#stefan-loose`,
+    name: 'Indonesien (Stefan Loose Reiseführer)',
+    isbn: '978-3-7701-7881-0',
+    publisher: {
+      '@type': 'Organization',
+      name: 'DuMont Reiseverlag',
+      url: 'https://www.stefanloose.de',
+    },
+    datePublished: '2018',
+    inLanguage: 'de',
+    about: { '@id': `${BASE_URL}/#organization` },
+    mentions: [{ '@id': `${BASE_URL}/#agung-sambuko` }],
+    image: `${BASE_URL}/history/stefan_loose_crop_enh.jpg`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    '@id': `${PRESS_URL}#detik-2021`,
+    headline: 'Suka Duka Polisi Pariwisata Bondowoso: Tegakkan Prokes Sambil Lawan Dingin',
+    datePublished: '2021-03-14',
+    url: 'https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin',
+    publisher: {
+      '@type': 'NewsMediaOrganization',
+      name: 'Detik.com',
+      url: 'https://www.detik.com',
+    },
+    about: { '@id': `${BASE_URL}/#organization` },
+    mentions: [{ '@id': `${BASE_URL}/#agung-sambuko` }],
+    image: `${BASE_URL}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    '@id': `${PRESS_URL}#radarjember-2021`,
+    headline: 'Polpar Dibentuk untuk Mendukung Ijen Geopark',
+    datePublished: '2021-03-24',
+    url: 'https://radarjember.jawapos.com/bondowoso/791102263/polpar-dibentuk-untuk-mendukung-ijen-geopark',
+    publisher: {
+      '@type': 'NewsMediaOrganization',
+      name: 'Radar Jember (Jawa Pos)',
+      url: 'https://radarjember.jawapos.com',
+    },
+    about: { '@id': `${BASE_URL}/#organization` },
+    mentions: [{ '@id': `${BASE_URL}/#agung-sambuko` }],
+    image: `${BASE_URL}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Award',
+    '@id': `${PRESS_URL}#booking-award-2015`,
+    name: 'Booking.com Guest Review Award 2015',
+    description:
+      'Guest Review Award with score 9.4 / 10 issued to the guesthouse operated at Jl. Khairil Anwar 102A, Bondowoso — pre-incorporation proof of JVTO operational roots.',
+    recognizedBy: {
+      '@type': 'Organization',
+      name: 'Booking.com',
+      url: 'https://www.booking.com',
+    },
+    about: { '@id': `${BASE_URL}/#organization` },
+    // Both plaque + shipping label as evidence pair
+    image: [
+      `${BASE_URL}/history/booking-2015-plaque.jpg`,
+      `${BASE_URL}/history/booking-2015-shipping-label.jpg`,
+    ],
+    // additionalProperty: shipping label proves address continuity (2015 delivery address = today's NIB address)
+    additionalProperty: {
+      '@type': 'PropertyValue',
+      propertyID: 'address_continuity_proof',
+      name: 'Address Continuity',
+      value: 'Jl. Khairil Anwar 102A, Bondowoso',
+      description:
+        'Original Booking.com award shipping label confirms delivery to Jl. Khairil Anwar 102A, Bondowoso — the same address registered under NIB 1102230032918 and current JVTO operational address. Establishes unbroken address continuity from 2015 guesthouse era to present.',
+    },
+  },
+];
+
+/**
+ * Partial Organization node declaring press items as subjectOf.
+ * JSON-LD processors merge this with the global /#organization node from entityGraph.ts via @id.
+ * Do NOT modify entityGraph.ts — this is the correct pattern for page-scoped additions.
+ */
+export const PRESS_ORGANIZATION_SUBJECTS = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${BASE_URL}/#organization`,
+  subjectOf: [
+    { '@id': `${PRESS_URL}#stefan-loose` },
+    { '@id': `${PRESS_URL}#detik-2021` },
+    { '@id': `${PRESS_URL}#radarjember-2021` },
+    { '@id': `${PRESS_URL}#booking-award-2015` },
+  ],
+};

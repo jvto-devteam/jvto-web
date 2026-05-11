@@ -1,0 +1,352 @@
+[
+  {
+    "route": "/",
+    "filename": "home.png",
+    "label": "Homepage"
+  },
+  {
+    "route": "/contact",
+    "filename": "contact.png",
+    "label": "/contact"
+  },
+  {
+    "route": "/destinations",
+    "filename": "destinations.png",
+    "label": "/destinations"
+  },
+  {
+    "route": "/destinations/ijen-crater",
+    "filename": "destinations-ijen-crater.png",
+    "label": "/destinations/ijen-crater"
+  },
+  {
+    "route": "/destinations/madakaripura-waterfall",
+    "filename": "destinations-madakaripura-waterfall.png",
+    "label": "/destinations/madakaripura-waterfall"
+  },
+  {
+    "route": "/destinations/mount-bromo",
+    "filename": "destinations-mount-bromo.png",
+    "label": "/destinations/mount-bromo"
+  },
+  {
+    "route": "/destinations/papuma-beach",
+    "filename": "destinations-papuma-beach.png",
+    "label": "/destinations/papuma-beach"
+  },
+  {
+    "route": "/destinations/tumpak-sewu-waterfall",
+    "filename": "destinations-tumpak-sewu-waterfall.png",
+    "label": "/destinations/tumpak-sewu-waterfall"
+  },
+  {
+    "route": "/insights",
+    "filename": "insights.png",
+    "label": "/insights"
+  },
+  {
+    "route": "/insights/choose-legal-operator",
+    "filename": "insights-choose-legal-operator.png",
+    "label": "/insights/choose-legal-operator"
+  },
+  {
+    "route": "/insights/combine-destinations",
+    "filename": "insights-combine-destinations.png",
+    "label": "/insights/combine-destinations"
+  },
+  {
+    "route": "/insights/ijen-screening-explained",
+    "filename": "insights-ijen-screening-explained.png",
+    "label": "/insights/ijen-screening-explained"
+  },
+  {
+    "route": "/insights/isic-student-fairness",
+    "filename": "insights-isic-student-fairness.png",
+    "label": "/insights/isic-student-fairness"
+  },
+  {
+    "route": "/isic/student-package",
+    "filename": "isic-student-package.png",
+    "label": "/isic/student-package"
+  },
+  {
+    "route": "/policy",
+    "filename": "policy.png",
+    "label": "/policy"
+  },
+  {
+    "route": "/policy/booking-payment-cancellation",
+    "filename": "policy-booking-payment-cancellation.png",
+    "label": "/policy/booking-payment-cancellation"
+  },
+  {
+    "route": "/policy/inclusions-exclusions",
+    "filename": "policy-inclusions-exclusions.png",
+    "label": "/policy/inclusions-exclusions"
+  },
+  {
+    "route": "/policy/privacy",
+    "filename": "policy-privacy.png",
+    "label": "/policy/privacy"
+  },
+  {
+    "route": "/team",
+    "filename": "team.png",
+    "label": "/team"
+  },
+  {
+    "route": "/team/anjas",
+    "filename": "team-anjas.png",
+    "label": "/team/anjas"
+  },
+  {
+    "route": "/team/boy",
+    "filename": "team-boy.png",
+    "label": "/team/boy"
+  },
+  {
+    "route": "/team/fauzi",
+    "filename": "team-fauzi.png",
+    "label": "/team/fauzi"
+  },
+  {
+    "route": "/team/fredi",
+    "filename": "team-fredi.png",
+    "label": "/team/fredi"
+  },
+  {
+    "route": "/team/gufron",
+    "filename": "team-gufron.png",
+    "label": "/team/gufron"
+  },
+  {
+    "route": "/team/holili",
+    "filename": "team-holili.png",
+    "label": "/team/holili"
+  },
+  {
+    "route": "/team/joyo",
+    "filename": "team-joyo.png",
+    "label": "/team/joyo"
+  },
+  {
+    "route": "/team/kiki",
+    "filename": "team-kiki.png",
+    "label": "/team/kiki"
+  },
+  {
+    "route": "/team/rendi",
+    "filename": "team-rendi.png",
+    "label": "/team/rendi"
+  },
+  {
+    "route": "/team/taufik",
+    "filename": "team-taufik.png",
+    "label": "/team/taufik"
+  },
+  {
+    "route": "/team/yandi",
+    "filename": "team-yandi.png",
+    "label": "/team/yandi"
+  },
+  {
+    "route": "/tours",
+    "filename": "tours.png",
+    "label": "/tours"
+  },
+  {
+    "route": "/tours/from-bali",
+    "filename": "tours-from-bali.png",
+    "label": "/tours/from-bali"
+  },
+  {
+    "route": "/tours/from-bali/bromo-ijen-3d2n",
+    "filename": "tours-from-bali-bromo-ijen-3d2n.png",
+    "label": "/tours/from-bali/bromo-ijen-3d2n"
+  },
+  {
+    "route": "/tours/from-bali/ijen-bromo-madakaripura-3d2n",
+    "filename": "tours-from-bali-ijen-bromo-madakaripura-3d2n.png",
+    "label": "/tours/from-bali/ijen-bromo-madakaripura-3d2n"
+  },
+  {
+    "route": "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n",
+    "filename": "tours-from-bali-ijen-papuma-tumpak-sewu-bromo-4d3n.png",
+    "label": "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-4d3n"
+  },
+  {
+    "route": "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n",
+    "filename": "tours-from-bali-ijen-papuma-tumpak-sewu-bromo-5d4n.png",
+    "label": "/tours/from-bali/ijen-papuma-tumpak-sewu-bromo-5d4n"
+  },
+  {
+    "route": "/tours/from-surabaya",
+    "filename": "tours-from-surabaya.png",
+    "label": "/tours/from-surabaya"
+  },
+  {
+    "route": "/tours/from-surabaya/bromo-1d1n",
+    "filename": "tours-from-surabaya-bromo-1d1n.png",
+    "label": "/tours/from-surabaya/bromo-1d1n"
+  },
+  {
+    "route": "/tours/from-surabaya/bromo-2d1n",
+    "filename": "tours-from-surabaya-bromo-2d1n.png",
+    "label": "/tours/from-surabaya/bromo-2d1n"
+  },
+  {
+    "route": "/tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
+    "filename": "tours-from-surabaya-bromo-madakaripura-ijen-3d2n.png",
+    "label": "/tours/from-surabaya/bromo-madakaripura-ijen-3d2n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-2d1n",
+    "filename": "tours-from-surabaya-ijen-2d1n.png",
+    "label": "/tours/from-surabaya/ijen-2d1n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-bromo-madakaripura-3d2n",
+    "filename": "tours-from-surabaya-ijen-bromo-madakaripura-3d2n.png",
+    "label": "/tours/from-surabaya/ijen-bromo-madakaripura-3d2n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
+    "filename": "tours-from-surabaya-ijen-bromo-madakaripura-4d3n.png",
+    "label": "/tours/from-surabaya/ijen-bromo-madakaripura-4d3n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n",
+    "filename": "tours-from-surabaya-ijen-bromo-madakaripura-malang-5d4n.png",
+    "label": "/tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n",
+    "filename": "tours-from-surabaya-ijen-papuma-tumpak-sewu-bromo-4d3n.png",
+    "label": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n",
+    "filename": "tours-from-surabaya-ijen-papuma-tumpak-sewu-bromo-5d4n.png",
+    "label": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n"
+  },
+  {
+    "route": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n",
+    "filename": "tours-from-surabaya-ijen-papuma-tumpak-sewu-bromo-malang-6d5n.png",
+    "label": "/tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n"
+  },
+  {
+    "route": "/tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
+    "filename": "tours-from-surabaya-taman-safari-prigen-bromo-madakaripura-3d2n.png",
+    "label": "/tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n"
+  },
+  {
+    "route": "/tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n",
+    "filename": "tours-from-surabaya-tumpak-sewu-bromo-ijen-4d3n.png",
+    "label": "/tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n"
+  },
+  {
+    "route": "/travel-guide",
+    "filename": "travel-guide.png",
+    "label": "/travel-guide"
+  },
+  {
+    "route": "/travel-guide/booking-information",
+    "filename": "travel-guide-booking-information.png",
+    "label": "/travel-guide/booking-information"
+  },
+  {
+    "route": "/travel-guide/faq",
+    "filename": "travel-guide-faq.png",
+    "label": "/travel-guide/faq"
+  },
+  {
+    "route": "/travel-guide/ijen-health-screening",
+    "filename": "travel-guide-ijen-health-screening.png",
+    "label": "/travel-guide/ijen-health-screening"
+  },
+  {
+    "route": "/travel-guide/mount-bromo-logistics",
+    "filename": "travel-guide-mount-bromo-logistics.png",
+    "label": "/travel-guide/mount-bromo-logistics"
+  },
+  {
+    "route": "/travel-guide/packing-and-fitness",
+    "filename": "travel-guide-packing-and-fitness.png",
+    "label": "/travel-guide/packing-and-fitness"
+  },
+  {
+    "route": "/travel-guide/police-escort-for-groups",
+    "filename": "travel-guide-police-escort-for-groups.png",
+    "label": "/travel-guide/police-escort-for-groups"
+  },
+  {
+    "route": "/travel-guide/safety-on-tours",
+    "filename": "travel-guide-safety-on-tours.png",
+    "label": "/travel-guide/safety-on-tours"
+  },
+  {
+    "route": "/travel-guide/tumpak-sewu-logistics",
+    "filename": "travel-guide-tumpak-sewu-logistics.png",
+    "label": "/travel-guide/tumpak-sewu-logistics"
+  },
+  {
+    "route": "/travel-guide/weather-and-closures",
+    "filename": "travel-guide-weather-and-closures.png",
+    "label": "/travel-guide/weather-and-closures"
+  },
+  {
+    "route": "/verify-jvto",
+    "filename": "verify-jvto.png",
+    "label": "/verify-jvto"
+  },
+  {
+    "route": "/verify-jvto/history-artifacts",
+    "filename": "verify-jvto-history-artifacts.png",
+    "label": "/verify-jvto/history-artifacts"
+  },
+  {
+    "route": "/verify-jvto/legal",
+    "filename": "verify-jvto-legal.png",
+    "label": "/verify-jvto/legal"
+  },
+  {
+    "route": "/verify-jvto/police-safety",
+    "filename": "verify-jvto-police-safety.png",
+    "label": "/verify-jvto/police-safety"
+  },
+  {
+    "route": "/verify-jvto/press-recognition",
+    "filename": "verify-jvto-press-recognition.png",
+    "label": "/verify-jvto/press-recognition"
+  },
+  {
+    "route": "/why-jvto",
+    "filename": "why-jvto.png",
+    "label": "/why-jvto"
+  },
+  {
+    "route": "/why-jvto/community-standards",
+    "filename": "why-jvto-community-standards.png",
+    "label": "/why-jvto/community-standards"
+  },
+  {
+    "route": "/why-jvto/our-story",
+    "filename": "why-jvto-our-story.png",
+    "label": "/why-jvto/our-story"
+  },
+  {
+    "route": "/why-jvto/our-team",
+    "filename": "why-jvto-our-team.png",
+    "label": "/why-jvto/our-team"
+  },
+  {
+    "route": "/why-jvto/reviews",
+    "filename": "why-jvto-reviews.png",
+    "label": "/why-jvto/reviews"
+  },
+  {
+    "route": "/why-jvto/the-jvto-difference",
+    "filename": "why-jvto-the-jvto-difference.png",
+    "label": "/why-jvto/the-jvto-difference"
+  }
+]
