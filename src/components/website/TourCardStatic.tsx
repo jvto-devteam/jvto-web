@@ -3,7 +3,7 @@ import Link from "@/components/website/AppLink";
 import { Dumbbell, Clock, MapPin, Star, ArrowRight } from "lucide-react";
 import { formatIDR } from "@/utils/formatting";
 import type { ListTourPackage } from "@/types";
-import { getHomeImageVariant } from "@/lib/assets/homeImageVariants";
+import { getHomeImageVariantSet } from "@/lib/assets/homeImageVariants";
 
 interface TourCardStaticProps {
   tour?: ListTourPackage;
@@ -34,7 +34,8 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({
             url: "/images/fallback-banner.jpg",
             alt: tour.name || "Tour package",
           };
-  const homeBannerSrc = getHomeImageVariant(bannerImage.url) || bannerImage.url;
+  const homeVariantSet = getHomeImageVariantSet(bannerImage.url);
+  const homeBannerSrc = homeVariantSet?.medium || bannerImage.url;
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const fullTourSlug = `/${tour.slug}`;
@@ -54,18 +55,31 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({
         className="relative block overflow-hidden"
       >
         <div className="relative aspect-[4/3] w-full bg-ink-neutral-200 dark:bg-ink-neutral-700">
-          <Image
-            src={homeBannerSrc}
-            alt={bannerImage.alt}
-            fill
-            unoptimized
-            loading={prioritizeImage ? "eager" : "lazy"}
-            decoding="async"
-            fetchPriority={prioritizeImage ? "high" : "low"}
-            sizes="(max-width: 640px) 80vw, 320px"
-            quality={48}
-            className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-          />
+          {homeVariantSet ? (
+            <img
+              src={homeVariantSet.medium}
+              srcSet={`${homeVariantSet.small} 320w, ${homeVariantSet.medium} 640w`}
+              sizes="(max-width: 640px) 80vw, 320px"
+              alt={bannerImage.alt}
+              loading={prioritizeImage ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={prioritizeImage ? "high" : "low"}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            />
+          ) : (
+            <Image
+              src={homeBannerSrc}
+              alt={bannerImage.alt}
+              fill
+              unoptimized
+              loading={prioritizeImage ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={prioritizeImage ? "high" : "low"}
+              sizes="(max-width: 640px) 80vw, 320px"
+              quality={48}
+              className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            />
+          )}
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
