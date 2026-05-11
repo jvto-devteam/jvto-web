@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-08T01:56:34.178Z",
+  "generatedAt": "2026-05-11T02:07:41.573Z",
   "items": [
     {
       "id": 28,
-      "name": "3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali",
+      "name": "3 Day Bromo, Madakaripura & Ijen Overland from Surabaya to Bali",
       "startDestination": "Surabaya",
       "endDestination": "Bali",
       "duration": {
@@ -12,7 +12,7 @@
       },
       "banner": {
         "url": "/uploads/3-day-bromo-madakaripura-waterfall-ijen-overland-from-surabaya-to-bali_0.jpg",
-        "alt": "3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali"
+        "alt": "3 Day Bromo, Madakaripura & Ijen Overland from Surabaya to Bali"
       },
       "keyExperiences": [
         "Ijen Crater Hike",
@@ -29,21 +29,14 @@
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
       "physicality": "moderate",
       "tags": [
-        "3d2n",
-        "surabaya",
-        "bali",
-        "bromo",
-        "ijen",
-        "madakaripura",
-        "overland",
-        "east-java",
-        "site_visible"
+        "Surabaya",
+        "Bali"
       ],
       "highlights": [
-        "Private eastbound route from Surabaya through Bromo, Madakaripura, and Ijen before finishing in Bali",
-        "Combines sunrise, waterfall terrain, and the Ijen climb inside one compact forward journey",
-        "Best for travelers who want East Java highlights with a clean Bali continuation",
-        "Private handling keeps jeep timing, screening, and ferry handoff coherent across the route"
+        "Iconic sunrise and crater hike at Bromo",
+        "Sacred Madakaripura canyon waterfall",
+        "Mesmerizing blue fire phenomenon at Ijen",
+        "Seamless Java to Bali via ferry"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -79,20 +72,14 @@
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-3d2n",
       "physicality": "moderate",
       "tags": [
-        "3d2n",
-        "surabaya",
-        "ijen",
-        "bromo",
-        "madakaripura",
-        "east-java",
-        "volcano-tour",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Balanced private Surabaya route combining Ijen, Bromo, and Madakaripura in one readable loop",
-        "Strong contrast between volcano handling and waterfall terrain without stretching into a longer expedition",
-        "Best for guests who want East Java variety while staying inside a manageable three-day structure",
-        "Private handling keeps the route coherent across screening, transfers, jeep access, and final return"
+        "Ijen blue fire before sunrise",
+        "4WD to Bromo viewpoint then crater walk",
+        "Hidden Madakaripura waterfall",
+        "Private transport and expert local guides"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -128,20 +115,14 @@
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
       "physicality": "moderate",
       "tags": [
-        "4d3n",
-        "surabaya",
-        "ijen",
-        "bromo",
-        "madakaripura",
-        "east-java",
-        "expedition",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Extended private Surabaya route with Ijen, Bromo, and Madakaripura kept central across four days",
-        "Adds more breathing room and a final Surabaya night after the main route sequence",
-        "Best for guests who want the flagship loop without the tightest final-day compression",
-        "Private handling keeps screening, transfers, sunrise timing, and final airport logic coherent"
+        "Ijen blue fire before sunrise",
+        "4WD to panoramic Bromo viewpoint then crater walk",
+        "Hidden Madakaripura waterfall",
+        "Comfortable city stay in Surabaya on final night"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -177,20 +158,14 @@
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n",
       "physicality": "moderate",
       "tags": [
-        "4d3n",
-        "surabaya",
-        "ijen",
-        "papuma-beach",
-        "tumpak-sewu",
-        "bromo",
-        "beach-and-volcano",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Private Surabaya route combining Ijen, Papuma, Tumpak Sewu, and Bromo inside four active days",
-        "Links volcano, coastline, and waterfall terrain in a compact but readable East Java overland sequence",
-        "Best for travelers who want strong regional contrast without committing to the longest itinerary",
-        "Private handling keeps screening, long transfers, and terrain changes coherent across the route"
+        "Ijen blue fire before sunrise",
+        "Pristine Papuma Beach with white sands and dramatic rocks",
+        "Tumpak Sewu multi-tiered waterfall",
+        "Iconic Bromo sunrise over volcanic caldera"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -226,24 +201,14 @@
       "slug": "tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n",
       "physicality": "moderate",
       "tags": [
-        "4d3n",
-        "surabaya",
-        "bali",
-        "tumpak-sewu",
-        "bromo",
-        "ijen",
-        "blue-fire",
-        "waterfall",
-        "volcano",
-        "adventure",
-        "one-way",
-        "site_visible"
+        "Surabaya",
+        "Bali"
       ],
       "highlights": [
-        "Private eastbound route from Surabaya through Tumpak Sewu, Bromo, and Ijen before finishing in Bali",
-        "Combines waterfall terrain with East Java's two signature volcanoes in one readable sequence",
-        "Best for travelers who want strong natural contrast and a clean Bali handoff at the end",
-        "Private handling keeps terrain shifts, screening, and ferry logistics coherent across four days"
+        "Tumpak Sewu magnificent multi-tiered waterfall",
+        "Bromo iconic sunrise across volcanic sand sea",
+        "Ijen rare blue fire phenomenon and turquoise crater lake",
+        "One-way adventure Surabaya to Bali"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -279,19 +244,15 @@
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n",
       "physicality": "moderate",
       "tags": [
-        "5d4n",
-        "surabaya",
-        "ijen",
-        "bromo",
-        "madakaripura",
-        "malang",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Extended private Surabaya route combining Ijen, Bromo, Madakaripura, and a Malang finish",
-        "Adds more breathing room after the volcano sequence and a softer city-based closing section",
-        "Best for guests who want the flagship East Java loop without ending immediately after the mountain days",
-        "Private handling keeps screening, sunrise timing, waterfall access, and final handoff coherent across five days"
+        "Ijen blue fire before sunrise",
+        "Stargazing and sunrise over Bromo",
+        "4WD Jeep across Sea of Sand",
+        "Madakaripura waterfall in mystical canyon",
+        "Rainbow Village and Batu City exploration"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -325,20 +286,14 @@
       "slug": "tours/from-surabaya/ijen-2d1n",
       "physicality": "moderate",
       "tags": [
-        "2d1n",
-        "surabaya",
-        "ijen",
-        "blue-fire",
-        "crater-lake",
-        "volcano",
-        "adventure",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Focused private Ijen route from Surabaya with Bondowoso staging before the climb",
-        "Mandatory health screening and crater-readiness built into the route flow",
-        "Best for travelers who want Ijen handled seriously without forcing a broader combo",
-        "Private return to Surabaya after the Ijen sequence is complete"
+        "Witness the world-famous Ijen blue fire phenomenon before sunrise",
+        "See the stunning turquoise sulfuric crater lake at dawn",
+        "Observe local sulfur miners at work in extreme conditions",
+        "Visit Malabar Coffee Plantation for authentic Arabica coffee"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -373,20 +328,14 @@
       "slug": "tours/from-surabaya/bromo-2d1n",
       "physicality": "moderate",
       "tags": [
-        "2d1n",
-        "surabaya",
-        "bromo",
-        "madakaripura",
-        "sunrise",
-        "waterfall",
-        "short-trip",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Private two-day Bromo route from Surabaya with overnight staging on the mountain side",
-        "Bromo sunrise, crater handling, and Madakaripura kept inside one compact but more readable sequence",
-        "Best for travelers who want a short East Java route without compressing everything into one night",
-        "Adds overnight comfort and cleaner timing compared with the faster one-day Bromo run"
+        "Iconic Bromo sunrise with Milky Way stargazing",
+        "4WD Jeep adventure across the volcanic sand sea",
+        "Visit Java's highest waterfall at Madakaripura",
+        "Perfect short escape from Surabaya with maximum impact"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -521,21 +470,15 @@
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n",
       "physicality": "moderate",
       "tags": [
-        "5d4n",
-        "surabaya",
-        "ijen",
-        "papuma-beach",
-        "tumpak-sewu",
-        "bromo",
-        "extended-tour",
-        "nature-trip",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Extended private East Java overland route combining Ijen, Papuma, Tumpak Sewu, and Bromo",
-        "Built for travelers who want stronger landscape contrast rather than a short volcano-only sequence",
-        "Best for guests who want East Java to feel broad, varied, and intentionally overland",
-        "Private handling keeps screening, long transfers, terrain changes, and final return logic coherent"
+        "Extended 5-day East Java exploration",
+        "Ijen blue fire before sunrise",
+        "Pristine Papuma Beach",
+        "Tumpak Sewu multi-tiered waterfall",
+        "Iconic Bromo sunrise"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -619,20 +562,15 @@
       "slug": "tours/from-surabaya/bromo-1d1n",
       "physicality": "moderate",
       "tags": [
-        "1d1n",
-        "surabaya",
-        "bromo",
-        "sunrise",
-        "midnight-tour",
-        "day-trip",
-        "quick-getaway",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Midnight departure for a focused private Bromo sunrise route from Surabaya",
-        "Jeep access, viewpoint timing, crater handling, and same-day return kept in one clean sequence",
-        "Best for travelers with limited time who still want a serious volcano route",
-        "Built for clarity and efficiency rather than for soft pacing or overnight comfort"
+        "Midnight departure for optimal sunrise timing at Kingkong Hill",
+        "Vintage 4WD Jeep experience to sunrise viewpoint",
+        "Bromo crater exploration with sulfur smoke views",
+        "Whispering Sand mystical landscape discovery",
+        "Complete experience returning to Surabaya by noon"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -669,20 +607,15 @@
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n",
       "physicality": "moderate",
       "tags": [
-        "6d5n",
-        "surabaya",
-        "ijen",
-        "papuma",
-        "tumpaksewu",
-        "bromo",
-        "malang",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Extended private East Java route through Ijen, Papuma, Tumpak Sewu, Bromo, and a Malang finish",
-        "Designed for travelers who want broad regional contrast rather than only the shortest headline stops",
-        "Best for guests who want extra room around the mountain sequence and a softer city-based closing phase",
-        "Private handling keeps screening, overland transfers, terrain changes, and final handoff coordinated across six days"
+        "Ijen blue fire before sunrise",
+        "Stargazing and sunrise over Bromo",
+        "Tumpak Sewu thousand-stream waterfall",
+        "Papuma Beach sunset",
+        "Batu City exploration with Rainbow Village"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,
@@ -743,7 +676,7 @@
     },
     {
       "id": 91,
-      "name": "3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya",
+      "name": "3 Day Taman Safari Prigen, Bromo & Madakaripura Family Tour from Surabaya",
       "startDestination": "Surabaya",
       "endDestination": "Surabaya",
       "duration": {
@@ -752,7 +685,7 @@
       },
       "banner": {
         "url": "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
-        "alt": "3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya"
+        "alt": "3 Day Taman Safari Prigen, Bromo & Madakaripura Family Tour from Surabaya"
       },
       "keyExperiences": [
         "Taman Safari Adventure",
@@ -769,21 +702,14 @@
       "slug": "tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
       "physicality": "easy",
       "tags": [
-        "3d2n",
-        "surabaya",
-        "taman-safari",
-        "bromo",
-        "madakaripura",
-        "family-friendly",
-        "wildlife",
-        "adventure",
-        "site_visible"
+        "Surabaya",
+        "Surabaya"
       ],
       "highlights": [
-        "Private family-friendly route combining Taman Safari Prigen, Bromo, and Madakaripura from Surabaya",
-        "Balances wildlife activity with a clear volcano-and-waterfall sequence across three days",
-        "Best for families or mixed-interest groups who want East Java variety in a more accessible format",
-        "Private handling keeps safari timing, overnight staging, and final Bromo sequence coherent"
+        "Guided safari at Taman Safari Prigen",
+        "Iconic Bromo sunrise with Milky Way stargazing",
+        "Madakaripura waterfall — Java's highest — in mystical canyon",
+        "Family-friendly activities for all ages"
       ],
       "snapshotMeta": {
         "packageCategoryId": 1,

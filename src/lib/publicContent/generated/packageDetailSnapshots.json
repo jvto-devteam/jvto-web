@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-08T02:11:25.838Z",
+  "generatedAt": "2026-05-11T02:07:57.370Z",
   "items": [
     {
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
-      "updatedAt": "2026-03-31T10:24:20.829Z",
+      "updatedAt": "2026-04-24T01:09:20.272Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -16,15 +16,15 @@
         "version": "1.0.0",
         "meta": {
           "createdFrom": {
-            "productFile": "Product 3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali.json",
-            "tripFile": "Trip 3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali.json"
+            "productFile": "Product 3 Day Bromo, Madakaripura & Ijen Overland from Surabaya to Bali.json",
+            "tripFile": "Trip 3 Day Bromo, Madakaripura & Ijen Overland from Surabaya to Bali.json"
           }
         },
         "product": {
           "id": 28,
           "packageId": "package-SUB-3D2N-003",
           "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
-          "name": "3 Day Bromo, Madakaripura Waterfall & Ijen Overland from Surabaya to Bali",
+          "name": "3 Day Bromo, Madakaripura & Ijen Overland from Surabaya to Bali",
           "seoTitle": "3 Day Bromo, Madakaripura & Ijen – Surabaya to Bali | JVTO",
           "seoDescription": "Private 3-day overland tour: Surabaya → Bromo sunrise → Madakaripura Waterfall → Ijen blue fire → Bali. All-inclusive. Tourist Police-led operator.",
           "shortLabel": "3D2N Bromo-Ijen-Madakaripura (SUB-BALI)",
@@ -42,7 +42,7 @@
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-SUB-3D2N-003.json",
-          "description": "This route flips the classic East Java sequence by starting with Bromo and Madakaripura before finishing with Ijen and a Bali handoff. It is a strong fit for guests who want the main volcano-and-waterfall combination but prefer to move eastward into Bali rather than return to Surabaya.",
+          "description": "Private 3-day overland tour: Surabaya → Bromo sunrise → Madakaripura Waterfall → Ijen blue fire → Bali. All-inclusive. Tourist Police-led operator.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -113,14 +113,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -131,13 +131,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for trekking",
-            "Printed passport copy for Ijen permit",
-            "Warm clothing (5–15°C)",
-            "Sturdy hiking shoes and water shoes",
-            "Small daypack for essentials"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "21",
@@ -1146,8 +1140,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Gateway to the Clouds: Your Journey from Surabaya to Mount Bromo",
-              "summary": "Your adventure begins when we pick you up from Surabaya. Enjoy a comfortable ride as the scenery changes from the city to the cool Tengger mountains. You'll feel the temperature drop, signaling your arrival at Cemoro Lawang, a magical village on the rim of the Bromo crater.",
+              "title": "Surabaya to the Bromo Side for Overnight Staging",
+              "summary": "The route begins with a transfer from Surabaya to the Bromo side so the sunrise sequence can be handled properly the next morning. This first day is about stable positioning rather than sightseeing overload.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -1186,8 +1180,8 @@
             },
             {
               "day": 2,
-              "title": "From Bromo Sunrise to Canyon Waterfalls and Onward to Ijen",
-              "summary": "This is one of the most intense connection days in the itinerary. After witnessing sunrise and exploring Bromo, you continue to the lush canyon of Madakaripura for a refreshing waterfall trek before driving deep into the highlands of Bondowoso. Upon arrival, a mandatory health check is carried out at your hotel to clear you for the Ijen climb the next day, followed by a well-deserved dinner.",
+              "title": "Bromo Sunrise, Madakaripura, and Transfer Toward Ijen",
+              "summary": "After the Bromo sunrise sequence, the route continues through Madakaripura before transferring east toward the Ijen side. This is one of the heaviest connection days in the itinerary and works best when guests expect real movement across East Java.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -1278,8 +1272,8 @@
             },
             {
               "day": 3,
-              "title": "Leaving the Volcanoes Behind: Crossing from Ijen to Bali",
-              "summary": "After your final breakfast in the Ijen area, we drive you down to Ketapang Harbor to board the ferry to Bali. Enjoy the sea views during the short crossing before continuing overland to your hotel in southern Bali, where your volcano adventure gives way to island relaxation.",
+              "title": "Ijen Climb and Forward Finish into Bali",
+              "summary": "The final day completes the Ijen segment before the route continues across Ketapang and onward into Bali. It is a strong fit for travelers who want the East Java sequence to end with a clean forward handoff instead of a Surabaya return.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -1340,15 +1334,8 @@
           ],
           "imageUrl": "/uploads/3-day-bromo-madakaripura-waterfall-ijen-overland-from-surabaya-to-bali_0.jpg",
           "tags": [
-            "3d2n",
-            "surabaya",
-            "bali",
-            "bromo",
-            "ijen",
-            "madakaripura",
-            "overland",
-            "east-java",
-            "site_visible"
+            "Surabaya",
+            "Bali"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -1362,17 +1349,16 @@
               "Cross-Java travelers"
             ],
             "highlightsBullets": [
-              "Private eastbound route from Surabaya through Bromo, Madakaripura, and Ijen before finishing in Bali",
-              "Combines sunrise, waterfall terrain, and the Ijen climb inside one compact forward journey",
-              "Best for travelers who want East Java highlights with a clean Bali continuation",
-              "Private handling keeps jeep timing, screening, and ferry handoff coherent across the route"
+              "Iconic sunrise and crater hike at Bromo",
+              "Sacred Madakaripura canyon waterfall",
+              "Mesmerizing blue fire phenomenon at Ijen",
+              "Seamless Java to Bali via ferry"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Cross-province adventure",
-              "Private 4WD experience",
-              "Health safety protocols",
-              "Ferry inclusion to Bali"
+              "Iconic sunrise and crater hike at Bromo",
+              "Sacred Madakaripura canyon waterfall",
+              "Mesmerizing blue fire phenomenon at Ijen"
             ]
           },
           "operationalComplexityNote": "Bromo sunrise timing, waterfall terrain, Bondowoso transfer, and Ijen screening make this a compact but high-coordination route with a Bali finish.",
@@ -1484,7 +1470,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-3d2n",
-      "updatedAt": "2026-03-31T10:24:21.197Z",
+      "updatedAt": "2026-04-24T01:09:20.272Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -1523,7 +1509,7 @@
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-SUB-3D2N-002.json",
-          "description": "This is one of the strongest balanced East Java routes from Surabaya because it combines two major volcanoes with a waterfall stop without stretching into a long overland expedition. It works best for guests who want variety while keeping the route readable.",
+          "description": "Private 3-day tour from Surabaya: Kawah Ijen blue fire, Mount Bromo sunrise, Madakaripura Waterfall. All-inclusive — transport, permits, guide, hotel.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -1594,14 +1580,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -1611,14 +1597,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for night trek",
-            "Printed passport copy for Ijen permit",
-            "Warm clothing (5–15°C)",
-            "Sturdy hiking shoes and water shoes",
-            "Small daypack for essentials",
-            "Pre-hike health screening for Ijen trekking"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -1654,8 +1633,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The route begins with a transfer from Surabaya to the Bondowoso side so the Ijen segment can be handled properly. After hotel check-in, the required screening is completed before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -1710,8 +1689,8 @@
             },
             {
               "day": 2,
-              "title": "From Two Peaks: Ijen Adventure Continues to Mount Bromo",
-              "summary": "After conquering Ijen, your adventure continues west. Enjoy our prepared lunch to refuel before embarking on the long overland journey to the majestic volcanic landscape of Bromo.",
+              "title": "Ijen Climb and Transfer Toward the Bromo Side",
+              "summary": "After the Ijen sequence, the route moves west toward the Bromo side. This day is the operational bridge of the package and works best when guests understand it as a serious transfer day, not a light scenic drive.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -1766,8 +1745,8 @@
             },
             {
               "day": 3,
-              "title": "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
-              "summary": "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+              "title": "Bromo Sunrise, Madakaripura, and Return to Surabaya",
+              "summary": "The final day combines the Bromo sunrise sequence with the Madakaripura stop before the route returns to Surabaya. It is productive and high-contrast, but still depends on disciplined timing across the full day.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -1850,14 +1829,8 @@
           ],
           "imageUrl": "/uploads/3-day-ijen-bromo-madakaripura-waterfall-discovery-from-surabaya_0.jpg",
           "tags": [
-            "3d2n",
-            "surabaya",
-            "ijen",
-            "bromo",
-            "madakaripura",
-            "east-java",
-            "volcano-tour",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -1871,17 +1844,16 @@
               "Adventure seekers"
             ],
             "highlightsBullets": [
-              "Balanced private Surabaya route combining Ijen, Bromo, and Madakaripura in one readable loop",
-              "Strong contrast between volcano handling and waterfall terrain without stretching into a longer expedition",
-              "Best for guests who want East Java variety while staying inside a manageable three-day structure",
-              "Private handling keeps the route coherent across screening, transfers, jeep access, and final return"
+              "Ijen blue fire before sunrise",
+              "4WD to Bromo viewpoint then crater walk",
+              "Hidden Madakaripura waterfall",
+              "Private transport and expert local guides"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, route decisions driven by safety, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Tourist Police support",
-              "Private 4WD experience",
-              "Health safety protocols",
-              "All-inclusive package"
+              "Ijen blue fire before sunrise",
+              "4WD to Bromo viewpoint then crater walk",
+              "Hidden Madakaripura waterfall"
             ]
           },
           "operationalComplexityNote": "Ijen screening, early mountain timing, and the Bromo-to-Madakaripura final-day stack make this a compact but high-coordination flagship route.",
@@ -1993,7 +1965,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-4d3n",
-      "updatedAt": "2026-03-31T10:24:21.511Z",
+      "updatedAt": "2026-04-24T01:09:20.272Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -2032,7 +2004,7 @@
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-SUB-4D3N-001.json",
-          "description": "This route gives the Surabaya flagship loop more breathing room by extending it into four days and adding a final Surabaya night before departure. It is a better fit for guests who want the same core East Java sequence with less end-of-route compression.",
+          "description": "Private 4-day tour from Surabaya: Kawah Ijen, Mount Bromo sunrise, Madakaripura Waterfall. Deeper itinerary with more time per destination. All-inclusive.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -2103,14 +2075,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -2120,14 +2092,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for trekking",
-            "Printed passport copy for Ijen permit",
-            "Warm clothing (5–15°C)",
-            "Sturdy hiking shoes and water shoes",
-            "Small daypack for essentials",
-            "Pre-hike health screening for Ijen trekking"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -2169,8 +2134,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The first day positions the route on the Bondowoso side so the Ijen climb can be handled properly the next morning. Screening is completed after hotel check-in.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -2225,8 +2190,8 @@
             },
             {
               "day": 2,
-              "title": "From Two Peaks: Ijen Adventure Continues to Mount Bromo",
-              "summary": "After conquering Ijen, your adventure continues west. Enjoy our prepared lunch to refuel before embarking on the long overland journey to the majestic volcanic landscape of Bromo.",
+              "title": "Ijen Climb and Transfer Toward the Bromo Side",
+              "summary": "After the Ijen sequence, the route continues west toward the Bromo side. This remains one of the heavier operational days, but the wider itinerary gives more room around it.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -2281,8 +2246,8 @@
             },
             {
               "day": 3,
-              "title": "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
-              "summary": "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+              "title": "Bromo Sunrise, Madakaripura, and Return to Surabaya City",
+              "summary": "The main route sequence finishes with Bromo and Madakaripura before returning to Surabaya for the final overnight. This structure reduces departure-day pressure compared with the tighter 3-day loop.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -2355,8 +2320,8 @@
             },
             {
               "day": 4,
-              "title": "Convenient Delivery to Juanda Airport",
-              "summary": "After enjoying your final breakfast at the hotel, take advantage of some free time before we pick you up for a quiet and stress-free transfer to Juanda International Airport (SUB) for your onward flight.",
+              "title": "Surabaya Hotel Stay and Airport Transfer",
+              "summary": "The last day is reserved for a calmer Surabaya finish and airport handoff. This makes the route especially useful for guests who want the flagship East Java sequence without racing directly into a same-day departure after the mountain segment.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -2396,14 +2361,8 @@
           ],
           "imageUrl": "/uploads/4-day-ijen-bromo-madakaripura-waterfall-expedition-from-surabaya_0.jpg",
           "tags": [
-            "4d3n",
-            "surabaya",
-            "ijen",
-            "bromo",
-            "madakaripura",
-            "east-java",
-            "expedition",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -2417,17 +2376,16 @@
               "Extended weekend travelers"
             ],
             "highlightsBullets": [
-              "Extended private Surabaya route with Ijen, Bromo, and Madakaripura kept central across four days",
-              "Adds more breathing room and a final Surabaya night after the main route sequence",
-              "Best for guests who want the flagship loop without the tightest final-day compression",
-              "Private handling keeps screening, transfers, sunrise timing, and final airport logic coherent"
+              "Ijen blue fire before sunrise",
+              "4WD to panoramic Bromo viewpoint then crater walk",
+              "Hidden Madakaripura waterfall",
+              "Comfortable city stay in Surabaya on final night"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Extended 4-day itinerary",
-              "Private 4WD experience",
-              "Health safety protocols",
-              "City comfort on final night"
+              "Ijen blue fire before sunrise",
+              "4WD to panoramic Bromo viewpoint then crater walk",
+              "Hidden Madakaripura waterfall"
             ]
           },
           "operationalComplexityNote": "This route is easier to absorb than the 3D variant, but it still depends on Ijen screening, early mountain timing, and clean multi-day handovers.",
@@ -2539,7 +2497,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-4d3n",
-      "updatedAt": "2026-03-31T10:24:22.443Z",
+      "updatedAt": "2026-04-24T01:09:20.272Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -2578,7 +2536,7 @@
             "Papuma Beach"
           ],
           "tripRef": "/trips/trip-package-SUB-4D3N-002.json",
-          "description": "This is the tighter Surabaya overland version for travelers who want Ijen, Papuma, Tumpak Sewu, and Bromo in one strong East Java sequence without extending into five days. It is best for guests who want broad landscape contrast but can still handle a compact route rhythm.",
+          "description": "Private 4-day East Java tour: Ijen blue fire, Papuma Beach, Tumpak Sewu Waterfall, Bromo sunrise. All-inclusive — full East Java circuit from Surabaya.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -2649,14 +2607,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -2666,14 +2624,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for multiple treks",
-            "Printed passport copy for Ijen permit",
-            "Warm clothing (5–15°C) and beachwear",
-            "Sturdy hiking shoes and water shoes",
-            "Small daypack for essentials",
-            "Pre-hike health screening for Ijen trekking"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "2",
@@ -2724,8 +2675,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The route opens with a transfer from Surabaya to the Bondowoso side so the Ijen segment can be handled properly. Screening is completed after hotel check-in before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -2780,8 +2731,8 @@
             },
             {
               "day": 2,
-              "title": "From the Blue Fire of Ijen to the Golden Sunset of Papuma",
-              "summary": "Today was a mix of extreme adventure and relaxation. We began with a climb to Ijen, followed by lunch to recharge. Afterward, we headed south to the coast to close the day with a sunset at Papuma Beach.",
+              "title": "Ijen Climb and Continue to the Papuma Side",
+              "summary": "After the Ijen sequence, the route moves south toward the Papuma side. This day establishes the broader East Java contrast that makes the package more than a volcano-only itinerary.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -2854,8 +2805,8 @@
             },
             {
               "day": 3,
-              "title": "Onward Transfer: From Jember to Tumpak Sewu Area",
-              "summary": "After breakfast at your Jember hotel and perhaps some free time, the journey continues in the afternoon. This route connects downtown Jember with the rural areas of Lumajang, setting you up in a prime location for your Tumpak Sewu Waterfall adventure the next day.",
+              "title": "Papuma Area to Tumpak Sewu Staging",
+              "summary": "The third day keeps the route moving across East Java toward the Tumpak Sewu side. It should be understood as overland progression rather than as a light rest day between major stops.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -2894,8 +2845,8 @@
             },
             {
               "day": 4,
-              "title": "Mount Bromo and Return to Surabaya's Civilization",
-              "summary": "The day begins with a magical sunrise over Mount Bromo. After a volcanic adventure and a hearty breakfast, we'll drive you back down the mountains to Surabaya, concluding your adventure.",
+              "title": "Tumpak Sewu, Bromo Sequence, and Return to Surabaya",
+              "summary": "The final day combines the Tumpak Sewu segment with the Bromo-side finish before returning to Surabaya. It is a productive closing day that works best for travelers who accept a compact but serious route rhythm.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -2961,14 +2912,8 @@
           ],
           "imageUrl": "/uploads/4-day-ijen-papuma-beach-tumpak-sewu-bromo-journey-from-surabaya_0.webp",
           "tags": [
-            "4d3n",
-            "surabaya",
-            "ijen",
-            "papuma-beach",
-            "tumpak-sewu",
-            "bromo",
-            "beach-and-volcano",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -2982,16 +2927,16 @@
               "Photography enthusiasts"
             ],
             "highlightsBullets": [
-              "Private Surabaya route combining Ijen, Papuma, Tumpak Sewu, and Bromo inside four active days",
-              "Links volcano, coastline, and waterfall terrain in a compact but readable East Java overland sequence",
-              "Best for travelers who want strong regional contrast without committing to the longest itinerary",
-              "Private handling keeps screening, long transfers, and terrain changes coherent across the route"
+              "Ijen blue fire before sunrise",
+              "Pristine Papuma Beach with white sands and dramatic rocks",
+              "Tumpak Sewu multi-tiered waterfall",
+              "Iconic Bromo sunrise over volcanic caldera"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, local guides at challenging waterfalls",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Diverse landscapes package",
-              "Beach and volcano combination",
-              "Comprehensive East Java tour"
+              "Ijen blue fire before sunrise",
+              "Pristine Papuma Beach with white sands and dramatic rocks",
+              "Tumpak Sewu multi-tiered waterfall"
             ]
           },
           "operationalComplexityNote": "Ijen screening, long transfer segments, coastal staging, and Tumpak Sewu footing make this a compact overland route that still needs disciplined pacing.",
@@ -3103,7 +3048,7 @@
     },
     {
       "slug": "tours/from-surabaya/tumpak-sewu-bromo-ijen-4d3n",
-      "updatedAt": "2026-03-31T10:24:22.661Z",
+      "updatedAt": "2026-04-13T07:11:27.771Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -3142,7 +3087,7 @@
             "Ijen Crater"
           ],
           "tripRef": "/trips/trip-package-SUB-4D3N-003.json",
-          "description": "This route moves eastward from Surabaya through Tumpak Sewu, Bromo, and Ijen before finishing in Bali. It is a strong option for travelers who want waterfall terrain and both main volcanoes in one forward journey rather than a return loop.",
+          "description": "Private 4-day overland: Surabaya → Tumpak Sewu canyon waterfall → Bromo sunrise → Ijen blue fire → Bali. All-inclusive. Tourist Police-led operator.",
           "keyExperiences": [
             {
               "name": "Mount Bromo",
@@ -3213,14 +3158,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -3231,14 +3176,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate to good physical fitness for challenging treks",
-            "Printed passport copy for Ijen permit processing",
-            "Warm clothing (5-15°C for Bromo/Ijen)",
-            "Sturdy hiking shoes and water shoes for waterfalls",
-            "Small daypack for essentials",
-            "No respiratory conditions (due to sulfur exposure)"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "2",
@@ -4261,8 +4199,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "The Path to Waterfall Paradise: The Journey from Surabaya to Tumpak Sewu",
-              "summary": "This journey from Surabaya will take you south, passing through small towns and plantations, experiencing the authentic East Javanese countryside before arriving in Lumajang, home to the magnificent Tumpak Sewu.",
+              "title": "Surabaya to the Tumpak Sewu Side",
+              "summary": "The route opens by moving south from Surabaya toward the Tumpak Sewu side. This first day is about stable positioning for the waterfall segment and the broader eastbound journey ahead.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -4293,8 +4231,8 @@
             },
             {
               "day": 2,
-              "title": "From the Hidden Paradise of Tumpak Sewu to the Land Above the Clouds of Bromo",
-              "summary": "Your morning will be filled with an unforgettable trekking adventure to the base of Tumpak Sewu Waterfall. Afterward, enjoy a well-prepared lunch before continuing the dramatic climb into the volcanic landscape of Bromo.",
+              "title": "Tumpak Sewu and Continue Toward the Bromo Side",
+              "summary": "After the Tumpak Sewu segment, the route continues toward the Bromo side for overnight staging. This day introduces the route's terrain-heavy character before the mountain sequence begins.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -4341,8 +4279,8 @@
             },
             {
               "day": 3,
-              "title": "From Two Peaks: The Bromo Adventure Continues to the Foot of Ijen",
-              "summary": "After witnessing the majesty of Bromo, your adventure continues east. This overland journey will take you to the Bondowoso highlands. Upon arrival, you'll undergo a comfortable mandatory medical check-up at your hotel before enjoying a hearty dinner.",
+              "title": "Bromo Sunrise and Transfer to the Ijen Side",
+              "summary": "The third day completes the Bromo sunrise sequence before the route continues east toward the Ijen side. This remains one of the key transfer days and works best when treated as part of the full route logic.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -4421,8 +4359,8 @@
             },
             {
               "day": 4,
-              "title": "Leaving the Volcanoes Behind: Crossing from Ijen to Bali",
-              "summary": "After your final breakfast in the Ijen area, we drive you down to Ketapang Harbor to board the ferry to Bali. Enjoy the sea views during the short crossing before continuing overland to your hotel in southern Bali, where your volcano adventure gives way to island relaxation.",
+              "title": "Ijen Climb and Finish into Bali",
+              "summary": "The final day completes the Ijen segment before the route continues through Ketapang and onward into Bali. It is a strong fit for travelers who want the journey to end with a clear cross-island handoff instead of a Surabaya return.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -4482,18 +4420,8 @@
           ],
           "imageUrl": "/uploads/4-day-tumpak-sewu-bromo-ijen-adventure-from-surabaya-to-bali_0.webp",
           "tags": [
-            "4d3n",
-            "surabaya",
-            "bali",
-            "tumpak-sewu",
-            "bromo",
-            "ijen",
-            "blue-fire",
-            "waterfall",
-            "volcano",
-            "adventure",
-            "one-way",
-            "site_visible"
+            "Surabaya",
+            "Bali"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -4508,17 +4436,16 @@
               "Active travelers"
             ],
             "highlightsBullets": [
-              "Private eastbound route from Surabaya through Tumpak Sewu, Bromo, and Ijen before finishing in Bali",
-              "Combines waterfall terrain with East Java's two signature volcanoes in one readable sequence",
-              "Best for travelers who want strong natural contrast and a clean Bali handoff at the end",
-              "Private handling keeps terrain shifts, screening, and ferry logistics coherent across four days"
+              "Tumpak Sewu magnificent multi-tiered waterfall",
+              "Bromo iconic sunrise across volcanic sand sea",
+              "Ijen rare blue fire phenomenon and turquoise crater lake",
+              "One-way adventure Surabaya to Bali"
             ],
-            "safetyPositioning": "sterilized gas masks, health screening for Ijen, experienced Jeep drivers, waterfall safety protocols, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Three iconic destinations in one comprehensive itinerary",
-              "One-way route maximizing experience efficiency",
-              "Pre-hike health screening included for Ijen",
-              "Perfect blend of waterfalls and volcanoes"
+              "Tumpak Sewu magnificent multi-tiered waterfall",
+              "Bromo iconic sunrise across volcanic sand sea",
+              "Ijen rare blue fire phenomenon and turquoise crater lake"
             ]
           },
           "operationalComplexityNote": "Waterfall footing, Bromo sunrise timing, Ijen screening, and the Bali handoff make this a demanding but very coherent one-way East Java route.",
@@ -4630,7 +4557,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-bromo-madakaripura-malang-5d4n",
-      "updatedAt": "2026-03-31T10:24:22.389Z",
+      "updatedAt": "2026-04-13T07:11:28.317Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -4669,7 +4596,7 @@
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-SUB-5D4N-002.json",
-          "description": "This route extends the Surabaya flagship loop with a Malang finish layer, giving the mountains and the final city segment more breathing room. It works best for guests who want Ijen, Bromo, and Madakaripura first, then a softer landing through Malang before the final airport handoff.",
+          "description": "Private 5-day tour from Surabaya: Ijen blue fire, Bromo sunrise, Madakaripura Waterfall, Malang city. East Java's best volcanic and cultural highlights.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -4734,14 +4661,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -4751,14 +4678,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for night trek",
-            "Printed passport for Ijen permit",
-            "Warm clothing (5–15°C)",
-            "Sturdy hiking shoes & water shoes",
-            "Small daypack for essentials",
-            "Rain jacket/poncho for waterfalls"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -4806,8 +4726,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The first day moves from Surabaya to the Bondowoso side so the Ijen segment can be handled properly. After hotel check-in, the required screening is completed before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -4862,8 +4782,8 @@
             },
             {
               "day": 2,
-              "title": "From Two Peaks: Ijen Adventure Continues to Mount Bromo",
-              "summary": "After conquering Ijen, your adventure continues west. Enjoy our prepared lunch to refuel before embarking on the long overland journey to the majestic volcanic landscape of Bromo.",
+              "title": "Ijen Climb and Transfer Toward the Bromo Side",
+              "summary": "After the Ijen sequence, the route continues west toward the Bromo side. This remains one of the heavier transfer days in the itinerary and works best when treated as part of the route logic, not as downtime.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -4918,8 +4838,8 @@
             },
             {
               "day": 3,
-              "title": "Volcanoes, Waterfall Canyon, and City Comfort: Bromo & Madakaripura to Malang",
-              "summary": "Start the day with a breathtaking sunrise at Bromo and a visit to the crater. Continue with a dramatic canyon walk at Madakaripura Waterfall before heading to Malang, where you can unwind in a cooler city atmosphere after a full day of adventure.",
+              "title": "Bromo Sunrise, Madakaripura, and Continue to Malang",
+              "summary": "The route completes the Bromo sunrise sequence and Madakaripura before continuing to Malang. This day combines strong East Java contrast while still giving the itinerary a more comfortable city finish afterward.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -4992,8 +4912,8 @@
             },
             {
               "day": 4,
-              "title": "The Last Charm of Malang and Return to Surabaya",
-              "summary": "Enjoy the morning exploring the various tourist attractions in Batu and Malang. After a satisfying photo-op and adventure, continue your journey back to Surabaya, either to stay overnight or directly to the airport for your flight home.",
+              "title": "Malang and Batu Exploration with Return Toward Surabaya",
+              "summary": "The fourth day shifts away from strict mountain rhythm and gives room for Malang and Batu-based exploration before returning toward Surabaya. It works best for guests who value a softer closing segment after the core route is complete.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -5052,8 +4972,8 @@
             },
             {
               "day": 5,
-              "title": "Convenient Delivery to Juanda Airport",
-              "summary": "After enjoying your final breakfast at the hotel, take advantage of some free time before we pick you up for a quiet and stress-free transfer to Juanda International Airport (SUB) for your onward flight.",
+              "title": "Surabaya Hotel Finish and Airport Transfer",
+              "summary": "The final day is reserved for a calmer Surabaya finish and airport handoff. This structure helps the route end cleanly without forcing a same-day rush immediately after the major volcano sequence.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -5092,13 +5012,8 @@
           ],
           "imageUrl": "/uploads/5-day-ijen-bromo-madakaripura-malang-city-adventure-from-surabaya_0.webp",
           "tags": [
-            "5d4n",
-            "surabaya",
-            "ijen",
-            "bromo",
-            "madakaripura",
-            "malang",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -5112,17 +5027,17 @@
               "Adventure seekers"
             ],
             "highlightsBullets": [
-              "Extended private Surabaya route combining Ijen, Bromo, Madakaripura, and a Malang finish",
-              "Adds more breathing room after the volcano sequence and a softer city-based closing section",
-              "Best for guests who want the flagship East Java loop without ending immediately after the mountain days",
-              "Private handling keeps screening, sunrise timing, waterfall access, and final handoff coherent across five days"
+              "Ijen blue fire before sunrise",
+              "Stargazing and sunrise over Bromo",
+              "4WD Jeep across Sea of Sand",
+              "Madakaripura waterfall in mystical canyon",
+              "Rainbow Village and Batu City exploration"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, route decisions driven by safety",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Tourist Police support",
-              "Private 4WD experience",
-              "Health safety protocols",
-              "Complimentary travel T-shirt"
+              "Ijen blue fire before sunrise",
+              "Stargazing and sunrise over Bromo",
+              "4WD Jeep across Sea of Sand"
             ]
           },
           "operationalComplexityNote": "Ijen screening, two early mountain sequences, and several transfer days still require discipline, but the Malang finish reduces the pressure of a tighter route ending.",
@@ -5234,7 +5149,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-2d1n",
-      "updatedAt": "2026-03-31T10:24:20.884Z",
+      "updatedAt": "2026-04-13T07:11:22.604Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -5271,7 +5186,7 @@
             "Ijen Crater"
           ],
           "tripRef": "/trips/trip-package-SUB-2D1N-001.json",
-          "description": "This is a focused Ijen route for travelers who want one destination taken seriously. It works best when guests understand that Ijen brings real terrain, night timing, and mandatory screening considerations rather than a simple sightseeing rhythm.",
+          "description": "Private 2-day Kawah Ijen tour from Surabaya. Midnight trek, blue fire phenomenon, crater lake, sulfur miners. All-inclusive. Tourist Police-led operator.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -5328,13 +5243,13 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -5344,14 +5259,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for steep 1.5-2 hour trek",
-            "Printed passport copy for Ijen permit processing",
-            "Warm clothing (5-15°C for Ijen)",
-            "Sturdy hiking shoes",
-            "Small daypack for essentials",
-            "No respiratory conditions (due to sulfur exposure)"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -5380,8 +5288,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The first day is a dedicated transfer from Surabaya to the Bondowoso side so the route can stage properly for Ijen. After hotel check-in, the required health screening is completed before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -5436,8 +5344,8 @@
             },
             {
               "day": 2,
-              "title": "From Highlands to City Lights: Ijen Area to Surabaya",
-              "summary": "Say goodbye to the Ijen highlands and settle in for a scenic drive across East Java. After a long but comfortable journey, you will arrive back in Surabaya, ready for your next flight or an extra night in the city.",
+              "title": "Ijen Climb and Return to Surabaya",
+              "summary": "After the Ijen segment is completed, the route returns across East Java to Surabaya. This final day works best when guests treat the return as part of a serious two-day Ijen sequence, not as an afterthought.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -5495,14 +5403,8 @@
           ],
           "imageUrl": "/uploads/2-day-ijen-blue-fire-expedition-from-surabaya_0.webp",
           "tags": [
-            "2d1n",
-            "surabaya",
-            "ijen",
-            "blue-fire",
-            "crater-lake",
-            "volcano",
-            "adventure",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -5517,17 +5419,16 @@
               "Active travelers"
             ],
             "highlightsBullets": [
-              "Focused private Ijen route from Surabaya with Bondowoso staging before the climb",
-              "Mandatory health screening and crater-readiness built into the route flow",
-              "Best for travelers who want Ijen handled seriously without forcing a broader combo",
-              "Private return to Surabaya after the Ijen sequence is complete"
+              "Witness the world-famous Ijen blue fire phenomenon before sunrise",
+              "See the stunning turquoise sulfuric crater lake at dawn",
+              "Observe local sulfur miners at work in extreme conditions",
+              "Visit Malabar Coffee Plantation for authentic Arabica coffee"
             ],
-            "safetyPositioning": "sterilized gas masks, health screening for Ijen, sulfur exposure protocols, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Exclusive blue fire viewing experience",
-              "Pre-hike health screening included",
-              "Professional safety equipment",
-              "Local cultural immersion"
+              "Witness the world-famous Ijen blue fire phenomenon before sunrise",
+              "See the stunning turquoise sulfuric crater lake at dawn",
+              "Observe local sulfur miners at work in extreme conditions"
             ]
           },
           "operationalComplexityNote": "Long Surabaya-to-Bondowoso transfer, mandatory screening, and night-ascent timing make Ijen the defining constraint of this route.",
@@ -5639,7 +5540,7 @@
     },
     {
       "slug": "tours/from-surabaya/bromo-2d1n",
-      "updatedAt": "2026-03-31T10:24:20.773Z",
+      "updatedAt": "2026-04-13T07:11:22.473Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -5647,7 +5548,7 @@
       },
       "payload": {
         "id": 48,
-        "packageId": "package-SUB-2D1N-002",
+        "packageId": "2D1N",
         "type": "package",
         "version": "1.0.0",
         "meta": {
@@ -5658,7 +5559,7 @@
         },
         "product": {
           "id": 48,
-          "packageId": "package-SUB-2D1N-002",
+          "packageId": "2D1N",
           "slug": "tours/from-surabaya/bromo-2d1n",
           "name": "2 Day Bromo Sunrise Adventure from Surabaya",
           "seoTitle": "2 Day Bromo Sunrise Adventure from Surabaya | JVTO",
@@ -5676,8 +5577,8 @@
             "Mount Bromo",
             "Madakaripura Waterfall"
           ],
-          "tripRef": "/trips/trip-package-SUB-2D1N-002.json",
-          "description": "This is the cleanest short Surabaya route for travelers who want Bromo handled well but do not want the strain of a same-night return. It gives the sunrise sequence, crater handling, and Madakaripura stop more room while still staying inside a compact two-day structure.",
+          "tripRef": "/trips/trip-2D1N.json",
+          "description": "Private 2-day Bromo & Madakaripura tour from Surabaya. Overnight near Bromo, sunrise at Penanjakan, waterfall trek. All-inclusive. Licensed operator.",
           "keyExperiences": [
             {
               "name": "Mount Bromo",
@@ -5697,43 +5598,43 @@
             },
             "tiers": [
               {
-                "sku": "package-SUB-2D1N-002-1",
+                "sku": "2D1N-1",
                 "paxMin": 11,
                 "paxMax": 0,
                 "pricePerPerson": 1750000
               },
               {
-                "sku": "package-SUB-2D1N-002-2",
+                "sku": "2D1N-2",
                 "paxMin": 8,
                 "paxMax": 10,
                 "pricePerPerson": 1950000
               },
               {
-                "sku": "package-SUB-2D1N-002-3",
+                "sku": "2D1N-3",
                 "paxMin": 6,
                 "paxMax": 7,
                 "pricePerPerson": 2150000
               },
               {
-                "sku": "package-SUB-2D1N-002-4",
+                "sku": "2D1N-4",
                 "paxMin": 4,
                 "paxMax": 5,
                 "pricePerPerson": 2350000
               },
               {
-                "sku": "package-SUB-2D1N-002-5",
+                "sku": "2D1N-5",
                 "paxMin": 3,
                 "paxMax": 3,
                 "pricePerPerson": 2550000
               },
               {
-                "sku": "package-SUB-2D1N-002-6",
+                "sku": "2D1N-6",
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 2800000
               },
               {
-                "sku": "package-SUB-2D1N-002-7",
+                "sku": "2D1N-7",
                 "paxMin": 1,
                 "paxMax": 1,
                 "pricePerPerson": 4500000
@@ -5744,13 +5645,13 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -5760,13 +5661,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for trekking and stair climbing",
-            "Warm clothing (5-15°C for Bromo)",
-            "Sturdy hiking shoes and water shoes for waterfall",
-            "Small daypack for essentials",
-            "Early morning wake-up capability"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -5793,8 +5688,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Gateway to the Clouds: Your Journey from Surabaya to Mount Bromo",
-              "summary": "Your adventure begins when we pick you up from Surabaya. Enjoy a comfortable ride as the scenery changes from the city to the cool Tengger mountains. You'll feel the temperature drop, signaling your arrival at Cemoro Lawang, a magical village on the rim of the Bromo crater.",
+              "title": "Surabaya to the Bromo Side for Overnight Staging",
+              "summary": "The first day is a clean transfer from Surabaya to the Bromo side so the sunrise sequence can be handled properly the next morning. The overnight stay reduces pressure compared with the faster one-day variant and gives the route a more stable opening.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -5833,8 +5728,8 @@
             },
             {
               "day": 2,
-              "title": "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
-              "summary": "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+              "title": "Bromo Sunrise, Madakaripura, and Return to Surabaya",
+              "summary": "The second day combines the Bromo sunrise sequence with the Madakaripura stop before returning to Surabaya. It remains a productive day, but the overnight staging makes the full route easier to read and more comfortable to execute.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -5916,14 +5811,8 @@
           ],
           "imageUrl": "/uploads/2-day-bromo-sunrise-adventure-from-surabaya_0.jpg",
           "tags": [
-            "2d1n",
-            "surabaya",
-            "bromo",
-            "madakaripura",
-            "sunrise",
-            "waterfall",
-            "short-trip",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -5938,17 +5827,16 @@
               "Photography enthusiasts"
             ],
             "highlightsBullets": [
-              "Private two-day Bromo route from Surabaya with overnight staging on the mountain side",
-              "Bromo sunrise, crater handling, and Madakaripura kept inside one compact but more readable sequence",
-              "Best for travelers who want a short East Java route without compressing everything into one night",
-              "Adds overnight comfort and cleaner timing compared with the faster one-day Bromo run"
+              "Iconic Bromo sunrise with Milky Way stargazing",
+              "4WD Jeep adventure across the volcanic sand sea",
+              "Visit Java's highest waterfall at Madakaripura",
+              "Perfect short escape from Surabaya with maximum impact"
             ],
-            "safetyPositioning": "helmet protection at waterfalls, experienced Jeep drivers, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Two major attractions in compact itinerary",
-              "Private 4WD Bromo experience",
-              "Convenient Surabaya start/end",
-              "Perfect for weekend getaway"
+              "Iconic Bromo sunrise with Milky Way stargazing",
+              "4WD Jeep adventure across the volcanic sand sea",
+              "Visit Java's highest waterfall at Madakaripura"
             ]
           },
           "operationalComplexityNote": "Pre-dawn mountain timing, jeep logistics, and waterfall footing still require discipline, but this route is easier to absorb than the overnight-return variant.",
@@ -5975,7 +5863,7 @@
             "touristPoliceSupport": true
           },
           "channelMetadata": {
-            "internalPackageId": "package-SUB-2D1N-002",
+            "internalPackageId": "2D1N",
             "orderChannelEnabled": {
               "JVTO": true,
               "KLOOK": false,
@@ -6170,14 +6058,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -6245,8 +6133,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Cross-Strait Adventure: From Bali to Banyuwangi (Ijen Area)",
-              "summary": "Your unique adventure begins with a road trip across the western part of Bali to Gilimanuk Harbor. Upon arrival in Banyuwangi, after check-in, medical personnel will visit you at your hotel for a convenient medical check-up, before enjoying a awaited dinner.",
+              "title": "Bali to Banyuwangi for Ijen Staging",
+              "summary": "The route starts in Bali and crosses into East Java before positioning on the Ijen side. Screening is completed after hotel check-in so the climb can be handled properly.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -6313,8 +6201,8 @@
             },
             {
               "day": 2,
-              "title": "From the Blue Fire of Ijen to the Golden Sunset of Papuma",
-              "summary": "Today was a mix of extreme adventure and relaxation. We began with a climb to Ijen, followed by lunch to recharge. Afterward, we headed south to the coast to close the day with a sunset at Papuma Beach.",
+              "title": "Ijen Climb and Papuma Transfer",
+              "summary": "After the Ijen sequence, the route moves south toward the Papuma side. This day gives the itinerary its first major contrast shift from volcano handling to coastal atmosphere.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -6387,8 +6275,8 @@
             },
             {
               "day": 3,
-              "title": "Onward Transfer: From Jember to Tumpak Sewu Area",
-              "summary": "After breakfast at your Jember hotel and perhaps some free time, the journey continues in the afternoon. This route connects downtown Jember with the rural areas of Lumajang, setting you up in a prime location for your Tumpak Sewu Waterfall adventure the next day.",
+              "title": "Tumpak Sewu Segment and Transfer Toward Bromo",
+              "summary": "The route continues through the Tumpak Sewu side before moving onward toward Bromo staging. This is a terrain-heavy day and works best when guests are prepared for real footing and transfer time.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -6427,8 +6315,8 @@
             },
             {
               "day": 4,
-              "title": "Mount Bromo and Return to Surabaya's Civilization",
-              "summary": "The day begins with a magical sunrise over Mount Bromo. After a volcanic adventure and a hearty breakfast, we'll drive you back down the mountains to Surabaya, concluding your adventure.",
+              "title": "Bromo Sunrise and Finish in Surabaya",
+              "summary": "The final day completes the Bromo sequence before the route finishes in Surabaya. It is a strong fit for travelers who want a forward East Java finish after a compact but varied four-day journey.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -6744,14 +6632,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -6826,8 +6714,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Cross-Strait Adventure: From Bali to Banyuwangi (Ijen Area)",
-              "summary": "Your unique adventure begins with a road trip across the western part of Bali to Gilimanuk Harbor. Upon arrival in Banyuwangi, after check-in, medical personnel will visit you at your hotel for a convenient medical check-up, before enjoying a awaited dinner.",
+              "title": "Bali to Banyuwangi for Ijen Staging",
+              "summary": "The journey begins in Bali and crosses into East Java before positioning on the Ijen side. The first day is about clean staging and a stable opening to the route.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -6894,8 +6782,8 @@
             },
             {
               "day": 2,
-              "title": "From the Blue Fire of Ijen to the Golden Sunset of Papuma",
-              "summary": "Today was a mix of extreme adventure and relaxation. We began with a climb to Ijen, followed by lunch to recharge. Afterward, we headed south to the coast to close the day with a sunset at Papuma Beach.",
+              "title": "Ijen Climb and Transfer to the Papuma Side",
+              "summary": "After the Ijen sequence, the route continues south toward the Papuma side. This day marks the shift from volcano seriousness into broader East Java contrast.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -6968,8 +6856,8 @@
             },
             {
               "day": 3,
-              "title": "Onward Transfer: From Jember to Tumpak Sewu Area",
-              "summary": "After breakfast at your Jember hotel and perhaps some free time, the journey continues in the afternoon. This route connects downtown Jember with the rural areas of Lumajang, setting you up in a prime location for your Tumpak Sewu Waterfall adventure the next day.",
+              "title": "Papuma Side to Tumpak Sewu Staging",
+              "summary": "The route keeps moving forward toward the Tumpak Sewu side. This is an overland progression day that helps the wider East Java narrative stay readable rather than rushed.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -7008,8 +6896,8 @@
             },
             {
               "day": 4,
-              "title": "Mount Bromo and Return to Surabaya's Civilization",
-              "summary": "The day begins with a magical sunrise over Mount Bromo. After a volcanic adventure and a hearty breakfast, we'll drive you back down the mountains to Surabaya, concluding your adventure.",
+              "title": "Tumpak Sewu and Transfer Toward Bromo",
+              "summary": "The waterfall segment changes the route rhythm before the journey continues toward the Bromo side. It should be understood as real terrain and not just as scenic filler.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -7066,8 +6954,8 @@
             },
             {
               "day": 5,
-              "title": "Convenient Delivery to Juanda Airport",
-              "summary": "After enjoying your final breakfast at the hotel, take advantage of some free time before we pick you up for a quiet and stress-free transfer to Juanda International Airport (SUB) for your onward flight.",
+              "title": "Bromo Sunrise and Final Surabaya Handoff",
+              "summary": "The final day completes the Bromo sequence before the route finishes in Surabaya. This finish suits travelers who want the full East Java overland experience to end in a clear urban handoff rather than a return loop to Bali.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -7251,7 +7139,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-5d4n",
-      "updatedAt": "2026-03-31T10:24:22.496Z",
+      "updatedAt": "2026-04-24T01:09:20.272Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -7290,7 +7178,7 @@
             "Papuma Beach"
           ],
           "tripRef": "/trips/trip-package-SUB-5D4N-001.json",
-          "description": "This route is for travelers who want East Java to feel like a real overland journey instead of a tight destination sprint. Starting in Surabaya and finishing later in the route sequence gives enough room for volcanoes, coastline contrast, and waterfall terrain to work together coherently.",
+          "description": "Private 5-day East Java tour: Ijen blue fire, Papuma Beach, Tumpak Sewu canyon, Bromo sunrise. More time at each stop vs the 4-day version. All-inclusive.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -7361,14 +7249,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -7378,13 +7266,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for multiple treks",
-            "Printed passport copy for Ijen permit",
-            "Warm clothing (5–15°C) and beachwear",
-            "Sturdy hiking shoes and water shoes",
-            "Small daypack for essentials"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "2",
@@ -7441,8 +7323,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The route opens with a transfer from Surabaya to the Bondowoso side so the Ijen segment can be handled properly. Screening is completed after hotel check-in before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -7497,8 +7379,8 @@
             },
             {
               "day": 2,
-              "title": "From the Blue Fire of Ijen to the Golden Sunset of Papuma",
-              "summary": "Today was a mix of extreme adventure and relaxation. We began with a climb to Ijen, followed by lunch to recharge. Afterward, we headed south to the coast to close the day with a sunset at Papuma Beach.",
+              "title": "Ijen Climb and Transfer to the Papuma Side",
+              "summary": "After the Ijen sequence, the route continues south toward the Papuma side. This day is about volcanic seriousness first, then broader East Java contrast as the route begins to open up.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -7571,8 +7453,8 @@
             },
             {
               "day": 3,
-              "title": "Onward Transfer: From Jember to Tumpak Sewu Area",
-              "summary": "After breakfast at your Jember hotel and perhaps some free time, the journey continues in the afternoon. This route connects downtown Jember with the rural areas of Lumajang, setting you up in a prime location for your Tumpak Sewu Waterfall adventure the next day.",
+              "title": "Papuma Side to Tumpak Sewu Staging",
+              "summary": "The route continues across East Java toward the Tumpak Sewu side. This day works best when guests understand it as overland progression rather than as downtime between headline stops.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -7611,8 +7493,8 @@
             },
             {
               "day": 4,
-              "title": "Mount Bromo and Return to Surabaya's Civilization",
-              "summary": "The day begins with a magical sunrise over Mount Bromo. After a volcanic adventure and a hearty breakfast, we'll drive you back down the mountains to Surabaya, concluding your adventure.",
+              "title": "Tumpak Sewu and Transfer Toward the Bromo Side",
+              "summary": "The waterfall segment adds a different physical rhythm before the route continues toward the Bromo side. This is one of the strongest contrast days in the itinerary and should be treated as real terrain, not a soft add-on.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -7669,8 +7551,8 @@
             },
             {
               "day": 5,
-              "title": "Convenient Delivery to Juanda Airport",
-              "summary": "After enjoying your final breakfast at the hotel, take advantage of some free time before we pick you up for a quiet and stress-free transfer to Juanda International Airport (SUB) for your onward flight.",
+              "title": "Bromo Sunrise and Final Return",
+              "summary": "The final day completes the Bromo sequence before the route returns for the last handoff. It works best for guests who want the full East Java story rather than only the shortest route to the headline volcanoes.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -7711,15 +7593,8 @@
           ],
           "imageUrl": "/uploads/5-day-ijen-papuma-beach-tumpak-sewu-bromo-nature-trip-from-surabaya_0.webp",
           "tags": [
-            "5d4n",
-            "surabaya",
-            "ijen",
-            "papuma-beach",
-            "tumpak-sewu",
-            "bromo",
-            "extended-tour",
-            "nature-trip",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -7730,21 +7605,20 @@
               "Nature enthusiasts",
               "Explorers",
               "Extended vacation travelers",
-              "Photography enthusiasts",
-              "Comprehensive Java experience seekers"
+              "Photography enthusiasts"
             ],
             "highlightsBullets": [
-              "Extended private East Java overland route combining Ijen, Papuma, Tumpak Sewu, and Bromo",
-              "Built for travelers who want stronger landscape contrast rather than a short volcano-only sequence",
-              "Best for guests who want East Java to feel broad, varied, and intentionally overland",
-              "Private handling keeps screening, long transfers, terrain changes, and final return logic coherent"
+              "Extended 5-day East Java exploration",
+              "Ijen blue fire before sunrise",
+              "Pristine Papuma Beach",
+              "Tumpak Sewu multi-tiered waterfall",
+              "Iconic Bromo sunrise"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, local guides at challenging waterfalls, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Extended duration for comprehensive experience",
-              "Beach and volcano combination",
-              "Coffee plantation experience",
-              "Relaxed pacing with Surabaya overnight"
+              "Extended 5-day East Java exploration",
+              "Ijen blue fire before sunrise",
+              "Pristine Papuma Beach"
             ]
           },
           "operationalComplexityNote": "Multiple terrain changes, long transfer days, Ijen screening, and waterfall access make this a broad but still high-coordination route.",
@@ -7966,14 +7840,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -8027,8 +7901,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Cross-Strait Adventure: From Bali to Banyuwangi (Ijen Area)",
-              "summary": "Your unique adventure begins with a road trip across the western part of Bali to Gilimanuk Harbor. Upon arrival in Banyuwangi, after check-in, medical personnel will visit you at your hotel for a convenient medical check-up, before enjoying a awaited dinner.",
+              "title": "Bali to Banyuwangi for Ijen Staging",
+              "summary": "The route starts in Bali and crosses into East Java before positioning on the Ijen side. After hotel check-in, the required screening is completed before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -8095,8 +7969,8 @@
             },
             {
               "day": 2,
-              "title": "From Two Peaks: Ijen Adventure Continues to Mount Bromo",
-              "summary": "After conquering Ijen, your adventure continues west. Enjoy our prepared lunch to refuel before embarking on the long overland journey to the majestic volcanic landscape of Bromo.",
+              "title": "Ijen Climb and Transfer Toward the Bromo Side",
+              "summary": "After the Ijen sequence, the route continues west toward the Bromo side. This day works best when guests understand it as a real connection day rather than as a light transition.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -8151,8 +8025,8 @@
             },
             {
               "day": 3,
-              "title": "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
-              "summary": "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+              "title": "Bromo Sunrise, Madakaripura, and Finish in Surabaya",
+              "summary": "The final day combines the Bromo sunrise sequence with Madakaripura before the route finishes in Surabaya. It is a strong fit for travelers who want a forward East Java finish instead of returning to Bali.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -8378,7 +8252,7 @@
     },
     {
       "slug": "tours/from-surabaya/bromo-1d1n",
-      "updatedAt": "2026-03-31T10:24:20.716Z",
+      "updatedAt": "2026-04-13T07:11:21.921Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -8386,7 +8260,7 @@
       },
       "payload": {
         "id": 73,
-        "packageId": "package-SUB-1D1N-001",
+        "packageId": "1D1N",
         "type": "package",
         "version": "1.0.0",
         "meta": {
@@ -8397,7 +8271,7 @@
         },
         "product": {
           "id": 73,
-          "packageId": "package-SUB-1D1N-001",
+          "packageId": "1D1N",
           "slug": "tours/from-surabaya/bromo-1d1n",
           "name": "1 Day Bromo Midnight Experience from Surabaya",
           "seoTitle": "1 Day Bromo Sunrise Tour from Surabaya | JVTO Private Tours",
@@ -8414,8 +8288,8 @@
           "route": [
             "Mount Bromo"
           ],
-          "tripRef": "/trips/trip-package-SUB-1D1N-001.json",
-          "description": "This is the cleanest Surabaya route for travelers who want one focused volcanic objective without turning the trip into a multi-day circuit. It works best when guests accept the compressed timing and choose it for efficiency rather than for a relaxed mountain rhythm.",
+          "tripRef": "/trips/trip-1D1N.json",
+          "description": "Private 1-day Mount Bromo tour from Surabaya. Midnight departure, sunrise at Penanjakan, Sea of Sand. All-inclusive — transport, permits, guide. East Java.",
           "keyExperiences": [
             {
               "name": "Mount Bromo",
@@ -8431,31 +8305,31 @@
             },
             "tiers": [
               {
-                "sku": "package-SUB-1D1N-001-1",
+                "sku": "1D1N-1",
                 "paxMin": 11,
                 "paxMax": 0,
                 "pricePerPerson": 1000000
               },
               {
-                "sku": "package-SUB-1D1N-001-2",
+                "sku": "1D1N-2",
                 "paxMin": 8,
                 "paxMax": 10,
                 "pricePerPerson": 1050000
               },
               {
-                "sku": "package-SUB-1D1N-001-3",
+                "sku": "1D1N-3",
                 "paxMin": 5,
                 "paxMax": 7,
                 "pricePerPerson": 1250000
               },
               {
-                "sku": "package-SUB-1D1N-001-4",
+                "sku": "1D1N-4",
                 "paxMin": 3,
                 "paxMax": 4,
                 "pricePerPerson": 1400000
               },
               {
-                "sku": "package-SUB-1D1N-001-5",
+                "sku": "1D1N-5",
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 1550000
@@ -8470,8 +8344,8 @@
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -8481,13 +8355,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate fitness for stair climbing and sand walking",
-            "Warm clothing (5-15°C for Bromo)",
-            "Sturdy hiking shoes",
-            "Small daypack for essentials",
-            "Ability to handle midnight start and early morning activities"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "2",
@@ -8515,8 +8383,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Overnight Adventure in Bromo: Midnight Departure from Surabaya",
-              "summary": "Forget the hotel and sleep on the road! This quick adventure picks you up from Surabaya at midnight and takes you through the darkness straight to the foot of Mount Bromo. You'll switch to a 4WD Jeep for an off-road adventure, witness a magical sunrise, climb the crater, and return to Surabaya in the afternoon. This is an intense and highly efficient route for those with limited time.",
+              "title": "Midnight Departure from Surabaya for Bromo Sunrise",
+              "summary": "This route leaves Surabaya late at night and heads directly toward the Bromo side for sunrise timing. After the jeep sequence, viewpoint access, crater handling, and the main Bromo stops, the route returns to Surabaya the same day.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -8610,14 +8478,8 @@
           ],
           "imageUrl": "/uploads/1-day-bromo-midnight-experience-from-surabaya_0.jpg",
           "tags": [
-            "1d1n",
-            "surabaya",
-            "bromo",
-            "sunrise",
-            "midnight-tour",
-            "day-trip",
-            "quick-getaway",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -8632,17 +8494,17 @@
               "Weekend explorers"
             ],
             "highlightsBullets": [
-              "Midnight departure for a focused private Bromo sunrise route from Surabaya",
-              "Jeep access, viewpoint timing, crater handling, and same-day return kept in one clean sequence",
-              "Best for travelers with limited time who still want a serious volcano route",
-              "Built for clarity and efficiency rather than for soft pacing or overnight comfort"
+              "Midnight departure for optimal sunrise timing at Kingkong Hill",
+              "Vintage 4WD Jeep experience to sunrise viewpoint",
+              "Bromo crater exploration with sulfur smoke views",
+              "Whispering Sand mystical landscape discovery",
+              "Complete experience returning to Surabaya by noon"
             ],
-            "safetyPositioning": "experienced Jeep drivers, weather monitoring, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Most time-efficient Bromo experience",
-              "Midnight adventure for early risers",
-              "Same-day return to Surabaya",
-              "Perfect for busy travelers"
+              "Midnight departure for optimal sunrise timing at Kingkong Hill",
+              "Vintage 4WD Jeep experience to sunrise viewpoint",
+              "Bromo crater exploration with sulfur smoke views"
             ]
           },
           "operationalComplexityNote": "Overnight departure, pre-dawn cold exposure, jeep timing, and same-day return make this a short route with a disciplined rhythm.",
@@ -8669,7 +8531,7 @@
             "touristPoliceSupport": true
           },
           "channelMetadata": {
-            "internalPackageId": "package-SUB-1D1N-001",
+            "internalPackageId": "1D1N",
             "orderChannelEnabled": {
               "JVTO": true,
               "KLOOK": false,
@@ -8754,7 +8616,7 @@
     },
     {
       "slug": "tours/from-surabaya/ijen-papuma-tumpak-sewu-bromo-malang-6d5n",
-      "updatedAt": "2026-03-31T10:24:22.546Z",
+      "updatedAt": "2026-04-13T07:11:29.289Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -8794,7 +8656,7 @@
             "Papuma Beach"
           ],
           "tripRef": "/trips/trip-package-SUB-6D5N-001.json",
-          "description": "This is one of the broadest East Java routes in the catalog, combining Ijen, Papuma, Tumpak Sewu, Bromo, and a Malang finish layer in one extended overland journey. It works best for travelers who want East Java to unfold gradually rather than as a compressed volcano package.",
+          "description": "Private 6-day complete East Java tour: Ijen blue fire, Papuma Beach, Tumpak Sewu, Bromo sunrise, Malang city. JVTO's most comprehensive itinerary.",
           "keyExperiences": [
             {
               "name": "Ijen Crater",
@@ -8863,14 +8725,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -8880,14 +8742,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Moderate to good fitness level for challenging treks",
-            "Printed passport for Ijen permit",
-            "Warm clothing (5–15°C)",
-            "Sturdy hiking shoes & water shoes",
-            "Small daypack for essentials",
-            "Rain jacket/poncho for waterfalls"
-          ],
+          "travelerRequirements": [],
           "addOns": [
             {
               "id": "2",
@@ -8950,8 +8805,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Towards the Ijen Plateau: Overland Travel from Surabaya to Bondowoso",
-              "summary": "This long journey is the perfect transition from the hustle and bustle of Surabaya to the tranquility of the mountains. After arriving and checking in, a medical professional will come to your hotel for a brief, comfortable health check. Afterward, enjoy a well-prepared dinner to conclude your day.",
+              "title": "Surabaya to Bondowoso for Ijen Staging",
+              "summary": "The route begins with a transfer from Surabaya to the Bondowoso side so the Ijen segment can be handled properly. After hotel check-in, the required screening is completed before the climb window begins.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -9006,8 +8861,8 @@
             },
             {
               "day": 2,
-              "title": "From the Blue Fire of Ijen to the Golden Sunset of Papuma",
-              "summary": "Today was a mix of extreme adventure and relaxation. We began with a climb to Ijen, followed by lunch to recharge. Afterward, we headed south to the coast to close the day with a sunset at Papuma Beach.",
+              "title": "Ijen Climb and Continue to the Papuma Side",
+              "summary": "After the Ijen sequence, the route continues south toward the Papuma side. This day establishes the wider East Java contrast that defines the route as an overland journey rather than a short volcano pair.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -9080,8 +8935,8 @@
             },
             {
               "day": 3,
-              "title": "Onward Transfer: From Jember to Tumpak Sewu Area",
-              "summary": "After breakfast at your Jember hotel and perhaps some free time, the journey continues in the afternoon. This route connects downtown Jember with the rural areas of Lumajang, setting you up in a prime location for your Tumpak Sewu Waterfall adventure the next day.",
+              "title": "Papuma Area to Tumpak Sewu Staging",
+              "summary": "The third day keeps the route moving toward the Tumpak Sewu side. It works best when guests understand it as purposeful overland progression rather than as idle transfer time.",
               "activities": [
                 {
                   "type": "CheckOutAction",
@@ -9120,8 +8975,8 @@
             },
             {
               "day": 4,
-              "title": "From Volcanic Landscapes to the Charm of Cool Cities: Bromo to Malang",
-              "summary": "After an epic adventure on Mount Bromo, enjoy a scenic descent to Malang, a city known for its cool air and creative atmosphere. It's a seamless transition from wilderness to urban comfort.",
+              "title": "Tumpak Sewu and Transfer Toward the Bromo Side",
+              "summary": "The waterfall segment changes the route rhythm before the journey continues toward the Bromo side. It should be treated as real terrain, not simply as a scenic add-on before the final mountain phase.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -9176,8 +9031,8 @@
             },
             {
               "day": 5,
-              "title": "A Day Full of Color: A Creative Exploration of Batu City, Malang",
-              "summary": "Start the day with breakfast at the hotel, then get ready for a fun day tour exploring the best photo spots and unique attractions in the cool Batu area, from colorful villages, modern flower gardens, to apple picking agrotourism.",
+              "title": "Bromo Sunrise and Continue to Malang",
+              "summary": "The fifth day completes the Bromo sequence before the route continues to Malang. This creates a softer closing phase and gives the itinerary more room after the main mountain segment.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -9258,8 +9113,8 @@
             },
             {
               "day": 6,
-              "title": "Convenient Delivery to Juanda Airport",
-              "summary": "After enjoying your final breakfast at the hotel, take advantage of some free time before we pick you up for a quiet and stress-free transfer to Juanda International Airport (SUB) for your onward flight.",
+              "title": "Malang and Surabaya Departure Handoff",
+              "summary": "The final day is reserved for the last Malang-based segment and a clean transfer toward Surabaya for the airport handoff. It suits travelers who want a long East Java route to end in a controlled and readable way.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -9305,14 +9160,8 @@
           ],
           "imageUrl": "/uploads/6-day-ijen-papuma-beach-tumpak-sewu-bromo-malang-city-discovery-from-surabaya_0.jpg",
           "tags": [
-            "6d5n",
-            "surabaya",
-            "ijen",
-            "papuma",
-            "tumpaksewu",
-            "bromo",
-            "malang",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -9326,17 +9175,17 @@
               "Photography enthusiasts"
             ],
             "highlightsBullets": [
-              "Extended private East Java route through Ijen, Papuma, Tumpak Sewu, Bromo, and a Malang finish",
-              "Designed for travelers who want broad regional contrast rather than only the shortest headline stops",
-              "Best for guests who want extra room around the mountain sequence and a softer city-based closing phase",
-              "Private handling keeps screening, overland transfers, terrain changes, and final handoff coordinated across six days"
+              "Ijen blue fire before sunrise",
+              "Stargazing and sunrise over Bromo",
+              "Tumpak Sewu thousand-stream waterfall",
+              "Papuma Beach sunset",
+              "Batu City exploration with Rainbow Village"
             ],
-            "safetyPositioning": "sanitized gas masks, health screening for Ijen, route decisions driven by safety",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Comprehensive East Java experience",
-              "Private 4WD experience",
-              "Health safety protocols",
-              "Complimentary travel T-shirt"
+              "Ijen blue fire before sunrise",
+              "Stargazing and sunrise over Bromo",
+              "Tumpak Sewu thousand-stream waterfall"
             ]
           },
           "operationalComplexityNote": "This long route still depends on Ijen screening, waterfall footing, and several heavy transfer days, but the extended structure makes the progression easier to absorb than a shorter sprint.",
@@ -9507,7 +9356,7 @@
             "currency": "IDR",
             "aggregateOffer": {
               "lowPrice": 2850000,
-              "highPrice": 4050000
+              "highPrice": 7500000
             },
             "tiers": [
               {
@@ -9545,6 +9394,12 @@
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 4050000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-7",
+                "paxMin": 1,
+                "paxMax": 1,
+                "pricePerPerson": 7500000
               }
             ]
           },
@@ -9552,14 +9407,14 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
             "Health Screening: Ijen authorities require a doctor's health certificate. This will be conducted the evening before your trek. You only need your passport.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management.",
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas.",
             "Ferry Tickets: From Ketapang Harbour to Gilimanuk Harbour, Bali."
           ],
           "exclusions": [
@@ -10586,8 +10441,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "Marathon Expedition: From Bali Beaches to Mount Bromo",
-              "summary": "Get ready for an epic day of travel! This route is designed for true adventurers, taking you from Bali, across the strait, and straight on to a long overland journey across East Java to Mount Bromo. You'll witness the most dramatic landscape changes in a single day.",
+              "title": "Bali to the Bromo Side via East Java Crossing",
+              "summary": "The route begins in Bali and crosses into East Java before moving onward to the Bromo side. This first day is about clean cross-island positioning so the volcano sequence can start properly the next morning.",
               "activities": [
                 {
                   "type": "TravelAction",
@@ -10646,8 +10501,8 @@
             },
             {
               "day": 2,
-              "title": "From Bromo Sunrise to Canyon Waterfalls and Onward to Ijen",
-              "summary": "This is one of the most intense connection days in the itinerary. After witnessing sunrise and exploring Bromo, you continue to the lush canyon of Madakaripura for a refreshing waterfall trek before driving deep into the highlands of Bondowoso. Upon arrival, a mandatory health check is carried out at your hotel to clear you for the Ijen climb the next day, followed by a well-deserved dinner.",
+              "title": "Bromo Sunrise, Madakaripura, and Transfer to Bondowoso",
+              "summary": "After the Bromo sunrise sequence, the route continues through Madakaripura before transferring toward Bondowoso. The day stays productive, but it should be understood as one of the heavier connection days in the itinerary.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -10738,8 +10593,8 @@
             },
             {
               "day": 3,
-              "title": "Leaving the Volcanoes Behind: Crossing from Ijen to Bali",
-              "summary": "After your final breakfast in the Ijen area, we drive you down to Ketapang Harbor to board the ferry to Bali. Enjoy the sea views during the short crossing before continuing overland to your hotel in southern Bali, where your volcano adventure gives way to island relaxation.",
+              "title": "Ijen Climb and Return to Bali",
+              "summary": "The final day completes the Ijen segment before the route crosses back toward Bali. This return works best for guests who actively value the round-trip Bali finish and accept the rhythm needed to make it work cleanly.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -10886,7 +10741,7 @@
             "status": "active",
             "minLeadTimeHours": 24,
             "maxPaxRecommended": 100,
-            "minPaxOperational": 2
+            "minPaxOperational": 1
           },
           "_cms": {
             "contentType": "tour-package",
@@ -10944,7 +10799,7 @@
     },
     {
       "slug": "tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
-      "updatedAt": "2026-03-31T10:24:22.601Z",
+      "updatedAt": "2026-04-13T07:11:30.411Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 4,
@@ -10957,15 +10812,15 @@
         "version": "1.0.0",
         "meta": {
           "createdFrom": {
-            "productFile": "Product 3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya.json",
-            "tripFile": "Trip 3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya.json"
+            "productFile": "Product 3 Day Taman Safari Prigen, Bromo & Madakaripura Family Tour from Surabaya.json",
+            "tripFile": "Trip 3 Day Taman Safari Prigen, Bromo & Madakaripura Family Tour from Surabaya.json"
           }
         },
         "product": {
           "id": 91,
           "packageId": "package-SUB-3D2N-006",
           "slug": "tours/from-surabaya/taman-safari-prigen-bromo-madakaripura-3d2n",
-          "name": "3 Day Taman Safari Prigen Tour, Bromo & Madakaripura Family Adventure from Surabaya",
+          "name": "3 Day Taman Safari Prigen, Bromo & Madakaripura Family Tour from Surabaya",
           "seoTitle": "3 Day Taman Safari, Bromo & Madakaripura Family Tour | JVTO",
           "seoDescription": "Private 3-day family tour from Surabaya: Taman Safari Prigen, Mount Bromo sunrise, Madakaripura Waterfall. All-inclusive. Best for families with children.",
           "shortLabel": "3D2N Safari, Bromo & Madakaripura (SUB)",
@@ -10983,7 +10838,7 @@
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-SUB-3D2N-006.json",
-          "description": "This route is built for travelers who want a more mixed East Java rhythm by combining wildlife, Bromo, and Madakaripura inside one family-friendly private journey. It is a good fit when the route needs to feel accessible without becoming generic or overly soft.",
+          "description": "Private 3-day family tour from Surabaya: Taman Safari Prigen, Mount Bromo sunrise, Madakaripura Waterfall. All-inclusive. Best for families with children.",
           "keyExperiences": [
             {
               "name": "Taman Safari Prigen",
@@ -11048,13 +10903,13 @@
             "Private Transport: Air-conditioned private vehicles (MPV for 1-3 guests, Minibus for 4-11 guests) with a dedicated driver. This includes fuel, tolls, and parking fees.",
             "Tour Guides: Experienced English-speaking guides. For 1-3 guests, a driver-guide. For 4+ guests, a separate local guide will be provided at each main destination (Bromo, Ijen, Madakaripura).",
             "Mineral Water: Daily supply.",
-            "Complimentary Travel T-Shirt: one travel T-shirt per participant.",
+            "JVTO Travel T-Shirt: One complimentary JVTO branded T-shirt per person on every confirmed booking. Available in sizes XXS–XXL. Groups of 10+ pax receive a custom-designed group T-shirt.",
             "Full Assistance: From your arrival to your final drop-off.",
             "Quality Hotel Accommodation: including daily breakfast.",
             "All Entrance Fees & Permits: to attractions",
             "Meals: As mention in the itinerary",
             "Private 4WD Jeep: For the Mount Bromo sunrise tour.",
-            "Trekking Equipment: Gas masks and trekking poles for the Ijen Crater hike. Helmets for Madakaripura Waterfall are provided by local management."
+            "Gas Mask: Professional volcanic-grade gas mask provided for Ijen Crater routes. Mandatory during descent to crater floor due to H₂S/SO₂ gas."
           ],
           "exclusions": [
             "International/Domestic Air Tickets: To and from your tour's starting and ending points.",
@@ -11064,14 +10919,7 @@
             "Personal Expenses: Such as snacks, souvenirs, beverages, laundry, etc. It is recommended to carry at least IDR 500,000 per person for these.",
             "Tips: For drivers and guides (at your discretion)."
           ],
-          "travelerRequirements": [
-            "Minimal to moderate fitness level",
-            "Warm clothing (5-15°C for Bromo)",
-            "Comfortable walking shoes",
-            "Water shoes for Madakaripura Waterfall",
-            "Small daypack for essentials",
-            "Swimwear for resort activities"
-          ],
+          "travelerRequirements": [],
           "addOns": [],
           "accommodationPlan": [
             {
@@ -11104,8 +10952,8 @@
           "itineraryDays": [
             {
               "day": 1,
-              "title": "From Wildlife to Volcano Peak: Safari Park Tour & Onward to Bromo",
-              "summary": "A perfect day for a double adventure! Starting in Surabaya, you'll explore Prigen Safari Park, interacting with wildlife up close. In the afternoon, continue your journey uphill to Mount Bromo, ready for the next day's sunrise adventure.",
+              "title": "Surabaya to Taman Safari Prigen and Continue Toward Bromo",
+              "summary": "The first day begins with the safari segment before the route continues toward the Bromo side for overnight staging. It gives the itinerary a broader entry point than a volcano-only route while keeping the next day's timing stable.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -11170,8 +11018,8 @@
             },
             {
               "day": 2,
-              "title": "From Wildlife to Volcano Peak: Safari Park Tour & Onward to Bromo",
-              "summary": "A perfect day for a double adventure! Starting in Surabaya, you'll explore Prigen Safari Park, interacting with wildlife up close. In the afternoon, continue your journey uphill to Mount Bromo, ready for the next day's sunrise adventure.",
+              "title": "Bromo-side Overnight and Final Sunrise Preparation",
+              "summary": "The second day holds the route on the Bromo side so the sunrise sequence can be handled well the next morning. This middle section keeps the trip paced for families and mixed-interest groups rather than forcing unnecessary compression.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -11236,8 +11084,8 @@
             },
             {
               "day": 3,
-              "title": "Two Icons in One Day: Bromo & Madakaripura, Back to Surabaya",
-              "summary": "A day that combines the majesty of Bromo with the splendor of Madakaripura. After enjoying the sunrise, the adventure continues with a refreshing trek through the canyon of the legendary Madakaripura Waterfall, before we return you to Surabaya.",
+              "title": "Bromo Sunrise, Madakaripura, and Return to Surabaya",
+              "summary": "The final day combines the Bromo sunrise sequence with the Madakaripura stop before returning to Surabaya. It gives the route a strong East Java finish while staying more accessible than the harder volcanic combinations.",
               "activities": [
                 {
                   "type": "TouristAttractionVisit",
@@ -11323,15 +11171,8 @@
           ],
           "imageUrl": "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
           "tags": [
-            "3d2n",
-            "surabaya",
-            "taman-safari",
-            "bromo",
-            "madakaripura",
-            "family-friendly",
-            "wildlife",
-            "adventure",
-            "site_visible"
+            "Surabaya",
+            "Surabaya"
           ],
           "aggregateRating": {
             "ratingValue": 0,
@@ -11346,17 +11187,16 @@
               "Multi-generational travel"
             ],
             "highlightsBullets": [
-              "Private family-friendly route combining Taman Safari Prigen, Bromo, and Madakaripura from Surabaya",
-              "Balances wildlife activity with a clear volcano-and-waterfall sequence across three days",
-              "Best for families or mixed-interest groups who want East Java variety in a more accessible format",
-              "Private handling keeps safari timing, overnight staging, and final Bromo sequence coherent"
+              "Guided safari at Taman Safari Prigen",
+              "Iconic Bromo sunrise with Milky Way stargazing",
+              "Madakaripura waterfall — Java's highest — in mystical canyon",
+              "Family-friendly activities for all ages"
             ],
-            "safetyPositioning": "helmet protection at waterfalls, experienced Jeep drivers, wildlife safety protocols, strong safety track record with professional guides and strict protocols",
+            "safetyPositioning": "Standard JVTO Police-Led Safety",
             "uniqueSellingPoints": [
-              "Perfect family combination of wildlife and nature",
-              "Safari resort experience with animal interactions",
-              "All-ages friendly activities",
-              "Comprehensive East Java highlights"
+              "Guided safari at Taman Safari Prigen",
+              "Iconic Bromo sunrise with Milky Way stargazing",
+              "Madakaripura waterfall — Java's highest — in mystical canyon"
             ]
           },
           "operationalComplexityNote": "This route is easier than the more volcanic packages, but it still depends on early Bromo timing, multiple transfers, and realistic handling for families or mixed-age groups.",

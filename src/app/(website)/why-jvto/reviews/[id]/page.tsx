@@ -121,7 +121,6 @@ export default async function ReviewDetailPage({ params }: PageProps) {
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-40">
-      {/* Header */}
       <StructuredData data={schema} />
 
       <header className="mb-8">
@@ -139,7 +138,6 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         </p>
       </header>
 
-      {/* Reviewer */}
       <section className="flex items-center gap-4 mb-6">
         <Avatar
           name={review.customer_name}
@@ -152,7 +150,6 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Rating */}
       <section className="mb-6">
         <div className="flex items-center gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -168,12 +165,10 @@ export default async function ReviewDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Review Content */}
       <article className="prose prose-slate max-w-none mb-10">
         <p>{review.review}</p>
       </article>
 
-      {/* Product / Package */}
       {review.package && (
         <section className="border rounded-sm p-6 bg-gray-50">
           <h2 className="font-bold text-lg mb-2">Related Tour Package</h2>
