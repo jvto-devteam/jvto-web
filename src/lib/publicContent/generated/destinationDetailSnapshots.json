@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-08T02:11:25.838Z",
+  "generatedAt": "2026-05-11T02:07:57.370Z",
   "items": [
     {
       "slug": "mount-bromo",
-      "updatedAt": "2026-04-08T09:36:21.255Z",
+      "updatedAt": "2026-04-27T17:54:52.292Z",
       "payload": {
         "id": 1,
-        "code": null,
+        "code": "BRO-001",
         "name": "Mount Bromo",
         "category": "volcano",
         "region": "Tengger Highlands",
@@ -35,7 +35,7 @@
           "beanie",
           "dust_mask"
         ],
-        "summary": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.",
+        "summary": "Mount Bromo is located within the Tengger Caldera, East Java — straddling Probolinggo, Malang, Pasuruan, and Lumajang regencies, approximately 2–3 hours from Surabaya's Juanda Airport. At 2,329 m above sea level, it is an active volcano famous for its sunrise views across the Sea of Sand (Lautan Pasir). A 4WD jeep crosses the caldera floor to the viewpoint; crater rim access is on foot.",
         "description": "Mount Bromo, standing at 2,\r\n329 meters, is one of the most iconic volcanoes in Indonesia and the most famous in East Java. It is located within the massive Tengger Caldera, surrounded by the Sea of Sand (Lautan Pasir). The name 'Bromo' is derived from the Javanese pronunciation of Brahma, the Hindu creator god.\r\n\r\nThe volcano is part of the Bromo Tengger Semeru National Park and is sacred to the Tenggerese people, who are the descendants of the Majapahit empire. Every year, the Tenggerese hold the Yadnya Kasada ceremony where offerings are thrown into the crater to honor the mountain gods.\r\n\r\nThe sunrise view from viewpoints like Penanjakan or Kingkong Hill is considered one of the most spectacular in Southeast Asia, with Mount Semeru occasionally erupting in the background. The experience represents the perfect harmony between natural wonder and living culture.",
         "highlight": "Sunrise over Tengger Caldera and sacred Hindu ceremonies",
         "main_attractions": [
@@ -213,509 +213,58 @@
           "Tenggerese"
         ],
         "rituals_festivals": [
-          "Yadnya Kasada Festival",
-          "Karo Festival",
-          "Unan-Unan Ceremony"
+          {
+            "name": "Yadnya Kasada Festival",
+            "month": "Kasada (12th month of Tengger calendar)",
+            "description": "Annual offering ceremony where Tenggerese throw vegetables, livestock and money into the crater",
+            "significance": "Honoring the mountain gods and ancestors, seeking protection and blessings"
+          },
+          {
+            "name": "Karo Festival",
+            "month": "Karo (Tengger New Year)",
+            "description": "New Year celebrations with prayers, traditional performances, and family gatherings",
+            "significance": "Celebrating new beginnings and maintaining cultural traditions"
+          },
+          {
+            "name": "Unan-Unan Ceremony",
+            "month": "Every 5 years",
+            "description": "Major purification ceremony for the entire Tengger community",
+            "significance": "Cleansing and renewal of the community and its relationship with the mountains"
+          }
         ],
         "tips_for_visitors": "Depart around 3: 00 AM for sunrise viewing, wear multiple warm layers as temperatures drop to 5°C, bring camera for spectacular photos, consider horse ride across sand sea for authentic experience, respect temple and ceremonial areas, check weather forecast before visit",
-        "thumbnail_url": "/images/destinations/mount-bromo-thumb.jpg",
-        "featured_image": "/images/destinations/mount-bromo-featured.jpg",
+        "thumbnail_url": "/assets/img/destinations/mount-bromo.webp",
+        "featured_image": "/assets/img/destinations/mount-bromo.webp",
         "published": true,
         "featured": true,
         "seo_title": "Mount Bromo Sunrise Tour - Complete Tengger Caldera Guide",
         "seo_description": "Experience Mount Bromo sunrise, Sea of Sand adventure, and Tenggerese Hindu culture. Complete travel guide to East Java's most iconic volcano. JVTO private tours include Jeep transfers and cultural insights.",
         "schema_json": {
-          "@graph": [
-            {
-              "@id": "https://javavolcano-touroperator.com/#organization",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": -7.9161788,
-                "longitude": 113.8085868
-              },
-              "url": "https://javavolcano-touroperator.com",
-              "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "TravelAgency",
-              "email": "hello@javavolcano-touroperator.com",
-              "image": [
-                "https://javavolcano-touroperator.com/assets/img/hero/ijen.jpg"
-              ],
-              "sameAs": [
-                "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-                "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-                "https://www.trustpilot.com/review/javavolcano-touroperator.com"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "postalCode": "68214",
-                "addressRegion": "East Java",
-                "streetAddress": "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-                "addressCountry": "ID",
-                "addressLocality": "Bondowoso"
-              },
-              "founder": {
-                "name": "Agung Sambuko",
-                "@type": "Person",
-                "jobTitle": "Founder & CEO",
-                "knowsAbout": [
-                  "TouristSafety",
-                  "EastJavaTourism",
-                  "VolcanoTrekking",
-                  "LogisticsManagement"
-                ],
-                "description": "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
-                "alternateName": "Mr. Sam"
-              },
-              "telephone": "+62 822-4478-8833",
-              "areaServed": [
-                {
-                  "name": "East Java",
-                  "@type": "AdministrativeArea"
-                },
-                {
-                  "name": "Indonesia",
-                  "@type": "Country"
-                },
-                {
-                  "name": "Surabaya",
-                  "@type": "City"
-                },
-                {
-                  "name": "Bali",
-                  "@type": "Place"
-                }
-              ],
-              "identifier": [
-                {
-                  "name": "Business and tourism licence number",
-                  "@type": "PropertyValue",
-                  "value": "1102230032918"
-                }
-              ],
-              "priceRange": "IDR 1.000.000 - IDR 9.050.000",
-              "description": "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-              "contactPoint": [
-                {
-                  "@type": "ContactPoint",
-                  "email": "hello@javavolcano-touroperator.com",
-                  "telephone": "+62 822-4478-8833",
-                  "contactType": "customer support"
-                }
-              ],
-              "foundingDate": "2016-01-01",
-              "alternateName": "JVTO",
-              "paymentAccepted": "Credit Card, Bank Transfer",
-              "currenciesAccepted": "IDR",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "07:30",
-                  "closes": "17:00",
-                  "dayOfWeek": "Saturday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "17:00",
-                  "dayOfWeek": "Sunday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Monday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Tuesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Wednesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Thursday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Friday"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/#website",
-              "url": "https://javavolcano-touroperator.com",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "WebSite",
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "inLanguage": "en"
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-7.942000",
-                "longitude": "112.953000"
-              },
-              "name": "Mount Bromo",
-              "@type": "TouristAttraction",
-              "image": [
-                "https://javavolcano-touroperator.com/uploads/1764649856442-820608003-bromo-new.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "East Java",
-                "addressCountry": "ID",
-                "addressLocality": "Tengger Highlands"
-              },
-              "subjectOf": [
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#overview"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#safety-protocol"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#culture"
-                }
-              ],
-              "description": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.",
-              "amenityFeature": [
-                {
-                  "name": "headlamp",
-                  "@type": "LocationFeatureSpecification",
-                  "value": false
-                },
-                {
-                  "name": "Warm Jacket",
-                  "@type": "LocationFeatureSpecification",
-                  "value": false
-                }
-              ],
-              "containedInPlace": {
-                "name": "Bromo Tengger Semeru National Park",
-                "@type": "Place"
-              },
-              "mainEntityOfPage": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage"
-              },
-              "additionalProperty": [
-                {
-                  "name": "Overview Tabs",
-                  "@type": "PropertyValue",
-                  "value": "Overview, Logistics, Safety, Culture, Altitude"
-                },
-                {
-                  "name": "Location",
-                  "@type": "PropertyValue",
-                  "value": "Tengger Highlands, East Java, Indonesia"
-                },
-                {
-                  "name": "Altitude",
-                  "@type": "PropertyValue",
-                  "value": "2329 masl"
-                },
-                {
-                  "name": "Temp",
-                  "@type": "PropertyValue",
-                  "value": "5-15°C at night/sunrise"
-                },
-                {
-                  "name": "Difficulty",
-                  "@type": "PropertyValue",
-                  "value": "moderate"
-                },
-                {
-                  "name": "Duration",
-                  "@type": "PropertyValue",
-                  "value": "5–6 hours including sunrise"
-                },
-                {
-                  "name": "Sunrise from Kingkong Hill",
-                  "@type": "PropertyValue",
-                  "value": "Spectacular sunrise over the Tengger Caldera with Mount Semeru in background"
-                },
-                {
-                  "name": "Sea of Sand Jeep Tour",
-                  "@type": "PropertyValue",
-                  "value": "Adventure across the vast volcanic sand plain in 4WD vehicles"
-                },
-                {
-                  "name": "Pura Luhur Poten Temple",
-                  "@type": "PropertyValue",
-                  "value": "Visit the sacred Hindu temple at the base of Bromo"
-                },
-                {
-                  "name": "Horse Riding Experience",
-                  "@type": "PropertyValue",
-                  "value": "Traditional horse ride across the sand sea to the crater stairs"
-                },
-                {
-                  "name": "Terrain & Trail",
-                  "@type": "PropertyValue",
-                  "value": "Volcanic sand sea, gentle slopes, stone stairs to crater rim"
-                },
-                {
-                  "name": "Trail Details",
-                  "@type": "PropertyValue",
-                  "value": "Jeep transfer to viewpoint (30 mins), 1km walk across sand sea (20-30 mins), 250 steps to crater rim (15-20 mins). Mostly flat with final ascent via stairs."
-                },
-                {
-                  "name": "Best Time to Visit",
-                  "@type": "PropertyValue",
-                  "value": "April–September"
-                },
-                {
-                  "name": "Required Gear",
-                  "@type": "PropertyValue",
-                  "value": "warm layers\nheadlamp\nhiking shoes\ngloves\nbeanie\ndust mask"
-                },
-                {
-                  "name": "wind speed",
-                  "@type": "PropertyValue",
-                  "value": "15-35 km/h"
-                },
-                {
-                  "name": "humidity",
-                  "@type": "PropertyValue",
-                  "value": "60-90 %"
-                },
-                {
-                  "name": "air quality_index",
-                  "@type": "PropertyValue",
-                  "value": "50-100"
-                },
-                {
-                  "name": "uv radiation",
-                  "@type": "PropertyValue",
-                  "value": "8-12 index"
-                },
-                {
-                  "name": "visibility",
-                  "@type": "PropertyValue",
-                  "value": "2-15 km"
-                },
-                {
-                  "name": "Visitor Tips",
-                  "@type": "PropertyValue",
-                  "value": "Depart around 3: 00 AM for sunrise viewing, wear multiple warm layers as temperatures drop to 5°C, bring camera for spectacular photos, consider horse ride across sand sea for authentic experience, respect temple and ceremonial areas, check weather forecast before visit"
-                },
-                {
-                  "name": "Safety Protocol",
-                  "@type": "PropertyValue",
-                  "value": "High Caution Area\n\nWEATHER RISK\nmedium\n\nTERRAIN RISK\nlow\n\nHEALTH RISK\nlow\n\nCROWD RISK\nmedium"
-                },
-                {
-                  "name": "Important Safety Notes",
-                  "@type": "PropertyValue",
-                  "value": "Warm clothing essential for sunrise (temperatures 5-10°C)\nDust mask recommended for sand sea area - provided by JVTO\nStay on marked paths near crater rim\nCheck volcanic activity status before visit - JVTO monitors continuously\nAcclimatize to altitude if coming from sea level\nFollow guide instructions during jeep transfers"
-                },
-                {
-                  "name": "Cultural Significance",
-                  "@type": "PropertyValue",
-                  "value": "\"Mount Bromo is sacred to the Tenggerese Hindus, who believe it was created when a Hindu god cut off the top of Mount Semeru to place it where Bromo now stands. The Tenggerese are the only Hindu community in predominantly Muslim East Java, maintaining ancient Javanese Hindu traditions unchanged for centuries. Their connection to the volcano is central to their identity and spiritual practices. Bromo represents the element of Earth in Javanese cosmology - symbolizing fertility, endurance, and the bridge between divine and human.\""
-                },
-                {
-                  "name": "Community",
-                  "@type": "PropertyValue",
-                  "value": "Tenggerese Tribe"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#overview",
-              "name": "Overview",
-              "text": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.\n\nMount Bromo, standing at 2,\n329 meters, is one of the most iconic volcanoes in Indonesia and the most famous in East Java. It is located within the massive Tengger Caldera, surrounded by the Sea of Sand (Lautan Pasir). The name 'Bromo' is derived from the Javanese pronunciation of Brahma, the Hindu creator god.\n\nThe volcano is part of the Bromo Tengger Semeru National Park and is sacred to the Tenggerese people, who are the descendants of the Majapahit empire. Every year, the Tenggerese hold the Yadnya Kasada ceremony where offerings are thrown into the crater to honor the mountain gods.\n\nThe sunrise view from viewpoints like Penanjakan or Kingkong Hill is considered one of the most spectacular in Southeast Asia, with Mount Semeru occasionally erupting in the background. The experience represents the perfect harmony between natural wonder and living culture.",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#safety-protocol",
-              "name": "Safety Protocol",
-              "text": "Safety Protocol\nHigh Caution Area\n\nWEATHER RISK\nmedium\n\nTERRAIN RISK\nlow\n\nHEALTH RISK\nlow\n\nCROWD RISK\nmedium\nImportant Safety Notes\nWarm clothing essential for sunrise (temperatures 5-10°C)\nDust mask recommended for sand sea area - provided by JVTO\nStay on marked paths near crater rim\nCheck volcanic activity status before visit - JVTO monitors continuously\nAcclimatize to altitude if coming from sea level\nFollow guide instructions during jeep transfers",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#culture",
-              "name": "Culture",
-              "text": "Cultural Significance\n\"Mount Bromo is sacred to the Tenggerese Hindus, who believe it was created when a Hindu god cut off the top of Mount Semeru to place it where Bromo now stands. The Tenggerese are the only Hindu community in predominantly Muslim East Java, maintaining ancient Javanese Hindu traditions unchanged for centuries. Their connection to the volcano is central to their identity and spiritual practices. Bromo represents the element of Earth in Javanese cosmology - symbolizing fertility, endurance, and the bridge between divine and human.\"\n\nTenggerese Tribe",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#breadcrumb",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "item": "https://javavolcano-touroperator.com/",
-                  "name": "Home",
-                  "@type": "ListItem",
-                  "position": 1
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations",
-                  "name": "Destinations",
-                  "@type": "ListItem",
-                  "position": 2
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations/mount-bromo",
-                  "name": "Mount Bromo",
-                  "@type": "ListItem",
-                  "position": 3
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage",
-              "url": "https://javavolcano-touroperator.com/destinations/mount-bromo",
-              "name": "Mount Bromo",
-              "@type": "WebPage",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo"
-              },
-              "hasPart": [
-                {
-                  "name": "Overview",
-                  "text": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.\n\nMount Bromo, standing at 2,\n329 meters, is one of the most iconic volcanoes in Indonesia and the most famous in East Java. It is located within the massive Tengger Caldera, surrounded by the Sea of Sand (Lautan Pasir). The name 'Bromo' is derived from the Javanese pronunciation of Brahma, the Hindu creator god.\n\nThe volcano is part of the Bromo Tengger Semeru National Park and is sacred to the Tenggerese people, who are the descendants of the Majapahit empire. Every year, the Tenggerese hold the Yadnya Kasada ceremony where offerings are thrown into the crater to honor the mountain gods.\n\nThe sunrise view from viewpoints like Penanjakan or Kingkong Hill is considered one of the most spectacular in Southeast Asia, with Mount Semeru occasionally erupting in the background. The experience represents the perfect harmony between natural wonder and living culture.",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Logistics",
-                  "text": "Trail & Logistics\nTerrain & Trail\nVolcanic sand sea, gentle slopes, stone stairs to crater rim\n\nJeep transfer to viewpoint (30 mins), 1km walk across sand sea (20-30 mins), 250 steps to crater rim (15-20 mins). Mostly flat with final ascent via stairs.\n\nBest Time to Visit\nApril–September\nRequired Gear\nwarm layers\nheadlamp\nhiking shoes\ngloves\nbeanie\ndust mask\nwind speed\n\n15-35 km/h\n\nhumidity\n\n60-90 %\n\nair quality_index\n\n50-100\n\nuv radiation\n\n8-12 index\n\nvisibility\n\n2-15 km\n\nVisitor Tips\nDepart around 3: 00 AM for sunrise viewing, wear multiple warm layers as temperatures drop to 5°C, bring camera for spectacular photos, consider horse ride across sand sea for authentic experience, respect temple and ceremonial areas, check weather forecast before visit",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Safety",
-                  "text": "Safety Protocol\nHigh Caution Area\n\nWEATHER RISK\nmedium\n\nTERRAIN RISK\nlow\n\nHEALTH RISK\nlow\n\nCROWD RISK\nmedium\nImportant Safety Notes\nWarm clothing essential for sunrise (temperatures 5-10°C)\nDust mask recommended for sand sea area - provided by JVTO\nStay on marked paths near crater rim\nCheck volcanic activity status before visit - JVTO monitors continuously\nAcclimatize to altitude if coming from sea level\nFollow guide instructions during jeep transfers",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Culture",
-                  "text": "Cultural Significance\n\"Mount Bromo is sacred to the Tenggerese Hindus, who believe it was created when a Hindu god cut off the top of Mount Semeru to place it where Bromo now stands. The Tenggerese are the only Hindu community in predominantly Muslim East Java, maintaining ancient Javanese Hindu traditions unchanged for centuries. Their connection to the volcano is central to their identity and spiritual practices. Bromo represents the element of Earth in Javanese cosmology - symbolizing fertility, endurance, and the bridge between divine and human.\"\n\nTenggerese Tribe",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Altitude",
-                  "text": "Altitude\n\n2329 masl\n\nTemp\n\n5-15°C at night/sunrise\n\nDifficulty\n\nmoderate\n\nDuration\n\n5–6 hours including sunrise",
-                  "@type": "WebPageElement"
-                }
-              ],
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/#website"
-              },
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "breadcrumb": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#breadcrumb"
-              },
-              "inLanguage": "en",
-              "mainEntity": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#bromo"
-              },
-              "description": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.",
-              "dateModified": "2025-12-23",
-              "datePublished": "2025-12-23",
-              "primaryImageOfPage": {
-                "url": "https://javavolcano-touroperator.com/uploads/1764649856442-820608003-bromo-new.jpg",
-                "@type": "ImageObject"
-              },
-              "accessibilityHazard": [
-                "extremeCold",
-                "unevenTerrain",
-                "steepSlope",
-                "volcanicAsh"
-              ],
-              "accessibilitySummary": "This destination involves environmental and physical hazards. Visitors may experience very cold temperatures, strong winds, uneven volcanic terrain, steep stair access to viewpoints, and exposure to volcanic ash or dust. Walking on sand and stairs is required in several areas. This experience may be challenging for visitors with mobility limitations, cold sensitivity, or respiratory conditions."
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#faq",
-              "@type": "FAQPage",
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo#webpage"
-              },
-              "mainEntity": [
-                {
-                  "name": "What is the best time to visit Mount Bromo?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "April–September",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "How difficult is Mount Bromo?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Difficulty level: moderate. Typical visit duration: 5–6 hours including sunrise.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Do I need a permit or guide for Mount Bromo?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "National Park entry fee: Foreign tourists IDR 220,\r\n000 (weekdays), IDR 320,\r\n000 (weekends). Domestic: IDR 25,\r\n000-50,\r\n000. JVTO includes all permits and park fees in package tours. A guide may still be recommended depending on conditions and visitor experience.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "What should I bring for Mount Bromo?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "warm_layers, headlamp, hiking_shoes, gloves, beanie, dust_mask",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Are there any safety considerations for Mount Bromo?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Warm clothing essential for sunrise (temperatures 5-10°C) Dust mask recommended for sand sea area - provided by JVTO Stay on marked paths near crater rim Check volcanic activity status before visit - JVTO monitors continuously Acclimatize to altitude if coming from sea level Follow guide instructions during jeep transfers",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Where is Mount Bromo located?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Mount Bromo is located in East Java, Indonesia. Depart around 3: 00 AM for sunrise viewing, wear multiple warm layers as temperatures drop to 5°C, bring camera for spectacular photos, consider horse ride across sand sea for authentic experience, respect temple and ceremonial areas, check weather forecast before visit",
-                    "@type": "Answer"
-                  }
-                }
-              ]
-            }
+          "@id": "https://javavolcano-touroperator.com/destinations/mount-bromo",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -7.942,
+            "elevation": 2329,
+            "longitude": 112.953
+          },
+          "url": "https://javavolcano-touroperator.com/destinations/mount-bromo",
+          "name": "Mount Bromo",
+          "@type": "Volcano",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Mount_Bromo",
+            "https://www.wikidata.org/wiki/Q219032"
           ],
-          "@context": "https://schema.org"
+          "@context": "https://schema.org",
+          "description": "Mount Bromo is an active volcano within the Tengger Caldera, famed for its sunrise views from Kingkong Hill, the Sea of Sand jeep adventure, and the Tenggerese Hindu rituals at Pura Luhur Poten.",
+          "touristType": [
+            "Adventure travelers",
+            "Nature enthusiasts",
+            "Photographers"
+          ],
+          "containedInPlace": {
+            "name": "Bromo Tengger Semeru National Park",
+            "@type": "Park"
+          }
         },
         "tags": [
           "volcano",
@@ -736,7 +285,7 @@
         "slug": "mount-bromo",
         "short_slug": "bromo",
         "created_at": "2025-11-18T06:39:32.356Z",
-        "updated_at": "2026-04-08T09:36:21.255Z",
+        "updated_at": "2026-04-27T17:54:52.292Z",
         "deleted_at": null,
         "destination_assets": [
           {
@@ -768,10 +317,10 @@
     },
     {
       "slug": "ijen-crater",
-      "updatedAt": "2026-04-08T09:36:21.255Z",
+      "updatedAt": "2026-04-27T17:58:38.673Z",
       "payload": {
         "id": 2,
-        "code": "DST-001",
+        "code": "IJN-001",
         "name": "Ijen Crater",
         "category": "volcano",
         "region": "Bondowoso",
@@ -783,9 +332,9 @@
         "area_hectares": "2500",
         "terrain": "Steep volcanic gravel trails, rocky crater descent, sulfur-rich areas",
         "best_time_to_visit": "April–October",
-        "difficulty_level": "moderate",
+        "difficulty_level": "hard",
         "duration": "4–5 hours round trip",
-        "physical_demand": 4,
+        "physical_demand": 5,
         "cultural_depth": 4,
         "photo_potential": 5,
         "weather_by_season": "Dry season (Apr-Oct): Clear skies, minimal fog. Wet season (Nov-Mar): Frequent rain, dense fog, higher gas concentration.",
@@ -800,7 +349,7 @@
           "gloves",
           "waterproof_jacket"
         ],
-        "summary": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night.",
+        "summary": "Kawah Ijen is located in Banyuwangi Regency, East Java, Indonesia — approximately 3 hours by car from Banyuwangi city and 5–6 hours from Surabaya (Juanda Airport). It is the world's largest acidic crater lake and one of only two places where natural blue fire (SO₂ combustion at ~600°C) occurs. Entry requires a BBKSDA health certificate; all JVTO Ijen packages include mandatory in-hotel health screening by a licensed physician.",
         "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The blue fire is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
         "highlight": "Blue fire phenomenon and acidic crater lake",
         "main_attractions": [
@@ -823,20 +372,20 @@
         ],
         "key_highlights": [
           {
-            "title": "Natural Blue Fire",
-            "description": "One of only two places on Earth where blue fire occurs naturally"
+            "title": "Natural Blue Fire — SO₂ Combustion",
+            "description": "One of only two places on Earth where sulfuric gas (SO₂) ignites into electric-blue flames (~600°C). Visible only in darkness, between midnight and sunrise."
           },
           {
-            "title": "World's Largest Acidic Lake",
-            "description": "Turquoise crater lake with pH levels as low as 0.2"
+            "title": "World's Largest Acidic Crater Lake",
+            "description": "Turquoise crater lake with pH as low as 0.2 — the world's largest by volume. Sulfur miners carry 70–90 kg loads from the crater floor daily."
           },
           {
-            "title": "Traditional Sulfur Mining",
-            "description": "Witness miners carrying 70-90kg sulfur loads up steep crater walls"
+            "title": "Trail Access via Paltuding Gate",
+            "description": "Trek begins at Paltuding Gate (1,800 m). Total: 3 km ascent, 750 m elevation gain. Crater rim at ~2,386 m. Round trip 4–5 hours. HPWKI-licensed guide mandatory."
           },
           {
             "title": "Milky Way Visibility",
-            "description": "Clear night skies offer spectacular Milky Way views from May to September"
+            "description": "Clear night skies offer spectacular Milky Way views from May to September — visible on the ascent before moonrise."
           }
         ],
         "permit_required": true,
@@ -886,7 +435,8 @@
           "Stay on marked paths and follow guide instructions at all times",
           "Carry sufficient water and energy snacks for the trek",
           "Wear appropriate hiking shoes with good grip",
-          "Complete health screening as required by JVTO safety protocols"
+          "Complete health screening as required by JVTO safety protocols",
+          "Avoid visiting during high wind or rain which can concentrate toxic gases"
         ],
         "risk_factors": [
           {
@@ -984,507 +534,58 @@
           "Madura"
         ],
         "rituals_festivals": [
-          "Petik Laut Suro",
-          "Kenduri Gunung",
-          "Sesajen Suro"
+          {
+            "name": "Petik Laut Suro",
+            "month": "Muharram (Suro)",
+            "description": "Ocean offering ceremony by fishing communities honoring the volcano and sea",
+            "significance": "Cultural respect and gratitude for natural resources and protection"
+          },
+          {
+            "name": "Kenduri Gunung",
+            "month": "Various traditional months",
+            "description": "Mountain feast offering by local communities",
+            "significance": "Maintaining harmony between humans and the volcanic environment"
+          },
+          {
+            "name": "Sesajen Suro",
+            "month": "Javanese month of Suro",
+            "description": "Traditional offerings to volcano spirits",
+            "significance": "Respect for the living mountain and its power"
+          }
         ],
         "tips_for_visitors": "Start trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights",
-        "thumbnail_url": "/images/destinations/mount-ijen-thumb.jpg",
-        "featured_image": "/images/destinations/mount-ijen-featured.jpg",
+        "thumbnail_url": "/assets/img/destinations/ijen-crater.webp",
+        "featured_image": "/assets/img/destinations/ijen-crater.webp",
         "published": true,
         "featured": true,
         "seo_title": "Mount Ijen Blue Fire Volcano - Complete Trekking Guide 2024",
         "seo_description": "Experience Mount Ijen's blue fire and acidic crater lake. Complete guide to trekking, safety, permits, and cultural significance in East Java.",
         "schema_json": {
-          "@graph": [
-            {
-              "@id": "https://javavolcano-touroperator.com/#organization",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": -7.9161788,
-                "longitude": 113.8085868
-              },
-              "url": "https://javavolcano-touroperator.com",
-              "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "TravelAgency",
-              "email": "hello@javavolcano-touroperator.com",
-              "image": [
-                "https://javavolcano-touroperator.com/assets/img/hero/ijen.jpg"
-              ],
-              "sameAs": [
-                "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-                "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-                "https://www.trustpilot.com/review/javavolcano-touroperator.com"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "postalCode": "68214",
-                "addressRegion": "East Java",
-                "streetAddress": "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-                "addressCountry": "ID",
-                "addressLocality": "Bondowoso"
-              },
-              "founder": {
-                "name": "Agung Sambuko",
-                "@type": "Person",
-                "jobTitle": "Founder & CEO",
-                "knowsAbout": [
-                  "TouristSafety",
-                  "EastJavaTourism",
-                  "VolcanoTrekking",
-                  "LogisticsManagement"
-                ],
-                "description": "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
-                "alternateName": "Mr. Sam"
-              },
-              "telephone": "+62 822-4478-8833",
-              "areaServed": [
-                {
-                  "name": "East Java",
-                  "@type": "AdministrativeArea"
-                },
-                {
-                  "name": "Indonesia",
-                  "@type": "Country"
-                },
-                {
-                  "name": "Surabaya",
-                  "@type": "City"
-                },
-                {
-                  "name": "Bali",
-                  "@type": "Place"
-                }
-              ],
-              "identifier": [
-                {
-                  "name": "Business and tourism licence number",
-                  "@type": "PropertyValue",
-                  "value": "1102230032918"
-                }
-              ],
-              "priceRange": "IDR 1.000.000 - IDR 9.050.000",
-              "description": "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-              "contactPoint": [
-                {
-                  "@type": "ContactPoint",
-                  "email": "hello@javavolcano-touroperator.com",
-                  "telephone": "+62 822-4478-8833",
-                  "contactType": "customer support"
-                }
-              ],
-              "foundingDate": "2016-01-01",
-              "alternateName": "JVTO",
-              "paymentAccepted": "Credit Card, Bank Transfer",
-              "currenciesAccepted": "IDR",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "07:30",
-                  "closes": "17:00",
-                  "dayOfWeek": "Saturday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "17:00",
-                  "dayOfWeek": "Sunday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Monday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Tuesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Wednesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Thursday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Friday"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/#website",
-              "url": "https://javavolcano-touroperator.com",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "WebSite",
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "inLanguage": "en"
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#ijen",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-8.058000",
-                "longitude": "114.242000"
-              },
-              "name": "Kawah Ijen",
-              "@type": "TouristAttraction",
-              "image": [
-                "https://javavolcano-touroperator.com/uploads/1764649921055-338810628-1687447803_whatsapp_image_2019-05-12_at_4.46.53_pm.jpeg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "East Java",
-                "addressCountry": "ID",
-                "addressLocality": "Banyuwangi Regency"
-              },
-              "subjectOf": [
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#safety-protocol"
-                }
-              ],
-              "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night. The active hydrothermal system and sulfur mining operations make it both a geological wonder and a living cultural landmark.",
-              "alternateName": [
-                "Mount Ijen"
-              ],
-              "amenityFeature": [
-                {
-                  "name": "gas mask",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Use provided gas masks, limit time near active vents, immediate descent if feeling unwell. JVTO provides professional equipment and health screening."
-                },
-                {
-                  "name": "Health screening",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "JVTO conducts pre-ascent health screening. Guests must disclose relevant medical conditions."
-                },
-                {
-                  "name": "trekking pole",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Use headlamps, trekking poles, and proper footwear. Follow guide closely. JVTO guides are trained in night navigation."
-                },
-                {
-                  "name": "headlamp",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Use headlamps, trekking poles, and proper footwear. Follow guide closely. JVTO guides are trained in night navigation."
-                }
-              ],
-              "mainEntityOfPage": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#webpage"
-              },
-              "additionalProperty": [
-                {
-                  "name": "Overview Tabs",
-                  "@type": "PropertyValue",
-                  "value": "Overview, Logistics, Safety, Culture, Altitude"
-                },
-                {
-                  "name": "Altitude",
-                  "@type": "PropertyValue",
-                  "value": "2769 masl"
-                },
-                {
-                  "name": "Temp",
-                  "@type": "PropertyValue",
-                  "value": "5-10°C at night"
-                },
-                {
-                  "name": "Difficulty",
-                  "@type": "PropertyValue",
-                  "value": "moderate"
-                },
-                {
-                  "name": "Duration",
-                  "@type": "PropertyValue",
-                  "value": "4–5 hours round trip"
-                },
-                {
-                  "name": "Blue Fire Phenomenon",
-                  "@type": "PropertyValue",
-                  "value": "Witness the surreal blue flames that appear only at night due to combustion of sulfuric gases"
-                },
-                {
-                  "name": "Acidic Crater Lake",
-                  "@type": "PropertyValue",
-                  "value": "See the world's largest acidic lake with stunning turquoise color and pH levels below 0.5"
-                },
-                {
-                  "name": "Sulfur Mining Culture",
-                  "@type": "PropertyValue",
-                  "value": "Observe traditional sulfur miners extracting and carrying sulfur blocks in extreme conditions"
-                },
-                {
-                  "name": "Sunrise Panorama",
-                  "@type": "PropertyValue",
-                  "value": "Experience breathtaking sunrise views over the crater lake and surrounding mountains"
-                },
-                {
-                  "name": "Terrain & Trail",
-                  "@type": "PropertyValue",
-                  "value": "Steep volcanic gravel trails, rocky crater descent, sulfur-rich areas"
-                },
-                {
-                  "name": "Trail Details",
-                  "@type": "PropertyValue",
-                  "value": "3km ascent (1.5-2 hours) to crater rim, 1km descent (30-45 mins) to crater floor. Steep gradient (30-40°), volcanic gravel surface."
-                },
-                {
-                  "name": "Best Time to Visit",
-                  "@type": "PropertyValue",
-                  "value": "April–October"
-                },
-                {
-                  "name": "Required Gear",
-                  "@type": "PropertyValue",
-                  "value": "gas mask\nheadlamp\nhiking boots\nwarm layers\ngloves\nwaterproof jacket"
-                },
-                {
-                  "name": "wind speed",
-                  "@type": "PropertyValue",
-                  "value": "10-25 km/h"
-                },
-                {
-                  "name": "humidity",
-                  "@type": "PropertyValue",
-                  "value": "70-95 %"
-                },
-                {
-                  "name": "air quality_index",
-                  "@type": "PropertyValue",
-                  "value": "150-300"
-                },
-                {
-                  "name": "uv radiation",
-                  "@type": "PropertyValue",
-                  "value": "8-11 index"
-                },
-                {
-                  "name": "visibility",
-                  "@type": "PropertyValue",
-                  "value": "1-10 km"
-                },
-                {
-                  "name": "Visitor Tips",
-                  "@type": "PropertyValue",
-                  "value": "Start trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights"
-                },
-                {
-                  "name": "Permit & Entry",
-                  "@type": "PropertyValue",
-                  "value": "Available at Paltuding entry gate. Foreign tourists: IDR 100,000 (weekdays), IDR 150,000 (weekends). Domestic: IDR 5,000-15,000. JVTO handles all permit arrangements for included packages."
-                },
-                {
-                  "name": "Permit Status",
-                  "@type": "PropertyValue",
-                  "value": "Required"
-                },
-                {
-                  "name": "Guide Status",
-                  "@type": "PropertyValue",
-                  "value": "Mandatory"
-                },
-                {
-                  "name": "Operated by",
-                  "@type": "PropertyValue",
-                  "value": "Operated by JVTO • Police-Led Safety"
-                },
-                {
-                  "name": "Seasonality",
-                  "@type": "PropertyValue",
-                  "value": "Dry season (Apr-Oct): Clear skies, minimal fog. Wet season (Nov-Mar): Frequent rain, dense fog, higher gas concentration."
-                },
-                {
-                  "name": "Rainfall",
-                  "@type": "PropertyValue",
-                  "value": "Rainfall: High during wet season (200-400mm/month), Low during dr"
-                },
-                {
-                  "name": "Cultural Significance",
-                  "@type": "PropertyValue",
-                  "value": "\"Locals view Ijen as 'Gunung sing urip' — the living mountain. The Tenggerese and Osing communities consider the volcano sacred and make offerings during the Javanese month of Suro for protection and gratitude. The sulfur miners, known as 'Wong Ijen', have worked the volcano for generations, developing unique cultural practices around their dangerous profession. The volcano represents the element of Fire in Javanese cosmology - symbolizing power, creation, and purification.\""
-                },
-                {
-                  "name": "Communities",
-                  "@type": "PropertyValue",
-                  "value": "Osing Tribe\nJava Tribe\nMadura Tribe"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#safety-protocol",
-              "name": "Safety Protocol",
-              "text": "High Caution Area\n\nHEALTH RISK\nhigh\nToxic sulfur gas exposure causing respiratory issues\n\nMitigation Strategy:\n\nUse provided gas masks, limit time near active vents, immediate descent if feeling unwell. JVTO provides professional equipment and health screening.\n\n\nTERRAIN RISK\nmedium\nSteep, slippery paths especially in darkness\n\nMitigation Strategy:\n\nUse headlamps, trekking poles, and proper footwear. Follow guide closely. JVTO guides are trained in night navigation.\n\n\nWEATHER RISK\nmedium\nRapid weather changes and cold temperatures at night\n\nMitigation Strategy:\n\nBring warm layers, rain jacket, and check weather forecast. JVTO monitors conditions and may adjust timing.\n\n\nHEALTH RISK\nmedium\nHigh altitude and physical exertion\n\nMitigation Strategy:\n\nJVTO conducts pre-ascent health screening. Guests must disclose relevant medical conditions.\n\n\nImportant Safety Notes\nGas mask mandatory near crater - sulfur dioxide levels can be dangerous\nStay on marked paths and follow guide instructions at all times\nCarry sufficient water and energy snacks for the trek\nWear appropriate hiking shoes with good grip\nComplete health screening as required by JVTO safety protocols",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#ijen"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#breadcrumb",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "item": "https://javavolcano-touroperator.com/",
-                  "name": "Home",
-                  "@type": "ListItem",
-                  "position": 1
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations",
-                  "name": "Destinations",
-                  "@type": "ListItem",
-                  "position": 2
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations/mount-ijen",
-                  "name": "Ijen Crater",
-                  "@type": "ListItem",
-                  "position": 3
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#webpage",
-              "url": "https://javavolcano-touroperator.com/destinations/mount-ijen",
-              "name": "Ijen Crater",
-              "@type": "WebPage",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#ijen"
-              },
-              "hasPart": [
-                {
-                  "name": "Overview",
-                  "text": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night. The active hydrothermal system and sulfur mining operations make it both a geological wonder and a living cultural landmark.\n\nMount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\n\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The blue fire is visible only in darkness, making the midnight trek a unique experience.\n\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Logistics",
-                  "text": "Trail & Logistics\nTerrain & Trail\nSteep volcanic gravel trails, rocky crater descent, sulfur-rich areas\n\n3km ascent (1.5-2 hours) to crater rim, 1km descent (30-45 mins) to crater floor. Steep gradient (30-40°), volcanic gravel surface.\n\nBest Time to Visit\nApril–October\nRequired Gear\ngas mask\nheadlamp\nhiking boots\nwarm layers\ngloves\nwaterproof jacket\n\nwind speed\n\n10-25 km/h\n\nhumidity\n\n70-95 %\n\nair quality_index\n\n150-300\n\nuv radiation\n\n8-11 index\n\nvisibility\n\n1-10 km\n\nVisitor Tips\nStart trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Safety",
-                  "text": "Safety Protocol\nHigh Caution Area\n\nHEALTH RISK\nhigh\nToxic sulfur gas exposure causing respiratory issues\n\nMitigation Strategy:\n\nUse provided gas masks, limit time near active vents, immediate descent if feeling unwell. JVTO provides professional equipment and health screening.\n\n\nTERRAIN RISK\nmedium\nSteep, slippery paths especially in darkness\n\nMitigation Strategy:\n\nUse headlamps, trekking poles, and proper footwear. Follow guide closely. JVTO guides are trained in night navigation.\n\n\nWEATHER RISK\nmedium\nRapid weather changes and cold temperatures at night\n\nMitigation Strategy:\n\nBring warm layers, rain jacket, and check weather forecast. JVTO monitors conditions and may adjust timing.\n\n\nHEALTH RISK\nmedium\nHigh altitude and physical exertion\n\nMitigation Strategy:\n\nJVTO conducts pre-ascent health screening. Guests must disclose relevant medical conditions.\n\nImportant Safety Notes\nGas mask mandatory near crater - sulfur dioxide levels can be dangerous\nStay on marked paths and follow guide instructions at all times\nCarry sufficient water and energy snacks for the trek\nWear appropriate hiking shoes with good grip\nComplete health screening as required by JVTO safety protocols",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Culture",
-                  "text": "Cultural Significance\n\"Locals view Ijen as 'Gunung sing urip' — the living mountain. The Tenggerese and Osing communities consider the volcano sacred and make offerings during the Javanese month of Suro for protection and gratitude. The sulfur miners, known as 'Wong Ijen', have worked the volcano for generations, developing unique cultural practices around their dangerous profession. The volcano represents the element of Fire in Javanese cosmology - symbolizing power, creation, and purification.\"\n\nOsing Tribe\nJava Tribe\nMadura Tribe",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Altitude",
-                  "text": "Altitude\n\n2769 masl\n\nTemp\n\n5-10°C at night\n\nDifficulty\n\nmoderate\n\nDuration\n\n4–5 hours round trip",
-                  "@type": "WebPageElement"
-                }
-              ],
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/#website"
-              },
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "breadcrumb": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#breadcrumb"
-              },
-              "inLanguage": "en",
-              "mainEntity": {
-                "@id": "https://javavolcano-touroperator.com/destinations/mount-ijen#ijen"
-              },
-              "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night. The active hydrothermal system and sulfur mining operations make it both a geological wonder and a living cultural landmark.",
-              "dateModified": "2025-12-23",
-              "datePublished": "2025-12-23",
-              "primaryImageOfPage": {
-                "url": "https://javavolcano-touroperator.com/uploads/1764649921055-338810628-1687447803_whatsapp_image_2019-05-12_at_4.46.53_pm.jpeg",
-                "@type": "ImageObject"
-              },
-              "accessibilityHazard": [
-                "toxicGas",
-                "chemicalHazard",
-                "steepSlope",
-                "unevenTerrain"
-              ],
-              "accessibilitySummary": "This destination contains hazardous conditions. Visitors may be exposed to toxic sulfur gas, highly acidic surfaces around the crater lake, steep and uneven trekking terrain, and narrow paths shared with sulfur miners. A gas mask is required in certain areas. The crater lake is unsafe to touch. This experience is not suitable for visitors with respiratory conditions, mobility limitations, or sensitivity to hazardous environments."
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/ijen-crater#faq",
-              "@type": "FAQPage",
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/ijen-crater#webpage"
-              },
-              "mainEntity": [
-                {
-                  "name": "What is the best time to visit Ijen Crater?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "April–October",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "How difficult is Ijen Crater?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Difficulty level: moderate. Typical visit duration: 4–5 hours round trip.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Do I need a permit or guide for Ijen Crater?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Available at Paltuding entry gate. Foreign tourists: IDR 100,000 (weekdays), IDR 150,000 (weekends). Domestic: IDR 5,000-15,000. JVTO handles all permit arrangements for included packages. A guide is required or strongly recommended for safety and route support.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "What should I bring for Ijen Crater?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "gas_mask, headlamp, hiking_boots, warm_layers, gloves, waterproof_jacket",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Are there any safety considerations for Ijen Crater?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Gas mask mandatory near crater - sulfur dioxide levels can be dangerous Stay on marked paths and follow guide instructions at all times Carry sufficient water and energy snacks for the trek Wear appropriate hiking shoes with good grip Complete health screening as required by JVTO safety protocols",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Where is Ijen Crater located?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Ijen Crater is located in East Java, Indonesia. Start trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights",
-                    "@type": "Answer"
-                  }
-                }
-              ]
-            }
+          "@id": "https://javavolcano-touroperator.com/destinations/ijen-crater",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -8.058,
+            "elevation": 2769,
+            "longitude": 114.242
+          },
+          "url": "https://javavolcano-touroperator.com/destinations/ijen-crater",
+          "name": "Ijen Crater",
+          "@type": "Volcano",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Kawah_Ijen",
+            "https://www.wikidata.org/wiki/Q744653"
           ],
-          "@context": "https://schema.org"
+          "@context": "https://schema.org",
+          "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night.",
+          "touristType": [
+            "Adventure travelers",
+            "Nature enthusiasts",
+            "Photographers"
+          ],
+          "containedInPlace": {
+            "name": "East Java",
+            "@type": "AdministrativeArea"
+          }
         },
         "tags": [
           "volcano",
@@ -1506,7 +607,7 @@
         "slug": "ijen-crater",
         "short_slug": "ijen",
         "created_at": "2024-01-15T08:00:00.000Z",
-        "updated_at": "2026-04-08T09:36:21.255Z",
+        "updated_at": "2026-04-27T17:58:38.673Z",
         "deleted_at": null,
         "destination_assets": [
           {
@@ -1538,10 +639,10 @@
     },
     {
       "slug": "madakaripura-waterfall",
-      "updatedAt": "2026-04-08T09:36:21.255Z",
+      "updatedAt": "2026-04-27T17:54:52.344Z",
       "payload": {
         "id": 6,
-        "code": null,
+        "code": "MAD-001",
         "name": "Madakaripura Waterfall",
         "category": "waterfall",
         "region": "Lumbang, Probolinggo",
@@ -1651,7 +752,8 @@
           "Use waterproof bags for electronics and valuables",
           "Follow guide instructions for river crossings",
           "Be cautious on slippery rocks and uneven terrain",
-          "Check weather conditions before departure"
+          "Check weather conditions before departure",
+          "Avoid visiting during or after heavy rain due to flash flood risk"
         ],
         "risk_factors": [
           {
@@ -1742,529 +844,52 @@
           "Madura"
         ],
         "rituals_festivals": [
-          "Sesajen for Gajah Mada",
-          "Water Blessing Ceremony"
+          {
+            "name": "Sesajen for Gajah Mada",
+            "month": "Various traditional months",
+            "description": "Offerings placed at the meditation cave to honor the legacy of Gajah Mada",
+            "significance": "Respect for historical legacy and seeking blessings for unity"
+          },
+          {
+            "name": "Water Blessing Ceremony",
+            "month": "Suro (Islamic calendar)",
+            "description": "Traditional water blessing using waterfall water",
+            "significance": "Purification and spiritual cleansing"
+          }
         ],
         "tips_for_visitors": "Visit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety",
-        "thumbnail_url": "/images/destinations/madakaripura-thumb.jpg",
-        "featured_image": "/images/destinations/madakaripura-featured.jpg",
+        "thumbnail_url": "/assets/img/destinations/madakaripura-waterfall.webp",
+        "featured_image": "/assets/img/destinations/madakaripura-waterfall.webp",
         "published": true,
         "featured": false,
         "seo_title": "Madakaripura Waterfall - Gajah Mada's Sacred Sanctuary",
         "seo_description": "Discover Madakaripura, the sacred 200-meter waterfall where Gajah Mada meditated. Complete guide to visiting, cultural significance, and Majapahit history.",
         "schema_json": {
-          "@graph": [
-            {
-              "@id": "https://javavolcano-touroperator.com/#organization",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": -7.9161788,
-                "longitude": 113.8085868
-              },
-              "url": "https://javavolcano-touroperator.com",
-              "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "TravelAgency",
-              "email": "hello@javavolcano-touroperator.com",
-              "image": [
-                "https://javavolcano-touroperator.com/assets/img/hero/ijen.jpg"
-              ],
-              "sameAs": [
-                "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-                "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-                "https://www.trustpilot.com/review/javavolcano-touroperator.com"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "postalCode": "68214",
-                "addressRegion": "East Java",
-                "streetAddress": "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-                "addressCountry": "ID",
-                "addressLocality": "Bondowoso"
-              },
-              "founder": {
-                "name": "Agung Sambuko",
-                "@type": "Person",
-                "jobTitle": "Founder & CEO",
-                "knowsAbout": [
-                  "TouristSafety",
-                  "EastJavaTourism",
-                  "VolcanoTrekking",
-                  "LogisticsManagement"
-                ],
-                "description": "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
-                "alternateName": "Mr. Sam"
-              },
-              "telephone": "+62 822-4478-8833",
-              "areaServed": [
-                {
-                  "name": "East Java",
-                  "@type": "AdministrativeArea"
-                },
-                {
-                  "name": "Indonesia",
-                  "@type": "Country"
-                },
-                {
-                  "name": "Surabaya",
-                  "@type": "City"
-                },
-                {
-                  "name": "Bali",
-                  "@type": "Place"
-                }
-              ],
-              "identifier": [
-                {
-                  "name": "Business and tourism licence number",
-                  "@type": "PropertyValue",
-                  "value": "1102230032918"
-                }
-              ],
-              "priceRange": "IDR 1.000.000 - IDR 9.050.000",
-              "description": "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-              "contactPoint": [
-                {
-                  "@type": "ContactPoint",
-                  "email": "hello@javavolcano-touroperator.com",
-                  "telephone": "+62 822-4478-8833",
-                  "contactType": "customer support"
-                }
-              ],
-              "foundingDate": "2016-01-01",
-              "alternateName": "JVTO",
-              "paymentAccepted": "Credit Card, Bank Transfer",
-              "currenciesAccepted": "IDR",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "07:30",
-                  "closes": "17:00",
-                  "dayOfWeek": "Saturday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "17:00",
-                  "dayOfWeek": "Sunday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Monday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Tuesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Wednesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Thursday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Friday"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/#website",
-              "url": "https://javavolcano-touroperator.com",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "WebSite",
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "inLanguage": "en"
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-7.933000",
-                "longitude": "113.008000"
-              },
-              "name": "Madakaripura Waterfall",
-              "@type": [
-                "Waterfall",
-                "TouristAttraction"
-              ],
-              "image": [
-                "https://javavolcano-touroperator.com/uploads/1764650020192-295296217-madakaripura1.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "East Java",
-                "addressCountry": "ID",
-                "addressLocality": "Lumbang, Probolinggo"
-              },
-              "subjectOf": [
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#overview"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#logistics"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#safety-protocol"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#culture"
-                }
-              ],
-              "description": "A sacred 200-meter canyon waterfall believed to be the final meditation site of Gajah Mada, symbolizing loyalty and unity from the Majapahit legacy.",
-              "amenityFeature": [
-                {
-                  "name": "Sacred Meditation Cave",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Visit the cave where Gajah Mada is believed to have meditated until his death"
-                },
-                {
-                  "name": "Rainbow Light Beams",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Witness magical light shafts creating rainbows through the waterfall mist"
-                },
-                {
-                  "name": "Vertical Mist Wall",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Experience the powerful curtain of mist from the 200-meter waterfall"
-                },
-                {
-                  "name": "Historical Significance",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Connect with the legacy of Gajah Mada and the Majapahit Empire"
-                }
-              ],
-              "containedInPlace": {
-                "name": "East Java, Indonesia",
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressRegion": "East Java",
-                  "addressCountry": "ID"
-                }
-              },
-              "mainEntityOfPage": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              },
-              "availableLanguage": [
-                "en"
-              ],
-              "additionalProperty": [
-                {
-                  "name": "Overview Tabs",
-                  "@type": "PropertyValue",
-                  "value": "Overview, Logistics, Safety, Culture, Altitude"
-                },
-                {
-                  "name": "Location",
-                  "@type": "PropertyValue",
-                  "value": "Lumbang, Probolinggo, East Java, Indonesia"
-                },
-                {
-                  "name": "Altitude",
-                  "@type": "PropertyValue",
-                  "value": "620 masl"
-                },
-                {
-                  "name": "Temp",
-                  "@type": "PropertyValue",
-                  "value": "20-25°C in canyon"
-                },
-                {
-                  "name": "Difficulty",
-                  "@type": "PropertyValue",
-                  "value": "moderate"
-                },
-                {
-                  "name": "Duration",
-                  "@type": "PropertyValue",
-                  "value": "1.5–2 hours"
-                },
-                {
-                  "name": "Terrain & Trail",
-                  "@type": "PropertyValue",
-                  "value": "River canyon with rocky paths, river crossings, slippery stones, and waterfall spray zone"
-                },
-                {
-                  "name": "Trail Details",
-                  "@type": "PropertyValue",
-                  "value": "800m river trek through canyon (30-45 mins), multiple river crossings, final approach through waterfall spray zone. Total elevation gain: 50m."
-                },
-                {
-                  "name": "Best Time to Visit",
-                  "@type": "PropertyValue",
-                  "value": "May–October"
-                },
-                {
-                  "name": "Required Gear",
-                  "@type": "PropertyValue",
-                  "value": "water shoes\nwaterproof bag\nraincoat\nquick dry_clothes\ntowel\ndry bag"
-                },
-                {
-                  "name": "water flow",
-                  "@type": "PropertyValue",
-                  "value": "10-50 m³/s"
-                },
-                {
-                  "name": "humidity",
-                  "@type": "PropertyValue",
-                  "value": "80-95 %"
-                },
-                {
-                  "name": "water temperature",
-                  "@type": "PropertyValue",
-                  "value": "18-22 °C"
-                },
-                {
-                  "name": "visibility",
-                  "@type": "PropertyValue",
-                  "value": "50-200 meters"
-                },
-                {
-                  "name": "rainfall alert",
-                  "@type": "PropertyValue",
-                  "value": "High risk"
-                },
-                {
-                  "name": "Visitor Tips",
-                  "@type": "PropertyValue",
-                  "value": "Visit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety"
-                },
-                {
-                  "name": "Safety Protocol",
-                  "@type": "PropertyValue",
-                  "value": "High Caution Area\n\nWEATHER RISK\nhigh\n\nTERRAIN RISK\nmedium\n\nHEALTH RISK\nlow"
-                },
-                {
-                  "name": "Important Safety Notes",
-                  "@type": "PropertyValue",
-                  "value": "Wear secure water shoes with good grip\nUse waterproof bags for electronics and valuables\nFollow guide instructions for river crossings\nBe cautious on slippery rocks and uneven terrain\nCheck weather conditions before departure"
-                },
-                {
-                  "name": "Cultural Significance",
-                  "@type": "PropertyValue",
-                  "value": "\"Madakaripura is deeply connected to the legacy of Gajah Mada, the 14th-century prime minister of the Majapahit Empire who swore the Palapa Oath, vowing not to enjoy earthly pleasures until the entire archipelago was united. Local belief holds that this waterfall was his final meditation site, where he achieved spiritual enlightenment. The constant flow of water symbolizes eternal loyalty and unwavering commitment. Locals often place offerings (sesajen) at the meditation cave to honor his memory and seek blessings for unity and devotion.\""
-                },
-                {
-                  "name": "Communities",
-                  "@type": "PropertyValue",
-                  "value": "Java Tribe\nMadura Tribe"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#overview",
-              "name": "Overview",
-              "text": "A sacred 200-meter canyon waterfall believed to be the final meditation site of Gajah Mada, symbolizing loyalty and unity from the Majapahit legacy.\n\nMadakaripura Waterfall is a spectacular 200-meter tall waterfall located in a deep canyon in Probolinggo Regency, East Java. The name 'Madakaripura' translates to 'the place that is eternally kept or preserved,' reflecting its significance as a spiritual sanctuary.\n\nThis waterfall holds immense historical importance as it is believed to be the final meditation site of Gajah Mada, the legendary prime minister of the Majapahit Empire who swore the famous Palapa Oath to unite the Indonesian archipelago. The waterfall cascades down sheer cliff walls, creating a mystical atmosphere with constant mist and occasional rainbows when sunlight penetrates the canyon between 08:30–09:30 AM.\n\nThe site represents the element of Water in Javanese cosmology - symbolizing cleansing, renewal, and the flow of devotion that never ends.",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#logistics",
-              "name": "Logistics",
-              "text": "Trail & Logistics\nTerrain & Trail\nRiver canyon with rocky paths, river crossings, slippery stones, and waterfall spray zone\n\n800m river trek through canyon (30-45 mins), multiple river crossings, final approach through waterfall spray zone. Total elevation gain: 50m.\n\nBest Time to Visit\nMay–October\nRequired Gear\nwater shoes\nwaterproof bag\nraincoat\nquick dry_clothes\ntowel\ndry bag\n\nwater flow\n\n10-50 m³/s\n\nhumidity\n\n80-95 %\n\nwater temperature\n\n18-22 °C\n\nvisibility\n\n50-200 meters\n\nrainfall alert\n\nHigh risk\n\nVisitor Tips\nVisit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#safety-protocol",
-              "name": "Safety Protocol",
-              "text": "Safety Protocol\nHigh Caution Area\n\nWEATHER RISK\nhigh\n\nTERRAIN RISK\nmedium\n\nHEALTH RISK\nlow\nImportant Safety Notes\nWear secure water shoes with good grip\nUse waterproof bags for electronics and valuables\nFollow guide instructions for river crossings\nBe cautious on slippery rocks and uneven terrain\nCheck weather conditions before departure",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#culture",
-              "name": "Culture",
-              "text": "Cultural Significance\n\"Madakaripura is deeply connected to the legacy of Gajah Mada, the 14th-century prime minister of the Majapahit Empire who swore the Palapa Oath, vowing not to enjoy earthly pleasures until the entire archipelago was united. Local belief holds that this waterfall was his final meditation site, where he achieved spiritual enlightenment. The constant flow of water symbolizes eternal loyalty and unwavering commitment. Locals often place offerings (sesajen) at the meditation cave to honor his memory and seek blessings for unity and devotion.\"\n\nJava Tribe\nMadura Tribe",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#breadcrumb",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "item": "https://javavolcano-touroperator.com/",
-                  "name": "Home",
-                  "@type": "ListItem",
-                  "position": 1
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations",
-                  "name": "Destinations",
-                  "@type": "ListItem",
-                  "position": 2
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
-                  "name": "Madakaripura Waterfall",
-                  "@type": "ListItem",
-                  "position": 3
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage",
-              "url": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
-              "name": "Madakaripura Waterfall",
-              "@type": "WebPage",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "hasPart": [
-                {
-                  "name": "Overview",
-                  "text": "A sacred 200-meter canyon waterfall believed to be the final meditation site of Gajah Mada, symbolizing loyalty and unity from the Majapahit legacy.\n\nMadakaripura Waterfall is a spectacular 200-meter tall waterfall located in a deep canyon in Probolinggo Regency, East Java. The name 'Madakaripura' translates to 'the place that is eternally kept or preserved,' reflecting its significance as a spiritual sanctuary.\n\nThis waterfall holds immense historical importance as it is believed to be the final meditation site of Gajah Mada, the legendary prime minister of the Majapahit Empire who swore the famous Palapa Oath to unite the Indonesian archipelago. The waterfall cascades down sheer cliff walls, creating a mystical atmosphere with constant mist and occasional rainbows when sunlight penetrates the canyon between 08:30–09:30 AM.\n\nThe site represents the element of Water in Javanese cosmology - symbolizing cleansing, renewal, and the flow of devotion that never ends.",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Logistics",
-                  "text": "Trail & Logistics\nTerrain & Trail\nRiver canyon with rocky paths, river crossings, slippery stones, and waterfall spray zone\n\n800m river trek through canyon (30-45 mins), multiple river crossings, final approach through waterfall spray zone. Total elevation gain: 50m.\n\nBest Time to Visit\nMay–October\nRequired Gear\nwater shoes\nwaterproof bag\nraincoat\nquick dry_clothes\ntowel\ndry bag\n\nwater flow\n\n10-50 m³/s\n\nhumidity\n\n80-95 %\n\nwater temperature\n\n18-22 °C\n\nvisibility\n\n50-200 meters\n\nrainfall alert\n\nHigh risk\n\nVisitor Tips\nVisit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Safety",
-                  "text": "Safety Protocol\nHigh Caution Area\n\nWEATHER RISK\nhigh\n\nTERRAIN RISK\nmedium\n\nHEALTH RISK\nlow\nImportant Safety Notes\nWear secure water shoes with good grip\nUse waterproof bags for electronics and valuables\nFollow guide instructions for river crossings\nBe cautious on slippery rocks and uneven terrain\nCheck weather conditions before departure",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Culture",
-                  "text": "Cultural Significance\n\"Madakaripura is deeply connected to the legacy of Gajah Mada, the 14th-century prime minister of the Majapahit Empire who swore the Palapa Oath, vowing not to enjoy earthly pleasures until the entire archipelago was united. Local belief holds that this waterfall was his final meditation site, where he achieved spiritual enlightenment. The constant flow of water symbolizes eternal loyalty and unwavering commitment. Locals often place offerings (sesajen) at the meditation cave to honor his memory and seek blessings for unity and devotion.\"\n\nJava Tribe\nMadura Tribe",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Altitude",
-                  "text": "Altitude\n\n620 masl\n\nTemp\n\n20-25°C in canyon\n\nDifficulty\n\nmoderate\n\nDuration\n\n1.5–2 hours",
-                  "@type": "WebPageElement"
-                }
-              ],
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/#website"
-              },
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "breadcrumb": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#breadcrumb"
-              },
-              "inLanguage": "en",
-              "mainEntity": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#madakaripura"
-              },
-              "description": "A sacred 200-meter canyon waterfall believed to be the final meditation site of Gajah Mada, symbolizing loyalty and unity from the Majapahit legacy.",
-              "dateModified": "2025-12-23",
-              "datePublished": "2025-12-23",
-              "primaryImageOfPage": {
-                "url": "https://javavolcano-touroperator.com/uploads/1764650020192-295296217-madakaripura1.jpg",
-                "@type": "ImageObject"
-              },
-              "accessibilityHazard": [
-                "slipperySurface",
-                "unevenTerrain",
-                "fallingObjects",
-                "waterHazard",
-                "narrowPath"
-              ],
-              "accessibilitySummary": "This destination involves natural and physical hazards. Visitors may encounter slippery and uneven surfaces, shallow water crossings, falling water and rocks from cliff walls, and narrow walking paths inside the canyon. Footpaths are frequently wet due to continuous waterfall spray. This experience may be challenging for visitors with mobility limitations, balance difficulties, or sensitivity to wet and confined environments."
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#faq",
-              "@type": "FAQPage",
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall#webpage"
-              },
-              "mainEntity": [
-                {
-                  "name": "What is the best time to visit Madakaripura Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "May–October",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "How difficult is Madakaripura Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Difficulty level: moderate. Typical visit duration: 1.5–2 hours.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Do I need a permit or guide for Madakaripura Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Local entry ticket required: IDR 15,000-25,000 per person. JVTO includes all entrance fees in package tours. A guide is required or strongly recommended for safety and route support.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "What should I bring for Madakaripura Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "water_shoes, waterproof_bag, raincoat, quick_dry_clothes, towel, dry_bag",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Are there any safety considerations for Madakaripura Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Wear secure water shoes with good grip Use waterproof bags for electronics and valuables Follow guide instructions for river crossings Be cautious on slippery rocks and uneven terrain Check weather conditions before departure",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Where is Madakaripura Waterfall located?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Madakaripura Waterfall is located in East Java, Indonesia. Visit between 08:30-09:30 AM for best rainbow viewing, wear proper water shoes with grip, bring waterproof bags for electronics, carry dry clothes to change into afterward, respect the sacred nature of the site, follow guide instructions for safety",
-                    "@type": "Answer"
-                  }
-                }
-              ]
-            }
+          "@id": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -7.933,
+            "elevation": 620,
+            "longitude": 113.008
+          },
+          "url": "https://javavolcano-touroperator.com/destinations/madakaripura-waterfall",
+          "name": "Madakaripura Waterfall",
+          "@type": "Park",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Madakaripura",
+            "https://www.wikidata.org/wiki/Q6726698"
           ],
-          "@context": "https://schema.org"
+          "@context": "https://schema.org",
+          "description": "A sacred 200-meter canyon waterfall believed to be the final meditation site of Gajah Mada, symbolizing loyalty and unity from the Majapahit legacy.",
+          "touristType": [
+            "Adventure travelers",
+            "Nature enthusiasts",
+            "Photographers"
+          ],
+          "containedInPlace": {
+            "name": "Bromo Tengger Semeru National Park",
+            "@type": "Park"
+          }
         },
         "tags": [
           "waterfall",
@@ -2284,7 +909,7 @@
         "slug": "madakaripura-waterfall",
         "short_slug": "madakaripura",
         "created_at": "2025-11-18T06:39:32.356Z",
-        "updated_at": "2026-04-08T09:36:21.255Z",
+        "updated_at": "2026-04-27T17:54:52.344Z",
         "deleted_at": null,
         "destination_assets": [
           {
@@ -2316,7 +941,7 @@
     },
     {
       "slug": "tumpak-sewu-waterfall",
-      "updatedAt": "2026-04-08T09:36:21.255Z",
+      "updatedAt": "2026-04-27T17:54:52.403Z",
       "payload": {
         "id": 7,
         "code": "TSE-001",
@@ -2428,7 +1053,8 @@
           "Wear proper trekking shoes with excellent grip",
           "Use gloves for rope sections during descent",
           "Secure all electronics in waterproof bags",
-          "Follow guide instructions carefully at all times"
+          "Follow guide instructions carefully at all times",
+          "Avoid visiting during or after heavy rain due to flash flood risk"
         ],
         "risk_factors": [
           {
@@ -2519,529 +1145,46 @@
           "Madura"
         ],
         "rituals_festivals": [
-          "Water Thanksgiving"
+          {
+            "name": "Water Thanksgiving",
+            "month": "Traditional harvest time",
+            "description": "Informal community gatherings to give thanks for water resources",
+            "significance": "Appreciation for natural resources and community unity"
+          }
         ],
         "tips_for_visitors": "Start early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions",
-        "thumbnail_url": "/images/destinations/tumpak-sewu-thumb.jpg",
-        "featured_image": "/images/destinations/tumpak-sewu-featured.jpg",
+        "thumbnail_url": "/assets/img/destinations/tumpak-sewu-waterfall.webp",
+        "featured_image": "/assets/img/destinations/tumpak-sewu-waterfall.webp",
         "published": true,
         "featured": true,
         "seo_title": "Tumpak Sewu Waterfall - Java's Most Spectacular Water Curtain",
         "seo_description": "Experience Tumpak Sewu, the thousand-stream waterfall with Mount Semeru backdrop. Complete adventure guide to the canyon descent and photography.",
         "schema_json": {
-          "@graph": [
-            {
-              "@id": "https://javavolcano-touroperator.com/#organization",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": -7.9161788,
-                "longitude": 113.8085868
-              },
-              "url": "https://javavolcano-touroperator.com",
-              "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "TravelAgency",
-              "email": "hello@javavolcano-touroperator.com",
-              "image": [
-                "https://javavolcano-touroperator.com/assets/img/hero/ijen.jpg"
-              ],
-              "sameAs": [
-                "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-                "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-                "https://www.trustpilot.com/review/javavolcano-touroperator.com"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "postalCode": "68214",
-                "addressRegion": "East Java",
-                "streetAddress": "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-                "addressCountry": "ID",
-                "addressLocality": "Bondowoso"
-              },
-              "founder": {
-                "name": "Agung Sambuko",
-                "@type": "Person",
-                "jobTitle": "Founder & CEO",
-                "knowsAbout": [
-                  "TouristSafety",
-                  "EastJavaTourism",
-                  "VolcanoTrekking",
-                  "LogisticsManagement"
-                ],
-                "description": "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
-                "alternateName": "Mr. Sam"
-              },
-              "telephone": "+62 822-4478-8833",
-              "areaServed": [
-                {
-                  "name": "East Java",
-                  "@type": "AdministrativeArea"
-                },
-                {
-                  "name": "Indonesia",
-                  "@type": "Country"
-                },
-                {
-                  "name": "Surabaya",
-                  "@type": "City"
-                },
-                {
-                  "name": "Bali",
-                  "@type": "Place"
-                }
-              ],
-              "identifier": [
-                {
-                  "name": "Business and tourism licence number",
-                  "@type": "PropertyValue",
-                  "value": "1102230032918"
-                }
-              ],
-              "priceRange": "IDR 1.000.000 - IDR 9.050.000",
-              "description": "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-              "contactPoint": [
-                {
-                  "@type": "ContactPoint",
-                  "email": "hello@javavolcano-touroperator.com",
-                  "telephone": "+62 822-4478-8833",
-                  "contactType": "customer support"
-                }
-              ],
-              "foundingDate": "2016-01-01",
-              "alternateName": "JVTO",
-              "paymentAccepted": "Credit Card, Bank Transfer",
-              "currenciesAccepted": "IDR",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "07:30",
-                  "closes": "17:00",
-                  "dayOfWeek": "Saturday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "17:00",
-                  "dayOfWeek": "Sunday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Monday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Tuesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Wednesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Thursday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Friday"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/#website",
-              "url": "https://javavolcano-touroperator.com",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "WebSite",
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "inLanguage": "en"
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-8.227000",
-                "longitude": "112.915000"
-              },
-              "name": "Tumpak Sewu Waterfall",
-              "@type": [
-                "Waterfall",
-                "TouristAttraction"
-              ],
-              "image": [
-                "https://javavolcano-touroperator.com/uploads/1764650032945-926940542-tumpak-sewu1.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "East Java",
-                "addressCountry": "ID",
-                "addressLocality": "Lumajang–Malang Border"
-              },
-              "subjectOf": [
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#overview"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#logistics"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#safety-protocol"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#culture"
-                }
-              ],
-              "description": "A multi-stream semicircular waterfall formed by Mount Semeru's volcanic erosion, known for its canyon trail and panoramic viewpoint with Semeru backdrop.",
-              "alternateName": [
-                "A Thousand Waterfalls",
-                "Semeru's Breath"
-              ],
-              "amenityFeature": [
-                {
-                  "name": "Panoramic Sunrise Viewpoint",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Spectacular sunrise over the waterfall with Mount Semeru backdrop"
-                },
-                {
-                  "name": "Canyon Descent Adventure",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Exciting descent using ropes and bamboo ladders to the waterfall base"
-                },
-                {
-                  "name": "Thousand Water Streams",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Witness hundreds of individual water streams forming a natural curtain"
-                },
-                {
-                  "name": "Goa Tetes Cave Connection",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Explore the nearby cave system connected to the waterfall"
-                }
-              ],
-              "containedInPlace": {
-                "name": "East Java, Indonesia",
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressRegion": "East Java",
-                  "addressCountry": "ID"
-                }
-              },
-              "mainEntityOfPage": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              },
-              "additionalProperty": [
-                {
-                  "name": "Overview Tabs",
-                  "@type": "PropertyValue",
-                  "value": "Overview, Logistics, Safety, Culture, Altitude"
-                },
-                {
-                  "name": "Location",
-                  "@type": "PropertyValue",
-                  "value": "Lumajang–Malang Border, East Java, Indonesia"
-                },
-                {
-                  "name": "Altitude",
-                  "@type": "PropertyValue",
-                  "value": "500 masl"
-                },
-                {
-                  "name": "Temp",
-                  "@type": "PropertyValue",
-                  "value": "18-25°C in canyon"
-                },
-                {
-                  "name": "Difficulty",
-                  "@type": "PropertyValue",
-                  "value": "hard"
-                },
-                {
-                  "name": "Duration",
-                  "@type": "PropertyValue",
-                  "value": "2–3 hours"
-                },
-                {
-                  "name": "Terrain & Trail",
-                  "@type": "PropertyValue",
-                  "value": "Volcanic canyon with steep cliffs, rocky paths, bamboo ladders, rope sections, and slippery surfaces"
-                },
-                {
-                  "name": "Trail Details",
-                  "@type": "PropertyValue",
-                  "value": "Panoramic viewpoint accessible by short walk, then 45-60 minute descent to waterfall base using bamboo ladders, ropes, and rocky paths. Total distance: 1.5km round trip with 150m elevation change."
-                },
-                {
-                  "name": "Best Time to Visit",
-                  "@type": "PropertyValue",
-                  "value": "May–July"
-                },
-                {
-                  "name": "Required Gear",
-                  "@type": "PropertyValue",
-                  "value": "trekking shoes\ngloves\nwaterproof bag\ndry clothes\nwater bottle\nheadlamp"
-                },
-                {
-                  "name": "water flow",
-                  "@type": "PropertyValue",
-                  "value": "20-100 m³/s"
-                },
-                {
-                  "name": "humidity",
-                  "@type": "PropertyValue",
-                  "value": "75-95 %"
-                },
-                {
-                  "name": "visibility",
-                  "@type": "PropertyValue",
-                  "value": "1-5 km"
-                },
-                {
-                  "name": "rainfall alert",
-                  "@type": "PropertyValue",
-                  "value": "High risk"
-                },
-                {
-                  "name": "uv radiation",
-                  "@type": "PropertyValue",
-                  "value": "8-12 index"
-                },
-                {
-                  "name": "Visitor Tips",
-                  "@type": "PropertyValue",
-                  "value": "Start early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions"
-                },
-                {
-                  "name": "Safety Protocol",
-                  "@type": "PropertyValue",
-                  "value": "High Caution Area\n\nTERRAIN RISK\nhigh\nSteep and slippery descent with rope sections\n\nMitigation Strategy:\n\nJVTO provides experienced guides and safety equipment. Descent is controlled and assisted.\n\n\nWEATHER RISK\nhigh\nFlash floods during rainfall\n\nMitigation Strategy:\n\nJVTO monitors weather conditions and cancels visits during unsafe conditions. Emergency evacuation plans in place.\n\n\nHEALTH RISK\nmedium\nPhysical exertion and potential for slips/falls\n\nMitigation Strategy:\n\nSafety briefing and physical assessment. JVTO guides are trained in wilderness first aid."
-                },
-                {
-                  "name": "Important Safety Notes",
-                  "@type": "PropertyValue",
-                  "value": "Guide mandatory for canyon descent - do not attempt alone\nWear proper trekking shoes with excellent grip\nUse gloves for rope sections during descent\nSecure all electronics in waterproof bags\nFollow guide instructions carefully at all times"
-                },
-                {
-                  "name": "Cultural Significance",
-                  "@type": "PropertyValue",
-                  "value": "\"Tumpak Sewu holds deep significance for the local communities who view the waterfall as 'Semeru's Breath' - the physical manifestation of the volcano's life force flowing to the earth. The continuous flow of water symbolizes renewal, humility, and the natural cycle of life. While less explicitly ritualized than other sites, the waterfall represents the power and generosity of nature in local cosmology. The name itself, 'A Thousand Waterfalls,' reflects the Javanese appreciation for nature's abundance and complexity.\""
-                },
-                {
-                  "name": "Communities",
-                  "@type": "PropertyValue",
-                  "value": "Java Tribe\nMadura Tribe"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#overview",
-              "name": "Overview",
-              "text": "A multi-stream semicircular waterfall formed by Mount Semeru's volcanic erosion, known for its canyon trail and panoramic viewpoint with Semeru backdrop.\n\nTumpak Sewu, which translates to 'A Thousand Waterfalls' in Javanese, is one of Indonesia's most spectacular waterfall formations. Located on the border between Lumajang and Malang regencies, this horseshoe-shaped waterfall cascades down a volcanic cliff face in hundreds of individual streams, creating a breathtaking natural curtain of water.\n\nThe waterfall is fed by the Glidik River, which originates from the slopes of Mount Semeru, Java's highest and most active volcano. The panoramic viewpoint offers a stunning perspective with Semeru often visible in the background, especially during sunrise. The descent to the waterfall base involves navigating bamboo ladders, ropes, and rocky paths, making it an adventurous experience.\n\nLocals refer to Tumpak Sewu as 'Semeru's Breath,' representing the continuous flow of life from the volcano to the earth below.",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#logistics",
-              "name": "Logistics",
-              "text": "Trail & Logistics\nTerrain & Trail\nVolcanic canyon with steep cliffs, rocky paths, bamboo ladders, rope sections, and slippery surfaces\n\nPanoramic viewpoint accessible by short walk, then 45-60 minute descent to waterfall base using bamboo ladders, ropes, and rocky paths. Total distance: 1.5km round trip with 150m elevation change.\n\nBest Time to Visit\nMay–July\nRequired Gear\ntrekking shoes\ngloves\nwaterproof bag\ndry clothes\nwater bottle\nheadlamp\n\nwater flow\n\n20-100 m³/s\n\nhumidity\n\n75-95 %\n\nvisibility\n\n1-5 km\n\nrainfall alert\n\nHigh risk\n\nuv radiation\n\n8-12 index\n\nVisitor Tips\nStart early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#safety-protocol",
-              "name": "Safety Protocol",
-              "text": "Safety Protocol\nHigh Caution Area\n\nTERRAIN RISK\nhigh\nSteep and slippery descent with rope sections\n\nMitigation Strategy:\n\nJVTO provides experienced guides and safety equipment. Descent is controlled and assisted.\n\n\nWEATHER RISK\nhigh\nFlash floods during rainfall\n\nMitigation Strategy:\n\nJVTO monitors weather conditions and cancels visits during unsafe conditions. Emergency evacuation plans in place.\n\n\nHEALTH RISK\nmedium\nPhysical exertion and potential for slips/falls\n\nMitigation Strategy:\n\nSafety briefing and physical assessment. JVTO guides are trained in wilderness first aid.\n\nImportant Safety Notes\nGuide mandatory for canyon descent - do not attempt alone\nWear proper trekking shoes with excellent grip\nUse gloves for rope sections during descent\nSecure all electronics in waterproof bags\nFollow guide instructions carefully at all times",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#culture",
-              "name": "Culture",
-              "text": "Cultural Significance\n\"Tumpak Sewu holds deep significance for the local communities who view the waterfall as 'Semeru's Breath' - the physical manifestation of the volcano's life force flowing to the earth. The continuous flow of water symbolizes renewal, humility, and the natural cycle of life. While less explicitly ritualized than other sites, the waterfall represents the power and generosity of nature in local cosmology. The name itself, 'A Thousand Waterfalls,' reflects the Javanese appreciation for nature's abundance and complexity.\"\n\nJava Tribe\nMadura Tribe",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#breadcrumb",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "item": "https://javavolcano-touroperator.com/",
-                  "name": "Home",
-                  "@type": "ListItem",
-                  "position": 1
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations",
-                  "name": "Destinations",
-                  "@type": "ListItem",
-                  "position": 2
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
-                  "name": "Tumpak Sewu Waterfall",
-                  "@type": "ListItem",
-                  "position": 3
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage",
-              "url": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
-              "name": "Tumpak Sewu Waterfall Guide",
-              "@type": "WebPage",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "hasPart": [
-                {
-                  "name": "Overview",
-                  "text": "A multi-stream semicircular waterfall formed by Mount Semeru's volcanic erosion, known for its canyon trail and panoramic viewpoint with Semeru backdrop.\n\nTumpak Sewu, which translates to 'A Thousand Waterfalls' in Javanese, is one of Indonesia's most spectacular waterfall formations. Located on the border between Lumajang and Malang regencies, this horseshoe-shaped waterfall cascades down a volcanic cliff face in hundreds of individual streams, creating a breathtaking natural curtain of water.\n\nThe waterfall is fed by the Glidik River, which originates from the slopes of Mount Semeru, Java's highest and most active volcano. The panoramic viewpoint offers a stunning perspective with Semeru often visible in the background, especially during sunrise. The descent to the waterfall base involves navigating bamboo ladders, ropes, and rocky paths, making it an adventurous experience.\n\nLocals refer to Tumpak Sewu as 'Semeru's Breath,' representing the continuous flow of life from the volcano to the earth below.",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Logistics",
-                  "text": "Trail & Logistics\nTerrain & Trail\nVolcanic canyon with steep cliffs, rocky paths, bamboo ladders, rope sections, and slippery surfaces\n\nPanoramic viewpoint accessible by short walk, then 45-60 minute descent to waterfall base using bamboo ladders, ropes, and rocky paths. Total distance: 1.5km round trip with 150m elevation change.\n\nBest Time to Visit\nMay–July\nRequired Gear\ntrekking shoes\ngloves\nwaterproof bag\ndry clothes\nwater bottle\nheadlamp\n\nwater flow\n\n20-100 m³/s\n\nhumidity\n\n75-95 %\n\nvisibility\n\n1-5 km\n\nrainfall alert\n\nHigh risk\n\nuv radiation\n\n8-12 index\n\nVisitor Tips\nStart early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Safety",
-                  "text": "Safety Protocol\nHigh Caution Area\n\nTERRAIN RISK\nhigh\nSteep and slippery descent with rope sections\n\nMitigation Strategy:\n\nJVTO provides experienced guides and safety equipment. Descent is controlled and assisted.\n\n\nWEATHER RISK\nhigh\nFlash floods during rainfall\n\nMitigation Strategy:\n\nJVTO monitors weather conditions and cancels visits during unsafe conditions. Emergency evacuation plans in place.\n\n\nHEALTH RISK\nmedium\nPhysical exertion and potential for slips/falls\n\nMitigation Strategy:\n\nSafety briefing and physical assessment. JVTO guides are trained in wilderness first aid.\n\nImportant Safety Notes\nGuide mandatory for canyon descent - do not attempt alone\nWear proper trekking shoes with excellent grip\nUse gloves for rope sections during descent\nSecure all electronics in waterproof bags\nFollow guide instructions carefully at all times",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Culture",
-                  "text": "Cultural Significance\n\"Tumpak Sewu holds deep significance for the local communities who view the waterfall as 'Semeru's Breath' - the physical manifestation of the volcano's life force flowing to the earth. The continuous flow of water symbolizes renewal, humility, and the natural cycle of life. While less explicitly ritualized than other sites, the waterfall represents the power and generosity of nature in local cosmology. The name itself, 'A Thousand Waterfalls,' reflects the Javanese appreciation for nature's abundance and complexity.\"\n\nJava Tribe\nMadura Tribe",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Altitude",
-                  "text": "Altitude\n\n500 masl\n\nTemp\n\n18-25°C in canyon\n\nDifficulty\n\nhard\n\nDuration\n\n2–3 hours",
-                  "@type": "WebPageElement"
-                }
-              ],
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/#website"
-              },
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "breadcrumb": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#breadcrumb"
-              },
-              "inLanguage": "en",
-              "mainEntity": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#tumpak-sewu"
-              },
-              "description": "A multi-stream semicircular waterfall formed by Mount Semeru's volcanic erosion, known for its canyon trail and panoramic viewpoint with Semeru backdrop.",
-              "dateModified": "2025-12-23",
-              "datePublished": "2025-12-23",
-              "primaryImageOfPage": {
-                "url": "https://javavolcano-touroperator.com/uploads/1764650032945-926940542-tumpak-sewu1.jpg",
-                "@type": "ImageObject"
-              },
-              "accessibilityHazard": [
-                "steepSlope",
-                "slipperySurface",
-                "unevenTerrain",
-                "waterHazard",
-                "fallingObjects"
-              ],
-              "accessibilitySummary": "This destination involves significant physical hazards. Visitors must descend and ascend steep stairways and natural slopes, often with wet and slippery surfaces. Terrain is uneven and rocky, with stream crossings near the waterfall base. Exposure to falling water and rocks from surrounding cliffs is possible. This experience may be challenging for visitors with mobility limitations, balance issues, or reduced physical endurance."
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#faq",
-              "@type": "FAQPage",
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall#webpage"
-              },
-              "mainEntity": [
-                {
-                  "name": "What is the best time to visit Tumpak Sewu Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "May–July",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "How difficult is Tumpak Sewu Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Difficulty level: hard. Typical visit duration: 2–3 hours.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Do I need a permit or guide for Tumpak Sewu Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Entry fee: IDR 20,000-30,000 per person. Additional guide fee for canyon descent. JVTO includes all fees and guide services in adventure packages. A guide is required or strongly recommended for safety and route support.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "What should I bring for Tumpak Sewu Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "trekking_shoes, gloves, waterproof_bag, dry_clothes, water_bottle, headlamp",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Are there any safety considerations for Tumpak Sewu Waterfall?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Guide mandatory for canyon descent - do not attempt alone Wear proper trekking shoes with excellent grip Use gloves for rope sections during descent Secure all electronics in waterproof bags Follow guide instructions carefully at all times",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Where is Tumpak Sewu Waterfall located?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Tumpak Sewu Waterfall is located in East Java, Indonesia. Start early (by 6 AM) for best light and to avoid crowds, wear sturdy trekking shoes with grip, bring gloves for rope sections, use waterproof bags for electronics, carry water and snacks, respect the natural environment and guide instructions",
-                    "@type": "Answer"
-                  }
-                }
-              ]
-            }
+          "@id": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -8.227,
+            "elevation": 500,
+            "longitude": 112.915
+          },
+          "url": "https://javavolcano-touroperator.com/destinations/tumpak-sewu-waterfall",
+          "name": "Tumpak Sewu Waterfall",
+          "@type": "Park",
+          "sameAs": [
+            "https://en.wikipedia.org/wiki/Tumpak_Sewu",
+            "https://www.wikidata.org/wiki/Q9084862"
           ],
-          "@context": "https://schema.org"
+          "@context": "https://schema.org",
+          "description": "A multi-stream semicircular waterfall formed by Mount Semeru's volcanic erosion, known for its canyon trail and panoramic viewpoint with Semeru backdrop.",
+          "touristType": [
+            "Adventure travelers",
+            "Nature enthusiasts",
+            "Photographers"
+          ],
+          "containedInPlace": {
+            "name": "East Java",
+            "@type": "AdministrativeArea"
+          }
         },
         "tags": [
           "waterfall",
@@ -3061,7 +1204,7 @@
         "slug": "tumpak-sewu-waterfall",
         "short_slug": "tumpak-sewu",
         "created_at": "2025-11-18T06:39:32.356Z",
-        "updated_at": "2026-04-08T09:36:21.255Z",
+        "updated_at": "2026-04-27T17:54:52.403Z",
         "deleted_at": null,
         "destination_assets": [
           {
@@ -3093,7 +1236,7 @@
     },
     {
       "slug": "papuma-beach",
-      "updatedAt": "2026-04-08T09:36:21.255Z",
+      "updatedAt": "2026-04-27T17:54:52.459Z",
       "payload": {
         "id": 9,
         "code": "PAP-001",
@@ -3298,529 +1441,45 @@
           "Madura"
         ],
         "rituals_festivals": [
-          "Beach Cleanup Events"
+          {
+            "name": "Beach Cleanup Events",
+            "month": "Various community-organized dates",
+            "description": "Community-led environmental conservation activities",
+            "significance": "Maintaining natural beauty and environmental awareness"
+          }
         ],
         "tips_for_visitors": "Visit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views",
-        "thumbnail_url": "/images/destinations/papuma-beach-thumb.jpg",
-        "featured_image": "/images/destinations/papuma-beach-featured.jpg",
+        "thumbnail_url": "/assets/img/destinations/papuma-beach.webp",
+        "featured_image": "/assets/img/destinations/papuma-beach.webp",
         "published": true,
         "featured": false,
         "seo_title": "Papuma Beach Jember - White Sand Paradise in East Java",
         "seo_description": "Discover Papuma Beach, Jember's white sand paradise with turquoise waters and unique rock formations.",
         "schema_json": {
-          "@graph": [
-            {
-              "@id": "https://javavolcano-touroperator.com/#organization",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": -7.9161788,
-                "longitude": 113.8085868
-              },
-              "url": "https://javavolcano-touroperator.com",
-              "logo": "https://javavolcano-touroperator.com/assets/img/jvto-color.png",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "TravelAgency",
-              "email": "hello@javavolcano-touroperator.com",
-              "image": [
-                "https://javavolcano-touroperator.com/assets/img/hero/ijen.jpg"
-              ],
-              "sameAs": [
-                "https://maps.app.goo.gl/Hw9NjJdSRTuwWj6HA",
-                "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-                "https://www.trustpilot.com/review/javavolcano-touroperator.com"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "postalCode": "68214",
-                "addressRegion": "East Java",
-                "streetAddress": "Jl. Khairil Anwar No.102 A, Badean, Kec. Bondowoso, Kabupaten Bondowoso, Jawa Timur 68214",
-                "addressCountry": "ID",
-                "addressLocality": "Bondowoso"
-              },
-              "founder": {
-                "name": "Agung Sambuko",
-                "@type": "Person",
-                "jobTitle": "Founder & CEO",
-                "knowsAbout": [
-                  "TouristSafety",
-                  "EastJavaTourism",
-                  "VolcanoTrekking",
-                  "LogisticsManagement"
-                ],
-                "description": "Founder of JVTO; active-duty Tourist Police officer in East Java; Supervisor in HPWKI.",
-                "alternateName": "Mr. Sam"
-              },
-              "telephone": "+62 822-4478-8833",
-              "areaServed": [
-                {
-                  "name": "East Java",
-                  "@type": "AdministrativeArea"
-                },
-                {
-                  "name": "Indonesia",
-                  "@type": "Country"
-                },
-                {
-                  "name": "Surabaya",
-                  "@type": "City"
-                },
-                {
-                  "name": "Bali",
-                  "@type": "Place"
-                }
-              ],
-              "identifier": [
-                {
-                  "name": "Business and tourism licence number",
-                  "@type": "PropertyValue",
-                  "value": "1102230032918"
-                }
-              ],
-              "priceRange": "IDR 1.000.000 - IDR 9.050.000",
-              "description": "Java Volcano Tour Operator (JVTO) is a registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. We design private, all-inclusive itineraries to Mount Bromo, Ijen Crater and Tumpak Sewu with clear safety rules, transparent pricing and real local impact.",
-              "contactPoint": [
-                {
-                  "@type": "ContactPoint",
-                  "email": "hello@javavolcano-touroperator.com",
-                  "telephone": "+62 822-4478-8833",
-                  "contactType": "customer support"
-                }
-              ],
-              "foundingDate": "2016-01-01",
-              "alternateName": "JVTO",
-              "paymentAccepted": "Credit Card, Bank Transfer",
-              "currenciesAccepted": "IDR",
-              "openingHoursSpecification": [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "07:30",
-                  "closes": "17:00",
-                  "dayOfWeek": "Saturday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "17:00",
-                  "dayOfWeek": "Sunday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Monday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Tuesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Wednesday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Thursday"
-                },
-                {
-                  "@type": "OpeningHoursSpecification",
-                  "opens": "08:00",
-                  "closes": "21:00",
-                  "dayOfWeek": "Friday"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/#website",
-              "url": "https://javavolcano-touroperator.com",
-              "name": "Java Volcano Tour Operator (JVTO)",
-              "@type": "WebSite",
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "inLanguage": "en"
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma",
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-8.472500",
-                "longitude": "113.456200"
-              },
-              "name": "Papuma Beach",
-              "@type": [
-                "Beach",
-                "TouristAttraction"
-              ],
-              "image": [
-                "https://javavolcano-touroperator.com/uploads/1764650056490-963808584-papuma1.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "East Java",
-                "addressCountry": "ID",
-                "addressLocality": "Jember"
-              },
-              "subjectOf": [
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#overview"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#logistics"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#safety-protocol"
-                },
-                {
-                  "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#culture"
-                }
-              ],
-              "description": "Beautiful white sand beach with unique rock formations and clear turquoise waters in Jember, East Java",
-              "alternateName": [
-                "Pasir Putih Malikan"
-              ],
-              "amenityFeature": [
-                {
-                  "name": "White Sand Beach",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Enjoy the rare white sand beach with clear turquoise waters"
-                },
-                {
-                  "name": "Unique Rock Formations",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Explore the fascinating rock formations along the coastline"
-                },
-                {
-                  "name": "Panoramic Hilltop Views",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Capture stunning photos from viewpoints overlooking the bay"
-                },
-                {
-                  "name": "Coastal Photography",
-                  "@type": "LocationFeatureSpecification",
-                  "value": true,
-                  "description": "Perfect setting for landscape and seascape photography"
-                }
-              ],
-              "containedInPlace": {
-                "name": "East Java, Indonesia",
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressRegion": "East Java",
-                  "addressCountry": "ID"
-                }
-              },
-              "mainEntityOfPage": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              },
-              "additionalProperty": [
-                {
-                  "name": "Overview Tabs",
-                  "@type": "PropertyValue",
-                  "value": "Overview, Logistics, Safety, Culture, Altitude"
-                },
-                {
-                  "name": "Location",
-                  "@type": "PropertyValue",
-                  "value": "Jember, East Java, Indonesia"
-                },
-                {
-                  "name": "Altitude",
-                  "@type": "PropertyValue",
-                  "value": "5 masl"
-                },
-                {
-                  "name": "Temp",
-                  "@type": "PropertyValue",
-                  "value": "28-32°C year-round"
-                },
-                {
-                  "name": "Difficulty",
-                  "@type": "PropertyValue",
-                  "value": "easy"
-                },
-                {
-                  "name": "Duration",
-                  "@type": "PropertyValue",
-                  "value": "2–4 hours"
-                },
-                {
-                  "name": "Terrain & Trail",
-                  "@type": "PropertyValue",
-                  "value": "White sandy beach with unique rock formations, coastal cliffs, and turquoise waters"
-                },
-                {
-                  "name": "Trail Details",
-                  "@type": "PropertyValue",
-                  "value": "Easy access with paved paths to beach, minimal walking required. Rocky areas require careful footing."
-                },
-                {
-                  "name": "Best Time to Visit",
-                  "@type": "PropertyValue",
-                  "value": "April–October (dry season)"
-                },
-                {
-                  "name": "Required Gear",
-                  "@type": "PropertyValue",
-                  "value": "sunscreen\nswimwear\nbeach towel\nwater shoes\nhat\nsunglasses"
-                },
-                {
-                  "name": "wave height",
-                  "@type": "PropertyValue",
-                  "value": "1-3 meters"
-                },
-                {
-                  "name": "tide level",
-                  "@type": "PropertyValue",
-                  "value": "1-2 meters"
-                },
-                {
-                  "name": "uv radiation",
-                  "@type": "PropertyValue",
-                  "value": "9-12 index"
-                },
-                {
-                  "name": "wind speed",
-                  "@type": "PropertyValue",
-                  "value": "10-20 km/h"
-                },
-                {
-                  "name": "water temperature",
-                  "@type": "PropertyValue",
-                  "value": "26-29 °C"
-                },
-                {
-                  "name": "Visitor Tips",
-                  "@type": "PropertyValue",
-                  "value": "Visit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views"
-                },
-                {
-                  "name": "Safety Protocol",
-                  "@type": "PropertyValue",
-                  "value": "High Caution Area\n\nMARINE RISK\nmedium\n\nTERRAIN RISK\nlow\n\nWEATHER RISK\nlow"
-                },
-                {
-                  "name": "Important Safety Notes",
-                  "@type": "PropertyValue",
-                  "value": "Swim only in designated safe areas\nAvoid swimming during high tide and strong currents\nWear appropriate footwear on rocky areas\nUse sunscreen and hat for sun protection\nMonitor tide conditions and follow local guidance\nKeep safe distance from surf zone"
-                },
-                {
-                  "name": "Cultural Significance",
-                  "@type": "PropertyValue",
-                  "value": "\"Papuma Beach holds significance as one of the few white sand beaches in East Java's southern coast. The name 'Papuma' comes from 'Pasir Putih Malikan' (Malikan's White Sand), reflecting local pride in this natural treasure. While less steeped in ancient traditions than volcanic sites, the beach represents the element of Water in local cosmology and serves as an important recreational space for local communities.\""
-                },
-                {
-                  "name": "Communities",
-                  "@type": "PropertyValue",
-                  "value": "Java Tribe\nMadura Tribe"
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#overview",
-              "name": "Overview",
-              "text": "Beautiful white sand beach with unique rock formations and clear turquoise waters in Jember, East Java\n\nPapuma Beach, located in Jember Regency of East Java, is renowned for its stunning white sand and crystal-clear turquoise waters. The name 'Papuma' is an acronym from 'Pasir Putih Malikan' which means Malikan's White Sand. The beach features unique rock formations scattered along the coastline and offers panoramic views from nearby hilltops.\n\nUnlike many other beaches in East Java, Papuma boasts fine white sand and relatively calm waters during the dry season. The beach is surrounded by lush green hills and features several small islands that can be reached during low tide. While swimming is limited due to strong Indian Ocean currents, the beach offers excellent opportunities for photography, relaxation, and enjoying spectacular sunsets.\n\nThe combination of white sand, turquoise waters, and unique geological formations makes Papuma one of East Java's most picturesque coastal destinations.",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#logistics",
-              "name": "Logistics",
-              "text": "Trail & Logistics\nTerrain & Trail\nWhite sandy beach with unique rock formations, coastal cliffs, and turquoise waters\n\nEasy access with paved paths to beach, minimal walking required. Rocky areas require careful footing.\n\nBest Time to Visit\nApril–October (dry season)\nRequired Gear\nsunscreen\nswimwear\nbeach towel\nwater shoes\nhat\nsunglasses\n\nwave height\n\n1-3 meters\n\ntide level\n\n1-2 meters\n\nuv radiation\n\n9-12 index\n\nwind speed\n\n10-20 km/h\n\nwater temperature\n\n26-29 °C\n\nVisitor Tips\nVisit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#safety-protocol",
-              "name": "Safety Protocol",
-              "text": "Safety Protocol\nHigh Caution Area\n\nMARINE RISK\nmedium\n\nTERRAIN RISK\nlow\n\nWEATHER RISK\nlow\nImportant Safety Notes\nSwim only in designated safe areas\nAvoid swimming during high tide and strong currents\nWear appropriate footwear on rocky areas\nUse sunscreen and hat for sun protection\nMonitor tide conditions and follow local guidance\nKeep safe distance from surf zone",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#culture",
-              "name": "Culture",
-              "text": "Cultural Significance\n\"Papuma Beach holds significance as one of the few white sand beaches in East Java's southern coast. The name 'Papuma' comes from 'Pasir Putih Malikan' (Malikan's White Sand), reflecting local pride in this natural treasure. While less steeped in ancient traditions than volcanic sites, the beach represents the element of Water in local cosmology and serves as an important recreational space for local communities.\"\n\nJava Tribe\nMadura Tribe",
-              "@type": "CreativeWork",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              }
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#breadcrumb",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "item": "https://javavolcano-touroperator.com/",
-                  "name": "Home",
-                  "@type": "ListItem",
-                  "position": 1
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations",
-                  "name": "Destinations",
-                  "@type": "ListItem",
-                  "position": 2
-                },
-                {
-                  "item": "https://javavolcano-touroperator.com/destinations/papuma-beach",
-                  "name": "Papuma Beach",
-                  "@type": "ListItem",
-                  "position": 3
-                }
-              ]
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage",
-              "url": "https://javavolcano-touroperator.com/destinations/papuma-beach",
-              "name": "Papuma Beach",
-              "@type": "WebPage",
-              "about": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "hasPart": [
-                {
-                  "name": "Overview",
-                  "text": "Beautiful white sand beach with unique rock formations and clear turquoise waters in Jember, East Java\n\nPapuma Beach, located in Jember Regency of East Java, is renowned for its stunning white sand and crystal-clear turquoise waters. The name 'Papuma' is an acronym from 'Pasir Putih Malikan' which means Malikan's White Sand. The beach features unique rock formations scattered along the coastline and offers panoramic views from nearby hilltops.\n\nUnlike many other beaches in East Java, Papuma boasts fine white sand and relatively calm waters during the dry season. The beach is surrounded by lush green hills and features several small islands that can be reached during low tide. While swimming is limited due to strong Indian Ocean currents, the beach offers excellent opportunities for photography, relaxation, and enjoying spectacular sunsets.\n\nThe combination of white sand, turquoise waters, and unique geological formations makes Papuma one of East Java's most picturesque coastal destinations.",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Logistics",
-                  "text": "Trail & Logistics\nTerrain & Trail\nWhite sandy beach with unique rock formations, coastal cliffs, and turquoise waters\n\nEasy access with paved paths to beach, minimal walking required. Rocky areas require careful footing.\n\nBest Time to Visit\nApril–October (dry season)\nRequired Gear\nsunscreen\nswimwear\nbeach towel\nwater shoes\nhat\nsunglasses\n\nwave height\n\n1-3 meters\n\ntide level\n\n1-2 meters\n\nuv radiation\n\n9-12 index\n\nwind speed\n\n10-20 km/h\n\nwater temperature\n\n26-29 °C\n\nVisitor Tips\nVisit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Safety",
-                  "text": "Safety Protocol\nHigh Caution Area\n\nMARINE RISK\nmedium\n\nTERRAIN RISK\nlow\n\nWEATHER RISK\nlow\nImportant Safety Notes\nSwim only in designated safe areas\nAvoid swimming during high tide and strong currents\nWear appropriate footwear on rocky areas\nUse sunscreen and hat for sun protection\nMonitor tide conditions and follow local guidance\nKeep safe distance from surf zone",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Culture",
-                  "text": "Cultural Significance\n\"Papuma Beach holds significance as one of the few white sand beaches in East Java's southern coast. The name 'Papuma' comes from 'Pasir Putih Malikan' (Malikan's White Sand), reflecting local pride in this natural treasure. While less steeped in ancient traditions than volcanic sites, the beach represents the element of Water in local cosmology and serves as an important recreational space for local communities.\"\n\nJava Tribe\nMadura Tribe",
-                  "@type": "WebPageElement"
-                },
-                {
-                  "name": "Altitude",
-                  "text": "Altitude\n\n5 masl\n\nTemp\n\n28-32°C year-round\n\nDifficulty\n\neasy\n\nDuration\n\n2–4 hours",
-                  "@type": "WebPageElement"
-                }
-              ],
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/#website"
-              },
-              "publisher": {
-                "@id": "https://javavolcano-touroperator.com/#organization"
-              },
-              "breadcrumb": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#breadcrumb"
-              },
-              "inLanguage": "en",
-              "mainEntity": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#papuma"
-              },
-              "description": "Beautiful white sand beach with unique rock formations and clear turquoise waters in Jember, East Java",
-              "dateModified": "2025-12-23",
-              "datePublished": "2025-12-23",
-              "primaryImageOfPage": {
-                "url": "https://javavolcano-touroperator.com/uploads/1764650056490-963808584-papuma1.jpg",
-                "@type": "ImageObject"
-              },
-              "accessibilityHazard": [
-                "unevenTerrain",
-                "slipperySurface",
-                "waterHazard",
-                "fallingObjects",
-                "strongWind",
-                "largeWaves"
-              ],
-              "accessibilitySummary": "This destination involves natural coastal hazards. Visitors may encounter uneven rocky and sandy terrain, slippery coral rocks, strong winds, and exposure to large waves typical of Indonesia’s southern coast. Ocean waves can be powerful and unpredictable, especially near rocky shorelines and tide pool areas. Falling rocks from coastal cliffs may occur in certain sections. This experience may be challenging for visitors with mobility limitations, balance difficulties, or sensitivity to strong waves and exposed coastal environments."
-            },
-            {
-              "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#faq",
-              "@type": "FAQPage",
-              "isPartOf": {
-                "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach#webpage"
-              },
-              "mainEntity": [
-                {
-                  "name": "What is the best time to visit Papuma Beach?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "April–October (dry season)",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "How difficult is Papuma Beach?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Difficulty level: easy. Typical visit duration: 2–4 hours.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Do I need a permit or guide for Papuma Beach?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Entrance fee: IDR 40,000 per person included in package. Additional fees for parking and certain facilities. A guide may still be recommended depending on conditions and visitor experience.",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "What should I bring for Papuma Beach?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "sunscreen, swimwear, beach_towel, water_shoes, hat, sunglasses",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Are there any safety considerations for Papuma Beach?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Swim only in designated safe areas Avoid swimming during high tide and strong currents Wear appropriate footwear on rocky areas Use sunscreen and hat for sun protection Monitor tide conditions and follow local guidance Keep safe distance from surf zone",
-                    "@type": "Answer"
-                  }
-                },
-                {
-                  "name": "Where is Papuma Beach located?",
-                  "@type": "Question",
-                  "acceptedAnswer": {
-                    "text": "Papuma Beach is located in East Java, Indonesia. Visit in morning for best photography light, wear water shoes for rocky areas, bring sunscreen and hat, enjoy swimming only in safe designated areas, carry cash for facility rentals, stay for sunset views",
-                    "@type": "Answer"
-                  }
-                }
-              ]
-            }
+          "@id": "https://javavolcano-touroperator.com/destinations/papuma-beach",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -8.4725,
+            "elevation": 5,
+            "longitude": 113.4562
+          },
+          "url": "https://javavolcano-touroperator.com/destinations/papuma-beach",
+          "name": "Papuma Beach",
+          "@type": "Beach",
+          "sameAs": [
+            "https://id.wikipedia.org/wiki/Pantai_Papuma"
           ],
-          "@context": "https://schema.org"
+          "@context": "https://schema.org",
+          "description": "Beautiful white sand beach with unique rock formations and clear turquoise waters in Jember, East Java",
+          "touristType": [
+            "Adventure travelers",
+            "Nature enthusiasts",
+            "Photographers"
+          ],
+          "containedInPlace": {
+            "name": "Jember Regency, East Java",
+            "@type": "AdministrativeArea"
+          }
         },
         "tags": [
           "beach",
@@ -3840,7 +1499,7 @@
         "slug": "papuma-beach",
         "short_slug": "papuma",
         "created_at": "2025-11-18T06:39:32.356Z",
-        "updated_at": "2026-04-08T09:36:21.255Z",
+        "updated_at": "2026-04-27T17:54:52.459Z",
         "deleted_at": null,
         "destination_assets": [
           {

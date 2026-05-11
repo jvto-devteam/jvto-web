@@ -26,13 +26,6 @@ import {
 } from "lucide-react";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import SidebarDesktop from "./SidebarDesktop";
-import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
-import {
-  buildNarrativeClaimsItemList,
-  buildWhyJvtoFaqSchema,
-  buildWhyJvtoHubItemListSchema,
-} from "@/lib/schemas/buildWhyJvtoSchemas";
-import { resolveFaqsForPage } from "@/lib/content/resolveFaqs";
 const siteUrl = "https://javavolcano-touroperator.com";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
@@ -176,22 +169,13 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const [page, allClaims, faqResolution] = await Promise.all([
-    getPublicPageSnapshot("/why-jvto", {
-      allowDatabaseFallback: false,
-    }),
-    getAllNarrativeClaims().catch(() => []),
-    resolveFaqsForPage("/why-jvto"),
-  ]);
+  const page = await getPublicPageSnapshot("/why-jvto", {
+    allowDatabaseFallback: false,
+  });
   const heroH1 =
     typeof page.snapshot.content.h1 === "string"
       ? page.snapshot.content.h1
       : defaultWhyTitle;
-  const whyJvtoExtraSchemas = [
-    buildWhyJvtoHubItemListSchema(),
-    buildWhyJvtoFaqSchema(allClaims, ""),
-    buildNarrativeClaimsItemList(allClaims),
-  ].filter(Boolean);
   const whyJVTOSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -729,8 +713,6 @@ export default async function WhyJvtoPage() {
         <SidebarDesktop currentPath="/why-jvto" />
         <PageJsonLdCombined
           pageRow={page.pageRow}
-          extraSchemas={whyJvtoExtraSchemas}
-          suppressCmsFaq={faqResolution.suppressCmsFaq}
         />
 
         <main className="pt-24 w-full jvto-page">
@@ -853,77 +835,6 @@ export default async function WhyJvtoPage() {
                     </Link>
                   );
                 })}
-              </div>
-            </div>
-          </section>
-
-          {/* ══════════ ANSWER BLOCKS — 9 Narrative Claims ══════════ */}
-          {/* AEO: visible crawlable Q&A from canonical narrative_claims — bridges schema ↔ copy gap */}
-          <section
-            id="9-verifiable-claims"
-            className="bg-slate-950 border-t border-slate-800 py-16"
-          >
-            <div className="container mx-auto px-6">
-              <div className="text-center mb-10">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-3">
-                  Verifiable Claims — Not Marketing
-                </p>
-                <h2 className="text-white font-bold text-2xl md:text-3xl leading-snug">
-                  9 Reasons, Each With a Proof Page
-                </h2>
-                <p className="text-slate-500 text-sm mt-3 max-w-xl mx-auto leading-relaxed">
-                  Every claim below links to the page where JVTO's evidence is concentrated.
-                  No claim appears here without a corresponding verifiable source.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {allClaims
-                  .filter((c) => c.pillar && c.core_claim)
-                  .map((claim, i) => {
-                    const hooks = (claim.evidence_hooks as Array<{
-                      type: string;
-                      label: string;
-                      route?: string;
-                      url?: string;
-                    }>) || [];
-                    const pageLinks = hooks.filter((h) => h.type === "page" || h.type === "policy");
-                    const primaryLink = pageLinks[0];
-                    return (
-                      <article
-                        key={claim.id}
-                        className="border border-slate-800 rounded-lg p-5 bg-slate-900/50 flex flex-col"
-                        // data-* for AI crawlers to parse claim + answer programmatically
-                        data-claim-id={claim.id}
-                        data-claim-pillar={claim.pillar}
-                      >
-                        {/* Claim number + pillar */}
-                        <div className="flex items-start gap-3 mb-3">
-                          <span className="text-[9px] font-black text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm shrink-0 mt-0.5">
-                            {claim.id}
-                          </span>
-                          <h3 className="text-white text-sm font-bold leading-snug">
-                            {claim.pillar}
-                          </h3>
-                        </div>
-
-                        {/* Core claim answer */}
-                        <p className="text-slate-400 text-xs leading-relaxed flex-1 mb-4">
-                          {claim.core_claim as string}
-                        </p>
-
-                        {/* Evidence links */}
-                        {primaryLink && (
-                          <Link
-                            href={primaryLink.route ?? "/why-jvto"}
-                            className="inline-flex items-center gap-1.5 text-[10px] font-bold text-jvto-green hover:text-white transition-colors uppercase tracking-widest mt-auto"
-                          >
-                            {primaryLink.label} →
-                          </Link>
-                        )}
-                      </article>
-                    );
-                  })}
               </div>
             </div>
           </section>
