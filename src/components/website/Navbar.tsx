@@ -13,6 +13,7 @@ import {
 import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import NavbarSearchModal from "./NavbarSearchModal";
 
 const NavbarDesktopAuthIsland = dynamic(
   () =>
@@ -36,11 +37,6 @@ const SidebarPolicy = dynamic(() => import("@/app/(website)/policy/sidebar"), {
 });
 
 const SidebarWhy = dynamic(() => import("@/app/(website)/why-jvto/sidebar"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const NavbarSearchModal = dynamic(() => import("./NavbarSearchModal"), {
   ssr: false,
   loading: () => null,
 });
