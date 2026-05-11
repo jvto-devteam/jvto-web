@@ -1,7 +1,7 @@
 import Link from "@/components/website/AppLink";
 import Image from "next/image";
 import type { Destination } from "@/interfaces";
-import { getHomeImageVariant } from "@/lib/assets/homeImageVariants";
+import { getHomeImageVariantSet } from "@/lib/assets/homeImageVariants";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -14,9 +14,10 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
   isHome,
   prioritizeImage = false,
 }) => {
-  const bannerSrc =
-    (isHome ? getHomeImageVariant(destination.banner.url) : null) ||
-    destination.banner.url;
+  const homeVariantSet = isHome
+    ? getHomeImageVariantSet(destination.banner.url)
+    : null;
+  const bannerSrc = homeVariantSet?.medium || destination.banner.url;
 
   return (
     <Link
@@ -27,22 +28,31 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
     >
       <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
 
-        <Image
-          src={bannerSrc}
-          alt={destination.banner.alt || destination.name}
-          fill
-          unoptimized
-          loading={prioritizeImage ? "eager" : "lazy"}
-          decoding="async"
-          fetchPriority={prioritizeImage ? "high" : "low"}
-          sizes={
-            isHome
-              ? "(max-width: 768px) 42vw, 224px"
-              : "(max-width: 768px) 100vw, 33vw"
-          }
-          quality={46}
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        {isHome && homeVariantSet ? (
+          <img
+            src={homeVariantSet.medium}
+            srcSet={`${homeVariantSet.small} 240w, ${homeVariantSet.medium} 420w`}
+            sizes="(max-width: 768px) 42vw, 224px"
+            alt={destination.banner.alt || destination.name}
+            loading={prioritizeImage ? "eager" : "lazy"}
+            decoding="async"
+            fetchPriority={prioritizeImage ? "high" : "low"}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <Image
+            src={bannerSrc}
+            alt={destination.banner.alt || destination.name}
+            fill
+            unoptimized
+            loading={prioritizeImage ? "eager" : "lazy"}
+            decoding="async"
+            fetchPriority={prioritizeImage ? "high" : "low"}
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={46}
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        )}
 
         {/* gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
