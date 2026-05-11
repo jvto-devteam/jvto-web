@@ -37,6 +37,10 @@ export default function StickyWhatsApp({
   const pathname = usePathname();
   const [showHint, setShowHint] = useState(false);
 
+  if (pathname.startsWith("/my-booking")) {
+    return null;
+  }
+
   const resolvedMessage =
     message ?? PAGE_MESSAGES[pathname] ?? DEFAULT_MESSAGE;
   const href = `${WA_BASE}?text=${encodeURIComponent(resolvedMessage)}`;
