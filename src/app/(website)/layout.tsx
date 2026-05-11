@@ -7,6 +7,7 @@ import StickyWhatsApp from "@/components/website/LandingPage/StickyWhatsApp";
 import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
+import { Providers } from "@/app/providers";
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl =
@@ -65,7 +66,7 @@ export default function WebsiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <Providers>
       <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
         {/* GA optional logic */}
         {/* <Suspense>
@@ -83,6 +84,6 @@ export default function WebsiteLayout({
           <StickyWhatsApp />
         </div>
       </div>
-    </>
+    </Providers>
   );
 }

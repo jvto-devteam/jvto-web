@@ -1,6 +1,5 @@
 "use client";
 
-import { Providers } from "@/app/providers";
 import Link from "@/components/website/AppLink";
 import { useEffect, useRef, useState } from "react";
 import { LayoutDashboard, LogIn, LogOut, Mail, User, X } from "lucide-react";
@@ -315,9 +314,7 @@ export const NavbarDesktopAuthIsland = ({
 }: {
   finalMenuIconClass: string;
 }) => (
-  <Providers>
-    <DesktopAuthInner finalMenuIconClass={finalMenuIconClass} />
-  </Providers>
+  <DesktopAuthInner finalMenuIconClass={finalMenuIconClass} />
 );
 
 export const NavbarMobileAuthIsland = ({
@@ -325,7 +322,5 @@ export const NavbarMobileAuthIsland = ({
 }: {
   onOpenLogin?: () => void;
 }) => (
-  <Providers>
-    <MobileAuthInner onOpenLogin={onOpenLogin} />
-  </Providers>
+  <MobileAuthInner onOpenLogin={onOpenLogin} />
 );
