@@ -55,7 +55,7 @@ const IjenHealthScreeningSection = () => {
 
               <h2 className="font-sans font-black text-3xl md:text-5xl text-gray-900 mb-6 leading-tight uppercase tracking-tight">
                 Real Medical Check <br />
-                <span className="text-jvto-green">Included</span>
+                <span className="text-lime-700">Included</span>
               </h2>
 
               <p className="font-sans text-lg text-gray-600 mb-8 leading-relaxed">

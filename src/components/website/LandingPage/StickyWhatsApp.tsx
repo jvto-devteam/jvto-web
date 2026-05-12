@@ -66,7 +66,7 @@ export default function StickyWhatsApp({
       >
         <div className="bg-white text-gray-800 text-sm px-3.5 py-2.5 rounded-xl shadow-xl border border-gray-100 max-w-[195px] text-right leading-snug">
           Questions about your tour?
-          <span className="block text-xs text-gray-400 mt-0.5">
+          <span className="block text-xs text-gray-600 mt-0.5">
             Chat us — we reply fast
           </span>
         </div>

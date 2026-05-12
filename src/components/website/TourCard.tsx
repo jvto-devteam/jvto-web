@@ -66,8 +66,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Badge Physicality */}
-        <div className="absolute top-3 left-3 z-20 bg-jvto-green/80/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
+        {/* Badge Physicality — aria-hidden because the link already has a complete aria-label */}
+        <div aria-hidden="true" className="absolute top-3 left-3 z-20 bg-jvto-green/80/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
           <Dumbbell className="w-3.5 h-3.5" />
           <span className="capitalize">{tour.physicality}</span>
         </div>

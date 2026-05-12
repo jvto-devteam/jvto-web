@@ -84,7 +84,7 @@ const Hero: React.FC<HeroProps> = ({
             href="https://www.trustpilot.com/review/javavolcano-touroperator.com"
             target="_blank"
             className="inline-flex items-center gap-2 px-3 py-1.5 outline-none focus:outline-offset-[-1px] focus:outline-2 focus:outline-blue-600"
-            aria-label="Trustpilot reviews"
+            aria-label="Excellent — view Trustpilot reviews"
           >
             <div className="text-white underline font-medium whitespace-nowrap">
               Excellent

@@ -153,7 +153,7 @@ const Home = async () => {
   };
 
   return (
-    <main>
+    <div>
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[
@@ -205,7 +205,7 @@ const Home = async () => {
       <ViewportSection intrinsicSize="760px">
         <Contact deferMap />
       </ViewportSection>
-    </main>
+    </div>
   );
 };
 
