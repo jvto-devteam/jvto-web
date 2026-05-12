@@ -12,9 +12,10 @@ interface TourCardProps {
   tour?: ListTourPackage;
   isNewTab?: boolean;
   isLoading?: boolean;
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
 }
 
-const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
+const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 }) => {
   if (!tour) return notFound();
 
   const bannerImage =
@@ -100,12 +101,17 @@ const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab }) => {
           aria-label={tourLinkLabel}
           className="group/title block mb-3"
         >
-          <h3
-            id={`tour-title-${tour.id}`}
-            className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-jvto-green transition-colors line-clamp-2"
-          >
-            {tour.name}
-          </h3>
+          {(() => {
+            const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+            return (
+              <Tag
+                id={`tour-title-${tour.id}`}
+                className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-jvto-green transition-colors line-clamp-2"
+              >
+                {tour.name}
+              </Tag>
+            );
+          })()}
         </Link>
 
         <hr className="border-gray-200 my-3" />

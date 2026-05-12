@@ -14,22 +14,22 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 border-b border-gray-800 pb-12">
           <div className="text-center">
             <Shield className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
-            <h4 className="font-bold text-sm uppercase mb-2">Tourist Police Led</h4>
+            <h3 className="font-bold text-sm uppercase mb-2">Tourist Police Led</h3>
             <p className="text-xs text-slate-300">Operations overseen by active Tourist Police officers for maximum safety.</p>
           </div>
           <div className="text-center">
             <MapPin className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
-            <h4 className="font-bold text-sm uppercase mb-2">Bondowoso HQ</h4>
+            <h3 className="font-bold text-sm uppercase mb-2">Bondowoso HQ</h3>
             <p className="text-xs text-slate-300">Official office at Jl. Khairil Anwar No.102 A.</p>
           </div>
           <div className="text-center">
             <FileCheck className="w-12 h-12 mx-auto mb-4 text-jvto-green" />
-            <h4 className="font-bold text-sm uppercase mb-2">Licensed Operator</h4>
+            <h3 className="font-bold text-sm uppercase mb-2">Licensed Operator</h3>
             <p className="text-xs text-slate-300">NIB & TDUP No. 1102230032918.</p>
           </div>
           <div className="text-center">
             <svg className="w-12 h-12 mx-auto mb-4 text-jvto-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-            <h4 className="font-bold text-sm uppercase mb-2">Community First</h4>
+            <h3 className="font-bold text-sm uppercase mb-2">Community First</h3>
             <p className="text-xs text-slate-300">Supporting local guides and sustainable tourism practices.</p>
           </div>
         </div>
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16">
           <div>
-            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Company</h5>
+            <h3 className="font-bold text-xs uppercase text-slate-200 mb-6">Company</h3>
             <ul className="space-y-3 text-sm">
               <li><Link href="/why-jvto" prefetch={false} className="hover:text-jvto-green">Why JVTO</Link></li>
               <li><Link href="/why-jvto/our-story" prefetch={false} className="hover:text-jvto-green">Our Story</Link></li>
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Travel Guide</h5>
+            <h3 className="font-bold text-xs uppercase text-slate-200 mb-6">Travel Guide</h3>
             <ul className="space-y-3 text-sm">
               <li><Link href="/travel-guide/faq" prefetch={false} className="hover:text-jvto-green">FAQ</Link></li>
               <li><Link href="/travel-guide/booking-information" prefetch={false} className="hover:text-jvto-green">Booking & Payments</Link></li>
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Destinations</h5>
+            <h3 className="font-bold text-xs uppercase text-slate-200 mb-6">Destinations</h3>
             <ul className="space-y-3 text-sm">
               <li><Link href="/destinations/mount-bromo" prefetch={false} className="hover:text-jvto-green">Mount Bromo</Link></li>
               <li><Link href="/destinations/ijen-crater" prefetch={false} className="hover:text-jvto-green">Ijen Crater</Link></li>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div className="col-span-2 lg:col-span-2">
-             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Contact</h5>
+             <h3 className="font-bold text-xs uppercase text-slate-200 mb-6">Contact</h3>
              <p className="text-sm text-slate-300 mb-4">
                <strong>PT Java Volcano Rendezvous</strong><br/>
                Jl. Khairil Anwar No.102 A, Badean,<br/>
