@@ -60,7 +60,7 @@ const TourCarouselRow = React.forwardRef<
               key={tour.id}
               className="snap-start flex-shrink-0 w-80 md:w-[24rem]"
             >
-              <TourCard tour={tour} />
+              <TourCard tour={tour} headingLevel={4} />
             </div>
           ))}
         </div>

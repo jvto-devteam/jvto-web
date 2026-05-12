@@ -86,7 +86,7 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
                   key={tour.id}
                   className={` ${key == 0 ? 'ml-6' : ''} ${key+1 == tours.length ? 'mr-6' : ''} flex-shrink-0 w-[80vw] sm:w-[350px]`}
                 >
-                  <TourCard isNewTab={true} tour={tour} />
+                  <TourCard isNewTab={true} tour={tour} headingLevel={4} />
                 </div>
               ))}
             </div>
