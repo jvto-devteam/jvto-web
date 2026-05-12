@@ -59,9 +59,9 @@ const Footer: React.FC = () => {
           <div>
             <h5 className="font-bold text-xs uppercase text-slate-200 mb-6">Destinations</h5>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Mount Bromo</Link></li>
-              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Ijen Crater</Link></li>
-              <li><Link href="/destinations" prefetch={false} className="hover:text-jvto-green">Tumpak Sewu</Link></li>
+              <li><Link href="/destinations/mount-bromo" prefetch={false} className="hover:text-jvto-green">Mount Bromo</Link></li>
+              <li><Link href="/destinations/ijen-crater" prefetch={false} className="hover:text-jvto-green">Ijen Crater</Link></li>
+              <li><Link href="/destinations/tumpak-sewu-waterfall" prefetch={false} className="hover:text-jvto-green">Tumpak Sewu</Link></li>
               <li><Link href="/tours" prefetch={false} className="hover:text-jvto-green">All Private Tours</Link></li>
             </ul>
           </div>
@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
           <div className="flex gap-4">
             <a target="_blank" href="https://www.instagram.com/javavolcanotouroperator/" aria-label="Instagram" className="bg-gray-800 p-2 rounded-full hover:bg-[#8cb82b] hover:text-jvto-dark transition-colors"><Instagram size={16} /></a>
             <a target="_blank" href="https://www.facebook.com/javavolcanotours/" aria-label="Facebook" className="bg-gray-800 p-2 rounded-full hover:bg-[#8cb82b] hover:text-jvto-dark transition-colors"><Facebook size={16} /></a>
-            <a target="_blank" href="#" aria-label="Twitter" className="bg-gray-800 p-2 rounded-full hover:bg-[#8cb82b] hover:text-jvto-dark transition-colors"><Twitter size={16} /></a>
+            <a target="_blank" href="https://twitter.com/jvto_tours" aria-label="Twitter / X" className="bg-gray-800 p-2 rounded-full hover:bg-[#8cb82b] hover:text-jvto-dark transition-colors"><Twitter size={16} /></a>
           </div>
         </div>
       </div>

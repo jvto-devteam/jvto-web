@@ -42,7 +42,7 @@ const Features: React.FC = () => {
               rel={item.external ? "noopener noreferrer" : undefined}
               className="group flex flex-col gap-0.5 px-6 py-5 hover:bg-gray-50 transition-colors"
             >
-              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-gray-400">
+              <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-gray-600">
                 {item.label}
               </span>
               <span className="font-black text-sm text-jvto-dark leading-snug group-hover:text-jvto-green transition-colors">

@@ -24,7 +24,6 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
       target={isHome ? "_blank" : "_self"}
       href={`/destinations/${destination.slug}`}
       prefetch={false}
-      aria-label={`Explore destination: ${destination.name}`}
     >
       <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
 
@@ -34,6 +33,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
             srcSet={`${homeVariantSet.small} 240w, ${homeVariantSet.medium} 420w`}
             sizes="(max-width: 768px) 42vw, 224px"
             alt={destination.banner.alt || destination.name}
+            aria-hidden="true"
             loading={prioritizeImage ? "eager" : "lazy"}
             decoding="async"
             fetchPriority={prioritizeImage ? "high" : "low"}
@@ -43,6 +43,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
           <Image
             src={bannerSrc}
             alt={destination.banner.alt || destination.name}
+            aria-hidden="true"
             fill
             unoptimized
             loading={prioritizeImage ? "eager" : "lazy"}
@@ -61,6 +62,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
         <div className="absolute md:bottom-5 md:left-5 md:right-5 bottom-3 left-3 right-3 text-white">
           <div className="font-bold text-base md:text-xl uppercase tracking-wider line-clamp-2 leading-tight">
             {destination.name}
+            <span className="sr-only"> — explore this destination</span>
           </div>
         </div>
       </div>

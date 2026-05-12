@@ -45,7 +45,7 @@ const Contact: React.FC<ContactProps> = ({ deferMap = false }) => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 pb-20">
+      <div className="container mx-auto px-4 pb-20">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start max-w-6xl mx-auto">
           
           {/* Left Column: Contact Info */}
@@ -91,7 +91,7 @@ const Contact: React.FC<ContactProps> = ({ deferMap = false }) => {
           </div>
 
         </div>
-      </main>
+      </div>
     </section>
   );
 };
