@@ -1,26 +1,18 @@
 // app/(website)/page.tsx
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
-import Features from "@/components/website/Home/Features";
-import FeaturedTours from "@/components/website/Home/FeaturedTours";
-import WhyJVTO from "@/components/website/Home/WhyJVTO";
-import Reviews from "@/components/website/Home/Reviews";
-import HomeDestinations from "@/components/website/Home/HomeDestinations";
-import IsicSection from "@/components/website/Home/IsicSection";
-import Contact from "@/components/website/Contact";
-import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
 import Differentiators from "@/components/website/Home/Differentiators";
+import HomeDestinations from "@/components/website/Home/HomeDestinations";
+import FeaturedTours from "@/components/website/Home/FeaturedTours";
+import Reviews from "@/components/website/Home/Reviews";
 import TrustVerification from "@/components/website/Home/TrustVerification";
-import ViewportSection from "@/components/website/ViewportSection";
+import WhyJVTO from "@/components/website/Home/WhyJVTO";
+import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
-import {
-  DEFAULT_SITE,
-} from "@/lib/seo/jsonld/builders";
-import { miniFaqs, faqsCopy } from "@/constants";
+import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import {
@@ -30,19 +22,9 @@ import {
   FOUNDER_SCHEMA,
 } from "@/lib/schemas/entityGraph";
 
-const IjenHealthScreeningSection = dynamic(
-  () => import("@/components/website/Home/IjenHealthScreeningSection"),
-  {
-    loading: () => <div className="min-h-[520px] bg-white" aria-hidden="true" />,
-  },
-);
-
-const FAQSection = dynamic(() => import("@/components/website/FAQSection"), {
-  loading: () => <div className="min-h-[420px] bg-white" aria-hidden="true" />,
-});
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
 export const revalidate = 3600;
+
 const fallbackSeo = {
   title:
     "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
@@ -78,6 +60,7 @@ const Home = async () => {
     getPageSeo("/", fallbackSeo),
     getDestinations(),
   ]);
+
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -90,13 +73,8 @@ const Home = async () => {
     : {
         route: "/",
         lang: "en",
-        seo: {
-          title: seo.title,
-          description: seo.description,
-        },
-        content: {
-          h1: seo.h1,
-        },
+        seo: { title: seo.title, description: seo.description },
+        content: { h1: seo.h1 },
       };
 
   const serviceNode = {
@@ -119,14 +97,12 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // ── FAQPage (Phase 5 resolver-driven) ─────────────────────────────────────
-  // Precedence: narrative_claims → canonical hardcoded (HOMEPAGE_FAQS, 9 Q&A) → CMS.
-  // resolveFaqsForPage handles the precedence; suppressCmsFaq ensures no double-FAQPage emission.
+  // ── FAQPage schema (AEO — emits JSON-LD even without visual FAQ section) ────
   const faqResolution = await resolveFaqsForPage("/");
   const faqNode = buildResolvedFaqSchema(faqResolution, "/");
   const aggregateRatingNode = buildHomepageAggregateRatingSchema();
 
-  // ── WebApplication (Ijen Health Screening) ────────────────────────────────
+  // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
   const healthAppNode = {
     "@type": "WebApplication",
     "@id": "https://health.mountijen.com/#app",
@@ -138,10 +114,7 @@ const Home = async () => {
     isAccessibleForFree: true,
     publisher: { "@id": `${SITE_URL}/#organization` },
     about: [
-      {
-        "@type": "Thing",
-        name: "Pre-ascent health screening (SpO₂ & Blood Pressure)",
-      },
+      { "@type": "Thing", name: "Pre-ascent health screening (SpO₂ & Blood Pressure)" },
       { "@type": "Place", name: "Mount Ijen" },
     ],
     featureList: [
@@ -156,6 +129,7 @@ const Home = async () => {
 
   return (
     <div>
+      {/* JSON-LD schema injection — AEO/GEO signal layer (no visual output) */}
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[
@@ -170,15 +144,20 @@ const Home = async () => {
         ]}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
-      <Hero title={seo.h1} description={seo.description} />
-      <Features />
-      <Differentiators />
-      <HomeDestinations destinations={destinations} />
-      <FeaturedTours />
-      <WhyJVTO />
-      <TrustVerification />
 
-      {/* Reviews section */}
+      {/* 1. Hero */}
+      <Hero title={seo.h1} description={seo.description} />
+
+      {/* 2. WHY JVTO — 6 Differentiators */}
+      <Differentiators />
+
+      {/* 3. Destinations */}
+      <HomeDestinations destinations={destinations} />
+
+      {/* 4. Tour Packages */}
+      <FeaturedTours />
+
+      {/* 5. Reviews */}
       <div className="bg-white pt-20 pb-20 border-t border-jvto-border">
         <div className="w-full container mx-auto">
           <div className="max-w-3xl mx-auto px-4 mb-10">
@@ -211,21 +190,14 @@ const Home = async () => {
         </div>
       </div>
 
-      <ViewportSection intrinsicSize="680px">
-        <IjenHealthScreeningSection />
-      </ViewportSection>
-      <ViewportSection intrinsicSize="560px">
-        <IsicSection />
-      </ViewportSection>
-      <ViewportSection intrinsicSize="520px">
-        <FAQSection copy={faqsCopy} faqs={miniFaqs} />
-      </ViewportSection>
-      <ViewportSection intrinsicSize="520px">
-        <TravelGuideTeaser />
-      </ViewportSection>
-      <ViewportSection intrinsicSize="760px">
-        <Contact deferMap />
-      </ViewportSection>
+      {/* 6. Trust & Verification */}
+      <TrustVerification />
+
+      {/* 7. Our Story */}
+      <WhyJVTO />
+
+      {/* 8. CTA */}
+      <HomeCTA />
     </div>
   );
 };
