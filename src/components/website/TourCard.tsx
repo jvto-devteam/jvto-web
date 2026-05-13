@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import { formatIDR } from "@/utils/formatting";
-import { notFound } from "next/navigation";
-import { Dumbbell, Clock, MapPin, Star, ArrowRight } from "lucide-react";
+import { Clock, MapPin, ArrowRight } from "lucide-react";
 
 interface TourCardProps {
   tour?: ListTourPackage;
@@ -16,128 +15,115 @@ interface TourCardProps {
 }
 
 const TourCard: React.FC<TourCardProps> = ({ tour, isNewTab, headingLevel = 3 }) => {
-  if (!tour) return notFound();
+  if (!tour) return null;
 
   const bannerImage =
-    tour?.images && Array.isArray(tour.images) && tour.images.length > 0
+    tour.images && Array.isArray(tour.images) && tour.images.length > 0
       ? {
           url: tour.images[0].url,
-          alt:
-            tour.images[0].alt?.trim() ||
-            tour.banner?.alt ||
-            tour.name ||
-            "Tour package",
+          alt: tour.images[0].alt?.trim() || tour.banner?.alt || tour.name || "Tour package",
         }
-      : tour?.banner?.url
+      : tour.banner?.url
         ? { url: tour.banner.url, alt: tour.banner.alt || tour.name }
-        : {
-            url: "/images/fallback-banner.jpg",
-            alt: tour?.name || "Tour package",
-          };
+        : { url: "/images/fallback-banner.jpg", alt: tour.name || "Tour package" };
 
-  const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
-  const fullTourSlug = "/" + tour.slug;
-  const tourLinkLabel = `View tour details for ${tour.name}`;
+  const durationString = `${tour.duration.day}D / ${tour.duration.night}N`;
+  const fullTourSlug = `/${tour.slug}`;
+  const target = isNewTab ? "_blank" : "_self";
+  const Tag = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
 
   return (
     <div
       role="article"
       aria-labelledby={`tour-title-${tour.id}`}
-      className="group flex flex-col rounded bg-white dark:bg-background-dark shadow-card hover:shadow-cardHover overflow-hidden transition-all duration-300 hover:-translate-y-1 h-full shadow"
+      className="group flex flex-col rounded-[24px] bg-white border border-jvto-border overflow-hidden card-jvto h-full"
     >
-      {/* BANNER IMAGE */}
+      {/* Image */}
       <Link
-        target={isNewTab ? "_blank" : "_self"}
+        target={target}
         href={fullTourSlug}
         prefetch={false}
-        aria-label={tourLinkLabel}
-        className="relative block overflow-hidden"
+        aria-label={tour.name}
+        className="relative block overflow-hidden flex-shrink-0"
       >
-        <div className="relative aspect-[4/3] w-full bg-ink-neutral-200 dark:bg-ink-neutral-700">
+        <div className="relative aspect-[4/3] w-full bg-jvto-off">
           <Image
             src={bannerImage.url}
             alt={bannerImage.alt}
             fill
             sizes="(max-width: 640px) 80vw, 350px"
             quality={64}
-            className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* Badge Physicality — aria-hidden because the link already has a complete aria-label */}
-        <div aria-hidden="true" className="absolute top-3 left-3 z-20 bg-jvto-green/80/50 text-white px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-sm backdrop-blur-sm border border-white/20">
-          <Dumbbell className="w-3.5 h-3.5" />
-          <span className="capitalize">{tour.physicality}</span>
-        </div>
+        {/* Physicality badge */}
+        {tour.physicality && (
+          <div
+            aria-hidden="true"
+            className="absolute top-3 left-3 z-20 bg-jvto-navy/75 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-[0.12em]"
+          >
+            {tour.physicality}
+          </div>
+        )}
       </Link>
 
-      {/* CARD BODY */}
+      {/* Body */}
       <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-center justify-between mb-3 text-xs font-medium text-ink-neutral-500 dark:text-ink-neutral-400 uppercase tracking-wide">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4 text-jvto-green" />
-              <span>{durationString}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-jvto-green" />
-              <span>{tour.startDestination}</span>
-            </div>
+        {/* Meta */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
+            <Clock className="w-3 h-3 text-jvto-orange flex-shrink-0" />
+            <span>{durationString}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span className="text-ink-primary font-bold">49</span>
-            <span className="text-ink-neutral-400 normal-case">(122)</span>
+          <span className="text-jvto-border text-xs">·</span>
+          <div className="flex items-center gap-1 text-[10px] text-jvto-muted font-semibold uppercase tracking-[0.08em]">
+            <MapPin className="w-3 h-3 text-jvto-orange flex-shrink-0" />
+            <span>{tour.startDestination}</span>
           </div>
         </div>
 
+        {/* Title */}
         <Link
-          target={isNewTab ? "_blank" : "_self"}
+          target={target}
           href={fullTourSlug}
           prefetch={false}
-          aria-label={tourLinkLabel}
-          className="group/title block mb-3"
+          aria-label={tour.name}
+          className="block mb-4 flex-grow"
         >
-          {(() => {
-            const Tag = `h${headingLevel}` as 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-            return (
-              <Tag
-                id={`tour-title-${tour.id}`}
-                className="text-lg font-bold text-ink-primary leading-tight group-hover/title:text-jvto-green transition-colors line-clamp-2"
-              >
-                {tour.name}
-              </Tag>
-            );
-          })()}
+          <Tag
+            id={`tour-title-${tour.id}`}
+            className="text-base font-black text-jvto-navy leading-snug line-clamp-2 group-hover:text-jvto-orange transition-colors"
+            style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+          >
+            {tour.name}
+          </Tag>
         </Link>
 
-        <hr className="border-gray-200 my-3" />
-
-        <div>
-          <span className="text-xs text-ink-neutral-500 dark:text-ink-neutral-400 font-medium uppercase tracking-wider">
+        {/* Price + CTA */}
+        <div className="border-t border-jvto-border pt-4 mt-auto">
+          <span className="block text-[9px] text-jvto-muted font-bold uppercase tracking-[0.14em] mb-1">
             Starts from
           </span>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-1 items-center">
-              <span className="text-2xl md:text-3xl font-black tracking-tight text-jvto-green">
+          <div className="flex items-center justify-between gap-2">
+            <div>
+              <span
+                className="text-xl font-black text-jvto-navy tracking-tight"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
                 {formatIDR(tour.startFrom)}
               </span>
-              <span className="text-sm text-nowrap text-ink-neutral-500 dark:text-ink-neutral-400">
-                / person
-              </span>
+              <span className="text-[10px] text-jvto-muted ml-1">/ person</span>
             </div>
-
             <Link
-              target={isNewTab ? "_blank" : "_self"}
+              target={target}
               href={fullTourSlug}
               prefetch={false}
-              aria-label={tourLinkLabel}
-              className="text-jvto-green hover:text-jvto-green/80 transition-colors p-2 -mr-2 rounded-full hover:bg-primary/5"
+              aria-label={`View ${tour.name}`}
+              className="flex-shrink-0 w-9 h-9 rounded-full bg-jvto-orange flex items-center justify-center hover:bg-jvto-orange-hover transition-colors"
+              style={{ boxShadow: "var(--shadow-jvto-orange)" }}
             >
-              <ArrowRight className="w-7 h-7" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </Link>
           </div>
         </div>

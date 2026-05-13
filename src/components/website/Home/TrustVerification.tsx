@@ -83,7 +83,7 @@ const TrustVerification: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center flex-col md:flex-row gap-4">
           <Link
             href="/verify-jvto"
             prefetch={false}
@@ -92,7 +92,7 @@ const TrustVerification: React.FC = () => {
             See all 5 credentials
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-          <span className="text-xs text-jvto-muted">
+          <span className="text-xs text-jvto-muted text-center md:text-left">
             Medical officer · ISIC provider · press recognition · history artifacts
           </span>
         </div>
