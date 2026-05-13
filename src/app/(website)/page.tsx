@@ -11,6 +11,8 @@ import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import IsicSection from "@/components/website/Home/IsicSection";
 import Contact from "@/components/website/Contact";
 import TravelGuideTeaser from "@/components/website/Home/TravelGuideTeaser";
+import Differentiators from "@/components/website/Home/Differentiators";
+import TrustVerification from "@/components/website/Home/TrustVerification";
 import ViewportSection from "@/components/website/ViewportSection";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -170,20 +172,39 @@ const Home = async () => {
       />
       <Hero title={seo.h1} description={seo.description} />
       <Features />
-      {/* Pass destinations dari sini: tidak perlu fetch ulang di HomeDestinations */}
+      <Differentiators />
       <HomeDestinations destinations={destinations} />
       <FeaturedTours />
       <WhyJVTO />
+      <TrustVerification />
 
-      <div className="bg-jvto-green/5 pt-20 pb-20">
+      {/* Reviews section */}
+      <div className="bg-white pt-20 pb-20 border-t border-jvto-border">
         <div className="w-full container mx-auto">
-          <div className="max-w-3xl mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-black text-center uppercase mb-3 text-jvto-dark">
-              What Our Guests Say
+          <div className="max-w-3xl mx-auto px-4 mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-off border border-jvto-border mb-4">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
+                Guest Reviews
+              </span>
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-black text-jvto-navy leading-tight mb-3"
+              style={{
+                fontFamily: "Raleway, Inter, sans-serif",
+                letterSpacing: "-0.025em",
+              }}
+            >
+              51 reviews on Trustpilot.{" "}
+              <span className="text-jvto-orange italic">92 on Google Maps.</span>{" "}
+              21 on TripAdvisor.
             </h2>
-            <p className="text-lg text-center">
-              Real experiences from travelers who trusted us with their East
-              Java adventure.
+            <p className="text-jvto-muted text-base">
+              Trustpilot rating:{" "}
+              <strong className="text-jvto-navy">4.8 / 5</strong> (51 reviews).
+              Google Maps: <strong className="text-jvto-navy">4.90 / 5</strong>{" "}
+              (92 reviews). TripAdvisor:{" "}
+              <strong className="text-jvto-navy">4.95 / 5</strong> (21 reviews).
+              All platforms link to live profiles — not screenshots.
             </p>
           </div>
           <Reviews />

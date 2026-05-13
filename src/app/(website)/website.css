@@ -40,6 +40,15 @@ body {
   scrollbar-width: none;
 }
 
+/* ── JVTO Design System card with hover shadow ── */
+.card-jvto {
+  box-shadow: var(--shadow-jvto);
+  transition: box-shadow 500ms ease, transform 500ms ease;
+}
+.card-jvto:hover {
+  box-shadow: var(--shadow-jvto-hover);
+}
+
 /* ── JVTO Design System shadow tokens ── */
 :root {
   --shadow-jvto: 0 20px 40px -15px rgba(13, 27, 42, 0.10);
