@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JVTO — Section Rhythm</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; }
+h1.page-title { text-align: center; padding: 28px 24px 8px; font-size: 18px; font-weight: 700; }
+p.page-sub { text-align: center; padding: 0 24px 24px; font-size: 13px; color: #555; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 24px 40px; max-width: 900px; margin: 0 auto; }
+.card { background: #fff; border-radius: 16px; overflow: hidden; cursor: pointer; border: 3px solid transparent; box-shadow: 0 4px 16px rgba(0,0,0,0.10); transition: all 0.2s; }
+.card:hover { transform: translateY(-2px); }
+.card.selected { border-color: #E8650A; box-shadow: 0 0 0 4px rgba(232,101,10,0.2); }
+.card-label { padding: 16px 18px 12px; }
+.card-label .letter { display: inline-block; background: #0D1B2A; color: #fff; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.card-label h3 { font-size: 15px; font-weight: 700; color: #0D1B2A; }
+.card-label p { font-size: 12px; color: #555; margin-top: 4px; line-height: 1.4; }
+.card-label .tag { display: inline-block; margin-top: 8px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8650A; border: 1px solid #E8650A; border-radius: 99px; padding: 2px 8px; }
+
+/* Section strip mockup */
+.strip { display: flex; flex-direction: column; }
+.sec { padding: 8px 14px; display: flex; align-items: center; gap: 8px; }
+.sec-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.sec-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.sec-sub { font-size: 8px; margin-left: auto; opacity: 0.6; }
+
+/* Dark dominant */
+.dark1 { background: #0D1B2A; }
+.dark2 { background: #0A1520; }
+.dark3 { background: #0D1B2A; border-top: 1px solid rgba(255,255,255,0.06); }
+.dark-text { color: rgba(255,255,255,0.8); }
+.dark-sub { color: rgba(255,255,255,0.35); font-size: 8px; margin-left: auto; }
+
+.light1 { background: #F6F5F2; }
+.light2 { background: #ffffff; }
+.light3 { background: #F6F5F2; border-top: 1px solid #E3E0DA; }
+.light-text { color: #0D1B2A; }
+.light-sub { color: #9CA3AF; font-size: 8px; margin-left: auto; }
+
+/* Color legend */
+.legend { display: flex; gap: 12px; padding: 10px 14px; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 8px; color: rgba(255,255,255,0.45); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.legend-light { display: flex; gap: 12px; padding: 10px 14px; border-top: 1px solid #E3E0DA; flex-wrap: wrap; }
+.legend-light-item { display: flex; align-items: center; gap: 5px; font-size: 8px; color: #888; }
+
+/* Confirm */
+.confirm { text-align: center; padding: 0 24px 48px; }
+.confirm p { font-size: 13px; color: #555; margin-bottom: 12px; }
+.confirm button { background: #0D1B2A; color: #fff; border: none; border-radius: 99px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Section Rhythm — How dark should it be?</h1>
+<p class="page-sub">Option B uses dark + bento. But how the 8 sections alternate (or don't) changes the feel completely.</p>
+
+<div class="grid">
+
+  <!-- OPTION B1 -->
+  <div class="card" id="card-b1" onclick="selectCard('b1')">
+    <div class="card-label">
+      <div class="letter">1</div>
+      <h3>Dark Dominant</h3>
+      <p>Page stays navy/dark throughout. White sections appear only as brief contrast moments. Feels cinematic and immersive — like volcanic terrain.</p>
+      <span class="tag">Maximum drama</span>
+    </div>
+    <div class="strip">
+      <div class="sec dark1"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">1 — Hero</span><span class="dark-sub">full-bleed photo · dark overlay</span></div>
+      <div class="sec dark3"><div class="sec-dot" style="background:#8CC63F"></div><span class="sec-label dark-text">2 — 6 Differentiators</span><span class="dark-sub">bento grid · dark bg</span></div>
+      <div class="sec dark2"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">3 — Destinations</span><span class="dark-sub">full-bleed cards · dark</span></div>
+      <div class="sec dark3"><div class="sec-dot" style="background:#fff"></div><span class="sec-label dark-text">4 — Tour Packages</span><span class="dark-sub">white bg · contrast moment</span></div>
+      <div class="sec dark1"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">5 — Reviews</span><span class="dark-sub">floating cards · dark</span></div>
+      <div class="sec dark3"><div class="sec-dot" style="background:#8CC63F"></div><span class="sec-label dark-text">6 — Trust &amp; Verify</span><span class="dark-sub">document cards · dark</span></div>
+      <div class="sec dark2"><div class="sec-dot" style="background:#fff"></div><span class="sec-label dark-text">7 — Our Story</span><span class="dark-sub">founder portrait · dark</span></div>
+      <div class="sec dark3"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">8 — CTA</span><span class="dark-sub">full-bleed · dark</span></div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0D1B2A; border:1px solid rgba(255,255,255,0.2)"></div>Navy dark</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffffff"></div>White (1 section)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B2 -->
+  <div class="card" id="card-b2" onclick="selectCard('b2')">
+    <div class="card-label">
+      <div class="letter">2</div>
+      <h3>Dark / Light Alternation</h3>
+      <p>Dark hero, then breathable white/off-white sections, then dark again. Light sections give the eye a rest and let content breathe — more editorial pacing.</p>
+      <span class="tag">More readable · breathing room</span>
+    </div>
+    <div class="strip">
+      <div class="sec dark1"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">1 — Hero</span><span class="dark-sub">full-bleed · dark overlay</span></div>
+      <div class="sec light1"><div class="sec-dot" style="background:#0D1B2A"></div><span class="sec-label light-text">2 — 6 Differentiators</span><span class="light-sub">off-white · bento grid</span></div>
+      <div class="sec dark1"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">3 — Destinations</span><span class="dark-sub">dark · full-bleed cards</span></div>
+      <div class="sec light2"><div class="sec-dot" style="background:#0D1B2A"></div><span class="sec-label light-text">4 — Tour Packages</span><span class="light-sub">white bg</span></div>
+      <div class="sec dark1"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">5 — Reviews</span><span class="dark-sub">dark · floating cards</span></div>
+      <div class="sec light1"><div class="sec-dot" style="background:#8CC63F"></div><span class="sec-label light-text">6 — Trust &amp; Verify</span><span class="light-sub">off-white · lime chips</span></div>
+      <div class="sec dark1"><div class="sec-dot" style="background:#fff"></div><span class="sec-label dark-text">7 — Our Story</span><span class="dark-sub">dark · founder portrait</span></div>
+      <div class="sec dark3"><div class="sec-dot" style="background:#E8650A"></div><span class="sec-label dark-text">8 — CTA</span><span class="dark-sub">dark · orange CTA</span></div>
+      <div class="legend-light">
+        <div class="legend-light-item"><div class="legend-dot" style="background:#0D1B2A"></div>Navy dark (4 sections)</div>
+        <div class="legend-light-item"><div class="legend-dot" style="background:#F6F5F2; border:1px solid #E3E0DA"></div>Off-white (2 sections)</div>
+        <div class="legend-light-item"><div class="legend-dot" style="background:#fff; border:1px solid #E3E0DA"></div>White (2 sections)</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="confirm">
+  <p>Mana yang lebih sesuai?</p>
+  <button onclick="confirmSelection()">Confirm</button>
+</div>
+
+<script>
+let selected = null;
+function selectCard(id) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('card-' + id).classList.add('selected');
+  selected = id;
+}
+function confirmSelection() {
+  if (!selected) { alert('Pilih salah satu dulu.'); return; }
+  const labels = { b1: 'B1 — Dark Dominant', b2: 'B2 — Dark / Light Alternation' };
+  fetch('/api/event', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ type:'click', choice: selected, text: labels[selected], timestamp: Date.now() }) }).catch(()=>{});
+  document.querySelector('.confirm p').textContent = '✓ ' + labels[selected] + ' — jawab di terminal untuk lanjut.';
+  document.querySelector('.confirm button').disabled = true;
+  document.querySelector('.confirm button').style.opacity = '0.5';
+}
+</script>
+</body>
+</html>
