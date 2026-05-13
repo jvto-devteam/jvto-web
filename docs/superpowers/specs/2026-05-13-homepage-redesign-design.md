@@ -55,20 +55,21 @@
 **Layout:** Centered content, left-aligned text block, max-width 1280px container
 
 **Elements (top to bottom):**
-1. **Eyebrow chip** — lime, animated pulse dot + "Tourist Police-Led · Licensed Operator · NIB 1102230032918"
-2. **H1** — Raleway 900, `clamp(42px, 6vw, 88px)`, white. Second line `em` in orange italic: `Tourist Police-Led <em>Private Volcano Tours</em> in East Java`
-3. **Body paragraph** — from wiki hero body. Light weight `font-weight: 300`, `text-white/60`
-4. **CTA button row** — three buttons:
-   - Primary orange pill: "Browse 16 Private Tours →"
-   - Lime outline pill: "Verify Licenses & Credentials"
-   - White glass pill: "WhatsApp Us"
-5. **Stats bar** — `bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl` pill container with 4 stats separated by dividers:
+1. **Eyebrow chip** — lime, animated pulse dot + "Tourist Police-Led · Licensed Operator · NIB 1102230032918" `[DESIGN ADDITION — uses real data]`
+2. **H1** — Raleway 900, `clamp(42px, 6vw, 88px)`, white. Orange italic `<em>` on design emphasis only — content verbatim: `Tourist Police-Led Private Volcano Tours in East Java` `[WIKI VERBATIM — hero headline]`
+3. **Subheadline** — `text-white/70`: "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (NIB 1102230032918), led by an active Tourist Police officer." `[WIKI VERBATIM — hero subheadline]`
+4. **Body paragraph 1** — `text-white/55 font-light`: "Mr. Sam is a Tourist Police officer first, tour operator second. That order matters: every route decision, every written rule, and every safety boundary comes from someone who answers to police protocol — not a marketing brief." `[WIKI VERBATIM — hero body ¶1]`
+5. **Body paragraph 2** — `text-white/55 font-light`: "We operate private tours only. Your group gets a dedicated vehicle, driver, and guide. No shared transfers, no schedule compromises with strangers, no last-minute logistics surprises." `[WIKI VERBATIM — hero body ¶2]`
+6. **CTA button row** — two buttons only (no WhatsApp — not in wiki):
+   - Primary orange pill: "Browse Tours" `[WIKI — CTA section primary]`
+   - Lime outline pill: "Verify JVTO" `[WIKI — CTA section secondary]`
+7. **Stats bar** — `bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl` `[DESIGN ADDITION — data from wiki reviews + packages sections]`:
    - `4.8` / Trustpilot · 51 reviews
    - `4.90` / Google Maps · 92 reviews
-   - `1102230032918` (JetBrains Mono) / NIB · checkable at oss.go.id
+   - `1102230032918` (JetBrains Mono) / NIB · oss.go.id
    - `16` / Private Itineraries
 
-**Trustpilot badge:** Keep existing SVG badge (preserve from current Hero.tsx)
+**Trustpilot badge:** Keep existing SVG badge (preserve from current Hero.tsx) `[DESIGN ADDITION]`
 
 ---
 
@@ -187,10 +188,10 @@ Left — Trust stack (5 items, `space-y-3`):
 
 Right — Sticky sidebar CTA card:
 - `bg-jvto-navy rounded-[32px] p-8 sticky top-20`
-- H3 "Audit us before you book." + body text
-- 3 buttons stacked: lime outline "Open Full Library →", white glass "See Legal Documents", white glass "See Police Credentials"
+- H3 + body: `[DESIGN ADDITION — no prose copy in wiki trust section]`. Use: "Credentials you can check." + "Every license on this page is publicly verifiable. We publish SHA-256 hashes for all credential documents in public/llms.txt so you can confirm authenticity before you book." `[WIKI VERBATIM — trust section intro, repurposed as sidebar body]`
+- 3 buttons stacked: lime outline "Open Full Verification Library", white glass "See Legal Documents", white glass "See Police Credentials" `[DESIGN ADDITION — nav labels, no copy conflict]`
 
-**Content:** exact 5 tiers from wiki trust stack section.
+**Content — 5 trust tiers:** exact text from wiki trust stack section. `[WIKI VERBATIM]`
 
 ---
 
@@ -210,10 +211,11 @@ Right — Sticky sidebar CTA card:
 - `<Image src="/founder/agung_sambuko.webp" fill object-cover>`
 - Gradient overlay: `from-jvto-navy/95 via-jvto-navy/60 to-transparent`
 - Name overlay: "Agung 'Mr. Sam' Sambuko" (Raleway 800) + lime role label
-- **Quote badge** — positioned `absolute -top-4 -right-4 bg-jvto-orange rounded-[20px] p-4 max-w-[180px]`:
-  - Italic quote: *"In a landscape of freelancers and brokers, JVTO provides documented legitimacy."*
-  - Attribution: "— Bripka Agung Sambuko"
+- **Quote badge** — positioned `absolute -top-4 -right-4 bg-jvto-orange rounded-[20px] p-4 max-w-[180px]` `[DESIGN ADDITION]`:
+  - Italic quote: *"In a landscape of freelancers and brokers, JVTO provides documented legitimacy."* — this quote is from JVTO Design System README brand voice examples, **not** from homepage wiki copy. Acceptable as authentic brand voice but **not** wiki-sourced.
+  - Attribution: "— JVTO brand voice"
   - `var(--shadow-jvto-orange)`
+  - ⚠️ **If strict wiki-only is required:** remove this badge entirely, or replace with a line from wiki Our Story section.
 
 ---
 
@@ -223,13 +225,13 @@ Right — Sticky sidebar CTA card:
 **Layout:** Container, fully centered
 
 **Elements:**
-- Eyebrow: muted-on-dark, "Ready to book?"
-- H2: "Private tours, *documented legitimacy,* written policies."
-- Policy reminder (from wiki): "Read the Rulebook Before You Book — cancellation rules, inclusions, and screening protocols are published in full before payment." (`text-white/40`)
+- Eyebrow: muted-on-dark, "Ready to book?" `[DESIGN ADDITION]`
+- H2: "Private tours, *documented legitimacy,* written policies." `[DESIGN ADDITION — summary headline, not from wiki. Acceptable as design framing.]`
+- Policy reminder: "Read the Rulebook Before You Book — cancellation rules, inclusions, and screening protocols are published in full before payment." `[WIKI VERBATIM — CTA section policy reminder]`
 - Button row (centered, `flex gap-3`):
-  - Orange pill: "Browse Tours · 16 Itineraries →" `var(--shadow-jvto-orange)`
-  - Lime outline pill: "Verify JVTO ↗"
-- Sub-labels (tiny, `text-white/25`): "From Surabaya & Bali" · "NIB 1102230032918 · Checkable at oss.go.id"
+  - Orange pill: "Browse Tours" with sub-text "16 private itineraries from Surabaya and Bali" `[WIKI VERBATIM — CTA primary, split into button + sub-label]`
+  - Lime outline pill: "Verify JVTO" with sub-text "Check licenses, press coverage, and founder credentials" `[WIKI VERBATIM — CTA secondary, split into button + sub-label]`
+- Sub-labels (tiny, `text-white/25`): "From Surabaya & Bali" · "NIB 1102230032918 · Checkable at oss.go.id" `[DESIGN ADDITION — data from wiki]`
 
 ---
 
