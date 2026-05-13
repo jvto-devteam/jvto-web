@@ -158,37 +158,59 @@ const Home = async () => {
       <FeaturedTours />
 
       {/* 5. Reviews */}
-      <div className="bg-white pt-20 pb-20 border-t border-jvto-border">
-        <div className="w-full container mx-auto">
-          <div className="max-w-3xl mx-auto px-4 mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jvto-off border border-jvto-border mb-4">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
+      <section className="bg-jvto-navy py-20 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
                 Guest Reviews
               </span>
             </div>
             <h2
-              className="text-3xl md:text-4xl font-black text-jvto-navy leading-tight mb-3"
-              style={{
-                fontFamily: "Raleway, Inter, sans-serif",
-                letterSpacing: "-0.025em",
-              }}
+              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 max-w-2xl"
+              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
               51 reviews on Trustpilot.{" "}
-              <span className="text-jvto-orange italic">92 on Google Maps.</span>{" "}
+              <em className="text-jvto-orange not-italic">92 on Google Maps.</em>{" "}
               21 on TripAdvisor.
             </h2>
-            <p className="text-jvto-muted text-base">
-              Trustpilot rating:{" "}
-              <strong className="text-jvto-navy">4.8 / 5</strong> (51 reviews).
-              Google Maps: <strong className="text-jvto-navy">4.90 / 5</strong>{" "}
-              (92 reviews). TripAdvisor:{" "}
-              <strong className="text-jvto-navy">4.95 / 5</strong> (21 reviews).
-              All platforms link to live profiles — not screenshots.
+            <p className="text-white/50 text-sm md:text-base max-w-xl leading-relaxed">
+              Trustpilot rating: <strong className="text-white font-semibold">4.8 / 5</strong> (51 reviews, verified 2026-05-09). Google Maps: <strong className="text-white font-semibold">4.90 / 5</strong> (92 reviews). TripAdvisor: <strong className="text-white font-semibold">4.95 / 5</strong> (21 reviews). All platforms link to the live profiles — not screenshots.
+            </p>
+            <p className="text-white/35 text-sm mt-3 max-w-xl leading-relaxed">
+              These are not cherry-picked quotes. Browse by platform, browse by pattern. The themes that appear across guides, drivers, and logistics tell you more than any single testimonial.
             </p>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+            {[
+              { score: "4.8 / 5", platform: "Trustpilot", count: "51 reviews", starColor: "#00b67a" },
+              { score: "4.90 / 5", platform: "Google Maps", count: "92 reviews", starColor: "#E8650A" },
+              { score: "4.95 / 5", platform: "TripAdvisor", count: "21 reviews", starColor: "#34e0a1" },
+            ].map((p) => (
+              <div
+                key={p.platform}
+                className="bg-white/5 border border-white/10 rounded-[20px] p-5"
+              >
+                <span
+                  className="block text-2xl font-black text-white mb-1"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+                >
+                  {p.score}
+                </span>
+                <span className="block text-[9px] uppercase tracking-[0.15em] text-white/40">
+                  {p.platform} · {p.count}
+                </span>
+                <span className="block mt-2 text-sm" style={{ color: p.starColor }}>
+                  ★★★★★
+                </span>
+              </div>
+            ))}
+          </div>
+
           <Reviews />
         </div>
-      </div>
+      </section>
 
       {/* 6. Trust & Verification */}
       <TrustVerification />
