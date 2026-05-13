@@ -51,7 +51,7 @@ const MegaMenuLink: React.FC<{
       href={to}
       prefetch={false}
       onClick={onClick}
-      className="block py-2 text-sm font-medium text-gray-700 hover:text-jvto-green transition-colors"
+      className="block py-2 text-sm font-medium text-gray-700 hover:text-jvto-orange transition-colors"
     >
       {children}
     </Link>
@@ -89,7 +89,7 @@ const ToursDropdown: React.FC = () => {
     >
       <button
         ref={buttonRef}
-        className="flex items-center gap-1 uppercase tracking-wider font-bold text-sm hover:text-jvto-green transition-colors whitespace-nowrap"
+        className="flex items-center gap-1 uppercase tracking-wider font-bold text-sm hover:text-jvto-orange transition-colors whitespace-nowrap"
       >
         Tours{" "}
         <ChevronDown
@@ -108,7 +108,7 @@ const ToursDropdown: React.FC = () => {
         }`}
       >
         <div className="absolute -top-3 left-0 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[10px] border-b-gray-200" />
-        <div className="bg-white border border-gray-200 shadow-xl rounded-lg w-[800px] max-w-[90vw] overflow-hidden">
+        <div className="bg-white border border-jvto-border shadow-xl rounded-[24px] w-[800px] max-w-[90vw] overflow-hidden" style={{ boxShadow: 'var(--shadow-jvto-hover)' }}>
           <div className="flex">
             <div className="flex-1 p-8 grid grid-cols-2 gap-8 bg-white">
               <div>
@@ -150,20 +150,19 @@ const ToursDropdown: React.FC = () => {
                 </ul>
               </div>
             </div>
-            <div className="w-[300px] bg-jvto-green border-l border-gray-200 p-6 flex flex-col justify-center">
+            <div className="w-[300px] bg-jvto-navy border-l border-jvto-border p-6 flex flex-col justify-center gap-4">
               <Link
                 href="/tours"
                 prefetch={false}
                 onClick={handleClose}
-                className="bg-white border-4 border-black p-4 shadow-pop hover:-translate-y-1 transition-transform text-center"
+                className="bg-jvto-orange text-white rounded-full px-6 py-4 font-bold text-xs uppercase tracking-[0.2em] hover:bg-jvto-orange-hover transition-colors text-center block"
+                style={{ boxShadow: 'var(--shadow-jvto-orange)' }}
               >
-                <span className="font-display text-2xl text-black block text-primary">
-                  ALL TOURS
-                </span>
-                <span className="font-bold text-sm text-black">
-                  Find your adventure!
-                </span>
+                All Tours
               </Link>
+              <p className="text-xs text-white/50 text-center">
+                16 private itineraries · Surabaya &amp; Bali
+              </p>
             </div>
           </div>
         </div>
@@ -332,14 +331,14 @@ const NavbarInner: React.FC = () => {
   const navClass =
     isHome && !isScrolled
       ? "bg-transparent text-white"
-      : "bg-white text-jvto-dark shadow-md";
-  const logoTextClass = isHome && !isScrolled ? "text-white" : "text-jvto-dark";
-  const finalLogoTextClass = isMenuOpen ? "text-jvto-dark" : logoTextClass;
+      : "bg-white/80 backdrop-blur-md border-b border-jvto-border text-jvto-navy";
+  const logoTextClass = isHome && !isScrolled ? "text-white" : "text-jvto-navy";
+  const finalLogoTextClass = isMenuOpen ? "text-jvto-navy" : logoTextClass;
   const finalMenuIconClass = isMenuOpen
-    ? "text-jvto-dark"
+    ? "text-jvto-navy"
     : isHome && !isScrolled
       ? "text-white"
-      : "text-jvto-dark";
+      : "text-jvto-navy";
 
   return (
     <>
@@ -350,7 +349,7 @@ const NavbarInner: React.FC = () => {
           className={`hidden md:block py-2 text-xs font-medium border-b border-white/10 ${
             isHome && !isScrolled
               ? "bg-black/20"
-              : "bg-jvto-green text-jvto-dark"
+              : "bg-jvto-lime/15 text-jvto-navy"
           }`}
         >
           <div className="container mx-auto px-6 flex justify-center items-center gap-4">
@@ -382,21 +381,21 @@ const NavbarInner: React.FC = () => {
               <Link
                 href="/destinations"
                 prefetch={false}
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="hover:text-jvto-orange transition-colors whitespace-nowrap"
               >
                 Destinations
               </Link>
               <Link
                 href="/why-jvto"
                 prefetch={false}
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="hover:text-jvto-orange transition-colors whitespace-nowrap"
               >
                 Why JVTO
               </Link>
               <Link
                 href="/travel-guide"
                 prefetch={false}
-                className="hover:text-jvto-green transition-colors whitespace-nowrap"
+                className="hover:text-jvto-orange transition-colors whitespace-nowrap"
               >
                 Travel Guide
               </Link>
@@ -463,7 +462,7 @@ const NavbarInner: React.FC = () => {
 
             {mobileMenuView === "main" && (
               <>
-                <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-dark">
+                <div className="flex flex-col gap-6 text-xl font-bold uppercase tracking-wide text-jvto-navy">
                   {shouldLoadAuth ? (
                     <NavbarMobileAuthIsland
                       onOpenLogin={() => {
@@ -473,7 +472,7 @@ const NavbarInner: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => setShouldLoadAuth(true)}
-                      className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-dark text-left"
+                      className="flex items-center gap-3 border-b border-gray-100 pb-4 text-jvto-navy text-left"
                     >
                       <User size={20} /> Log In
                     </button>
@@ -482,47 +481,47 @@ const NavbarInner: React.FC = () => {
                   <Link
                     href="/tours"
                     prefetch={false}
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-orange transition-colors"
                   >
                     Private Tours
                   </Link>
                   <Link
                     href="/destinations"
                     prefetch={false}
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-orange transition-colors"
                   >
                     Destinations
                   </Link>
                   <Link
                     href="/why-jvto"
                     prefetch={false}
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-orange transition-colors"
                   >
                     Why JVTO
                   </Link>
                   <Link
                     href="/travel-guide"
                     prefetch={false}
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green transition-colors"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-orange transition-colors"
                   >
                     Travel Guide
                   </Link>
                   <Link
                     href="/contact"
                     prefetch={false}
-                    className="border-b border-gray-100 pb-4 hover:text-jvto-green text-jvto-green transition-colors"
+                    className="border-b border-gray-100 pb-4 hover:text-jvto-orange text-jvto-orange transition-colors"
                   >
                     Contact
                   </Link>
                 </div>
 
                 <div className="mt-auto mb-10 pt-8 border-t border-gray-100 text-sm text-gray-500">
-                  <p className="font-bold mb-2 text-jvto-dark uppercase tracking-wider">
+                  <p className="font-bold mb-2 text-jvto-navy uppercase tracking-wider">
                     Official Contact
                   </p>
                   <p className="mb-1">WhatsApp: +62 822-4478-8833</p>
                   <div className="mt-6 flex items-center gap-2 text-xs bg-gray-50 p-3 rounded-sm border border-gray-200">
-                    <ShieldCheck size={16} className="text-jvto-green" />
+                    <ShieldCheck size={16} className="text-jvto-lime" />
                     <span>Licensed Operator No. 1102230032918</span>
                   </div>
                 </div>
