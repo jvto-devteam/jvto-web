@@ -112,34 +112,34 @@ const Differentiators: React.FC = () => {
                 href={card.href}
                 className={`group block rounded-[32px] p-7 card-jvto border ${
                   isLime
-                    ? "bg-jvto-lime/7 border-jvto-lime/22"
+                    ? "bg-jvto-lime border-jvto-lime"
                     : "bg-white border-jvto-border"
                 }`}
               >
                 <div
                   className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-5 transition-colors ${
                     isLime
-                      ? "bg-jvto-lime/15 group-hover:bg-jvto-lime/25"
+                      ? "bg-jvto-navy/10 group-hover:bg-jvto-navy/20"
                       : "bg-jvto-off group-hover:bg-jvto-navy"
                   }`}
                 >
                   <Icon
                     className={`w-5 h-5 transition-colors ${
                       isLime
-                        ? "text-jvto-lime"
+                        ? "text-jvto-navy"
                         : "text-jvto-orange group-hover:text-white"
                     }`}
                   />
                 </div>
                 <h3
                   className={`text-sm font-black mb-2 leading-snug ${
-                    isLime ? "text-jvto-lime" : "text-jvto-navy"
+                    isLime ? "text-jvto-navy" : "text-jvto-navy"
                   }`}
                   style={{ fontFamily: "Raleway, Inter, sans-serif" }}
                 >
                   {card.headline}
                 </h3>
-                <p className={`text-xs leading-relaxed ${isLime ? "text-jvto-lime/70" : "text-jvto-muted"}`}>
+                <p className={`text-xs leading-relaxed ${isLime ? "text-jvto-navy/70" : "text-jvto-muted"}`}>
                   {card.body}
                 </p>
               </a>

@@ -39,7 +39,7 @@ const TourCardStatic: React.FC<TourCardStaticProps> = ({
 
   const durationString = `${tour.duration.day}D/${tour.duration.night}N`;
   const fullTourSlug = `/${tour.slug}`;
-  const tourLinkLabel = `View tour details for ${tour.name}`;
+  const tourLinkLabel = tour.name;
 
   return (
     <div

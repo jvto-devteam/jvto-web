@@ -27,12 +27,12 @@ const FeaturedTours = async () => {
           className="text-3xl md:text-5xl font-black text-jvto-navy mb-5 leading-tight"
           style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
         >
-          16 private tours.{" "}
+          Private tours.{" "}
           <em className="text-jvto-orange not-italic">From Surabaya or Bali.</em>{" "}
           1 to 6 days.
         </h2>
         <p className="text-jvto-muted max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-          All 16 packages are 100% private. Prices are per person, in IDR, and scale down with group size. Every package includes: accommodation, breakfast, entrance fees, Bromo 4WD jeep (where applicable), gas masks, transfers, and a T-shirt. No surprise local payments.
+          All packages are 100% private. Prices are per person, in IDR, and scale down with group size. Every package includes: accommodation, breakfast, entrance fees, Bromo 4WD jeep (where applicable), gas masks, transfers, and a T-shirt. No surprise local payments.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">
@@ -40,13 +40,13 @@ const FeaturedTours = async () => {
             href="#featured-tours-surabaya"
             className="px-7 py-3 rounded-full bg-jvto-navy text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-jvto-navy-mid transition-colors"
           >
-            From Surabaya · 12 packages
+            From Surabaya
           </a>
           <a
             href="#featured-tours-bali"
             className="px-7 py-3 rounded-full border border-jvto-navy text-jvto-navy font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-jvto-navy hover:text-white transition-colors"
           >
-            From Bali · 4 packages
+            From Bali
           </a>
         </div>
       </div>
@@ -61,7 +61,7 @@ const FeaturedTours = async () => {
           className="inline-flex items-center gap-2 bg-jvto-navy text-white px-10 py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-jvto-navy-mid transition-colors"
           style={{ boxShadow: "var(--shadow-jvto-cta)" }}
         >
-          View All 16 Tours
+          View All Tours
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

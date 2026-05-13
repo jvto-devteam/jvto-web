@@ -62,7 +62,7 @@ const WhyJVTO: React.FC = () => {
               <Link
                 href="/verify-jvto"
                 prefetch={false}
-                className="font-bold border-b-2 border-white/20 text-white/45 hover:text-white hover:border-white transition-colors pb-1 text-sm"
+                className="font-bold border-b-2 border-white/20 text-white/60 hover:text-white hover:border-white transition-colors pb-1 text-sm"
               >
                 How to Verify Us
               </Link>

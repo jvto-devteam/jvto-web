@@ -112,9 +112,9 @@ const ToursDropdown: React.FC = () => {
           <div className="flex">
             <div className="flex-1 p-8 grid grid-cols-2 gap-8 bg-white">
               <div>
-                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
+                <p className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
                   Popular
-                </h4>
+                </p>
                 <ul className="space-y-2">
                   <MegaMenuLink
                     to="/tours/from-surabaya/bromo-madakaripura-ijen-3d2n"
@@ -137,9 +137,9 @@ const ToursDropdown: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
+                <p className="text-sm font-bold uppercase tracking-wider text-gray-700 mb-4">
                   By Location
-                </h4>
+                </p>
                 <ul className="space-y-2">
                   <MegaMenuLink to="/tours/from-surabaya" onClick={handleClose}>
                     Start From Surabaya

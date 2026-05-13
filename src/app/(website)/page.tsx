@@ -171,13 +171,15 @@ const Home = async () => {
               style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
               51 reviews on Trustpilot.{" "}
+              <br />
               <em className="text-jvto-orange not-italic">92 on Google Maps.</em>{" "}
+              <br />
               21 on TripAdvisor.
             </h2>
             <p className="text-white/50 text-sm md:text-base max-w-xl leading-relaxed">
               Trustpilot rating: <strong className="text-white font-semibold">4.8 / 5</strong> (51 reviews, verified 2026-05-09). Google Maps: <strong className="text-white font-semibold">4.90 / 5</strong> (92 reviews). TripAdvisor: <strong className="text-white font-semibold">4.95 / 5</strong> (21 reviews). All platforms link to the live profiles — not screenshots.
             </p>
-            <p className="text-white/35 text-sm mt-3 max-w-xl leading-relaxed">
+            <p className="text-white/60 text-sm mt-3 max-w-xl leading-relaxed">
               These are not cherry-picked quotes. Browse by platform, browse by pattern. The themes that appear across guides, drivers, and logistics tell you more than any single testimonial.
             </p>
           </div>

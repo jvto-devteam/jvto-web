@@ -123,12 +123,12 @@ const Footer: React.FC = () => {
               unoptimized
               className="object-contain"
             />
-            <span className="text-xs text-white/40">
+            <span className="text-xs text-white/60">
               ©️ Copyright 2015-2026 PT. Java Volcano Rendezvous | East Java, Indonesia | All Rights Reserved.{" "}
               <br />
               <Link href="/policy/privacy" prefetch={false} className="text-jvto-lime hover:underline">Privacy Policy</Link>
             </span>
-            <span className="text-xs text-white/40">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
+            <span className="text-xs text-white/60">Popular with travellers from Singapore, Malaysia, Hong Kong, and Taiwan.</span>
           </div>
 
           <div className="flex gap-4">

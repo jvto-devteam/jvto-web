@@ -11,7 +11,7 @@ const Hero: React.FC<HeroProps> = ({
   description = "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (NIB 1102230032918), led by an active Tourist Police officer.",
 }) => {
   return (
-    <div className="relative min-h-[92vh] flex items-center overflow-hidden bg-jvto-navy">
+    <div className="relative min-h-[100vh] flex items-center overflow-hidden bg-jvto-navy">
       {/* Background photo */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -32,13 +32,13 @@ const Hero: React.FC<HeroProps> = ({
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-jvto-lime/40 bg-jvto-lime/10 backdrop-blur-sm mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-jvto-lime animate-pulse flex-shrink-0" />
           <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-jvto-lime">
-            Tourist Police-Led · Licensed Operator · NIB 1102230032918
+            Java Volcano Tour Operator
           </span>
         </div>
 
         {/* H1 */}
         <h1
-          className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.0] mb-6 max-w-4xl"
+          className="text-4xl md:text-6xl font-black text-white leading-[1.0] mb-6 max-w-4xl"
           style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.035em" }}
         >
           Tourist Police-Led{" "}
@@ -52,14 +52,14 @@ const Hero: React.FC<HeroProps> = ({
         </p>
 
         {/* Body paragraph 1 */}
-        <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">
+        {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-3 leading-relaxed font-light">
           Mr. Sam is a Tourist Police officer first, tour operator second. That order matters: every route decision, every written rule, and every safety boundary comes from someone who answers to police protocol — not a marketing brief.
         </p>
-
+ */}
         {/* Body paragraph 2 */}
-        <p className="text-sm md:text-base text-white/50 max-w-xl mb-10 leading-relaxed font-light">
+        {/* <p className="text-sm md:text-base text-white/50 max-w-xl mb-10 leading-relaxed font-light">
           We operate private tours only. Your group gets a dedicated vehicle, driver, and guide. No shared transfers, no schedule compromises with strangers, no last-minute logistics surprises.
-        </p>
+        </p> */}
 
         {/* CTA buttons */}
         <div className="flex gap-3 flex-wrap mb-12">
@@ -94,7 +94,7 @@ const Hero: React.FC<HeroProps> = ({
         </div>
 
         {/* Stats bar */}
-        <div className="inline-flex flex-wrap gap-0 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-2 md:inline-flex w-full md:w-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
           {[
             { val: "4.8", lbl: "Trustpilot · 51 reviews" },
             { val: "4.90", lbl: "Google Maps · 92 reviews" },
@@ -103,7 +103,12 @@ const Hero: React.FC<HeroProps> = ({
           ].map((stat, i) => (
             <div
               key={stat.lbl}
-              className={`px-5 py-3 text-center ${i > 0 ? "border-l border-white/10" : ""}`}
+              className={[
+                "px-5 py-4 text-center",
+                i % 2 === 1 ? "border-l border-white/10" : "",
+                i >= 2 ? "border-t border-white/10 md:border-t-0" : "",
+                i === 2 ? "md:border-l md:border-white/10" : "",
+              ].filter(Boolean).join(" ")}
             >
               <span
                 className="block text-lg font-black text-white leading-none"

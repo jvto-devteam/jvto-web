@@ -27,7 +27,7 @@ const HomeCTA: React.FC = () => {
         </h2>
 
         {/* Policy reminder — wiki verbatim */}
-        <p className="text-white/45 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed">
+        <p className="text-white/60 text-sm md:text-base max-w-xl mx-auto mb-12 leading-relaxed">
           Read the Rulebook Before You Book — cancellation rules, inclusions,
           and screening protocols are published in full before payment.
         </p>
@@ -54,7 +54,7 @@ const HomeCTA: React.FC = () => {
         </div>
 
         {/* Sub-labels — wiki CTA section verbatim */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] text-white/25">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-[10px] text-white/50">
           <span>16 private itineraries from Surabaya and Bali</span>
           <span className="hidden sm:inline">·</span>
           <span>Check licenses, press coverage, and founder credentials</span>
