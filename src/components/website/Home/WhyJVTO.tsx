@@ -26,28 +26,16 @@ const WhyJVTO: React.FC = () => {
               </em>
             </h2>
 
-            <div className="space-y-5 text-white/60 text-sm md:text-base leading-relaxed font-light">
+            <div className="text-white/60 text-sm md:text-base leading-relaxed font-light">
               <p>
-                JVTO grew from a humble local guesthouse in Bondowoso into a
-                licensed tour operator shaped by the{" "}
+                We saw the gaps first-hand — unlicensed guides, no medical
+                screening, operators with no BBKSDA clearance, no written rules
+                for guests. We built something different:{" "}
                 <strong className="text-white font-semibold">
-                  Tourist Police experience
+                  private-only routes, realistic driving days, and clear written
+                  policies
                 </strong>{" "}
-                of our founder, Mr. Sam.
-              </p>
-              <p>
-                We saw the gaps in safety standards first-hand — unlicensed
-                guides, no medical screening, operators with no BBKSDA
-                clearance, no written rules for guests. We decided to build
-                something different: private-only routes, realistic driving
-                days, and clear written policies.
-              </p>
-              <p>
-                Today, we act as a bridge between wild adventure and
-                professional safety standards. The Tourist Police experience
-                isn&apos;t a marketing credential — it&apos;s the lens through
-                which every route, every safety rule, and every Plan-B decision
-                is made.
+                — shaped by a founder who is an active Tourist Police officer.
               </p>
             </div>
 

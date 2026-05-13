@@ -11,13 +11,13 @@ const LARGE_CARDS = [
   {
     icon: ShieldCheck,
     headline: "Police-Led",
-    body: "Mr. Sam — Bripka Agung Sambuko — is an active officer of the Indonesian Tourist Police (Ditpamobvit, East Java). No other licensed tour operator in East Java is founded and led by an active Polpar officer. His police authorization documents are publicly SHA-256 anchored.",
+    body: "Mr. Sam is an active Polpar officer — the only licensed East Java operator founded and led by an active Tourist Police.",
     href: "/verify-jvto/police-safety",
   },
   {
     icon: Users,
     headline: "100% Private",
-    body: "Every tour is private by default. Your booking means your vehicle, your driver, your guide — nobody else's group added to your seat. This keeps timing decisions yours, recovery time realistic, and safety coordination simple.",
+    body: "Your booking = your vehicle, your driver, your guide. No shared groups, no strangers added to your seat.",
     href: "/tours",
   },
 ];
@@ -25,29 +25,29 @@ const LARGE_CARDS = [
 const SMALL_CARDS = [
   {
     icon: FileCheck,
-    headline: "All-Inclusive — No Surprise Local Payments",
-    body: "Entrance fees, the Bromo 4WD jeep, accommodation, breakfast, gas masks, and transfers are bundled in writing. What is and isn't included is published before you pay.",
+    headline: "All-Inclusive — No Surprises",
+    body: "Entrance fees, jeep, accommodation, breakfast, gas masks, and transfers — bundled in writing before payment.",
     href: "/policy/inclusions-exclusions",
     variant: "lime" as const,
   },
   {
     icon: Activity,
-    headline: "Ijen Health-Screening Coordination",
-    body: "JVTO coordinates the clinic workflow when current BBKSDA rules require it — before the hike, not as an afterthought. Dr. Ahmad Irwandanu holds a verified SIP license (Kemenkes RI).",
+    headline: "Ijen Health Screening",
+    body: "Medical screening coordinated before the hike — not improvised. Licensed doctor on file with Kemenkes RI.",
     href: "/travel-guide/ijen-health-screening",
     variant: "white" as const,
   },
   {
     icon: BadgeCheck,
     headline: "Verifiable Licenses",
-    body: "NIB 1102230032918 is checkable at oss.go.id. HPWKI membership (AHU-0001072.AH.01.07.TAHUN 2024) verifies Ijen specialist guide training. SHA-256 hashes published in public/llms.txt.",
+    body: "Business license, guide association, and park clearance — all publicly verifiable, SHA-256 anchored.",
     href: "/verify-jvto/legal",
     variant: "white" as const,
   },
   {
     icon: Compass,
-    headline: "Plan B When Conditions Change",
-    body: "JVTO operates a written Plan-B framework: if a site closes, you get an alternative route — briefed in advance, not improvised at the gate. That is a written policy, not a verbal promise.",
+    headline: "Written Plan B",
+    body: "If a site closes, you get an alternative route — briefed before departure, not improvised at the gate.",
     href: "/travel-guide/weather-and-closures",
     variant: "white" as const,
   },

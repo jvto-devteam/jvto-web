@@ -176,38 +176,9 @@ const Home = async () => {
               <br />
               21 on TripAdvisor.
             </h2>
-            <p className="text-white/50 text-sm md:text-base max-w-xl leading-relaxed">
-              Trustpilot rating: <strong className="text-white font-semibold">4.8 / 5</strong> (51 reviews, verified 2026-05-09). Google Maps: <strong className="text-white font-semibold">4.90 / 5</strong> (92 reviews). TripAdvisor: <strong className="text-white font-semibold">4.95 / 5</strong> (21 reviews). All platforms link to the live profiles — not screenshots.
+            <p className="text-white/55 text-sm md:text-base max-w-xl leading-relaxed">
+              All platforms link to live profiles — not screenshots.
             </p>
-            <p className="text-white/60 text-sm mt-3 max-w-xl leading-relaxed">
-              These are not cherry-picked quotes. Browse by platform, browse by pattern. The themes that appear across guides, drivers, and logistics tell you more than any single testimonial.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-            {[
-              { score: "4.8 / 5", platform: "Trustpilot", count: "51 reviews", starColor: "#00b67a" },
-              { score: "4.90 / 5", platform: "Google Maps", count: "92 reviews", starColor: "#E8650A" },
-              { score: "4.95 / 5", platform: "TripAdvisor", count: "21 reviews", starColor: "#34e0a1" },
-            ].map((p) => (
-              <div
-                key={p.platform}
-                className="bg-white/5 border border-white/10 rounded-[20px] p-5"
-              >
-                <span
-                  className="block text-2xl font-black text-white mb-1"
-                  style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-                >
-                  {p.score}
-                </span>
-                <span className="block text-[9px] uppercase tracking-[0.15em] text-white/40">
-                  {p.platform} · {p.count}
-                </span>
-                <span className="block mt-2 text-sm" style={{ color: p.starColor }}>
-                  ★★★★★
-                </span>
-              </div>
-            ))}
           </div>
 
           <Reviews />
