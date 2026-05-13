@@ -67,8 +67,7 @@ const WhyJVTO: React.FC = () => {
             >
               <p className="text-[10px] text-white italic leading-relaxed">
                 &ldquo;The Tourist Police experience isn&apos;t a marketing
-                credential — it&apos;s the lens through which every route,
-                every safety rule, and every Plan-B decision is made.&rdquo;
+                credential — it&apos;s how every safety decision is made.&rdquo;
               </p>
             </div>
 

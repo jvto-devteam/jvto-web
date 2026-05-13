@@ -160,14 +160,14 @@ const Home = async () => {
       {/* 5. Reviews */}
       <section className="bg-jvto-navy py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="mb-12">
+          <div className="mb-12 text-center md:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
               <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
                 Guest Reviews
               </span>
             </div>
             <h2
-              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 max-w-2xl"
+              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
               style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
               51 reviews on Trustpilot.{" "}
@@ -176,8 +176,10 @@ const Home = async () => {
               <br />
               21 on TripAdvisor.
             </h2>
-            <p className="text-white/55 text-sm md:text-base max-w-xl leading-relaxed">
-              All platforms link to live profiles — not screenshots.
+            <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
+              Ratings verified across three independent platforms. Every review links
+              to the original profile — browse by guide, by destination, or by trip length
+              to find what matters to you.
             </p>
           </div>
 
