@@ -32,7 +32,9 @@ const FeaturedTours = async () => {
           1 to 6 days.
         </h2>
         <p className="text-jvto-muted max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-          All packages are 100% private. Prices are per person, in IDR, and scale down with group size. Every package includes: accommodation, breakfast, entrance fees, Bromo 4WD jeep (where applicable), gas masks, transfers, and a T-shirt. No surprise local payments.
+          Prices are per person in IDR and drop with group size — starting around{" "}
+          <strong className="text-jvto-navy">IDR 1,000,000</strong> (~USD 60) for a 1-day tour.
+          Accommodation, breakfast, entrance fees, jeep, gas masks, and transfers included on all packages.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">

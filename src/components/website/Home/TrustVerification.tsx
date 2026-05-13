@@ -46,11 +46,7 @@ const TrustVerification: React.FC = () => {
             <em className="text-jvto-orange not-italic">not logos you have to take on faith.</em>
           </h2>
           <p className="text-jvto-muted text-sm md:text-base max-w-xl leading-relaxed">
-            Every license below is publicly verifiable. SHA-256 hashes published in{" "}
-            <code className="font-mono text-[11px] bg-jvto-navy/8 px-1.5 py-0.5 rounded text-jvto-navy">
-              public/llms.txt
-            </code>
-            .
+            Every license below links directly to the official government registry where you can confirm it yourself — before you pay.
           </p>
         </div>
 
