@@ -211,11 +211,10 @@ Right — Sticky sidebar CTA card:
 - `<Image src="/founder/agung_sambuko.webp" fill object-cover>`
 - Gradient overlay: `from-jvto-navy/95 via-jvto-navy/60 to-transparent`
 - Name overlay: "Agung 'Mr. Sam' Sambuko" (Raleway 800) + lime role label
-- **Quote badge** — positioned `absolute -top-4 -right-4 bg-jvto-orange rounded-[20px] p-4 max-w-[180px]` `[DESIGN ADDITION]`:
-  - Italic quote: *"In a landscape of freelancers and brokers, JVTO provides documented legitimacy."* — this quote is from JVTO Design System README brand voice examples, **not** from homepage wiki copy. Acceptable as authentic brand voice but **not** wiki-sourced.
-  - Attribution: "— JVTO brand voice"
+- **Quote badge** — positioned `absolute -top-4 -right-4 bg-jvto-orange rounded-[20px] p-4 max-w-[200px]` `[WIKI VERBATIM — Our Story section ¶3]`:
+  - Italic quote: *"The Tourist Police experience isn't a marketing credential — it's the lens through which every route, every safety rule, and every Plan-B decision is made."*
+  - No attribution line (self-evident from context)
   - `var(--shadow-jvto-orange)`
-  - ⚠️ **If strict wiki-only is required:** remove this badge entirely, or replace with a line from wiki Our Story section.
 
 ---
 
