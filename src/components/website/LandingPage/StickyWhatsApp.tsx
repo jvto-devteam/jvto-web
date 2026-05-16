@@ -55,7 +55,7 @@ export default function StickyWhatsApp({
   }, []);
 
   return (
-    <div className="fixed bottom-24 lg:bottom-6 right-5 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2">
       {/* Nudge tooltip — appears after 4s, fades out at 9s */}
       <div
         className={`transition-all duration-300 ${
