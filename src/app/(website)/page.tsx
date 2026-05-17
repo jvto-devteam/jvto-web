@@ -29,7 +29,7 @@ const fallbackSeo = {
     "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
   h1: "Tourist Police-Led Private Volcano Tours in East Java",
   description:
-    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+    "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Tourist Police-led. Licensed (NIB 1102230032918). All-inclusive, Ijen health screening included.",
 };
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
