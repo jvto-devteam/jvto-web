@@ -23,8 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const ESCORT_DAY = FIELD_OPERATIONS[5];   // police-escort-arrival-hotel-bondowoso-day
-const ESCORT_NIGHT = FIELD_OPERATIONS[6]; // police-escort-arrival-hotel-bondowoso-night
+const ESCORT_DAY = FIELD_OPERATIONS[5];     // police-escort-arrival-hotel-bondowoso-day
+const ESCORT_NIGHT = FIELD_OPERATIONS[6];   // police-escort-arrival-hotel-bondowoso-night
+const ESCORT_VEHICLE = FIELD_OPERATIONS[7]; // police-vehicle-support
 
 export default async function PoliceEscortPage() {
   const row = await getContentPage("/travel-guide/police-escort-for-groups", "en");
@@ -87,35 +88,23 @@ export default async function PoliceEscortPage() {
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
               Photo Evidence — Escorted Group Arrivals
             </p>
-            <div className="grid md:grid-cols-2 gap-4">
-              <figure className="rounded-xl overflow-hidden border border-slate-200">
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={ESCORT_DAY.url}
-                    alt={ESCORT_DAY.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <figcaption className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-xs text-slate-500 leading-snug">
-                  {ESCORT_DAY.caption}
-                </figcaption>
-              </figure>
-              <figure className="rounded-xl overflow-hidden border border-slate-200">
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={ESCORT_NIGHT.url}
-                    alt={ESCORT_NIGHT.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-                <figcaption className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-xs text-slate-500 leading-snug">
-                  {ESCORT_NIGHT.caption}
-                </figcaption>
-              </figure>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[ESCORT_DAY, ESCORT_NIGHT, ESCORT_VEHICLE].map((img) => (
+                <figure key={img.url} className="rounded-xl overflow-hidden border border-slate-200">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={img.url}
+                      alt={img.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <figcaption className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-xs text-slate-500 leading-snug">
+                    {img.caption}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </section>
 

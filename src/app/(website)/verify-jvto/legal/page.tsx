@@ -10,7 +10,8 @@ import {
 } from "@/lib/schemas/buildVerifySchemas";
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
-import { ExternalLink, CheckCircle2, ShieldCheck } from "lucide-react";
+import { ExternalLink, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
+import Image from "next/image";
 
 export const revalidate = 86400;
 
@@ -22,6 +23,44 @@ const fallbackSeo = {
 };
 
 const BASE_URL = "https://javavolcano-touroperator.com";
+
+const SHA256_ANCHORS = [
+  {
+    asset: "NIB 1102230032918",
+    hash: "fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7",
+    imageUrl: `${BASE_URL}/legal/NIB-1102230032918-preview.png`,
+  },
+  {
+    asset: "TDUP 1102230032918",
+    hash: "27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3",
+    imageUrl: `${BASE_URL}/legal/TDUP-1102230032918-preview.png`,
+  },
+  {
+    asset: "HPWKI Approval",
+    hash: "ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b",
+    imageUrl: `${BASE_URL}/legal/HPWKI-approval-preview.png`,
+  },
+  {
+    asset: "SPRIN POLPAR",
+    hash: "03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab",
+    imageUrl: `${BASE_URL}/legal/SPRIN-POLPAR.png`,
+  },
+  {
+    asset: "SPRIN WAL TRAVEL 2024-02-12",
+    hash: "179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3",
+    imageUrl: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.png`,
+  },
+  {
+    asset: "Press — Detik.com 2021-03-14",
+    hash: "b257b75b3d2b9edebf07c9af89a6c6aa9a4e01d6a716ef3f7c4ca75deda64b77",
+    imageUrl: `${BASE_URL}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png`,
+  },
+  {
+    asset: "Press — Radar Jember 2021-03-24",
+    hash: "2a60eb168274004283b2b9939ccbf5982c12a7db854fda014308a2494ee2abf4",
+    imageUrl: `${BASE_URL}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png`,
+  },
+];
 
 const LEGAL_CREDENTIALS = [
   {
@@ -110,7 +149,6 @@ export default async function LegalPage() {
         heroTitle={seo.h1}
         heroDescription={seo.description}
       />
-
       {/* ── Legal Credential Summary ── */}
       <section className="bg-slate-950 border-t border-slate-800">
         <div className="container mx-auto px-6 py-12">
@@ -254,6 +292,64 @@ export default async function LegalPage() {
                 </div>
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SHA-256 Forensic Anchors ── */}
+      <section className="bg-slate-900 border-t border-slate-800">
+        <div className="container mx-auto px-6 py-12">
+          <div className="flex items-center gap-2 mb-2">
+            <Lock size={13} className="text-jvto-green" />
+            <p className="text-[9px] font-black uppercase tracking-widest text-slate-600">
+              SHA-256 Forensic Anchors
+            </p>
+          </div>
+          <p className="text-slate-500 text-xs leading-relaxed mb-6 max-w-2xl">
+            Hashes published in <code className="text-slate-400 text-[10px]">public/llms.txt</code> on the JVTO website.
+            Download any document and compute its SHA-256 hash to verify the file has not been altered.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800">
+                  {["Image", "Asset", "SHA-256 Hash"].map((h) => (
+                    <th
+                      key={h}
+                      className="text-left py-2 pr-6 text-[10px] uppercase tracking-widest text-slate-500 font-bold"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {SHA256_ANCHORS.map((a) => (
+                  <tr key={a.asset} className="border-b border-slate-800/60">
+                    <td className="py-3 pr-4">
+                      <a href={a.imageUrl} target="_blank" rel="noopener noreferrer" className="block shrink-0">
+                        <div className="relative w-16 h-10 bg-slate-800 rounded overflow-hidden border border-slate-700 hover:border-slate-500 transition-colors">
+                          <Image
+                            src={a.imageUrl}
+                            alt={`Preview of ${a.asset}`}
+                            fill
+                            unoptimized
+                            className="object-cover"
+                            sizes="64px"
+                          />
+                        </div>
+                      </a>
+                    </td>
+                    <td className="py-3 pr-6 text-slate-300 text-xs font-medium whitespace-nowrap">{a.asset}</td>
+                    <td className="py-3 pr-6">
+                      <code className="text-[10px] font-mono text-slate-500 break-all leading-relaxed">
+                        {a.hash}
+                      </code>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>

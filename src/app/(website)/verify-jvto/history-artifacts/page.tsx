@@ -48,7 +48,10 @@ const HISTORY_TIMELINE_SCHEMA = {
           url: "https://www.booking.com",
         },
         about: { "@id": `${BASE_URL}/#organization` },
-        image: `${BASE_URL}/history/booking-2015-plaque.jpg`,
+        image: [
+          `${BASE_URL}/history/booking-2015-plaque.jpg`,
+          `${BASE_URL}/history/booking-2015-shipping-label.jpg`,
+        ],
         location: {
           "@type": "Place",
           name: "Jl. Khairil Anwar 102A, Bondowoso",
@@ -73,7 +76,11 @@ const HISTORY_TIMELINE_SCHEMA = {
         description:
           "Earliest independent editorial citation of the founder as operator for Ijen tours, appearing in a European travel guide — pre-digital third-party corroboration that predates social media review platforms.",
         about: { "@id": `${BASE_URL}/#organization` },
-        image: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
+        image: [
+          `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
+          `${BASE_URL}/history/stefan_loose_crop_enh.jpg`,
+          `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`,
+        ],
       },
     },
     {
@@ -127,8 +134,7 @@ const TIMELINE_ENTRIES: Array<{
   year: string;
   event: string;
   detail: string;
-  imageSrc: string | null;
-  imageAlt: string | null;
+  images: Array<{ src: string; alt: string }> | null;
   verifyHref: string | null;
   verifyLabel: string | null;
 }> = [
@@ -137,8 +143,10 @@ const TIMELINE_ENTRIES: Array<{
     event: "Booking.com Guest Review Award",
     detail:
       "Score 9.4/10 — independently calculated by Booking.com. Issued to the guesthouse at Jl. Khairil Anwar 102A, Bondowoso. Physical plaque and award letter retained on-site.",
-    imageSrc: `${BASE_URL}/history/booking-2015-plaque.jpg`,
-    imageAlt: "Booking.com Guest Review Award 2015 plaque",
+    images: [
+      { src: `${BASE_URL}/history/booking-2015-plaque.jpg`, alt: "Booking.com Guest Review Award 2015 plaque" },
+      { src: `${BASE_URL}/history/booking-2015-shipping-label.jpg`, alt: "Booking.com award shipping label addressed to Ijen Bondowoso Homestay" },
+    ],
     verifyHref: null,
     verifyLabel: null,
   },
@@ -147,8 +155,11 @@ const TIMELINE_ENTRIES: Array<{
     event: "Stefan Loose Travel Guide — First Mention",
     detail:
       "Earliest European travel guide editorial citation naming the founder as operator for Ijen crater tours. Pre-digital corroboration from an independent editorial source.",
-    imageSrc: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
-    imageAlt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso",
+    images: [
+      { src: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`, alt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso" },
+      { src: `${BASE_URL}/history/stefan_loose_crop_enh.jpg`, alt: "Cropped view of Stefan Loose guide entry for Ijen Bondowoso Homestay" },
+      { src: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`, alt: "Mr. Sam with guests inspired by Stefan Loose travel guide" },
+    ],
     verifyHref: null,
     verifyLabel: null,
   },
@@ -157,8 +168,7 @@ const TIMELINE_ENTRIES: Array<{
     event: "Detik.com Press Article",
     detail:
       '"Suka Duka Polisi Pariwisata Bondowoso" — national-reach press coverage identifying the founder (Bripka Agung Sambuko) in his Tourist Police role, independently confirming the police-led model.',
-    imageSrc: null,
-    imageAlt: null,
+    images: null,
     verifyHref:
       "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin",
     verifyLabel: "Read article on Detik.com",
@@ -168,8 +178,7 @@ const TIMELINE_ENTRIES: Array<{
     event: "PT Java Volcano Rendezvous Incorporated",
     detail:
       "Formal business incorporation: NIB 1102230032918 registered via OSS Indonesia (February 2023). TDUP tourism license issued by Ministry of Tourism. All registrations publicly verifiable.",
-    imageSrc: null,
-    imageAlt: null,
+    images: null,
     verifyHref:
       "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
     verifyLabel: "Verify PT on AHU registry",
@@ -179,8 +188,7 @@ const TIMELINE_ENTRIES: Array<{
     event: "Active Licensed Operator",
     detail:
       "PT Java Volcano Rendezvous operates under NIB + TDUP No. 1102230032918, HPWKI-certified guides, ISIC Provider ID 259268, and INDECON Spotlight membership. Led by an active Tourist Police officer.",
-    imageSrc: null,
-    imageAlt: null,
+    images: null,
     verifyHref: "/verify-jvto/legal",
     verifyLabel: "See full credential verification",
   },
@@ -246,14 +254,13 @@ export default async function HistoryArtifactsPage() {
       />
 
       {/* ── Documented History Timeline ── */}
-      <section className="bg-slate-950 border-t border-slate-800">
+      {/* <section className="bg-slate-950 border-t border-slate-800">
         <div className="container mx-auto px-6 py-14">
           <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-10">
             Operational Continuity — Artifact-Anchored Timeline
           </p>
 
           <div className="relative">
-            {/* Vertical line */}
             <div
               className="absolute left-[72px] top-0 bottom-0 w-px bg-slate-800 hidden md:block"
               aria-hidden
@@ -262,7 +269,6 @@ export default async function HistoryArtifactsPage() {
             <div className="space-y-10">
               {TIMELINE_ENTRIES.map((entry, i) => (
                 <div key={entry.year} className="flex gap-6 md:gap-10 items-start">
-                  {/* Year badge */}
                   <div className="shrink-0 w-[72px] flex flex-col items-center md:items-end">
                     <span
                       className={`text-[10px] font-black px-2 py-1 rounded-sm leading-none ${
@@ -273,22 +279,26 @@ export default async function HistoryArtifactsPage() {
                     >
                       {entry.year}
                     </span>
-                    {/* Connector dot */}
                     <div className="hidden md:block w-2 h-2 rounded-full bg-slate-700 mt-3 mr-[-5px] self-end border border-slate-600" />
                   </div>
 
-                  {/* Content card */}
                   <div className="flex-1 border border-slate-800 rounded-lg bg-slate-900/50 overflow-hidden">
-                    {/* Image (if available) */}
-                    {entry.imageSrc && (
-                      <div className="relative h-40 w-full bg-slate-950">
-                        <Image
-                          src={entry.imageSrc}
-                          alt={entry.imageAlt ?? entry.event}
-                          fill
-                          className="object-cover object-center opacity-80"
-                          sizes="(max-width: 768px) 100vw, 600px"
-                        />
+                    {entry.images && entry.images.length > 0 && (
+                      <div className={`grid gap-0.5 bg-slate-950 ${entry.images.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
+                        {entry.images.map((img, imgIdx) => (
+                          <div
+                            key={imgIdx}
+                            className={`relative h-36 ${entry.images!.length === 3 && imgIdx === 2 ? "col-span-2" : ""}`}
+                          >
+                            <Image
+                              src={img.src}
+                              alt={img.alt}
+                              fill
+                              className="object-cover object-center opacity-80"
+                              sizes="(max-width: 768px) 100vw, 300px"
+                            />
+                          </div>
+                        ))}
                       </div>
                     )}
 
@@ -323,10 +333,10 @@ export default async function HistoryArtifactsPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── Continuity Note ── */}
-      <section className="bg-slate-900 border-t border-slate-800">
+      {/* <section className="bg-slate-900 border-t border-slate-800">
         <div className="container mx-auto px-6 py-10">
           <div className="flex items-start gap-4 max-w-2xl">
             <CheckCircle2 size={18} className="text-jvto-green shrink-0 mt-0.5" />
@@ -343,7 +353,7 @@ export default async function HistoryArtifactsPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
