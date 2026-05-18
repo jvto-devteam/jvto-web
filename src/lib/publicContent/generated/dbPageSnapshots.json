@@ -1202,11 +1202,11 @@
           "blocks": [
             {
               "type": "markdown",
-              "body_md": "This is the fastest way to understand our trust claims. Each element links to proof."
+              "body_md": "Founder Bripka Agung Sambuko is an active officer in Ditpamobvit — the Indonesian National Police directorate responsible for security at designated vital tourist objects, including the Ijen Crater area. Tourist safety at Ijen is his professional jurisdiction, not a personal interest.\n\nNo other East Java volcano tour operator is led by an active Tourist Police officer. Three independent press articles (Detik.com 2021-03-14, Radar Jember 2021-03-24 and 2021-05-27) name Bripka Agung Sambuko in operational Tourist Police duties at Ijen — independently verified, not self-reported.\n\n**Verifiable credential**: [SPRIN WAL TRAVEL 2024-02-12](https://javavolcano-touroperator.com/legal/SPRIN-WAL-TRAVEL-2024-02-12.png) (SHA-256: 179b061eae…) · [SPRIN POLPAR](https://javavolcano-touroperator.com/legal/SPRIN-POLPAR.png) (SHA-256: 03c8578dc2…) · Press archive at [/verify-jvto/police-safety](/verify-jvto/police-safety)"
             },
             {
               "type": "markdown",
-              "body_md": "- Police & safety documents: /verify-jvto/police-safety\n- Legal entity & licenses: /verify-jvto/legal\n- Health screening evidence (Ijen): /travel-guide/ijen-health-screening"
+              "body_md": "For itineraries that include Kawah Ijen, JVTO coordinates health-screening when BBKSDA SE.1658/KSA.9/2024 access rules require it. Screening is conducted by Dr. Ahmad Irwandanu (SIP-licensed, verifiable at [satusehat.kemkes.go.id](https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217)).\n\n**Full protocol**: [How Ijen Health Screening Works →](/travel-guide/ijen-health-screening)"
             }
           ]
         },
@@ -1613,16 +1613,16 @@
           "title": "Booking.com Guest Review Award (2015)",
           "blocks": [
             {
-              "alt": "Booking.com Guest Review Award (2015)",
+              "alt": "2015 Booking.com Guest Review Award plaque, Ijen Bondowoso Homestay (score 9.4/10)",
               "src": "https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg",
               "type": "image",
-              "caption": null
+              "caption": "Guesthouse era recognition (2015) — plaque."
             },
             {
-              "alt": "Booking.com Guest Review Award (2015)",
+              "alt": "Booking.com award shipping label addressed to Agung, Jl. Khairil Anwar No.102, Bondowoso",
               "src": "https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg",
               "type": "image",
-              "caption": null
+              "caption": "Award shipped to Bondowoso address — logistics record predating PT entity."
             },
             {
               "type": "markdown",
@@ -1635,16 +1635,16 @@
           "title": "Stefan Loose Travel Guide – Indonesien (4th Edition, 2016)",
           "blocks": [
             {
-              "alt": "Stefan Loose Travel Guide – Indonesien (4th Edition, 2016)",
+              "alt": "European travel handbook entry listing Ijen Bondowoso Homestay; notes tours arranged by Agung",
               "src": "https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png",
               "type": "image",
-              "caption": null
+              "caption": "Stefan Loose Reiseführer Indonesien, 4th Edition, p. 287 (2016)."
             },
             {
-              "alt": "Stefan Loose Travel Guide – Indonesien (4th Edition, 2016)",
+              "alt": "Cropped image of Stefan Loose travel guide page referencing Ijen Bondowoso Homestay",
               "src": "https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg",
               "type": "image",
-              "caption": null
+              "caption": "Cropped/enhanced view for legibility."
             },
             {
               "type": "markdown",
@@ -1657,10 +1657,10 @@
           "title": "Founder Agung Sambuko with Guests Holding Stefan Loose Guidebook",
           "blocks": [
             {
-              "alt": "Founder Agung Sambuko with Guests Holding Stefan Loose Guidebook",
+              "alt": "Mr. Sam with guests at Ijen Bondowoso Homestay, holding Stefan Loose guidebook",
               "src": "https://javavolcano-touroperator.com/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg",
               "type": "image",
-              "caption": null,
+              "caption": "Guests visiting Ijen Bondowoso Homestay after reading the Stefan Loose guide.",
               "orientation": "portrait"
             },
             {

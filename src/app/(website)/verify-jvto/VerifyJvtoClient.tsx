@@ -223,7 +223,7 @@ export default function VerifyJvtoClient({
           </section>
         )}
         {/* Tab navigasi untuk semua halaman */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 sticky top-20 z-20 py-2 bg-[#f6f6f8]/95 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 sticky top-28 z-20 py-2 bg-[#f6f6f8]/95 backdrop-blur-sm">
           <div className="flex flex-wrap gap-2">
             <Link
               href="/verify-jvto"
@@ -279,6 +279,13 @@ export default function VerifyJvtoClient({
               }`}
             >
               History Artifacts
+            </Link>
+            <Link
+              href="/travel-guide/ijen-health-screening"
+              prefetch={false}
+              className="px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+            >
+              Health Screening →
             </Link>
           </div>
         </div>{" "}

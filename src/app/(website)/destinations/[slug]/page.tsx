@@ -230,6 +230,30 @@ export default async function DestinationDetailPage({ params }: Props) {
     <>
       <JsonLd data={schema} />
       <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} />
+
+      {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
+      {slug === "ijen-crater" && (
+        <div className="border-t border-amber-200 bg-amber-50">
+          <div className="container mx-auto px-4 max-w-6xl py-8">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">
+              Health Certificate Coordination
+            </p>
+            <p className="text-sm text-gray-700 leading-relaxed max-w-2xl mb-3">
+              Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024
+              thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu
+              (SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the
+              crater access gate.
+            </p>
+            <Link
+              href="/travel-guide/ijen-health-screening"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
+            >
+              How Ijen Health Screening Works →
+            </Link>
+          </div>
+        </div>
+      )}
+
       {(travelGuideLink || relatedDests.length > 0) && (
         <div className="border-t border-gray-200 bg-gray-50">
           <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">
