@@ -31,6 +31,7 @@ import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
 import VolcanicStatusBadge from "@/components/website/VolcanicStatusBadge";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
+import PvmbgFieldReport from "@/components/website/PvmbgFieldReport";
 
 const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
   ssr: false,
@@ -439,6 +440,37 @@ export default function DestinationDetailView({
                 ))}
               </ul>
             </div>
+
+            {/* Official PVMBG recommendations — sourced from live MAGMA feed */}
+            {volcanicStatus?.pvmbg_report?.recommendations_en?.length ? (
+              <div className="p-5 rounded-sm bg-red-50 border border-red-100">
+                <div className="flex items-center justify-between mb-3">
+                  <h5 className="font-bold text-red-900 text-sm flex items-center gap-2">
+                    <AlertTriangle size={14} className="text-red-600" />
+                    Official PVMBG Recommendations
+                  </h5>
+                  <a
+                    href={volcanicStatus.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[9px] text-red-400 hover:text-red-600 transition-colors"
+                  >
+                    PVMBG Source ↗
+                  </a>
+                </div>
+                <ul className="space-y-2">
+                  {volcanicStatus.pvmbg_report.recommendations_en.map((rec, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-red-800">
+                      <div className="mt-1 min-w-[6px] h-[6px] rounded-full bg-red-500 shrink-0" />
+                      {rec}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-[9px] text-red-400 mt-3">
+                  Verified {volcanicStatus.last_verified} · {volcanicStatus.source}
+                </p>
+              </div>
+            ) : null}
           </section>
 
           {/* 4. CULTURE */}
@@ -473,6 +505,15 @@ export default function DestinationDetailView({
               <VolcanicStatusBadge
                 destinationName={data.name}
                 status={volcanicStatus}
+              />
+            )}
+
+            {/* PVMBG field report — visual observation + summit conditions */}
+            {volcanicStatus?.pvmbg_report && (
+              <PvmbgFieldReport
+                report={volcanicStatus.pvmbg_report}
+                sourceUrl={volcanicStatus.source_url}
+                lastVerified={volcanicStatus.last_verified}
               />
             )}
 

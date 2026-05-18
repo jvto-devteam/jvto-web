@@ -61,6 +61,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "magma.vsi.esdm.go.id",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {

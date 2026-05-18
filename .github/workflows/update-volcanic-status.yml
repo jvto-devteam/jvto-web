@@ -1,0 +1,32 @@
+name: Update Volcanic Status
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily 00:00 UTC = 07:00 WIB
+  workflow_dispatch:    # Allow manual trigger from GitHub UI
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch MAGMA status and update JSON
+        run: node scripts/update-volcanic-status.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/ops/volcanic-status.json
+          git diff --staged --quiet \
+            && echo "No status changes today." \
+            || git commit -m "chore: update volcanic status $(date -u +%Y-%m-%d)"
+          git push

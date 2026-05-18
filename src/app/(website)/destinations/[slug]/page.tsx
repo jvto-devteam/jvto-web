@@ -98,16 +98,60 @@ function buildStatusAnnouncementSchema(
 ) {
   const lastVerifiedDate = new Date(status.last_verified + "T00:00:00");
   const expiresDate = new Date(lastVerifiedDate.getTime() + 72 * 60 * 60 * 1000);
+
+  const pvmbg = status.pvmbg_report;
+  const textParts = [`${destinationName} status: ${status.alert_level}. ${status.notes}`];
+  if (pvmbg?.visual_en) textParts.push(`Visual observation: ${pvmbg.visual_en}.`);
+  if (pvmbg?.climate_en) textParts.push(`Summit conditions: ${pvmbg.climate_en}.`);
+
   return {
     "@type": "SpecialAnnouncement",
     "@id": `${siteUrl}/destinations/${slug}#status`,
     name: `${destinationName} Current Operational Status — ${status.last_verified}`,
-    text: `${destinationName} status: ${status.status} (${status.alert_level}). ${status.notes}`,
+    text: textParts.join(" "),
     datePosted: status.last_verified,
     expires: expiresDate.toISOString().split("T")[0],
     category: "https://www.wikidata.org/wiki/Q83",
+    ...(pvmbg?.image_url ? { image: pvmbg.image_url } : {}),
+    isBasedOn: pvmbg ? { "@id": `${siteUrl}/destinations/${slug}#pvmbg-report` } : undefined,
     spatialCoverage: { "@id": `${siteUrl}/destinations/${slug}` },
     about: { "@id": `${siteUrl}/#organization` },
+  };
+}
+
+function buildPvmbgReportSchema(
+  slug: string,
+  destinationName: string,
+  status: VolcanicStatusData,
+  siteUrl: string,
+) {
+  const pvmbg = status.pvmbg_report;
+  if (!pvmbg) return null;
+
+  const descParts: string[] = [];
+  if (pvmbg.visual_en) descParts.push(pvmbg.visual_en);
+  if (pvmbg.climate_en) descParts.push(pvmbg.climate_en);
+
+  return {
+    "@type": "Report",
+    "@id": `${siteUrl}/destinations/${slug}#pvmbg-report`,
+    name: `PVMBG Daily Volcano Activity Report — ${destinationName} — ${status.last_verified}`,
+    datePublished: pvmbg.fetched_at,
+    inLanguage: "id",
+    url: status.source_url,
+    ...(pvmbg.image_url ? { image: pvmbg.image_url } : {}),
+    ...(descParts.length ? { description: descParts.join(" | ") } : {}),
+    author: {
+      "@type": "Organization",
+      name: "Pusat Vulkanologi dan Mitigasi Bencana Geologi (PVMBG)",
+      url: "https://pvmbg.bgl.esdm.go.id",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "MAGMA Indonesia / Badan Geologi ESDM",
+      url: "https://magma.esdm.go.id",
+    },
+    about: { "@id": `${siteUrl}/destinations/${slug}` },
   };
 }
 
@@ -203,12 +247,12 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const statusAnnouncementNode =
     volcanicStatus && data
-      ? buildStatusAnnouncementSchema(
-          slug,
-          data.name ?? slug,
-          volcanicStatus,
-          SITE_URL,
-        )
+      ? buildStatusAnnouncementSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
+      : null;
+
+  const pvmbgReportNode =
+    volcanicStatus && data
+      ? buildPvmbgReportSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
       : null;
 
   const schema = {
@@ -220,6 +264,7 @@ export default async function DestinationDetailPage({ params }: Props) {
       toursIncludingNode,
       travelGuideHandoffNode,
       statusAnnouncementNode,
+      pvmbgReportNode,
     ].filter(Boolean),
   };
 
