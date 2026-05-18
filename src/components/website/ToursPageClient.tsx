@@ -25,7 +25,8 @@ interface ToursPageClientProps {
   destinationName: string;
   description: string;
   title?: string;
-  showLocationFilter?: boolean; // <--- PROP BARU (Optional, default false)
+  showLocationFilter?: boolean;
+  hideHeader?: boolean;
 }
 
 type TourCategory = "Volcano" | "Waterfall" | "Beach" | "Wildlife";
@@ -44,13 +45,13 @@ const FilterSection = ({
 }) => {
   const [open, setOpen] = useState(isOpen);
   return (
-    <div className="border-b border-gray-100 py-5 last:border-0">
+    <div className="border-b border-jvto-border py-5 last:border-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between font-bold text-gray-800 hover:text-jvto-green mb-3 transition-colors"
+        className="flex w-full items-center justify-between font-bold text-jvto-navy hover:text-jvto-orange mb-3 transition-colors"
       >
-        <span className="text-sm uppercase tracking-wider">{title}</span>
-        {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        <span className="text-[9px] uppercase tracking-[0.18em]">{title}</span>
+        {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
       </button>
       <div
         className={`space-y-3 overflow-hidden transition-all duration-300 ${
@@ -69,7 +70,8 @@ export default function ToursPageClient({
   destinationName,
   description,
   title,
-  showLocationFilter = false, // Default false agar aman untuk halaman lain
+  showLocationFilter = false,
+  hideHeader = false,
 }: ToursPageClientProps) {
   
   // 1. Hitung Max Price Dinamis
@@ -231,7 +233,7 @@ export default function ToursPageClient({
     <div className="space-y-2">
       {/* Search Input */}
       <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-jvto-muted w-4 h-4" />
         <input
           type="text"
           placeholder="Search tours..."
@@ -239,11 +241,11 @@ export default function ToursPageClient({
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, search: e.target.value }))
           }
-          className="w-full pl-9 pr-4 py-3 border border-gray-200 bg-gray-50 rounded-sm text-sm focus:outline-none focus:border-jvto-dark focus:bg-white transition-all"
+          className="w-full pl-9 pr-4 py-3 border border-jvto-border bg-jvto-off rounded-full text-sm focus:outline-none focus:border-jvto-navy focus:bg-white transition-all text-jvto-navy placeholder:text-jvto-muted/60"
         />
       </div>
 
-      {/* --- KONDISIONAL RENDER FILTER LOKASI --- */}
+      {/* Location filter — shown only on /tours all-tours page */}
       {showLocationFilter && (
         <FilterSection title="Start Location">
           <div className="grid grid-cols-1 gap-2">
@@ -254,19 +256,19 @@ export default function ToursPageClient({
                   key={loc}
                   onClick={() => handleLocationToggle(loc as StartLocation)}
                   className={`
-                    flex items-center justify-between p-3 rounded-sm border transition-all text-sm group
+                    flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
                     ${
                       isSelected
-                        ? "border-jvto-dark bg-gray-50 text-jvto-dark font-semibold"
-                        : "border-transparent hover:bg-gray-50 text-gray-600"
+                        ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
+                        : "border-transparent hover:bg-jvto-off text-jvto-muted"
                     }
                   `}
                 >
                   <div className="flex items-center gap-3">
-                    <MapPin size={18} strokeWidth={1.5} className={isSelected ? "fill-jvto-dark/10" : ""} />
-                    <span>From {loc}</span>
+                    <MapPin size={16} strokeWidth={1.5} />
+                    <span className="text-sm">From {loc}</span>
                   </div>
-                  {isSelected && <Check size={16} className="text-jvto-dark" />}
+                  {isSelected && <Check size={14} className="text-jvto-navy" />}
                 </button>
               );
             })}
@@ -287,8 +289,8 @@ export default function ToursPageClient({
                   px-4 py-2 rounded-full text-xs font-bold border transition-all duration-200
                   ${
                     isSelected
-                      ? "bg-yellow-400 border-yellow-400 text-black shadow-sm transform scale-105"
-                      : "bg-white border-gray-200 text-gray-500 hover:border-gray-400"
+                      ? "bg-jvto-lime border-jvto-lime text-jvto-navy shadow-sm scale-105"
+                      : "bg-white border-jvto-border text-jvto-muted hover:border-jvto-navy"
                   }
                 `}
               >
@@ -315,11 +317,11 @@ export default function ToursPageClient({
                 maxPrice: Number(e.target.value),
               }))
             }
-            className="w-full h-2 bg-gray-200 rounded-sm appearance-none cursor-pointer accent-jvto-dark"
+            className="w-full h-2 bg-jvto-border rounded-full appearance-none cursor-pointer accent-jvto-lime"
           />
           <div className="flex justify-between items-center mt-3">
-            <span className="text-xs text-gray-400">Up to</span>
-            <span className="text-sm font-bold text-jvto-dark">
+            <span className="text-xs text-jvto-muted">Up to</span>
+            <span className="text-sm font-bold text-jvto-navy">
               {formatIDR(filters.maxPrice)}
             </span>
           </div>
@@ -343,19 +345,19 @@ export default function ToursPageClient({
                 key={type.value}
                 onClick={() => handleCategoryToggle(type.value as TourCategory)}
                 className={`
-                  flex items-center justify-between p-3 rounded-sm border transition-all text-sm group
+                  flex items-center justify-between p-3 rounded-[12px] border transition-all text-sm group
                   ${
                     isSelected
-                      ? "border-jvto-dark bg-gray-50 text-jvto-dark font-semibold"
-                      : "border-transparent hover:bg-gray-50 text-gray-600"
+                      ? "border-jvto-navy bg-jvto-navy/5 text-jvto-navy font-semibold"
+                      : "border-transparent hover:bg-jvto-off text-jvto-muted"
                   }
                 `}
               >
                 <div className="flex items-center gap-3">
-                  <type.icon size={18} strokeWidth={1.5} />
-                  <span>{type.label}</span>
+                  <type.icon size={16} strokeWidth={1.5} />
+                  <span className="text-sm">{type.label}</span>
                 </div>
-                {isSelected && <Check size={16} className="text-jvto-dark" />}
+                {isSelected && <Check size={14} className="text-jvto-navy" />}
               </button>
             );
           })}
@@ -364,59 +366,65 @@ export default function ToursPageClient({
 
       <button
         onClick={clearFilters}
-        className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-sm text-gray-500 hover:text-red-500 transition-colors"
+        className="w-full mt-4 flex items-center justify-center gap-2 py-2 text-xs text-jvto-muted hover:text-jvto-orange transition-colors uppercase tracking-[0.1em] font-semibold"
       >
-        <RotateCcw size={16} />
-        Reset all filters
+        <RotateCcw size={14} />
+        Reset filters
       </button>
     </div>
   );
 
   return (
-    <div className="container mx-auto px-6">
-      {/* HEADER */}
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-jvto-dark">
-          {title ?? `${destinationName} Tours`}
-        </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          {description}
-        </p>
-      </div>
+    <div className="max-w-7xl mx-auto px-6 md:px-8">
+      {/* HEADER — hidden when page provides its own heading */}
+      {!hideHeader && (
+        <div className="mb-12">
+          <h1
+            className="text-3xl md:text-4xl font-black text-jvto-navy mb-4"
+            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+          >
+            {title ?? `${destinationName} Tours`}
+          </h1>
+          <p className="text-jvto-muted max-w-2xl leading-relaxed text-sm md:text-base">
+            {description}
+          </p>
+        </div>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-8 relative">
         {/* --- DESKTOP SIDEBAR --- */}
-        <aside className="hidden lg:block w-[300px] shrink-0">
-          <div className="sticky top-32 bg-white p-6 rounded-sm border border-gray-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-              <h3 className="text-lg font-black uppercase tracking-wide">
+        <aside className="hidden lg:block w-[280px] shrink-0">
+          <div className="sticky top-32 bg-white p-6 rounded-[24px] border border-jvto-border card-jvto">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-jvto-border">
+              <h3
+                className="text-[9px] font-black uppercase tracking-[0.2em] text-jvto-navy"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
                 Filters
               </h3>
-              <span className="text-xs font-semibold bg-gray-100 px-2 py-1 rounded text-gray-600">
-                {filteredTours.length}
+              <span className="text-[9px] font-bold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-full text-jvto-navy">
+                {filteredTours.length} tours
               </span>
             </div>
-
-            {/* RENDER VARIABLE JSX */}
             {filterContent}
           </div>
         </aside>
 
         {/* --- MOBILE CONTROL BAR --- */}
-        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md p-4 rounded-sm shadow-sm border border-gray-200 flex items-center justify-between sticky top-24 z-30">
+        <div className="lg:hidden mb-6 bg-white/95 backdrop-blur-md px-5 py-3.5 rounded-full shadow-sm border border-jvto-border flex items-center justify-between sticky top-24 z-30">
           <div>
-            <span className="block text-xs text-gray-500 font-medium">
+            <span className="block text-[9px] text-jvto-muted font-semibold uppercase tracking-[0.12em]">
               Showing
             </span>
-            <span className="font-bold text-jvto-dark">
-              {filteredTours.length} Adventures
+            <span className="font-bold text-jvto-navy text-sm">
+              {filteredTours.length} tours
             </span>
           </div>
           <button
             onClick={() => setIsMobileFilterOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-dark text-white rounded-sm text-sm font-bold shadow-lg active:scale-95 transition-transform"
+            className="flex items-center gap-2 px-5 py-2.5 bg-jvto-orange text-white rounded-full text-[10px] font-bold uppercase tracking-[0.12em] active:scale-95 transition-transform"
           >
-            <Filter size={16} /> Filters
+            <Filter size={14} /> Filters
           </button>
         </div>
 
@@ -437,24 +445,29 @@ export default function ToursPageClient({
               isMobileFilterOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >
-            <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-white">
-              <h3 className="text-lg font-bold text-jvto-dark">Filter Tours</h3>
+            <div className="p-5 border-b border-jvto-border flex items-center justify-between">
+              <h3
+                className="text-[9px] font-black text-jvto-navy uppercase tracking-[0.2em]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
+                Filter Tours
+              </h3>
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                aria-label="Close Button"
+                className="p-2 hover:bg-jvto-off rounded-full transition-colors"
+                aria-label="Close filters"
               >
-                <X size={20} />
+                <X size={18} className="text-jvto-muted" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-5">
-              {/* RENDER VARIABLE JSX */}
               {filterContent}
             </div>
-            <div className="p-5 border-t border-gray-100 bg-white">
+            <div className="p-5 border-t border-jvto-border">
               <button
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-full bg-jvto-dark text-white py-3.5 rounded-sm font-bold shadow-lg hover:bg-gray-800 transition-colors"
+                className="w-full bg-jvto-orange text-white py-3.5 rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
+                style={{ boxShadow: "var(--shadow-jvto-orange)" }}
               >
                 Show {filteredTours.length} Results
               </button>
@@ -465,7 +478,7 @@ export default function ToursPageClient({
         {/* --- MAIN GRID CONTENT --- */}
         <div className="flex-1 min-h-[600px]">
           {filteredTours.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredTours.map((tour) => (
                 <div key={tour.id} className="h-full">
                   <TourCard tour={tour} />
@@ -473,22 +486,24 @@ export default function ToursPageClient({
               ))}
             </div>
           ) : (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-gray-50 rounded-sm border-2 border-dashed border-gray-200">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
-                <Search className="w-8 h-8 text-gray-300" />
+            <div className="h-96 flex flex-col items-center justify-center text-center p-8 bg-white rounded-[24px] border border-jvto-border">
+              <div className="w-14 h-14 bg-jvto-off rounded-full flex items-center justify-center mb-4">
+                <Search className="w-6 h-6 text-jvto-muted" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
-                No adventures found
+              <h3
+                className="text-lg font-black text-jvto-navy mb-2"
+                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
+              >
+                No tours found
               </h3>
-              <p className="text-gray-500 max-w-xs mx-auto mb-6">
-                We couldn't find any tours matching your current filters. Try
-                adjusting your search criteria.
+              <p className="text-jvto-muted text-sm max-w-xs mx-auto mb-6 leading-relaxed">
+                Try adjusting your filters to find matching tours.
               </p>
               <button
                 onClick={clearFilters}
-                className="px-8 py-3 bg-jvto-dark text-white rounded-sm font-bold text-sm hover:bg-gray-800 transition-all shadow-md"
+                className="px-8 py-3 bg-jvto-orange text-white rounded-full font-bold text-[10px] uppercase tracking-[0.15em] hover:bg-jvto-orange-hover transition-colors"
               >
-                Clear All Filters
+                Clear Filters
               </button>
             </div>
           )}
