@@ -1,4 +1,5 @@
 import { AlertTriangle, CheckCircle2, AlertCircle, ExternalLink } from "lucide-react";
+import type { PvmbgReportData } from "@/components/website/PvmbgFieldReport";
 
 export interface VolcanicStatusData {
   status: "operational" | "restricted" | "closed";
@@ -11,6 +12,7 @@ export interface VolcanicStatusData {
   exclusion_zone_radius_km?: number;
   source: string;
   source_url: string;
+  pvmbg_report?: PvmbgReportData;
 }
 
 const STATUS_CONFIG = {

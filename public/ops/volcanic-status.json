@@ -1,34 +1,74 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-05-04T08:00:00+07:00",
-  "update_frequency_hours": 72,
-  "note": "This file is updated by the JVTO operations team. Values reflect the most recent verified operational status. AI crawlers should treat entries older than 72h as potentially stale.",
+  "updated_at": "2026-05-18T07:57:53.464Z",
+  "update_frequency_hours": 24,
+  "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
     "ijen-crater": {
       "status": "operational",
-      "alert_level": "Normal (Level I)",
+      "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-05-04",
-      "verified_by": "JVTO Operations",
-      "source": "PVMBG + BBKSDA Jatim",
-      "source_url": "https://pvmbg.bgl.esdm.go.id",
-      "notes": "Ijen Crater open and accessible. Mandatory health screening per BBKSDA SE.1658/KSA.9/2024 in effect. Gas masks and medical check arranged by JVTO the evening before each trek.",
+      "last_verified": "2026-05-18",
+      "verified_by": "MAGMA Feed (auto)",
+      "source": "PVMBG / MAGMA Indonesia",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/315875?signature=12d62e91f0be60651cb5bfe1dc823d06a1912161850d5a9e131433d1d2291973",
+      "notes": "Ijen Crater open and accessible. Do not descend to or camp within 500 m of the crater lake. Gas masks and health screening arranged by JVTO.",
       "tours_operating": true,
-      "exclusion_zone_active": false
+      "exclusion_zone_active": false,
+      "pvmbg_report": {
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-100 meter dari puncak. Cuaca berawan hingga hujan, angin lemah ke arah timur.",
+        "visual_en": "White smoke, thin, 50-100 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca berawan hingga hujan, angin lemah ke arah timur. Suhu udara sekitar 21-29°C. Kelembaban 59-76%.",
+        "climate_en": "21-29°C · 59-76% humidity · Wind → East",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202605172400.png",
+        "recommendations": [
+          "Masyarakat dan pengunjung/wisatawan tidak turun dan mendekati dasar Kawah G. Ijen.",
+          "Masyarakat dan pengunjung/wisatawan tidak bermalam/berkemah di kawasan kawah G. Ijen dalam radius 500 m.",
+          "Masyarakat dan pengunjung/wisatawan mewaspadai potensi aliran gas CO2 di sepanjang Sungai Banyupait-Banyuputih",
+          "Masyarakat dan pengunjung/wisatawan mewaspadai potensi gas beracun di sekitar kawah G. Ijen."
+        ],
+        "recommendations_en": [
+          "Do not descend to or approach the Kawah Ijen crater lake floor.",
+          "Do not camp within 500 m of the crater.",
+          "Beware of potential CO₂ gas flow along the Banyupait–Banyuputih River.",
+          "Beware of toxic gases around Kawah Ijen.",
+          "Beware of potential rockfall from crater walls."
+        ],
+        "author": "Nur Hudha, A.Md.",
+        "fetched_at": "2026-05-18T07:57:51.975Z"
+      }
     },
     "mount-bromo": {
-      "status": "operational",
-      "alert_level": "Waspada (Level II)",
+      "status": "restricted",
+      "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-05-04",
-      "verified_by": "JVTO Operations",
-      "source": "PVMBG",
-      "source_url": "https://pvmbg.bgl.esdm.go.id",
-      "notes": "Mount Bromo at Waspada (Level II) — 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
+      "last_verified": "2026-05-18",
+      "verified_by": "MAGMA Feed (auto)",
+      "source": "PVMBG / MAGMA Indonesia",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/315816?signature=03a376721706df7ac01cfeab6f4d49c3fd7fddeec86409658732f3ae03be29af",
+      "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
-      "exclusion_zone_radius_km": 1
+      "exclusion_zone_radius_km": 1,
+      "pvmbg_report": {
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-500 meter dari puncak. Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah barat daya, barat dan barat laut.",
+        "visual_en": "White smoke, thin, 50-500 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah barat daya, barat dan barat laut. Suhu udara sekitar 13-20°C.",
+        "climate_en": "13-20°C",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202605172400.png",
+        "recommendations": [
+          "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
+          "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
+        ],
+        "recommendations_en": [
+          "Do not enter within 1 km of the active crater.",
+          "Sunrise viewpoints and jeep safari routes remain accessible.",
+          "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
+        ],
+        "author": "Wahyu Wijayanto, A.Md.",
+        "fetched_at": "2026-05-18T07:57:53.464Z"
+      }
     }
   }
 }
