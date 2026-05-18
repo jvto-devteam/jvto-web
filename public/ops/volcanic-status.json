@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-05-18T07:57:53.464Z",
+  "updated_at": "2026-05-18T09:01:51.310Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -36,7 +36,7 @@
           "Beware of potential rockfall from crater walls."
         ],
         "author": "Nur Hudha, A.Md.",
-        "fetched_at": "2026-05-18T07:57:51.975Z"
+        "fetched_at": "2026-05-18T09:01:50.731Z"
       }
     },
     "mount-bromo": {
@@ -67,7 +67,7 @@
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
         "author": "Wahyu Wijayanto, A.Md.",
-        "fetched_at": "2026-05-18T07:57:53.464Z"
+        "fetched_at": "2026-05-18T09:01:51.310Z"
       }
     }
   }
