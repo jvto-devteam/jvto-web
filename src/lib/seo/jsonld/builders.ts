@@ -253,6 +253,39 @@ export function buildOrganizationJsonLd(
       { "@type": "City", "name": "Bondowoso" },
       { "@type": "AdministrativeArea", "name": "East Java", "containedInPlace": { "@type": "Country", "name": "Indonesia" } },
     ],
+    // Wiki canonical: credentials/trust-signals §Schema Canonical Values (2026-05-18)
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        name: "NIB",
+        description: "Nomor Induk Berusaha — Indonesian business registration (OSS-verifiable)",
+        value: "1102230032918",
+        url: "https://oss.go.id",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "HPWKI",
+        description: "Himpunan Pelaku Wisata Khusus Ijen — state-recognized Ijen specialist guide association (AHU-registered); membership requires BBKSDA-supervised volcanic safety training",
+        value: "AHU-0001072.AH.01.07.TAHUN 2024",
+        url: "https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0",
+      },
+      {
+        "@type": "PropertyValue",
+        name: "ISIC",
+        description: "International Student Identity Card — UNESCO-endorsed student discount provider",
+        value: "259268",
+        url: "https://www.isic.org/discounts/?providerId=259268",
+      },
+    ],
+    // reviewCount 164 = cross-platform total (51 TP + 92 Google + 21 TA) for Organization schema.
+    // TouristTrip per-tour uses 51 (Trustpilot only). Source: trust-signals §Schema Canonical Values.
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "164",
+      bestRating: "5",
+      worstRating: "1",
+    },
     sameAs: sameAs.length ? sameAs : undefined,
     address,
   });
