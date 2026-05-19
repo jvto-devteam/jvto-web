@@ -34,6 +34,7 @@ import {
   type NarrativeClaimLite,
 } from "@/lib/schemas/buildTourSchemas";
 import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
+import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -279,6 +280,8 @@ function StructuredData({
         description: stripHtml(pkg.description),
         url: pageUrl,
         image: [schemaImageUrl],
+        inLanguage: "en",
+        duration: pkg.itineraryDays?.length ? `P${pkg.itineraryDays.length}D` : undefined,
         touristType: pkg.marketing?.perfectFor || ["Adventure seekers"],
         tripOrigin: { "@type": "Place", name: pkg.originCity },
         itinerary: {
@@ -311,8 +314,8 @@ function StructuredData({
         brand: { "@id": `${siteUrl}/#organization` },
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || "4.9",
-          reviewCount: pkg.aggregateRating?.reviewCount || "112",
+          ratingValue: pkg.aggregateRating?.ratingValue || String(AGGREGATE_RATING.ratingValue),
+          reviewCount: pkg.aggregateRating?.reviewCount || String(AGGREGATE_RATING.reviewCount),
         },
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
