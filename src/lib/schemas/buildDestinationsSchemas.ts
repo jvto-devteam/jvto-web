@@ -6,6 +6,7 @@
 // reverse-lookup ItemList(tours-including) un-orphans the cluster; travel-guide handoff
 // for Ijen / Bromo / Tumpak Sewu cross-cluster connections.
 import type { ToursByDestinationItem } from '@/lib/queries/toursByDestination';
+import type { DestinationDetail } from '@/interfaces';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -122,5 +123,93 @@ export function buildDestinationTravelGuideHandoffSchema({
     url: `${BASE_URL}${guidePath}`,
     name: `Travel Guide for ${destinationName}`,
     isPartOf: { '@id': `${BASE_URL}/destinations/${destinationSlug}` },
+  };
+}
+
+/**
+ * TouristAttraction node for /destinations/{slug}.
+ * Built from live DestinationDetail fields so it stays current with the DB,
+ * rather than relying on schema_json (which was missing this node for ijen-crater).
+ */
+export function buildTouristAttractionSchema(
+  data: DestinationDetail,
+  slug: string,
+) {
+  const pageUrl = `${BASE_URL}/destinations/${slug}`;
+  const imageUrl = data.banner?.url
+    ? data.banner.url.startsWith('http') ? data.banner.url : `${BASE_URL}${data.banner.url}`
+    : undefined;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    '@id': pageUrl,
+    name: data.name,
+    description: data.seo_description?.trim() || data.summary || data.highlight || data.description,
+    url: pageUrl,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: parseFloat(data.latitude),
+      longitude: parseFloat(data.longitude),
+    },
+    ...(data.tags?.length ? { keywords: data.tags.join(', ') } : {}),
+    isAccessibleForFree: !data.permit_required,
+    touristType: ['Adventure travelers', 'Hikers', 'Photographers'],
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: data.region || data.province || 'East Java',
+      containedInPlace: { '@type': 'Country', name: 'Indonesia' },
+    },
+  };
+}
+
+/**
+ * FAQPage for /destinations/{slug}.
+ * Derives Q&A pairs from structured fields (permit, guide, difficulty, gear).
+ * Skips any item where the answer field is empty/null.
+ */
+export function buildDestinationFaqSchema(data: DestinationDetail, slug: string) {
+  const pairs: Array<{ q: string; a: string }> = [];
+
+  if (data.permit_details?.trim()) {
+    pairs.push({
+      q: `Is a permit or health certificate required to visit ${data.name}?`,
+      a: data.permit_details.trim(),
+    });
+  }
+
+  if (data.physical_requirements?.trim()) {
+    pairs.push({
+      q: `How physically demanding is the ${data.name} trek?`,
+      a: `${data.difficulty_level ? `Difficulty: ${data.difficulty_level}. ` : ''}${data.physical_requirements.trim()}`,
+    });
+  }
+
+  if (data.required_gear?.length) {
+    pairs.push({
+      q: `What gear and equipment do I need for ${data.name}?`,
+      a: data.required_gear.join(', ') + '.',
+    });
+  }
+
+  if (data.tips_for_visitors?.trim()) {
+    pairs.push({
+      q: `What should I know before visiting ${data.name}?`,
+      a: data.tips_for_visitors.trim(),
+    });
+  }
+
+  if (!pairs.length) return null;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${BASE_URL}/destinations/${slug}#faq`,
+    mainEntity: pairs.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
   };
 }

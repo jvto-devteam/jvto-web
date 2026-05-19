@@ -18,7 +18,10 @@ import {
   buildToursIncludingDestSchema,
   buildDestinationTravelGuideHandoffSchema,
   buildDestinationGeoSchema,
+  buildTouristAttractionSchema,
+  buildDestinationFaqSchema,
 } from "@/lib/schemas/buildDestinationsSchemas";
+import { buildBreadcrumbSchema } from "@/lib/seo/breadcrumbs";
 import fs from "fs";
 import path from "path";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
@@ -229,11 +232,21 @@ export default async function DestinationDetailPage({ params }: Props) {
       ? buildStatusAnnouncementSchema(slug, data.name ?? slug, volcanicStatus, SITE_URL)
       : null;
 
+  const breadcrumbNode = buildBreadcrumbSchema(`/destinations/${slug}`, {
+    "/destinations": "Destinations",
+    [`/destinations/${slug}`]: destinationName,
+  });
+  const touristAttractionNode = buildTouristAttractionSchema(data, slug);
+  const faqNode = buildDestinationFaqSchema(data, slug);
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       orgNode,
       siteNode,
+      touristAttractionNode,
+      breadcrumbNode,
+      faqNode,
       ...destNodes,
       geoNode,
       toursIncludingNode,
