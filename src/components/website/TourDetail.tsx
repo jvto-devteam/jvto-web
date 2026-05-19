@@ -562,7 +562,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               >
                 <Image
                   src={img}
-                  alt={`Gallery ${idx + 1}`}
+                  alt={`${pkg.name} — photo ${idx + 1}`}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-100"
                   sizes="(max-width: 768px) 128px, 200px"
@@ -614,7 +614,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4 flex items-center justify-center">
             <img
               src={pkg.gallery[photoIndex]}
-              alt={`Gallery Full ${photoIndex}`}
+              alt={`${pkg.name} — tour photo ${photoIndex + 1} of ${pkg.gallery.length}`}
               className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
             />
             {/* Counter */}

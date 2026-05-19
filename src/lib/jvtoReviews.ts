@@ -22,20 +22,20 @@ export const AGGREGATE_RATING = {
   ratingValue: 4.8,
   bestRating: 5,
   worstRating: 1,
-  reviewCount: 47,
+  reviewCount: 51,
   primaryPlatform: 'Trustpilot',
   primaryPlatformUrl: 'https://trustpilot.com/review/javavolcano-touroperator.com',
-  lastVerified: '2026-04-19',
+  lastVerified: '2026-05-09',
 } as const;
 
 export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   {
     platform: 'Trustpilot',
-    count: 47,
+    count: 51,
     rating: 4.8,
     url: 'https://trustpilot.com/review/javavolcano-touroperator.com',
     isPrimary: true,
-    lastVerified: '2026-04-19',
+    lastVerified: '2026-05-09',
   },
   {
     platform: 'Google Maps',

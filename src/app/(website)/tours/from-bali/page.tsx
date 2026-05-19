@@ -19,10 +19,10 @@ import { ArrowRight, Shield, Users, FileText, Award, Check, Ship } from "lucide-
 export const revalidate = 3600;
 
 const fallbackSeo = {
-  title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
+  title: "Bromo Ijen Tour from Bali — 4 Private Packages | JVTO",
   h1: "Private East Java Volcano Tours from Bali",
   description:
-    "4 private packages: Kawah Ijen, Mount Bromo, Tumpak Sewu & Papuma Beach. Ferry crossing included. Your own vehicle, your own crew, no hidden costs.",
+    "Private 3D–5D Bromo & Ijen tours from Bali, ferry crossing included. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 2.85M/pax.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
