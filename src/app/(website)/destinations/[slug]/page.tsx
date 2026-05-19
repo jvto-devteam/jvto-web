@@ -38,6 +38,24 @@ export interface RouteStats {
   bbox: [number, number, number, number];
 }
 
+// SEO AUDIT 2026-05-17 (QW-8): keyword-optimised title tag overrides per destination.
+// "Mount Ijen" leads (5-10× more searched than "Kawah Ijen" internationally).
+const DEST_TITLE_OVERRIDES: Record<string, string> = {
+  "ijen-crater":           "Mount Ijen Blue Fire Tour Guide — Permits, Health, Hike | JVTO",
+  "mount-bromo":           "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
+  "tumpak-sewu-waterfall": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
+  "madakaripura-waterfall":"Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+};
+
+// SEO AUDIT 2026-05-17 (QW-9): 3-part meta description formula per destination.
+// Formula: [Destination + key feature] · [Differentiator] · [Trust signal]
+const DEST_DESC_OVERRIDES: Record<string, string> = {
+  "ijen-crater":           "Plan your Mount Ijen blue fire hike from Surabaya or Bali. BBKSDA health screening, gas masks & permits included. Tourist Police-led private tour. 4.8★ Trustpilot.",
+  "mount-bromo":           "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
+  "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led operator. 4.8★ Trustpilot.",
+  "madakaripura-waterfall":"Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
+};
+
 const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {
   "ijen-crater": { href: "/travel-guide/ijen-health-screening", label: "Ijen Health Screening" },
   "mount-bromo": { href: "/travel-guide/packing-and-fitness", label: "Packing & Fitness" },
@@ -163,8 +181,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return { title: "Destination Not Found" };
 
-  const title = data.seo_title?.trim() || `${data.name} | JVTO Tours`;
+  const title = DEST_TITLE_OVERRIDES[slug] || data.seo_title?.trim() || `${data.name} | JVTO Tours`;
   const description =
+    DEST_DESC_OVERRIDES[slug] ||
     data.seo_description?.trim() ||
     data.summary ||
     data.highlight ||

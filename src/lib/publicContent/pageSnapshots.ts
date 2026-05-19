@@ -26,9 +26,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     "/",
     {
       title:
-        "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
+        "Bromo Ijen Tour from Surabaya & Bali — Private | JVTO",
       description:
-        "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
+        "Private volcano tours from Surabaya & Bali. Tourist Police-led. No shared groups. 4.8★ Trustpilot. NIB 1102230032918. From IDR 1.55M/pax.",
     },
     {
       h1: "Tourist Police-Led Private Volcano Tours in East Java",
@@ -92,9 +92,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/tours": createPageSnapshot(
     "/tours",
     {
-      title: "All Private Tours | East Java & Bali Adventures",
+      title: "16 Private Bromo, Ijen & Tumpak Sewu Tours | JVTO",
       description:
-        "Explore our complete collection of private tours in East Java and Bali. From Mount Bromo sunrise to Ijen Blue Fire and Tumpak Sewu Waterfall. Flexible starting points from Surabaya or Bali.",
+        "Browse 16 private volcano tour packages from Surabaya or Bali. Bromo sunrise, Ijen blue fire, Tumpak Sewu. Tourist Police-led. All-inclusive. 4.8★ Trustpilot.",
     },
     {
       h1: "All Destinations Tours",
@@ -103,9 +103,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/tours/from-bali": createPageSnapshot(
     "/tours/from-bali",
     {
-      title: "Private Tours From Bali to Java | Bromo & Ijen Crater",
+      title: "Bromo Ijen Tour from Bali — 4 Private Packages | JVTO",
       description:
-        "Cross-island adventure from Bali to East Java. Includes ferry crossing, transport, and guided tours to Ijen Blue Fire and Mount Bromo. Drop-off in Bali or Surabaya.",
+        "Private 3D–5D Bromo & Ijen tours from Bali, ferry crossing included. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 2.85M/pax.",
     },
     {
       h1: "Bali Tours",
@@ -114,9 +114,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/tours/from-surabaya": createPageSnapshot(
     "/tours/from-surabaya",
     {
-      title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
+      title: "Bromo Ijen Tour from Surabaya — 12 Private Packages | JVTO",
       description:
-        "Explore East Java starting from Surabaya. Best private tours to Mount Bromo sunrise, Ijen Blue Fire, and Madakaripura Waterfall. All-inclusive & hassle-free.",
+        "Private 2D–6D Bromo, Ijen & Tumpak Sewu tours from Surabaya. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 1.55M/pax.",
     },
     {
       h1: "Surabaya Tours",

@@ -1,4 +1,13 @@
 import { notFound } from "next/navigation";
+
+// SEO AUDIT 2026-05-17 (QW-8 + QW-9): title and description overrides for high-value Surabaya package pages.
+const SLUG_TITLE_OVERRIDES: Record<string, string> = {
+  "bromo-madakaripura-ijen-3d2n": "3D2N Bromo Ijen Madakaripura Private Tour Surabaya → Bali | JVTO",
+};
+
+const SLUG_DESC_OVERRIDES: Record<string, string> = {
+  "bromo-madakaripura-ijen-3d2n": "Private 3D2N Bromo sunrise + Madakaripura canyon + Ijen blue fire from Surabaya, ending in Bali. Tourist Police-led. 4.8★ Trustpilot. From IDR 2.45M/pax.",
+};
 import { cache } from "react";
 import type { Metadata, ResolvingMetadata } from "next";
 import type { TourPackageDetail as TourPackageDetailResponse } from "@/interfaces";
@@ -348,8 +357,9 @@ export async function generateMetadata(
   const cleanDesc = stripHtml(pkg.description).substring(0, 160);
   const price = formatCurrency(pkg.offers?.aggregateOffer?.lowPrice || 0);
   const metaTitle =
-    pkg.seoTitle?.trim() || `${pkg.name} | Private Tour from ${pkg.originCity}`;
+    SLUG_TITLE_OVERRIDES[slug] || pkg.seoTitle?.trim() || `${pkg.name} | Private Tour from ${pkg.originCity}`;
   const metaDesc =
+    SLUG_DESC_OVERRIDES[slug] ||
     pkg.seoDescription?.trim() ||
     `Book ${pkg.name}. Starts from ${price}. ${cleanDesc}...`;
 

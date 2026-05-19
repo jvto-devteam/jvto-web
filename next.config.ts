@@ -177,6 +177,20 @@ const nextConfig = {
         destination: "/isic/student-package",
         permanent: true,
       },
+      // SEO AUDIT 2026-05-17 (QW-1): legacy Laravel routes → SSOT canonical URLs.
+      // These are still indexed by Google alongside new Next.js routes (authority dilution).
+      { source: "/about", destination: "/why-jvto/our-story", permanent: true },
+      { source: "/faq", destination: "/travel-guide/faq", permanent: true },
+      { source: "/reviews", destination: "/why-jvto/reviews", permanent: true },
+      { source: "/all-inclusive", destination: "/policy/inclusions-exclusions", permanent: true },
+      { source: "/student-package", destination: "/isic/student-package", permanent: true },
+      { source: "/custom-package", destination: "/tours", permanent: true },
+      { source: "/office", destination: "/contact", permanent: true },
+      { source: "/how-to-book", destination: "/travel-guide/booking-information", permanent: true },
+      { source: "/terms-and-condition", destination: "/policy", permanent: true },
+      { source: "/blog", destination: "/travel-guide", permanent: true },
+      { source: "/packages/yogyakarta", destination: "/tours", permanent: true },
+      // Note: /packages/surabaya/3d2n/{N} skipped — legacy IDs need verification from GSC/server logs first.
     ];
   },
   async rewrites() {

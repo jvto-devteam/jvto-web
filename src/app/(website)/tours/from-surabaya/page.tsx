@@ -19,10 +19,10 @@ import { ArrowRight, Shield, Users, FileText, Award, Check } from "lucide-react"
 export const revalidate = 3600;
 
 const fallbackSeo = {
-  title: "Private Tours From Surabaya | Bromo, Ijen & Tumpak Sewu",
+  title: "Bromo Ijen Tour from Surabaya — 12 Private Packages | JVTO",
   h1: "Private Volcano Tours from Surabaya",
   description:
-    "11 private packages: Kawah Ijen, Mount Bromo, Tumpak Sewu & Madakaripura. Your own vehicle. Your own crew. Led by an active Tourist Police officer.",
+    "Private 2D–6D Bromo, Ijen & Tumpak Sewu tours from Surabaya. Tourist Police-led, all-inclusive. 4.8★ Trustpilot. From IDR 1.55M/pax.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

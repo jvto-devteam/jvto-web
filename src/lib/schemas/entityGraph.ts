@@ -154,7 +154,7 @@ export const ORGANIZATION_SCHEMA = {
     },
   ],
 
-  // External platform verification
+  // External platform verification + social profiles (wiki canonical: credentials/trust-signals §social, 2026-05-17)
   sameAs: [
     'https://www.trustpilot.com/review/javavolcano-touroperator.com',
     'https://www.google.com/maps?cid=1266403973589689021',
@@ -163,6 +163,9 @@ export const ORGANIZATION_SCHEMA = {
     'https://www.isic.org/discounts/?providerId=259268',
     'https://www.indecon.id/spotlight-networks/java-volcano-tour-operator',
     'https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==',
+    'https://www.facebook.com/javavolcanotours/',
+    'https://www.instagram.com/javavolcanotouroperator/',
+    'https://twitter.com/jvto_tours',
   ],
 };
 
