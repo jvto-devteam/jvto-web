@@ -8,7 +8,7 @@ export const publicOrganizationProfileSnapshot: PublicOrganizationProfileSnapsho
     founding_date: new Date("2016-01-01T00:00:00.000Z"),
     description:
       "Registered Indonesian travel company based in Bondowoso and led by an active Tourist Police officer. Private volcano tours to Bromo, Ijen, and East Java highlights.",
-    price_range: "IDR 1.000.000 - IDR 9.050.000",
+    price_range: "IDR 1,000,000 – IDR 6,050,000 per person",
     contact_email: "hello@javavolcano-touroperator.com",
     contact_phone: "+62 822-4478-8833",
     available_languages: ["en"],

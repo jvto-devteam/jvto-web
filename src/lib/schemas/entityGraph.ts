@@ -32,7 +32,7 @@ export const ORGANIZATION_SCHEMA = {
   url: `${BASE_URL}/`,
   logo: { '@type': 'ImageObject', url: `${BASE_URL}/assets/img/jvto-color.png` },
   image: `${BASE_URL}/assets/img/hero/home.webp`,
-  foundingDate: '2015',
+  foundingDate: '2016',
   slogan: 'Private volcano tours with police-led safety. Ijen, Bromo, Tumpak Sewu.',
   description:
     'Registered Indonesian tour operator (PT Java Volcano Rendezvous, NIB 1102230032918) offering private volcano tours in East Java. Founded by an active Tourist Police officer. HPWKI member with BBKSDA-verified safety training.',

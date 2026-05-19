@@ -235,7 +235,7 @@ export function buildOrganizationJsonLd(
       : undefined;
 
   return clean({
-    "@type": ["Organization", "LocalBusiness"],
+    "@type": ["TravelAgency", "LocalBusiness"],
     "@id": ORG_ID,
     name,
     url: website,
@@ -247,6 +247,12 @@ export function buildOrganizationJsonLd(
     priceRange: org.price_range || undefined,
     foundingDate: formatDateOnly(org.founding_date),
     alternateName: org.alternate_name || undefined,
+    hasMap: "https://www.google.com/maps?cid=1266403973589689021",
+    areaServed: [
+      { "@type": "City", "name": "Surabaya" },
+      { "@type": "City", "name": "Bondowoso" },
+      { "@type": "AdministrativeArea", "name": "East Java", "containedInPlace": { "@type": "Country", "name": "Indonesia" } },
+    ],
     sameAs: sameAs.length ? sameAs : undefined,
     address,
   });
