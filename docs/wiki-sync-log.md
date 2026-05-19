@@ -137,8 +137,8 @@ Dimulai dari commit `2da3cc1` (2026-05-18).
 | 10 | `fdc37ec` | chore(settings): dispatching-parallel-agents | ⏭️ | — |
 | 11 | `19379c8` | chore(claude): Current Sprint bulk schema | ⏭️ | — |
 | 12 | `7369a43` | output: Bromo refresh + social batch | ⏭️ | DB-driven, website sudah punya MAGMA data |
-| 13 | `da414f7` | output: aeo per-destination Q&A | ⏳ | Perlu konfirmasi user |
-| 14 | `cc76f61` | output: faq Papuma + Bromo refresh | ⏳ | Perlu DB update (package_faqs / content_pages) |
+| 13 | `da414f7` | output: aeo per-destination Q&A | ⏭️ | Destination pages tidak punya FAQ rendering — skip |
+| 14 | `cc76f61` | output: faq Papuma + Bromo refresh | ✅ | DB update: insert 3 Level II FAQ (ID 119-121) ke 15 Bromo packages; insert 8 Papuma FAQ (ID 122-129) ke 5 Papuma packages |
 | 15 | `1ab7896` | chore(wiki): update INDEX + log | ⏭️ | — |
 | 16 | `5614ee6` | chore(claude): Current Sprint bulk compilation | ⏭️ | — |
 | 17 | `2e1c1c4` | chore: commit dirty files | ⏭️ | — |
