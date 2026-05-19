@@ -131,7 +131,7 @@ Dimulai dari commit `2da3cc1` (2026-05-18).
 | 4 | `49ceb2e` | chore(claude): Current Sprint | ⏭️ | — |
 | 5 | `0b4bc47` | chore: magma-feed removal | ⏭️ | — |
 | 6 | `75f0d75` | fix: foundingDate 2016 + identifier + aggregateRating 164 | ✅ | `41ea523` |
-| 7 | `0484d8f` | feat(schema): TouristTrip ijen-bromo-madakaripura-3d2n | — | — |
+| 7 | `0484d8f` | feat(schema): TouristTrip ijen-bromo-madakaripura-3d2n | ✅ | `7ed34f7` |
 | 8 | `906e5a7` | feat(schema): TouristTrip bromo-madakaripura-ijen-3d2n | — | — |
 | 9 | `409e9d7` | feat(schema): bulk TouristTrip 14 tours | — | — |
 | 10 | `fdc37ec` | chore(settings): dispatching-parallel-agents | — | — |
