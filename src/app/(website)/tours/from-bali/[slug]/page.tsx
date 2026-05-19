@@ -178,7 +178,9 @@ function StructuredData({
     slugString.startsWith("/") ? slugString.substring(1) : slugString
   }`;
 
-  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]);
+  // Wiki 82c1270: all Bali tours include Ijen → Geopark briefing as fallback image.
+  const FALLBACK_IMAGE = `${siteUrl}/ops/ijen-geopark-briefing.png`;
+  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]) || FALLBACK_IMAGE;
   const schemaImageUrl =
     rawImage && !rawImage.startsWith("http")
       ? `${siteUrl}${rawImage}`

@@ -178,7 +178,14 @@ function StructuredData({
     slugString.startsWith("/") ? slugString.substring(1) : slugString
   }`;
 
-  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]);
+  // Wiki 82c1270: canonical fallback images when no tour-specific photo in DB.
+  // Bromo/Safari-only (no Ijen) → hero landscape. All others (Ijen-relevant) → Geopark briefing.
+  const BROMO_ONLY_SLUGS = new Set(['bromo-1d1n', 'bromo-2d1n', 'taman-safari-prigen-bromo-madakaripura-3d2n']);
+  const bareSlug = slugString.split('/').pop() ?? '';
+  const FALLBACK_IMAGE = BROMO_ONLY_SLUGS.has(bareSlug)
+    ? `${siteUrl}/assets/img/hero/home.webp`
+    : `${siteUrl}/ops/ijen-geopark-briefing.png`;
+  const rawImage = pkg.imageUrl || (pkg.gallery && pkg.gallery[0]) || FALLBACK_IMAGE;
   const schemaImageUrl =
     rawImage && !rawImage.startsWith("http")
       ? `${siteUrl}${rawImage}`
