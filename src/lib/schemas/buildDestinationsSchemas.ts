@@ -81,7 +81,8 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
     touristType: 'International independent travellers',
     isAccessibleForFree: false,
     containedInPlace: { '@type': 'AdministrativeArea', name: 'East Java, Indonesia' },
-    provider: { '@type': 'TravelAgency', name: 'Java Volcano Tour Operator', url: BASE_URL, identifier: '1102230032918' },
+    // provider not valid on TouristAttraction (Place subtype). Link via subjectOf to Organization.
+    subjectOf: { '@id': `${BASE_URL}/#organization` },
   };
   if (data.amenityFeatures) {
     attraction.amenityFeature = data.amenityFeatures.map(f => ({
