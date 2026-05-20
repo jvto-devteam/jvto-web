@@ -24,7 +24,7 @@ const CLINIC_ID = `${BASE_URL}/#klinik-bakti-husada`;
 // (DB-driven via getOrganizationProfile + buildOrganizationJsonLd). Same @id, so cross-page refs resolve.
 export const ORGANIZATION_SCHEMA = {
   '@context': 'https://schema.org',
-  '@type': ['TravelAgency', 'LocalBusiness'],
+  '@type': 'TravelAgency',
   '@id': ORG_ID,
   name: 'Java Volcano Tour Operator',
   legalName: 'PT Java Volcano Rendezvous',

@@ -235,7 +235,7 @@ export function buildOrganizationJsonLd(
       : undefined;
 
   return clean({
-    "@type": ["TravelAgency", "LocalBusiness"],
+    "@type": "TravelAgency",
     "@id": ORG_ID,
     name,
     url: website,
