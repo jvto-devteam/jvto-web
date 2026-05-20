@@ -277,11 +277,42 @@ export default async function DestinationDetailPage({ params }: Props) {
 
   const touristAttractionNode = buildTouristAttractionSchema(slug);
 
+  // BreadcrumbList: required on all destination pages (not auto-injected since we use <JsonLd> directly).
+  const breadcrumbNode = {
+    "@type": "BreadcrumbList",
+    "@id": `${SITE_URL}/destinations/${slug}#breadcrumb`,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Destinations", item: `${SITE_URL}/destinations` },
+      { "@type": "ListItem", position: 3, name: destinationName, item: `${SITE_URL}/destinations/${slug}` },
+    ],
+  };
+
+  // WebPage fallback for destinations without a content_pages DB row (madakaripura, papuma).
+  // destNodes from schema_json already includes WebPage for ijen and bromo — only inject when absent.
+  const hasWebPage = destNodes.some((n: any) =>
+    ([] as string[]).concat(n["@type"]).some((t) => t === "WebPage" || t === "CollectionPage")
+  );
+  const webPageFallbackNode = hasWebPage ? null : {
+    "@type": "WebPage",
+    "@id": `${SITE_URL}/destinations/${slug}#webpage`,
+    url: `${SITE_URL}/destinations/${slug}`,
+    name: DEST_TITLE_OVERRIDES[slug] || `${destinationName} | JVTO`,
+    description: DEST_DESC_OVERRIDES[slug] || data.summary || data.highlight || "",
+    inLanguage: "en",
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/destinations/${slug}#attraction` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    breadcrumb: { "@id": `${SITE_URL}/destinations/${slug}#breadcrumb` },
+  };
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       orgNode,
       siteNode,
+      breadcrumbNode,
+      webPageFallbackNode,
       ...destNodes,
       touristAttractionNode,
       toursIncludingNode,
