@@ -277,15 +277,9 @@ export function buildOrganizationJsonLd(
         url: "https://www.isic.org/discounts/?providerId=259268",
       },
     ],
-    // reviewCount 164 = cross-platform total (51 TP + 92 Google + 21 TA) for Organization schema.
-    // TouristTrip per-tour uses 51 (Trustpilot only). Source: trust-signals §Schema Canonical Values.
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "164",
-      bestRating: "5",
-      worstRating: "1",
-    },
+    // aggregateRating intentionally omitted here — standalone AggregateRating node in
+    // entityGraph.ts (/#aggregate-rating) already references Organization via itemReviewed.
+    // Nesting it here caused validator to extract/consume the parent TravelAgency node.
     sameAs: sameAs.length ? sameAs : undefined,
     address,
   });
