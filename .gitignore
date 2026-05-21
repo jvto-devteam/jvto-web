@@ -48,3 +48,4 @@ next-env.d.ts
 # Design atlas — screenshots are large, regenerate with: node scripts/generate-design-atlas.mjs
 docs/design_atlas/screenshots/
 docs/design_atlas/manifest.json
+.playwright-mcp/
