@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, forwardRef } from "react";
+import { useRef, forwardRef, useState, useEffect } from "react";
 import Link from "@/components/website/AppLink";
 import { ListTourPackage } from "@/types";
 import TourCard from "../TourCard";
@@ -23,11 +23,30 @@ interface TourRowProps {
 const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
   ({ title, tours, bgColor = "bg-white" }, ref) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
 
-    // Logic scroll horizontal (kiri/kanan) untuk carousel
+    const updateScrollState = () => {
+      const el = scrollContainerRef.current;
+      if (!el) return;
+      setCanScrollLeft(el.scrollLeft > 0);
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+    };
+
+    useEffect(() => {
+      const el = scrollContainerRef.current;
+      if (!el) return;
+      updateScrollState();
+      el.addEventListener("scroll", updateScrollState, { passive: true });
+      window.addEventListener("resize", updateScrollState, { passive: true });
+      return () => {
+        el.removeEventListener("scroll", updateScrollState);
+        window.removeEventListener("resize", updateScrollState);
+      };
+    }, []);
+
     const scroll = (direction: "left" | "right") => {
       if (scrollContainerRef.current) {
-        // Scroll sebesar 80% dari lebar layar agar user masih melihat konteks item berikutnya
         const scrollAmount = scrollContainerRef.current.offsetWidth * 0.8;
         scrollContainerRef.current.scrollBy({
           left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -59,14 +78,24 @@ const TourCarouselRow = forwardRef<HTMLDivElement, TourRowProps>(
             <div className="hidden md:flex gap-3">
               <button
                 onClick={() => scroll("left")}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                disabled={!canScrollLeft}
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-300 group
+                  ${!canScrollLeft
+                    ? "border-gray-200 text-gray-300 cursor-not-allowed"
+                    : "border-gray-300 hover:bg-jvto-dark hover:text-white hover:border-jvto-dark cursor-pointer"
+                  }`}
                 aria-label="Scroll Left"
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-300 flex items-center justify-center hover:bg-jvto-dark hover:text-white hover:border-jvto-dark transition-all duration-300 group"
+                disabled={!canScrollRight}
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-300 group
+                  ${!canScrollRight
+                    ? "border-gray-200 text-gray-300 cursor-not-allowed"
+                    : "border-gray-300 hover:bg-jvto-dark hover:text-white hover:border-jvto-dark cursor-pointer"
+                  }`}
                 aria-label="Scroll Right"
               >
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />

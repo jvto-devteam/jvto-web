@@ -597,8 +597,8 @@ const TrustpilotWidget = ({
           disabled={disabled}
           className={`absolute left-1/2 top-1/2 ${
             isLeft ? "-translate-x-1/2" : "-translate-x-1/2 rotate-180"
-          } -translate-y-1/2 bg-transparent border-0 cursor-pointer block min-h-6 min-w-6 w-6 p-0 outline-none hover:bg-[#c2d5f7] hover:p-2 hover:w-10 hover:h-10 hover:rounded-full transition-all ${
-            disabled ? "opacity-50" : ""
+          } -translate-y-1/2 bg-transparent border-0 block min-h-6 min-w-6 w-6 p-0 outline-none hover:bg-white/20 hover:p-2 hover:w-10 hover:h-10 hover:rounded-full transition-all ${
+            disabled ? "opacity-30 cursor-default" : "cursor-pointer"
           }`}
           aria-label={`Carousel scroll ${direction}`}
           tabIndex={disabled ? -1 : 0}
@@ -613,10 +613,10 @@ const TrustpilotWidget = ({
               cy="12"
               r="11.5"
               fill="none"
-              stroke={disabled ? "#d1d1d1" : "#191919"}
+              stroke="#ffffff"
             />
             <path
-              fill={disabled ? "#d1d1d1" : "#191919"}
+              fill="#ffffff"
               d="M10.5088835 12l3.3080582-3.02451041c.2440777-.22315674.2440777-.5849653 0-.80812204-.2440776-.22315673-.6398058-.22315673-.8838834 0L9.18305826 11.595939c-.24407768.2231567-.24407768.5849653 0 .808122l3.75000004 3.4285714c.2440776.2231568.6398058.2231568.8838834 0 .2440777-.2231567.2440777-.5849653 0-.808122L10.5088835 12z"
             />
           </svg>

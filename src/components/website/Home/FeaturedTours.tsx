@@ -2,8 +2,7 @@ import Link from "@/components/website/AppLink";
 import { ArrowRight } from "lucide-react";
 import { ListTourPackage } from "@/types";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
-import TourCardStatic from "@/components/website/TourCardStatic";
-import ViewportSection from "@/components/website/ViewportSection";
+import TourRowClient from "./TourRowClient";
 
 async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
   return getPublicPackageList({ fromId: id, limit: 6 });
@@ -53,8 +52,8 @@ const FeaturedTours = async () => {
         </div>
       </div>
 
-      <TourRowStatic id="featured-tours-surabaya" title="Tours From Surabaya" tours={surabayaTours} />
-      <TourRowStatic id="featured-tours-bali" title="Tours From Bali" tours={baliTours} />
+      <TourRowClient id="featured-tours-surabaya" title="Tours From Surabaya" tours={surabayaTours} />
+      <TourRowClient id="featured-tours-bali" title="Tours From Bali" tours={baliTours} />
 
       <div className="text-center max-w-7xl mx-auto px-6 md:px-8 pt-10">
         <Link
@@ -70,51 +69,5 @@ const FeaturedTours = async () => {
     </section>
   );
 };
-
-function TourRowStatic({
-  id,
-  title,
-  tours,
-}: {
-  id: string;
-  title: string;
-  tours: ListTourPackage[];
-}) {
-  if (!tours.length) return null;
-
-  return (
-    <ViewportSection
-      as="section"
-      id={id}
-      className="py-6 md:py-10 scroll-mt-24 border-b border-jvto-border last:border-0"
-      intrinsicSize="780px"
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-3">
-          <div>
-            <h3
-              className="text-2xl md:text-3xl font-black text-jvto-navy tracking-tight"
-              style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-            >
-              {title}
-            </h3>
-            <p className="text-jvto-muted mt-1 text-sm">
-              {tours.length} private itineraries available
-            </p>
-          </div>
-        </div>
-        <div className="relative -mx-6 md:mx-0">
-          <div className="flex md:gap-5 gap-3 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide px-6 md:px-0">
-            {tours.map((tour, index) => (
-              <div key={tour.id} className="flex-shrink-0 w-[80vw] sm:w-[350px]">
-                <TourCardStatic isNewTab tour={tour} prioritizeImage={index === 0} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </ViewportSection>
-  );
-}
 
 export default FeaturedTours;
