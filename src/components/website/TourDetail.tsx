@@ -417,6 +417,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             alt={pkg.name}
             fill
             priority
+            fetchPriority="high"
             className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
             sizes="100vw"
           />
