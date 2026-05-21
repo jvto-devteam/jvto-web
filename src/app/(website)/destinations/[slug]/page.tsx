@@ -46,6 +46,7 @@ const DEST_TITLE_OVERRIDES: Record<string, string> = {
   "mount-bromo":           "Mount Bromo Sunrise Guide — Tours, Tickets & Tips | JVTO",
   "tumpak-sewu-waterfall": "Tumpak Sewu Waterfall — Tour, Trail & Tips | JVTO",
   "madakaripura-waterfall":"Madakaripura Waterfall — Tour, Canyon Hike, Tips | JVTO",
+  "papuma-beach":          "Papuma Beach Jember — Coastal Tour, Rock Formations | JVTO",
 };
 
 // SEO AUDIT 2026-05-17 (QW-9): 3-part meta description formula per destination.
@@ -55,6 +56,7 @@ const DEST_DESC_OVERRIDES: Record<string, string> = {
   "mount-bromo":           "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
   "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led operator. 4.8★ Trustpilot.",
   "madakaripura-waterfall":"Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
+  "papuma-beach":          "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
 };
 
 const DEST_TRAVEL_GUIDE_LINKS: Record<string, { href: string; label: string }> = {

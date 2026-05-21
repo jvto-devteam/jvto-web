@@ -16,10 +16,10 @@ import Image from "next/image";
 export const revalidate = 86400;
 
 const fallbackSeo = {
-  title: "Verify: Legal Documents",
+  title: "JVTO Legal Documents — NIB, TDUP & PT Registration | JVTO",
   h1: "Legal Documents",
   description:
-    "Verify NIB, TDUP, and official business registrations of PT Java Volcano Rendezvous.",
+    "JVTO legal documents: NIB 1102230032918, TDUP tourism licence, and PT Java Volcano Rendezvous registration — all verifiable on Indonesian government registries.",
 };
 
 const BASE_URL = "https://javavolcano-touroperator.com";

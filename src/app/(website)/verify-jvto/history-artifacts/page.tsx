@@ -13,7 +13,7 @@ export const revalidate = 86400;
 const BASE_URL = "https://javavolcano-touroperator.com";
 
 const fallbackSeo = {
-  title: "Verify: History Artifacts",
+  title: "JVTO History Artifacts — Documented Origins Since 2015",
   h1: "History Artifacts: Documented Origins Since 2015",
   description:
     "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT incorporation.",

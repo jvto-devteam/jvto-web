@@ -8,9 +8,9 @@ import { Faq } from '@/components/content/Faq';
 const ROUTE = '/travel-guide/best-time-to-visit';
 
 const PAGE_META = {
-  title: 'Best Time to Visit East Java: Bromo, Ijen & Tumpak Sewu | JVTO Travel Guide',
+  title: 'Best Time to Visit Bromo, Ijen & Tumpak Sewu | JVTO',
   description:
-    'Month-by-month seasonal guide to Bromo, Ijen blue fire, and Tumpak Sewu. Dry season May–October gives the clearest sunrises and safest trails. Wet season peaks Tumpak Sewu waterfall flow. JVTO operates year-round.',
+    'Dry season (May–Oct) is optimal for Bromo, Ijen blue fire, and Tumpak Sewu. JVTO private tours run year-round — monthly conditions guide for each destination.',
   h1: 'Best Time to Visit East Java: Bromo, Ijen & Tumpak Sewu',
 };
 
