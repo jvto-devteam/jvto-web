@@ -265,7 +265,7 @@ export const FOUNDER_SCHEMA = {
       bookEdition: '4',
       publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
       description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay (non-paid editorial).',
-      image: `${BASE_URL}/history/founder-with-guests-stefan-loose.jpg`,
+      image: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`,
     },
   ],
 };

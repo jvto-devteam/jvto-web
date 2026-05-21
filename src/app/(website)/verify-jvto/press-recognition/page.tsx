@@ -193,7 +193,7 @@ export default async function PressRecognitionPage() {
             <div className="flex flex-col gap-3">
               <figure className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
                 <Image
-                  src="https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg"
+                  src="/history/stefan_loose_crop_enh.jpg"
                   alt="Stefan Loose Reiseführer Indonesien page 287 — Ijen Massif section"
                   fill
                   className="object-cover object-top opacity-90"
@@ -285,7 +285,7 @@ export default async function PressRecognitionPage() {
             <div className="space-y-3 order-last md:order-first">
               <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
                 <Image
-                  src="https://javavolcano-touroperator.com/history/booking-2015-plaque.jpg"
+                  src="/history/booking-2015-plaque.jpg"
                   alt="Booking.com Guest Review Award 2015 plaque — score 9.4/10"
                   fill
                   className="object-cover opacity-90"
@@ -294,7 +294,7 @@ export default async function PressRecognitionPage() {
               </div>
               <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
                 <Image
-                  src="https://javavolcano-touroperator.com/history/booking-2015-shipping-label.jpg"
+                  src="/history/booking-2015-shipping-label.jpg"
                   alt="Booking.com award shipping label addressed to Jl. Khairil Anwar 102A, Bondowoso"
                   fill
                   className="object-cover opacity-90"
