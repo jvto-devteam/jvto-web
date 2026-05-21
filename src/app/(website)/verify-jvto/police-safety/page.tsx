@@ -19,7 +19,7 @@ const fallbackSeo = {
   title: "Verify: Police Authority & Safety Protocols",
   h1: "Police & Safety",
   description:
-    "Forensic evidence of Tourist Police integration, health screening, and operational safety.",
+    "JVTO's Tourist Police authority: SPRIN POLPAR documents, health screening coordination, and safety protocols for Bromo and Ijen volcano tours.",
 };
 
 const POLICE_CREDENTIALS = [

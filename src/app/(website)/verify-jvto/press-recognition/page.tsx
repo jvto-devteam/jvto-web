@@ -16,10 +16,10 @@ import { FOUNDER_WITH_GUESTS_STEFAN_LOOSE } from "@/lib/imageAssets";
 export const revalidate = 86400;
 
 const fallbackSeo = {
-  title: "Verify: Press Recognition",
+  title: "JVTO Press Recognition — Detik.com & Stefan Loose | JVTO",
   h1: "Press Recognition",
   description:
-    "Media coverage and recognition received by JVTO in various publications and platforms.",
+    "Independent press coverage confirming JVTO's identity: Detik.com Tourist Police article, Stefan Loose Indonesia guidebook, and editorial recognition.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {

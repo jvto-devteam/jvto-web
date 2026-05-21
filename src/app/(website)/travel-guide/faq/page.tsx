@@ -16,10 +16,10 @@ export const revalidate = 3600;
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const fallbackSeo = {
-  title: "Frequently Asked Questions (FAQ) - Java Volcano Tour Operator",
+  title: "Bromo, Ijen & Tumpak Sewu Tour FAQ | JVTO",
   h1: "Frequently Asked Questions",
   description:
-    "Find answers to common questions about Bromo, Ijen, and Tumpak Sewu tour packages.",
+    "Common questions about JVTO private tours: booking steps, pricing, safety protocols, health screening, and what to expect on Bromo, Ijen, and Tumpak Sewu.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
