@@ -108,6 +108,91 @@ export default async function PoliceEscortPage() {
             </div>
           </section>
 
+          {/* What a police escort involves */}
+          <section className="mb-10">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">
+              What a Police Escort Involves
+            </h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
+              <p>
+                A traffic police escort means a uniformed officer from the Bondowoso
+                Satlantas (traffic police) unit accompanies the group vehicle for the
+                transfer leg — typically from the departure hotel to the crater gate or
+                to the next accommodation. The officer travels in a marked patrol vehicle
+                ahead of or alongside the group's private vehicle.
+              </p>
+              <p>
+                This is not a security escort in the personal-protection sense. Its
+                function is logistical: clearing intersections at unusual hours (most Ijen
+                transfers begin between 00:00–01:30), managing traffic at narrow junctions,
+                and providing visible authority if a road incident occurs. For groups of 10
+                or more passengers across multiple vehicles, this coordination meaningfully
+                reduces transfer time and eliminates the risk of convoy separation on
+                unfamiliar mountain roads.
+              </p>
+              <p>
+                The escort vehicle does not enter the Ijen or Bromo conservation area —
+                BBKSDA jurisdiction begins at the crater gate. Its role ends at the handoff
+                point, where the JVTO guide takes over for the hiking section.
+              </p>
+            </div>
+          </section>
+
+          {/* How JVTO coordinates */}
+          <section className="mb-10">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">
+              How JVTO Coordinates the Escort
+            </h2>
+            <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
+              <p>
+                JVTO's founder holds an active Tourist Police (POLPAR) commission issued
+                by Polres Bondowoso. This credential — the SPRIN POLPAR document,
+                verifiable on the{" "}
+                <Link href="/verify-jvto/police-safety" className="text-jvto-green font-medium hover:underline">
+                  Police Safety verification page
+                </Link>{" "}
+                — gives JVTO a direct coordination channel with the local Satlantas unit
+                that most private operators do not have.
+              </p>
+              <p>
+                The request is made through official police channels at least 24 hours
+                before departure. There is no payment to the escort officer — the
+                arrangement is institutional, coordinated through the police unit, not a
+                private transaction. JVTO includes the escort coordination at no additional
+                charge to the guest.
+              </p>
+              <p>
+                Because the POLPAR commission is personal to the founder and requires
+                active police service, this arrangement is not replicable by unlicensed
+                operators. It is one of the concrete, verifiable differences between JVTO
+                and standard tour operators in the region.
+              </p>
+            </div>
+          </section>
+
+          {/* Who qualifies */}
+          <section className="mb-10 bg-jvto-green/5 border border-jvto-green/20 rounded-xl p-6">
+            <h2 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wide">
+              When Is a Police Escort Appropriate?
+            </h2>
+            <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+              <p>
+                An escort is most relevant for groups of 10 or more passengers, especially
+                when travelling in two or more vehicles that need to stay together. It is
+                also appropriate when departure time falls between midnight and 02:00, when
+                Bondowoso roads have minimal other traffic but junctions can still cause
+                convoy delays.
+              </p>
+              <p>
+                For solo travellers or couples, a police escort is rarely necessary and is
+                not typically offered — a single private vehicle with a JVTO guide manages
+                the transfer without coordination overhead. If your group is large or your
+                itinerary involves an unusually early start, mention it at booking and JVTO
+                will advise whether coordination makes sense for your specific trip.
+              </p>
+            </div>
+          </section>
+
           {/* Key facts */}
           <section className="mb-10 bg-slate-50 rounded-xl border border-slate-100 p-6">
             <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">

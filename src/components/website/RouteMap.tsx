@@ -118,7 +118,11 @@ export default function RouteMap({ slug, bbox, elevMinM, elevMaxM }: Props) {
       : [];
 
   return (
-    <div className="rounded-lg overflow-hidden border border-slate-800 bg-slate-950">
+    <div
+      className="rounded-lg overflow-hidden border border-slate-800 bg-slate-950"
+      role="region"
+      aria-label="Trail route map and elevation profile"
+    >
       <div className="relative h-72 md:h-96">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-slate-950 z-[400]">

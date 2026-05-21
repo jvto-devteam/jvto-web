@@ -254,7 +254,7 @@ export default async function HistoryArtifactsPage() {
       />
 
       {/* ── Documented History Timeline ── */}
-      {/* <section className="bg-slate-950 border-t border-slate-800">
+      <section className="bg-slate-950 border-t border-slate-800">
         <div className="container mx-auto px-6 py-14">
           <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-10">
             Operational Continuity — Artifact-Anchored Timeline
@@ -333,10 +333,10 @@ export default async function HistoryArtifactsPage() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* ── Continuity Note ── */}
-      {/* <section className="bg-slate-900 border-t border-slate-800">
+      <section className="bg-slate-900 border-t border-slate-800">
         <div className="container mx-auto px-6 py-10">
           <div className="flex items-start gap-4 max-w-2xl">
             <CheckCircle2 size={18} className="text-jvto-green shrink-0 mt-0.5" />
@@ -353,7 +353,7 @@ export default async function HistoryArtifactsPage() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </>
   );
 }
