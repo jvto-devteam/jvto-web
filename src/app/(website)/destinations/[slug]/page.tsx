@@ -52,9 +52,9 @@ const DEST_TITLE_OVERRIDES: Record<string, string> = {
 // SEO AUDIT 2026-05-17 (QW-9): 3-part meta description formula per destination.
 // Formula: [Destination + key feature] · [Differentiator] · [Trust signal]
 const DEST_DESC_OVERRIDES: Record<string, string> = {
-  "ijen-crater":           "Plan your Mount Ijen blue fire hike from Surabaya or Bali. BBKSDA health screening, gas masks & permits included. Tourist Police-led private tour. 4.8★ Trustpilot.",
+  "ijen-crater":           "Private Ijen blue fire hike from Surabaya or Bali. Gas mask, BBKSDA permit & health certificate coordinated. Tourist Police-led. 4.8★ Trustpilot.",
   "mount-bromo":           "Private Mount Bromo sunrise tour from Surabaya or Bali. Dedicated 4WD jeep, guide & driver, all entrance tickets. Tourist Police-led. 4.8★ Trustpilot.",
-  "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led operator. 4.8★ Trustpilot.",
+  "tumpak-sewu-waterfall": "Private Tumpak Sewu waterfall tour — jungle trail, canyon descent, all-inclusive. Combinable with Bromo & Ijen. Tourist Police-led. 4.8★ Trustpilot.",
   "madakaripura-waterfall":"Private Madakaripura waterfall tour from Surabaya — canyon hike, river crossing, all-inclusive crew. No shared groups. Tourist Police-led. 4.8★ Trustpilot.",
   "papuma-beach":          "Papuma Beach Jember — dramatic rock formations and white sand coastline. Add-on to Bromo or Ijen private tours from Surabaya or Bali.",
 };
