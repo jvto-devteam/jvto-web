@@ -324,20 +324,20 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/verify-jvto/history-artifacts": createPageSnapshot(
     "/verify-jvto/history-artifacts",
     {
-      title: "Verify: History Artifacts",
+      title: "JVTO History Artifacts — Documented Origins Since 2015",
       description:
-        "Historical records and artifacts related to JVTO's operations and legacy.",
+        "JVTO timeline: Booking.com award (2015), Stefan Loose guide (2016), Detik.com press (2021), PT registration (2023). All independently verifiable.",
     },
     {
-      h1: "History Artifacts",
+      h1: "History Artifacts: Documented Origins Since 2015",
     },
   ),
   "/verify-jvto/legal": createPageSnapshot(
     "/verify-jvto/legal",
     {
-      title: "Verify: Legal Documents",
+      title: "JVTO Legal Documents — NIB, TDUP & PT Registration | JVTO",
       description:
-        "Verify NIB, TDUP, and official business registrations of PT Java Volcano Rendezvous.",
+        "Verify NIB 1102230032918, TDUP license & PT Java Volcano Rendezvous registration. SHA256-verified PDFs. Police-led East Java operator since 2015.",
     },
     {
       h1: "Legal Documents",
@@ -346,9 +346,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/verify-jvto/police-safety": createPageSnapshot(
     "/verify-jvto/police-safety",
     {
-      title: "Verify: Police Authority & Safety Protocols",
+      title: "Verify: Police Authority & Safety Protocols | JVTO",
       description:
-        "Forensic evidence of Tourist Police integration, health screening, and operational safety.",
+        "Verify JVTO Tourist Police (POLPAR) authority. SPRIN POLPAR docs, Satlantas escort coordination, BBKSDA SE.1658 compliance, and health screening records.",
     },
     {
       h1: "Police & Safety",
@@ -357,9 +357,9 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   "/verify-jvto/press-recognition": createPageSnapshot(
     "/verify-jvto/press-recognition",
     {
-      title: "Verify: Press Recognition",
+      title: "JVTO Press Recognition — Detik.com & Stefan Loose | JVTO",
       description:
-        "Media coverage and recognition received by JVTO in various publications and platforms.",
+        "Detik.com, Stefan Loose travel guide & Radar Jember coverage of JVTO — third-party verification of police-led East Java tour operator credentials.",
     },
     {
       h1: "Press Recognition",

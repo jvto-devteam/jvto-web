@@ -144,8 +144,8 @@ const TIMELINE_ENTRIES: Array<{
     detail:
       "Score 9.4/10 — independently calculated by Booking.com. Issued to the guesthouse at Jl. Khairil Anwar 102A, Bondowoso. Physical plaque and award letter retained on-site.",
     images: [
-      { src: `${BASE_URL}/history/booking-2015-plaque.jpg`, alt: "Booking.com Guest Review Award 2015 plaque" },
-      { src: `${BASE_URL}/history/booking-2015-shipping-label.jpg`, alt: "Booking.com award shipping label addressed to Ijen Bondowoso Homestay" },
+      { src: `/history/booking-2015-plaque.jpg`, alt: "Booking.com Guest Review Award 2015 plaque" },
+      { src: `/history/booking-2015-shipping-label.jpg`, alt: "Booking.com award shipping label addressed to Ijen Bondowoso Homestay" },
     ],
     verifyHref: null,
     verifyLabel: null,
@@ -156,9 +156,9 @@ const TIMELINE_ENTRIES: Array<{
     detail:
       "Earliest European travel guide editorial citation naming the founder as operator for Ijen crater tours. Pre-digital corroboration from an independent editorial source.",
     images: [
-      { src: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`, alt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso" },
-      { src: `${BASE_URL}/history/stefan_loose_crop_enh.jpg`, alt: "Cropped view of Stefan Loose guide entry for Ijen Bondowoso Homestay" },
-      { src: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`, alt: "Mr. Sam with guests inspired by Stefan Loose travel guide" },
+      { src: `/history/stefan-loose-ijen-bondowoso-page.png`, alt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso" },
+      { src: `/history/stefan_loose_crop_enh.jpg`, alt: "Cropped view of Stefan Loose guide entry for Ijen Bondowoso Homestay" },
+      { src: `/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`, alt: "Mr. Sam with guests inspired by Stefan Loose travel guide" },
     ],
     verifyHref: null,
     verifyLabel: null,
