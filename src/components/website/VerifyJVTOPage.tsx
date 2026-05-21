@@ -118,7 +118,7 @@ const VerifyJVTOPage: React.FC = () => {
             </div>
             <div className="rounded-sm overflow-hidden shadow-lg border border-ink-neutral-200 dark:border-ink-neutral-700">
               <img
-                src="https://javavolcano-touroperator.com/legal/office-photo.jpg"
+                src="/legal/office-photo.jpg"
                 alt="JVTO Office Exterior in Bondowoso"
                 className="w-full h-auto object-cover aspect-video"
               />

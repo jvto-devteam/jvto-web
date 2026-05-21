@@ -63,7 +63,7 @@ const IjenHealthScreeningSection = () => (
         {/* Image */}
         <div>
           <img
-            src="https://javavolcano-touroperator.com/screening/ijen-screening-hotel-01.jpeg"
+            src="/screening/ijen-screening-hotel-01.jpeg"
             alt="Nurse checks blood pressure during Ijen pre-ascent screening at hotel lobby."
             className="rounded-sm shadow-md w-full object-cover"
           />
