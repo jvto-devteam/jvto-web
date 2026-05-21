@@ -431,7 +431,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           >
             <ArrowLeft size={16} className="mr-2" /> Back
           </button>
-          <button className="text-white hover:text-jvto-green transition-colors">
+          <button aria-label="Save to favorites" className="text-white hover:text-jvto-green transition-colors">
             <Heart size={28} />
           </button>
         </div>
@@ -557,6 +557,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {pkg.gallery.slice(0, 6).map((img, idx) => (
               <button
                 key={idx}
+                aria-label={`View photo ${idx + 1} of ${pkg.gallery.length}`}
                 onClick={() => openLightbox(idx)}
                 // Class: shrink-0 & fixed width pada mobile agar bisa di-scroll
                 className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-sm bg-slate-800"
@@ -583,6 +584,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
           {/* Close Button */}
           <button
+            aria-label="Close photo gallery"
             onClick={() => setIsLightboxOpen(false)}
             className="absolute top-6 right-6 text-white/70 hover:text-white p-2 z-50"
           >
@@ -591,6 +593,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
           {/* Navigation Buttons */}
           <button
+            aria-label="Previous photo"
             onClick={(e) => {
               e.stopPropagation();
               setPhotoIndex(
@@ -602,6 +605,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             <ChevronLeft size={24} />
           </button>
           <button
+            aria-label="Next photo"
             onClick={(e) => {
               e.stopPropagation();
               setPhotoIndex((prev) => (prev + 1) % pkg.gallery.length);
@@ -969,6 +973,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             Tour Itinerary
                           </h3>
                           <button
+                            aria-label="Close itinerary"
                             onClick={() => setIsItineraryModalOpen(false)}
                             className="p-2 bg-slate-100 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"
                           >
@@ -1844,6 +1849,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </p>
               </div>
               <button
+                aria-label="Close add-ons"
                 onClick={() => {
                   setShowAddOnModal(false);
                   setSearchTerm(""); // Reset search saat close

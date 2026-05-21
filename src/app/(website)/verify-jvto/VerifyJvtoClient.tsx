@@ -322,7 +322,7 @@ export default function VerifyJvtoClient({
                     />
                   </div>
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-[2px]">
-                    <button className="bg-white/90 p-2.5 rounded-full text-slate-900 hover:bg-white hover:scale-110 transition-all shadow-lg">
+                    <button aria-label="View document fullscreen" className="bg-white/90 p-2.5 rounded-full text-slate-900 hover:bg-white hover:scale-110 transition-all shadow-lg">
                       <Maximize2 className="w-5 h-5" />
                     </button>
                   </div>
@@ -417,12 +417,14 @@ export default function VerifyJvtoClient({
       {selectedDoc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#111621]/90 backdrop-blur-sm p-0 md:p-6 overflow-hidden animate-in fade-in duration-200">
           <button
+            aria-label="Previous document"
             onClick={handlePrev}
             className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border border-white/10 z-50 backdrop-blur-md"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
+            aria-label="Next document"
             onClick={handleNext}
             className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border border-white/10 z-50 backdrop-blur-md"
           >
@@ -435,6 +437,7 @@ export default function VerifyJvtoClient({
                 {selectedDoc.official_title}
               </h3>
               <button
+                aria-label="Close document preview"
                 onClick={() => setSelectedDoc(null)}
                 className="p-2 bg-gray-100 rounded-full"
               >
@@ -569,6 +572,7 @@ export default function VerifyJvtoClient({
               <div className="w-full lg:w-[65%] bg-slate-200 relative flex flex-col overflow-hidden">
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-4 z-20 flex gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-sm shadow-lg border border-white/50">
                   <button
+                    aria-label="Zoom in"
                     onClick={() => setZoomLevel((z) => Math.min(z + 0.25, 3))}
                     className="p-2 rounded-md hover:bg-slate-100 text-slate-700 transition-colors"
                     title="Zoom In"
@@ -576,6 +580,7 @@ export default function VerifyJvtoClient({
                     <ZoomIn className="w-5 h-5" />
                   </button>
                   <button
+                    aria-label="Reset zoom"
                     onClick={() => setZoomLevel(1)}
                     className="p-2 rounded-md hover:bg-slate-100 text-slate-700 transition-colors"
                     title="Reset"
@@ -583,6 +588,7 @@ export default function VerifyJvtoClient({
                     <Maximize2 className="w-5 h-5" />
                   </button>
                   <button
+                    aria-label="Zoom out"
                     onClick={() => setZoomLevel((z) => Math.max(z - 0.25, 0.5))}
                     className="p-2 rounded-md hover:bg-slate-100 text-slate-700 transition-colors"
                     title="Zoom Out"
@@ -591,6 +597,7 @@ export default function VerifyJvtoClient({
                   </button>
                   <div className="w-px bg-slate-300 mx-1"></div>
                   <button
+                    aria-label="Close viewer"
                     onClick={() => setSelectedDoc(null)}
                     className="p-2 rounded-md hover:bg-red-50 text-slate-700 hover:text-red-600 transition-colors"
                     title="Close"
