@@ -32,6 +32,8 @@ import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
 import VolcanicStatusBadge from "@/components/website/VolcanicStatusBadge";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 import PvmbgFieldReport from "@/components/website/PvmbgFieldReport";
+import DestinationTourCard from "@/components/website/DestinationTourCard";
+import type { ToursByDestinationItem } from "@/lib/queries/toursByDestination";
 
 const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
   ssr: false,
@@ -141,10 +143,12 @@ export default function DestinationDetailView({
   data,
   routeStats,
   volcanicStatus,
+  relatedTours,
 }: {
   data: DestinationDetail;
   routeStats?: RouteStats | null;
   volcanicStatus?: VolcanicStatusData | null;
+  relatedTours?: ToursByDestinationItem[];
 }) {
   const [activeSection, setActiveSection] = useState("overview");
 
@@ -496,6 +500,20 @@ export default function DestinationDetailView({
               <Flame className="absolute -bottom-10 -right-10 text-gray-100 w-64 h-64 opacity-50" />
             </div>
           </section>
+
+          {/* Tours Including This Destination */}
+          {relatedTours && relatedTours.length > 0 && (
+            <section className="scroll-mt-10">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">
+                Tours to This Destination
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {relatedTours.slice(0, 3).map((tour) => (
+                  <DestinationTourCard key={tour.id} tour={tour} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         {/* RIGHT COLUMN (Sidebar) */}
