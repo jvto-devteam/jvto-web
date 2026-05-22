@@ -109,3 +109,26 @@ body {
     rgba(13, 27, 42, 0.06) 0 2px 6px 0,
     rgba(13, 27, 42, 0.12) 0 4px 8px 0;
 }
+
+/* Rubik heading font — MBA hybrid visual test (2026-05-22) */
+/* Owner review after 2 weeks: revert if not improved */
+h1, h2 {
+  font-family: var(--font-heading, var(--font-sans, system-ui, sans-serif));
+}
+
+/* Section whitespace rhythm utility classes */
+.section-major {
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+}
+.section-secondary {
+  padding-top: 2.5rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .section-major {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}

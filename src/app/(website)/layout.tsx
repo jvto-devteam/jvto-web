@@ -8,6 +8,13 @@ import { contactInfo } from "@/constants";
 import "./website.css";
 import type { Metadata } from "next";
 import { Providers } from "@/app/providers";
+import { Rubik } from "next/font/google";
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 // Fallback URL jika env tidak ada (penting untuk dev/preview)
 const siteUrl =
@@ -67,7 +74,7 @@ export default function WebsiteLayout({
 }) {
   return (
     <Providers>
-      <div className="bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300">
+      <div className={`bg-background-light dark:bg-background-dark font-display text-ink-neutral-700 dark:text-ink-neutral-300 ${rubik.variable}`}>
         {/* GA optional logic */}
         {/* <Suspense>
           {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && <GoogleAnalytics />}
