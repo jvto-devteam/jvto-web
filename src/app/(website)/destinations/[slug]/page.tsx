@@ -330,7 +330,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} />
+      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} relatedTours={tours} />
 
       {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
       {slug === "ijen-crater" && (
