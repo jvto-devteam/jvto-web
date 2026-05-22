@@ -13,6 +13,7 @@ import WhatItsLike from "@/components/website/WhatItsLike";
 import TrustBar from "@/components/website/TrustBar";
 import DifficultyBadge from "@/components/website/DifficultyBadge";
 import BookWithConfidenceBlock from "@/components/website/BookWithConfidenceBlock";
+import GroupBookingCTA from "@/components/website/GroupBookingCTA";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
@@ -1594,6 +1595,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div> */}
             </div>
             <BookWithConfidenceBlock />
+            <GroupBookingCTA />
           </div>
 
           {/* RIGHT COLUMN: STICKY SIDEBAR */}
