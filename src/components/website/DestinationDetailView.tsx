@@ -26,6 +26,8 @@ import {
   XCircle,
   TrendingUp,
   Route,
+  Ticket,
+  UserCheck,
 } from "lucide-react";
 import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
@@ -260,7 +262,33 @@ export default function DestinationDetailView({
                 value={data.difficulty_level}
               />
               <StatCard icon={Clock} label="Duration" value={data.duration} />
+              <StatCard
+                icon={Ticket}
+                label="Permit"
+                value={data.permit_required ? "Required" : "Not required"}
+              />
+              <StatCard
+                icon={UserCheck}
+                label="Guide"
+                value={data.guide_required ? "Mandatory" : "Optional"}
+              />
             </div>
+
+            {data.main_attractions && data.main_attractions.length > 0 && (
+              <div className="mb-6">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">
+                  Why Visit
+                </p>
+                <ul className="space-y-2">
+                  {data.main_attractions.slice(0, 3).map((attr, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                      <span className="text-jvto-green font-black mt-0.5" aria-hidden="true">✓</span>
+                      <span>{attr.title}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="prose prose-lg text-gray-700 max-w-none mb-8">
               <p className="font-light text-xl leading-relaxed italic pl-0 mb-6">
