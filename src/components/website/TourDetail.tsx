@@ -9,6 +9,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
 import AuthorityShield from "@/components/website/AuthorityShield";
+import WhatItsLike from "@/components/website/WhatItsLike";
 import TrustBar from "@/components/website/TrustBar";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
@@ -479,6 +480,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       </div>
       <AuthorityShield ijenRelevant={ijenRelevant} />
+      <WhatItsLike description={pkg.description ?? ""} />
       {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
       <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
         <div className="container mx-auto px-6">
