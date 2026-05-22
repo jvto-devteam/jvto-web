@@ -41,18 +41,20 @@ export default function DestinationTourCard({ tour }: DestinationTourCardProps) 
         <p className="text-sm font-bold text-slate-900 line-clamp-2 leading-snug">
           {tour.name}
         </p>
-        <div className="flex items-center justify-between text-xs text-slate-500">
-          {durationLabel && (
-            <span className="flex items-center gap-1">
-              <Clock size={12} aria-hidden="true" /> {durationLabel}
-            </span>
-          )}
-          {tour.start_from != null && (
-            <span className="font-bold text-jvto-green">
-              {formatIDR(tour.start_from)}
-            </span>
-          )}
-        </div>
+        {(durationLabel || tour.start_from != null) && (
+          <div className="flex items-center justify-between text-xs text-slate-500">
+            {durationLabel && (
+              <span className="flex items-center gap-1">
+                <Clock size={12} aria-hidden="true" /> {durationLabel}
+              </span>
+            )}
+            {tour.start_from != null && (
+              <span className="font-bold text-jvto-green">
+                {formatIDR(tour.start_from)}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );
