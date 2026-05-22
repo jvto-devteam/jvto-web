@@ -11,6 +11,7 @@ import LegalBadge from "@/components/website/LegalBadge";
 import AuthorityShield from "@/components/website/AuthorityShield";
 import WhatItsLike from "@/components/website/WhatItsLike";
 import TrustBar from "@/components/website/TrustBar";
+import DifficultyBadge from "@/components/website/DifficultyBadge";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
@@ -456,24 +457,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
               <div className="flex items-center gap-2">
                 <Mountain size={18} className="text-jvto-green" />
-                <span>{pkg.physicalDifficulty}</span>
-                <div className="flex gap-1 md:ml-2">
-                  <div className="w-2 h-2 rounded-full bg-jvto-green"></div>
-                  <div
-                    className={`w-2 h-2 rounded-full ${["moderate", "hard"].includes(
-                      pkg.physicalDifficulty.toLowerCase(),
-                    )
-                      ? "bg-jvto-green"
-                      : "bg-slate-600"
-                      }`}
-                  ></div>
-                  <div
-                    className={`w-2 h-2 rounded-full ${["hard"].includes(pkg.physicalDifficulty.toLowerCase())
-                      ? "bg-jvto-green"
-                      : "bg-slate-600"
-                      }`}
-                  ></div>
-                </div>
+                <DifficultyBadge physicality={pkg.physicalDifficulty} />
               </div>
             </div>
           </div>
