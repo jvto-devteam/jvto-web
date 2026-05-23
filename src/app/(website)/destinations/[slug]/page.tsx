@@ -106,15 +106,21 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const destinations = await prisma.destinations.findMany({
-    where: {
-      published: true,
-      deleted_at: null,
-      slug: { not: null },
-      id: { notIn: [3, 4] },
-    },
-    select: { slug: true },
-  });
+  const { safeBuildQuery } = await import("@/lib/build-safe");
+  const destinations = await safeBuildQuery(
+    () =>
+      prisma.destinations.findMany({
+        where: {
+          published: true,
+          deleted_at: null,
+          slug: { not: null },
+          id: { notIn: [3, 4] },
+        },
+        select: { slug: true },
+      }),
+    [] as { slug: string | null }[],
+    "destinations:generateStaticParams",
+  );
 
   return destinations
     .map((destination) => destination.slug)

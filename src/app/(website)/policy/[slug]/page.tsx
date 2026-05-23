@@ -21,10 +21,16 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const pages = await prisma.content_pages.findMany({
-    where: { route: { startsWith: '/policy/' }, is_active: true, lang: 'en' },
-    select: { route: true },
-  });
+  const { safeBuildQuery } = await import("@/lib/build-safe");
+  const pages = await safeBuildQuery(
+    () =>
+      prisma.content_pages.findMany({
+        where: { route: { startsWith: '/policy/' }, is_active: true, lang: 'en' },
+        select: { route: true },
+      }),
+    [] as { route: string }[],
+    "policy:generateStaticParams",
+  );
   return pages
     .map(p => p.route.replace('/policy/', ''))
     .filter((slug): slug is string => Boolean(slug) && !slug.includes('/'))

@@ -25,10 +25,16 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const pages = await prisma.content_pages.findMany({
-    where: { route: { startsWith: '/why-jvto/' }, is_active: true, lang: 'en' },
-    select: { route: true },
-  });
+  const { safeBuildQuery } = await import("@/lib/build-safe");
+  const pages = await safeBuildQuery(
+    () =>
+      prisma.content_pages.findMany({
+        where: { route: { startsWith: '/why-jvto/' }, is_active: true, lang: 'en' },
+        select: { route: true },
+      }),
+    [] as { route: string }[],
+    "why-jvto:generateStaticParams",
+  );
   return pages
     .map(p => p.route.replace('/why-jvto/', ''))
     .filter((slug): slug is string => Boolean(slug) && !slug.includes('/'))

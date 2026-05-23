@@ -18,12 +18,18 @@ const ORG_ID = `${SITE_URL}/#organization`;
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
+  const { safeBuildQuery } = await import("@/lib/build-safe");
   // Source from crew_members (authoritative) not content_pages.
   // This prevents deleted crew (deleted_at IS NOT NULL) from generating stale pages.
-  const crew = await prisma.crew_members.findMany({
-    where: { deleted_at: null, code: { not: null } },
-    select: { code: true },
-  });
+  const crew = await safeBuildQuery(
+    () =>
+      prisma.crew_members.findMany({
+        where: { deleted_at: null, code: { not: null } },
+        select: { code: true },
+      }),
+    [] as { code: string | null }[],
+    "team:generateStaticParams",
+  );
   return crew
     .filter((m): m is { code: string } => Boolean(m.code))
     .map((m) => ({ slug: m.code as string }));

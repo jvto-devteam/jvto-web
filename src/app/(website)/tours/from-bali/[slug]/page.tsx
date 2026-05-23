@@ -83,15 +83,21 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const packages = await prisma.packages.findMany({
-    where: {
-      is_publish: true,
-      package_category_id: BigInt(1),
-      start_destination_id: BigInt(3),
-      slug: { not: null },
-    },
-    select: { slug: true },
-  });
+  const { safeBuildQuery } = await import("@/lib/build-safe");
+  const packages = await safeBuildQuery(
+    () =>
+      prisma.packages.findMany({
+        where: {
+          is_publish: true,
+          package_category_id: BigInt(1),
+          start_destination_id: BigInt(3),
+          slug: { not: null },
+        },
+        select: { slug: true },
+      }),
+    [] as { slug: string | null }[],
+    "tours/from-bali:generateStaticParams",
+  );
 
   return packages
     .map((pkg) => routeSlugToParam(pkg.slug, "tours/from-bali"))
