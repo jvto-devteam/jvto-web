@@ -14,6 +14,8 @@ type Props = {
   distanceKm: number;
   elevGainM: number;
   flyDurationMs?: number;
+  mode?: "fullscreen" | "embedded";
+  slug?: string;
 };
 
 type Coord3 = [number, number, number?];
@@ -30,7 +32,10 @@ export default function Route3DViewer({
   distanceKm,
   elevGainM,
   flyDurationMs = 60000,
+  mode = "fullscreen",
+  slug,
 }: Props) {
+  const embedded = mode === "embedded";
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const animRef = useRef<number | null>(null);
@@ -492,7 +497,7 @@ export default function Route3DViewer({
 
   if (tokenMissing) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-900 text-white p-8 text-center">
+      <div className={`w-full ${embedded ? "h-[500px] md:h-[560px] rounded-xl" : "h-screen"} flex items-center justify-center bg-gray-900 text-white p-8 text-center`}>
         <div>
           <h2 className="text-xl font-semibold mb-2">Mapbox token missing</h2>
           <p className="text-sm text-gray-300">
@@ -515,14 +520,31 @@ export default function Route3DViewer({
   const statGain = showProgressStats ? Math.round(sample.gainM) : elevGainM;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className={`relative w-full ${embedded ? "h-[500px] md:h-[560px] rounded-xl" : "h-screen"} overflow-hidden bg-black`}>
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
+      {/* Fullscreen expand button — embedded mode only */}
+      {embedded && slug && (
+        <a
+          href={`/3d/${slug}`}
+          className="absolute top-3 left-3 z-10 flex items-center justify-center w-9 h-9 rounded-lg bg-black/60 hover:bg-black/80 text-white backdrop-blur transition-colors"
+          aria-label="Open fullscreen 3D view"
+          title="Open fullscreen"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 3 21 3 21 9" />
+            <polyline points="9 21 3 21 3 15" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+            <line x1="3" y1="21" x2="10" y2="14" />
+          </svg>
+        </a>
+      )}
+
       {/* Top-right stats card */}
-      <div className="pointer-events-none absolute top-3 left-3 md:left-auto md:right-20 md:top-4 z-10">
-        <div className="pointer-events-auto bg-white/95 backdrop-blur rounded-xl shadow-lg px-4 py-3 text-sm min-w-[200px]">
+      <div className={`pointer-events-none absolute ${embedded ? "top-2 right-2" : "top-3 left-3 md:left-auto md:right-20 md:top-4"} z-10`}>
+        <div className={`pointer-events-auto bg-white/95 backdrop-blur rounded-xl shadow-lg ${embedded ? "px-3 py-2 text-xs" : "px-4 py-3 text-sm"} min-w-[180px]`}>
           <div className="flex items-center justify-between gap-2">
-            <div className="font-semibold text-gray-900 truncate max-w-[200px]">
+            <div className={`font-semibold text-gray-900 truncate ${embedded ? "max-w-[140px]" : "max-w-[200px]"}`}>
               {name}
             </div>
             {showProgressStats && (
@@ -531,7 +553,7 @@ export default function Route3DViewer({
               </span>
             )}
           </div>
-          <div className="mt-2 flex gap-4 text-gray-700">
+          <div className="mt-1.5 flex gap-3 text-gray-700">
             <div>
               <div className="text-[10px] uppercase tracking-wide text-gray-500">
                 Distance
@@ -555,11 +577,11 @@ export default function Route3DViewer({
       </div>
 
       {/* Bottom-left route card with play button + elevation chart */}
-      <div className="absolute bottom-4 left-4 right-4 md:right-auto md:w-[28rem] z-10">
-        <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-4">
-          {/* Elevation chart — visible by default on desktop, toggle on mobile */}
+      <div className={`absolute bottom-4 left-4 right-4 ${embedded ? "" : "md:right-auto md:w-[28rem]"} z-10`}>
+        <div className={`bg-white/95 backdrop-blur rounded-2xl shadow-2xl ${embedded ? "p-3" : "p-4"}`}>
+          {/* Elevation chart — embedded: default hidden; fullscreen: visible on desktop */}
           <div
-            className={`${chartOpen ? "block" : "hidden"} md:block mb-3`}
+            className={`${chartOpen ? "block" : "hidden"} ${embedded ? "" : "md:block"} mb-3`}
             aria-hidden={!chartOpen}
           >
             <div className="flex items-center justify-between mb-1">
@@ -574,6 +596,7 @@ export default function Route3DViewer({
               coords={coords3d}
               progress={progress}
               onScrub={handleScrub}
+              height={embedded ? 72 : 96}
             />
           </div>
 
@@ -581,7 +604,7 @@ export default function Route3DViewer({
             <button
               onClick={togglePlay}
               disabled={!ready}
-              className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white flex items-center justify-center shadow-lg flex-shrink-0 transition-colors"
+              className={`${embedded ? "w-10 h-10" : "w-12 h-12"} rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white flex items-center justify-center shadow-lg flex-shrink-0 transition-colors`}
               aria-label={playing ? "Pause fly-through" : "Play fly-through"}
             >
               {playing ? (

@@ -4,7 +4,6 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import {
   MapPin,
   Mountain,
@@ -21,29 +20,30 @@ import {
   ChevronUp,
   AlertTriangle,
   HardHat,
-  ArrowRight,
   Star,
   Calendar,
   XCircle,
   TrendingUp,
   Route,
-  Layers3,
 } from "lucide-react";
 import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
 import VolcanicStatusBadge from "@/components/website/VolcanicStatusBadge";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
 
-const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-72 md:h-96 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center">
-      <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
-        Loading map…
-      </span>
-    </div>
-  ),
-});
+const Route3DEmbedded = dynamic(
+  () => import("@/components/website/Route3DEmbedded"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] md:h-[560px] rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-center">
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+          Loading 3D terrain…
+        </span>
+      </div>
+    ),
+  },
+);
 
 // --- HELPER COMPONENTS ---
 
@@ -321,49 +321,16 @@ export default function DestinationDetailView({
               </div>
             )}
 
-            {/* Interactive route map */}
+            {/* 3D Route Viewer — embedded */}
             {routeStats && (
               <div className="mb-8">
-                <RouteMap
+                <Route3DEmbedded
                   slug={routeStats.slug}
-                  bbox={routeStats.bbox}
-                  elevMinM={routeStats.elev_min_m}
-                  elevMaxM={routeStats.elev_max_m}
+                  routeStats={routeStats}
                 />
                 <p className="text-[9px] text-slate-700 mt-2 text-right">
-                  Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
+                  Route data: AllTrails.com · 3D terrain via Mapbox
                 </p>
-              </div>
-            )}
-
-            {/* View 3D Route CTA */}
-            {routeStats && (
-              <div className="mb-8">
-                <Link
-                  href={`/3d/${routeStats.slug}`}
-                  prefetch={false}
-                  className="group relative flex items-center gap-4 w-full overflow-hidden rounded-xl border border-jvto-green/40 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950 px-5 py-4 shadow-lg transition hover:border-jvto-green hover:shadow-emerald-500/20"
-                  aria-label={`Open interactive 3D route viewer for ${routeStats.slug}`}
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-jvto-green/15 ring-1 ring-jvto-green/40">
-                    <Layers3 size={22} className="text-jvto-green" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-jvto-green">
-                      New
-                    </p>
-                    <p className="text-white font-bold text-base leading-tight">
-                      View 3D Route
-                    </p>
-                    <p className="text-slate-400 text-xs mt-0.5">
-                      Fly through {routeStats.length_km.toFixed(1)} km of satellite terrain · elevation profile · play animation
-                    </p>
-                  </div>
-                  <ArrowRight
-                    size={20}
-                    className="text-slate-500 shrink-0 transition group-hover:translate-x-1 group-hover:text-jvto-green"
-                  />
-                </Link>
               </div>
             )}
 
