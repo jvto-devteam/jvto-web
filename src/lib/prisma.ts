@@ -27,11 +27,86 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+// ── Build-time placeholder mode ─────────────────────────────────────────────
+// When DATABASE_URL is the agreed placeholder (used to satisfy `prisma generate`
+// and PrismaClient init during CI/Vercel builds without DB access), every query
+// must short-circuit. Connecting to localhost:5432/placeholder would block the
+// build with PrismaClientInitializationError. The proxy below returns shape-
+// compatible empty results (null for single records, [] for lists, 0 for count)
+// so server components render their empty/fallback states. Runtime deploys
+// with a real DATABASE_URL bypass this path entirely.
+const dbUrl = process.env.DATABASE_URL ?? "";
+const isBuildPlaceholder =
+  dbUrl.includes("placeholder:placeholder@localhost") ||
+  dbUrl.includes("/placeholder?schema=public");
 
-if (process.env.NODE_ENV !== 'production') {
+function makeBuildSafePrismaStub(): PrismaClient {
+  const arrayMethods = new Set([
+    "findMany",
+    "$queryRaw",
+    "$queryRawUnsafe",
+    "$executeRaw",
+    "$executeRawUnsafe",
+  ]);
+  const countMethods = new Set(["count"]);
+
+  const modelProxy = new Proxy(
+    {},
+    {
+      get(_t, method: string) {
+        return async (..._args: unknown[]) => {
+          if (arrayMethods.has(method)) return [];
+          if (countMethods.has(method)) return 0;
+          return null;
+        };
+      },
+    },
+  );
+
+  const rootProxy = new Proxy(
+    {},
+    {
+      get(_t, prop: string) {
+        if (prop === "$connect" || prop === "$disconnect")
+          return async () => undefined;
+        if (prop === "$transaction")
+          return async (arg: unknown) => {
+            if (typeof arg === "function") {
+              return (arg as (tx: unknown) => unknown)(rootProxy);
+            }
+            return Array.isArray(arg) ? [] : null;
+          };
+        if (prop === "$on") return () => undefined;
+        if (prop === "$use") return () => undefined;
+        if (prop === "$extends") return () => rootProxy;
+        if (prop === "$queryRaw" || prop === "$queryRawUnsafe") return async () => [];
+        if (prop === "$executeRaw" || prop === "$executeRawUnsafe") return async () => 0;
+        return modelProxy;
+      },
+    },
+  );
+
+  if (typeof console !== "undefined") {
+    console.warn(
+      "[prisma] DATABASE_URL is a placeholder — using build-safe stub that returns null/[]/0 for every query. Set a real DATABASE_URL at runtime to enable queries.",
+    );
+  }
+
+  return rootProxy as unknown as PrismaClient;
+}
+
+export const prisma =
+  globalForPrisma.prisma ??
+  (isBuildPlaceholder
+    ? makeBuildSafePrismaStub()
+    : new PrismaClient({
+        log:
+          process.env.NODE_ENV === "development"
+            ? ["query", "error", "warn"]
+            : ["error"],
+      }));
+
+if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
