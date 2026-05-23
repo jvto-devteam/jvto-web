@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import {
   MapPin,
   Mountain,
@@ -26,6 +27,7 @@ import {
   XCircle,
   TrendingUp,
   Route,
+  Layers3,
 } from "lucide-react";
 import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
@@ -331,6 +333,37 @@ export default function DestinationDetailView({
                 <p className="text-[9px] text-slate-700 mt-2 text-right">
                   Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
                 </p>
+              </div>
+            )}
+
+            {/* View 3D Route CTA */}
+            {routeStats && (
+              <div className="mb-8">
+                <Link
+                  href={`/3d/${routeStats.slug}`}
+                  prefetch={false}
+                  className="group relative flex items-center gap-4 w-full overflow-hidden rounded-xl border border-jvto-green/40 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950 px-5 py-4 shadow-lg transition hover:border-jvto-green hover:shadow-emerald-500/20"
+                  aria-label={`Open interactive 3D route viewer for ${routeStats.slug}`}
+                >
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-jvto-green/15 ring-1 ring-jvto-green/40">
+                    <Layers3 size={22} className="text-jvto-green" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-jvto-green">
+                      New
+                    </p>
+                    <p className="text-white font-bold text-base leading-tight">
+                      View 3D Route
+                    </p>
+                    <p className="text-slate-400 text-xs mt-0.5">
+                      Fly through {routeStats.length_km.toFixed(1)} km of satellite terrain · elevation profile · play animation
+                    </p>
+                  </div>
+                  <ArrowRight
+                    size={20}
+                    className="text-slate-500 shrink-0 transition group-hover:translate-x-1 group-hover:text-jvto-green"
+                  />
+                </Link>
               </div>
             )}
 
