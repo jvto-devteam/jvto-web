@@ -237,12 +237,15 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** SSOT docs archived to docs/ssot/ (7 files); geo coordinates + hazardousSubstance added to all 5 destinations via buildDestinationGeoSchema(); ORGANIZATION_SCHEMA @type reordered to [LocalBusiness, TravelAgency]; insights/[slug] date serialization crash fixed; STRATEGIC_REFERENCE §11 SSOT Documents added — build ✓ 144/144 (2026-05-05)
-**Completed date:** 2026-05-05
-**Next task:** Redirect /blog → /insights (301 URL unification); OR destinations Cluster 7 SE1658 + DOCTOR cross-ref densification per cluster_role_contracts.md
-**Build status:** ✓ Compiled (0 new errors — 144/144 static pages, pushed to main e123455)
+**Last completed:** AllTrails-style 3D route viewer at /3d/[slug] (Mapbox GL satellite + terrain, GPX-driven route, fly-through animation, start/finish markers, stats card, fullscreen + nav controls) plus hand-rolled SVG elevation chart with hover scrub (red marker tracks on map, blue progress overlay, mobile collapse toggle); CSP next.config.ts patched for Mapbox blob workers; container height bug fixed (Mapbox overrides position:relative) — verified rendering live on localhost:3001 (2026-05-23)
+**Completed date:** 2026-05-23
+**Next task:** Wire /3d/[slug] entry points into tour detail pages (ijen-crater-blue-fire-tour, mount-bromo-private-tour) — add "View 3D Route" CTA linking to /3d/<slug>; OR /blog → /insights 301 redirect URL unification still pending from prior sprint
+**Build status:** — no `npm run build` run this session (dev verified visually on localhost:3001; tsc on changed files clean — pre-existing repo errors unrelated)
 **Open items:**
-- booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
-- /blog route still active alongside /insights — unification deferred (add 301 redirect /blog → /insights when ready)
-- builders.ts fallback @type is ["Organization", "LocalBusiness"] (missing TravelAgency) — only fires when org.schema_json is null in DB; low priority
+- NEXT_PUBLIC_MAPBOX_TOKEN now in .env.local — must also be added to Vercel preview/prod env before deploy or /3d/[slug] will show fallback panel
+- Stale node process on port 3000 (PID 38892) not owned by current dev server — dev now on 3001; investigate/cleanup before next session
+- mapbox-gl install introduced 44 npm audit findings (3 low, 27 moderate, 12 high, 2 critical) — review before deploy
+- booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up (carried)
+- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide (carried)
+- /blog route still active alongside /insights — unification deferred (carried)
+- builders.ts fallback @type is ["Organization", "LocalBusiness"] (missing TravelAgency) — only fires when org.schema_json is null in DB; low priority (carried)
