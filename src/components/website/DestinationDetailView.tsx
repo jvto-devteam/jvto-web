@@ -20,7 +20,6 @@ import {
   ChevronUp,
   AlertTriangle,
   HardHat,
-  ArrowRight,
   Star,
   Calendar,
   XCircle,
@@ -37,16 +36,19 @@ import PvmbgFieldReport from "@/components/website/PvmbgFieldReport";
 import DestinationTourCard from "@/components/website/DestinationTourCard";
 import type { ToursByDestinationItem } from "@/lib/queries/toursByDestination";
 
-const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-72 md:h-96 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center">
-      <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
-        Loading map…
-      </span>
-    </div>
-  ),
-});
+const Route3DEmbedded = dynamic(
+  () => import("@/components/website/Route3DEmbedded"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] md:h-[560px] rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-center">
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+          Loading 3D terrain…
+        </span>
+      </div>
+    ),
+  },
+);
 
 // --- HELPER COMPONENTS ---
 
@@ -353,17 +355,15 @@ export default function DestinationDetailView({
               </div>
             )}
 
-            {/* Interactive route map */}
+            {/* 3D Route Viewer — embedded */}
             {routeStats && (
               <div className="mb-8">
-                <RouteMap
+                <Route3DEmbedded
                   slug={routeStats.slug}
-                  bbox={routeStats.bbox}
-                  elevMinM={routeStats.elev_min_m}
-                  elevMaxM={routeStats.elev_max_m}
+                  routeStats={routeStats}
                 />
                 <p className="text-[9px] text-slate-700 mt-2 text-right">
-                  Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
+                  Route data: AllTrails.com · 3D terrain via Mapbox
                 </p>
               </div>
             )}
