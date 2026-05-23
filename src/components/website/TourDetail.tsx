@@ -425,7 +425,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/20 to-slate-900/30"></div>
         </div>
 
         <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
@@ -445,22 +445,27 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             <div className="flex items-center gap-2 text-jvto-green text-xs font-black uppercase tracking-widest mb-4">
               <MapPin size={14} /> From {pkg.originCity}, Indonesia
             </div>
-            <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-6 max-w-5xl">
+            <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-0 max-w-5xl">
               {pkg.name}
             </h1>
-            <div className="flex flex-wrap items-center gap-3 md:gap-10 text-white text-sm font-bold uppercase tracking-wide">
-              <div className="flex items-center gap-2">
-                <Shield size={18} className="text-jvto-green" />
-                <span>{pkg.category}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={18} className="text-jvto-green" />
-                <span>{pkg.marketedDurationLabel}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mountain size={18} className="text-jvto-green" />
-                <DifficultyBadge physicality={pkg.physicalDifficulty} />
-              </div>
+          </div>
+        </div>
+      </div>
+      {/* Meta row — moved below hero for photography-first clarity */}
+      <div className="bg-white border-b border-slate-100 py-4">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-wrap items-center gap-3 md:gap-8 text-slate-700 text-sm font-bold uppercase tracking-wide">
+            <div className="flex items-center gap-2">
+              <Shield size={16} className="text-jvto-green" />
+              <span>{pkg.category}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} className="text-jvto-green" />
+              <span>{pkg.marketedDurationLabel}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mountain size={16} className="text-jvto-green" />
+              <DifficultyBadge physicality={pkg.physicalDifficulty} />
             </div>
           </div>
         </div>
