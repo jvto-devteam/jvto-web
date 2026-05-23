@@ -97,9 +97,11 @@ const nextConfig = {
               img-src 'self' data: https: blob:;
               script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
               style-src 'self' 'unsafe-inline' https:;
-              connect-src 'self' https:;
+              connect-src 'self' https: blob:;
               font-src 'self' https: data:;
               frame-src 'self' https:;
+              worker-src blob:;
+              child-src blob:;
             `
               .replace(/\s{2,}/g, " ")
               .trim(),
