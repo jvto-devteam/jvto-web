@@ -31,11 +31,12 @@ export default function Route3DViewer({
   name,
   distanceKm,
   elevGainM,
-  flyDurationMs = 60000,
+  flyDurationMs: flyDurationMsProp,
   mode = "fullscreen",
   slug,
 }: Props) {
   const embedded = mode === "embedded";
+  const flyDurationMs = flyDurationMsProp ?? (embedded ? 90000 : 60000);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const animRef = useRef<number | null>(null);
@@ -137,6 +138,7 @@ export default function Route3DViewer({
     const totalKm = turf.length(fullLine, { units: "kilometers" });
     const bbox = turf.bbox(geojson) as [number, number, number, number];
 
+    const initPitch = embedded ? 60 : 65;
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
@@ -144,8 +146,8 @@ export default function Route3DViewer({
         [bbox[0], bbox[1]],
         [bbox[2], bbox[3]],
       ],
-      fitBoundsOptions: { padding: 80, pitch: 65, bearing: 0 },
-      pitch: 65,
+      fitBoundsOptions: { padding: embedded ? 60 : 80, pitch: initPitch, bearing: 0 },
+      pitch: initPitch,
       attributionControl: true,
       antialias: true,
     });
@@ -168,7 +170,7 @@ export default function Route3DViewer({
         tileSize: 512,
         maxzoom: 14,
       });
-      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.6 });
+      map.setTerrain({ source: "mapbox-dem", exaggeration: embedded ? 1.3 : 1.6 });
 
       map.setFog({
         color: "rgb(186, 210, 235)",
@@ -312,11 +314,14 @@ export default function Route3DViewer({
     if (!ctx) return;
     const { fullLine, totalKm } = ctx;
 
-    // Bearing smoothing parameters
-    const lookAheadKm = Math.max(0.15, totalKm * 0.05);
-    const bearingLerp = 0.12;
-    const pitchLerp = 0.05;
-    const cameraThrottleMs = 33; // ~30 fps for camera; geometry still 60+ fps
+    // Camera smoothing — embedded uses gentler params to avoid jittery feel
+    const lookAheadKm = embedded
+      ? Math.max(0.35, totalKm * 0.12)
+      : Math.max(0.15, totalKm * 0.05);
+    const bearingLerp = embedded ? 0.04 : 0.08;
+    const pitchLerp = embedded ? 0.02 : 0.04;
+    const maxBearingDeltaPerFrame = embedded ? 1.2 : 2.5;
+    const cameraThrottleMs = 50; // ~20 fps camera; geometry still 60+ fps
 
     const startProgress = progressRef.current >= 1 ? 0 : progressRef.current;
     progressRef.current = startProgress;
@@ -371,23 +376,30 @@ export default function Route3DViewer({
         );
         const instantBearing = turf.bearing(head, lookAhead);
 
-        // Exponential smoothing with shortest-angle wraparound
+        // Exponential smoothing with shortest-angle wraparound + rate clamp
         const prevBearing = smoothedBearingRef.current ?? instantBearing;
-        const delta = shortestAngleDelta(prevBearing, instantBearing);
-        const nextBearing = prevBearing + delta * bearingLerp;
+        const rawDelta = shortestAngleDelta(prevBearing, instantBearing);
+        const clampedDelta = Math.max(
+          -maxBearingDeltaPerFrame,
+          Math.min(maxBearingDeltaPerFrame, rawDelta * bearingLerp),
+        );
+        const nextBearing = prevBearing + clampedDelta;
         smoothedBearingRef.current = nextBearing;
 
-        // Pitch tied to terrain gradient (positive → climb → pitch up)
+        // Pitch: gentle gradient influence, tighter bounds for stability
         const { gradient } = sampleAtProgress(p);
-        const targetPitch = 68 + gradient * 12; // ~62..76 typical
-        const boundedTarget = Math.max(60, Math.min(78, targetPitch));
-        smoothedPitchRef.current =
-          smoothedPitchRef.current +
+        const gradientInfluence = embedded ? 6 : 12;
+        const targetPitch = (embedded ? 65 : 68) + gradient * gradientInfluence;
+        const boundedTarget = Math.max(
+          embedded ? 62 : 60,
+          Math.min(embedded ? 70 : 78, targetPitch),
+        );
+        smoothedPitchRef.current +=
           (boundedTarget - smoothedPitchRef.current) * pitchLerp;
 
-        // Third-person framing: place camera center behind the head along
-        // the reverse bearing so the head sits ~upper-third of the screen.
-        const camCenter = turf.destination(head, 0.25, nextBearing + 180, {
+        // Third-person framing: camera behind head
+        const camOffsetKm = embedded ? 0.35 : 0.25;
+        const camCenter = turf.destination(head, camOffsetKm, nextBearing + 180, {
           units: "kilometers",
         });
         const [lng, lat] = camCenter.geometry.coordinates as [number, number];
@@ -396,9 +408,9 @@ export default function Route3DViewer({
           center: [lng, lat],
           bearing: nextBearing,
           pitch: smoothedPitchRef.current,
-          zoom: 15,
-          duration: 200,
-          easing: (t) => t,
+          zoom: embedded ? 14.5 : 15,
+          duration: 300,
+          easing: (t) => t * (2 - t),
         });
       }
 
