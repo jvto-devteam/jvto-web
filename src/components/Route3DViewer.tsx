@@ -18,18 +18,27 @@ type Props = {
 
 type Coord3 = [number, number, number?];
 
+function shortestAngleDelta(from: number, to: number) {
+  let d = ((to - from + 540) % 360) - 180;
+  if (d === -180) d = 180;
+  return d;
+}
+
 export default function Route3DViewer({
   geojson,
   name,
   distanceKm,
   elevGainM,
-  flyDurationMs = 45000,
+  flyDurationMs = 60000,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const animRef = useRef<number | null>(null);
   const progressRef = useRef(0);
   const playingRef = useRef(false);
+  const smoothedBearingRef = useRef<number | null>(null);
+  const smoothedPitchRef = useRef<number>(68);
+  const lastCameraUpdateRef = useRef(0);
 
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -43,6 +52,69 @@ export default function Route3DViewer({
       (c) => [c[0], c[1], c[2]] as Coord3
     );
   }, [geojson]);
+
+  // Pre-compute cumulative distance, gain, and per-segment gradient for stats
+  // sampling and pitch easing during fly-through.
+  const profile = useMemo(() => {
+    const cumDistKm: number[] = [0];
+    const cumGainM: number[] = [0];
+    const gradientPerSeg: number[] = [0];
+    let dAcc = 0;
+    let gAcc = 0;
+    for (let i = 1; i < coords3d.length; i++) {
+      const a = coords3d[i - 1];
+      const b = coords3d[i];
+      const segKm = turf.distance(
+        [a[0], a[1]],
+        [b[0], b[1]],
+        { units: "kilometers" }
+      );
+      dAcc += segKm;
+      const dz = (b[2] ?? 0) - (a[2] ?? 0);
+      if (dz > 0) gAcc += dz;
+      cumDistKm.push(dAcc);
+      cumGainM.push(gAcc);
+      // gradient sin(angle), bounded; segKm in km → meters
+      const segM = segKm * 1000;
+      gradientPerSeg.push(
+        segM > 1 ? Math.max(-0.6, Math.min(0.6, dz / segM)) : 0
+      );
+    }
+    return {
+      cumDistKm,
+      cumGainM,
+      gradientPerSeg,
+      totalKm: dAcc,
+      totalGainM: Math.round(gAcc),
+    };
+  }, [coords3d]);
+
+  // Look up current cumulative distance + elevation gain at a given progress
+  // (0..1) via binary search on `cumDistKm`.
+  const sampleAtProgress = useCallback(
+    (p: number) => {
+      const arr = profile.cumDistKm;
+      if (arr.length < 2) {
+        return { km: 0, gainM: 0, gradient: 0 };
+      }
+      const targetKm = p * profile.totalKm;
+      let lo = 0;
+      let hi = arr.length - 1;
+      while (lo < hi - 1) {
+        const mid = (lo + hi) >> 1;
+        if (arr[mid] <= targetKm) lo = mid;
+        else hi = mid;
+      }
+      const span = arr[hi] - arr[lo];
+      const t = span === 0 ? 0 : (targetKm - arr[lo]) / span;
+      const gainM =
+        profile.cumGainM[lo] +
+        (profile.cumGainM[hi] - profile.cumGainM[lo]) * t;
+      const gradient = profile.gradientPerSeg[hi] ?? 0;
+      return { km: targetKm, gainM, gradient };
+    },
+    [profile]
+  );
 
   useEffect(() => {
     const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -235,12 +307,33 @@ export default function Route3DViewer({
     if (!ctx) return;
     const { fullLine, totalKm } = ctx;
 
+    // Bearing smoothing parameters
+    const lookAheadKm = Math.max(0.15, totalKm * 0.05);
+    const bearingLerp = 0.12;
+    const pitchLerp = 0.05;
+    const cameraThrottleMs = 33; // ~30 fps for camera; geometry still 60+ fps
+
     const startProgress = progressRef.current >= 1 ? 0 : progressRef.current;
     progressRef.current = startProgress;
     setProgress(startProgress);
     const startedAt = performance.now();
     playingRef.current = true;
     setPlaying(true);
+
+    // Seed smoothed bearing/pitch from current state if first run, otherwise keep
+    // the carried-over value so resuming from pause is continuous.
+    if (smoothedBearingRef.current === null) {
+      const head0 = turf.along(fullLine, Math.max(0.0001, startProgress * totalKm), {
+        units: "kilometers",
+      });
+      const ahead0 = turf.along(
+        fullLine,
+        Math.min(totalKm, startProgress * totalKm + lookAheadKm),
+        { units: "kilometers" }
+      );
+      smoothedBearingRef.current = turf.bearing(head0, ahead0);
+    }
+    lastCameraUpdateRef.current = 0;
 
     const tick = (now: number) => {
       const elapsed = now - startedAt;
@@ -253,27 +346,56 @@ export default function Route3DViewer({
       setProgress(p);
 
       const sliceKm = Math.max(0.0001, p * totalKm);
+
+      // Geometry update every frame for buttery progress line.
       const done = turf.lineSliceAlong(fullLine, 0, sliceKm, {
         units: "kilometers",
       });
       const doneSource = map.getSource("route-done") as mapboxgl.GeoJSONSource;
       if (doneSource) doneSource.setData(done);
 
-      const head = turf.along(fullLine, sliceKm, { units: "kilometers" });
-      const lookAhead = turf.along(
-        fullLine,
-        Math.min(totalKm, sliceKm + 0.05),
-        { units: "kilometers" }
-      );
-      const bearing = turf.bearing(head, lookAhead);
-      const [lng, lat] = head.geometry.coordinates as [number, number];
+      // Camera update throttled to ~30 fps so each easeTo can interpolate.
+      if (now - lastCameraUpdateRef.current >= cameraThrottleMs) {
+        lastCameraUpdateRef.current = now;
 
-      map.jumpTo({
-        center: [lng, lat],
-        bearing,
-        pitch: 72,
-        zoom: 15.5,
-      });
+        const head = turf.along(fullLine, sliceKm, { units: "kilometers" });
+        const lookAhead = turf.along(
+          fullLine,
+          Math.min(totalKm, sliceKm + lookAheadKm),
+          { units: "kilometers" }
+        );
+        const instantBearing = turf.bearing(head, lookAhead);
+
+        // Exponential smoothing with shortest-angle wraparound
+        const prevBearing = smoothedBearingRef.current ?? instantBearing;
+        const delta = shortestAngleDelta(prevBearing, instantBearing);
+        const nextBearing = prevBearing + delta * bearingLerp;
+        smoothedBearingRef.current = nextBearing;
+
+        // Pitch tied to terrain gradient (positive → climb → pitch up)
+        const { gradient } = sampleAtProgress(p);
+        const targetPitch = 68 + gradient * 12; // ~62..76 typical
+        const boundedTarget = Math.max(60, Math.min(78, targetPitch));
+        smoothedPitchRef.current =
+          smoothedPitchRef.current +
+          (boundedTarget - smoothedPitchRef.current) * pitchLerp;
+
+        // Third-person framing: place camera center behind the head along
+        // the reverse bearing so the head sits ~upper-third of the screen.
+        const camCenter = turf.destination(head, 0.25, nextBearing + 180, {
+          units: "kilometers",
+        });
+        const [lng, lat] = camCenter.geometry.coordinates as [number, number];
+
+        map.easeTo({
+          center: [lng, lat],
+          bearing: nextBearing,
+          pitch: smoothedPitchRef.current,
+          zoom: 15,
+          duration: 200,
+          easing: (t) => t,
+        });
+      }
 
       if (p < 1) {
         animRef.current = requestAnimationFrame(tick);
@@ -293,6 +415,8 @@ export default function Route3DViewer({
     stopAnim();
     progressRef.current = 0;
     setProgress(0);
+    smoothedBearingRef.current = null;
+    smoothedPitchRef.current = 68;
     const doneSource = map.getSource("route-done") as
       | mapboxgl.GeoJSONSource
       | undefined;
@@ -385,30 +509,46 @@ export default function Route3DViewer({
     );
   }
 
+  const sample = sampleAtProgress(progress);
+  const showProgressStats = playing || progress > 0;
+  const statDistance = showProgressStats ? sample.km : distanceKm;
+  const statGain = showProgressStats ? Math.round(sample.gainM) : elevGainM;
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-black">
       <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
       {/* Top-right stats card */}
       <div className="pointer-events-none absolute top-3 left-3 md:left-auto md:right-20 md:top-4 z-10">
-        <div className="pointer-events-auto bg-white/95 backdrop-blur rounded-xl shadow-lg px-4 py-3 text-sm min-w-[180px]">
-          <div className="font-semibold text-gray-900 truncate max-w-[220px]">
-            {name}
+        <div className="pointer-events-auto bg-white/95 backdrop-blur rounded-xl shadow-lg px-4 py-3 text-sm min-w-[200px]">
+          <div className="flex items-center justify-between gap-2">
+            <div className="font-semibold text-gray-900 truncate max-w-[200px]">
+              {name}
+            </div>
+            {showProgressStats && (
+              <span className="text-[9px] uppercase tracking-wider text-blue-600 font-semibold">
+                live
+              </span>
+            )}
           </div>
           <div className="mt-2 flex gap-4 text-gray-700">
             <div>
               <div className="text-[10px] uppercase tracking-wide text-gray-500">
                 Distance
               </div>
-              <div className="font-semibold text-gray-900">
-                {distanceKm.toFixed(2)} km
+              <div className="font-semibold text-gray-900 tabular-nums">
+                {statDistance.toFixed(1)}
+                <span className="text-xs text-gray-500"> km</span>
               </div>
             </div>
             <div>
               <div className="text-[10px] uppercase tracking-wide text-gray-500">
                 Elev. Gain
               </div>
-              <div className="font-semibold text-gray-900">{elevGainM} m</div>
+              <div className="font-semibold text-gray-900 tabular-nums">
+                {statGain}
+                <span className="text-xs text-gray-500"> m</span>
+              </div>
             </div>
           </div>
         </div>
