@@ -26,6 +26,35 @@ Replace the existing homepage with a completely new layout that:
 - **Rubik font already installed** via `--font-heading` CSS variable. Use on H1/H2.
 - **Data helpers:** `getWebPackagesList()` and `getPublicDestinationList()` (direct, no self-fetch).
 - **page.tsx stays a Server Component.** Interactivity (tabs) goes into a client component.
+- **Link component:** Always use `import Link from "@/components/website/AppLink"` — never `next/link` directly.
+- **Image component:** Always use `import Image from "next/image"` with explicit `sizes` attribute.
+
+## Code Conventions
+
+### Section padding standard
+Every section uses: `py-20 md:py-28` for section padding. Container: `max-w-7xl mx-auto px-6 md:px-8`.
+
+### Slug → href pattern
+`PackageListItem.slug` already contains the full path (e.g., `tours/from-surabaya/bromo-1d1n`).  
+**Always use:** `` href={`/${pkg.slug}`} `` — never `` href={`/tours/${pkg.slug}`} ``.
+
+### Duration label formatting
+```ts
+`${pkg.duration.day}D · ${pkg.duration.night}N`
+// e.g. "3D · 2N"
+```
+
+### Price formatting
+```ts
+`From IDR ${new Intl.NumberFormat('id-ID').format(pkg.startFrom)}`
+// e.g. "From IDR 1.650.000"
+```
+
+### keyExperiences safe access
+```ts
+const highlights = pkg.keyExperiences.slice(0, 2);
+// Renders 0, 1, or 2 items — never throws if array is short.
+```
 
 ---
 
@@ -77,8 +106,19 @@ The site's existing `Navbar` / `Header` component is unchanged. Sticky, dark nav
 
 ### S1 — Hero (`HomeHero.tsx`)
 
-**Background:** Full-width, full-viewport-height photo (`/assets/img/hero/home.webp`).  
-**Overlay:** `bg-gradient-to-b from-jvto-navy/90 via-jvto-navy/40 to-jvto-navy/80` — dark enough to read text, light enough to see the photo. Photography-first: the mountain must be visible.
+**Background:** Full-width, full-viewport-height photo using `<Image>` with `fill` + `priority` (LCP element).  
+```tsx
+<Image
+  src="/assets/img/hero/home.webp"
+  alt="Mount Bromo volcano at sunrise — Java Volcano Tour Operator"
+  fill
+  priority
+  sizes="100vw"
+  className="object-cover"
+/>
+```
+**Overlay:** `absolute inset-0 bg-gradient-to-b from-jvto-navy/90 via-jvto-navy/40 to-jvto-navy/80` over the image — dark enough to read text, light enough to see the mountain. Photography-first: the photo must bleed through.  
+**Wrapper:** `relative min-h-screen` (or `min-h-[100svh]` for mobile safe area).
 
 **Content layout (vertically centered, left-aligned on desktop, centered on mobile):**
 
@@ -144,13 +184,14 @@ No links. This is credential display, not navigation.
 **Layout:** 5 cards in horizontal scroll on mobile (`overflow-x-auto snap-x`), CSS grid `grid-cols-2 md:grid-cols-5` on desktop.
 
 **Each card:**
-- Full photo background (destination banner URL)
-- Dark gradient overlay bottom-up: `bg-gradient-to-t from-black/80 via-black/20 to-transparent`
-- Destination name (white, font-black)
-- 1-line highlight (white/70, text-sm)
+- `relative overflow-hidden rounded-2xl aspect-[2/3]` wrapper
+- Photo using `<Image fill sizes="(max-width:768px) 50vw, 20vw" className="object-cover" />` with destination `banner.url` and `banner.alt`
+- Dark gradient overlay: `absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent`
+- Text anchored to bottom: `absolute bottom-0 left-0 right-0 p-4`
+- Destination name (white, font-black, text-base)
+- 1-line highlight (white/70, text-sm) — use `highlight` field from `Destination`
 - Arrow link: "View Tours →" (jvto-green, text-xs font-bold)
-- `href="/destinations/{slug}"`
-- `aspect-[2/3]` portrait ratio
+- `href="/destinations/{dest.slug}"`
 
 **Destinations order + data (from `getPublicDestinationList()`):**
 1. Mount Bromo — "Sunrise over Tengger Caldera" — `slug: mount-bromo`
@@ -177,13 +218,12 @@ No links. This is credential display, not navigation.
 **Tour cards (4 cards shown per tab, "View All" link below):**
 
 Each card:
-- Package name (font-bold, 1–2 lines)
-- Duration label (e.g., "3 Days · 2 Nights")
-- Starting price: "From IDR X,XXX,XXX / pax"
-- Difficulty badge (`DifficultyBadge` component — already exists)
-- 2 key highlights (from `keyExperiences[0..1]`)
-- CTA: "See Details →" `href="/tours/{slug}"`
-- Card style: `bg-white rounded-2xl shadow-sm border border-jvto-navy/5 p-5`
+- Card style: `bg-white rounded-2xl shadow-sm border border-jvto-navy/5 p-5 flex flex-col gap-3`
+- Package name: `font-bold text-jvto-navy text-base leading-snug` (1–2 lines)
+- Duration + difficulty row: `` `${pkg.duration.day}D · ${pkg.duration.night}N` `` + `<DifficultyBadge physicality={pkg.physicality} />`
+- Price: `` `From IDR ${new Intl.NumberFormat('id-ID').format(pkg.startFrom)}` `` in `font-black text-jvto-navy text-lg`
+- Up to 2 key highlights: `pkg.keyExperiences.slice(0, 2)` as `text-xs text-jvto-navy/60` list items with `·` bullet
+- CTA: "See Details →" `` href={`/${pkg.slug}`} `` — `text-jvto-green font-bold text-sm`
 
 **Data:**
 - `HomeTours.tsx` (server) fetches `getWebPackagesList({ fromId: 4 })` (Surabaya = 4) and `getWebPackagesList({ fromId: 3 })` (Bali = 3), limits to 4 each.
@@ -209,11 +249,12 @@ Each card:
 | 02 | Confirm via WhatsApp | Message us — we reply within 2 hours. Confirm dates, group size, and pickup. |
 | 03 | Meet Your Guide | Your private guide meets you at your hotel. No terminals, no buses, no strangers. |
 
-**Visual:**
-- Step number: large `text-6xl font-black text-jvto-green/20` behind a `text-jvto-navy` label
-- Or: circle with number `w-12 h-12 rounded-full bg-jvto-navy text-white font-black flex items-center justify-center`
-- Connector line between steps (desktop only): `border-t-2 border-jvto-navy/10`
-- No icons needed — number circles are the visual.
+**Visual (committed design — do not improvise):**
+- Step: `w-12 h-12 rounded-full bg-jvto-navy text-white font-black text-lg flex items-center justify-center flex-shrink-0`
+- Step number text: "01", "02", "03"
+- Connector line between circles (desktop only): `flex-1 border-t-2 border-jvto-navy/10 mx-4 mt-6` — sits between the circles at mid-height
+- Step body below circle: title `font-black text-jvto-navy text-base mb-1`, description `text-jvto-navy/60 text-sm leading-relaxed`
+- No icons — circles are the only visual element.
 
 ---
 
@@ -227,9 +268,9 @@ Each card:
 
 | Platform | Rating | Count | URL |
 |---|---|---|---|
-| Trustpilot | 4.8★ | 51 reviews | `trustpilot.com/review/javavolcano-touroperator.com` |
-| Google Maps | 4.9★ | 92 reviews | `google.com/maps?cid=1266403973589689021` |
-| TripAdvisor | 4.95★ | 21 reviews | TripAdvisor URL |
+| Trustpilot | 4.8★ | 51 reviews | `https://trustpilot.com/review/javavolcano-touroperator.com` |
+| Google Maps | 4.9★ | 92 reviews | `https://www.google.com/maps?cid=1266403973589689021` |
+| TripAdvisor | 4.95★ | 21 reviews | `https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html` |
 
 Card style: `bg-white/5 border border-white/10 rounded-2xl p-6 text-center`.  
 Rating: `text-4xl font-black text-jvto-green`.  
@@ -363,6 +404,28 @@ const [seo, destinations, surabayaTours, baliTours] = await Promise.all([
   getWebPackagesList({ fromId: 3, limit: 4 }),  // Bali
 ]);
 ```
+
+---
+
+## Home Folder: Keep vs Delete
+
+The `src/components/website/Home/` folder contains many files. Disposition:
+
+**DELETE (replaced by new components):**
+- `Hero.tsx`, `Differentiators.tsx`, `FeaturedTours.tsx`, `FeaturedToursClient.tsx`
+- `Reviews.tsx`, `ReviewsClient.tsx`, `HomeReviewsStatic.tsx`
+- `TrustVerification.tsx`, `WhyJVTO.tsx`, `HomeCTA.tsx`
+- `HomeDestinations.tsx`, `Destinations.tsx`
+- `TravelGuideTeaser.tsx` (replaced by `HomeTravelGuideTeaser.tsx`)
+
+**KEEP (used by other parts of site, not homepage-specific):**
+- `Features.tsx`, `Testimonials.tsx` — may be used elsewhere; do not delete without checking
+- `TourRowClient.tsx` — scroll-track row; used in tours hub pages
+- `IjenHealthScreeningSection.tsx`, `IsicSection.tsx` — campaign sections
+- `LevelSelector.tsx` — tour filter UI
+- `Trustpilot.css` — shared Trustpilot badge styles
+
+Check each file for imports before deleting. If only imported in `page.tsx`, delete safely.
 
 ---
 
