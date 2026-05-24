@@ -178,8 +178,14 @@ export const FOUNDER_SCHEMA = {
   '@type': 'Person',
   '@id': AGUNG_ID,
   name: 'Agung Sambuko',
-  alternateName: 'Mr. Sam',
-  jobTitle: ['Founder', 'Active Tourist Police Officer'],
+  alternateName: ['Mr. Sam', 'Bripka Agung Sambuko'],
+  jobTitle: 'Active Tourist Police Officer, Ditpamobvit East Java',
+  description:
+    'Bripka Agung Sambuko is an active officer of the Indonesian Tourist Police ' +
+    '(Ditpamobvit, East Java) and founder of PT Java Volcano Rendezvous. ' +
+    'Police credentials (SPRIN POLPAR + SPRIN WAL-TRAVEL 2024) and independent ' +
+    'press coverage (Detik.com 2021-03-14, Radar Jember 2021) verify identity ' +
+    'and active deployment.',
   image: [
     {
       '@type': 'ImageObject',
