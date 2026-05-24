@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-05-23T02:30:27.545Z",
+  "updated_at": "2026-05-24T02:41:03.502Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,7 +9,7 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-05-24",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
       "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316279?signature=648c45f6fcf78330cc07153600afd7a18aaf23a98b225625b9427b1ce7c9f026",
@@ -36,27 +36,27 @@
           "Beware of potential rockfall from crater walls."
         ],
         "author": "Suparjan, A.Md.",
-        "fetched_at": "2026-05-23T02:30:27.094Z"
+        "fetched_at": "2026-05-24T02:41:02.958Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-05-23",
+      "last_verified": "2026-05-24",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316264?signature=ef1b7244ebf4dec1dad93c1718c664e2fce1356dd680401e28cbb38dcb8cae0c",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316316?signature=acd1b7ecbd9b7e93c69214fc80e80a48b6417498802f96b8290a1dee4127b9a5",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-600 meter dari puncak. Cuaca cerah hingga hujan, angin lemah ke arah barat daya dan barat.",
-        "visual_en": "White smoke, thin, 50-600 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga hujan, angin lemah ke arah barat daya dan barat. Suhu udara sekitar 12-21°C.",
-        "climate_en": "12-21°C · Wind → barat daya dan barat",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202605222400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-400 meter dari puncak. Cuaca cerah hingga mendung, angin lemah ke arah tenggara, selatan, barat daya dan barat.",
+        "visual_en": "White smoke, thin, 50-400 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga mendung, angin lemah ke arah tenggara, selatan, barat daya dan barat. Suhu udara sekitar 13-21°C.",
+        "climate_en": "13-21°C · Wind → SE",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202605232400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -67,7 +67,7 @@
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
         "author": "Wahyu Andrian Kusuma",
-        "fetched_at": "2026-05-23T02:30:27.545Z"
+        "fetched_at": "2026-05-24T02:41:03.502Z"
       }
     }
   }
