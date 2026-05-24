@@ -7,18 +7,18 @@ const STEPS = [
   },
   {
     number: "02",
-    title: "Book via WhatsApp",
-    description: "Message us with your dates and group size. We confirm availability within 2 hours.",
+    title: "Book & Checkout",
+    description: "Select your dates and complete checkout directly on the website. Takes less than 5 minutes.",
   },
   {
     number: "03",
     title: "Pay Your Deposit",
-    description: "Secure your booking with a DP. The remaining balance is settled on the day of your tour.",
+    description: "Secure your booking with a DP payment. The remaining balance is settled on departure day.",
   },
   {
     number: "04",
     title: "We Pick You Up",
-    description: "Your private guide and vehicle arrive at your hotel on departure day. No terminals, no shared rides.",
+    description: "Your private guide and vehicle arrive at your hotel. No terminals, no strangers.",
   },
 ] as const;
 
@@ -40,7 +40,7 @@ export default function HomeHowItWorks() {
         <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-0">
           {STEPS.map((step, index) => (
             <div key={step.number} className="flex md:flex-col items-start gap-4 md:gap-0 flex-1">
-              <div className="flex items-center w-full md:mb-6">
+              <div className="flex items-center flex-shrink-0 md:w-full md:mb-6">
                 <div
                   className="w-12 h-12 rounded-full bg-jvto-navy text-white font-black text-lg flex items-center justify-center flex-shrink-0"
                   aria-hidden="true"
