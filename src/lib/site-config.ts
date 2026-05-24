@@ -51,14 +51,6 @@ export const SITE_CONFIG = {
     trustpilot: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     healthScreening: "https://health.mountijen.com",
   },
-  socialProof: {
-    googleRating: 4.9,
-    tripadvisorRating: 5.0,
-    /** Trustpilot canonical — verified 2026-04-19 */
-    reviewCount: 47,
-    /** Guesthouse era start; PT formal 2023 */
-    operatingSince: 2015,
-  },
   navigation: {
     mainNav: [
       { href: "/tours", label: "Private Tours" },
@@ -99,12 +91,11 @@ export const SITE_CONFIG = {
     ],
   },
 
-  // ── Reputation / Reviews ────────────────────────────────────────────────
-  reputation: {
-    aggregateRating: "4.8",
-    totalReviews: 47,
-    ratingPlatform: "Trustpilot",
-    ratingVerified: "2026-04-19",
+  // ── Reviews ─────────────────────────────────────────────────────────────
+  // Canonical review aggregate + per-platform metrics live in `src/lib/jvtoReviews.ts`
+  // (AGGREGATE_RATING + REVIEW_PLATFORMS). Wiki ingest updates that one file.
+  // Profile links retained here for footer/legal references.
+  reviewLinks: {
     trustpilot: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     tripadvisor:
       "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
@@ -115,41 +106,6 @@ export const SITE_CONFIG = {
     indecon:
       "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
   },
-
-  reviewPlatforms: [
-    {
-      platform: "Trustpilot",
-      count: 47,
-      rating: 4.8,
-      url: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
-      isPrimary: true,
-      lastVerified: "2026-04-19",
-    },
-    {
-      platform: "Google Maps",
-      count: 92,
-      rating: 4.9,
-      url: "https://www.google.com/maps?cid=1266403973589689021",
-      isPrimary: false,
-      lastVerified: "2026-04-22",
-    },
-    {
-      platform: "TripAdvisor",
-      count: 21,
-      rating: 4.95,
-      url: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
-      isPrimary: false,
-      lastVerified: "2026-04-22",
-    },
-    {
-      platform: "GetYourGuide",
-      count: null as number | null,
-      rating: null as number | null,
-      url: "https://www.getyourguide.com/java-volcano-tour-operator-s260697/",
-      isPrimary: false,
-      lastVerified: null as string | null,
-    },
-  ],
 
   // ── Bank Accounts ───────────────────────────────────────────────────────
   bankAccounts: [

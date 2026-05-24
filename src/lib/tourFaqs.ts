@@ -5,6 +5,11 @@
 //   - Server-side FAQPage JSON-LD builders (lib/schemas/buildTourSchemas.ts, buildToursHubSchemas.ts)
 //   - Client-side AnswerBlock rendering (where applicable)
 // Single source of truth ensures HTML copy and structured data carry identical Q&A pairs.
+//
+// Review aggregate (rating + count) is interpolated from `src/lib/jvtoReviews.ts` AGGREGATE_RATING
+// so wiki-driven ingest only needs to update that one file.
+
+import { AGGREGATE_RATING } from './jvtoReviews';
 
 /**
  * Minimal tour shape this module needs. Live's existing tour types (e.g., TourPackageDetail from
@@ -147,7 +152,7 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     {
       question: 'What do past guests say about JVTO?',
       answer:
-        `JVTO holds 4.8 ★ across 47+ verified reviews on Trustpilot, Google Maps, TripAdvisor, and Booking.com. ` +
+        `JVTO holds ${AGGREGATE_RATING.ratingValue} ★ across ${AGGREGATE_RATING.reviewCount}+ verified reviews on Trustpilot, Google Maps, TripAdvisor, and Booking.com. ` +
         `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
         `All review profiles link to the original platform so you can verify authenticity.`,
       uiMeta: 'Read verified reviews',

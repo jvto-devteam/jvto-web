@@ -358,7 +358,7 @@ export default async function TravelGuideHubPage() {
             contactType: "customer support",
           },
         ],
-        foundingDate: "2016-01-01",
+        foundingDate: "2015-01-01",
         currenciesAccepted: "IDR",
         paymentAccepted: ["Credit Card", "Bank Transfer"],
       },

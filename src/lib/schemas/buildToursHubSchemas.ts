@@ -119,7 +119,7 @@ export function buildToursHubFaqSchema() {
 
 /**
  * Standalone AggregateRating that explicitly references the Organization via @id.
- * Reuses AGGREGATE_RATING from jvtoReviews.ts (canonical 47 reviews / 4.8★ Trustpilot primary).
+ * Reuses AGGREGATE_RATING from jvtoReviews.ts (Trustpilot primary; values sourced from wiki SSOT).
  */
 export function buildToursHubAggregateRatingSchema({ hubPath }: Pick<HubArgs, 'hubPath'>) {
   const url = hubUrl(hubPath);
