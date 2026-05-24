@@ -19,6 +19,8 @@ export default function HomeCTA() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="https://wa.me/6282244788833"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-jvto-green text-jvto-navy font-black px-8 py-4 rounded-full text-base text-center hover:bg-jvto-green/90 transition-colors"
           >
             Book via WhatsApp
