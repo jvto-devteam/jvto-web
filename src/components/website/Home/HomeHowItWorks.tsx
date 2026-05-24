@@ -45,7 +45,7 @@ export default function HomeHowItWorks() {
                   {step.number}
                 </div>
                 {index < STEPS.length - 1 && (
-                  <div className="hidden md:block flex-1 border-t-2 border-jvto-navy/10 mx-4" />
+                  <div className="hidden md:block flex-1 border-t-2 border-jvto-navy/20 mx-4" />
                 )}
               </div>
               <div className="flex-1 md:flex-none md:pr-8">
