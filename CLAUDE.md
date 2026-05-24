@@ -237,11 +237,17 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** DB-only content sprint — backfilled body_md into mount-bromo-logistics (3565 chars compiled from existing sections) and tumpak-sewu-logistics (3807 chars); populated and activated packing-list (was inactive empty `{}`); build 137→138/138 ✓ (2026-05-05)
-**Completed date:** 2026-05-05
-**Next task:** Port remaining undeployed travel-guide DB rows — safety-on-tours, weather-and-closures, packing-and-fitness already have body_md; check if other content_pages need body_md backfill; OR begin next AEO cluster work
-**Build status:** ✓ Compiled (138/138 static pages — DB update only, no code change, at commit e27e393)
+**Last completed:** Wiki SSOT → jvto-web sync pass. Trustpilot count consolidated to single source (`src/lib/jvtoReviews.ts` = 51); foundingDate corrected from `2016` to `2015` across 4 files (entityGraph.ts, why-jvto/page.tsx, travel-guide/page.tsx, generateFaqSchema.ts); dead `socialProof`/`reputation`/`reviewPlatforms` blocks deleted from site-config.ts (no consumers); tourFaqs.ts review aggregate now interpolated from `AGGREGATE_RATING` (2026-05-24).
+**Completed date:** 2026-05-24
+**Build status:** ✓ Compiled successfully (after Pass A, Pass B, and extended-scope patches).
+**Next task:** Commit + push wiki-sync changes; regenerate `src/lib/publicContent/generated/reviewApiSnapshots.json` (stale, dated 2026-05-08, still holds `trustpilot: 47`); add NEXT_PUBLIC_MAPBOX_TOKEN to Vercel env vars before deploying design/sam branch.
 **Open items:**
+- `reviewApiSnapshots.json` generated artifact stale — regenerate via owner's ingest script (do not hand-edit)
+- Bromo MAGMA Level II Waspada (wiki 2026-05-17) not surfaced on `/destinations/mount-bromo` — content design decision needed
+- Crew count: wiki says 11 (7 guides + 4 drivers) — confirm against DB `crew_members` table
+- Backup clutter files `src/app/(website)/why-jvto/page_old.tsx` + `page_ssot.tsx` still hold `foundingDate: "2016-01-01"` — owner-cleanup pending per CLAUDE.md policy
+- NEXT_PUBLIC_MAPBOX_TOKEN only in .env.local — must add to Vercel preview/prod env before deploy
+- mapbox-gl install introduced 44 npm audit findings (12 high, 2 critical) — review before deploy
 - Design atlas screenshots gitignored — regenerate after server restart: `npm run dev` → `node scripts/generate-design-atlas.mjs`
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
 - KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide

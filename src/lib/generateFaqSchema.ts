@@ -86,7 +86,7 @@ export function generateFaqSchema(allFaqs: { question: string; answer: string }[
             "contactType": "customer support"
           }
         ],
-        "foundingDate": "2016-01-01",
+        "foundingDate": "2015-01-01",
         "currenciesAccepted": "IDR",
         "paymentAccepted": "Credit Card, Bank Transfer"
       },
