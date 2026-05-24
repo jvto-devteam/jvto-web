@@ -9,7 +9,7 @@ interface HomeToursProps {
 
 export default function HomeTours({ surabayaPackages, baliPackages }: HomeToursProps) {
   return (
-    <section className="bg-jvto-off py-20 md:py-28">
+    <section className="bg-jvto-off pt-12 md:pt-16 pb-20 md:pb-28">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-jvto-navy/40 mb-2">
           Packages

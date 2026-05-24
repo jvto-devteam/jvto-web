@@ -53,8 +53,10 @@ export default function HomeToursClient({
           return (
             <div
               key={pkg.id}
-              className="bg-white rounded-2xl shadow-sm border border-jvto-navy/5 p-5 flex flex-col gap-3"
+              className="bg-white rounded-2xl shadow-sm border border-jvto-navy/5 overflow-hidden flex flex-col"
             >
+              <div className="h-1 bg-jvto-green" />
+              <div className="p-5 flex flex-col gap-3 flex-1">
               <p className="font-bold text-jvto-navy text-base leading-snug">
                 {pkg.name}
               </p>
@@ -83,6 +85,7 @@ export default function HomeToursClient({
               >
                 See Details <span aria-hidden="true">→</span>
               </Link>
+              </div>
             </div>
           );
         })}
