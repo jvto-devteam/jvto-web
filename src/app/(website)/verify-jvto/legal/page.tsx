@@ -296,6 +296,62 @@ export default async function LegalPage() {
         </div>
       </section>
 
+      {/* ── Operational Continuity (Address Anchor + NIB Legacy Audit) ── */}
+      <section className="bg-slate-950 border-t border-slate-800">
+        <div className="container mx-auto px-6 py-12">
+          <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-6">
+            Operational Continuity — Address Anchor
+          </p>
+          <div className="grid md:grid-cols-2 gap-10">
+            {/* Continuity statement */}
+            <div>
+              <h2 className="text-white font-bold text-lg leading-snug mb-5">
+                Same address since 2015
+              </h2>
+              <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                Before PT Java Volcano Rendezvous was incorporated in February
+                2023, the same operation ran at the same Bondowoso address as{" "}
+                <strong className="text-slate-200">Ijen Bondowoso Homestay</strong>.
+                The 2015 Booking.com Guest Review Award (9.4/10) was shipped to{" "}
+                <span className="font-mono text-slate-300">
+                  Jl. Khairil Anwar No.102, Bondowoso
+                </span>{" "}
+                — the same street as today&rsquo;s PT office, demonstrating
+                continuous operational presence across the guesthouse →
+                PT → TDUP timeline.
+              </p>
+              <p className="text-slate-500 text-xs leading-relaxed">
+                Founder Mr. Sam (Bripka Agung Sambuko) operated the guesthouse
+                from 2015 and is named in the 4th-edition Stefan Loose
+                Reisef&uuml;hrer Indonesien (DuMont Reiseverlag) as the operator
+                at the homestay address.
+              </p>
+            </div>
+
+            {/* NIB legacy audit disclosure */}
+            <div className="border border-slate-800 rounded-lg p-5 bg-slate-900/50">
+              <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-3">
+                Audit Disclosure — Legacy OSS Record
+              </p>
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">
+                A second NIB —{" "}
+                <span className="font-mono text-slate-300">0220001393513</span>
+                {" "}— may appear in legacy OSS portal records linked to JVTO. If
+                you encounter it during verification, treat it as a possible
+                legacy registration; the canonical active license is{" "}
+                <span className="font-mono text-slate-300">1102230032918</span>
+                {" "}(shown in the credentials table above).
+              </p>
+              <p className="text-slate-500 text-[10px] leading-relaxed">
+                Disclosed proactively for transparency. The legacy record has no
+                impact on current operational status — TDUP, HPWKI, BBKSDA,
+                ISIC, and INDECON registrations all reference the canonical NIB.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── SHA-256 Forensic Anchors ── */}
       <section className="bg-slate-900 border-t border-slate-800">
         <div className="container mx-auto px-6 py-12">
