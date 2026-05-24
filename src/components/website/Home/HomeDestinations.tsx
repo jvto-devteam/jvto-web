@@ -41,7 +41,7 @@ export default function HomeDestinations({ destinations }: HomeDestinationsProps
                   src={dest.banner.url}
                   alt={dest.banner.alt}
                   fill
-                  sizes="(max-width:768px) 50vw, 20vw"
+                  sizes="(max-width:768px) 192px, 20vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -56,7 +56,7 @@ export default function HomeDestinations({ destinations }: HomeDestinationsProps
                     href={`/destinations/${dest.slug}`}
                     className="text-jvto-green text-xs font-bold hover:underline"
                   >
-                    View Tours →
+                    View Tours <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
