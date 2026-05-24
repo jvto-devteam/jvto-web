@@ -17,7 +17,7 @@ export default function HomeTrustStrip() {
             key={text}
             className="flex items-center gap-2 text-sm font-semibold text-jvto-navy/80"
           >
-            <Icon size={16} className="text-jvto-green flex-shrink-0" />
+            <Icon size={16} className="text-jvto-green flex-shrink-0" aria-hidden="true" />
             <span>{text}</span>
           </div>
         ))}
