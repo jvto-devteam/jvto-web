@@ -2,20 +2,23 @@
 const STEPS = [
   {
     number: "01",
-    title: "Choose Your Route",
-    description: "Browse 16 private packages by departure city or destination.",
+    title: "Choose Your Package",
+    description: "Browse 16 private routes by departure city or destination. Surabaya or Bali, 1–6 days.",
   },
   {
     number: "02",
-    title: "Confirm via WhatsApp",
-    description:
-      "Message us — we reply within 2 hours. Confirm dates, group size, and pickup.",
+    title: "Book via WhatsApp",
+    description: "Message us with your dates and group size. We confirm availability within 2 hours.",
   },
   {
     number: "03",
-    title: "Meet Your Guide",
-    description:
-      "Your private guide meets you at your hotel. No terminals, no buses, no strangers.",
+    title: "Pay Your Deposit",
+    description: "Secure your booking with a DP. The remaining balance is settled on the day of your tour.",
+  },
+  {
+    number: "04",
+    title: "We Pick You Up",
+    description: "Your private guide and vehicle arrive at your hotel on departure day. No terminals, no shared rides.",
   },
 ] as const;
 
@@ -48,12 +51,12 @@ export default function HomeHowItWorks() {
                   <div className="hidden md:block flex-1 border-t-2 border-jvto-navy/20 mx-4" />
                 )}
               </div>
-              <div className="flex-1 md:flex-none md:pr-8">
-                <p className="font-black text-jvto-navy text-base mb-1">
+              <div className="flex-1 md:flex-none md:pr-4">
+                <p className="font-black text-jvto-navy text-sm md:text-base mb-1">
                   <span className="sr-only">Step {index + 1}: </span>
                   {step.title}
                 </p>
-                <p className="text-jvto-navy/60 text-sm leading-relaxed">
+                <p className="text-jvto-navy/60 text-xs md:text-sm leading-relaxed">
                   {step.description}
                 </p>
               </div>

@@ -9,7 +9,7 @@ interface HomeHeroProps {
 
 export default function HomeHero({ title, description }: HomeHeroProps) {
   return (
-    <section className="relative min-h-[100svh] flex items-center">
+    <section className="relative min-h-[100svh] flex items-end">
       <Image
         src="/assets/img/hero/home.webp"
         alt="Mount Bromo volcano at sunrise — Java Volcano Tour Operator"
@@ -19,16 +19,16 @@ export default function HomeHero({ title, description }: HomeHeroProps) {
         className="object-cover"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-jvto-navy/90 via-jvto-navy/40 to-jvto-navy/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-jvto-navy/50 via-transparent to-jvto-navy/90" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full py-20">
-        <div className="max-w-2xl mx-auto md:mx-0 text-center md:text-left">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full pb-12 md:pb-20 pt-32">
+        <div className="max-w-3xl mx-auto md:mx-0 text-center md:text-left">
           <p className="text-xs font-bold uppercase tracking-widest text-jvto-green/90 mb-4">
             Est. 2015 · Bondowoso, East Java · Tourist Police-Led
           </p>
 
           <h1
-            className="font-black text-5xl md:text-7xl leading-tight text-white mb-6"
+            className="font-black text-4xl sm:text-5xl md:text-6xl leading-tight text-white mb-6"
             style={{ fontFamily: "var(--font-heading)" }}
           >
             {title}

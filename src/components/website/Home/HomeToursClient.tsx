@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import DifficultyBadge from "@/components/website/DifficultyBadge";
 import type { PackageListItem } from "@/lib/packages/getWebPackagesList";
@@ -55,36 +56,47 @@ export default function HomeToursClient({
               key={pkg.id}
               className="bg-white rounded-2xl shadow-sm border border-jvto-navy/5 overflow-hidden flex flex-col"
             >
-              <div className="h-1 bg-jvto-green" />
-              <div className="p-5 flex flex-col gap-3 flex-1">
-              <p className="font-bold text-jvto-navy text-base leading-snug">
-                {pkg.name}
-              </p>
-
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs text-jvto-navy/60">{duration}</span>
-                <DifficultyBadge physicality={pkg.physicality} />
+              {/* Photo header */}
+              <div className="relative h-44 w-full flex-shrink-0">
+                <Image
+                  src={pkg.banner.url}
+                  alt={pkg.banner.alt}
+                  fill
+                  sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/60 to-transparent" />
+                <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                  <span className="text-[10px] font-black text-white/80 uppercase tracking-wide">{duration}</span>
+                  <DifficultyBadge physicality={pkg.physicality} />
+                </div>
               </div>
 
-              <p className="font-black text-jvto-navy text-lg">{price}</p>
+              {/* Text body */}
+              <div className="p-5 flex flex-col gap-3 flex-1">
+                <p className="font-bold text-jvto-navy text-base leading-snug">
+                  {pkg.name}
+                </p>
 
-              {highlights.length > 0 && (
-                <ul className="flex flex-col gap-1">
-                  {highlights.map((h, i) => (
-                    <li key={i} className="text-xs text-jvto-navy/60 flex gap-1">
-                      <span className="flex-shrink-0">·</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                <p className="font-black text-jvto-navy text-lg">{price}</p>
 
-              <Link
-                href={`/${pkg.slug}`}
-                className="text-jvto-green font-bold text-sm mt-auto hover:underline"
-              >
-                See Details <span aria-hidden="true">→</span>
-              </Link>
+                {highlights.length > 0 && (
+                  <ul className="flex flex-col gap-1">
+                    {highlights.map((h, i) => (
+                      <li key={i} className="text-xs text-jvto-navy/60 flex gap-1">
+                        <span className="flex-shrink-0">·</span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <Link
+                  href={`/${pkg.slug}`}
+                  className="text-jvto-green font-bold text-sm mt-auto hover:underline"
+                >
+                  See Details <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
           );
