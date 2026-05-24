@@ -31,6 +31,7 @@ export default function HomeToursClient({
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
+            aria-pressed={activeTab === tab}
             className={`px-5 py-2 rounded-full text-sm font-bold transition-colors ${
               activeTab === tab
                 ? "bg-jvto-navy text-white"
