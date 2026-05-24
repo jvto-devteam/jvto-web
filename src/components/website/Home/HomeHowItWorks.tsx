@@ -21,12 +21,13 @@ const STEPS = [
 
 export default function HomeHowItWorks() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section aria-labelledby="how-it-works-heading" className="bg-white py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-jvto-navy/40 mb-2">
           Process
         </p>
         <h2
+          id="how-it-works-heading"
           className="font-black text-3xl md:text-4xl text-jvto-navy mb-12"
           style={{ fontFamily: "var(--font-heading)" }}
         >
@@ -37,7 +38,10 @@ export default function HomeHowItWorks() {
           {STEPS.map((step, index) => (
             <div key={step.number} className="flex md:flex-col items-start gap-4 md:gap-0 flex-1">
               <div className="flex items-center w-full md:mb-6">
-                <div className="w-12 h-12 rounded-full bg-jvto-navy text-white font-black text-lg flex items-center justify-center flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-full bg-jvto-navy text-white font-black text-lg flex items-center justify-center flex-shrink-0"
+                  aria-hidden="true"
+                >
                   {step.number}
                 </div>
                 {index < STEPS.length - 1 && (
@@ -45,7 +49,10 @@ export default function HomeHowItWorks() {
                 )}
               </div>
               <div className="flex-1 md:flex-none md:pr-8">
-                <p className="font-black text-jvto-navy text-base mb-1">{step.title}</p>
+                <p className="font-black text-jvto-navy text-base mb-1">
+                  <span className="sr-only">Step {index + 1}: </span>
+                  {step.title}
+                </p>
                 <p className="text-jvto-navy/60 text-sm leading-relaxed">
                   {step.description}
                 </p>
