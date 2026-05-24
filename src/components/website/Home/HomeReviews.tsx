@@ -67,9 +67,9 @@ export default function HomeReviews() {
 
         {/* Testimonials */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {testimonials.map((t) => (
+          {testimonials.map((t, i) => (
             <div
-              key={t.name}
+              key={i}
               className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
               <p className="text-jvto-green text-4xl font-black leading-none mb-3" aria-hidden="true">&ldquo;</p>
