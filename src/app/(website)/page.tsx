@@ -1,17 +1,19 @@
-// app/(website)/page.tsx
+// src/app/(website)/page.tsx
 import type { Metadata } from "next";
 import type { Destination } from "@/interfaces";
-import Hero from "@/components/website/Home/Hero";
-import Differentiators from "@/components/website/Home/Differentiators";
+import HomeHero from "@/components/website/Home/HomeHero";
+import HomeTrustStrip from "@/components/website/Home/HomeTrustStrip";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
-import FeaturedTours from "@/components/website/Home/FeaturedTours";
-import Reviews from "@/components/website/Home/Reviews";
-import TrustVerification from "@/components/website/Home/TrustVerification";
-import WhyJVTO from "@/components/website/Home/WhyJVTO";
+import HomeTours from "@/components/website/Home/HomeTours";
+import HomeHowItWorks from "@/components/website/Home/HomeHowItWorks";
+import HomeReviews from "@/components/website/Home/HomeReviews";
+import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
+import HomeWhyJVTO from "@/components/website/Home/HomeWhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -28,7 +30,7 @@ export const revalidate = 3600;
 const fallbackSeo = {
   title:
     "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
-  h1: "Tourist Police-Led Private Volcano Tours in East Java",
+  h1: "Private Volcano Tours.\nPolice-Led.",
   description:
     "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
 };
@@ -47,18 +49,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// ─── Data fetching ─────────────────────────────────────────────────────────────
-
-async function getDestinations(): Promise<Destination[]> {
-  return getPublicDestinationList();
-}
-
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 const Home = async () => {
-  const [seo, destinations] = await Promise.all([
+  // getPublicDestinationList is synchronous (reads a static JSON snapshot)
+  const destinations: Destination[] = getPublicDestinationList() as Destination[];
+
+  const [seo, surabayaTours, baliTours] = await Promise.all([
     getPageSeo("/", fallbackSeo),
-    getDestinations(),
+    getWebPackagesList({ fromId: 4, limit: 4 }),
+    getWebPackagesList({ fromId: 3, limit: 4 }),
   ]);
 
   const pageRow = seo.row
@@ -77,6 +77,7 @@ const Home = async () => {
         content: { h1: seo.h1 },
       };
 
+  // ── AEO schema nodes ────────────────────────────────────────────────────────
   const serviceNode = {
     "@type": "Service",
     "@id": `${SITE_URL}/why-jvto#tourService`,
@@ -97,12 +98,10 @@ const Home = async () => {
     termsOfService: `${SITE_URL}/verify-jvto`,
   };
 
-  // ── FAQPage schema (AEO — emits JSON-LD even without visual FAQ section) ────
   const faqResolution = await resolveFaqsForPage("/");
   const faqNode = buildResolvedFaqSchema(faqResolution, "/");
   const aggregateRatingNode = buildHomepageAggregateRatingSchema();
 
-  // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
   const healthAppNode = {
     "@type": "WebApplication",
     "@id": "https://health.mountijen.com/#app",
@@ -145,55 +144,14 @@ const Home = async () => {
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
 
-      {/* 1. Hero */}
-      <Hero title={seo.h1} description={seo.description} />
-
-      {/* 2. WHY JVTO — 6 Differentiators */}
-      <Differentiators />
-
-      {/* 3. Destinations */}
+      <HomeHero title={seo.h1} description={seo.description} />
+      <HomeTrustStrip />
       <HomeDestinations destinations={destinations} />
-
-      {/* 4. Tour Packages */}
-      <FeaturedTours />
-
-      {/* 5. Reviews */}
-      <section className="bg-jvto-navy py-20 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="mb-12 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-                Guest Reviews
-              </span>
-            </div>
-            <h2
-              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
-              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-            >
-              51 reviews on Trustpilot.{" "}
-              <br />
-              <em className="text-jvto-orange not-italic">92 on Google Maps.</em>{" "}
-              <br />
-              21 on TripAdvisor.
-            </h2>
-            <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
-              Ratings verified across three independent platforms. Every review links
-              to the original profile — browse by guide, by destination, or by trip length
-              to find what matters to you.
-            </p>
-          </div>
-
-          <Reviews />
-        </div>
-      </section>
-
-      {/* 6. Trust & Verification */}
-      <TrustVerification />
-
-      {/* 7. Our Story */}
-      <WhyJVTO />
-
-      {/* 8. CTA */}
+      <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
+      <HomeHowItWorks />
+      <HomeReviews />
+      <HomeTravelGuideTeaser />
+      <HomeWhyJVTO />
       <HomeCTA />
     </div>
   );
