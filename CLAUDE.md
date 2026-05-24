@@ -237,20 +237,22 @@ Use `/phase-start` to run this automatically. Use `/session-close` to commit + h
 
 ## Current Sprint
 
-**Last completed:** Wiki SSOT → jvto-web sync pass. Trustpilot count consolidated to single source (`src/lib/jvtoReviews.ts` = 51); foundingDate corrected from `2016` to `2015` across 4 files (entityGraph.ts, why-jvto/page.tsx, travel-guide/page.tsx, generateFaqSchema.ts); dead `socialProof`/`reputation`/`reviewPlatforms` blocks deleted from site-config.ts (no consumers); tourFaqs.ts review aggregate now interpolated from `AGGREGATE_RATING` (2026-05-24).
-**Completed date:** 2026-05-24
-**Build status:** ✓ Compiled successfully (after Pass A, Pass B, and extended-scope patches).
-**Next task:** Commit + push wiki-sync changes; regenerate `src/lib/publicContent/generated/reviewApiSnapshots.json` (stale, dated 2026-05-08, still holds `trustpilot: 47`); add NEXT_PUBLIC_MAPBOX_TOKEN to Vercel env vars before deploying design/sam branch.
+**Last completed:** llm-wiki → jvto-web ingest of 2026-05-24 raw-folder batch (Workstreams A + D of plan `~/.claude/plans/modular-kindling-clock.md`). Workstream A: FOUNDER_SCHEMA EAV sharpen in `entityGraph.ts` — `jobTitle` array → single string `'Active Tourist Police Officer, Ditpamobvit East Java'`; `alternateName` expanded to `['Mr. Sam', 'Bripka Agung Sambuko']`; new `description` field citing SPRIN POLPAR + SPRIN WAL-TRAVEL 2024 + Detik/Radar Jember press (commit `6587e03`). Workstream D: new "Operational Continuity" section on `/verify-jvto/legal` — Ijen Bondowoso Homestay → PT continuity narrative + NIB legacy `0220001393513` audit disclosure (page-copy-only, NOT added to schema) (commit `9c6e58b`). Wiki log entry 2026-05-25 appended + committed in llm-wiki (`9f97bd6`). Workstream C Phase-0 unblocked: snapshot script `scripts/export-public-page-snapshots.mjs` confirmed covers `/why-jvto/our-story` + `/why-jvto/our-team`.
+**Completed date:** 2026-05-25
+**Build status:** ✓ Compiled successfully (both Workstream A + D builds — exit 0 each).
+**Next task:** Workstream C — write Guardian Archetype block to `content_pages` row for `/why-jvto/our-story` + Trust-Pillar Crew Mapping + Guardian Mindset blocks to `/why-jvto/our-team` (source: wiki/content/copy-bank.md:89-123 + wiki/people/crew-registry.md:129-164), then regen snapshot via `node scripts/export-public-page-snapshots.mjs`. Apply DB SAFETY CHECK per CLAUDE.md `## Session Operating Rules` — SELECT before INSERT, no `ON CONFLICT DO UPDATE` without preview.
 **Open items:**
-- `reviewApiSnapshots.json` generated artifact stale — regenerate via owner's ingest script (do not hand-edit)
+- Workstream B (EAV NLP sharpening for "mandatory health screening" → SE.1658 + Dr. Irwandanu SIP citation) — scope ~20 files across schema/pages/components/FAQ data; split per file class B.1–B.5 (see wiki log 2026-05-25 entry for breakdown)
+- Stefan Loose contradiction — `entityGraph.ts:144-154` + `:259-269` still publish 2018/978-3-7701-7881-0; wiki flag says do-not-publish until physical scan verified — owner adjudication required
+- `reviewApiSnapshots.json` generated artifact stale (dated 2026-05-08, still holds `trustpilot: 47`) — regenerate via owner's ingest script (do not hand-edit)
 - Bromo MAGMA Level II Waspada (wiki 2026-05-17) not surfaced on `/destinations/mount-bromo` — content design decision needed
-- Crew count: wiki says 11 (7 guides + 4 drivers) — confirm against DB `crew_members` table
+- Crew count: wiki says 14 (7 guides + 7 drivers, per crew-registry.md:11-13 updated) — confirm against DB `crew_members` table
 - Backup clutter files `src/app/(website)/why-jvto/page_old.tsx` + `page_ssot.tsx` still hold `foundingDate: "2016-01-01"` — owner-cleanup pending per CLAUDE.md policy
 - NEXT_PUBLIC_MAPBOX_TOKEN only in .env.local — must add to Vercel preview/prod env before deploy
 - mapbox-gl install introduced 44 npm audit findings (12 high, 2 critical) — review before deploy
 - Design atlas screenshots gitignored — regenerate after server restart: `npm run dev` → `node scripts/generate-design-atlas.mjs`
 - booking-2015-plaque.jpg XMP shows "AI-Generated Content: Yes" (Canva) — owner must verify real plaque photo vs. mock-up
-- KTA card identifier numbers not yet added to hasCredential.identifier — owner to supply numbers per guide
+- KTA card identifier numbers not yet added to `hasCredential.identifier` — owner to supply numbers per guide
 - /travel-guide/best-time-to-visit page exists in code but has no DB row — content needed if publishing
 
 ## Skill routing
