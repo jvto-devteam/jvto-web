@@ -46,13 +46,13 @@ export default function HomeHero({ title, description }: HomeHeroProps) {
               href="/tours"
               className="bg-jvto-green text-jvto-navy font-black px-6 py-3 rounded-full text-sm text-center hover:bg-jvto-green/90 transition-colors"
             >
-              Browse Tours ↗
+              Browse Tours <span aria-hidden="true">↗</span>
             </Link>
             <Link
               href="/verify-jvto"
               className="border border-white/50 text-white font-bold px-6 py-3 rounded-full text-sm text-center hover:border-white/80 transition-colors"
             >
-              Verify Credentials →
+              Verify Credentials <span aria-hidden="true">→</span>
             </Link>
           </div>
 
