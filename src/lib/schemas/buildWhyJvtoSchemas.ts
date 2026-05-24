@@ -134,7 +134,7 @@ export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
     '@id': `${BASE_URL}/why-jvto#narrative-claims`,
     name: 'JVTO Trust Pillars — 9 Verifiable Claims',
     description:
-      'Nine canonical narrative claims that define Java Volcano Tour Operator\'s operational identity, each with a dedicated evidence page for independent verification.',
+      'Nine canonical narrative claims that define the operational identity of PT Java Volcano Rendezvous (NIB 1102230032918, trading as Java Volcano Tour Operator), each with a dedicated evidence page for independent verification.',
     mainEntityOfPage: { '@id': `${BASE_URL}/why-jvto#webpage` },
     numberOfItems: usable.length,
     itemListElement: usable.map((c, i) => ({
