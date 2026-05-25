@@ -47,7 +47,7 @@ export default function HomeTravelGuideTeaser() {
           Active volcanoes. Health screenings. Early starts. Know before you go.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {GUIDES.map(({ Icon, title, description, href }) => (
             <Link
               key={href}
@@ -65,6 +65,12 @@ export default function HomeTravelGuideTeaser() {
             </Link>
           ))}
         </div>
+        <Link
+          href="/travel-guide"
+          className="text-sm font-bold text-jvto-navy/60 hover:text-jvto-navy underline"
+        >
+          View all travel guides <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   );
