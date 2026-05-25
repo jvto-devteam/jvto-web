@@ -57,13 +57,12 @@ export default function HomeWhyJVTO() {
               className="border border-jvto-navy/10 border-t-4 border-t-jvto-green rounded-2xl p-8"
             >
               <Icon size={32} className="text-jvto-green mb-4" aria-hidden="true" />
-              <p className="font-black text-jvto-navy text-xl mb-3">{title}</p>
+              <h3 className="font-black text-jvto-navy text-xl mb-3">{title}</h3>
               <p className="text-jvto-navy/70 text-sm leading-relaxed">{body}</p>
             </div>
           ))}
         </div>
 
-        {/* Verify JVTO teaser */}
         <div className="bg-jvto-off rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
           <div>
             <p className="font-black text-jvto-navy text-lg mb-1">
