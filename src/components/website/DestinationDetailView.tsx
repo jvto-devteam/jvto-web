@@ -184,7 +184,7 @@ export default function DestinationDetailView({
       {/* HERO SECTION */}
       <header className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
         <div className="absolute inset-0 bg-black/20 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 z-10" />
         <Image
           src={heroImageUrl}
           alt={data.name}
@@ -196,27 +196,32 @@ export default function DestinationDetailView({
         />
         <div className="absolute bottom-0 left-0 w-full z-20 pb-12 px-4 md:px-8">
           <div className="container mx-auto">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {data.tags.slice(0, 5).map((tag, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white text-black shadow-lg"
-                >
-                  {tag.replace("-", " ")}
-                </span>
-              ))}
-            </div>
-
             <h1 className="text-5xl md:text-7xl font-black text-white mb-2 tracking-tight uppercase leading-none drop-shadow-lg">
               {data.name}
             </h1>
-            <div className="flex items-center gap-2 text-lg text-white font-bold mb-6 drop-shadow-md">
+            <div className="flex items-center gap-2 text-lg text-white font-bold mb-0 drop-shadow-md">
               <MapPin className="text-[#B2F35F]" size={20} />
               {data.region}, {data.province}, {data.country}
             </div>
           </div>
         </div>
       </header>
+
+      {/* Tags — moved below hero for photography-first clarity */}
+      {data.tags.length > 0 && (
+        <div className="bg-white border-b border-gray-100 py-3 px-4 md:px-8">
+          <div className="container mx-auto flex flex-wrap gap-2">
+            {data.tags.slice(0, 5).map((tag, i) => (
+              <span
+                key={i}
+                className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-600"
+              >
+                {tag.replace("-", " ")}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* STATIC NAVIGATION */}
       <nav className="bg-white border-b border-gray-200 py-4 shadow-sm mb-8">
