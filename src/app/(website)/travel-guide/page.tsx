@@ -598,33 +598,43 @@ export default async function TravelGuideHubPage() {
       />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
-        <section className="bg-accent border-b pb-12">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-4 text-sm text-muted-foreground">
-              <Link href="/" prefetch={false} className="hover:text-primary">
+        <section className="bg-jvto-navy text-white pb-16 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">Travel Guide</span>
+              <span className="text-white/80">Travel Guide</span>
             </nav>
 
-            <h1 className="font-black text-2xl md:text-5xl mb-6">{h1}</h1>
-            <div className="space-y-2 mx-auto">
+            <h1
+              className="font-black text-3xl md:text-5xl text-white mb-6"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {h1}
+            </h1>
+            <div className="space-y-3 mb-8">
               {hero.introParagraphs.map((p, i) => (
-                <p className="text-gray-600 text-lg" key={i}>
+                <p className="text-white/70 text-base md:text-lg leading-relaxed" key={i}>
                   {p}
                 </p>
               ))}
             </div>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               {hero.primaryCtas.map((cta) => (
-                <Button
+                <Link
                   key={cta.href}
-                  size="lg"
-                  variant={cta.href.includes("tours") ? "primary" : "outline"}
+                  href={cta.href}
+                  prefetch={false}
+                  className={
+                    cta.href.includes("tours")
+                      ? "inline-block bg-jvto-orange text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-jvto-orange/90 transition-colors"
+                      : "inline-block border border-white/30 text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
+                  }
                 >
-                  <Link href={cta.href} prefetch={false}>{cta.label}</Link>
-                </Button>
+                  {cta.label}
+                </Link>
               ))}
             </div>
           </div>
