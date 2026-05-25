@@ -7,12 +7,14 @@ interface DestinationCardProps {
   destination: Destination;
   isHome?: boolean;
   prioritizeImage?: boolean;
+  highlight?: string;
 }
 
 const DestinationCard: React.FC<DestinationCardProps> = ({
   destination,
   isHome,
   prioritizeImage = false,
+  highlight,
 }) => {
   const homeVariantSet = isHome
     ? getHomeImageVariantSet(destination.banner.url)
@@ -25,7 +27,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
       href={`/destinations/${destination.slug}`}
       prefetch={false}
     >
-      <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-sm">
+      <div className="group relative aspect-[3/4] overflow-hidden cursor-pointer rounded-2xl">
 
         {isHome && homeVariantSet ? (
           <img
@@ -55,11 +57,12 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
           />
         )}
 
-        {/* gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
-        {/* TITLE */}
         <div className="absolute md:bottom-5 md:left-5 md:right-5 bottom-3 left-3 right-3 text-white">
+          {highlight && (
+            <p className="text-white/70 text-xs mb-1">{highlight}</p>
+          )}
           <div className="font-bold text-base md:text-xl uppercase tracking-wider line-clamp-2 leading-tight">
             {destination.name}
             <span className="sr-only"> — explore this destination</span>
