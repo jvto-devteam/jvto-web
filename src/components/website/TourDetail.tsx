@@ -17,7 +17,7 @@ import GroupBookingCTA from "@/components/website/GroupBookingCTA";
 import Image from "next/image";
 import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
-import Link from "next/link";
+import Link from "@/components/website/AppLink";
 import { getTourSpineQaPairs } from "@/lib/tourFaqs";
 
 // Import CSS Swiper (Wajib)
@@ -411,9 +411,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-20 font-sans text-slate-900">
+    <div className="bg-white min-h-screen pb-20">
       {/* 1. HUGE HERO IMAGE AREA */}
-      <div className="relative h-[80vh] w-full bg-slate-900 overflow-hidden">
+      <div className="relative h-[80vh] w-full bg-jvto-navy overflow-hidden">
         <div className="absolute inset-0">
           {/* Tampilkan Hero Image (bisa statis dari pkg.imageUrl atau dinamis jika kita tambah tombol ganti hero) */}
           <Image
@@ -425,7 +425,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             className="object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/20 to-slate-900/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/95 via-jvto-navy/20 to-jvto-navy/30"></div>
         </div>
 
         <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
@@ -441,7 +441,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
 
         <div className="absolute bottom-0 w-full z-20 pb-12">
-          <div className="container mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
             <div className="flex items-center gap-2 text-jvto-green text-xs font-black uppercase tracking-widest mb-4">
               <MapPin size={14} /> From {pkg.originCity}, Indonesia
             </div>
@@ -452,9 +452,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       </div>
       {/* Meta row — moved below hero for photography-first clarity */}
-      <div className="bg-white border-b border-slate-100 py-4">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap items-center gap-3 md:gap-8 text-slate-700 text-sm font-bold uppercase tracking-wide">
+      <div className="bg-white border-b border-jvto-border py-4">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex flex-wrap items-center gap-3 md:gap-8 text-jvto-navy/80 text-sm font-bold uppercase tracking-wide">
             <div className="flex items-center gap-2">
               <Shield size={16} className="text-jvto-green" />
               <span>{pkg.category}</span>
@@ -473,8 +473,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <AuthorityShield ijenRelevant={ijenRelevant} />
       <WhatItsLike description={pkg.description ?? ""} />
       {/* 2. DARK "WHAT'S INCLUDED" SECTION */}
-      <div className="bg-slate-900 text-white py-12 border-t border-slate-800">
-        <div className="container mx-auto px-6">
+      <div className="bg-jvto-navy text-white py-12 border-t border-jvto-navy">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
             <div className="flex-1">
               <h3 className="text-lg font-black uppercase tracking-widest mb-8 text-white">
@@ -493,7 +493,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         <h4 className="font-bold text-sm uppercase text-white mb-1">
                           {title}
                         </h4>
-                        <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-jvto-navy/40 leading-relaxed line-clamp-2">
                           {desc}
                         </p>
                       </div>
@@ -502,10 +502,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 })}
               </div>
             </div>
-            <div className="lg:w-1/3 shrink-0 flex flex-col justify-between items-start lg:items-end border-t lg:border-t-0 lg:border-l border-slate-700 pt-8 lg:pt-0 lg:pl-12">
+            <div className="lg:w-1/3 shrink-0 flex flex-col justify-between items-start lg:items-end border-t lg:border-t-0 lg:border-l border-white/20 pt-8 lg:pt-0 lg:pl-12">
               <div className="text-left lg:text-right">
                 {/* Label Kecil di Atas */}
-                <p className="text-xs font-bold uppercase text-slate-400 tracking-widest mb-1">
+                <p className="text-xs font-bold uppercase text-jvto-navy/40 tracking-widest mb-1">
                   Hassle-Free
                 </p>
 
@@ -515,13 +515,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </div>
 
                 {/* Label Kecil di Bawah */}
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
+                <p className="text-xs text-jvto-navy/60 font-medium uppercase tracking-wide">
                   Meals, Gear & Medical Checkup Covered
                 </p>
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-green/30"
+                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-green/30"
               >
                 Dates & Prices
               </button>
@@ -530,9 +530,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       </div>
       {/* 3. GALLERY STRIP (Memicu Lightbox) */}
-      <div className="bg-slate-900 pb-12">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center mb-6 pt-8 border-t border-slate-800">
+      <div className="bg-jvto-navy pb-12">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex justify-between items-center mb-6 pt-8 border-t border-white/10">
             <h3 className="text-lg font-black uppercase tracking-widest text-white">
               {`What's It Like?`}
             </h3>
@@ -553,7 +553,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 aria-label={`View photo ${idx + 1} of ${pkg.gallery.length}`}
                 onClick={() => openLightbox(idx)}
                 // Class: shrink-0 & fixed width pada mobile agar bisa di-scroll
-                className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-sm bg-slate-800"
+                className="group relative h-32 w-32 shrink-0 md:h-auto md:w-auto aspect-square overflow-hidden rounded-sm bg-jvto-navy"
               >
                 <Image
                   src={img}
@@ -623,13 +623,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       )}
       {/* --- MAIN CONTENT GRID (Tetap sama) --- */}
-      <div className="container mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* LEFT COLUMN: INFO & ITINERARY */}
           <div className="lg:col-span-2 space-y-16">
             {/* Description (With Show More/Less) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-slate-900">
+              <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 About This Trip
               </h2>
@@ -638,12 +638,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 {/* FULL HTML */}
                 {isDescriptionExpanded ? (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="text-lg text-jvto-navy/70 leading-relaxed transition-all duration-500"
                     dangerouslySetInnerHTML={{ __html: pkg.description }}
                   />
                 ) : (
                   <div
-                    className="text-lg text-slate-600 leading-relaxed transition-all duration-500"
+                    className="text-lg text-jvto-navy/70 leading-relaxed transition-all duration-500"
                     dangerouslySetInnerHTML={{
                       __html:
                         stripHtml(pkg.description).length < 350
@@ -679,7 +679,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Quick Answers
               </h2>
@@ -687,12 +687,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 {spineQaPairs.map((qa) => (
                   <div
                     key={qa.question}
-                    className="bg-white border border-slate-200 rounded-sm p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white border border-jvto-border rounded-sm p-6 shadow-sm hover:shadow-md transition-shadow"
                   >
-                    <h3 className="text-base font-bold text-slate-900 mb-3 leading-snug">
+                    <h3 className="text-base font-bold text-jvto-navy mb-3 leading-snug">
                       {qa.question}
                     </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed mb-3">
+                    <p className="text-sm text-jvto-navy/70 leading-relaxed mb-3">
                       {qa.answer}
                     </p>
                     {qa.uiMeta && (
@@ -715,27 +715,27 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* Highlights (Design Gambar 2) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Trip Highlights
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-6">
+                  <h3 className="text-lg font-bold text-jvto-navy mb-6">
                     Key Experiences
                   </h3>
                   <div className="space-y-6">
                     {pkg.keyExperiences?.map((exp: any, idx: number) => (
                       <div key={idx} className="flex gap-4 items-start">
-                        <div className="p-3 bg-white border border-slate-100 shadow-sm rounded-sm shrink-0">
+                        <div className="p-3 bg-white border border-jvto-border shadow-sm rounded-sm shrink-0">
                           {getExperienceIcon(exp.name)}
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-900 text-sm md:text-base leading-tight">
+                          <h4 className="font-bold text-jvto-navy text-sm md:text-base leading-tight">
                             {exp.name}
                           </h4>
-                          <p className="text-sm text-slate-600 leading-relaxed mt-1">
+                          <p className="text-sm text-jvto-navy/70 leading-relaxed mt-1">
                             {exp.highlight}
                           </p>
                         </div>
@@ -744,7 +744,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-6">
+                  <h3 className="text-lg font-bold text-jvto-navy mb-6">
                     Why This Trip is Unique
                   </h3>
                   <ul className="space-y-4">
@@ -752,9 +752,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       (point: string, idx: number) => (
                         <li
                           key={idx}
-                          className="flex gap-3 items-start text-slate-600"
+                          className="flex gap-3 items-start text-jvto-navy/70"
                         >
-                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-slate-900 shrink-0" />
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-jvto-navy shrink-0" />
                           <span className="text-sm leading-relaxed">
                             {point}
                           </span>
@@ -770,7 +770,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 ITINERARY SECTION (RESPONSIVE WITH MEALS)
                ========================================================= */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Itinerary
               </h2>
@@ -787,19 +787,19 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         onClick={() => setOpenDay(day.day)}
                         className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${isActive
                           ? "bg-white border-jvto-green shadow-md translate-x-2"
-                          : "bg-slate-50 border-transparent hover:bg-white hover:shadow-sm"
+                          : "bg-jvto-off border-transparent hover:bg-white hover:shadow-sm"
                           }`}
                       >
                         <span
-                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-green" : "text-slate-400"
+                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-green" : "text-jvto-navy/40"
                             }`}
                         >
                           Day {day.day.toString().padStart(2, "0")}
                         </span>
                         <h4
                           className={`font-bold text-sm leading-tight ${isActive
-                            ? "text-slate-900"
-                            : "text-slate-500 group-hover:text-slate-700"
+                            ? "text-jvto-navy"
+                            : "text-jvto-navy/60 group-hover:text-jvto-navy/80"
                             }`}
                         >
                           {day.title}
@@ -822,7 +822,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     return (
                       <div
                         key={day.day}
-                        className="bg-white rounded-sm border border-slate-200 overflow-hidden shadow-sm animate-in fade-in slide-in-from-right-4 duration-500"
+                        className="bg-white rounded-sm border border-jvto-border overflow-hidden shadow-sm animate-in fade-in slide-in-from-right-4 duration-500"
                       >
                         {/* Header Image */}
                         <div className="relative h-64 w-full">
@@ -833,7 +833,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             className="object-cover"
                             sizes="(max-width: 768px) 100vw, 800px"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/90 via-jvto-navy/40 to-transparent"></div>
                           <div className="absolute bottom-0 left-0 p-6 text-white w-full">
                             <h3 className="text-2xl font-black uppercase leading-none mb-2">
                               {day.title}
@@ -849,18 +849,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                         {/* Content */}
                         <div className="p-8">
-                          <div className="mb-10 p-4 border border-slate-200 bg-slate-50 rounded-sm italic text-slate-600 text-sm leading-relaxed">
+                          <div className="mb-10 p-4 border border-jvto-border bg-jvto-off rounded-sm italic text-jvto-navy/70 text-sm leading-relaxed">
                             {`"${day.summary}"`}
                           </div>
 
                           {/* Timeline */}
-                          <div className="relative border-l-2 border-slate-100 ml-4 space-y-10 pb-4">
+                          <div className="relative border-l-2 border-jvto-border ml-4 space-y-10 pb-4">
                             {day.activities.map((act: any, idx: number) => (
                               <div key={idx} className="relative pl-10">
                                 <div
                                   className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${idx % 2 === 0
                                     ? "bg-jvto-green"
-                                    : "bg-slate-900"
+                                    : "bg-jvto-navy"
                                     }`}
                                 >
                                   {getActivityIcon(act.name)}
@@ -869,10 +869,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   <span className="inline-block mb-1 text-xs font-bold text-jvto-green uppercase tracking-wider bg-jvto-green/5 px-2 py-0.5 rounded">
                                     {act.timeWindow}
                                   </span>
-                                  <h4 className="text-base font-bold text-slate-900 mb-1">
+                                  <h4 className="text-base font-bold text-jvto-navy mb-1">
                                     {act.name}
                                   </h4>
-                                  <p className="text-sm text-slate-500 leading-relaxed">
+                                  <p className="text-sm text-jvto-navy/60 leading-relaxed">
                                     {act.description}
                                   </p>
                                 </div>
@@ -881,8 +881,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           </div>
 
                           {/* --- MEALS SECTION (NEW) --- */}
-                          <div className="mt-8 pt-6 border-t border-slate-100">
-                            <h5 className="text-xs font-bold uppercase text-slate-400 mb-3 flex items-center gap-2">
+                          <div className="mt-8 pt-6 border-t border-jvto-border">
+                            <h5 className="text-xs font-bold uppercase text-jvto-navy/40 mb-3 flex items-center gap-2">
                               <Utensils size={14} /> Meals Included
                             </h5>
                             <div className="flex flex-wrap gap-3">
@@ -894,10 +894,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                       .toLowerCase()
                                       .includes("included")
                                       ? "bg-jvto-green/5 text-jvto-green border-jvto-green/30"
-                                      : "bg-slate-50 text-slate-400 border-slate-100"
+                                      : "bg-jvto-off text-jvto-navy/40 border-jvto-border"
                                       }`}
                                   >
-                                    <span className="text-slate-900 capitalize">
+                                    <span className="text-jvto-navy capitalize">
                                       {meal}:
                                     </span>
                                     <span>{status as string}</span>
@@ -916,23 +916,23 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {/* --- B. MOBILE VIEW --- */}
               <div className="block lg:hidden">
                 {/* Preview Snippet */}
-                <div className="relative overflow-hidden rounded-sm border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="relative overflow-hidden rounded-sm border border-jvto-border bg-white p-6 shadow-sm">
                   {pkg.itineraryDays[0] && (
                     <div className="flex gap-4 items-start">
                       <div className="flex flex-col items-center mt-1.5">
                         <div className="w-3 h-3 rounded-full bg-jvto-green ring-4 ring-jvto-green/10"></div>
-                        <div className="w-0.5 h-full border-l-2 border-dashed border-slate-300 min-h-[40px] mt-1"></div>
+                        <div className="w-0.5 h-full border-l-2 border-dashed border-jvto-border min-h-[40px] mt-1"></div>
                       </div>
                       <div className="flex-1 space-y-3 pb-8">
                         <div>
-                          <span className="block text-lg font-black text-slate-900 mb-1">
+                          <span className="block text-lg font-black text-jvto-navy mb-1">
                             {pkg.itineraryDays[0].activities[0]?.timeWindow}
                           </span>
-                          <h4 className="text-base font-bold text-slate-800 leading-snug">
+                          <h4 className="text-base font-bold text-jvto-navy leading-snug">
                             {pkg.itineraryDays[0].activities[0]?.name}
                           </h4>
                         </div>
-                        <p className="text-sm text-slate-500 leading-relaxed line-clamp-3">
+                        <p className="text-sm text-jvto-navy/60 leading-relaxed line-clamp-3">
                           {pkg.itineraryDays[0].summary}
                         </p>
                       </div>
@@ -959,16 +959,16 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                     <div className="relative w-full max-w-lg bg-white rounded-t-3xl sm:rounded-sm shadow-2xl h-[85vh] sm:h-[80vh] flex flex-col animate-in slide-in-from-bottom duration-300">
                       {/* Header */}
-                      <div className="shrink-0 pt-2 pb-0 bg-white rounded-t-3xl z-10 border-b border-slate-100">
-                        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-4"></div>
+                      <div className="shrink-0 pt-2 pb-0 bg-white rounded-t-3xl z-10 border-b border-jvto-border">
+                        <div className="w-12 h-1.5 bg-jvto-border rounded-full mx-auto mt-3 mb-4"></div>
                         <div className="flex justify-between items-center px-6 mb-4">
-                          <h3 className="text-lg font-black uppercase text-slate-900 tracking-wide">
+                          <h3 className="text-lg font-black uppercase text-jvto-navy tracking-wide">
                             Tour Itinerary
                           </h3>
                           <button
                             aria-label="Close itinerary"
                             onClick={() => setIsItineraryModalOpen(false)}
-                            className="p-2 bg-slate-100 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"
+                            className="p-2 bg-jvto-off rounded-full text-jvto-navy/60 hover:bg-jvto-border transition-colors"
                           >
                             <X size={20} />
                           </button>
@@ -980,7 +980,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               onClick={() => setModalOpenDay(day.day)}
                               className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${modalOpenDay === day.day
                                 ? "border-jvto-green text-jvto-green"
-                                : "border-transparent text-slate-400 hover:text-slate-600"
+                                : "border-transparent text-jvto-navy/40 hover:text-jvto-navy/70"
                                 }`}
                             >
                               Day {day.day}
@@ -990,7 +990,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       </div>
 
                       {/* Body */}
-                      <div className="flex-1 overflow-y-auto p-6 bg-slate-50">
+                      <div className="flex-1 overflow-y-auto p-6 bg-jvto-off">
                         {pkg.itineraryDays.map((day) => {
                           if (modalOpenDay !== day.day) return null;
                           return (
@@ -1002,25 +1002,25 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 <h4 className="text-xs font-bold uppercase text-jvto-green mb-2 tracking-widest">
                                   Overview
                                 </h4>
-                                <p className="text-sm text-slate-600 leading-relaxed italic">
+                                <p className="text-sm text-jvto-navy/70 leading-relaxed italic">
                                   {`"${day.summary}"`}
                                 </p>
                               </div>
 
                               {/* Timeline */}
                               <div className="relative pl-2 space-y-0">
-                                <div className="absolute left-[7px] top-2 bottom-4 w-0.5 bg-slate-200"></div>
+                                <div className="absolute left-[7px] top-2 bottom-4 w-0.5 bg-jvto-border"></div>
                                 {day.activities.map((act: any, idx: number) => (
                                   <div
                                     key={idx}
                                     className="relative pl-8 pb-8 last:pb-0"
                                   >
-                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-slate-50 bg-jvto-green z-10"></div>
-                                    <span className="inline-block mb-1 text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-jvto-off bg-jvto-green z-10"></div>
+                                    <span className="inline-block mb-1 text-xs font-bold text-jvto-navy/40 bg-jvto-off px-2 py-0.5 rounded border border-jvto-border">
                                       {act.timeWindow}
                                     </span>
                                     <div className="mt-2">
-                                      <h5 className="text-base font-bold text-slate-900 mb-1 leading-tight">
+                                      <h5 className="text-base font-bold text-jvto-navy mb-1 leading-tight">
                                         {act.name}
                                       </h5>
                                       {act.location && (
@@ -1028,7 +1028,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           <MapPin size={10} /> {act.location}
                                         </div>
                                       )}
-                                      <p className="text-sm text-slate-600 leading-relaxed">
+                                      <p className="text-sm text-jvto-navy/70 leading-relaxed">
                                         {act.description}
                                       </p>
                                     </div>
@@ -1037,8 +1037,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               </div>
 
                               {/* --- MEALS SECTION (NEW IN MOBILE) --- */}
-                              <div className="bg-white p-4 rounded-sm border border-slate-200">
-                                <h5 className="text-xs font-bold uppercase text-slate-400 mb-3 flex items-center gap-2">
+                              <div className="bg-white p-4 rounded-sm border border-jvto-border">
+                                <h5 className="text-xs font-bold uppercase text-jvto-navy/40 mb-3 flex items-center gap-2">
                                   <Utensils size={14} /> Meals Plan
                                 </h5>
                                 <div className="space-y-2">
@@ -1046,9 +1046,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     ([meal, status]) => (
                                       <div
                                         key={meal}
-                                        className="flex justify-between text-sm border-b border-slate-50 last:border-0 pb-2 last:pb-0"
+                                        className="flex justify-between text-sm border-b border-jvto-border last:border-0 pb-2 last:pb-0"
                                       >
-                                        <span className="font-bold text-slate-700 capitalize">
+                                        <span className="font-bold text-jvto-navy/80 capitalize">
                                           {meal}
                                         </span>
                                         <span
@@ -1056,7 +1056,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                             .toLowerCase()
                                             .includes("included")
                                             ? "bg-jvto-green/10 text-jvto-green"
-                                            : "bg-slate-100 text-slate-400"
+                                            : "bg-jvto-off text-jvto-navy/40"
                                             }`}
                                         >
                                           {status as string}
@@ -1082,7 +1082,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {/* 1. ACCOMMODATION SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+                  <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                     <span className="w-8 h-1 bg-jvto-green block"></span>
                     Accommodation
                   </h2>
@@ -1100,9 +1100,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   >
                     {pkg.accommodationPlan?.map((acc: any, idx: number) => (
                       <SwiperSlide key={idx} className="h-auto">
-                        <div className="group h-full overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md flex flex-col">
+                        <div className="group h-full overflow-hidden rounded-sm border border-jvto-border bg-white shadow-sm transition-all hover:shadow-md flex flex-col">
                           {/* Image Container */}
-                          <div className="relative h-48 w-full overflow-hidden bg-slate-100 shrink-0">
+                          <div className="relative h-48 w-full overflow-hidden bg-jvto-off shrink-0">
                             {acc.image && acc.image.includes("http") ? (
                               <Image
                                 src={acc.image}
@@ -1112,12 +1112,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 sizes="(max-width: 768px) 100vw, 400px"
                               />
                             ) : (
-                              <div className="flex h-full w-full items-center justify-center bg-slate-100 text-slate-300">
+                              <div className="flex h-full w-full items-center justify-center bg-jvto-off text-white/60">
                                 <Bed size={48} />
                               </div>
                             )}
                             <div className="absolute top-4 left-4">
-                              <span className="bg-slate-900/80 backdrop-blur-sm text-jvto-green text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
+                              <span className="bg-jvto-navy/80 backdrop-blur-sm text-jvto-green text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
                                 Night {acc.night}
                               </span>
                             </div>
@@ -1125,13 +1125,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                           {/* Content */}
                           <div className="p-5 flex-1 flex flex-col">
-                            <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-slate-400 mb-2">
+                            <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-jvto-navy/40 mb-2">
                               <MapPin size={14} /> {acc.area}
                             </h4>
-                            <p className="font-bold text-slate-900 text-sm md:text-base leading-tight mb-2">
+                            <p className="font-bold text-jvto-navy text-sm md:text-base leading-tight mb-2">
                               {acc.name}
                             </p>
-                            <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+                            <p className="text-xs text-jvto-navy/60 line-clamp-3 leading-relaxed">
                               Relax in a curated accommodation selected for
                               comfort and proximity to nature.
                             </p>
@@ -1146,11 +1146,11 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {/* 2. TRANSPORT SLIDER */}
               {initialData.trip?.vehiclePlan && (
                 <div>
-                  <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-slate-900">
+                  <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-jvto-navy">
                     <span className="w-8 h-1 bg-jvto-green block"></span>
                     Transport
                   </h2>
-                  <p className="mb-8 text-slate-600 text-sm">
+                  <p className="mb-8 text-jvto-navy/70 text-sm">
                     Travel in comfort and safety with our private fleet.
                   </p>
 
@@ -1169,8 +1169,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     {initialData.trip.vehiclePlan.primary.map(
                       (vehicle: any, idx: number) => (
                         <SwiperSlide key={`vehicle-${idx}`} className="h-auto">
-                          <div className="flex h-full flex-col overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">
-                            <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
+                          <div className="flex h-full flex-col overflow-hidden rounded-sm border border-jvto-border bg-white shadow-sm transition-all hover:shadow-md">
+                            <div className="relative h-40 w-full bg-jvto-off p-4 flex items-center justify-center shrink-0">
                               {vehicle.banner ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -1179,23 +1179,23 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   className="max-h-full object-contain"
                                 />
                               ) : (
-                                <Car size={64} className="text-slate-300" />
+                                <Car size={64} className="text-white/60" />
                               )}
                             </div>
                             <div className="p-5 flex-1 flex flex-col justify-between">
                               <div>
-                                <h4 className="font-bold text-lg text-slate-900 mb-1">
+                                <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                   {vehicle.model}
                                 </h4>
                                 <p className="text-xs font-bold uppercase text-jvto-green mb-4">
                                   {vehicle.type}
                                 </p>
 
-                                <div className="space-y-2 text-sm text-slate-600">
+                                <div className="space-y-2 text-sm text-jvto-navy/70">
                                   <div className="flex items-center gap-2">
                                     <Users
                                       size={16}
-                                      className="text-slate-400"
+                                      className="text-jvto-navy/40"
                                     />
                                     <span className="text-xs font-medium">
                                       Max {vehicle.maxPax} Pax
@@ -1204,7 +1204,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   <div className="flex items-center gap-2">
                                     <Briefcase
                                       size={16}
-                                      className="text-slate-400"
+                                      className="text-jvto-navy/40"
                                     />
                                     <span className="text-xs font-medium">
                                       {vehicle.baggageCapacity}
@@ -1218,7 +1218,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                   (feat: string, i: number) => (
                                     <span
                                       key={i}
-                                      className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded"
+                                      className="bg-jvto-off text-jvto-navy/60 text-[10px] font-bold uppercase px-2 py-1 rounded"
                                     >
                                       {feat}
                                     </span>
@@ -1234,8 +1234,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     {/* Jeep Special Card (Added as the last slide) */}
                     {initialData.trip.vehiclePlan.jeepSpecs && (
                       <SwiperSlide className="h-auto">
-                        <div className="flex h-full flex-col overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md">
-                          <div className="relative h-40 w-full bg-slate-50 p-4 flex items-center justify-center shrink-0">
+                        <div className="flex h-full flex-col overflow-hidden rounded-sm border border-jvto-border bg-white shadow-sm transition-all hover:shadow-md">
+                          <div className="relative h-40 w-full bg-jvto-off p-4 flex items-center justify-center shrink-0">
                             <img
                               src="/assets/img/cars/jeep.webp"
                               alt="Bromo Jeep"
@@ -1244,16 +1244,16 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           </div>
                           <div className="p-5 flex-1 flex flex-col justify-between">
                             <div>
-                              <h4 className="font-bold text-lg text-slate-900 mb-1">
+                              <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                 Bromo Jeep
                               </h4>
                               <p className="text-xs font-bold uppercase text-jvto-green mb-4">
                                 4x4 Off-Road Vehicle
                               </p>
 
-                              <div className="space-y-2 text-sm text-slate-600">
+                              <div className="space-y-2 text-sm text-jvto-navy/70">
                                 <div className="flex items-center gap-2">
-                                  <Users size={16} className="text-slate-400" />
+                                  <Users size={16} className="text-jvto-navy/40" />
                                   <span className="text-xs font-medium">
                                     Max 4 Pax
                                   </span>
@@ -1261,7 +1261,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 <div className="flex items-center gap-2">
                                   <Briefcase
                                     size={16}
-                                    className="text-slate-400"
+                                    className="text-jvto-navy/40"
                                   />
                                   <span className="text-xs font-medium">
                                     2 medium bags
@@ -1271,10 +1271,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             </div>
 
                             <div className="mt-4 flex flex-wrap gap-1.5">
-                              <span className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded">
+                              <span className="bg-jvto-off text-jvto-navy/60 text-[10px] font-bold uppercase px-2 py-1 rounded">
                                 4X4 DRIVE
                               </span>
-                              <span className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase px-2 py-1 rounded">
+                              <span className="bg-jvto-off text-jvto-navy/60 text-[10px] font-bold uppercase px-2 py-1 rounded">
                                 OPEN-AIR
                               </span>
                             </div>
@@ -1288,7 +1288,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* --- The Practicalities Section (NEW) --- */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
+              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 The Practicalities
               </h2>
@@ -1303,14 +1303,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-8">
                     {/* Covered */}
                     <div>
-                      <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="font-bold text-jvto-navy mb-4 flex items-center gap-2">
                         {`What's Covered`}
                       </h3>
                       <ul className="space-y-3">
                         {pkg.inclusions.map((item, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-3 text-sm text-slate-600"
+                            className="flex items-start gap-3 text-sm text-jvto-navy/70"
                           >
                             <CheckCircle
                               size={18}
@@ -1324,14 +1324,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                     {/* Not Covered */}
                     <div>
-                      <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                      <h3 className="font-bold text-jvto-navy mb-4 flex items-center gap-2">
                         {`What's Not Covered`}
                       </h3>
                       <ul className="space-y-3">
                         {pkg.exclusions.map((item, idx) => (
                           <li
                             key={idx}
-                            className="flex items-start gap-3 text-sm text-slate-500"
+                            className="flex items-start gap-3 text-sm text-jvto-navy/60"
                           >
                             <XCircle
                               size={18}
@@ -1347,7 +1347,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                 {/* Gradient Overlay (Visible only when collapsed) */}
                 {!isInclusionsExpanded && (
-                  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent z-10 pointer-events-none"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-white/80 to-transparent z-10 pointer-events-none"></div>
                 )}
 
                 {/* Toggle Button for Part 1 Only */}
@@ -1380,14 +1380,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Fitness Level */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
                       <Activity size={24} className="text-jvto-green" />
-                      <h4 className="font-bold text-slate-900">
+                      <h4 className="font-bold text-jvto-navy">
                         Fitness Level
                       </h4>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <p className="text-sm text-jvto-navy/70 leading-relaxed">
                       {pkg.physicalDifficulty.toLowerCase() === "moderate"
                         ? "Requires good physical condition. Expect hiking on uneven terrain for 2-4 hours, including steep sections."
                         : "Suitable for most travelers. Involves light walking on relatively flat terrain with minimal physical exertion."}
@@ -1395,27 +1395,27 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
 
                   {/* Health & Safety */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
                       <Thermometer size={24} className="text-jvto-green" />
-                      <h4 className="font-bold text-slate-900">
+                      <h4 className="font-bold text-jvto-navy">
                         Health & Safety
                       </h4>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <p className="text-sm text-jvto-navy/70 leading-relaxed">
                       {pkg.marketing.safetyPositioning}
                     </p>
                   </div>
 
                   {/* Essential Gear */}
-                  <div className="rounded-sm border border-slate-200 p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
                       <ShoppingBag size={24} className="text-jvto-green" />
-                      <h4 className="font-bold text-slate-900">
+                      <h4 className="font-bold text-jvto-navy">
                         Essential Gear
                       </h4>
                     </div>
-                    <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
+                    <ul className="text-sm text-jvto-navy/70 space-y-1 list-disc list-inside">
                       {pkg.gear.recommended.map((g, i) => (
                         <li key={i}>{g}</li>
                       ))}
@@ -1426,8 +1426,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {pkg.route.includes("Ijen Crater") && <TourRequirements />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
-            <div className="md:py-12 border-t border-slate-200 mt-12">
-              <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-slate-900">
+            <div className="md:py-12 border-t border-jvto-border mt-12">
+              <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Why Travel With Us?
               </h2>
@@ -1607,21 +1607,21 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           <div className="lg:col-span-1 relative">
             <div
               id="booking-card"
-              className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-slate-200 bg-white shadow-xl"
+              className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-jvto-border bg-white shadow-xl"
             >
-              <div className="bg-slate-900 p-6 text-white">
+              <div className="bg-jvto-navy p-6 text-white">
                 <p className="text-xs font-bold uppercase tracking-widest text-jvto-green">
                   Private Expedition
                 </p>
                 <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-xs text-slate-400">Total</span>
+                  <span className="text-xs text-jvto-navy/40">Total</span>
                   <span className="text-3xl font-black text-white">
                     {formatCurrency(total)}
                   </span>
                 </div>
               </div>
               <div className="p-6">
-                <div className="flex gap-4 mb-6 text-xs font-bold text-slate-500 border-b border-slate-100 pb-4">
+                <div className="flex gap-4 mb-6 text-xs font-bold text-jvto-navy/60 border-b border-jvto-border pb-4">
                   <div className="flex items-center gap-1">
                     <Shield size={14} className="text-jvto-green" /> Safe
                   </div>
@@ -1637,7 +1637,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div>
                     <label
                       htmlFor="startDate"
-                      className="block text-xs font-bold uppercase text-slate-900 mb-1"
+                      className="block text-xs font-bold uppercase text-jvto-navy mb-1"
                     >
                       Travel Date
                     </label>
@@ -1647,13 +1647,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       min={todayISO}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-sm border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-jvto-green/20"
+                      className="w-full rounded-sm border border-jvto-border bg-white px-4 py-3 text-sm font-medium text-jvto-navy focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-jvto-green/20"
                       required
                     />
                   </div>
                   {/* UBAH BAGIAN INPUT TRAVELERS - FIX Z-INDEX */}
                   <div className="relative z-50">
-                    <label className="block text-xs font-bold uppercase text-slate-900 mb-2">
+                    <label className="block text-xs font-bold uppercase text-jvto-navy mb-2">
                       Travelers
                     </label>
 
@@ -1663,19 +1663,19 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       onClick={() =>
                         setShowTravelersPicker(!showTravelersPicker)
                       }
-                      className="w-full rounded-sm border-2 border-slate-200 bg-white px-3 py-2.5 text-left flex items-center justify-between hover:border-slate-300 transition-all relative z-10"
+                      className="w-full rounded-sm border-2 border-jvto-border bg-white px-3 py-2.5 text-left flex items-center justify-between hover:border-jvto-navy/30 transition-all relative z-10"
                     >
                       <div className="flex items-center gap-2">
-                        <Users size={16} className="text-slate-400" />
+                        <Users size={16} className="text-jvto-navy/40" />
                         <div>
-                          <span className="text-sm font-bold text-slate-900">
+                          <span className="text-sm font-bold text-jvto-navy">
                             {pax} Travelers
                           </span>
                         </div>
                       </div>
                       <ChevronDown
                         size={16}
-                        className={`text-slate-400 transition-transform ${showTravelersPicker ? "rotate-180" : ""}`}
+                        className={`text-jvto-navy/40 transition-transform ${showTravelersPicker ? "rotate-180" : ""}`}
                       />
                     </button>
 
@@ -1688,7 +1688,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           onClick={() => setShowTravelersPicker(false)}
                         />
 
-                        <div className="absolute left-0 right-0 mt-2 rounded-sm border-2 border-slate-200 bg-white shadow-xl p-2 space-y-2 z-50">
+                        <div className="absolute left-0 right-0 mt-2 rounded-sm border-2 border-jvto-border bg-white shadow-xl p-2 space-y-2 z-50">
                           {pkg.offers.tiers.map((tier, idx) => {
                             const isInRange =
                               Number(pax) >= tier.paxMin &&
@@ -1700,13 +1700,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 key={idx}
                                 className={`rounded-sm p-3 transition-all ${isInRange
                                   ? "bg-jvto-green/5 border-2 border-jvto-green"
-                                  : "bg-slate-50 border-2 border-slate-100"
+                                  : "bg-jvto-off border-2 border-jvto-border"
                                   }`}
                               >
                                 {/* Header */}
                                 <div className="flex items-center justify-between">
                                   <div>
-                                    <h4 className="text-xs text-slate-900">
+                                    <h4 className="text-xs text-jvto-navy">
                                       {tier.paxMin}
                                       {tier.paxMax === 0
                                         ? "+"
@@ -1718,7 +1718,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                                 {/* Price & Counter */}
                                 <div className="flex items-center justify-between">
-                                  <div className="text-sm font-bold text-slate-900">
+                                  <div className="text-sm font-bold text-jvto-navy">
                                     {formatCurrency(tier.pricePerPerson)}
                                   </div>
 
@@ -1737,12 +1737,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                         }
                                       }}
                                       disabled={tierPax === 0}
-                                      className="w-6 h-6 rounded-sm bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                      className="w-6 h-6 rounded-sm bg-white border border-jvto-border hover:bg-jvto-off disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-bold text-jvto-navy/70 text-lg"
                                     >
                                       −
                                     </button>
 
-                                    <div className="w-12 text-center font-bold text-slate-900">
+                                    <div className="w-12 text-center font-bold text-jvto-navy">
                                       {tierPax}
                                     </div>
 
@@ -1767,7 +1767,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           setPax(newVal);
                                         }
                                       }}
-                                      className="w-6 h-6 rounded-sm bg-white border border-slate-300 hover:bg-slate-100 transition-all flex items-center justify-center font-bold text-slate-600 text-lg"
+                                      className="w-6 h-6 rounded-sm bg-white border border-jvto-border hover:bg-jvto-off transition-all flex items-center justify-center font-bold text-jvto-navy/70 text-lg"
                                     >
                                       +
                                     </button>
@@ -1781,7 +1781,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <button
                             type="button"
                             onClick={() => setShowTravelersPicker(false)}
-                            className="w-full bg-jvto-green hover:bg-[#8cb82b] text-slate-900 font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
+                            className="w-full bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
                           >
                             Done
                           </button>
@@ -1789,18 +1789,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       </>
                     )}
                   </div>
-                  <div className="bg-slate-50 p-4 rounded-sm text-sm space-y-2 border border-slate-100">
+                  <div className="bg-jvto-off p-4 rounded-sm text-sm space-y-2 border border-jvto-border">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Price per person:</span>
-                      <span className="font-bold text-slate-700">
+                      <span className="text-jvto-navy/60">Price per person:</span>
+                      <span className="font-bold text-jvto-navy/80">
                         {pricePerPerson ? formatCurrency(pricePerPerson) : "-"}
                       </span>
                     </div>
-                    <div className="flex justify-between border-t border-slate-200 pt-2 mt-1">
-                      <span className="font-bold text-slate-900">
+                    <div className="flex justify-between border-t border-jvto-border pt-2 mt-1">
+                      <span className="font-bold text-jvto-navy">
                         Grand Total :
                       </span>
-                      <span className="font-black text-lg text-slate-900">
+                      <span className="font-black text-lg text-jvto-navy">
                         {pricePerPerson ? formatCurrency(total) : "-"}
                       </span>
                     </div>
@@ -1808,7 +1808,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <button
                     type="submit"
-                    className="w-full bg-jvto-green text-slate-900 font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
+                    className="w-full bg-jvto-green text-jvto-navy font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
                   >
                     Instant Book
                   </button>
@@ -1817,7 +1817,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       href="/policy/booking-payment-cancellation"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4 transition"
+                      className="text-xs text-jvto-navy/60 hover:text-jvto-navy underline underline-offset-4 transition"
                     >
                       View Cancellation Policy
                     </a>
@@ -1831,15 +1831,15 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <TrustBar />
       {/* --- ADD-ON MODAL WITH SEARCH --- */}
       {showAddOnModal && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-jvto-navy/80 p-4 backdrop-blur-sm">
           <div className="w-full max-w-lg overflow-hidden rounded-sm bg-white shadow-2xl flex flex-col max-h-[90vh]">
             {/* Header */}
-            <div className="bg-slate-900 px-6 py-4 flex justify-between items-center shrink-0">
+            <div className="bg-jvto-navy px-6 py-4 flex justify-between items-center shrink-0">
               <div>
                 <h2 className="text-lg font-bold uppercase tracking-wide text-white">
                   Enhance Your Trip
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-jvto-navy/40">
                   Optional extras for your group
                 </p>
               </div>
@@ -1856,10 +1856,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
 
             {/* SEARCH BAR SECTION */}
-            <div className="px-6 py-4 border-b border-slate-100 bg-white shrink-0">
+            <div className="px-6 py-4 border-b border-jvto-border bg-white shrink-0">
               <div className="relative">
                 <Search
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-jvto-navy/40"
                   size={18}
                 />
                 <input
@@ -1867,7 +1867,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   placeholder="Search add-ons"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-green/20 focus:border-jvto-green transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-jvto-off border border-jvto-border rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-green/20 focus:border-jvto-green transition-all"
                 />
               </div>
             </div>
@@ -1905,7 +1905,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 if (filteredItems.length === 0) {
                   return (
                     <div className="text-center py-10">
-                      <p className="text-slate-400 text-sm italic">
+                      <p className="text-jvto-navy/40 text-sm italic">
                         No add-ons found for "{searchTerm}"
                       </p>
                     </div>
@@ -1934,12 +1934,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       key={item.addOnId}
                       className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${item.selected
                         ? "border-jvto-green bg-jvto-green/5"
-                        : "border-slate-200 bg-white hover:border-jvto-green/40"
+                        : "border-jvto-border bg-white hover:border-jvto-green/40"
                         }`}
                     >
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
                       {item.type === "transport" && transportImage && (
-                        <div className="h-16 w-20 shrink-0 overflow-hidden rounded-sm bg-slate-100 border border-slate-200">
+                        <div className="h-16 w-20 shrink-0 overflow-hidden rounded-sm bg-jvto-off border border-jvto-border">
                           <img
                             src={transportImage}
                             alt={item.label}
@@ -1950,17 +1950,17 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                       {/* Info Teks */}
                       <div className="flex-1">
-                        <p className="font-bold text-slate-900 leading-tight">
+                        <p className="font-bold text-jvto-navy leading-tight">
                           {item.label}
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-jvto-navy/60 mt-1">
                           {formatCurrency(item.price)}
                           {item.type === "transport"
                             ? " / unit (Flat Rate)"
                             : ` x ${pax} pax`}
                         </p>
                         {item.type === "transport" && (
-                          <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-white border border-slate-200 text-slate-500 px-1.5 py-0.5 rounded">
+                          <span className="inline-block mt-1 text-[10px] font-bold uppercase bg-white border border-jvto-border text-jvto-navy/60 px-1.5 py-0.5 rounded">
                             {item.transportType} Car
                           </span>
                         )}
@@ -1983,7 +1983,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           }}
                           className="peer sr-only"
                         />
-                        <div className="h-6 w-6 rounded border-2 border-slate-300 peer-checked:border-jvto-green peer-checked:bg-jvto-green transition-all flex items-center justify-center">
+                        <div className="h-6 w-6 rounded border-2 border-jvto-border peer-checked:border-jvto-green peer-checked:bg-jvto-green transition-all flex items-center justify-center">
                           {item.selected && (
                             <Check size={14} className="text-white" />
                           )}
@@ -1996,12 +1996,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
 
             {/* Footer Modal */}
-            <div className="border-t border-slate-100 bg-slate-50 p-6 shrink-0">
+            <div className="border-t border-jvto-border bg-jvto-off p-6 shrink-0">
               <div className="flex justify-between items-center mb-4 text-sm">
-                <span className="font-medium text-slate-600">
+                <span className="font-medium text-jvto-navy/70">
                   Add-ons Total:
                 </span>
-                <span className="font-bold text-slate-900 text-lg">
+                <span className="font-bold text-jvto-navy text-lg">
                   {formatCurrency(
                     addOnSelections.reduce((sum, a) => {
                       if (!a.selected) return sum;
@@ -2019,14 +2019,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     setPendingBasePayload(null);
                     setSearchTerm("");
                   }}
-                  className="flex-1 rounded-sm border border-slate-300 bg-white py-3 text-sm font-bold uppercase text-slate-600 hover:bg-slate-100"
+                  className="flex-1 rounded-sm border border-jvto-border bg-white py-3 text-sm font-bold uppercase text-jvto-navy/70 hover:bg-jvto-off"
                 >
                   Skip
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmAddOns}
-                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-slate-900 hover:bg-[#8cb82b] shadow-md"
+                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-jvto-navy hover:bg-[#8cb82b] shadow-md"
                 >
                   Continue
                 </button>
@@ -2036,18 +2036,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       )}{" "}
       {/* --- MOBILE STICKY BOTTOM BAR (New) --- */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-jvto-border p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="flex items-center justify-between gap-5">
           {/* Price Info */}
           <div>
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">
+            <p className="text-[10px] font-bold text-jvto-navy/60 uppercase tracking-wide">
               Start From
             </p>
             <div className="flex items-baseline gap-1">
               <span className="text-lg font-black text-jvto-green">
                 {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
               </span>
-              <span className="text-[10px] font-medium text-slate-400">
+              <span className="text-[10px] font-medium text-jvto-navy/40">
                 /pax
               </span>
             </div>
