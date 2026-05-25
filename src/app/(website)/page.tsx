@@ -9,6 +9,7 @@ import HomeHowItWorks from "@/components/website/Home/HomeHowItWorks";
 import HomeReviews from "@/components/website/Home/HomeReviews";
 import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
 import HomeWhyJVTO from "@/components/website/Home/HomeWhyJVTO";
+import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -148,10 +149,11 @@ const Home = async () => {
       <HomeTrustStrip />
       <HomeDestinations destinations={destinations} />
       <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
+      <HomeWhyJVTO />
       <HomeHowItWorks />
       <HomeReviews />
       <HomeTravelGuideTeaser />
-      <HomeWhyJVTO />
+      <HomeFAQ />
       <HomeCTA />
     </div>
   );
