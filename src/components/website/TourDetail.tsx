@@ -477,7 +477,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
             <div className="flex-1">
-              <h3 className="text-lg font-black uppercase tracking-widest mb-8 text-white">
+              <h3 className="text-lg font-black mb-8 text-white">
                 {`What's Included?`}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
@@ -490,10 +490,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         {getInclusionIcon(title)}
                       </div>
                       <div>
-                        <h4 className="font-bold text-sm uppercase text-white mb-1">
+                        <h4 className="font-bold text-sm text-white mb-1">
                           {title}
                         </h4>
-                        <p className="text-xs text-jvto-navy/40 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-white/60 leading-relaxed line-clamp-2">
                           {desc}
                         </p>
                       </div>
@@ -505,23 +505,21 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             <div className="lg:w-1/3 shrink-0 flex flex-col justify-between items-start lg:items-end border-t lg:border-t-0 lg:border-l border-white/20 pt-8 lg:pt-0 lg:pl-12">
               <div className="text-left lg:text-right">
                 {/* Label Kecil di Atas */}
-                <p className="text-xs font-bold uppercase text-jvto-navy/40 tracking-widest mb-1">
+                <p className="text-xs font-bold uppercase text-white/50 tracking-widest mb-1">
                   Hassle-Free
                 </p>
 
-                {/* Teks Utama Besar (Style Asli Dipertahankan) */}
-                <div className="text-5xl font-black text-white mb-2 tracking-tight">
+                <div className="text-4xl font-black text-white mb-2 tracking-tight">
                   ALL INCLUSIVE
                 </div>
 
-                {/* Label Kecil di Bawah */}
-                <p className="text-xs text-jvto-navy/60 font-medium uppercase tracking-wide">
+                <p className="text-xs text-white/60 font-medium uppercase tracking-wide">
                   Meals, Gear & Medical Checkup Covered
                 </p>
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold uppercase tracking-widest px-10 py-4 rounded-sm transition-all shadow-lg shadow-jvto-green/30"
+                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold px-10 py-4 rounded-full transition-all shadow-lg shadow-jvto-green/30"
               >
                 Dates & Prices
               </button>
@@ -533,7 +531,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <div className="bg-jvto-navy pb-12">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex justify-between items-center mb-6 pt-8 border-t border-white/10">
-            <h3 className="text-lg font-black uppercase tracking-widest text-white">
+            <h3 className="text-lg font-black text-white">
               {`What's It Like?`}
             </h3>
             <button
@@ -629,7 +627,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           <div className="lg:col-span-2 space-y-16">
             {/* Description (With Show More/Less) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3 text-jvto-navy">
+              <h2 className="text-2xl font-black mb-6 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 About This Trip
               </h2>
@@ -679,7 +677,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
+              <h2 className="text-2xl font-black mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Quick Answers
               </h2>
@@ -715,7 +713,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* Highlights (Design Gambar 2) */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
+              <h2 className="text-2xl font-black mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Trip Highlights
               </h2>
@@ -1427,7 +1425,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {pkg.route.includes("Ijen Crater") && <TourRequirements />}
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-jvto-border mt-12">
-              <h2 className="text-2xl hidden font-black uppercase mb-8 md:flex items-center gap-3 text-jvto-navy">
+              <h2 className="text-2xl hidden font-black mb-8 md:flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Why Travel With Us?
               </h2>
