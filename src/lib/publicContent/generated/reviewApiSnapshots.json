@@ -3627,10 +3627,10 @@
   },
   "stats": {
     "success": true,
-    "total": 160,
+    "total": 195,
     "platforms": {
-      "google": 92,
-      "trustpilot": 47,
+      "google": 123,
+      "trustpilot": 51,
       "tripadvisor": 21
     },
     "average_rating": 4.9
