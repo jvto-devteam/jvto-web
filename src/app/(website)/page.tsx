@@ -1,19 +1,18 @@
-// src/app/(website)/page.tsx
 import type { Metadata } from "next";
-import type { Destination } from "@/interfaces";
 import HomeHero from "@/components/website/Home/HomeHero";
 import HomeTrustStrip from "@/components/website/Home/HomeTrustStrip";
-import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import HomeTours from "@/components/website/Home/HomeTours";
+import HomeFounder from "@/components/website/Home/HomeFounder";
+import HomeConfidence from "@/components/website/Home/HomeConfidence";
 import HomeHowItWorks from "@/components/website/Home/HomeHowItWorks";
+import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
 import HomeReviews from "@/components/website/Home/HomeReviews";
-import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
-import HomeWhyJVTO from "@/components/website/Home/HomeWhyJVTO";
+import HomeExplore from "@/components/website/Home/HomeExplore";
+import HomePartners from "@/components/website/Home/HomePartners";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
@@ -36,8 +35,6 @@ const fallbackSeo = {
     "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
 };
 
-// ─── Metadata ─────────────────────────────────────────────────────────────────
-
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/", fallbackSeo);
 
@@ -50,12 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// ─── Page ──────────────────────────────────────────────────────────────────────
-
 const Home = async () => {
-  // getPublicDestinationList is synchronous (reads a static JSON snapshot)
-  const destinations: Destination[] = getPublicDestinationList() as Destination[];
-
   const [seo, surabayaTours, baliTours] = await Promise.all([
     getPageSeo("/", fallbackSeo),
     getWebPackagesList({ fromId: 4, limit: 4 }),
@@ -78,7 +70,6 @@ const Home = async () => {
         content: { h1: seo.h1 },
       };
 
-  // ── AEO schema nodes ────────────────────────────────────────────────────────
   const serviceNode = {
     "@type": "Service",
     "@id": `${SITE_URL}/why-jvto#tourService`,
@@ -129,7 +120,6 @@ const Home = async () => {
 
   return (
     <div>
-      {/* JSON-LD schema injection — AEO/GEO signal layer (no visual output) */}
       <PageJsonLdCombined
         pageRow={pageRow as any}
         extraSchemas={[
@@ -147,12 +137,14 @@ const Home = async () => {
 
       <HomeHero title={seo.h1} description={seo.description} />
       <HomeTrustStrip />
-      <HomeDestinations destinations={destinations} />
       <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
-      <HomeWhyJVTO />
+      <HomeFounder />
+      <HomeConfidence />
       <HomeHowItWorks />
+      <HomeVolcanoStatus />
       <HomeReviews />
-      <HomeTravelGuideTeaser />
+      <HomeExplore />
+      <HomePartners />
       <HomeFAQ />
       <HomeCTA />
     </div>

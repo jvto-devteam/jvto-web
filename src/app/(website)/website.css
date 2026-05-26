@@ -110,10 +110,9 @@ body {
     rgba(13, 27, 42, 0.12) 0 4px 8px 0;
 }
 
-/* Rubik heading font — MBA hybrid visual test (2026-05-22) */
-/* Owner review after 2 weeks: revert if not improved */
+/* Typography: Inter single-font system per DESIGN.md */
 h1, h2 {
-  font-family: var(--font-heading, var(--font-sans, system-ui, sans-serif));
+  font-family: var(--font-sans, system-ui, sans-serif);
 }
 
 /* Section whitespace rhythm utility classes */
