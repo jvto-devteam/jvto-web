@@ -1,4 +1,3 @@
-// src/components/website/Home/HomeTours.tsx
 import type { PackageListItem } from "@/lib/packages/getWebPackagesList";
 import HomeToursClient from "./HomeToursClient";
 
@@ -9,19 +8,19 @@ interface HomeToursProps {
 
 export default function HomeTours({ surabayaPackages, baliPackages }: HomeToursProps) {
   return (
-    <section className="bg-jvto-off pt-12 md:pt-16 pb-20 md:pb-28">
+    <section aria-labelledby="tours-heading" className="bg-jvto-off py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-jvto-navy/40 mb-2">
+        <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
           Packages
         </p>
         <h2
-          className="font-black text-3xl md:text-4xl text-jvto-navy mb-3"
-          style={{ fontFamily: "var(--font-heading)" }}
+          id="tours-heading"
+          className="font-black text-2xl md:text-3xl text-jvto-navy mb-3"
         >
-          Browse Packages
+          Choose Your Expedition
         </h2>
-        <p className="text-jvto-navy/60 text-base mb-10">
-          Private departures from Surabaya and Bali — choose your starting point.
+        <p className="text-jvto-muted text-sm mb-10">
+          Private departures from Surabaya and Bali. Choose your starting point.
         </p>
         <HomeToursClient
           surabayaPackages={surabayaPackages}
