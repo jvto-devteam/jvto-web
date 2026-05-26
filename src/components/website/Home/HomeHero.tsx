@@ -1,4 +1,3 @@
-// src/components/website/Home/HomeHero.tsx
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
@@ -7,80 +6,75 @@ interface HomeHeroProps {
   description: string;
 }
 
-const STATS = ["4.8★ Trustpilot / 51", "4.9★ Google / 92", "16 Packages", "Est. 2015"];
+const STATS = [
+  { label: "Trustpilot", value: "4.8★", detail: "51 reviews" },
+  { label: "Google", value: "4.9★", detail: "123 reviews" },
+  { label: "Packages", value: "16", detail: "private tours" },
+  { label: "Operating", value: "Since", detail: "2015" },
+];
 
 export default function HomeHero({ title, description }: HomeHeroProps) {
   return (
-    <section className="relative min-h-[100svh] flex items-center md:items-end">
+    <section className="relative min-h-[100svh] flex items-end">
       <Image
         src="/assets/img/hero/home.webp"
-        alt="Mount Bromo volcano at sunrise — Java Volcano Tour Operator"
+        alt="Mount Bromo volcano at sunrise, East Java"
         fill
         priority
         sizes="100vw"
         className="object-cover"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-jvto-navy/60 via-jvto-navy/30 to-jvto-navy/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-jvto-navy/50 via-jvto-navy/20 to-jvto-navy/95" />
 
-      {/* Main content — centered on mobile, bottom-left on desktop */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full py-24 md:pb-20 md:pt-0">
-        <div className="max-w-3xl mx-auto md:mx-0 text-center md:text-left">
-          <p className="text-xs font-bold uppercase tracking-widest text-jvto-green/90 mb-4">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full pb-10 md:pb-16 pt-32">
+        <div className="max-w-2xl">
+          <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-jvto-green mb-5">
             Est. 2015 · Bondowoso, East Java · Tourist Police-Led
           </p>
 
-          <h1
-            className="font-black text-4xl sm:text-5xl md:text-6xl leading-tight text-white mb-6"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
+          <h1 className="font-black text-4xl sm:text-5xl md:text-6xl leading-[1.08] text-white mb-5">
             {title}
           </h1>
 
           <p className="sr-only">{description}</p>
 
-          <p className="text-base md:text-lg text-white/70 max-w-xl mx-auto md:mx-0 mb-8">
-            16 private packages to Bromo, Ijen, and East Java&apos;s best.
-            Licensed operator. No shared groups. All-inclusive.
+          <p className="text-base md:text-lg text-white/70 max-w-lg mb-8 leading-relaxed">
+            16 private packages to Bromo, Ijen, and Tumpak Sewu.
+            Licensed operator (NIB 1102230032918). All-inclusive.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 mb-12 md:mb-16">
             <Link
               href="/tours"
-              className="bg-jvto-green text-jvto-navy font-black px-6 py-3 rounded-full text-sm text-center hover:bg-jvto-green/90 transition-colors"
+              className="bg-jvto-green text-jvto-navy font-bold uppercase tracking-wider px-6 py-3 rounded-sm text-sm text-center hover:brightness-95 transition-all"
             >
-              Browse Tours <span aria-hidden="true">↗</span>
+              Browse Tours
             </Link>
             <Link
               href="/verify-jvto"
-              className="border border-white/50 text-white font-bold px-6 py-3 rounded-full text-sm text-center hover:border-white/80 transition-colors"
+              className="border-2 border-white/40 text-white font-bold uppercase tracking-wider px-6 py-3 rounded-sm text-sm text-center hover:border-white/70 transition-colors"
             >
-              Verify Credentials <span aria-hidden="true">→</span>
+              Verify Credentials
             </Link>
           </div>
 
-          {/* Stats — desktop only, in-flow */}
-          <div className="hidden md:block border-t border-white/10 pt-6 mt-12">
-            <div className="flex flex-wrap gap-x-6 gap-y-2 justify-start">
+          <div className="border-t border-white/10 pt-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
               {STATS.map((stat) => (
-                <span key={stat} className="text-xs font-bold text-white/60 uppercase tracking-wide">
-                  {stat}
-                </span>
+                <div key={stat.label}>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/40 mb-1">
+                    {stat.label}
+                  </p>
+                  <p className="text-white font-black text-lg leading-tight">
+                    {stat.value}
+                  </p>
+                  <p className="text-white/50 text-xs mt-0.5">
+                    {stat.detail}
+                  </p>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats — mobile only, anchored to bottom of hero */}
-      <div className="md:hidden absolute bottom-0 left-0 right-0 z-10 px-6 pb-8">
-        <div className="border-t border-white/10 pt-4">
-          <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center">
-            {STATS.map((stat) => (
-              <span key={stat} className="text-xs font-bold text-white/60 uppercase tracking-wide">
-                {stat}
-              </span>
-            ))}
           </div>
         </div>
       </div>
