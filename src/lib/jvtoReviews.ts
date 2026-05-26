@@ -39,11 +39,11 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   },
   {
     platform: 'Google Maps',
-    count: 92,
+    count: 123,
     rating: 4.9,
     url: 'https://www.google.com/maps?cid=1266403973589689021',
     isPrimary: false,
-    lastVerified: '2026-04-22',
+    lastVerified: '2026-05-26',
   },
   {
     platform: 'TripAdvisor',

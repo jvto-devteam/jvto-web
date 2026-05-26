@@ -20,7 +20,7 @@ const partners: Partner[] = [
     key: "trustpilot",
     logo: { kind: "image", src: "/assets/img/icons/trustpilot-icon.webp", alt: "Trustpilot", width: 26, height: 26 },
     name: "Trustpilot",
-    sub: "4.8 ★ · 47+ reviews",
+    sub: "4.8 ★ · 51 reviews",
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     external: true,
   },
