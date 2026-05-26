@@ -50,3 +50,6 @@ docs/design_atlas/screenshots/
 docs/design_atlas/manifest.json
 .playwright-mcp/
 .gstack/
+
+# Generated tour PDFs (Phase 1 of PDF export feature) — regenerate via: npm run pdf:tour
+pdfs/

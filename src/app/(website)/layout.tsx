@@ -6,6 +6,7 @@ import Footer from "@/components/website/Footer";
 import StickyWhatsApp from "@/components/website/LandingPage/StickyWhatsApp";
 import { contactInfo } from "@/constants";
 import "./website.css";
+import "@/styles/print.css";
 import type { Metadata } from "next";
 import { Providers } from "@/app/providers";
 import { Rubik } from "next/font/google";

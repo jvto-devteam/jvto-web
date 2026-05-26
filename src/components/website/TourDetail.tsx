@@ -2034,7 +2034,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         </div>
       )}{" "}
       {/* --- MOBILE STICKY BOTTOM BAR (New) --- */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-jvto-border p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div data-sticky-cta className="fixed bottom-0 left-0 w-full bg-white border-t border-jvto-border p-4 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="flex items-center justify-between gap-5">
           {/* Price Info */}
           <div>
