@@ -1,0 +1,35 @@
+{
+  "compiled_at": "2026-05-28T09:15:55+00:00",
+  "compiler_version": "0.1.0",
+  "inputs": {
+    "claims": 9,
+    "evidence": 18,
+    "entities": 50,
+    "decisions": 3,
+    "narratives": 9
+  },
+  "outputs": {
+    "claims": 9,
+    "schema_files": 3,
+    "faq_items": 9,
+    "aeo_snippets": 9
+  },
+  "validation": {
+    "F1": "pass",
+    "F2": "pass",
+    "F3": "pass",
+    "F4": "pass",
+    "F5": "pass",
+    "F6": "pass",
+    "F7": "pass",
+    "F8": "pass"
+  },
+  "input_hashes": {
+    "claim-registry.yml": "sha256:f3323f36bcd48b7f",
+    "evidence-registry.yml": "sha256:4e21cbbf2486af95",
+    "entity-registry.yml": "sha256:5d123c0437b898ba",
+    "decision-registry.yml": "sha256:b3052e0432c339c2",
+    "conflict-log.md": "sha256:e9e081bfb93e9359",
+    "aeo-claims.md": "sha256:b2785f4234b1e7ec"
+  }
+}
