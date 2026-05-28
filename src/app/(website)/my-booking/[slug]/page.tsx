@@ -361,6 +361,7 @@ export default async function MyBookingPage({
               tshirtSizes={booking.tshirt_sizes}
               pickup={{ location: booking.pickup, time: booking.pickup_time }}
               drop={{ location: booking.drop, time: booking.drop_time }}
+              hideTshirt={booking.channel === "KLOOK"}
             />
 
             {/* G. INFO & MEDIA SECTION */}

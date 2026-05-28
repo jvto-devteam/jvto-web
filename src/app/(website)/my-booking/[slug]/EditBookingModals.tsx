@@ -17,6 +17,7 @@ interface Props {
   };
   pickup: { location: string; time: string; details?: string }; // Mapping string pickup legacy nanti
   drop: { location: string; time: string; details?: string };
+  hideTshirt?: boolean;
 }
 
 export default function EditBookingModals({
@@ -25,6 +26,7 @@ export default function EditBookingModals({
   tshirtSizes,
   pickup,
   drop,
+  hideTshirt = false,
 }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -67,7 +69,7 @@ export default function EditBookingModals({
   return (
     <div className="space-y-6">
       {/* 1. T-SHIRT CARD */}
-      <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
+      {!hideTshirt && <div className="bg-white rounded-sm border border-slate-200 p-6 shadow-sm">
         <div className="flex justify-between items-start mb-4">
           <div>
             <h3 className="text-lg font-black uppercase tracking-wide text-slate-900 flex items-center gap-2">
@@ -109,7 +111,7 @@ export default function EditBookingModals({
             </p>
           )}
         </div>
-      </div>
+      </div>}
 
       {/* 2. PICKUP & DROP INFO */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -177,7 +179,7 @@ export default function EditBookingModals({
       </div>
 
       {/* --- MODAL: EDIT T-SHIRT --- */}
-      {showTshirtModal && (
+      {!hideTshirt && showTshirtModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-sm w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="bg-slate-900 p-4 flex justify-between items-center text-white">
