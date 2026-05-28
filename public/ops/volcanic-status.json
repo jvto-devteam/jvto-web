@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-05-26T02:38:20.412Z",
+  "updated_at": "2026-05-28T02:35:54.444Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,19 +9,19 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-05-26",
+      "last_verified": "2026-05-28",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316527?signature=cebf6aef2c77df02339fc5cffd1059e48efb9ef1eb1ac1d4fbf1fd8cf683ed58",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316687?signature=e6d3d4113b97646234042caa0684bb8638c950dbb4b371490fc129f714035817",
       "notes": "Ijen Crater open and accessible. Do not descend to or camp within 500 m of the crater lake. Gas masks and health screening arranged by JVTO.",
       "tours_operating": true,
       "exclusion_zone_active": false,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-100 meter dari puncak. Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah timur dan barat.",
-        "visual_en": "White smoke, thin, 50-100 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah timur dan barat. Suhu udara sekitar 21-31°C. Kelembaban 55-74%.",
-        "climate_en": "21-31°C · 55-74% humidity",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202605252400.png",
+        "visual": "Gunung api tertutup Kabut 0-III. Asap kawah tidak teramati. Cuaca mendung hingga hujan, angin lemah ke arah timur.",
+        "visual_en": "Crater fumarole activity. Visibility reduced by fog",
+        "climate": "Cuaca mendung hingga hujan, angin lemah ke arah timur. Suhu udara sekitar 20-22°C. Kelembaban 66-77%.",
+        "climate_en": "20-22°C · 66-77% humidity · Wind → East",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202605272400.png",
         "recommendations": [
           "Masyarakat dan pengunjung/wisatawan tidak turun dan mendekati dasar Kawah G. Ijen.",
           "Masyarakat dan pengunjung/wisatawan tidak bermalam/berkemah di kawasan kawah G. Ijen dalam radius 500 m.",
@@ -35,28 +35,28 @@
           "Beware of toxic gases around Kawah Ijen.",
           "Beware of potential rockfall from crater walls."
         ],
-        "author": "Nur Hudha, A.Md.",
-        "fetched_at": "2026-05-26T02:38:19.882Z"
+        "author": "Rudra Wibowo, A.Md.",
+        "fetched_at": "2026-05-28T02:35:53.950Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-05-26",
+      "last_verified": "2026-05-28",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316475?signature=16d899d4b4fcd6257c133a6090140a5d770df80e01261a75604108332d416871",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/316648?signature=8ffb44d99ec7bd95cd151cc69e2c153bbca4506b30d6559c9631bbabb36672aa",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-600 meter dari puncak. Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah barat daya dan barat.",
-        "visual_en": "White smoke, thin, 50-600 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah barat daya dan barat. Suhu udara sekitar 13-22°C.",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-500 meter dari puncak. Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah timur laut, tenggara dan barat daya.",
+        "visual_en": "White smoke, thin, 50-500 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah timur laut, tenggara dan barat daya. Suhu udara sekitar 13-22°C.",
         "climate_en": "13-22°C",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202605252400.png",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202605272400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -67,7 +67,7 @@
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
         "author": "Wahyu Wijayanto, A.Md.",
-        "fetched_at": "2026-05-26T02:38:20.412Z"
+        "fetched_at": "2026-05-28T02:35:54.444Z"
       }
     }
   }
