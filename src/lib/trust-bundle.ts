@@ -26,6 +26,13 @@ export type TrustClaimNarrative = {
   cs_reply: string;
 };
 
+export type TrustClaimDecision = {
+  decision_id: string;
+  topic: string;
+  final_value: unknown;
+  decided_at: string;
+};
+
 export type TrustClaim = {
   id: string;
   name: string;
@@ -35,7 +42,7 @@ export type TrustClaim = {
   last_verified: string;
   evidence: TrustClaimEvidence[];
   narrative: TrustClaimNarrative;
-  decisions: string[];
+  decisions?: TrustClaimDecision[];
   tags?: string[];
 };
 
@@ -71,10 +78,14 @@ export const trustFaqItems: TrustFaqItem[] = (faqJson as FaqRoot).items;
 export const trustAeoSnippets: TrustAeoSnippet[] = (aeoJson as AeoRoot).snippets;
 export const trustManifest: TrustManifest = manifestJson as TrustManifest;
 
-// JSON-LD schemas exported as opaque objects. No page currently injects these —
-// existing PageJsonLdCombined / resolveFaqs / per-cluster schema builders own
-// Organization / FAQPage / TouristTrip emission. Render targets to be chosen
-// in a follow-up that explicitly suppresses the live emitters to avoid duplication.
+// JSON-LD schemas exported as opaque objects.
+// - organizationSchema: export-only — NOT rendered anywhere. The existing
+//   PageJsonLdCombined / entityGraph own the richer Organization emission, so
+//   injecting this would duplicate it. Kept available for future use only.
+// - faqPageSchema / touristTripSchema: may be injected by the /trust route
+//   (src/app/(website)/trust/page.tsx) via PageJsonLdCombined extraSchemas,
+//   with suppressCmsFaq set to avoid duplicate FAQPage. Do not inject these on
+//   pages that already emit their own FAQPage / TouristTrip.
 export const organizationSchema = organizationJson;
 export const faqPageSchema = faqPageJson;
 export const touristTripSchema = touristTripJson;
