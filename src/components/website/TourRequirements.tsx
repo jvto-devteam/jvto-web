@@ -69,7 +69,7 @@ const TourRequirements = () => {
               <td className="px-6 py-4 text-gray-700">
                 <strong>00:00 AM – 01:00 AM</strong><br />
                 <span className="text-xs text-gray-500">
-                  To catch the Blue Fire phenomenon before sunrise. Visibility depends on sulfur gas concentration and temperatures above 360°C and is not guaranteed.
+                  To reach the summit before sunrise. Blue Fire visibility is subject to authority access policies and natural conditions, including sulfur gas levels and weather, and cannot be guaranteed.
                 </span>
               </td>
             </tr>
