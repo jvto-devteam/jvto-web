@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-06-05T02:48:26.613Z",
+  "updated_at": "2026-06-06T02:35:35.414Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,19 +9,19 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-06-05",
+      "last_verified": "2026-06-06",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/317352?signature=a3d04ca02358165d7ceb888d13bfa6c762d11b8b8ffcd79790787ed7ba7c9ad0",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/317446?signature=0c07e761bd12ddca9ba98b581cdecf13ee3eba9dfc83d78691057a1fbda44085",
       "notes": "Ijen Crater open and accessible. Do not descend to or camp within 500 m of the crater lake. Gas masks and health screening arranged by JVTO.",
       "tours_operating": true,
       "exclusion_zone_active": false,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-200 meter dari puncak. Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah timur dan barat.",
-        "visual_en": "White smoke, thin, 50-200 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga hujan, angin lemah hingga sedang ke arah timur dan barat. Suhu udara sekitar 17-31°C. Kelembaban 54-73%.",
-        "climate_en": "17-31°C · 54-73% humidity",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202606042400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-100 meter dari puncak. Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah timur dan barat.",
+        "visual_en": "White smoke, thin, 50-100 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga mendung, angin lemah hingga sedang ke arah timur dan barat. Suhu udara sekitar 15-30°C. Kelembaban 55-71%. Tekanan udara 789-792 mmHg.",
+        "climate_en": "15-30°C · 55-71% humidity",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202606052400.png",
         "recommendations": [
           "Masyarakat dan pengunjung/wisatawan tidak turun dan mendekati dasar Kawah G. Ijen.",
           "Masyarakat dan pengunjung/wisatawan tidak bermalam/berkemah di kawasan kawah G. Ijen dalam radius 500 m.",
@@ -35,28 +35,28 @@
           "Beware of toxic gases around Kawah Ijen.",
           "Beware of potential rockfall from crater walls."
         ],
-        "author": "Rudra Wibowo, A.Md.",
-        "fetched_at": "2026-06-05T02:48:25.859Z"
+        "author": "Ahmad Subhan Nur Fajidi, A.Md.",
+        "fetched_at": "2026-06-06T02:35:34.908Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-06-05",
+      "last_verified": "2026-06-06",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/317309?signature=0da76bf6b56179314b7a59f1a81737b7220c2cbfc4f7951301028775e6142747",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/317397?signature=f3186129f81e1163c90e50804013f098293abf257006fb425386ca79b6f56b8b",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-300 meter dari puncak. Cuaca cerah hingga berawan, angin lemah ke arah barat daya, barat dan barat laut.",
-        "visual_en": "White smoke, thin, 50-300 m above crater. Good visibility",
-        "climate": "Cuaca cerah hingga berawan, angin lemah ke arah barat daya, barat dan barat laut. Suhu udara sekitar 10-26.7°C. Kelembaban 76.3-100%. Tekanan udara 784.4-785.6 mmHg.",
-        "climate_en": "Wind → SW",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202606042400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-I. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-500 meter dari puncak. Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah selatan, barat daya dan barat.",
+        "visual_en": "White smoke, thin, 50-500 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah selatan, barat daya dan barat. Suhu udara sekitar 12-22°C.",
+        "climate_en": "12-22°C",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202606052400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -66,8 +66,8 @@
           "Sunrise viewpoints and jeep safari routes remain accessible.",
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
-        "author": "Hadi Purwoko, A.Md.Kom.",
-        "fetched_at": "2026-06-05T02:48:26.613Z"
+        "author": "Wahyu Wijayanto, A.Md.",
+        "fetched_at": "2026-06-06T02:35:35.414Z"
       }
     }
   }
