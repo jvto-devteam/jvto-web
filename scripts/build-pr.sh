@@ -77,8 +77,11 @@ fi
 log "building PR #$PR_NUMBER at $COMMIT_SHA"
 
 # ── Dev env (never printed) ──────────────────────────────────────────────────
+# Next.js reads .env.local; the Prisma CLI / prisma.config.ts loads dotenv/config
+# which reads .env. Write both so `npx prisma generate` sees DATABASE_URL too.
 cp "$ENV_DEVELOP" "$WORKDIR/.env.local"
-chmod 600 "$WORKDIR/.env.local"
+cp "$ENV_DEVELOP" "$WORKDIR/.env"
+chmod 600 "$WORKDIR/.env.local" "$WORKDIR/.env"
 
 # ── Build (any failure exits non-zero -> SSH step fails -> PR check red) ──────
 npm ci
