@@ -50,6 +50,14 @@ esac
 [[ -f "$ENV_DEVELOP" ]]      || { echo "[build-pr] dev env file not found: $ENV_DEVELOP" >&2; exit 2; }
 [[ -d "$LLM_WIKI_PATH" ]]    || { echo "[build-pr] llm-wiki checkout not found: $LLM_WIKI_PATH" >&2; exit 2; }
 
+# ── Ensure Node is on PATH ───────────────────────────────────────────────────
+# Non-interactive SSH shells don't load nvm, so npm/npx may be missing. Mirror
+# deploy.yml, which sources nvm before npm. Fail fast (before clone) if absent.
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+# shellcheck disable=SC1091
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+command -v npm >/dev/null 2>&1 || { echo "[build-pr] npm not on PATH (nvm not loaded?)" >&2; exit 2; }
+
 WORKDIR="$BUILD_ROOT/pr-${PR_NUMBER}-${COMMIT_SHA}"
 cleanup() { cd "$HOME" 2>/dev/null || true; rm -rf "$WORKDIR"; }
 trap cleanup EXIT
