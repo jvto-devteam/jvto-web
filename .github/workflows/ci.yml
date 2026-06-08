@@ -1,7 +1,9 @@
 name: CI
 
-# Pre-merge checks. Build + deploy stay owned by deploy.yml (VPS, has DB access);
-# this workflow does NOT build, because SSG build queries Postgres at build time.
+# Pre-merge checks. Production deploy stays owned by deploy.yml (push -> main).
+# The `verify` job runs lint/typecheck/drift on a GitHub runner (no build: SSG
+# build needs Postgres). The `build-develop` job runs a real `npm run build` on
+# the DEVELOP server (dev DB) over SSH — verification only, never production.
 on:
   pull_request:
     branches: [main]
@@ -57,3 +59,39 @@ jobs:
       - name: Typecheck (non-blocking)
         continue-on-error: true
         run: npx tsc --noEmit
+
+  # Full `npm run build` against the dev DB on the develop server, over SSH.
+  # Gated on `verify`. Runs a FIXED server-side script (scripts/build-pr.sh,
+  # installed on the server from main) — not an arbitrary remote command.
+  # Verification only: isolated per-PR build dir, dev DB, never touches production.
+  build-develop:
+    needs: verify
+    runs-on: ubuntu-latest
+    # PRs only (needs PR number + head SHA), same-repo only (forks lack SSH secrets).
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Check develop-server secrets are configured
+        id: cfg
+        env:
+          HOST: ${{ secrets.DEVELOP_SSH_HOST }}
+        run: |
+          if [ -z "$HOST" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::DEVELOP_SSH_* secrets not set — develop build gate is pending setup (see issue #16). Skipping."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build PR on develop server (dev DB, isolated)
+        if: steps.cfg.outputs.configured == 'true'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEVELOP_SSH_HOST }}
+          username: ${{ secrets.DEVELOP_SSH_USER }}
+          key: ${{ secrets.DEVELOP_SSH_KEY }}
+          command_timeout: 30m
+          # Fixed, pre-installed trusted script. PR number + commit SHA are the
+          # only inputs; the script re-validates them. Runs the build of the
+          # exact PR head SHA against the dev DB in an isolated dir.
+          script: |
+            bash "$HOME/jvto-build-control/scripts/build-pr.sh" "${{ github.event.pull_request.number }}" "${{ github.event.pull_request.head.sha }}"
