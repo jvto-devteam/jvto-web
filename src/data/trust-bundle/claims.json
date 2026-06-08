@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiled_at": "2026-05-28T09:15:55+00:00",
+  "compiled_at": "2026-06-02T20:20:09+00:00",
   "claims": [
     {
       "id": "C1",
@@ -251,7 +251,7 @@
           "id": "E010",
           "type": "customer_review",
           "source_file": "wiki/reviews/google-tripadvisor-2026.md",
-          "description": "Google Maps 4.90/5 (92 reviews), TripAdvisor 4.95/5 (21 reviews)",
+          "description": "Google Maps 4.9/5 (123 reviews), TripAdvisor 4.95/5 (21 reviews)",
           "proof_ids": [
             "google-maps-live-cid",
             "tripadvisor-live-profile"
