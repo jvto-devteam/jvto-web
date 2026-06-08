@@ -1,0 +1,59 @@
+name: CI
+
+# Pre-merge checks. Build + deploy stay owned by deploy.yml (VPS, has DB access);
+# this workflow does NOT build, because SSG build queries Postgres at build time.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout jvto-web
+        uses: actions/checkout@v4
+
+      # Producer repo, so the drift check can re-sync and compare. Reuses GH_PAT
+      # (same secret used by update-volcanic-status.yml).
+      - name: Checkout llm-wiki (producer)
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/llm-wiki
+          ref: master
+          path: llm-wiki
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+        run: npx prisma generate
+
+      - name: Lint (non-blocking)
+        # eslint currently crashes in this repo (circular structure in
+        # eslint-plugin-react flat config via @eslint/eslintrc). Pre-existing;
+        # deploy.yml never ran lint. Non-blocking until the config is repaired.
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Sync bundles and check for drift
+        env:
+          LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+        run: |
+          npm run sync:packages
+          npm run sync:trust
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust' and commit."; exit 1; }
+
+      - name: Typecheck (non-blocking)
+        continue-on-error: true
+        run: npx tsc --noEmit
