@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:   # allow manual re-run of the help/develop deploy on demand
 
 jobs:
   deploy:
