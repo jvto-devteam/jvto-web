@@ -72,7 +72,9 @@ jobs:
       - name: Guard — only artifact dirs may change
         if: steps.diff.outputs.changed == 'true'
         run: |
-          bad="$(git status --porcelain | grep -vE 'src/data/(package-readiness|trust-bundle)/' || true)"
+          # Tracked modifications only — the producer checkout lives at ./llm-wiki
+          # (untracked) and must be ignored; sync only overwrites committed artifacts.
+          bad="$(git diff --name-only -- . | grep -vE '^src/data/(package-readiness|trust-bundle)/' || true)"
           if [ -n "$bad" ]; then
             echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
           fi
