@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiled_at": "2026-06-02T20:20:09+00:00",
+  "compiled_at": "2026-06-09T05:07:15+00:00",
   "claims": [
     {
       "id": "C1",
@@ -65,7 +65,7 @@
       ],
       "narrative": {
         "ai_snippet": "JVTO focuses on operational certainty for East Java volcano routes: risk-aware planning, safety boundaries, and Plan B alternatives.",
-        "short": "Safety-led planning. Clear boundaries. Plan B when conditions change.",
+        "short": "Safety-led planning. Clear boundaries. Plan B when conditions change. [JVTO HELP SYNC TEST 2026-06-09]",
         "cs_reply": "We can't control weather or volcanic conditions, but we do control planning and safety decisions. If conditions change, we use Plan B options to keep your trip safe and worthwhile."
       },
       "decisions": [],
