@@ -1,0 +1,108 @@
+name: Sync llm-wiki artifacts
+
+# Phase 1.9 — consume compiled artifacts from llm-wiki and open an artifact-only
+# PR to main. Merging that PR triggers the existing deploy.yml (help app).
+# PR-only: never pushes to main, never auto-merges, never touches production.
+on:
+  repository_dispatch:
+    types: [llm-wiki-master-updated]
+  workflow_dispatch:
+
+# One sync at a time; a fixed PR branch (below) means re-runs update the same PR
+# instead of stacking new ones.
+concurrency:
+  group: sync-llm-wiki
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve llm-wiki ref
+        id: ref
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            sha="${{ github.event.client_payload.sha }}"
+            if [ -z "$sha" ]; then echo "::error::repository_dispatch missing client_payload.sha"; exit 1; fi
+            echo "ref=$sha" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=master" >> "$GITHUB_OUTPUT"   # manual fallback
+          fi
+
+      - name: Checkout jvto-web (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Checkout llm-wiki (producer) at exact ref
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/llm-wiki
+          ref: ${{ steps.ref.outputs.ref }}
+          path: llm-wiki
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync artifacts from llm-wiki
+        env:
+          LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+        run: |
+          npm run sync:packages
+          npm run sync:trust
+
+      - name: Detect artifact changes
+        id: diff
+        run: |
+          if git diff --quiet -- src/data/package-readiness src/data/trust-bundle; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No artifact changes — no sync needed."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            { echo "### Changed artifacts"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guard — only artifact dirs may change
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          bad="$(git status --porcelain | grep -vE 'src/data/(package-readiness|trust-bundle)/' || true)"
+          if [ -n "$bad" ]; then
+            echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
+          fi
+
+      - name: Resolve llm-wiki source SHA
+        if: steps.diff.outputs.changed == 'true'
+        id: src
+        run: echo "sha=$(git -C llm-wiki rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Create / update sync PR
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PAT }}
+          add-paths: |
+            src/data/package-readiness
+            src/data/trust-bundle
+          branch: automation/sync-llm-wiki
+          base: main
+          delete-branch: false
+          commit-message: "chore(sync): update llm-wiki artifacts"
+          title: "chore(sync): update llm-wiki artifacts"
+          body: |
+            Automated artifact sync from **llm-wiki** (Phase 1.9).
+
+            - **llm-wiki source commit:** `${{ steps.src.outputs.sha }}`
+            - **Changed dirs:** `src/data/package-readiness`, `src/data/trust-bundle`
+            - **Sync commands:** `npm run sync:packages`, `npm run sync:trust`
+            - **Triggered by:** `${{ github.event_name }}`
+
+            Artifact-only change. Merging this PR triggers the existing `deploy.yml`
+            → `/var/www/jvto-help` → help.javavolcano-touroperator.com.
+            No production touch; no deploy.yml change.
