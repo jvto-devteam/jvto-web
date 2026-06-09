@@ -121,7 +121,10 @@ jobs:
         run: |
           set -euo pipefail
           url=$(gh pr view "$PR" --json url -q .url)
-          echo "::notice::Auto-merge candidate PR #$PR ($url) — op=${{ steps.cpr.outputs.pull-request-operation }}"
+          # Pin the exact head we validate; the final merge must match it, so a push
+          # racing in between fails the merge instead of merging unvalidated content.
+          head_sha=$(gh pr view "$PR" --json headRefOid -q .headRefOid)
+          echo "::notice::Auto-merge candidate PR #$PR ($url) @ $head_sha — op=${{ steps.cpr.outputs.pull-request-operation }}"
 
           # --- Gate 1/2: head + base branch ---
           head=$(gh pr view "$PR" --json headRefName -q .headRefName)
@@ -154,6 +157,6 @@ jobs:
           echo "mergeable=$m"
           [ "$m" != "CONFLICTING" ] || { echo "::error::PR conflicting — not merging"; exit 1; }
 
-          # --- Merge (squash) + delete the sync branch ---
-          gh pr merge "$PR" --squash --delete-branch
-          echo "::notice::Auto-merged PR #$PR into main (squash, branch deleted). deploy.yml will run."
+          # --- Merge (squash) + delete the sync branch; abort if head moved since validation ---
+          gh pr merge "$PR" --squash --delete-branch --match-head-commit "$head_sha"
+          echo "::notice::Auto-merged PR #$PR @ $head_sha into main (squash, branch deleted). deploy.yml will run."
