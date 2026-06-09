@@ -118,8 +118,24 @@ for (const [name, set] of [["pricing", pricingIds], ["itineraries", itinIds], ["
       `Extra IDs in ${name} not in registry: ${extra.join(", ")}`);
   }
 }
+
+// Also verify the slug field is consistent for matching package_ids across artifacts.
+// package_id and slug can legitimately differ (Bali: id="bali/foo", slug="foo"),
+// but if the same package_id appears in two artifacts the slug must agree.
+const registrySlugByPkgId = new Map(registry.map(e => [e.package_id, e.slug]));
+for (const [name, arr] of [["pricing", pricing], ["itineraries", itineraries], ["booking", booking]]) {
+  for (const entry of arr) {
+    const expectedSlug = registrySlugByPkgId.get(entry.package_id);
+    if (expectedSlug !== undefined && entry.slug !== expectedSlug) {
+      find("C-03", SEVERITY.ERROR,
+        `slug mismatch in ${name} for package_id "${entry.package_id}": ` +
+        `registry="${expectedSlug}", ${name}="${entry.slug}"`);
+    }
+  }
+}
+
 if (findings.filter(f => f.id === "C-03").length === 0) {
-  find("C-03", SEVERITY.INFO, "Cross-artifact slug sets consistent");
+  find("C-03", SEVERITY.INFO, "Cross-artifact package_id sets and slug fields consistent");
 }
 
 // ── C-04: duplicate package_id ────────────────────────────────────────────────
@@ -182,7 +198,7 @@ const emptyPaths = booking.filter(
   e => !Array.isArray(e.booking_paths) || e.booking_paths.length === 0
 );
 if (emptyPaths.length > 0) {
-  find("C-08", SEVERITY.WARN,
+  find("C-08", SEVERITY.ERROR,
     `Empty booking_paths for: ${emptyPaths.map(e => e.package_id).join(", ")}`);
 } else {
   find("C-08", SEVERITY.INFO, `All ${booking.length} booking entries have booking_paths`);
