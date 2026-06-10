@@ -10,6 +10,7 @@ import {
   trustManifest,
   organizationSchema,
 } from "@/lib/trust-bundle";
+import { SHA256_ANCHORS } from "@/lib/forensic-anchors";
 
 type OrgIdentifier = { propertyID?: string; value?: string };
 type OrgSchema = {
@@ -71,6 +72,17 @@ export function buildLlmsTxt(): string {
   lines.push("## AEO Snippets (extraction-ready)");
   for (const s of trustAeoSnippets) {
     lines.push(`- **${s.topic}**: ${s.tldr}`);
+  }
+  lines.push("");
+
+  // ── SHA-256 forensic anchors (document hashes for tamper verification) ──
+  // Published here so /verify-jvto/legal's "Forensic Anchors" cross-reference holds.
+  lines.push("## Document Hashes (SHA-256 Forensic Anchors)");
+  lines.push(
+    "Download the file and compute its SHA-256 to confirm it has not been altered.",
+  );
+  for (const a of SHA256_ANCHORS) {
+    lines.push(`- **${a.asset}**: ${a.hash}`);
   }
   lines.push("");
 
