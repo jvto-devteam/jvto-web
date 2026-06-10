@@ -91,9 +91,10 @@ for (const post of published) {
 }
 
 // Write a dest manifest containing only published entries (sorted newest first).
+// Output must be deterministic for the same source so the CI drift gate
+// (git diff --exit-code) is stable — no timestamps generated at sync time.
 const destManifest = {
-  generated: manifest.generated ?? new Date().toISOString(),
-  synced_at: new Date().toISOString(),
+  generated: manifest.generated ?? "",
   posts: [...published].sort((a, b) => String(b.date).localeCompare(String(a.date))),
 };
 writeFileSync(
