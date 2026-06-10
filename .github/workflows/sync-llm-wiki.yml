@@ -1,22 +1,30 @@
 name: Sync llm-wiki artifacts
 
-# Phase 1.9 — consume compiled artifacts from llm-wiki and open an artifact-only
-# PR to main. Merging that PR triggers the existing deploy.yml (help app).
-# PR-only: never pushes to main, never auto-merges, never touches production.
+# Consume compiled artifacts from llm-wiki and open an artifact-only PR into each
+# target branch, then auto-merge it once safety gates pass.
+#
+# repository_dispatch only ever fires workflows from the DEFAULT branch (main),
+# so this single workflow drives the sync for BOTH branches via a matrix:
+#   - main  → help/develop subdomain (deploy.yml runs on push to main)
+#   - live  → production (its own deploy trigger; deploy.yml is NOT touched here)
 on:
   repository_dispatch:
     types: [llm-wiki-master-updated]
   workflow_dispatch:
 
-# One sync at a time; a fixed PR branch (below) means re-runs update the same PR
-# instead of stacking new ones.
-concurrency:
-  group: sync-llm-wiki
-  cancel-in-progress: false
-
 jobs:
   sync:
     runs-on: ubuntu-latest
+    strategy:
+      # Independent legs — a problem syncing one branch must not abort the other.
+      fail-fast: false
+      matrix:
+        base: [main, live]
+    # One sync per base at a time; a fixed per-base PR branch means re-runs update
+    # the same PR instead of stacking new ones.
+    concurrency:
+      group: sync-llm-wiki-${{ matrix.base }}
+      cancel-in-progress: false
     steps:
       - name: Resolve llm-wiki ref
         id: ref
@@ -29,10 +37,10 @@ jobs:
             echo "ref=master" >> "$GITHUB_OUTPUT"   # manual fallback
           fi
 
-      - name: Checkout jvto-web (main)
+      - name: Checkout jvto-web (${{ matrix.base }})
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ matrix.base }}
           token: ${{ secrets.GH_PAT }}
 
       - name: Checkout llm-wiki (producer) at exact ref
@@ -63,10 +71,10 @@ jobs:
         run: |
           if git diff --quiet -- src/data/package-readiness src/data/trust-bundle; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::No artifact changes — no sync needed."
+            echo "::notice::[${{ matrix.base }}] No artifact changes — no sync needed."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            { echo "### Changed artifacts"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            { echo "### Changed artifacts (${{ matrix.base }})"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Guard — only artifact dirs may change
@@ -93,31 +101,33 @@ jobs:
           add-paths: |
             src/data/package-readiness
             src/data/trust-bundle
-          branch: automation/sync-llm-wiki
-          base: main
+          branch: automation/sync-llm-wiki-${{ matrix.base }}
+          base: ${{ matrix.base }}
           delete-branch: false
           commit-message: "chore(sync): update llm-wiki artifacts"
-          title: "chore(sync): update llm-wiki artifacts"
+          title: "chore(sync): update llm-wiki artifacts (${{ matrix.base }})"
           body: |
-            Automated artifact sync from **llm-wiki** (Phase 1.9).
+            Automated artifact sync from **llm-wiki** into `${{ matrix.base }}`.
 
             - **llm-wiki source commit:** `${{ steps.src.outputs.sha }}`
             - **Changed dirs:** `src/data/package-readiness`, `src/data/trust-bundle`
             - **Sync commands:** `npm run sync:packages`, `npm run sync:trust`
             - **Triggered by:** `${{ github.event_name }}`
 
-            Artifact-only change. Merging this PR triggers the existing `deploy.yml`
-            → `/var/www/jvto-help` → help.javavolcano-touroperator.com.
-            No production touch; no deploy.yml change.
+            Artifact-only change. The target branch's own deploy trigger picks it up
+            (main → `deploy.yml` → help subdomain; live → production deploy).
+            No production touch from this workflow; no deploy.yml change.
 
-      # Phase 1.10 — auto-merge the artifact PR once safety gates pass.
-      # Only ever acts on the automation/sync-llm-wiki → main PR with artifact-only
-      # changes. Uses GH_PAT so the merge's push triggers deploy.yml.
+      # Auto-merge the artifact PR once safety gates pass. Only ever acts on the
+      # automation/sync-llm-wiki-<base> → <base> PR with artifact-only changes.
+      # Uses GH_PAT so the merge's push triggers the target branch's deploy.
       - name: Auto-merge artifact PR
         if: steps.diff.outputs.changed == 'true' && steps.cpr.outputs.pull-request-number != ''
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           PR: ${{ steps.cpr.outputs.pull-request-number }}
+          EXPECTED_HEAD: automation/sync-llm-wiki-${{ matrix.base }}
+          EXPECTED_BASE: ${{ matrix.base }}
         run: |
           set -euo pipefail
           url=$(gh pr view "$PR" --json url -q .url)
@@ -130,8 +140,8 @@ jobs:
           head=$(gh pr view "$PR" --json headRefName -q .headRefName)
           base=$(gh pr view "$PR" --json baseRefName -q .baseRefName)
           echo "head=$head  base=$base"
-          [ "$head" = "automation/sync-llm-wiki" ] || { echo "::error::refusing — head '$head' != automation/sync-llm-wiki"; exit 1; }
-          [ "$base" = "main" ] || { echo "::error::refusing — base '$base' != main"; exit 1; }
+          [ "$head" = "$EXPECTED_HEAD" ] || { echo "::error::refusing — head '$head' != $EXPECTED_HEAD"; exit 1; }
+          [ "$base" = "$EXPECTED_BASE" ] || { echo "::error::refusing — base '$base' != $EXPECTED_BASE"; exit 1; }
 
           # --- Gate 3: only artifact files changed (also enforces: no deploy.yml, no source) ---
           files=$(gh pr view "$PR" --json files -q '.files[].path')
@@ -159,4 +169,4 @@ jobs:
 
           # --- Merge (squash) + delete the sync branch; abort if head moved since validation ---
           gh pr merge "$PR" --squash --delete-branch --match-head-commit "$head_sha"
-          echo "::notice::Auto-merged PR #$PR @ $head_sha into main (squash, branch deleted). deploy.yml will run."
+          echo "::notice::Auto-merged PR #$PR @ $head_sha into $base (squash, branch deleted). Target deploy will run."
