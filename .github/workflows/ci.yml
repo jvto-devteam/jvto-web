@@ -1,0 +1,62 @@
+name: CI
+
+# Pre-merge checks for the `live` (production) branch. The meaningful invariant
+# for the automated llm-wiki sync is the DRIFT gate: the committed bundles under
+# src/data/ must match the producer's compiled output. lint/typecheck are
+# non-blocking (live carries pre-existing debt; artifact-only sync PRs must not
+# be gated on it). No build job here — production deploy is owned separately.
+on:
+  pull_request:
+    branches: [live]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout jvto-web (live)
+        uses: actions/checkout@v4
+
+      # Producer repo, so the drift check can re-sync and compare. Reuses GH_PAT
+      # (same secret used by update-volcanic-status.yml).
+      - name: Checkout llm-wiki (producer)
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/llm-wiki
+          ref: master
+          path: llm-wiki
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+        run: npx prisma generate
+
+      - name: Lint (non-blocking)
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Sync bundles and check for drift
+        env:
+          LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+        run: |
+          npm run sync:packages
+          npm run sync:trust
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust' and commit."; exit 1; }
+
+      - name: Validate package-readiness artifacts (offline)
+        run: npm run validate:packages -- --offline
+
+      - name: Typecheck (non-blocking)
+        continue-on-error: true
+        run: npx tsc --noEmit
