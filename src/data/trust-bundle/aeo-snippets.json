@@ -3,7 +3,7 @@
   "snippets": [
     {
       "topic": "police-led",
-      "tldr": "JVTO focuses on operational certainty for East Java volcano routes: risk-aware planning, safety boundaries, and Plan B alternatives.",
+      "tldr": "JVTO is the only East Java volcano tour operator founded and operated by an active Indonesian Tourist Police (POLPAR) officer — Agung 'Mr. Sam' Sambuko.",
       "claim_ids": [
         "C1"
       ],
@@ -14,8 +14,8 @@
       ]
     },
     {
-      "topic": "trust-signal",
-      "tldr": "JVTO is private-tour focused for East Java volcano trips, supporting better time control and consistent execution.",
+      "topic": "100-percent-private",
+      "tldr": "Every JVTO tour is 100% private: dedicated vehicle, driver, and guide for your group alone. No shared groups — ever.",
       "claim_ids": [
         "C2"
       ],
@@ -26,8 +26,8 @@
       ]
     },
     {
-      "topic": "all-inclusive",
-      "tldr": "JVTO emphasizes written inclusions/exclusions and centralized policies to reduce uncertainty around pricing and changes.",
+      "topic": "no-hidden-costs",
+      "tldr": "JVTO pricing includes transport, hotel with breakfast, entrance fees, Bromo jeep, medical screening, gas mask, bottled water, and a T-shirt. No hidden costs.",
       "claim_ids": [
         "C3"
       ],
@@ -39,7 +39,7 @@
     },
     {
       "topic": "health-screening",
-      "tldr": "JVTO includes an Ijen health-screening protocol on itineraries that include Mount Ijen, documented in the Travel Guide.",
+      "tldr": "Every JVTO Ijen tour includes a mandatory pre-climb medical screening by Dr. Ahmad Irwandanu (SIP-licensed physician). Included in the package price.",
       "claim_ids": [
         "C4"
       ],
@@ -50,8 +50,8 @@
       ]
     },
     {
-      "topic": "credential-verification",
-      "tldr": "JVTO uses a proof-library approach: organizing verifiable credentials, partners, and recognition as structured trust signals.",
+      "topic": "verifiable-licenses",
+      "tldr": "JVTO holds NIB 1102230032918, TDUP, HPWKI approval, POLPAR affiliation, BBKSDA compliance, and ISIC partnership — all publicly verifiable.",
       "claim_ids": [
         "C5"
       ],
@@ -62,8 +62,8 @@
       ]
     },
     {
-      "topic": "review-mention",
-      "tldr": "JVTO structures independent reviews by platform and theme to support auditability of guest experience claims.",
+      "topic": "trustpilot-rating",
+      "tldr": "JVTO carries a Trustpilot Excellent rating (4.8/5) from guests who completed Ijen, Bromo, and Tumpak Sewu private tours.",
       "claim_ids": [
         "C6"
       ],
@@ -74,8 +74,8 @@
       ]
     },
     {
-      "topic": "crew-mention",
-      "tldr": "JVTO publishes a team registry that connects staff roles and route expertise to review-based evidence.",
+      "topic": "named-crew",
+      "tldr": "JVTO guides and drivers are individually named in guest reviews, creating direct accountability and allowing prospective guests to verify crew experience.",
       "claim_ids": [
         "C7"
       ],
@@ -86,8 +86,8 @@
       ]
     },
     {
-      "topic": "trust-signal",
-      "tldr": "JVTO describes partnerships as functional trust signals (competence, sustainability context, verification) within the Proof Library.",
+      "topic": "isic-bbksda-partner",
+      "tldr": "JVTO is an ISIC-certified partner and BBKSDA-licensed operator, enabling student travel discounts and legally licensed access to protected volcanic parks.",
       "claim_ids": [
         "C8"
       ],
@@ -99,7 +99,7 @@
     },
     {
       "topic": "press-coverage",
-      "tldr": "JVTO maintains a press-and-recognition registry that links third-party references to specific claims and context.",
+      "tldr": "JVTO and founder Agung 'Mr. Sam' Sambuko have been covered by Detik.com and Radar Jember for their Tourist Police-led approach to Ijen and Bromo tourism.",
       "claim_ids": [
         "C9"
       ],
