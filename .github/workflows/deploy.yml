@@ -3,13 +3,14 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main
+      - live
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy jvto-help
+      - name: Deploy jvto-web (production)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -18,8 +19,10 @@ jobs:
           script: |
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            cd /var/www/jvto-help
-            git pull origin main
+            cd /var/www/jvto-web
+            git fetch origin
+            git checkout live
+            git reset --hard origin/live
             npm ci
             npm run build
-            pm2 restart jvto-help
+            pm2 restart jvto-web
