@@ -148,7 +148,7 @@ jobs:
           # --- Gate 3: only artifact files changed (also enforces: no deploy.yml, no source) ---
           files=$(gh pr view "$PR" --json files -q '.files[].path')
           echo "Changed files:"; printf '  %s\n' $files
-          bad=$(printf '%s\n' $files | grep -vE '^src/data/(package-readiness|trust-bundle)/' || true)
+          bad=$(printf '%s\n' $files | grep -vE '^src/data/(package-readiness|trust-bundle|blog)/' || true)
           [ -z "$bad" ] || { echo "::error::refusing — non-artifact files present:"; printf '  %s\n' $bad; exit 1; }
 
           # --- Gate 4: wait for required check `verify` (build-develop is non-required: flaky VPS SSH, see #18) ---

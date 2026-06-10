@@ -38,37 +38,38 @@ function die(message) {
   process.exit(1);
 }
 
-if (!existsSync(SRC_DIR)) {
-  die(
-    `source dir not found: ${SRC_DIR}\n` +
-      `set LLM_WIKI_PATH env to override (current: ${wikiRoot})`,
-  );
-}
-
+// Blog output is optional in llm-wiki. If the producer has no blog dir or
+// manifest yet (e.g. fresh master before the first published post), treat it
+// as "zero published posts" rather than failing — the loader/render handle an
+// empty blog gracefully. A genuinely wrong LLM_WIKI_PATH is already caught by
+// sync:packages / sync:trust, which run before this and require their sources.
 const srcManifestPath = join(SRC_DIR, "_manifest.json");
-if (!existsSync(srcManifestPath)) {
-  die(`_manifest.json missing at ${srcManifestPath}`);
-}
+const srcAvailable = existsSync(SRC_DIR) && existsSync(srcManifestPath);
 
-let manifest;
-try {
-  manifest = JSON.parse(readFileSync(srcManifestPath, "utf8"));
-} catch (err) {
-  die(`_manifest.json parse failed: ${err.message}`);
-}
-
-const allPosts = Array.isArray(manifest?.posts) ? manifest.posts : [];
-const published = allPosts.filter((p) => p && p.status === "published");
-
-// Validate every published entry has a slug + a matching source .md file.
-for (const post of published) {
-  if (typeof post.slug !== "string" || post.slug.length === 0) {
-    die(`published post missing slug: ${JSON.stringify(post)}`);
+let published = [];
+if (srcAvailable) {
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(srcManifestPath, "utf8"));
+  } catch (err) {
+    die(`_manifest.json parse failed: ${err.message}`);
   }
-  const srcMd = join(SRC_DIR, `${post.slug}.md`);
-  if (!existsSync(srcMd)) {
-    die(`published post '${post.slug}' has no source file: ${srcMd}`);
+
+  const allPosts = Array.isArray(manifest?.posts) ? manifest.posts : [];
+  published = allPosts.filter((p) => p && p.status === "published");
+
+  // Validate every published entry has a slug + a matching source .md file.
+  for (const post of published) {
+    if (typeof post.slug !== "string" || post.slug.length === 0) {
+      die(`published post missing slug: ${JSON.stringify(post)}`);
+    }
+    const srcMd = join(SRC_DIR, `${post.slug}.md`);
+    if (!existsSync(srcMd)) {
+      die(`published post '${post.slug}' has no source file: ${srcMd}`);
+    }
   }
+} else {
+  console.log(`[sync-blog] no blog output in source (${SRC_DIR}) — writing empty manifest.`);
 }
 
 mkdirSync(DEST_DIR, { recursive: true });
@@ -92,9 +93,9 @@ for (const post of published) {
 
 // Write a dest manifest containing only published entries (sorted newest first).
 // Output must be deterministic for the same source so the CI drift gate
-// (git diff --exit-code) is stable — no timestamps generated at sync time.
+// (git diff --exit-code) is stable: no generated-at timestamp, and the shape is
+// identical whether the source is absent (empty) or present with zero published.
 const destManifest = {
-  generated: manifest.generated ?? "",
   posts: [...published].sort((a, b) => String(b.date).localeCompare(String(a.date))),
 };
 writeFileSync(
