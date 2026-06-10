@@ -70,7 +70,7 @@ export default async function TrustPage() {
         suppressCmsFaq={true}
       />
 
-      <header className="bg-jvto-navy text-white py-16 px-6 md:px-10">
+      <header className="bg-jvto-navy text-white py-16 px-6 md:px-10 pt-32 mt-10">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs uppercase tracking-[0.2em] text-jvto-lime mb-3">
             Trust Bundle · v{trustManifest.compiler_version}
