@@ -12,7 +12,8 @@
         "health-screening"
       ],
       "seo_description": "Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.",
-      "estimated_read_min": 7
+      "estimated_read_min": 7,
+      "banner_image": "/assets/img/hero/ijen.jpg"
     }
   ]
 }
