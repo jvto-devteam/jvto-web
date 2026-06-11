@@ -69,6 +69,17 @@ if (srcAvailable) {
     }
   }
 } else {
+  // Source absent — only safe to treat as zero posts if dest has no published posts yet.
+  // If posts already exist in dest and source disappears (wrong path, transient failure),
+  // pruning them would silently remove live pages. Fail loudly instead.
+  const existingDestPosts = existsSync(DEST_DIR)
+    ? readdirSync(DEST_DIR).filter((f) => f.endsWith(".md"))
+    : [];
+  if (existingDestPosts.length > 0) {
+    die(
+      `blog source missing (${SRC_DIR}) but ${existingDestPosts.length} published post(s) already exist in dest — refusing to prune. Check LLM_WIKI_PATH.`,
+    );
+  }
   console.log(`[sync-blog] no blog output in source (${SRC_DIR}) — writing empty manifest.`);
 }
 
