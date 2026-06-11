@@ -1,3 +1,18 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "slug": "2026-06-11-kawah-ijen-guide",
+      "title": "Your Complete Kawah Ijen Guide: Blue Fire, Health & Safety",
+      "date": "2026-06-11",
+      "status": "published",
+      "tags": [
+        "ijen",
+        "travel-guide",
+        "safety",
+        "health-screening"
+      ],
+      "seo_description": "Everything you need to know before hiking Kawah Ijen — blue fire timing, health requirements, safety zones, and what to expect from a police-led private tour.",
+      "estimated_read_min": 7
+    }
+  ]
 }
