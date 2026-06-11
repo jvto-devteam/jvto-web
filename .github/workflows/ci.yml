@@ -51,8 +51,9 @@ jobs:
         run: |
           npm run sync:packages
           npm run sync:trust
-          git diff --exit-code src/data/package-readiness src/data/trust-bundle \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust' and commit."; exit 1; }
+          npm run sync:blog
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog' and commit."; exit 1; }
 
       - name: Validate package-readiness artifacts (offline)
         run: npm run validate:packages -- --offline
