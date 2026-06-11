@@ -18,6 +18,7 @@ export type BlogManifestEntry = {
   tags?: string[];
   seo_description?: string;
   estimated_read_min?: number;
+  banner_image?: string;
 };
 
 export type BlogFrontmatter = {
@@ -30,6 +31,7 @@ export type BlogFrontmatter = {
   seo_description?: string;
   sources?: string[];
   estimated_read_min?: number;
+  banner_image?: string;
 };
 
 export type BlogPost = {
@@ -121,6 +123,7 @@ export function getBlogPost(slug: string): BlogPost | null {
         typeof frontmatter.estimated_read_min === "number"
           ? frontmatter.estimated_read_min
           : undefined,
+      banner_image: frontmatter.banner_image ? String(frontmatter.banner_image) : undefined,
     },
     body,
   };
@@ -142,6 +145,11 @@ export function buildBlogPostingSchema(fm: BlogFrontmatter) {
     dateModified: fm.date || undefined,
     keywords: fm.tags.length ? fm.tags.join(", ") : undefined,
     inLanguage: "en",
+    image: fm.banner_image
+      ? fm.banner_image.startsWith("http")
+        ? fm.banner_image
+        : `https://javavolcano-touroperator.com${fm.banner_image}`
+      : undefined,
     author: { "@id": "https://javavolcano-touroperator.com/#organization" },
     publisher: { "@id": "https://javavolcano-touroperator.com/#organization" },
   };
