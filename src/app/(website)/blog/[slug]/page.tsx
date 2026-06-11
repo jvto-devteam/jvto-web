@@ -56,9 +56,20 @@ export default async function BlogPostPage({ params }: Props) {
         extraSchemas={[buildBlogPostingSchema(fm)]}
       />
 
-      <main className="pt-24 md:pt-36 pb-20">
+      {fm.banner_image && (
+        <div className="relative w-full h-64 md:h-[480px] overflow-hidden bg-ink-primary">
+          <img
+            src={fm.banner_image}
+            alt={fm.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+        </div>
+      )}
+
+      <main className={fm.banner_image ? "pb-20" : "pt-24 md:pt-36 pb-20"}>
         <div className="container mx-auto px-4 max-w-3xl">
-          <nav className="mb-4 text-sm text-muted-foreground">
+          <nav className={`mb-4 text-sm text-muted-foreground ${fm.banner_image ? "pt-8" : ""}`}>
             <Link href="/" prefetch={false} className="hover:text-primary">
               Home
             </Link>

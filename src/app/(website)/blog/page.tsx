@@ -88,38 +88,49 @@ export default async function Insights() {
                     key={post.slug}
                     href={`/blog/${post.slug}`}
                     prefetch={false}
-                    className="group block p-6 bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1"
+                    className="group block bg-white dark:bg-background-dark rounded-sm shadow-card hover:shadow-cardHover border border-ink-neutral-200 dark:border-ink-neutral-700 hover:border-primary dark:hover:border-primary transition-all transform hover:-translate-y-1 overflow-hidden"
                   >
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-neutral-700 dark:text-ink-neutral-200">
-                      {post.date && (
-                        <time dateTime={post.date}>
-                          {new Date(post.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </time>
-                      )}
-                      {post.estimated_read_min && (
-                        <>
-                          <span aria-hidden>·</span>
-                          <span>{post.estimated_read_min} min read</span>
-                        </>
-                      )}
-                    </div>
-                    <h2 className="mt-2 text-lg font-bold text-ink-primary dark:text-white">
-                      {post.title}
-                    </h2>
-                    {post.seo_description && (
-                      <p className="mt-2 text-sm text-ink-neutral-700 dark:text-ink-neutral-200">
-                        {post.seo_description}
-                      </p>
+                    {post.banner_image && (
+                      <div className="relative w-full h-44 overflow-hidden">
+                        <img
+                          src={post.banner_image}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                     )}
-                    <div className="mt-4 text-sm font-semibold text-primary">
-                      Read Article{" "}
-                      <span className="transform transition-transform group-hover:translate-x-1 inline-block">
-                        →
-                      </span>
+                    <div className="p-6">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-neutral-700 dark:text-ink-neutral-200">
+                        {post.date && (
+                          <time dateTime={post.date}>
+                            {new Date(post.date).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </time>
+                        )}
+                        {post.estimated_read_min && (
+                          <>
+                            <span aria-hidden>·</span>
+                            <span>{post.estimated_read_min} min read</span>
+                          </>
+                        )}
+                      </div>
+                      <h2 className="mt-2 text-lg font-bold text-ink-primary dark:text-white">
+                        {post.title}
+                      </h2>
+                      {post.seo_description && (
+                        <p className="mt-2 text-sm text-ink-neutral-700 dark:text-ink-neutral-200">
+                          {post.seo_description}
+                        </p>
+                      )}
+                      <div className="mt-4 text-sm font-semibold text-primary">
+                        Read Article{" "}
+                        <span className="transform transition-transform group-hover:translate-x-1 inline-block">
+                          →
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 ))}
