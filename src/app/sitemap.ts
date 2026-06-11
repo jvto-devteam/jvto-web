@@ -10,6 +10,7 @@ import { sitemapDestinations } from "./(website)/destinations/sitemap.data";
 import { sitemapToursIndex } from "./(website)/tours/sitemap.data";
 import { sitemapToursFromSurabaya } from "./(website)/tours/from-surabaya/sitemap.data";
 import { sitemapToursFromBali } from "./(website)/tours/from-bali/sitemap.data";
+import { sitemapBlog } from "./(website)/blog/sitemap.data";
 
 // Prisma butuh Node runtime
 export const runtime = "nodejs";
@@ -71,6 +72,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     sitemapToursFromBali(t),
   ]);
 
+  const blog = sitemapBlog(t);
+
   return [
     ...root,
     ...why,
@@ -79,5 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...toursIdx,
     ...fromSub,
     ...fromBali,
+    ...blog,
   ];
 }
