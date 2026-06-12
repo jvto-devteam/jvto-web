@@ -7,6 +7,7 @@ import {
 import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { composeGraph } from "@/lib/schema/contract";
 import Link from "@/components/website/AppLink";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -94,59 +95,32 @@ export default async function FaqPage() {
       answer: faq.answer,
     })),
   );
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "FAQPage",
-        "@id": `${siteUrl}/travel-guide/faq#faqpage`,
-        mainEntity: allFaqsForSeo.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
-      },
-      {
-        "@type": "WebPage",
-        "@id": `${siteUrl}/travel-guide/faq#webpage`,
-        url: `${siteUrl}/travel-guide/faq`,
-        name: seo.title,
-        description: seo.description,
-        breadcrumb: { "@id": `${siteUrl}/travel-guide/faq#breadcrumb` },
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${siteUrl}/travel-guide/faq#breadcrumb`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Travel Guide",
-            item: `${siteUrl}/travel-guide`,
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: seo.h1,
-            item: `${siteUrl}/travel-guide/faq`,
-          },
-        ],
-      },
-    ].filter(Boolean),
-  };
+  // Organization, WebSite, WebPage, and BreadcrumbList come from PageJsonLdCombined
+  // (Organization keyed @id {SITE}/#organization). Only the page-specific FAQPage —
+  // sourced from the FAQ-manager snapshot, not CMS content.faq — is page-owned;
+  // suppressCmsFaq below prevents the CMS FAQPage from doubling it.
+  const { "@graph": extraNodes } = composeGraph([
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/travel-guide/faq#faqpage`,
+      mainEntity: allFaqsForSeo.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+  ]);
 
   return (
     <div className="flex min-h-screen bg-background">
-      <PageJsonLdCombined pageRow={pageRow as any} extraSchemas={[schema]} />
+      <PageJsonLdCombined
+        pageRow={pageRow as any}
+        extraSchemas={extraNodes}
+        suppressCmsFaq={true}
+      />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         <section>
