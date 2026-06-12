@@ -11,6 +11,7 @@
     "sync:trust": "node scripts/sync-trust-bundle.mjs",
     "sync:packages": "node scripts/sync-package-readiness.mjs",
     "sync:blog": "node scripts/sync-blog.mjs",
+    "validate": "node scripts/validate.mjs",
     "validate:packages": "node scripts/validate-package-readiness-consumption.mjs"
   },
   "dependencies": {
