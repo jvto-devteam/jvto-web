@@ -8,6 +8,7 @@ import StructuredData from "@/components/website/StructuredData";
 import type { Metadata } from "next";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { composeGraph } from "@/lib/schema/contract";
+import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import Link from "@/components/website/AppLink";
 import Sidebar from "../sidebar";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -102,7 +103,9 @@ export default async function FaqPage() {
   const { "@graph": extraNodes } = composeGraph([
     {
       "@type": "FAQPage",
-      "@id": `${siteUrl}/travel-guide/faq#faqpage`,
+      // DEFAULT_SITE (not env) so the @id host always matches the sibling nodes
+      // PageJsonLdCombined emits via builders.ts.
+      "@id": `${DEFAULT_SITE}/travel-guide/faq#faqpage`,
       mainEntity: allFaqsForSeo.map((faq) => ({
         "@type": "Question",
         name: faq.question,
