@@ -190,8 +190,10 @@ export function buildBreadcrumbItems(route: string, siteUrl = DEFAULT_SITE) {
 /** NOTE: Tidak menyertakan @context — dihandle oleh @graph wrapper */
 export function buildBreadcrumbJsonLd(route: string, siteUrl = DEFAULT_SITE) {
   const items = buildBreadcrumbItems(route, siteUrl);
+  const cleanRoute = route.split("?")[0].split("#")[0];
   return {
     "@type": "BreadcrumbList",
+    "@id": `${absUrl(siteUrl, cleanRoute)}#breadcrumb`,
     itemListElement: items.map((it, idx) => ({
       "@type": "ListItem",
       position: idx + 1,
@@ -340,6 +342,9 @@ export function buildWebPageJsonLd(
     name: title,
     description,
     inLanguage: page.lang || "en",
+    // PageJsonLdCombined always emits buildBreadcrumbJsonLd for the same route,
+    // so this @id reference is guaranteed to resolve within the page @graph.
+    breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
     isPartOf: { "@id": WEBSITE_ID },
     about: org ? { "@id": ORG_ID } : undefined,
     publisher: org ? { "@id": ORG_ID } : undefined,
