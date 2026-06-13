@@ -172,7 +172,7 @@ export default async function VerifyJvtoPage() {
         about: {
           // Use Person (NOT Physician) to avoid validator errors on properties / ranges
           "@type": "Person",
-          "@id": `${siteUrl}/#doctor-ahmad-irwandanu`,
+          "@id": `${siteUrl}/#dr-ahmad-irwandanu`,
           name: "dr. Ahmad Irwandanu",
           jobTitle: "Physician",
           url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
@@ -370,7 +370,7 @@ export default async function VerifyJvtoPage() {
   // Physician as Person (safe target for employee)
   const physicianSchema = {
     "@type": "Person",
-    "@id": `${siteUrl}/#doctor-ahmad-irwandanu`,
+    "@id": `${siteUrl}/#dr-ahmad-irwandanu`,
     name: "dr. Ahmad Irwandanu",
     jobTitle: "Physician",
     url: "https://satusehat.kemkes.go.id/sdmk/nakes/QN00001073380217",
@@ -412,7 +412,7 @@ export default async function VerifyJvtoPage() {
       },
     },
     // employee expects Person (this is now a Person @id)
-    employee: { "@id": `${siteUrl}/#doctor-ahmad-irwandanu` },
+    employee: { "@id": `${siteUrl}/#dr-ahmad-irwandanu` },
 
     // potentialAction expects Action (NOT MedicalTest)
     potentialAction: {
@@ -660,20 +660,7 @@ export default async function VerifyJvtoPage() {
     hasPart: assetItems,
   };
 
-  // BREADCRUMB
-  const breadcrumbSchema = {
-    "@type": "BreadcrumbList",
-    "@id": `${siteUrl}/verify-jvto#breadcrumb`,
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Verification Locker",
-        item: `${siteUrl}/verify-jvto`,
-      },
-    ],
-  };
+  // BREADCRUMB comes from PageJsonLdCombined (was emitted twice before).
 
   // FAQ
   const faqSchema = {
@@ -788,7 +775,6 @@ export default async function VerifyJvtoPage() {
 
       // page-level
       collectionPageSchema,
-      breadcrumbSchema,
       faqSchema,
       howToSchema,
 

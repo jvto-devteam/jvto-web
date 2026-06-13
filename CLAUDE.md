@@ -264,3 +264,43 @@ Key routing rules:
 - Ship/deploy/PR → invoke /ship or /land-and-deploy
 - Save progress → invoke /context-save
 - Resume context → invoke /context-restore
+
+## Guardrails (feat/schema-spine worktree — from 2026-06-12 handoff)
+
+> Note: the handoff referenced a "Guardrails section" to copy verbatim, but the section
+> itself was not included in the handoff message and was not found in `.remember/`,
+> `docs/`, or `~/.claude/plans/`. The constraints below are transcribed verbatim from the
+> handoff's own explicit instructions, which function as the guardrails.
+
+- Do not ask questions unless you hit a real blocker (credentials, new deps, deletion,
+  live branch, sync/deploy workflow, env failure, PR merge). Otherwise assume the safest
+  in-scope option, document it, and continue.
+- Work only in this worktree (`../jvto-web-schema-spine`, branch `feat/schema-spine`).
+  Never touch the live branch.
+- NO dummy/fake DB — Package 1 needs no production DB.
+- If Prisma requires DATABASE_URL:
+  - use an existing local/dev .env ONLY if already present and clearly not production
+  - do NOT invent or hardcode a fake DATABASE_URL
+  - do NOT ask for production credentials
+  - document the exact error verbatim, then continue to non-DB / file-based steps
+- Do NOT stop unless deps cannot install OR basic file-based validation cannot run.
+- Do not write a long SEO report (doc stubs link to `docs/_audit/package1-audit.md`).
+
+### Baseline (captured 2026-06-12)
+
+`npx tsc --noEmit` on `main` (205172f0): **3 pre-existing errors**, all dead imports —
+`src/components/website/HomePage.tsx` (`./Hero`, `./TravelGuideTeaser`) and
+`src/components/website/ReviewsPage.tsx` (`./Reviews`). These modules do not exist on
+`main`; the files are outside the app-router build path so `next build` is unaffected.
+Full log: `/tmp/tsc-baseline.txt`. Do not "fix" these as part of schema-spine work;
+any new tsc errors beyond these 3 are regressions.
+
+### Environment note (documented decision)
+
+`DATABASE_URL` in the main checkout's `.env`/`.env.local` points at database `jvto`
+(not `jvto_dev`) at 31.97.223.43 — NOT clearly non-production, so it was not copied
+into this worktree. `npx prisma generate` (offline, no DB connection) was run once with
+the env var sourced inline from the main checkout's `.env`; no env file exists in this
+worktree by design. Exact error when DATABASE_URL is absent:
+`PrismaConfigEnvError: Missing required environment variable: DATABASE_URL`
+(thrown by `prisma.config.ts` via `env("DATABASE_URL")` at config load).

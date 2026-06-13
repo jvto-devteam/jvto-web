@@ -96,16 +96,7 @@ export default async function TeamMemberPage({ params }: Props) {
           : {}),
       };
 
-  const breadcrumb = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Team", item: `${SITE_URL}/team` },
-      { "@type": "ListItem", position: 3, name, item: `${SITE_URL}/team/${slug}` },
-    ],
-  };
-
+  // BreadcrumbList comes from PageJsonLdCombined (was emitted twice before).
   const pageRow = {
     route: `/team/${slug}`,
     lang: "en",
@@ -119,7 +110,7 @@ export default async function TeamMemberPage({ params }: Props) {
     <div className="min-h-screen bg-slate-950 text-white pt-24">
       <PageJsonLdCombined
         pageRow={pageRow as any}
-        extraSchemas={[personSchema, breadcrumb]}
+        extraSchemas={[personSchema]}
         suppressCmsFaq={false}
       />
 
