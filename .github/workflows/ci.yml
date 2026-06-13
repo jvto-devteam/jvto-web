@@ -34,6 +34,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate schema & routes (blocking)
+        # Zero-dep static gates (scripts/validate.mjs): fails on duplicate
+        # Organization/BreadcrumbList/FAQPage per route and registry/route drift.
+        run: |
+          npm run validate schema
+          npm run validate routes
+
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
         env:
