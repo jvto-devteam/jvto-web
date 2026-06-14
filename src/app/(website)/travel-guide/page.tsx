@@ -1,8 +1,10 @@
 import { type Metadata } from "next";
+import fs from "node:fs";
+import path from "node:path";
 import Link from "@/components/website/AppLink";
 import Button from "@/components/website/UI/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { AlertTriangle, ArrowRight, CheckCircle2, ExternalLink } from "lucide-react";
 import { DocumentPriorityNote } from "./document-priority-note";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import Sidebar from "./sidebar";
@@ -12,6 +14,9 @@ import {
   buildResolvedFaqSchema,
   resolveFaqsForPage,
 } from "@/lib/content/resolveFaqs";
+
+export const revalidate = 3600;
+
 const today = new Date();
 
 const formatted = today.toLocaleDateString("en-GB", {
@@ -46,21 +51,19 @@ const travelGuideData = {
     ],
   },
   latestUpdate: {
-    title: "Latest JVTO Update",
-    lastUpdatedPlaceholder: "17 January 2026",
-    bodyParagraphs: [
-      'Check this "Latest JVTO update" card for time-sensitive operational notes before departure. This section is reserved for information your team can confirm and update routinely.',
-      "For current conditions, please contact us directly via WhatsApp +62 822-4478-8833 or email hello@javavolcano-touroperator.com.",
-    ],
-    note: "Only publish what you can reasonably confirm at the time of update. Do not include rumours, assumptions, or unverified claims.",
+    title: "Latest JVTO Operations Update",
+    fallback:
+      "JVTO checks official volcanic activity sources and local access rules before departure. If weather, volcanic activity, or park instructions affect the route, we explain the change clearly and use the safest workable Plan B.",
+    note:
+      "Status data is generated from official MAGMA Indonesia / PVMBG reports and JVTO operating rules. Guests should still follow direct crew instructions on the day of travel.",
   },
   operatingStatus: {
     title: "JVTO Operating Status",
     paragraphs: [
       "JVTO operates private, pre-booked tours on standard East Java routes, subject to weather, volcanic activity, and access regulations.",
-      "We plan and adjust tours based on official information (including MAGMA / PVMBG) and local park management.",
-      "Some viewpoints, hiking sections, or waterfall access may be temporarily restricted even when the tour program continues.",
-      "Changes are handled according to Weather & Closures and Booking, Payment & Cancellation Policy.",
+      "For volcano routes, we check MAGMA / PVMBG status, local park instructions, and field conditions before committing to the final route.",
+      "Some viewpoints, hiking sections, crater areas, jeep routes, or waterfall access may be temporarily restricted even when the wider tour program continues.",
+      "When conditions change, the first decision is safety. The second decision is value: we use reroutes, adjusted timing, alternative viewpoints, or Travel Credit according to the Weather & Closures and Booking, Payment & Cancellation policies.",
       "Guests should consult official travel advisories issued by their own governments in addition to this guide.",
     ],
   },
@@ -162,6 +165,111 @@ const travelGuideData = {
 };
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+type VolcanicStatusEntry = {
+  status: "operational" | "restricted" | "closed";
+  alert_level: string;
+  alert_code: "level-1" | "level-2" | "level-3" | "level-4";
+  last_verified: string;
+  verified_by?: string;
+  source: string;
+  source_url: string;
+  notes: string;
+  tours_operating: boolean;
+  exclusion_zone_active: boolean;
+  exclusion_zone_radius_km?: number;
+  pvmbg_report?: {
+    visual_en?: string;
+    climate_en?: string;
+    recommendations_en?: string[];
+    fetched_at?: string;
+  };
+};
+
+type VolcanicStatusFile = {
+  updated_at: string;
+  update_frequency_hours?: number;
+  note?: string;
+  destinations: Record<string, VolcanicStatusEntry>;
+};
+
+const VOLCANIC_DESTINATION_LABELS: Record<string, string> = {
+  "ijen-crater": "Ijen Crater",
+  "mount-bromo": "Mount Bromo",
+};
+
+const STATUS_STYLES: Record<
+  VolcanicStatusEntry["status"],
+  { label: string; badge: string; dot: string }
+> = {
+  operational: {
+    label: "Operational",
+    badge: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    dot: "bg-emerald-500",
+  },
+  restricted: {
+    label: "Restricted",
+    badge: "bg-amber-100 text-amber-900 border-amber-200",
+    dot: "bg-amber-500",
+  },
+  closed: {
+    label: "Closed",
+    badge: "bg-red-100 text-red-800 border-red-200",
+    dot: "bg-red-500",
+  },
+};
+
+function readVolcanicStatusFile(): VolcanicStatusFile | null {
+  try {
+    const statusPath = path.join(
+      process.cwd(),
+      "public",
+      "ops",
+      "volcanic-status.json",
+    );
+    const raw = fs.readFileSync(statusPath, "utf8");
+    return JSON.parse(raw) as VolcanicStatusFile;
+  } catch {
+    return null;
+  }
+}
+
+function formatDate(value: string, options?: Intl.DateTimeFormatOptions) {
+  const date = value.includes("T")
+    ? new Date(value)
+    : new Date(`${value}T00:00:00Z`);
+
+  if (Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    ...options,
+  });
+}
+
+function getStatusAgeHours(statusFile: VolcanicStatusFile) {
+  const updatedAt = new Date(statusFile.updated_at);
+  if (Number.isNaN(updatedAt.getTime())) return null;
+  return Math.floor((Date.now() - updatedAt.getTime()) / (60 * 60 * 1000));
+}
+
+function getPrimaryPlanBMessage(entries: Array<[string, VolcanicStatusEntry]>) {
+  const hasClosedRoute = entries.some(([, entry]) => !entry.tours_operating);
+  if (hasClosedRoute) {
+    return "One or more volcano routes are paused in the current status file. JVTO will confirm the safest reroute, replacement activity, or Travel Credit before departure.";
+  }
+
+  const hasRestriction = entries.some(
+    ([, entry]) => entry.status === "restricted" || entry.exclusion_zone_active,
+  );
+  if (hasRestriction) {
+    return "Tours can still operate where legal access remains open, but JVTO keeps guests outside exclusion zones and switches to approved viewpoints, timing changes, or route alternatives when needed.";
+  }
+
+  return "Current volcano routes are marked operational in the status file. JVTO still checks weather, visibility, gas conditions, and park instructions before the crew commits to the final route.";
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPublicPageSnapshot("/travel-guide", {
@@ -588,6 +696,28 @@ export default async function TravelGuideHubPage() {
     typeof page.snapshot.content.h1 === "string"
       ? page.snapshot.content.h1
       : travelGuideData.h1;
+  const volcanicStatusFile = readVolcanicStatusFile();
+  const volcanicStatusEntries = volcanicStatusFile
+    ? Object.entries(volcanicStatusFile.destinations).filter(
+        ([slug]) => VOLCANIC_DESTINATION_LABELS[slug],
+      )
+    : [];
+  const statusAgeHours = volcanicStatusFile
+    ? getStatusAgeHours(volcanicStatusFile)
+    : null;
+  const isStatusStale =
+    typeof statusAgeHours === "number" && statusAgeHours > 48;
+  const statusUpdatedLabel = volcanicStatusFile
+    ? formatDate(volcanicStatusFile.updated_at, {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+      })
+    : null;
+  const planBMessage =
+    volcanicStatusEntries.length > 0
+      ? getPrimaryPlanBMessage(volcanicStatusEntries)
+      : latestUpdate.fallback;
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -645,25 +775,127 @@ export default async function TravelGuideHubPage() {
             <main>
               <Card className="bg-jvto-green/5 border-jvto-green/80 border-2 mb-12">
                 <CardHeader>
-                  <CardTitle className="text-jvto-green font-black">
-                    {latestUpdate.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="prose prose-sm max-w-none text-jvto-green">
-                  <p className="font-bold">
-                    Last updated: {latestUpdate.lastUpdatedPlaceholder}
-                  </p>
-                  <div className="mt-4">
-                    {latestUpdate.bodyParagraphs.map((p, i) => (
-                      <p
-                        key={i}
-                        className={i > 0 && p.includes(":") ? "ml-4" : ""}
-                      >
-                        {p}
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <p className="text-[11px] font-black uppercase tracking-[0.18em] text-jvto-green/70">
+                        MAGMA / PVMBG monitored
                       </p>
-                    ))}
+                      <CardTitle className="text-jvto-green font-black">
+                        {latestUpdate.title}
+                      </CardTitle>
+                    </div>
+                    {statusUpdatedLabel && (
+                      <p className="text-xs font-bold text-jvto-green/80">
+                        Updated {statusUpdatedLabel}
+                      </p>
+                    )}
                   </div>
-                  <p className="text-xs italic mt-4">{latestUpdate.note}</p>
+                </CardHeader>
+                <CardContent className="text-jvto-green">
+                  {isStatusStale && (
+                    <div className="mb-5 flex gap-3 rounded-sm border border-amber-300 bg-amber-50 px-4 py-3 text-amber-950">
+                      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                      <div>
+                        <p className="text-sm font-black">Status data may be stale</p>
+                        <p className="mt-1 text-xs leading-relaxed">
+                          This file was last refreshed {statusAgeHours} hours ago.
+                          Treat volcano conditions as a pre-departure planning signal,
+                          not a final access guarantee. JVTO will re-check official
+                          sources and local instructions before the crew departs.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <p className="text-sm leading-relaxed">{planBMessage}</p>
+
+                  {volcanicStatusEntries.length > 0 ? (
+                    <div className="mt-5 grid gap-4 md:grid-cols-2">
+                      {volcanicStatusEntries.map(([slug, status]) => {
+                        const statusStyle = STATUS_STYLES[status.status];
+                        const recommendations =
+                          status.pvmbg_report?.recommendations_en?.slice(0, 2) ??
+                          [];
+
+                        return (
+                          <article
+                            key={slug}
+                            className="rounded-sm border border-jvto-green/20 bg-white p-4 shadow-sm"
+                            data-volcanic-status={status.status}
+                            data-alert-level={status.alert_level}
+                            data-last-verified={status.last_verified}
+                            data-tours-operating={String(status.tours_operating)}
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <h2 className="text-base font-black text-gray-950">
+                                  {VOLCANIC_DESTINATION_LABELS[slug]}
+                                </h2>
+                                <p className="mt-1 text-xs font-bold text-gray-500">
+                                  Verified {formatDate(status.last_verified)} by{" "}
+                                  {status.verified_by ?? status.source}
+                                </p>
+                              </div>
+                              <span
+                                className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-black uppercase ${statusStyle.badge}`}
+                              >
+                                <span className={`h-1.5 w-1.5 rounded-full ${statusStyle.dot}`} />
+                                {statusStyle.label}
+                              </span>
+                            </div>
+
+                            <div className="mt-4 flex items-start gap-2 text-sm text-gray-800">
+                              {status.tours_operating ? (
+                                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                              ) : (
+                                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+                              )}
+                              <p>
+                                <strong>{status.alert_level}.</strong> {status.notes}
+                              </p>
+                            </div>
+
+                            {recommendations.length > 0 && (
+                              <ul className="mt-3 space-y-1 text-xs leading-relaxed text-gray-600">
+                                {recommendations.map((recommendation) => (
+                                  <li key={recommendation}>- {recommendation}</li>
+                                ))}
+                              </ul>
+                            )}
+
+                            {status.pvmbg_report?.visual_en && (
+                              <p className="mt-3 text-xs leading-relaxed text-gray-500">
+                                Field report: {status.pvmbg_report.visual_en}
+                                {status.pvmbg_report.climate_en
+                                  ? ` · ${status.pvmbg_report.climate_en}`
+                                  : ""}
+                              </p>
+                            )}
+
+                            <a
+                              href={status.source_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-jvto-green underline underline-offset-4"
+                            >
+                              Official source
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="mt-4 rounded-sm border border-jvto-green/20 bg-white px-4 py-3 text-sm">
+                      Live volcano status data is not available in this build.
+                      Contact JVTO before departure for the latest operating
+                      decision.
+                    </p>
+                  )}
+
+                  <p className="mt-5 text-xs italic text-jvto-green/80">
+                    {latestUpdate.note}
+                  </p>
                 </CardContent>
               </Card>
 
