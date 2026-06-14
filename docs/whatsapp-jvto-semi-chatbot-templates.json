@@ -1,0 +1,105 @@
+{
+  "version": "policy-bundle/v1.0",
+  "source_policy_bundle": "src/data/policy-bundle/consumer-bundles.json",
+  "defaults": {
+    "max_auto_replies_before_handoff": 2
+  },
+  "required_slots": [
+    "travel_dates",
+    "pax_total",
+    "pickup_city",
+    "tour_preference"
+  ],
+  "global_templates": {
+    "fallback": "Thanks for contacting JVTO. For standard available packages, the fastest path is website self-checkout: choose package, date, travelers, review price and add-ons, accept the Terms & Cancellation Policy, then complete payment. If your request is custom, send your travel date, pickup city, route, group size, and any special requirements here.",
+    "handoff": "I will hand this to the JVTO team so a human can verify the details before you pay. JVTO never asks for full card numbers, CVV codes, online banking passwords, or OTP codes via WhatsApp."
+  },
+  "intents": [
+    {
+      "id": "booking_and_payment",
+      "priority": 1,
+      "keywords": [
+        "book",
+        "booking",
+        "payment",
+        "deposit",
+        "pay",
+        "invoice",
+        "voucher",
+        "checkout",
+        "xendit",
+        "bank transfer",
+        "wise"
+      ],
+      "reply_template": "JVTO has two official direct booking paths. Website Instant Book / self-checkout is best for standard available packages and dates: choose package, select date and travelers, review price and add-ons, accept Terms & Cancellation Policy, complete payment, then JVTO follows up with confirmation / E-Voucher details. WhatsApp-assisted booking is for custom routes, group arrangements, complex pickup/drop-off, or special requests. Standard deposit is 20% of total booking value; if Day 1 is within 14 days, JVTO may require up to 100% full payment. Card balance is due no later than 5 days before Day 1; bank wire / Wise balance is due no later than 3 days before Day 1. Cash at JVTO office is only if approved in writing in advance.",
+      "always_handoff": false,
+      "handoff_if_contains": [
+        "refund",
+        "chargeback",
+        "dispute",
+        "change booking",
+        "reschedule",
+        "voucher correction"
+      ]
+    },
+    {
+      "id": "ijen_health_screening",
+      "priority": 2,
+      "keywords": [
+        "ijen health",
+        "health screening",
+        "medical certificate",
+        "qr code",
+        "bbksda",
+        "spo2",
+        "blood pressure",
+        "unfit",
+        "crater access"
+      ],
+      "reply_template": "For tours that include the Ijen night hike, JVTO arranges health-screening coordination by licensed medical staff as required under BBKSDA access regulations for the Ijen crater zone. This wording is conditional: current authority rules govern when screening is required, so it should not be stated as universally mandatory for every JVTO tour. Vitals may include SpO2, blood pressure, heart rate, and respiratory history. If a valid QR certificate is required at the gate, no valid QR code means no access to the crater zone.",
+      "always_handoff": true,
+      "handoff_if_contains": [
+        "asthma",
+        "pregnant",
+        "heart condition",
+        "panic attack",
+        "medical issue",
+        "failed screening",
+        "not fit"
+      ]
+    },
+    {
+      "id": "price_and_package",
+      "priority": 3,
+      "keywords": [
+        "price",
+        "package",
+        "tour",
+        "bromo",
+        "ijen",
+        "tumpak sewu",
+        "madakaripura",
+        "surabaya",
+        "bali"
+      ],
+      "reply_template": "For standard packages, please use the website tour listing and self-checkout to see available packages, dates, traveler count, price, and add-ons. WhatsApp is useful when you need custom routing, group arrangements, complex pickup/drop-off, or special requirements.",
+      "always_handoff": false
+    },
+    {
+      "id": "trust_and_verification",
+      "priority": 4,
+      "keywords": [
+        "official",
+        "scam",
+        "verify",
+        "bank account",
+        "payment link",
+        "cvv",
+        "otp",
+        "password"
+      ],
+      "reply_template": "Use only official JVTO website, WhatsApp, email, payment links, and listed bank accounts. JVTO never asks for full card numbers, CVV codes, online banking passwords, or OTP codes via chat or email. If any account number, link, or contact looks different, pause and verify through official JVTO WhatsApp or email before paying.",
+      "always_handoff": true
+    }
+  ]
+}

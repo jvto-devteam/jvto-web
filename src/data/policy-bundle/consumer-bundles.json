@@ -1,0 +1,206 @@
+{
+  "checkout": {
+    "consumer": "checkout",
+    "policy_ids": [
+      "booking-paths",
+      "payment-rules",
+      "anti-fraud"
+    ],
+    "domains": [
+      {
+        "policy_id": "booking-paths",
+        "domain": "Booking Paths",
+        "canonical_sources": [
+          "products/packages-overview.md"
+        ],
+        "supporting_sources": [
+          "website/booking-platform-analysis.md",
+          "sources/tango-workflow-jvto-website-booking.md"
+        ],
+        "consumers": [
+          "faq",
+          "website",
+          "whatsapp",
+          "checkout"
+        ],
+        "notes": "Must include both Instant Book and WhatsApp-assisted flow",
+        "evidence": [
+          {
+            "source": "wiki/products/packages-overview.md",
+            "section": "Booking Flow",
+            "text": "## Booking Flow\n\nJVTO offers **two official booking paths**. Both are direct JVTO channels — see also -> [[website/booking-platform-analysis]] and source -> [[sources/tango-workflow-jvto-website-booking]].\n\n### Booking Path A — Website Instant Book / Self-Checkout\n\n1. Choose package from the website package listing or a package detail page\n2. Select travel date\n3. Select number of travelers\n4. Click **Instant Book** when available\n5. Review package price and available add-ons\n6. Continue to Trip Confirmation\n7. Enter or review traveler / contact details\n8. Review payment\n9. Accept Terms & Conditions / Cancellation Policy\n10. Complete payment\n11. Receive booking / order confirmation; JVTO then follows up with confirmation / e-voucher details\n\n### Booking Path B — WhatsApp-Assisted Booking\n\n1. Send dates, origin, destination/package, group size, and special requirements via official WhatsApp (+6282244788833)\n2. JVTO confirms route, availability, price, pickup/drop-off, and any custom details\n3. JVTO sends a secure payment link or payment instruction\n4. Guest pays the standard deposit or required amount based on departure date (see §Payment Rules)\n5. JVTO issues confirmation / e-voucher\n6. JVTO coordinates final pickup and pre-trip details\n\n> **Which path?** Website Instant Book is best for standard available packages and dates. WhatsApp-assisted booking is best for custom routes, group arrangements, complex pickup/drop-off, or special requests."
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q15",
+            "text": "How do I book and confirm a tour?\n\nThere are two official booking paths. **Option 1 — Website Instant Book:** for standard available packages and dates, choose your package on javavolcano-touroperator.com, select date and travelers, click Instant Book, review price and add-ons, accept the Terms & Cancellation Policy, and complete payment; JVTO then follows up with your confirmation / E-Voucher. **Option 2 — WhatsApp-assisted booking:** for custom routes, group arrangements, complex pickup/drop-off, or special requests, send your dates, origin, group size, and requirements to JVTO via WhatsApp; JVTO confirms availability and price, sends a secure payment link, and issues your E-Voucher. Either way, a deposit (20% standard) confirms the booking, and you receive an E-Voucher with full trip details after payment. You can always use WhatsApp if you prefer assisted booking. See [[products/packages-overview]] §booking-flow."
+          }
+        ]
+      },
+      {
+        "policy_id": "payment-rules",
+        "domain": "Payment Rules",
+        "canonical_sources": [
+          "products/packages-overview.md"
+        ],
+        "supporting_sources": [
+          "website/faq-master.md"
+        ],
+        "consumers": [
+          "checkout",
+          "invoice",
+          "faq"
+        ],
+        "notes": "20% deposit standard; close-departure (Day 1 within 14 days) may require full payment",
+        "evidence": [
+          {
+            "source": "wiki/products/packages-overview.md",
+            "section": "Payment Rules",
+            "text": "## Payment Rules\n\n- **Standard deposit**: 20% of total booking value (card via secure JVTO link)\n- **Close-departure rule**: if Day 1 is within 14 days, JVTO may require up to 100% full payment\n- **Card balance deadline**: no later than 5 days before Day 1\n- **Bank wire / Wise balance deadline**: no later than 3 days before Day 1\n- **Cash at JVTO office**: only if approved in writing in advance"
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q16",
+            "text": "How do payments, deposits and deadlines work?\n\nStandard deposit is 20% of total booking value (card via secure JVTO link). If Day 1 is within 14 days, up to 100% full payment may be required. Card balance is due no later than 5 days before Day 1; bank wire/Wise balance no later than 3 days before. Cash at JVTO office only if approved in writing. See [[products/packages-overview]] §payment-rules."
+          }
+        ]
+      },
+      {
+        "policy_id": "anti-fraud",
+        "domain": "Anti-Fraud",
+        "canonical_sources": [
+          "products/packages-overview.md"
+        ],
+        "supporting_sources": [
+          "website/faq-master.md"
+        ],
+        "consumers": [
+          "checkout",
+          "payment instructions"
+        ],
+        "notes": "Use only official JVTO channels; never share full card numbers, CVV, passwords, OTP",
+        "evidence": [
+          {
+            "source": "wiki/products/packages-overview.md",
+            "section": "Anti-Fraud Policy",
+            "text": "## Anti-Fraud Policy\n\n- Use only official JVTO website, WhatsApp, email, payment links, and listed bank accounts (see [[overview]] §contact)\n- JVTO **never** asks for full card numbers, CVV codes, online banking passwords, or OTP codes via chat or email\n- Pause and verify through official WhatsApp or email before paying if any account number, link, or contact looks different"
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q1",
+            "text": "How can we contact JVTO before and during the tour?\n\nBefore and during your tour, JVTO's official channels are WhatsApp (primary, +62 822 4478 8833) and email (hello@javavolcano-touroperator.com). These details appear on your E-Voucher and Confirmation. WhatsApp is the fastest channel for real-time logistics."
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q16",
+            "text": "How do payments, deposits and deadlines work?\n\nStandard deposit is 20% of total booking value (card via secure JVTO link). If Day 1 is within 14 days, up to 100% full payment may be required. Card balance is due no later than 5 days before Day 1; bank wire/Wise balance no later than 3 days before. Cash at JVTO office only if approved in writing. See [[products/packages-overview]] §payment-rules."
+          }
+        ]
+      }
+    ]
+  },
+  "invoice": {
+    "consumer": "invoice",
+    "policy_ids": [
+      "payment-rules"
+    ],
+    "domains": [
+      {
+        "policy_id": "payment-rules",
+        "domain": "Payment Rules",
+        "canonical_sources": [
+          "products/packages-overview.md"
+        ],
+        "supporting_sources": [
+          "website/faq-master.md"
+        ],
+        "consumers": [
+          "checkout",
+          "invoice",
+          "faq"
+        ],
+        "notes": "20% deposit standard; close-departure (Day 1 within 14 days) may require full payment",
+        "evidence": [
+          {
+            "source": "wiki/products/packages-overview.md",
+            "section": "Payment Rules",
+            "text": "## Payment Rules\n\n- **Standard deposit**: 20% of total booking value (card via secure JVTO link)\n- **Close-departure rule**: if Day 1 is within 14 days, JVTO may require up to 100% full payment\n- **Card balance deadline**: no later than 5 days before Day 1\n- **Bank wire / Wise balance deadline**: no later than 3 days before Day 1\n- **Cash at JVTO office**: only if approved in writing in advance"
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q16",
+            "text": "How do payments, deposits and deadlines work?\n\nStandard deposit is 20% of total booking value (card via secure JVTO link). If Day 1 is within 14 days, up to 100% full payment may be required. Card balance is due no later than 5 days before Day 1; bank wire/Wise balance no later than 3 days before. Cash at JVTO office only if approved in writing. See [[products/packages-overview]] §payment-rules."
+          }
+        ]
+      }
+    ]
+  },
+  "whatsapp": {
+    "consumer": "whatsapp",
+    "policy_ids": [
+      "booking-paths",
+      "ijen-health-screening"
+    ],
+    "domains": [
+      {
+        "policy_id": "booking-paths",
+        "domain": "Booking Paths",
+        "canonical_sources": [
+          "products/packages-overview.md"
+        ],
+        "supporting_sources": [
+          "website/booking-platform-analysis.md",
+          "sources/tango-workflow-jvto-website-booking.md"
+        ],
+        "consumers": [
+          "faq",
+          "website",
+          "whatsapp",
+          "checkout"
+        ],
+        "notes": "Must include both Instant Book and WhatsApp-assisted flow",
+        "evidence": [
+          {
+            "source": "wiki/products/packages-overview.md",
+            "section": "Booking Flow",
+            "text": "## Booking Flow\n\nJVTO offers **two official booking paths**. Both are direct JVTO channels — see also -> [[website/booking-platform-analysis]] and source -> [[sources/tango-workflow-jvto-website-booking]].\n\n### Booking Path A — Website Instant Book / Self-Checkout\n\n1. Choose package from the website package listing or a package detail page\n2. Select travel date\n3. Select number of travelers\n4. Click **Instant Book** when available\n5. Review package price and available add-ons\n6. Continue to Trip Confirmation\n7. Enter or review traveler / contact details\n8. Review payment\n9. Accept Terms & Conditions / Cancellation Policy\n10. Complete payment\n11. Receive booking / order confirmation; JVTO then follows up with confirmation / e-voucher details\n\n### Booking Path B — WhatsApp-Assisted Booking\n\n1. Send dates, origin, destination/package, group size, and special requirements via official WhatsApp (+6282244788833)\n2. JVTO confirms route, availability, price, pickup/drop-off, and any custom details\n3. JVTO sends a secure payment link or payment instruction\n4. Guest pays the standard deposit or required amount based on departure date (see §Payment Rules)\n5. JVTO issues confirmation / e-voucher\n6. JVTO coordinates final pickup and pre-trip details\n\n> **Which path?** Website Instant Book is best for standard available packages and dates. WhatsApp-assisted booking is best for custom routes, group arrangements, complex pickup/drop-off, or special requests."
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q15",
+            "text": "How do I book and confirm a tour?\n\nThere are two official booking paths. **Option 1 — Website Instant Book:** for standard available packages and dates, choose your package on javavolcano-touroperator.com, select date and travelers, click Instant Book, review price and add-ons, accept the Terms & Cancellation Policy, and complete payment; JVTO then follows up with your confirmation / E-Voucher. **Option 2 — WhatsApp-assisted booking:** for custom routes, group arrangements, complex pickup/drop-off, or special requests, send your dates, origin, group size, and requirements to JVTO via WhatsApp; JVTO confirms availability and price, sends a secure payment link, and issues your E-Voucher. Either way, a deposit (20% standard) confirms the booking, and you receive an E-Voucher with full trip details after payment. You can always use WhatsApp if you prefer assisted booking. See [[products/packages-overview]] §booking-flow."
+          }
+        ]
+      },
+      {
+        "policy_id": "ijen-health-screening",
+        "domain": "Ijen Health Screening",
+        "canonical_sources": [
+          "website/faq-master.md",
+          "people/dr-ahmad-irwandanu.md"
+        ],
+        "supporting_sources": [
+          "destinations/kawah-ijen.md"
+        ],
+        "consumers": [
+          "package pages",
+          "faq",
+          "whatsapp"
+        ],
+        "notes": "Conditional wording only (per BBKSDA SE.1658/KSA.9/2024); never \"universally mandatory\"",
+        "evidence": [
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q6",
+            "text": "How does the Ijen health screening work?\n\n> ⚠ health_wording_mode: **conditional** — BBKSDA authority governs this answer. Never state as universally mandatory.\n\nFor tours that include the Ijen night hike, JVTO arranges health-screening coordination — conducted by licensed medical staff — as required under BBKSDA access regulations for the Ijen crater zone (Surat Edaran SE.1658/KSA.9/2024). The aim is to reduce the risk of sending unfit guests into a demanding environment with sulphur gas and steep trails. Vitals measured digitally include SpO2, blood pressure, heart rate, and respiratory history. The certificate carries a QR code verified by BBKSDA at the crater access gate. **No Valid QR Code = No Access to Crater Zone.** See [[people/dr-ahmad-irwandanu]] for the full protocol."
+          },
+          {
+            "source": "wiki/website/faq-master.md",
+            "section": "Q7",
+            "text": "What happens if I do not pass the Ijen health screening?\n\nIf screening staff or the JVTO team advise that you should not attempt the hike, JVTO follows that decision — it protects your safety and others on the trail. The climb is cancelled for that individual (not the group); alternatives include waiting at base camp or a safe zone. The screening session cost is non-refundable. The group continues."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Providers } from "@/app/providers";
+import { getPolicyDomain } from "@/lib/policy-bundle";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -59,6 +60,12 @@ function calculateFOCDiscount(pax: number, pricePerPerson: number) {
   }
   return { amount: 0, label: "" };
 }
+
+const checkoutPolicyNotes = [
+  getPolicyDomain("checkout", "booking-paths")?.notes,
+  getPolicyDomain("checkout", "payment-rules")?.notes,
+  getPolicyDomain("checkout", "anti-fraud")?.notes,
+].filter(Boolean) as string[];
 
 interface ContactDetails {
   email: string;
@@ -926,7 +933,7 @@ const StepTwoPayment = ({
             </p>
           </div>
           <div className="pt-3 text-xs text-slate-500 flex items-start gap-2">
-            <span>ℹ️</span>
+            <span>i</span>
             {diffDays >= 14 ? (
               <p>
                 Because your trip is 14+ days away, a 20% deposit via Xendit is
@@ -944,6 +951,24 @@ const StepTwoPayment = ({
               </p>
             )}{" "}
           </div>
+        </div>
+        <div className="mb-6 rounded-sm border border-emerald-100 bg-emerald-50 p-4 text-xs text-slate-700">
+          <p className="mb-2 font-black uppercase tracking-widest text-slate-900">
+            Policy source
+          </p>
+          <ul className="space-y-1.5">
+            {checkoutPolicyNotes.map((note) => (
+              <li key={note} className="flex gap-2">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-jvto-green" />
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-slate-600">
+            Standard packages should continue through this website checkout.
+            WhatsApp remains available for assisted custom routes, group
+            arrangements, complex pickup/drop-off, or verification questions.
+          </p>
         </div>
         {/* LOGIC SUMMARY:
   >= 14 Days: 20% DP via Xendit
@@ -1026,7 +1051,7 @@ const StepTwoPayment = ({
               I agree to the{" "}
               <a
                 target="_blank"
-                href="/travel-guide/booking-information"
+                href="/policy/booking-payment-cancellation"
                 className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
               >
                 Terms & Conditions
@@ -1034,7 +1059,7 @@ const StepTwoPayment = ({
               and{" "}
               <a
                 target="_blank"
-                href="/travel-guide/booking-information"
+                href="/policy/booking-payment-cancellation"
                 className="font-bold underline decoration-jvto-green decoration-2 underline-offset-2"
               >
                 Cancellation Policy
