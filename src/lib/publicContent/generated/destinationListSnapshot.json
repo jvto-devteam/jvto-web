@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T22:53:19.001Z",
+  "generatedAt": "2026-06-17T01:38:29.887Z",
   "items": [
     {
       "id": 1,
@@ -121,9 +121,9 @@
         "url": "/uploads/1764649921055-338810628-1687447803_whatsapp_image_2019-05-12_at_4.46.53_pm.jpeg",
         "alt": "Ijen"
       },
-      "summary": "Kawah Ijen is located in Banyuwangi Regency, East Java, Indonesia — approximately 3 hours by car from Banyuwangi city and 5–6 hours from Surabaya (Juanda Airport). It is the world's largest acidic crater lake and one of only two places where natural blue fire (SO₂ combustion at ~600°C) occurs. Entry requires a BBKSDA health certificate; all JVTO Ijen packages include mandatory in-hotel health screening by a licensed physician.",
+      "summary": "Kawah Ijen is located in Banyuwangi Regency, East Java, Indonesia — approximately 3 hours by car from Banyuwangi city and 5–6 hours from Surabaya (Juanda Airport). It is the world's largest acidic crater lake and one of only two places where SO₂ combustion at high temperature occurs. Entry requires a BBKSDA health certificate; all JVTO Ijen packages include mandatory in-hotel health screening by a licensed physician.",
       "highlight": "Acidic crater lake",
-      "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The blue fire is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
+      "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The sulfuric combustion is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
       "geo": {
         "latitude": -8.058,
         "longitude": 114.242,
@@ -139,7 +139,7 @@
       },
       "main_attractions": [
         {
-          "title": "Blue Fire Phenomenon",
+          "title": "Sulfuric Gas Phenomenon",
           "description": "Witness the surreal blue flames that appear only at night due to combustion of sulfuric gases"
         },
         {
@@ -157,7 +157,7 @@
       ],
       "key_highlights": [
         {
-          "title": "Natural Blue Fire — SO₂ Combustion",
+          "title": "SO₂ Combustion Phenomenon",
           "description": "One of only two places on Earth where sulfuric gas (SO₂) ignites into electric-blue flames (~600°C). Visible only in darkness, between midnight and sunrise."
         },
         {
@@ -174,8 +174,8 @@
         }
       ],
       "seo": {
-        "title": "Mount Ijen Blue Fire Volcano - Complete Trekking Guide 2024",
-        "description": "Experience Mount Ijen's blue fire and acidic crater lake. Complete guide to trekking, safety, permits, and cultural significance in East Java."
+        "title": "Mount Ijen Crater - Complete Trekking Guide 2024",
+        "description": "Experience Mount Ijen's acidic crater lake and volcanic phenomena. Complete guide to trekking, safety, permits, and cultural significance in East Java."
       },
       "tags": [
         "volcano",
@@ -210,7 +210,7 @@
           "https://www.wikidata.org/wiki/Q744653"
         ],
         "@context": "https://schema.org",
-        "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night.",
+        "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where SO₂ volcanic combustion occurs at night.",
         "touristType": [
           "Adventure travelers",
           "Nature enthusiasts",
