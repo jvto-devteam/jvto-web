@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-17T01:38:37.578Z",
+  "generatedAt": "2026-06-17T07:25:52.093Z",
   "items": [
     {
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
@@ -10857,45 +10857,45 @@
           "offers": {
             "currency": "IDR",
             "aggregateOffer": {
-              "lowPrice": 3450000,
-              "highPrice": 4350000
+              "lowPrice": 3700000,
+              "highPrice": 4700000
             },
             "tiers": [
               {
                 "sku": "package-SUB-3D2N-006-1",
                 "paxMin": 11,
                 "paxMax": 0,
-                "pricePerPerson": 3450000
+                "pricePerPerson": 3700000
               },
               {
                 "sku": "package-SUB-3D2N-006-2",
                 "paxMin": 8,
                 "paxMax": 10,
-                "pricePerPerson": 3550000
+                "pricePerPerson": 3900000
               },
               {
                 "sku": "package-SUB-3D2N-006-3",
                 "paxMin": 6,
                 "paxMax": 7,
-                "pricePerPerson": 3750000
+                "pricePerPerson": 4100000
               },
               {
                 "sku": "package-SUB-3D2N-006-4",
                 "paxMin": 4,
                 "paxMax": 5,
-                "pricePerPerson": 3950000
+                "pricePerPerson": 4300000
               },
               {
                 "sku": "package-SUB-3D2N-006-5",
                 "paxMin": 3,
                 "paxMax": 3,
-                "pricePerPerson": 4150000
+                "pricePerPerson": 4500000
               },
               {
                 "sku": "package-SUB-3D2N-006-6",
                 "paxMin": 2,
                 "paxMax": 2,
-                "pricePerPerson": 4350000
+                "pricePerPerson": 4700000
               }
             ]
           },
