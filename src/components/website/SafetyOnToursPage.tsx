@@ -48,7 +48,7 @@ const SafetyOnToursPage = () => {
              <section className="mt-8">
                 <h2>Ijen Crater Specific Protocols</h2>
                  <ul>
-                    <li><strong>Mandatory Health Screening:</strong> As a non-negotiable rule, every guest must undergo a health check before the Ijen trek. This is included in your tour and helps prevent medical emergencies at high altitude.</li>
+                    <li><strong>Health Screening:</strong> Every guest on a tour that includes the Ijen night hike completes a JVTO pre-hike health check, included in your tour. Under current park access rules (BBKSDA SE.1658/KSA.9/2024), authorities or providers may require or verify screening completion before entry. The check helps prevent medical emergencies at high altitude.</li>
                     <li><strong>Professional Gas Masks:</strong> We provide professional-grade gas masks, not cheap disposable ones. Guides ensure they are fitted correctly and instruct on their proper use.</li>
                     <li><strong>Guided Descent:</strong> The optional descent to the blue fire area is always led by the guide, who assesses the conditions and path safety in real-time. Guests are instructed to stay with the guide at all times.</li>
                 </ul>

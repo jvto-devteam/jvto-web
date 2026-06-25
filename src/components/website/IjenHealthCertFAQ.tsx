@@ -19,7 +19,7 @@ const IjenHealthCertFAQ: React.FC = () => {
                     <span className="material-symbols-outlined text-yellow-600 dark:text-yellow-400 mt-1">gavel</span>
                     <div>
                         <h4 className="font-semibold text-ink-primary dark:text-white">Why is it required?</h4>
-                        <p className="text-sm">This is a non-negotiable government regulation designed to ensure trekkers are physically prepared for the high altitude and strenuous conditions of the hike.</p>
+                        <p className="text-sm">It follows BBKSDA park regulation SE.1658/KSA.9/2024 for the Ijen area, intended to ensure trekkers are physically prepared for the high altitude and strenuous conditions. Under current access rules, screening completion may be required or verified before entry.</p>
                     </div>
                 </div>
                 <div className="flex items-start gap-3">
