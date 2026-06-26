@@ -390,18 +390,15 @@
       "decisions": [
         {
           "decision_id": "DEC-001",
-          "topic": "stefan_loose_year_isbn",
+          "topic": "stefan_loose_bibliographic_reference",
           "final_value": {
-            "year": 2018,
-            "isbn": "978-3-7701-7881-0",
-            "title": "Stefan Loose Reiseführer Indonesien",
-            "publisher": "DuMont Reiseverlag",
-            "edition": "4th edition",
-            "date_published": "2018-07-05",
-            "language": "de",
-            "number_of_pages": 772
+            "title": "Stefan Loose Reiseführer Indonesien: mit Reiseatlas",
+            "isbn_10": "3770167651",
+            "isbn_13": "9783770167654",
+            "bibliographic_url": "https://www.amazon.de/-/en/Stefan-Loose-Reisef%C3%BChrer-Indonesien-Reiseatlas/dp/3770167651",
+            "page": 287
           },
-          "decided_at": "2026-05-28"
+          "decided_at": "2026-06-25"
         },
         {
           "decision_id": "DEC-003",
