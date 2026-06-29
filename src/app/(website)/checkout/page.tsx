@@ -1106,7 +1106,20 @@ function CheckoutPageInner() {
     );
   }
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    productID: payload.packageId,
+    sku: payload.packageId,
+    name: payload.packageLabel,
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto max-w-6xl px-4 py-26 md:py-40">
         <div className="mb-12 text-center">
@@ -1152,6 +1165,7 @@ function CheckoutPageInner() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
