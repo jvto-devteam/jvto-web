@@ -476,7 +476,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       <div className="bg-jvto-navy text-white py-12 border-t border-jvto-navy">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
-            <div className="flex-1">
+            <div className="flex-1 scroll-mt-28" id="included">
               <h3 className="text-lg font-black mb-8 text-white">
                 {`What's Included?`}
               </h3>
@@ -626,7 +626,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           {/* LEFT COLUMN: INFO & ITINERARY */}
           <div className="lg:col-span-2 space-y-16">
             {/* Description (With Show More/Less) */}
-            <div>
+            <div id="overview" className="scroll-mt-28">
               <h2 className="text-2xl font-black mb-6 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 About This Trip
@@ -767,7 +767,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* =========================================================
                 ITINERARY SECTION (RESPONSIVE WITH MEALS)
                ========================================================= */}
-            <div>
+            <div id="itinerary" className="scroll-mt-28">
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                 <span className="w-8 h-1 bg-jvto-green block"></span>
                 Itinerary
@@ -1079,7 +1079,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
               {/* 1. ACCOMMODATION SLIDER */}
               {initialData.trip?.vehiclePlan && (
-                <div>
+                <div id="accommodation" className="scroll-mt-28">
                   <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
                     <span className="w-8 h-1 bg-jvto-green block"></span>
                     Accommodation
@@ -1602,7 +1602,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
 
           {/* RIGHT COLUMN: STICKY SIDEBAR */}
-          <div className="lg:col-span-1 relative">
+          <div id="book" className="lg:col-span-1 relative scroll-mt-28">
             <div
               id="booking-card"
               className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-jvto-border bg-white shadow-xl"
