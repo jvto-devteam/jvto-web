@@ -108,7 +108,10 @@ export default async function MyBookingPage({
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 Booking Ref
               </p>
-              <h1 className="text-lg md:text-xl font-black text-slate-900 leading-none">
+              <h1
+                className="text-lg md:text-xl font-black text-slate-900 leading-none"
+                data-order_channel={booking.channel}
+              >
                 {booking.booking_code}
               </h1>
             </div>
