@@ -5,7 +5,7 @@ import Hero from "@/components/website/Home/Hero";
 import Differentiators from "@/components/website/Home/Differentiators";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
-import Reviews from "@/components/website/Home/Reviews";
+import Script from "next/script";
 import TrustVerification from "@/components/website/Home/TrustVerification";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
@@ -183,7 +183,14 @@ const Home = async () => {
             </p>
           </div>
 
-          <Reviews />
+          <Script
+            src="https://elfsightcdn.com/platform.js"
+            strategy="lazyOnload"
+          />
+          <div
+            className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
+            data-elfsight-app-lazy
+          />
         </div>
       </section>
 
