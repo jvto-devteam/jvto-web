@@ -240,6 +240,10 @@ export default async function TravelGuideHubPage() {
               <span className="text-white/80">Travel Guide</span>
             </nav>
 
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              Essential Knowledge
+            </span>
+
             <h1
               className="font-black text-3xl md:text-5xl text-white mb-6"
               style={{ fontFamily: "var(--font-heading)" }}
