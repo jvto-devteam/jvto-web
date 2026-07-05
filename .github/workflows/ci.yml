@@ -39,9 +39,22 @@ jobs:
       - name: Validate schema & routes (blocking)
         # Zero-dep static gates (scripts/validate.mjs): fails on duplicate
         # Organization/BreadcrumbList/FAQPage per route and registry/route drift.
+        # Direct node invocations: `npm run validate` is now a chained gate
+        # (schema && routes && content), so npm arg-append no longer selects a
+        # subcommand.
         run: |
-          npm run validate schema
-          npm run validate routes
+          node scripts/validate.mjs schema
+          node scripts/validate.mjs routes
+
+      - name: Validate content drift (blocking)
+        # Canonical-facts gate (scripts/validate-content-drift.mjs): scans src/,
+        # public/llms*.txt and docs/CANONICAL_FACTS.md for forbidden patterns —
+        # stale founding year, blue-fire "guarantee" wording, stale review
+        # counts, non-IDR prices, stale deposit/group terms, unverified press
+        # names, and the retired jvto-config.json brand-config JSON pattern.
+        # Lines carrying a `drift-ok: <reason>` marker are whitelisted (used by
+        # docs/CANONICAL_FACTS.md to quote forbidden examples deliberately).
+        run: npm run validate:content
 
       - name: Generate Prisma client
         # generate does not connect; the dummy URL only satisfies env("DATABASE_URL").
