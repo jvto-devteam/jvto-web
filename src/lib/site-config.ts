@@ -163,3 +163,13 @@ export const SITE_CONFIG = {
     Driver: "Professional Tour Driver",
   },
 } as const;
+
+/**
+ * Founding year derived from `SITE_CONFIG.foundingDate` (CANONICAL_FACTS lock: 2015,
+ * guesthouse era / Booking.com award). Single dynamic source for every "EST" brand
+ * tag in the chrome — NEVER hardcode "EST 2016" or "EST 2015" as static copy.
+ */
+export const FOUNDING_YEAR = Number(SITE_CONFIG.foundingDate.slice(0, 4));
+
+/** Brand tag rendered next to the JVTO wordmark (nav/footer chrome). */
+export const BRAND_EST_TAG = `EST ${FOUNDING_YEAR}`;
