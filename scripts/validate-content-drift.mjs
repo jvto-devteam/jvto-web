@@ -14,6 +14,8 @@
  *   - src/            (recursive)
  *   - public/llms*.txt
  *   - docs/CANONICAL_FACTS.md
+ *   - repo-root *-config.json files (structural guard against a second
+ *     brand-config file recurring, per CONTRIBUTING.md §5 / jvto-config.json)
  *
  * Excluded (by design):
  *   - src/lib/publicContent/generated/  (DB snapshots — never hand-edited;
@@ -48,12 +50,17 @@ const RULES = [
   {
     name: 'stale-review-counts',
     // canonical: Trustpilot 4.8/51 · Google 4.9/123 · TripAdvisor 4.95/21 · cross-platform 4.8/195
-    re: /\b112\+|4\.9\s*\/\s*5 · 92|47 reviews|5\.0\s*\/\s*5\b/,
+    // Bare 112/92 as review counts (e.g. `reviewCount: 112`, "112 reviews") are
+    // forbidden values per the facts lock, not just the "112+" / compound forms.
+    re: /\b112\+|4\.9\s*\/\s*5 · 92|47 reviews|5\.0\s*\/\s*5\b|reviewCount["'\s:=]*11[2]\b|reviewCount["'\s:=]*92\b|4\.9\s*\/\s*112\b|\b112\s*reviews?\b|\b92\s*reviews?\b/i,
   },
   {
     name: 'wrong-founding-year',
-    // canonical foundingDate/since = 2015 (docs/CANONICAL_FACTS.md)
-    re: /incorporated 20(16|19|20)|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20)/i,
+    // canonical foundingDate/since = 2015 (docs/CANONICAL_FACTS.md). 2023 is
+    // legitimate for legal/PT-formalization context (e.g. "TDUP issued
+    // 2023-02-11") but forbidden specifically as a foundingDate value — so
+    // only that alternative gains |23, not "incorporated"/"EST".
+    re: /incorporated 20(16|19|20)|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
   },
   {
     name: 'brand-config-json-pattern',
@@ -132,6 +139,15 @@ function walk(dir, out = []) {
 function collectTargets() {
   const targets = [];
   targets.push(...walk(path.join(ROOT, 'src')));
+  // Root-level brand-config JSON files (the jvto-config.json pattern this
+  // validator exists to prevent recurring — see CONTRIBUTING.md §5). Matches
+  // "*-config.json" specifically (hyphen/underscore before "config") so it
+  // never picks up unrelated root configs like tsconfig.json.
+  for (const entry of readdirSync(ROOT, { withFileTypes: true })) {
+    if (entry.isFile() && /[-_]config\.json$/i.test(entry.name)) {
+      targets.push(path.join(ROOT, entry.name));
+    }
+  }
   const publicDir = path.join(ROOT, 'public');
   for (const entry of readdirSync(publicDir, { withFileTypes: true })) {
     if (entry.isFile() && /^llms.*\.txt$/.test(entry.name)) {
