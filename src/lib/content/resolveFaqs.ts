@@ -17,6 +17,8 @@ import {
   VERIFY_HUB_FAQS,
 } from '@/lib/verifyFaqs';
 import { BEST_TIME_FAQS } from '@/lib/travelGuideBestTimeFaqs';
+import { RIJIK_FAQS } from '@/lib/travelGuideRijikFaqs';
+import { WEATHER_AND_CLOSURES_FAQS } from '@/lib/travelGuideWeatherClosuresFaqs';
 import type { QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -45,6 +47,8 @@ const CANONICAL_FAQ_REGISTRY: Record<string, () => QaPair[]> = {
   '/verify-jvto/police-safety': () => POLICE_SAFETY_FAQS,
   '/verify-jvto/press-recognition': () => PRESS_RECOGNITION_FAQS,
   '/travel-guide/best-time-to-visit': () => BEST_TIME_FAQS,
+  '/travel-guide/rijik-monthly-closure': () => RIJIK_FAQS,
+  '/travel-guide/weather-and-closures': () => WEATHER_AND_CLOSURES_FAQS,
 };
 
 /** Returns canonical FAQ for a route, or empty array if none registered. */

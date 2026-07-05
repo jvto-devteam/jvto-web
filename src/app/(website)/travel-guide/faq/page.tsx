@@ -126,29 +126,35 @@ export default async function FaqPage() {
       />
       <Sidebar />
       <main className="flex-1 pt-24 md:pt-36 pb-20">
-        <section>
-          <div className="container mx-auto px-4 max-w-4xl">
-            <nav className="mb-4  text-sm text-muted-foreground">
-              <Link href="/" prefetch={false} className="hover:text-primary">
+        <section className="bg-jvto-navy text-white pb-10 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <Link href="/travel-guide" prefetch={false} className="hover:text-primary">
+              <Link href="/travel-guide" prefetch={false} className="hover:text-white transition-colors">
                 Travel Guide
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">{seo.h1}</span>
+              <span className="text-white/80">{seo.h1}</span>
             </nav>
-
-            <div className=" mb-12">
-              <h1 className="font-headline text-4xl md:text-5xl font-black tracking-tight">
-                {seo.h1}
-              </h1>
-              <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-                {seo.description}
-              </p>
-            </div>
-
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              Reference
+            </span>
+            <h1
+              className="font-headline text-3xl md:text-5xl font-black tracking-tight text-white"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {seo.h1}
+            </h1>
+            <p className="mt-4 max-w-3xl text-lg text-white/70">
+              {seo.description}
+            </p>
+          </div>
+        </section>
+        <section>
+          <div className="container mx-auto px-4 max-w-4xl pt-12">
             {categories.length === 0 ? (
               <div className=" text-muted-foreground py-10 bg-slate-50/50 rounded-sm border border-dashed">
                 <p>No questions are available at the moment.</p>
