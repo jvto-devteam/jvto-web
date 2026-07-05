@@ -4,9 +4,11 @@ name: CI
 # The `verify` job runs lint/typecheck/drift on a GitHub runner (no build: SSG
 # build needs Postgres). The `build-develop` job runs a real `npm run build` on
 # the DEVELOP server (dev DB) over SSH — verification only, never production.
+# `live` is included so promote PRs (live <- main) pass the same verify gate
+# before production picks them up — see docs/CONTRIBUTING.md (branch model).
 on:
   pull_request:
-    branches: [main]
+    branches: [main, live]
   workflow_dispatch:
 
 jobs:
