@@ -2,8 +2,17 @@
 @import "tailwindcss";
 
 /* ====== CUSTOM THEME (Tailwind v4 way) ====== */
+/* SSOT for JVTO design tokens — extracted from docs/design-reference/jvto-system.css
+   (W3 design-reference spec). All clusters (chrome, tours, why, destinations, guides)
+   consume these; define new tokens HERE, never per-component. */
 @theme {
   --font-sans: "Inter", sans-serif;
+
+  /* ── Typography scale (spec: --font-display Raleway, --font-mono JetBrains Mono).
+        The next/font variables are set on the (website) layout wrapper. ── */
+  --font-jvto-display: var(--font-jvto-display-loaded, "Raleway"), Georgia, serif;
+  --font-jvto-mono: var(--font-jvto-mono-loaded, "JetBrains Mono"), ui-monospace,
+    SFMono-Regular, Menlo, monospace;
 
   /* ── Legacy tokens (keep — other pages still reference these) ── */
   --color-jvto-green: #9fce33;
@@ -11,7 +20,7 @@
   --color-jvto-light: #f5f5f5;
   --color-jvto-text: #333333;
 
-  /* ── Design System v2 tokens ── */
+  /* ── Design System v2 tokens (canonical palette: navy + orange + lime) ── */
   --color-jvto-navy: #0D1B2A;
   --color-jvto-navy-mid: #1C2E40;
   --color-jvto-orange: #E8650A;
@@ -20,8 +29,40 @@
   --color-jvto-gold: #F5A623;
   --color-jvto-wa-green: #25D366;
   --color-jvto-off: #F6F5F2;
-  --color-jvto-muted: #4B5563;
+  --color-jvto-muted: #6B7280; /* aligned to spec --muted (was #4B5563 pre-W3) */
   --color-jvto-border: #E3E0DA;
+
+  /* ── Radius scale (spec V2 aesthetic layer) → rounded-jvto-* utilities ── */
+  --radius-jvto-xs: 8px; /* chips, micro elements */
+  --radius-jvto-sm: 12px; /* buttons, small cards */
+  --radius-jvto-md: 18px; /* form fields, inline cards */
+  --radius-jvto-lg: 28px; /* tour cards, tiles, proof cards */
+  --radius-jvto-xl: 40px; /* landscape cards, founder photo */
+
+  /* ── Elevation (spec V2) → shadow-jvto-soft / shadow-jvto-card-hover ── */
+  --shadow-jvto-soft: 0 12px 32px -16px rgba(13, 27, 42, 0.12),
+    0 2px 6px -2px rgba(13, 27, 42, 0.04);
+  --shadow-jvto-card-hover: 0 30px 60px -25px rgba(13, 27, 42, 0.22),
+    0 4px 12px -4px rgba(13, 27, 42, 0.06);
+
+  /* ── Density / section rhythm (spec) → py-jvto-section etc. ── */
+  --spacing-jvto-section: 8rem;
+  --spacing-jvto-section-sm: 5rem;
+  --spacing-jvto-card-gap: 2rem;
+}
+
+/* Plain-CSS aliases matching the spec's variable names (for non-Tailwind CSS and
+   parity with docs/design-reference/jvto-system.css). Same values as @theme above. */
+:root {
+  --jvto-navy: #0d1b2a;
+  --jvto-navy-mid: #1c2e40;
+  --jvto-orange: #e8650a;
+  --jvto-orange-hover: #c4520a;
+  --jvto-gold: #f5a623;
+  --jvto-lime: #8cc63f;
+  --jvto-off: #f6f5f2;
+  --jvto-muted: #6b7280;
+  --jvto-border: #e3e0da;
 }
 
 /* ====== BASE GLOBAL STYLE ====== */
