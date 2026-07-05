@@ -330,48 +330,35 @@ export default async function DestinationDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} relatedTours={tours} />
+      <DestinationDetailView
+        data={data}
+        slug={slug}
+        routeStats={routeStats}
+        volcanicStatus={volcanicStatus}
+        relatedTours={tours}
+      />
 
-      {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
-      {slug === "ijen-crater" && (
-        <div className="border-t border-amber-200 bg-amber-50">
-          <div className="container mx-auto px-4 max-w-6xl py-8">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">
-              Health Certificate Coordination
-            </p>
-            <p className="text-sm text-gray-700 leading-relaxed max-w-2xl mb-3">
-              Ijen crater access can require a recent health certificate when BBKSDA SE.1658/KSA.9/2024
-              thresholds apply. JVTO coordinates the clinic workflow via Dr. Ahmad Irwandanu
-              (SIP-licensed, Kemenkes RI) — the certificate carries a QR code verified at the
-              crater access gate.
-            </p>
-            <Link
-              href="/travel-guide/ijen-health-screening"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 hover:text-amber-900 transition-colors"
-            >
-              How Ijen Health Screening Works →
-            </Link>
-          </div>
-        </div>
-      )}
+      {/* Ijen Health Certificate Coordination now lives inside DestinationDetailView's
+          SignatureSection (design-reference §04) with the full BBKSDA SE.1658/KSA.9/2024
+          conditional wording — no longer duplicated here. */}
 
       {(travelGuideLink || relatedDests.length > 0) && (
-        <div className="border-t border-gray-200 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row gap-8">
+        <div className="border-t border-jvto-border bg-jvto-off">
+          <div className="container mx-auto px-4 max-w-6xl py-10 flex flex-col sm:flex-row gap-10">
             {travelGuideLink && (
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Travel Guide</p>
-                <Link href={travelGuideLink.href} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-muted mb-2">Travel Guide</p>
+                <Link href={travelGuideLink.href} className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors">
                   {travelGuideLink.label} →
                 </Link>
               </div>
             )}
             {relatedDests.length > 0 && (
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Related Destinations</p>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-muted mb-2">Related Destinations</p>
                 <div className="flex flex-wrap gap-6">
                   {relatedDests.map((d) => (
-                    <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-gray-900 hover:text-green-700 transition-colors">
+                    <Link key={d.slug} href={`/destinations/${d.slug}`} className="text-sm font-semibold text-jvto-navy hover:text-jvto-orange transition-colors">
                       {d.name} →
                     </Link>
                   ))}
