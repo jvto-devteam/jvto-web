@@ -59,6 +59,17 @@ feature branch (claude/*, codex/*, feat/*, fix/*, …)
   (`npm run sync:packages`, `sync:trust`, `sync:blog`, and future `sync:*` pipelines).
   CI verifies synced bundles against the producer repo and fails on drift.
 
+### 5. Single brand-config source
+
+- Brand facts (founding year, contacts, review counts, addresses, legal identifiers)
+  have exactly two homes: [`docs/CANONICAL_FACTS.md`](CANONICAL_FACTS.md) (the
+  adjudicated human-readable lock) and `src/lib/site-config.ts` (the runtime single
+  source of truth). They must agree; the facts lock wins on conflict.
+- **Never create a second brand-facts config file** — no root `*-config.json` or
+  similar, from any session, human or agent. Precedent: `jvto-config.json` (root,
+  zero importers, wrong facts) sat unnoticed contradicting the lock. If you find such
+  a file, report it as a deletion candidate — do not edit, extend, or preserve it.
+
 ## Pre-push gate (run before every push/PR)
 
 | Gate | Command | Pass condition |
