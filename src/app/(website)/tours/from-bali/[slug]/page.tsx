@@ -313,6 +313,7 @@ function StructuredData({
         description: stripHtml(pkg.description),
         image: [schemaImageUrl],
         sku: pkg.packageId,
+        productID: pkg.packageId,
         brand: { "@id": `${siteUrl}/#organization` },
         aggregateRating: {
           "@type": "AggregateRating",
