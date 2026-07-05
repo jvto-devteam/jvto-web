@@ -1,6 +1,16 @@
 // JVTO Animated Testimonials — vanilla JS, no deps.
 // Two-column section: left = heading + dot navigation, right = card stack.
 // Auto-rotates; click dot to focus a specific testimonial.
+//
+// ⚠⚠ FABRICATED PLACEHOLDER DATA — DO NOT COPY INTO PRODUCTION ⚠⚠
+// The TESTIMONIALS array below contains INVENTED reviewer names/quotes that do
+// NOT exist in the verified review dossiers (uploads/trustpilot-*.md,
+// reviews.md) yet are labeled with real platform names. This file specifies
+// the WIDGET BEHAVIOR/LAYOUT only. Any W3 implementation MUST populate the
+// carousel exclusively from verified review sources (src/lib/jvtoReviews.ts /
+// src/lib/queries/schemaReviews.ts / the uploads dossier). Shipping these
+// placeholder quotes under Trustpilot/Google/TripAdvisor labels = facts-lock
+// violation (docs/CANONICAL_FACTS.md). Flagged by Codex review on PR #66.
 (function () {
   const TESTIMONIALS = [
     {
