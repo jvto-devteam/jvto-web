@@ -5,9 +5,7 @@ import {
   ShieldCheck,
   BookOpen,
   Star,
-  Users,
   ArrowRight,
-  ArrowUpRight,
   CheckCircle2,
   Search,
   MessageCircleQuestion,
@@ -19,13 +17,30 @@ import {
   ExternalLink,
   FileDigit,
   ChevronRight,
-  Award,
-  Quote,
   Fingerprint,
   Newspaper,
 } from "lucide-react";
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
+import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
+import {
+  resolveFaqsForPage,
+  buildResolvedFaqSchema,
+} from "@/lib/content/resolveFaqs";
+import {
+  buildWhyJvtoHubItemListSchema,
+  buildNarrativeClaimsItemList,
+} from "@/lib/schemas/buildWhyJvtoSchemas";
+import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
+import { CREW_PORTRAITS, FOUNDER_LEADERSHIP, HISTORY_HERITAGE } from "@/lib/imageAssets";
 import SidebarDesktop from "./SidebarDesktop";
+import { WHY_JVTO_STYLES } from "./whyJvtoTokens";
+import {
+  DifferenceChips,
+  ReviewQuoteRotator,
+  StoryTimelineTabs,
+  StandardsAccordion,
+} from "./HubInteractive";
+
 const siteUrl = "https://javavolcano-touroperator.com";
 
 const defaultWhyTitle = "Why Choose Java Volcano Tour Operator";
@@ -74,26 +89,26 @@ export async function generateMetadata(): Promise<Metadata> {
 const trustStackCards = [
   {
     icon: ShieldAlert,
-    title: "Safety Leadership & The JVTO Difference",
+    title: "The JVTO Difference",
     desc: "Police-led safety mindset, documented operational discipline, and proof you can verify.",
     href: "/why-jvto/the-jvto-difference",
   },
   {
     icon: Scale,
     title: "Our Story: Roots Since 2015",
-    desc: "Booking.com award, Stefan Loose guidebook feature, and artifacts tracing our documented history.",
+    desc: "Booking.com award, documented continuity, and artifacts tracing our history in Bondowoso.",
     href: "/why-jvto/our-story",
   },
   {
     icon: Mountain,
     title: "Our Team: Local Crew",
-    desc: "A local operations team trained for real East Java logistics.",
+    desc: "14 named guides and drivers, HPWKI KTA-credentialed, recruited locally — no freelancers.",
     href: "/why-jvto/our-team",
   },
   {
     icon: Star,
     title: "Guest Reviews (Independent Platforms)",
-    desc: "Independent reviews across Tripadvisor, Trustpilot, Google, ISIC and Indecon.",
+    desc: "Independent reviews across Trustpilot, Google Maps and TripAdvisor.",
     href: "/why-jvto/reviews",
   },
   {
@@ -105,43 +120,8 @@ const trustStackCards = [
   {
     icon: Search,
     title: "Verify JVTO",
-    desc: "Legal docs, safety docs, press, and history artifacts—organized for easy checking.",
+    desc: "Legal docs, safety docs, press, and history artifacts — organized for easy checking.",
     href: "/verify-jvto",
-  },
-];
-
-const faqItems = [
-  {
-    q: "Do you mix strangers into one car?",
-    a: "No. JVTO runs private tours only.",
-    link: "/travel-guide/booking-information",
-    linkLabel: "Booking Information",
-  },
-  {
-    q: "What if weather or closures change the plan?",
-    a: "We adapt early and communicate clearly.",
-    link: "/why-jvto/the-jvto-difference",
-    linkLabel: "Safety Approach",
-    link2: "/travel-guide",
-    linkLabel2: "Practical Rules",
-  },
-  {
-    q: "Where can I verify legality and proof?",
-    a: "Everything is organized in our Proof Library.",
-    link: "/why-jvto/the-jvto-difference",
-    linkLabel: "Proof Library",
-  },
-  {
-    q: "Where are your booking/payment terms?",
-    a: "Full terms are on the booking & payment policy page.",
-    link: "/policy/booking-payment-cancellation",
-    linkLabel: "Booking & Payment Policy",
-  },
-  {
-    q: "How do you handle personal data?",
-    a: "All data handling is documented in our privacy policy.",
-    link: "/policy/privacy",
-    linkLabel: "Privacy Policy",
   },
 ];
 
@@ -169,508 +149,439 @@ const proofDocs = [
 ];
 
 export default async function WhyJvtoPage() {
-  const page = await getPublicPageSnapshot("/why-jvto", {
-    allowDatabaseFallback: false,
-  });
+  const [page, faqResolution, narrativeClaims] = await Promise.all([
+    getPublicPageSnapshot("/why-jvto", { allowDatabaseFallback: false }),
+    resolveFaqsForPage("/why-jvto"),
+    getAllNarrativeClaims().catch(() => []),
+  ]);
   const heroH1 =
     typeof page.snapshot.content.h1 === "string"
       ? page.snapshot.content.h1
       : defaultWhyTitle;
+  const heroLede = Array.isArray(page.snapshot.content.lede)
+    ? (page.snapshot.content.lede as string[])
+    : [];
+
+  const faqSchemaNode = buildResolvedFaqSchema(faqResolution, "/why-jvto");
+  const extraSchemas = [
+    buildWhyJvtoHubItemListSchema(),
+    buildNarrativeClaimsItemList(narrativeClaims),
+    faqSchemaNode,
+  ].filter(Boolean);
+
+  const faqItems = faqResolution.faqs.length
+    ? faqResolution.faqs.map((f) => ({ q: f.question, a: f.answer }))
+    : null;
+  const cmsContentFaq = Array.isArray((page.pageRow.content as any)?.faq)
+    ? ((page.pageRow.content as any).faq as Array<{ q: string; a: string }>)
+    : [];
+  const visibleFaqs = faqItems ?? cmsContentFaq;
+
+  const trustpilot = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
+  const googleMaps = REVIEW_PLATFORMS.find((p) => p.platform === "Google Maps");
+  const tripAdvisor = REVIEW_PLATFORMS.find((p) => p.platform === "TripAdvisor");
+
+  const founderPhoto = FOUNDER_LEADERSHIP[0];
+  const historyPhoto = HISTORY_HERITAGE[0];
+  const crewPreview = CREW_PORTRAITS.slice(0, 8);
+
   return (
     <>
+      <style>{WHY_JVTO_STYLES}</style>
       <style>{`
-        :root {
-          --brand: #9fce33;
-          --brand-dark: #7aaa1a;
-          --brand-dim: rgba(159,206,51,0.12);
-          --brand-border: rgba(159,206,51,0.30);
-          --ink: #0c0e09;
-          --ink-mid: #1a1e12;
-          --ink-soft: #2a3020;
-          --text-muted: #6b7a55;
-          --text-faint: #4a5535;
-          --surface: #f5f7f0;
-          --surface-2: #edf0e6;
-          --card-bg: #ffffff;
-          --border: #dde3d0;
-        }
-
-        // @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
-
-        .jvto-page { font-family: 'DM Sans', sans-serif; }
-        .jvto-page h1, .jvto-page h2, .jvto-page h3 { //font-family: 'Syne', sans-serif; }
-        .jvto-page .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* ── Hero ── */
-        .hero-section {
-          position: relative;
-          background: var(--ink);
-          color: #fff;
-          overflow: hidden;
-        }
-        .hero-bg {
-          position: absolute; inset: 0; z-index: 0;
-        }
-        .hero-bg img {
-          width: 100%; height: 100%; object-fit: cover;
-          opacity: 0.15; filter: grayscale(100%) contrast(1.1);
-        }
-        .hero-bg-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(160deg, rgba(12,14,9,0.3) 0%, rgba(12,14,9,0.85) 60%, #0c0e09 100%);
-        }
-        .hero-noise {
-          position: absolute; inset: 0; z-index: 1; opacity: 0.03;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-          background-repeat: repeat; background-size: 128px 128px;
-        }
-        .hero-grid-line {
-          position: absolute; inset: 0; z-index: 1; pointer-events: none;
-          background-image: linear-gradient(rgba(159,206,51,0.04) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(159,206,51,0.04) 1px, transparent 1px);
-          background-size: 60px 60px;
-        }
-        .hero-inner {
-          position: relative; z-index: 10;
-          max-width: 1200px; margin: 0 auto; padding: 5rem 2rem 4rem;
-        }
-        @media (min-width: 1024px) { .hero-inner { padding: 7rem 2rem 5rem; } }
-
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          padding: 0.35rem 0.9rem; border-radius: 999px;
-          background: rgba(159,206,51,0.12); border: 1px solid rgba(159,206,51,0.35);
-          color: var(--brand); font-size: 0.7rem; font-weight: 700;
-          text-transform: uppercase; letter-spacing: 0.1em;
-          margin-bottom: 1.75rem;
-        }
-        .hero-h1 {
-          font-size: clamp(2.4rem, 6vw, 5.5rem);
-          font-weight: 800; line-height: 1.02;
-          letter-spacing: -0.03em; margin-bottom: 1.5rem;
-        }
-        .hero-h1 span {
-          background: linear-gradient(95deg, var(--brand) 0%, #c8e86a 100%);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        .hero-lede {
-          max-width: 600px; color: rgba(255,255,255,0.6);
-          line-height: 1.7; font-size: 1.05rem; margin-bottom: 0.75rem;
-        }
-        .hero-lede strong { color: rgba(255,255,255,0.9); font-weight: 500; }
-        .hero-contacts {
-          font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-bottom: 2.5rem;
-          display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
-        }
-        .hero-contacts a { color: var(--brand); text-decoration: none; }
-        .hero-contacts a:hover { text-decoration: underline; }
-
-        .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 3.5rem; }
-        .btn-primary {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          //font-family: 'Syne', sans-serif; 
-          font-size: 0.9rem;
-          background: var(--brand); color: var(--ink);
-          border: none; cursor: pointer; text-decoration: none;
-          transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-          box-shadow: 0 4px 24px rgba(159,206,51,0.35);
-        }
-        .btn-primary:hover { background: #b2de3d; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(159,206,51,0.45); }
-        .btn-ghost {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          // font-family: 'Syne', sans-serif; 
-          font-size: 0.9rem;
-          background: transparent; color: #fff;
-          border: 1px solid rgba(255,255,255,0.18); cursor: pointer; text-decoration: none;
-          transition: background 0.2s, border-color 0.2s;
-        }
-        .btn-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.35); }
-
-        /* Trust bar */
-        .trust-bar {
-          border-top: 1px solid rgba(255,255,255,0.07);
-          background: rgba(0,0,0,0.35); backdrop-filter: blur(12px);
-          padding: 1.25rem 2rem;
-        }
-        .trust-bar-inner { max-width: 1200px; margin: 0 auto; }
-        .trust-bar-label {
-          text-align: center; font-size: 0.62rem; color: rgba(255,255,255,0.2);
-          text-transform: uppercase; letter-spacing: 0.15em;
-          font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem;
-        }
-        .trust-bar-items {
-          display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem 3rem;
-          opacity: 0.45; transition: opacity 0.4s;
-        }
-        .trust-bar-items:hover { opacity: 1; }
-        .trust-bar-item { display: flex; align-items: center; gap: 0.45rem; color: #fff; font-weight: 700; font-size: 0.85rem; }
-
-        /* ── Section shared ── */
-        .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .section-header { text-align: center; margin-bottom: 3.5rem; }
-        .section-eyebrow {
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-          letter-spacing: 0.14em; color: var(--brand);
-          font-family: 'JetBrains Mono', monospace; margin-bottom: 0.75rem;
-        }
-        .section-h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.75rem; }
-        .section-sub { color: var(--text-muted); font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.65; }
-
-        /* ── Trust Stack ── */
-        .trust-stack-section { padding: 6rem 0; background: var(--surface); }
-        .trust-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
-        @media (min-width: 640px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .trust-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .trust-card {
-          background: var(--card-bg); border: 1px solid var(--border); border-radius: 1.25rem;
-          padding: 1.75rem; text-decoration: none; color: inherit; display: block;
-          transition: box-shadow 0.25s, border-color 0.25s, transform 0.2s;
-          position: relative; overflow: hidden;
-        }
-        .trust-card::before {
-          content: ''; position: absolute; inset: 0; border-radius: inherit;
-          background: linear-gradient(135deg, var(--brand-dim) 0%, transparent 60%);
-          opacity: 0; transition: opacity 0.3s;
-        }
-        .trust-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); border-color: var(--brand-border); transform: translateY(-2px); }
-        .trust-card:hover::before { opacity: 1; }
-
-        .trust-card-icon {
-          width: 3rem; height: 3rem; border-radius: 0.75rem;
-          background: var(--ink); display: flex; align-items: center; justify-content: center;
-          margin-bottom: 1.25rem; transition: background 0.25s;
-        }
-        .trust-card:hover .trust-card-icon { background: var(--brand); }
-        .trust-card-icon svg { width: 1.4rem; height: 1.4rem; color: var(--brand); transition: color 0.25s; }
-        .trust-card:hover .trust-card-icon svg { color: var(--ink); }
-
-        .trust-card-title {
-          // font-family: 'Syne', sans-serif; 
-          font-size: 0.95rem; font-weight: 700;
-          color: var(--ink); margin-bottom: 0.5rem; line-height: 1.35;
-          transition: color 0.2s;
-        }
-        .trust-card:hover .trust-card-title { color: var(--brand-dark); }
-        .trust-card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem; }
-        .trust-card-cta {
-          display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem;
-          font-weight: 700; color: var(--brand-dark); 
-          // font-family: 'Syne', sans-serif;
-          letter-spacing: 0.02em; transition: gap 0.2s;
-        }
-        .trust-card:hover .trust-card-cta { gap: 0.5rem; }
-
-        /* ── Press Section ── */
-        .press-section {
-          background: var(--ink); color: #fff;
-          padding: 6rem 0; border-top: 1px solid rgba(255,255,255,0.06);
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-          position: relative; overflow: hidden;
-        }
-        .press-section::before {
-          content: ''; position: absolute; top: 0; right: 0;
-          width: 40%; height: 100%;
-          background: radial-gradient(ellipse at top right, rgba(159,206,51,0.06), transparent 60%);
-          pointer-events: none;
-        }
-        .press-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
-        @media (min-width: 1024px) { .press-grid { grid-template-columns: 5fr 7fr; } }
-
-        .press-eyebrow { display: flex; align-items: center; gap: 0.4rem; color: var(--brand); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; font-family: 'JetBrains Mono', monospace; margin-bottom: 1.25rem; }
-        .press-h2 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 1.25rem; }
-        .press-body { color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 2rem; font-size: 0.95rem; }
-
-        .press-quote {
-          position: relative; background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.09); border-left: 3px solid var(--brand);
-          border-radius: 0.875rem; padding: 1.5rem; margin-bottom: 2rem;
-        }
-        .press-quote-icon { position: absolute; top: 1rem; right: 1.25rem; opacity: 0.15; }
-        .press-quote p { color: rgba(255,255,255,0.85); font-style: italic; font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem; }
-        .press-quote footer { font-size: 0.65rem; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.12em; font-family: 'JetBrains Mono', monospace; }
-
-        .btn-outline-brand {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          padding: 0.8rem 1.5rem; border-radius: 0.75rem; font-weight: 700;
-          // font-family: 'Syne', sans-serif; 
-          font-size: 0.875rem;
-          background: transparent; color: var(--brand);
-          border: 1.5px solid var(--brand); cursor: pointer; text-decoration: none;
-          transition: background 0.2s, color 0.2s;
-        }
-        .btn-outline-brand:hover { background: var(--brand); color: var(--ink); }
-
-        /* Browser mockup */
-        .browser-stack { position: relative; }
-        .browser-frame {
-          background: #1a1e12; border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 0.875rem; overflow: hidden;
-          box-shadow: 0 24px 64px rgba(0,0,0,0.6);
-        }
-        .browser-frame.main { position: relative; z-index: 20; transform: rotate(-1.5deg); transition: transform 0.5s; }
-        .browser-frame.main:hover { transform: rotate(0deg); }
-        .browser-frame.back {
-          position: absolute; bottom: -2.5rem; right: -2rem;
-          width: 72%; z-index: 10; transform: rotate(2.5deg);
-          opacity: 0.7; transition: opacity 0.3s, z-index 0s;
-        }
-        .browser-frame.back:hover { opacity: 1; z-index: 30; }
-        .browser-bar {
-          background: #0c0e09; padding: 0.6rem 1rem;
-          display: flex; align-items: center; gap: 0.625rem;
-          border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .browser-dots { display: flex; gap: 0.35rem; }
-        .browser-dots span { width: 0.625rem; height: 0.625rem; border-radius: 50%; display: block; }
-        .browser-url {
-          flex: 1; background: #1a1e12; border-radius: 0.3rem;
-          padding: 0.2rem 0.6rem; font-family: 'JetBrains Mono', monospace;
-          font-size: 0.62rem; color: rgba(255,255,255,0.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .browser-img { width: 100%; height: auto; display: block; opacity: 0.85; transition: opacity 0.3s; }
-        .browser-frame:hover .browser-img { opacity: 1; }
-        .browser-footer {
-          background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-          padding: 0.4rem 0.875rem;
-          display: flex; align-items: center; justify-content: space-between;
-          border-top: 1px solid rgba(255,255,255,0.06);
-        }
-        .browser-hash { display: flex; align-items: center; gap: 0.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.3); }
-        .browser-date { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; background: rgba(159,206,51,0.12); color: var(--brand); padding: 0.15rem 0.5rem; border-radius: 0.25rem; }
-
-        /* ── Verify Section ── */
-        .verify-section { padding: 5rem 0; background: var(--card-bg); }
-        .verify-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start; }
-        @media (min-width: 1024px) { .verify-grid { grid-template-columns: 5fr 7fr; } }
-        .verify-h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.875rem; }
-        .verify-body { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
-        .verify-links { display: flex; flex-direction: column; gap: 0.625rem; }
-        .verify-link {
-          display: flex; align-items: center; gap: 0.875rem;
-          padding: 1rem 1.125rem; border-radius: 0.875rem;
-          background: var(--surface); border: 1px solid var(--border);
-          text-decoration: none; color: inherit;
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-        }
-        .verify-link:hover { border-color: var(--brand-border); background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-        .verify-link-check { color: var(--brand); flex-shrink: 0; }
-        .verify-link-text { flex: 1; }
-        .verify-link-title { font-weight: 700; font-size: 0.85rem; color: var(--ink);
-        // font-family: 'Syne', sans-serif; 
-        display: block; }
-        .verify-link-note { font-size: 0.75rem; color: var(--text-muted); }
-        .verify-link-arrow { color: var(--text-muted); flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
-        .verify-link:hover .verify-link-arrow { transform: translateX(3px); color: var(--brand-dark); }
-
-        /* ── Proof Locker ── */
-        .proof-section { padding: 5rem 0; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .proof-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1.5rem; margin-bottom: 2.5rem; }
-        .proof-h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.5rem; }
-        .proof-sub { color: var(--text-muted); font-size: 0.875rem; }
-        .btn-sm-ghost {
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          padding: 0.6rem 1.25rem; border-radius: 0.625rem; font-weight: 700;
-          // font-family: 'Syne', sans-serif; 
-          font-size: 0.78rem;
-          background: var(--card-bg); border: 1px solid var(--border);
-          color: var(--ink); text-decoration: none; white-space: nowrap;
-          transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .btn-sm-ghost:hover { border-color: var(--brand-border); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-
-        .proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        @media (min-width: 768px) { .proof-grid { grid-template-columns: repeat(4, 1fr); } }
-        .proof-card {
-          background: var(--card-bg); border: 1px solid var(--border); border-radius: 0.875rem;
-          padding: 0.75rem; overflow: hidden;
-          transition: border-color 0.2s, box-shadow 0.25s;
-        }
-        .proof-card:hover { border-color: var(--brand-border); box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
-        .proof-img-wrap {
-          background: var(--surface-2); border-radius: 0.5rem; overflow: hidden;
-          height: 9rem; display: flex; align-items: center; justify-content: center;
-          margin-bottom: 0.75rem; position: relative; border: 1px solid var(--border);
-        }
-        @media (min-width: 768px) { .proof-img-wrap { height: 12rem; } }
-        .proof-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.25s, transform 0.3s; }
-        .proof-card:hover .proof-img-wrap img { opacity: 1; transform: scale(1.03); }
-        .proof-img-placeholder { position: absolute; color: #b0bca0; }
-        .proof-title { 
-        // font-family: 'Syne', sans-serif; 
-        font-weight: 700; font-size: 0.8rem; color: var(--ink); margin-bottom: 0.3rem; }
-        .proof-hash { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--text-muted); background: var(--surface); padding: 0.25rem 0.5rem; border-radius: 0.3rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-        /* ── FAQ ── */
-        .faq-section { padding: 6rem 0; background: var(--card-bg); }
-        .faq-list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.875rem; }
-        .faq-card {
-          background: var(--surface); border: 1px solid var(--border); border-radius: 1rem;
-          padding: 1.5rem; display: flex; gap: 1rem;
-          transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-        }
-        .faq-card:hover { background: #fff; border-color: var(--brand-border); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-        .faq-icon-wrap {
-          width: 2.5rem; height: 2.5rem; flex-shrink: 0; border-radius: 0.625rem;
-          background: var(--brand); display: flex; align-items: center; justify-content: center;
-        }
-        .faq-icon-wrap svg { width: 1.1rem; height: 1.1rem; color: var(--ink); }
-        .faq-q { 
-        // font-family: 'Syne', sans-serif; 
-        font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.375rem; }
-        .faq-a { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.875rem; line-height: 1.6; }
-        .faq-links { display: flex; flex-wrap: wrap; gap: 0.625rem; }
-        .faq-link {
-          display: inline-flex; align-items: center; gap: 0.3rem;
-          font-size: 0.75rem; font-weight: 700; color: var(--brand-dark);
-          text-decoration: none; 
-          // font-family: 'Syne', sans-serif; 
-          letter-spacing: 0.01em;
-          transition: color 0.15s;
-        }
-        .faq-link:hover { color: var(--brand); }
-        .faq-link svg { width: 0.8rem; height: 0.8rem; }
-
-        /* ── Footer CTA ── */
-        .footer-cta {
-          background: var(--ink); color: #fff; padding: 5.5rem 2rem;
-          border-top: 1px solid rgba(255,255,255,0.06); text-align: center;
-          position: relative; overflow: hidden;
-        }
-        .footer-cta::before {
-          content: ''; position: absolute;
-          top: 50%; left: 50%; transform: translate(-50%, -50%);
-          width: 600px; height: 600px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(159,206,51,0.07), transparent 70%);
-          pointer-events: none;
-        }
-        .footer-cta-inner { position: relative; z-index: 1; margin: 0 auto; }
-        .footer-cta-h2 { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.75rem; }
-        .footer-cta-sub { color: rgba(255,255,255,0.4); font-size: 1rem; margin-bottom: 2.5rem; line-height: 1.6; }
-        .footer-cta-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 4rem; }
-        .btn-dark {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          padding: 0.85rem 1.75rem; border-radius: 0.75rem; font-weight: 700;
-          // font-family: 'Syne', sans-serif; 
-          font-size: 0.9rem;
-          background: rgba(255,255,255,0.07); color: #fff;
-          border: 1px solid rgba(255,255,255,0.12); text-decoration: none;
-          transition: background 0.2s;
-        }
-        .btn-dark:hover { background: rgba(255,255,255,0.12); }
-        .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: rgba(255,255,255,0.18); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem; }
+        .jw-feat { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .jw-feat.jw-reverse .jw-feat-media { order: 2; }
+        @media (max-width: 940px) { .jw-feat { grid-template-columns: 1fr; gap: 2rem; } .jw-feat.jw-reverse .jw-feat-media { order: 0; } }
+        .jw-feat-eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--jw-font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #E8650A; margin-bottom: 1rem; }
+        .jw-feat-eyebrow .jw-fe-num { color: #6B7280; }
+        .jw-feat-body h3 { font-family: var(--jw-font-display); font-size: clamp(24px, 3.2vw, 38px); letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 1rem; color: #0D1B2A; }
+        .jw-feat-body.jw-on-dark h3 { color: #fff; }
+        .jw-feat-lede { color: #6B7280; font-size: 15.5px; font-weight: 400; line-height: 1.6; max-width: 46ch; margin-bottom: 1.5rem; }
+        .jw-feat-body.jw-on-dark .jw-feat-lede { color: rgba(255,255,255,0.72); }
       `}</style>
 
-      <div className="flex min-h-screen bg-background">
+      <div className="jw-root flex min-h-screen bg-white">
         <SidebarDesktop currentPath="/why-jvto" />
         <PageJsonLdCombined
           pageRow={page.pageRow}
+          extraSchemas={extraSchemas}
+          suppressCmsFaq={faqResolution.suppressCmsFaq}
         />
 
-        <main className="pt-24 w-full jvto-page">
+        <main className="pt-24 w-full" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
           {/* ══════════ HERO ══════════ */}
-          <section className="hero-section">
-            <div className="hero-bg">
-              <img
-                src={`${siteUrl}/assets/img/hero/home-lite.webp`}
-                alt="East Java volcano"
-                decoding="async"
-              />
-              <div className="hero-bg-overlay" />
-            </div>
-            <div className="hero-noise" />
-            <div className="hero-grid-line" />
+          <section style={{ padding: "1.5rem 1.5rem 0" }}>
+            <header className="jw-hero">
+              <div className="jw-hero-inner">
+                <div className="jw-hero-eyebrow-row">
+                  <span className="jw-eyebrow-pill">Why JVTO — Hub</span>
+                  <span className="jw-eyebrow-meta">Six pillars, each verifiable</span>
+                </div>
+                <h1 className="jw-hero-h1" style={{ maxWidth: "24ch" }}>
+                  {heroH1}
+                </h1>
+                {heroLede.slice(0, 2).map((p, i) => (
+                  <p key={i} className="jw-hero-lede" style={{ marginBottom: i === 0 ? "0.6rem" : 0 }}>
+                    {p}
+                  </p>
+                ))}
+                <div className="jw-hero-meta">
+                  <div className="jw-meta-row">
+                    <span>Legal entity</span>
+                    <strong>PT Java Volcano Rendezvous</strong>
+                  </div>
+                  <div className="jw-meta-row">
+                    <span>NIB</span>
+                    <strong>1102230032918</strong>
+                  </div>
+                  <div className="jw-meta-row">
+                    <span>Founder</span>
+                    <strong>Active Tourist Police</strong>
+                  </div>
+                  <div className="jw-meta-row">
+                    <span>Tour format</span>
+                    <strong>100% private</strong>
+                  </div>
+                </div>
+              </div>
+            </header>
 
-            <div className="hero-inner">
-              <div className="hero-badge">
-                <ShieldCheck size={14} />
-                Police-Led Expedition Standard
-              </div>
-              <h1 className="hero-h1">
-                {heroH1}
-              </h1>
-              <p className="hero-lede">
-                JVTO is a registered Indonesian tour operator based in
-                Bondowoso, East Java. We specialize in private volcano
-                trips—Bromo, Ijen, and selected extensions.
-              </p>
-              <p className="hero-lede">
-                In a landscape where volcanic nature is uncertain, JVTO sells{" "}
-                <strong>operational certainty</strong>—built on disciplined
-                safety, documented proof, and local execution.
-              </p>
-              <div className="hero-contacts">
-                <a
-                  href="https://javavolcano-touroperator.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            {/* Trust bar */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "1.25rem 2.5rem",
+                padding: "1.5rem",
+                marginTop: "-1px",
+              }}
+            >
+              {[
+                { Icon: Star, label: `Trustpilot ${trustpilot?.rating ?? "4.8"}` },
+                { Icon: Star, label: `Google Maps ${googleMaps?.rating ?? "4.9"}` },
+                { Icon: Star, label: `TripAdvisor ${tripAdvisor?.rating ?? "4.95"}` },
+                { Icon: CheckCircle2, label: "ISIC Partner" },
+                { Icon: ShieldCheck, label: "HPWKI Member" },
+              ].map(({ Icon, label }) => (
+                <div
+                  key={label}
+                  style={{ display: "flex", alignItems: "center", gap: "0.45rem", color: "#0D1B2A", fontWeight: 700, fontSize: "0.85rem" }}
                 >
-                  javavolcano-touroperator.com
-                </a>
-                <span>·</span>
-                <a
-                  href="https://wa.me/6282244788833"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp +6282244788833
-                </a>
-                <span>·</span>
-                <a href="mailto:hello@javavolcano-touroperator.com">
-                  hello@javavolcano-touroperator.com
-                </a>
-              </div>
-              <div className="hero-ctas">
-                <Link href="/travel-guide" prefetch={false} className="btn-primary">
-                  <BookOpen size={17} /> Read Travel Guide
-                </Link>
-                <Link href="/verify-jvto" prefetch={false} className="btn-ghost">
-                  <Lock size={17} /> Verify Our Documents
-                </Link>
-              </div>
+                  <Icon size={15} color="#E8650A" />
+                  {label}
+                </div>
+              ))}
             </div>
+          </section>
 
-            <div className="trust-bar">
-              <div className="trust-bar-inner">
-                <p className="trust-bar-label">
-                  Audited across independent platforms &amp; recognized by
-                  global bodies
-                </p>
-                <div className="trust-bar-items">
-                  {[
-                    { Icon: Star, label: "Trustpilot 4.8" },
-                    { Icon: Award, label: "TripAdvisor 5.0" },
-                    { Icon: CheckCircle2, label: "ISIC Partner" },
-                    { Icon: ShieldCheck, label: "HPWKI Member" },
-                  ].map(({ Icon, label }) => (
-                    <div key={label} className="trust-bar-item">
-                      <Icon size={15} />
-                      {label}
+          {/* ══════════ 01 · THE JVTO DIFFERENCE ══════════ */}
+          <section style={{ padding: "4rem 1.5rem" }}>
+            <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div className="jw-feat-media">
+                <figure className="jw-media-frame">
+                  {founderPhoto && <img src={founderPhoto.url} alt={founderPhoto.alt} loading="lazy" />}
+                  <span className="jw-media-tag">Ditpamobvit · operational authority</span>
+                  <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
+                    <ShieldCheck />
+                    <div>
+                      <div className="jw-fb-title">Official Safety Authority</div>
+                      <div className="jw-fb-sub">Active Tourist Police officer</div>
                     </div>
-                  ))}
+                  </div>
+                </figure>
+              </div>
+              <div className="jw-feat-body">
+                <span className="jw-feat-eyebrow">
+                  <span className="jw-fe-num">§ 01</span> · The JVTO Difference
+                </span>
+                <h3>
+                  Six differentiators, <span className="jw-accent-orange">each verifiable.</span>
+                </h3>
+                <p className="jw-feat-lede">
+                  Not marketing language — every one is backed by a credential you can check. Tap a pillar to see
+                  what proves it.
+                </p>
+                <DifferenceChips />
+                <Link href="/why-jvto/the-jvto-difference" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
+                  Read the difference →
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ Press evidence (real, national media) ══════════ */}
+          <section style={{ background: "#0D1B2A", padding: "3.5rem 1.5rem" }}>
+            <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }} className="jw-press-grid">
+              <div>
+                <div className="jw-micro" style={{ color: "#8CC63F", display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "1rem" }}>
+                  <Newspaper size={13} /> National Media Verification
+                </div>
+                <h3 style={{ fontFamily: "var(--jw-font-display)", fontSize: "clamp(1.5rem, 3vw, 2.2rem)", color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.1, margin: "0 0 1rem" }}>
+                  Duty first, business second.
+                </h3>
+                <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
+                  Our founder, Bripka Agung Sambuko, was covered by national media (Detik.com) for his dedication as
+                  a Tourist Police officer keeping visitors safe in the extreme conditions of Kawah Ijen.
+                </p>
+                <div className="jw-cred jw-dark" style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.1)" }}>
+                  <span className="jw-cred-text" style={{ fontFamily: "var(--jw-font-display)", fontStyle: "italic", fontSize: "1rem", color: "#fff" }}>
+                    &ldquo;The important thing is that the people who travel are safe.&rdquo;
+                  </span>
+                  <span className="jw-cred-label">— Bripka Agung Sambuko (Detik News)</span>
+                </div>
+                <a
+                  href="https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin"
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="jw-inline-link jw-light"
+                  style={{ marginTop: "1.25rem" }}
+                >
+                  Read original article <ExternalLink size={12} />
+                </a>
+              </div>
+              <div>
+                <div style={{ borderRadius: "18px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "var(--jw-shadow-hover)" }}>
+                  <img
+                    src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.webp`}
+                    alt="Detik.com article screenshot"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: "100%", display: "block" }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.5rem 0.9rem", background: "rgba(0,0,0,0.4)" }}>
+                    <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontFamily: "var(--jw-font-mono)", fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>
+                      <Fingerprint size={11} /> SHA-256: B257B7...
+                    </span>
+                    <span style={{ fontFamily: "var(--jw-font-mono)", fontSize: "10px", background: "rgba(140,198,63,0.15)", color: "#8CC63F", padding: "2px 8px", borderRadius: "4px" }}>
+                      14 Mar 2021
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* ══════════ TRUST STACK ══════════ */}
-          <section id="trust-stack" className="trust-stack-section">
-            <div className="section-inner">
-              <div className="section-header">
-                <div className="section-eyebrow">
-                  <span>◆</span> Verification Registry
+          {/* ══════════ 02 · REVIEWS ══════════ */}
+          <section style={{ padding: "4rem 1.5rem", background: "#F6F5F2" }}>
+            <div className="jw-feat" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div className="jw-feat-media">
+                <figure className="jw-media-frame">
+                  {crewPreview[0] && <img src={crewPreview[0].url} alt={crewPreview[0].alt} loading="lazy" />}
+                  <span className="jw-media-tag">Verified across 3 platforms</span>
+                  <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
+                    <Star fill="#F5A623" color="#F5A623" />
+                    <div>
+                      <div className="jw-fb-title">{trustpilot?.rating ?? "4.8"} ★ Trustpilot</div>
+                      <div className="jw-fb-sub">{trustpilot?.count ?? 51} verified reviews</div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+              <div className="jw-feat-body">
+                <span className="jw-feat-eyebrow">
+                  <span className="jw-fe-num">§ 02</span> · Reviews
+                </span>
+                <h3>
+                  Patterns, not a <span className="jw-accent-orange">quote wall.</span>
+                </h3>
+                <p className="jw-feat-lede">
+                  Feedback grouped by what it proves, across three independent platforms — verified, not
+                  cherry-picked.
+                </p>
+                <div className="jw-agg-grid" style={{ marginBottom: "1.25rem" }}>
+                  {[trustpilot, googleMaps, tripAdvisor].filter(Boolean).map((p) => (
+                    <div key={p!.platform} className="jw-agg" style={{ padding: "1rem 1.1rem" }}>
+                      <span className="jw-agg-plat">{p!.platform}</span>
+                      <span className="jw-agg-score" style={{ fontSize: "1.6rem" }}>
+                        {p!.rating}
+                      </span>
+                      <span className="jw-agg-meta" style={{ border: 0, paddingTop: 0 }}>
+                        {p!.count} reviews
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <h2 className="section-h2">The JVTO Trust Stack</h2>
-                <p className="section-sub">
-                  Navigate our proof library. Marketing promises are cheap;
-                  operational discipline is verifiable.
+                <ReviewQuoteRotator />
+                <Link href="/why-jvto/reviews" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
+                  Read all reviews →
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ 03 · OUR STORY ══════════ */}
+          <section style={{ padding: "4rem 1.5rem" }}>
+            <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div className="jw-feat-media">
+                <figure className="jw-media-frame">
+                  {historyPhoto && <img src={historyPhoto.url} alt={historyPhoto.alt} loading="lazy" />}
+                  <span className="jw-media-tag">Bondowoso · since 2015</span>
+                  <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
+                    <BookOpen />
+                    <div>
+                      <div className="jw-fb-title">Est. 2015</div>
+                      <div className="jw-fb-sub">Ijen Bondowoso Homestay</div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+              <div className="jw-feat-body jw-on-dark" style={{ background: "#0D1B2A", borderRadius: "28px", padding: "2.5rem" }}>
+                <span className="jw-feat-eyebrow">
+                  <span className="jw-fe-num" style={{ color: "rgba(255,255,255,0.5)" }}>
+                    § 03
+                  </span>{" "}
+                  · Our Story
+                </span>
+                <h3>
+                  From a homestay to a <span className="jw-accent-orange">licensed operator.</span>
+                </h3>
+                <p className="jw-feat-lede">
+                  Documented operational continuity at one Bondowoso address — tap a milestone.
+                </p>
+                <StoryTimelineTabs />
+                <Link href="/why-jvto/our-story" prefetch={false} className="jw-inline-link jw-light" style={{ marginTop: "1.5rem" }}>
+                  Read our story →
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ 04 · OUR TEAM ══════════ */}
+          <section style={{ padding: "4rem 1.5rem", background: "#0D1B2A" }}>
+            <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-end",
+                  gap: "2rem",
+                  flexWrap: "wrap",
+                  marginBottom: "2.25rem",
+                }}
+              >
+                <div>
+                  <span className="jw-feat-eyebrow" style={{ color: "#8CC63F" }}>
+                    <span className="jw-fe-num" style={{ color: "rgba(255,255,255,0.5)" }}>
+                      § 04
+                    </span>{" "}
+                    · Our Team
+                  </span>
+                  <h3 style={{ fontFamily: "var(--jw-font-display)", fontSize: "clamp(24px,3.2vw,38px)", color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.08, maxWidth: "18ch", margin: 0 }}>
+                    14 named crew. <span className="jw-accent-orange">No freelancers.</span>
+                  </h3>
+                </div>
+                <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
+                  {[
+                    ["7", "Guides"],
+                    ["7", "Drivers"],
+                    ["5", "HPWKI KTA"],
+                  ].map(([n, l]) => (
+                    <div key={l}>
+                      <div style={{ fontFamily: "var(--jw-font-display)", fontSize: "34px", fontWeight: 800, letterSpacing: "-0.02em", color: "#8CC63F", lineHeight: 1 }}>
+                        {n}
+                      </div>
+                      <div className="jw-micro" style={{ color: "rgba(255,255,255,0.55)", marginTop: "0.35rem" }}>
+                        {l}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: "1rem", overflowX: "auto", paddingBottom: "0.5rem" }}>
+                {crewPreview.map((m) => (
+                  <div
+                    key={m.url}
+                    style={{
+                      position: "relative",
+                      width: "150px",
+                      aspectRatio: "3/4",
+                      borderRadius: "18px",
+                      overflow: "hidden",
+                      background: "#1C2E40",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img src={m.url} alt={m.alt} loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background: "linear-gradient(180deg, transparent 45%, rgba(13,27,42,0.92) 100%)",
+                      }}
+                    />
+                    <div style={{ position: "absolute", left: "12px", bottom: "10px" }}>
+                      <div style={{ fontFamily: "var(--jw-font-display)", fontWeight: 700, fontSize: "14px", color: "#fff" }}>
+                        {m.caption.split(" - ")[0]}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="jw-micro" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1.25rem" }}>
+                Individually photographed &amp; license-linked · recruited from Bondowoso &amp; Banyuwangi
+              </p>
+              <Link href="/why-jvto/our-team" prefetch={false} className="jw-inline-link jw-light" style={{ marginTop: "1rem" }}>
+                Meet the full team →
+              </Link>
+            </div>
+          </section>
+
+          {/* ══════════ 05 · COMMUNITY STANDARDS ══════════ */}
+          <section style={{ padding: "4rem 1.5rem", background: "#F6F5F2" }}>
+            <div className="jw-feat jw-reverse" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div className="jw-feat-media">
+                <figure className="jw-media-frame">
+                  {crewPreview[1] && <img src={crewPreview[1].url} alt={crewPreview[1].alt} loading="lazy" />}
+                  <span className="jw-media-tag">Kawah Ijen · shared working path</span>
+                  <div className="jw-floating-badge" style={{ right: "-14px", top: "24px" }}>
+                    <Handshake />
+                    <div>
+                      <div className="jw-fb-title">Ecotourism-aligned</div>
+                      <div className="jw-fb-sub">Local crew policy</div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+              <div className="jw-feat-body">
+                <span className="jw-feat-eyebrow">
+                  <span className="jw-fe-num">§ 05</span> · Community Standards
+                </span>
+                <h3>
+                  Read the rulebook <span className="jw-accent-orange">before you book.</span>
+                </h3>
+                <p className="jw-feat-lede">
+                  We publish what we don&rsquo;t do as plainly as what we do. Every policy is online before you pay.
+                </p>
+                <StandardsAccordion />
+                <Link href="/why-jvto/community-standards" prefetch={false} className="jw-inline-link" style={{ marginTop: "1.5rem" }}>
+                  See the standards →
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ TRUST STACK INDEX ══════════ */}
+          <section style={{ padding: "5rem 1.5rem" }}>
+            <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div className="jw-section-head" style={{ textAlign: "center" }}>
+                <div className="jw-section-eyebrow" style={{ justifyContent: "center" }}>
+                  <span className="jw-micro">◆ Verification Registry</span>
+                </div>
+                <h2 className="jw-section-h2">The JVTO Trust Stack</h2>
+                <p className="jw-section-sub" style={{ margin: "0.6rem auto 0" }}>
+                  Navigate our proof library. Marketing promises are cheap; operational discipline is verifiable.
                 </p>
               </div>
-              <div className="trust-grid">
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                  gap: "1.25rem",
+                  marginTop: "2.5rem",
+                }}
+              >
                 {trustStackCards.map((card, i) => {
                   const Icon = card.icon;
                   return (
@@ -678,15 +589,39 @@ export default async function WhyJvtoPage() {
                       key={i}
                       href={card.href}
                       prefetch={false}
-                      className="trust-card"
+                      style={{
+                        background: "#fff",
+                        border: "1px solid #E3E0DA",
+                        borderRadius: "18px",
+                        padding: "1.5rem",
+                        textDecoration: "none",
+                        color: "inherit",
+                        display: "block",
+                        transition: "box-shadow .2s, border-color .2s",
+                      }}
                     >
-                      <div className="trust-card-icon">
-                        <Icon />
+                      <div
+                        style={{
+                          width: "2.75rem",
+                          height: "2.75rem",
+                          borderRadius: "12px",
+                          background: "#0D1B2A",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginBottom: "1rem",
+                        }}
+                      >
+                        <Icon size={20} color="#8CC63F" />
                       </div>
-                      <div className="trust-card-title">{card.title}</div>
-                      <div className="trust-card-desc">{card.desc}</div>
-                      <div className="trust-card-cta">
-                        Explore Proof <ChevronRight size={14} />
+                      <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "#0D1B2A", marginBottom: "0.4rem" }}>
+                        {card.title}
+                      </div>
+                      <div style={{ fontSize: "0.8rem", color: "#6B7280", lineHeight: 1.6, marginBottom: "1rem" }}>
+                        {card.desc}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.75rem", fontWeight: 700, color: "#E8650A" }}>
+                        Explore proof <ChevronRight size={14} />
                       </div>
                     </Link>
                   );
@@ -695,200 +630,29 @@ export default async function WhyJvtoPage() {
             </div>
           </section>
 
-          {/* ══════════ PRESS / MEDIA ══════════ */}
-          <section className="press-section">
-            <div className="section-inner">
-              <div className="press-grid md:!grid !block">
-                {/* Left */}
-                <div>
-                  <div className="press-eyebrow">
-                    <Newspaper size={13} /> National Media Verification
-                  </div>
-                  <h2 className="press-h2">
-                    Duty First,
-                    <br />
-                    Business Second.
-                  </h2>
-                  <p className="press-body">
-                    Our commitment to safety isn't a company SOP. Our founder,
-                    Bripka Agung Sambuko, was covered by national media
-                    (Detik.com) for his dedication as a Tourist Police officer
-                    keeping visitors safe in the extreme conditions of Kawah
-                    Ijen.
-                  </p>
-                  <div className="press-quote">
-                    <Quote size={36} className="press-quote-icon" />
-                    <p>
-                      "The important thing is that the people who travel are
-                      safe."
-                    </p>
-                    <footer>— Bripka Agung Sambuko (Detik News)</footer>
-                  </div>
-                  <a
-                    href="https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin"
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                    className="btn-outline-brand"
-                  >
-                    Read Original Article <ExternalLink size={14} />
-                  </a>
-                </div>
-
-                {/* Right: Browser mockups */}
-                <div
-                  className="browser-stack mt-5 md:mt-0"
-                  style={{ paddingBottom: "3.5rem" }}
-                >
-                  <div className="browser-frame main">
-                    <div className="browser-bar">
-                      <div className="browser-dots">
-                        <span style={{ background: "#ff5f57" }} />
-                        <span style={{ background: "#febc2e" }} />
-                        <span style={{ background: "#28c840" }} />
-                      </div>
-                      <div className="browser-url">
-                        news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso...
-                      </div>
-                    </div>
-                    <img
-                      className="browser-img"
-                      src={`${siteUrl}/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.webp`}
-                      alt="Detik.com article screenshot"
-                      loading="lazy"
-                      decoding="async"
-                      fetchPriority="low"
-                    />
-                    <div className="browser-footer">
-                      <span className="browser-hash">
-                        <Fingerprint size={11} /> SHA-256: B257B7...
-                      </span>
-                      <span className="browser-date">14 Mar 2021</span>
-                    </div>
-                  </div>
-
-                  <div className="browser-frame back">
-                    <div
-                      className="browser-bar"
-                      style={{ padding: "0.4rem 0.75rem" }}
-                    >
-                      <span className="browser-url" style={{ flex: 1 }}>
-                        Radar Jember: Polpar Formation
-                      </span>
-                    </div>
-                    <img
-                      className="browser-img"
-                      style={{
-                        height: "10rem",
-                        objectFit: "cover",
-                        objectPosition: "top",
-                      }}
-                      src={`${siteUrl}/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.webp`}
-                      alt="Radar Jember screenshot"
-                      loading="lazy"
-                      decoding="async"
-                      fetchPriority="low"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ══════════ VERIFY IN 60s ══════════ */}
-          <section
-            id="how-to-verify-us-in-60-seconds"
-            className="verify-section"
-          >
-            <div className="section-inner">
-              <div className="verify-grid">
-                <div>
-                  <div
-                    className="section-eyebrow"
-                    style={{
-                      justifyContent: "flex-start",
-                      marginBottom: "0.875rem",
-                    }}
-                  >
-                    <span>◆</span> Due Diligence
-                  </div>
-                  <h2 className="verify-h2">
-                    How to verify us
-                    <br />
-                    in 60 seconds
-                  </h2>
-                  <p className="verify-body">
-                    Open our Proof Library. Check the legal documents first,
-                    then the safety and history artifacts. Everything is
-                    organized for quick scanning—no guesswork required.
-                  </p>
-                </div>
-                <div className="verify-links">
-                  {[
-                    {
-                      label: "Start here: The JVTO Difference",
-                      href: "/why-jvto/the-jvto-difference",
-                      note: "Safety leadership overview & proof index",
-                    },
-                    {
-                      label: "Quick checklist: How Proof Works",
-                      href: "/why-jvto/the-jvto-difference#how-proof-works",
-                      note: "Step-by-step verification guide",
-                    },
-                    {
-                      label: "Full Proof Library",
-                      href: "/verify-jvto",
-                      note: "Legal docs, licenses, press, history",
-                    },
-                  ].map((item, i) => (
-                    <Link
-                      key={i}
-                      href={item.href}
-                      prefetch={false}
-                      className="verify-link"
-                    >
-                      <CheckCircle2 size={18} className="verify-link-check" />
-                      <span className="verify-link-text">
-                        <span className="verify-link-title">{item.label}</span>
-                        <span className="verify-link-note">{item.note}</span>
-                      </span>
-                      <ArrowRight size={16} className="verify-link-arrow" />
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* ══════════ PROOF LOCKER ══════════ */}
-          <section className="proof-section">
-            <div className="section-inner">
-              <div className="proof-header">
+          <section style={{ padding: "4rem 1.5rem", background: "#F6F5F2" }}>
+            <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "1.5rem", marginBottom: "2rem" }}>
                 <div>
-                  <h2 className="proof-h2">Don't Guess. Verify.</h2>
-                  <p className="proof-sub">
-                    In an industry of ghost operators, we publish credentials
-                    with cryptographic proofs.
-                  </p>
+                  <h2 className="jw-section-h2">Don&rsquo;t guess. Verify.</h2>
+                  <p className="jw-section-sub">In an industry of ghost operators, we publish credentials with cryptographic proofs.</p>
                 </div>
-                <Link href="/verify-jvto" prefetch={false} className="btn-sm-ghost">
-                  <Lock size={14} /> Enter Proof Library
+                <Link href="/verify-jvto" prefetch={false} className="jw-inline-link">
+                  <Lock size={14} /> Enter proof library
                 </Link>
               </div>
-              <div className="proof-grid">
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1rem" }} className="jw-proof-grid">
                 {proofDocs.map((doc, i) => (
-                  <div key={i} className="proof-card">
-                    <div className="proof-img-wrap">
-                      <img
-                        src={doc.img}
-                        alt={doc.title}
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
-                      />
-                      <FileDigit size={28} className="proof-img-placeholder" />
+                  <div key={i} style={{ background: "#fff", border: "1px solid #E3E0DA", borderRadius: "14px", padding: "0.75rem" }}>
+                    <div style={{ background: "#eceae4", borderRadius: "8px", overflow: "hidden", height: "9rem", position: "relative", marginBottom: "0.75rem" }}>
+                      <img src={doc.img} alt={doc.title} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }} />
+                      <FileDigit size={26} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", color: "#9aa08e" }} />
                     </div>
-                    <div className="proof-title">{doc.title}</div>
-                    <span className="proof-hash">SHA-256: {doc.hash}</span>
+                    <div style={{ fontWeight: 700, fontSize: "0.8rem", color: "#0D1B2A", marginBottom: "0.3rem" }}>{doc.title}</div>
+                    <span style={{ fontFamily: "var(--jw-font-mono)", fontSize: "0.6rem", color: "#6B7280", background: "#F6F5F2", padding: "0.25rem 0.5rem", borderRadius: "4px", display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      SHA-256: {doc.hash}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -896,79 +660,73 @@ export default async function WhyJvtoPage() {
           </section>
 
           {/* ══════════ FAQ ══════════ */}
-          <section
-            id="quick-answers-with-the-right-link"
-            className="faq-section"
-          >
-            <div className="section-inner">
-              <div className="section-header">
-                <div className="section-eyebrow">
-                  <span>◆</span> Quick Answers
+          {visibleFaqs.length > 0 && (
+            <section style={{ padding: "5rem 1.5rem" }}>
+              <div style={{ maxWidth: "820px", margin: "0 auto" }}>
+                <div className="jw-section-head" style={{ textAlign: "center" }}>
+                  <div className="jw-section-eyebrow" style={{ justifyContent: "center" }}>
+                    <span className="jw-micro">◆ Quick Answers</span>
+                  </div>
+                  <h2 className="jw-section-h2">FAQ</h2>
                 </div>
-                <h2 className="section-h2">FAQ</h2>
-                <p className="section-sub">
-                  Short answers here. Full details live on the owner page or
-                  policy page.
-                </p>
-              </div>
-              <div className="faq-list">
-                {faqItems.map((item, i) => (
-                  <div key={i} className="faq-card">
-                    <div className="faq-icon-wrap">
-                      <MessageCircleQuestion />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div className="faq-q">{item.q}</div>
-                      <div className="faq-a">{item.a}</div>
-                      <div className="faq-links">
-                        <Link href={item.link} prefetch={false} className="faq-link">
-                          {item.linkLabel} <ArrowRight />
-                        </Link>
-                        {item.link2 && (
-                          <Link
-                            href={item.link2}
-                            prefetch={false}
-                            className="faq-link"
-                          >
-                            {item.linkLabel2} <ArrowRight />
-                          </Link>
-                        )}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+                  {visibleFaqs.map((item, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        background: "#F6F5F2",
+                        border: "1px solid #E3E0DA",
+                        borderRadius: "16px",
+                        padding: "1.5rem",
+                        display: "flex",
+                        gap: "1rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "2.5rem",
+                          height: "2.5rem",
+                          flexShrink: 0,
+                          borderRadius: "10px",
+                          background: "#0D1B2A",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <MessageCircleQuestion size={17} color="#8CC63F" />
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "#0D1B2A", marginBottom: "0.375rem" }}>{item.q}</div>
+                        <div style={{ fontSize: "0.85rem", color: "#6B7280", lineHeight: 1.6 }}>{item.a}</div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
-          {/* ══════════ FOOTER CTA ══════════ */}
-          <footer className="footer-cta">
-            <div className="footer-cta-inner">
-              <h2 className="footer-cta-h2">
-                Ready for Operational Certainty?
+          {/* ══════════ CTA ══════════ */}
+          <div style={{ padding: "0 1.5rem 2rem" }}>
+            <div className="jw-cta-block" style={{ marginTop: 0 }}>
+              <h2>
+                Don&rsquo;t guess. <span className="jw-accent-orange">Verify.</span>
               </h2>
-              <p className="footer-cta-sub">
-                Private tours. Verified credentials. Local execution.
-              </p>
-              <div className="footer-cta-btns">
-                <Link
-                  href="/travel-guide/booking-information"
-                  prefetch={false}
-                  className="btn-primary"
-                >
-                  How to Book <ArrowRight size={17} />
+              <div className="jw-cta-ctas">
+                <Link href="/verify-jvto" prefetch={false} className="jw-primary">
+                  Open the proof library <ArrowRight size={14} />
                 </Link>
-                <a
-                  href="https://wa.me/6282244788833"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-dark"
-                >
-                  WhatsApp Mr. Sam &amp; Team
-                </a>
+                <Link href="/tours" prefetch={false} className="jw-ghost">
+                  Explore private tours
+                </Link>
               </div>
+              <p className="jw-micro" style={{ color: "rgba(255,255,255,0.5)", marginTop: "2rem" }}>
+                PT Java Volcano Rendezvous · NIB 1102230032918 · Trustpilot {trustpilot?.rating ?? "4.8"} / 5 (
+                {trustpilot?.count ?? 51} reviews{trustpilot?.lastVerified ? `, verified ${trustpilot.lastVerified}` : ""})
+              </p>
             </div>
-          </footer>
+          </div>
         </main>
       </div>
     </>
