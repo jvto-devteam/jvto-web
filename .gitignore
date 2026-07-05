@@ -55,9 +55,10 @@ docs/design_atlas/manifest.json
 # Generated tour PDFs (Phase 1 of PDF export feature) — regenerate via: npm run pdf:tour
 pdfs/
 
-# wa-gateway service dependencies & build output — reinstall/rebuild inside services/wa-gateway
+# wa-gateway service dependencies — reinstall inside services/wa-gateway.
+# NOTE: dist/ (compiled output) is DELIBERATELY still tracked below, not
+# ignored — see the commit that added this comment for why.
 services/wa-gateway/node_modules/
-services/wa-gateway/dist/
 
 # codex run artifacts
 .codex-run/
