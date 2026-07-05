@@ -315,7 +315,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       downPayment: downPayment,
     };
     localStorage.setItem("checkoutPayload", JSON.stringify(payload));
-    router.push("/checkout");
+    router.push(`/checkout?pid=${payload.packageId}`);
   };
   // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
   const BLOCKED_RANGES = [
