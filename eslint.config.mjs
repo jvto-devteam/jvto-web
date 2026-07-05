@@ -26,6 +26,10 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
       "src/generated/**",
+      // Producer-repo checkout that exists only inside the CI verify job
+      // (ci.yml checks out sambuko82/llm-wiki into ./llm-wiki). Must be
+      // ignored so the CI lint count matches local runs (lint-gate baseline).
+      "llm-wiki/**",
     ],
   },
   {
