@@ -7,6 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "lint:gate": "node scripts/lint-gate.mjs",
     "postinstall": "node scripts/postinstall-prisma.mjs",
     "pdf:tour": "node scripts/generate-tour-pdf.mjs",
     "export:activity-snapshots": "node scripts/export-package-activity-snapshots.mjs",
