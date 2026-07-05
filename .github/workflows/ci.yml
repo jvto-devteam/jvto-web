@@ -49,12 +49,14 @@ jobs:
           DATABASE_URL: postgresql://user:pass@localhost:5432/db
         run: npx prisma generate
 
-      - name: Lint (non-blocking)
-        # eslint currently crashes in this repo (circular structure in
-        # eslint-plugin-react flat config via @eslint/eslintrc). Pre-existing;
-        # deploy.yml never ran lint. Non-blocking until the config is repaired.
-        continue-on-error: true
-        run: npm run lint
+      - name: Lint (blocking, baseline-gated)
+        # Flat-config crash fixed 2026-07-05 (native eslint-config-next flat
+        # exports; FlatCompat removed). Blocking via scripts/lint-gate.mjs:
+        # any bucket in the committed per-file/per-rule baseline
+        # (scripts/lint-baseline.json, 141 pre-existing errors) that grows =
+        # fail — fixing legacy errors elsewhere cannot offset a new one.
+        # Fixed legacy errors: `node scripts/lint-gate.mjs --update` + commit.
+        run: npm run lint:gate
 
       - name: Sync bundles and check for drift
         env:
