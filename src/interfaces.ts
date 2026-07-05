@@ -96,6 +96,27 @@ export interface Destination {
     temperature_range: string;
     best_time_to_visit: string;
   };
+  // Extended fields present on the public destination-list snapshot payload
+  // (see PublicDestinationListSnapshot in src/lib/publicContent/types.ts).
+  // Optional so existing minimal-shape consumers (CMS stubs, mock data) stay valid.
+  featured?: boolean;
+  short_slug?: string | null;
+  summary?: string | null;
+  highlight?: string | null;
+  geo?: {
+    latitude: number | null;
+    longitude: number | null;
+    altitude: number | null;
+  };
+  permit_required?: boolean;
+  permit_details?: string | null;
+  physical_requirements?: string | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  tags?: string[];
+  types?: string[];
 }
 
 export interface TourPackageDetail {
