@@ -40,7 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-!src/generated/prisma
+# generated prisma client — regenerated via postinstall (scripts/postinstall-prisma.mjs)
+/src/generated/prisma/
 
 # Remember plugin runtime logs
 .remember/logs/
@@ -53,3 +54,10 @@ docs/design_atlas/manifest.json
 
 # Generated tour PDFs (Phase 1 of PDF export feature) — regenerate via: npm run pdf:tour
 pdfs/
+
+# wa-gateway service dependencies & build output — reinstall/rebuild inside services/wa-gateway
+services/wa-gateway/node_modules/
+services/wa-gateway/dist/
+
+# codex run artifacts
+.codex-run/
