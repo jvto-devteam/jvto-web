@@ -1,0 +1,126 @@
+name: Sync itinerary-core artifacts
+
+# Consume compiled artifacts from jvto-itinerary-core (producer repo) and open an
+# artifact-only PR into `main` for human review + merge. This workflow does NOT
+# auto-merge — a maintainer reviews and merges the PR like any other change
+# (unlike sync-llm-wiki.yml, which auto-merges after CI passes; itinerary-core
+# data feeds public schema output, so it gets a human gate here by design).
+#
+# Single-workshop model: unlike sync-llm-wiki.yml (which fans out to both `main`
+# and `live` via a matrix), this workflow targets ONLY `main` — `live` receives
+# itinerary-core data exclusively via owner-commanded promote PRs (`live ← main`),
+# per docs/CONTRIBUTING.md branch governance. No live leg here by design.
+on:
+  repository_dispatch:
+    types: [itinerary-core-data-updated]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # Fixed per-base PR branch means re-runs update the same PR instead of stacking new ones.
+    concurrency:
+      group: sync-itinerary-core-main
+      cancel-in-progress: false
+    steps:
+      - name: Resolve jvto-itinerary-core ref
+        id: ref
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            sha="${{ github.event.client_payload.sha }}"
+            if [ -z "$sha" ]; then echo "::error::repository_dispatch missing client_payload.sha"; exit 1; fi
+            echo "ref=$sha" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=main" >> "$GITHUB_OUTPUT"   # manual fallback — producer default branch
+          fi
+
+      - name: Checkout jvto-web (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Checkout jvto-itinerary-core (producer) at exact ref
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/jvto-itinerary-core
+          ref: ${{ steps.ref.outputs.ref }}
+          path: jvto-itinerary-core
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync artifacts from jvto-itinerary-core
+        env:
+          ITINERARY_CORE_PATH: ${{ github.workspace }}/jvto-itinerary-core
+        run: npm run sync:itinerary
+
+      - name: Detect artifact changes
+        id: diff
+        run: |
+          # git diff alone misses this: on the FIRST run,
+          # src/data/itinerary-intelligence/ has no tracked files at all, so
+          # sync:itinerary only ever produces UNTRACKED files there, which
+          # `git diff --quiet` silently ignores — the initial artifact PR
+          # would never open. Stage explicitly first so both new and
+          # modified files register.
+          git add -A -- src/data/itinerary-intelligence
+          if git diff --cached --quiet -- src/data/itinerary-intelligence; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No artifact changes — no sync needed."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            { echo "### Changed artifacts"; echo '```'; git -c color.ui=never diff --cached --stat -- src/data/itinerary-intelligence; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Guard — only artifact dir may change
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          # Same untracked-file blind spot applies here: check status (staged
+          # + unstaged + untracked), not `git diff --name-only` (tracked
+          # only). The producer checkout at ./jvto-itinerary-core is
+          # untracked by design and excluded via pathspec.
+          bad="$(git status --porcelain -- . ':!jvto-itinerary-core' | cut -c4- | grep -vE '^"?src/data/itinerary-intelligence/' || true)"
+          if [ -n "$bad" ]; then
+            echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
+          fi
+
+      - name: Resolve jvto-itinerary-core source SHA
+        if: steps.diff.outputs.changed == 'true'
+        id: src
+        run: echo "sha=$(git -C jvto-itinerary-core rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Create / update sync PR
+        id: cpr
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PAT }}
+          add-paths: |
+            src/data/itinerary-intelligence
+          branch: automation/sync-itinerary-core-main
+          base: main
+          delete-branch: false
+          commit-message: "chore(sync): update itinerary-core artifacts"
+          title: "chore(sync): update itinerary-core artifacts"
+          body: |
+            Automated artifact sync from **jvto-itinerary-core** into `main`.
+
+            - **jvto-itinerary-core source commit:** `${{ steps.src.outputs.sha }}`
+            - **Changed dir:** `src/data/itinerary-intelligence`
+            - **Sync command:** `npm run sync:itinerary`
+            - **Triggered by:** `${{ github.event_name }}`
+
+            Artifact-only change. `main`'s own CI picks it up. `live` receives this
+            data only via an owner-commanded promote PR (`live ← main`), per the
+            single-workshop branch model in docs/CONTRIBUTING.md — no direct
+            `live` leg in this workflow.
+
+            **This PR does not auto-merge.** A maintainer reviews and merges once
+            CI (`verify`) is green, same as any other PR into `main`.

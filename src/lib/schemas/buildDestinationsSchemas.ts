@@ -6,6 +6,7 @@
 // reverse-lookup ItemList(tours-including) un-orphans the cluster; travel-guide handoff
 // for Ijen / Bromo / Tumpak Sewu cross-cluster connections.
 import type { ToursByDestinationItem } from '@/lib/queries/toursByDestination';
+import { getGeoFeedDestinationBySlug } from '@/lib/itineraryIntelligence';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
@@ -64,10 +65,29 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
 /**
  * TouristAttraction schema for destination pages.
  * Wiki: feat(schema) 2026-05-18 — commit 58e2642.
+ *
+ * Geo provenance (added: jvto-itinerary-core intelligence pipeline): when
+ * src/data/itinerary-intelligence/geo-feed.json has been synced (see
+ * scripts/sync-itinerary-intelligence.mjs) AND carries an entry for this
+ * destination's `/destinations/{slug}` url, its lat/lng (TomTom-verified where
+ * available) and hazardousSubstance (currently Ijen only) take precedence.
+ * Otherwise this falls back to the wiki/AllTrails-sourced static values in
+ * TOURIST_ATTRACTION_DATA above — including on any environment where the
+ * intelligence bundle hasn't been synced yet, since
+ * getGeoFeedDestinationBySlug() degrades to `undefined` rather than throwing.
  */
 export function buildTouristAttractionSchema(destinationSlug: string): object | null {
   const data = TOURIST_ATTRACTION_DATA[destinationSlug];
   if (!data) return null;
+
+  const geoFeedEntry = getGeoFeedDestinationBySlug(destinationSlug);
+  const lat = geoFeedEntry ? String(geoFeedEntry.lat) : data.lat;
+  const lng = geoFeedEntry ? String(geoFeedEntry.lng) : data.lng;
+  // No static/DB equivalent exists for hazardousSubstance yet — geo-feed is the
+  // only source, so absence (unsynced bundle, or a destination the feed doesn't
+  // flag) simply omits the field, matching pre-pipeline behavior exactly.
+  const hazardousSubstance = geoFeedEntry?.schema_org?.hazardousSubstance;
+
   const attraction: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'TouristAttraction',
@@ -76,7 +96,7 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
     alternateName: data.alternateName,
     url: `${BASE_URL}/destinations/${destinationSlug}`,
     description: data.description,
-    geo: { '@type': 'GeoCoordinates', latitude: data.lat, longitude: data.lng },
+    geo: { '@type': 'GeoCoordinates', latitude: lat, longitude: lng },
     address: { '@type': 'PostalAddress', addressLocality: data.locality, addressRegion: 'Jawa Timur', addressCountry: 'ID' },
     touristType: 'International independent travellers',
     isAccessibleForFree: false,
@@ -84,6 +104,9 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
     // provider not valid on TouristAttraction (Place subtype). Link via subjectOf to Organization.
     subjectOf: { '@id': `${BASE_URL}/#organization` },
   };
+  if (hazardousSubstance) {
+    attraction.hazardousSubstance = hazardousSubstance;
+  }
   if (data.amenityFeatures) {
     attraction.amenityFeature = data.amenityFeatures.map(f => ({
       '@type': 'LocationFeatureSpecification', name: f.name, value: f.value,
