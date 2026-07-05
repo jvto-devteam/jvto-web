@@ -1,13 +1,9 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+// Native flat config — eslint-config-next 16.x ships flat-config arrays via its
+// package exports, so FlatCompat (@eslint/eslintrc) is no longer needed. The old
+// FlatCompat path crashed eslint entirely (circular structure thrown while
+// eslintrc formatted a config-schema error for eslint-plugin-react).
+import coreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
   {
@@ -19,7 +15,8 @@ const eslintConfig = [
     },
   },
 
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...coreWebVitals,
+  ...nextTypescript,
 
   {
     ignores: [
@@ -29,6 +26,10 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
       "src/generated/**",
+      // Producer-repo checkout that exists only inside the CI verify job
+      // (ci.yml checks out sambuko82/llm-wiki into ./llm-wiki). Must be
+      // ignored so the CI lint count matches local runs (lint-gate baseline).
+      "llm-wiki/**",
     ],
   },
   {
