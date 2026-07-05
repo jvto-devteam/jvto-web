@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { BookingData } from "./types";
+import packageSnapshots from "@/lib/publicContent/generated/packageDetailSnapshots.json";
 import BookingPaymentAction from "./BookingPaymentAction";
 import EditBookingModals from "./EditBookingModals";
 import ItineraryAccordion from "./ItineraryAccordion";
@@ -68,8 +69,34 @@ export default async function MyBookingPage({
   const isCanceled = booking.status === "canceled";
   const isConfirmed = booking.status === "booked";
 
+  // --- PRODUCT SCHEMA: lookup packageId from package_link slug ---
+  const pkgSlug = booking.package_link
+    ?.replace(/^https?:\/\/[^/]+/, "")
+    ?.replace(/^\//, "")
+    ?.replace(/\/$/, "");
+  const pkgSnap = (packageSnapshots as any).items?.find(
+    (i: any) => i.slug === pkgSlug,
+  );
+  const pkgProductId: string | undefined = pkgSnap?.payload?.product?.packageId;
+  const productSchema = pkgProductId
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        productID: pkgProductId,
+        sku: pkgProductId,
+        name: booking.package_name,
+        url: booking.package_link,
+      }
+    : null;
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-24 pt-20 md:pt-30">
+      {productSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
       {/* ── STICKY HEADER (shared) ── */}
       <div className="bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="container mx-auto px-4 py-4 md:flex justify-between items-center">
@@ -81,7 +108,10 @@ export default async function MyBookingPage({
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 Booking Ref
               </p>
-              <h1 className="text-lg md:text-xl font-black text-slate-900 leading-none">
+              <h1
+                className="text-lg md:text-xl font-black text-slate-900 leading-none"
+                data-order_channel={booking.channel}
+              >
                 {booking.booking_code}
               </h1>
             </div>
@@ -361,6 +391,7 @@ export default async function MyBookingPage({
               tshirtSizes={booking.tshirt_sizes}
               pickup={{ location: booking.pickup, time: booking.pickup_time }}
               drop={{ location: booking.drop, time: booking.drop_time }}
+              hideTshirt={booking.channel === "KLOOK"}
             />
 
             {/* G. INFO & MEDIA SECTION */}
