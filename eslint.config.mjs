@@ -30,6 +30,9 @@ const eslintConfig = [
       // (ci.yml checks out sambuko82/llm-wiki into ./llm-wiki). Must be
       // ignored so the CI lint count matches local runs (lint-gate baseline).
       "llm-wiki/**",
+      // Versioned design SPEC (W3 program) — reference HTML/JS from the design
+      // zip, not production code. Never linted, never imported.
+      "docs/design-reference/**",
     ],
   },
   {
