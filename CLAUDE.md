@@ -182,7 +182,7 @@ Update memory when significant work completes. They persist across sessions.
 
 ## Things That Bite
 
-- **Pre-existing 42 TypeScript errors** in `(website)/checkout/page.tsx` + booking flow files (unrelated to AEO/GEO port). Don't fix opportunistically — out of scope per pivot. Track separately if owner asks for cleanup.
+- **The "42 pre-existing TypeScript errors in checkout/booking" are GONE** — re-measured 2026-07-05 on `main`: `npx tsc --noEmit` reports exactly 3 errors, all dead imports in `HomePage.tsx`/`ReviewsPage.tsx`, **zero** in checkout/booking. Older docs/plans citing "42" are stale history. Consequence: any tsc error appearing in checkout/booking files today is a NEW regression — don't excuse it against the phantom legacy baseline.
 - **`(cms)` route group** is a separate concern from `(website)` schema work. Don't add AEO/GEO logic into CMS pages.
 - **content_pages.content.faq** is admin-editable; per FAQ resolver precedence, it's the lowest-priority source. Admin edits affect only routes that have neither `narrative_claims` wired nor canonical hardcoded registered. Communicate this when training admins.
 - **Sed-based file copies truncate large TSX files** in this Windows/Bash setup. For files >100 lines, use `Read` + `Write` directly, not shell pipelines.

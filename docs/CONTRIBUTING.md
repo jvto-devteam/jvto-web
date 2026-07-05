@@ -75,8 +75,8 @@ feature branch (claude/*, codex/*, feat/*, fix/*, …)
 
 | Gate | Command | Pass condition |
 |---|---|---|
-| Lint | `npm run lint` | 0 new errors |
-| Typecheck | `npx tsc --noEmit` | Does **not exceed baseline**: 3 dead-import errors (`HomePage.tsx`/`ReviewsPage.tsx`) + 42 pre-existing in checkout/booking flow. Any new error = regression, fix before PR. |
+| Lint | `npm run lint:gate` | PASS — no bucket in the committed per-file/per-rule baseline (`scripts/lint-baseline.json`, 141 pre-existing errors) may grow; fixing legacy errors elsewhere cannot offset a new one. Fixed legacy errors → `node scripts/lint-gate.mjs --update` + commit. |
+| Typecheck | `npx tsc --noEmit` | Does **not exceed baseline**: exactly **3 dead-import errors** (`HomePage.tsx`/`ReviewsPage.tsx`). The historical "+42 in checkout/booking flow" was re-measured 2026-07-05 on `main` (post-#62/#63/#64): **0 remain** — any checkout/booking tsc error today is NEW, not legacy. Any new error = regression, fix before PR. |
 | Validators | `npm run validate && npm run validate:packages` | Green |
 | Build | — | Do **not** run full `npm run build` in a sandbox (SSG needs Postgres). Build verification happens via the CI `build-develop` job and the help deploy after merge — by design. |
 
