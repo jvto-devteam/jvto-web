@@ -50,7 +50,7 @@ const FilterSection = ({
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between font-bold text-jvto-navy hover:text-jvto-orange mb-3 transition-colors"
       >
-        <span className="text-[9px] uppercase tracking-[0.18em]">{title}</span>
+        <span className="font-mono text-[9px] uppercase tracking-[0.18em]">{title}</span>
         {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
       </button>
       <div
@@ -396,13 +396,10 @@ export default function ToursPageClient({
         <aside className="hidden lg:block w-[280px] shrink-0">
           <div className="sticky top-32 bg-white p-6 rounded-[24px] border border-jvto-border card-jvto">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-jvto-border">
-              <h3
-                className="text-[9px] font-black uppercase tracking-[0.2em] text-jvto-navy"
-                style={{ fontFamily: "Raleway, Inter, sans-serif" }}
-              >
+              <h3 className="font-mono text-[9px] font-black uppercase tracking-[0.22em] text-jvto-navy">
                 Filters
               </h3>
-              <span className="text-[9px] font-bold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-full text-jvto-navy">
+              <span className="font-mono text-[9px] font-bold bg-jvto-lime/15 border border-jvto-lime/30 px-2.5 py-1 rounded-full text-jvto-navy">
                 {filteredTours.length} tours
               </span>
             </div>
