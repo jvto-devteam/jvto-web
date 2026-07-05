@@ -34,13 +34,14 @@ feature branch (claude/*, codex/*, feat/*, fix/*, …)
   1. **Promote PRs `live ← main`** — created exclusively on an explicit owner command
      ("promote `<scope>` ke live"). These PRs go through the same CI `verify` gate as
      PRs to `main` (enforced in `.github/workflows/ci.yml`).
-  2. **Volcanic-status data** from the automated bot — a *policy* exception. Note the
-     current workflow (`.github/workflows/update-volcanic-status.yml`) checks out no
-     explicit ref and plain-pushes, so today it updates the **default branch (`main`)
-     only**; `live` receives status updates via promotes or a dedicated sync PR
-     (precedent: #51). Whether to retarget the bot to also push `live` directly is an
-     **owner decision** (it changes production update cadence) — until that decision,
-     no automation pushes `live`.
+  2. **Volcanic-status data** from the automated bot — the sole data-only exception.
+     `.github/workflows/update-volcanic-status.yml` fetches MAGMA **once**, commits the
+     result to `main`, then a second job (`sync-live`) copies the exact committed
+     `public/ops/volcanic-status.json` onto `live` **the same day** — no manual promote,
+     and no empty commits on days without status changes. A synced change pushes `live`,
+     which triggers live's own deploy workflow (production rebuild + `pm2 restart`) —
+     an accepted, intentional effect (owner decision 2026-07-05): production volcanic
+     status must never go stale between promotes.
 - **No feature commits directly on `live`. Ever.** Not for "small fixes", not for
   urgent copy changes.
 - **Emergency hotfix procedure:** fix on a feature branch → PR to `main` → merge →
