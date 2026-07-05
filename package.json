@@ -14,8 +14,10 @@
     "sync:trust": "node scripts/sync-trust-bundle.mjs",
     "sync:packages": "node scripts/sync-package-readiness.mjs",
     "sync:blog": "node scripts/sync-blog.mjs",
-    "validate": "node scripts/validate.mjs",
-    "validate:packages": "node scripts/validate-package-readiness-consumption.mjs"
+    "sync:itinerary": "node scripts/sync-itinerary-intelligence.mjs",
+    "validate": "node scripts/validate-itinerary-intelligence.mjs && node scripts/validate.mjs",
+    "validate:packages": "node scripts/validate-package-readiness-consumption.mjs",
+    "validate:itinerary": "node scripts/validate-itinerary-intelligence.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
