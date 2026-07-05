@@ -16,7 +16,7 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
 ## Facts
 
 - **foundingDate/since = 2015** (era guesthouse). JANGAN PERNAH menulis "EST 2016",
-  "Incorporated 2016", atau foundingDate 2016/2020/2023. <!-- drift-ok: contoh terlarang dikutip sengaja -->
+  "Incorporated 2016", "incorporated 2019", atau foundingDate 2016/2019/2020/2023. <!-- drift-ok: contoh terlarang dikutip sengaja -->
   Formalisasi legal = PT Java Volcano Rendezvous, NIB/TDUP era 2023 — disebut hanya
   dalam konteks legal, tanpa mengarang tanggal inkorporasi.
 - **Blue fire**: hanya wording "natural phenomenon subject to weather and gas activity /
@@ -28,9 +28,18 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
 - **Review counts**: Trustpilot **4.8/51**, Google **4.9/123**, TripAdvisor **4.95/21**,
   cross-platform **4.8/195**.
   Nilai basi terlarang: 112, 4.9/112, 47 reviews, 92, 5.0/5. <!-- drift-ok: contoh terlarang dikutip sengaja -->
-- **Email** hello@javavolcano-touroperator.com; **HQ** Jl. Khairil Anwar No.102A
-  Bondowoso 68214.
+- **Email primary = hello@javavolcano-touroperator.com.** Alamat
+  `javavolcanotouroperator@gmail.com` HANYA boleh sebagai secondary/alternate contact —
+  TIDAK PERNAH sebagai primary di schema, meta, atau copy kontak utama.
+  **HQ** Jl. Khairil Anwar No.102A Bondowoso 68214.
 - **NIB/TDUP** 1102230032918 · **AHU**-0023020 · **Kawah Ijen** 2.386m · **Bromo** 2.329m.
+- **Single source of truth untuk brand facts di runtime = `src/lib/site-config.ts`.**
+  DILARANG membuat file config/brand baru (pola root `*-config.json` berisi brand
+  facts). Jika menemukan file semacam itu (mis. `jvto-config.json` sisa lama, berisi
+  sinceOperational 2016 / incorporated 2019 / gmail-as-primary — semuanya salah),
+  laporkan sebagai kandidat hapus; jangan diedit atau dipertahankan. <!-- drift-ok: contoh terlarang dikutip sengaja -->
+- **Review counts di `src/lib/jvtoReviews.ts` SUDAH BENAR** per audit 5 Jul 2026 —
+  jangan diubah kecuali ada update data resmi baru.
 
 ## Sumber & adjudikasi foundingDate
 
