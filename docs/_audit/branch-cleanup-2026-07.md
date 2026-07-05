@@ -146,7 +146,7 @@ to delete.
 | 8 | `claude/epic-brahmagupta-SzDui` | main | `ebec5989` 2026-06-15 | sambuko82 | 9 / 65 | **NOT SAFE — real unmerged feature, see below** |
 | 9 | `claude/epic-brahmagupta-SzDui-live` | live | `c2340817` 2026-06-11 | Claude | 2 / 26 | **SAFE — delete (stale/superseded)** |
 | 10 | `feat/policy-sync-p0-p2-live` | live | `a76029fe` 2026-06-13 | davidsetyaahr | 0 / 14 | **SAFE — delete (merged PR #50, empty diff)** |
-| 11 | `codex/locate-application-information` | main | `8835fc36` 2025-09-02 | sambuko82 | 1 / 815 | **SAFE — delete (structurally obsolete)** |
+| 11 | `codex/locate-application-information` | main | `8835fc36` 2025-09-02 | sambuko82 | 1 / 815 | **SAFE — delete (page.tsx gone; layout.tsx diff checked = scaffold regression, no loss)** |
 
 (`claude/volcanic-status-sync-live`, listed in the plan's original Kelompok B, is confirmed
 absent from `origin` — RESOLVED, see §0.)
@@ -204,12 +204,23 @@ shows **`live` is ahead**, not the branch: e.g. `src/lib/blog.ts` diff shows the
 script/gate that `live` now has. This branch is an earlier snapshot fully absorbed and then
 surpassed. Safe to delete.
 
-**Item 11 — `codex/locate-application-information` — structurally obsolete.** Single
-commit from 2025-09-02 ("Create interactive travel homepage"), touching only
-`src/app/layout.tsx` and `src/app/page.tsx`. **`src/app/page.tsx` no longer exists** — the
-codebase has since moved to route groups (`(website)/page.tsx`, etc., per
-`CLAUDE.md`'s "Routing" section), so this branch's target file was restructured out of
-existence. Nothing to merge or lose. Safe to delete.
+**Item 11 — `codex/locate-application-information` — structurally obsolete, layout.tsx
+diff independently checked.** Single commit from 2025-09-02 ("Create interactive travel
+homepage"), touching `src/app/layout.tsx` and `src/app/page.tsx`. **`src/app/page.tsx`
+no longer exists** — the codebase has since moved to route groups (`(website)/page.tsx`,
+etc., per `CLAUDE.md`'s "Routing" section), so this branch's target file was
+restructured out of existence.
+
+Codex review flagged that `layout.tsx` still exists on `main` today and asked for direct
+evidence its diff is empty/obsolete before deleting — correct to demand, since a
+"page.tsx is gone" argument alone doesn't cover `layout.tsx`. Checked directly
+(`git diff origin/main origin/codex/locate-application-information -- src/app/layout.tsx`):
+this branch's version is a **regression to Next.js scaffold defaults** — it strips
+`main`'s GTM (Google Tag Manager) `<Script>` injection, the `Inter` font import, and
+`suppressHydrationWarning` handling, replacing them with the boilerplate
+`"Create Next App"` metadata and a bare `<body className="antialiased font-sans">`.
+Confirmed nothing to merge; deleting loses no functionality — the opposite would be true.
+Safe to delete.
 
 ## 4. Kelompok C — owner input required before any action (default: SKIP)
 
