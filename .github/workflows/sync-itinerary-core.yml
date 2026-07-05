@@ -64,21 +64,29 @@ jobs:
       - name: Detect artifact changes
         id: diff
         run: |
-          if git diff --quiet -- src/data/itinerary-intelligence; then
+          # git diff alone misses this: on the FIRST run,
+          # src/data/itinerary-intelligence/ has no tracked files at all, so
+          # sync:itinerary only ever produces UNTRACKED files there, which
+          # `git diff --quiet` silently ignores — the initial artifact PR
+          # would never open. Stage explicitly first so both new and
+          # modified files register.
+          git add -A -- src/data/itinerary-intelligence
+          if git diff --cached --quiet -- src/data/itinerary-intelligence; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "::notice::No artifact changes — no sync needed."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            { echo "### Changed artifacts"; echo '```'; git -c color.ui=never diff --stat -- src/data/itinerary-intelligence; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            { echo "### Changed artifacts"; echo '```'; git -c color.ui=never diff --cached --stat -- src/data/itinerary-intelligence; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Guard — only artifact dir may change
         if: steps.diff.outputs.changed == 'true'
         run: |
-          # Tracked modifications only — the producer checkout lives at
-          # ./jvto-itinerary-core (untracked) and must be ignored; sync only
-          # overwrites committed artifacts under src/data/itinerary-intelligence/.
-          bad="$(git diff --name-only -- . | grep -vE '^src/data/itinerary-intelligence/' || true)"
+          # Same untracked-file blind spot applies here: check status (staged
+          # + unstaged + untracked), not `git diff --name-only` (tracked
+          # only). The producer checkout at ./jvto-itinerary-core is
+          # untracked by design and excluded via pathspec.
+          bad="$(git status --porcelain -- . ':!jvto-itinerary-core' | cut -c4- | grep -vE '^"?src/data/itinerary-intelligence/' || true)"
           if [ -n "$bad" ]; then
             echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
           fi
