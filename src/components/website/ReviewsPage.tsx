@@ -1,10 +1,15 @@
 
 import React from 'react';
-import Reviews from './Reviews';
-import { reviewsCopy } from '@/constants';
 import Breadcrumbs from './Breadcrumbs';
 import SocialProof from './SocialProof';
 
+// NOTE: This component is not wired into any route — the live /why-jvto/reviews
+// page is rendered by src/app/(website)/why-jvto/[slug]/page.tsx (DB-driven
+// content.sections + BlocksRenderer). Kept only for the pre-existing
+// Breadcrumbs/SocialProof usage; the `./Reviews` module it used to import no
+// longer exists in this repo, which was one of the 3 documented tsc baseline
+// errors (see CLAUDE.md "Things That Bite"). Removed the dead import instead
+// of resurrecting an unrelated component.
 const ReviewsPage: React.FC = () => {
   const breadcrumbCrumbs = [
     { name: 'Home', path: '/' },
@@ -21,7 +26,6 @@ const ReviewsPage: React.FC = () => {
               </div>
           </header>
           <main>
-              <Reviews copy={reviewsCopy} />
               <SocialProof />
           </main>
       </div>
