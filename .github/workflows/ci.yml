@@ -50,8 +50,10 @@ jobs:
       - name: Lint (blocking, baseline-gated)
         # Flat-config crash fixed 2026-07-05 (native eslint-config-next flat
         # exports; FlatCompat removed). Blocking via scripts/lint-gate.mjs:
-        # error count must not exceed the documented baseline (141 pre-existing)
-        # — same governance pattern as the tsc baseline. New errors = fail.
+        # any bucket in the committed per-file/per-rule baseline
+        # (scripts/lint-baseline.json, 141 pre-existing errors) that grows =
+        # fail — fixing legacy errors elsewhere cannot offset a new one.
+        # Fixed legacy errors: `node scripts/lint-gate.mjs --update` + commit.
         run: npm run lint:gate
 
       - name: Sync bundles and check for drift
