@@ -2,13 +2,15 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Branch governance (locked 2026-07-05):** `main` = bengkel tunggal (single workshop) — all work happens on feature branches merged into `main` via PR with green CI. **`live` = production release pointer; jangan pernah kerja langsung di `live` (never work directly on `live`).** `live` receives only owner-commanded promote PRs (`live ← main`, CI-gated) plus volcanic-status bot commits. Full rules: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) · Content facts lock: [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md).
+
 ## Project Overview
 
 **Java Volcano Tour Operator (JVTO)** — Next.js 16 site for `PT Java Volcano Rendezvous`, a licensed East Java private volcano tour operator (Ijen, Bromo, Tumpak Sewu). Site emphasizes verifiable trust signals (NIB, police credentials, BBKSDA compliance) over generic marketing.
 
 This is the **canonical JVTO codebase**. As of 2026-04-29, the AEO/GEO architecture was ported here from the now-archived `e:\test-2-2026` rewrite repo per `~/.claude/plans/sepertinya-banyak-hal-yang-sequential-coral.md` (Path B). Single-repo development from this point forward.
 
-Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**. When schemas/copy reference "since" or `foundingDate`, use 2015.
+Founding year: **2015** (guesthouse era, Booking.com award), **PT formal 2023**. When schemas/copy reference "since" or `foundingDate`, use 2015. The full adjudicated facts lock (founding year, blue-fire wording, review counts, prices, contact/legal identifiers) lives in [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md) — violations are bugs.
 
 ## Commands
 
