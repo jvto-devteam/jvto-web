@@ -6,7 +6,8 @@ import HomeFounder from "@/components/website/Home/HomeFounder";
 import HomeConfidence from "@/components/website/Home/HomeConfidence";
 import HomeHowItWorks from "@/components/website/Home/HomeHowItWorks";
 import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
-import HomeReviews from "@/components/website/Home/HomeReviews";
+import Link from "@/components/website/AppLink";
+import Script from "next/script";
 import HomeExplore from "@/components/website/Home/HomeExplore";
 import HomePartners from "@/components/website/Home/HomePartners";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
@@ -142,7 +143,54 @@ const Home = async () => {
       <HomeConfidence />
       <HomeHowItWorks />
       <HomeVolcanoStatus />
-      <HomeReviews />
+
+      {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production) */}
+      <section aria-labelledby="reviews-heading" className="bg-jvto-navy py-20 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-12 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
+              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+                Guest Reviews
+              </span>
+            </div>
+            <h2
+              id="reviews-heading"
+              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
+              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+            >
+              51 reviews on Trustpilot.{" "}
+              <br />
+              <em className="text-jvto-orange not-italic">123 on Google Maps.</em>{" "}
+              <br />
+              21 on TripAdvisor.
+            </h2>
+            <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
+              Ratings verified across three independent platforms. Every review links
+              to the original profile — browse by guide, by destination, or by trip length
+              to find what matters to you.
+            </p>
+          </div>
+
+          <Script
+            src="https://elfsightcdn.com/platform.js"
+            strategy="lazyOnload"
+          />
+          <div
+            className="elfsight-app-3c356457-8eca-453f-a7e4-055cc0d125c6"
+            data-elfsight-app-lazy
+          />
+
+          <div className="mt-10 text-center md:text-left">
+            <Link
+              href="/why-jvto/reviews"
+              className="text-sm font-bold text-white/70 hover:text-white transition-colors"
+            >
+              Read all reviews <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <HomeExplore />
       <HomePartners />
       <HomeFAQ />

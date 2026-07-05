@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-11T02:07:57.370Z",
+  "generatedAt": "2026-07-02T01:05:29.286Z",
   "items": [
     {
       "slug": "mount-bromo",
@@ -317,7 +317,7 @@
     },
     {
       "slug": "ijen-crater",
-      "updatedAt": "2026-04-27T17:58:38.673Z",
+      "updatedAt": "2026-06-17T01:38:24.394Z",
       "payload": {
         "id": 2,
         "code": "IJN-001",
@@ -349,12 +349,12 @@
           "gloves",
           "waterproof_jacket"
         ],
-        "summary": "Kawah Ijen is located in Banyuwangi Regency, East Java, Indonesia — approximately 3 hours by car from Banyuwangi city and 5–6 hours from Surabaya (Juanda Airport). It is the world's largest acidic crater lake and one of only two places where natural blue fire (SO₂ combustion at ~600°C) occurs. Entry requires a BBKSDA health certificate; all JVTO Ijen packages include mandatory in-hotel health screening by a licensed physician.",
-        "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The blue fire is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
-        "highlight": "Blue fire phenomenon and acidic crater lake",
+        "summary": "Kawah Ijen is located in Banyuwangi Regency, East Java, Indonesia — approximately 3 hours by car from Banyuwangi city and 5–6 hours from Surabaya (Juanda Airport). It is the world's largest acidic crater lake and one of only two places where SO₂ combustion at high temperature occurs. Entry requires a BBKSDA health certificate; all JVTO Ijen packages include mandatory in-hotel health screening by a licensed physician.",
+        "description": "Mount Ijen is a composite volcano located in the Banyuwangi Regency of East Java, Indonesia. It is part of the Ijen Volcano Complex, a group of stratovolcanoes inside a larger caldera. Ijen is famous for its turquoise-colored acidic crater lake, which is the largest of its kind in the world.\r\n\r\nThe volcano is most famous for the electric-blue flame that issues from cracks in the volcano at night. The flames are the result of combustion of sulfuric gases that emerge from the volcano at high pressure and temperature. The sulfuric combustion is visible only in darkness, making the midnight trek a unique experience.\r\n\r\nLocal sulfur miners work in extreme conditions, carrying heavy loads of sulfur up the steep crater walls. Their resilience and the stunning natural phenomena make Ijen one of Java's most compelling destinations.",
+        "highlight": "Acidic crater lake",
         "main_attractions": [
           {
-            "title": "Blue Fire Phenomenon",
+            "title": "Sulfuric Gas Phenomenon",
             "description": "Witness the surreal blue flames that appear only at night due to combustion of sulfuric gases"
           },
           {
@@ -372,7 +372,7 @@
         ],
         "key_highlights": [
           {
-            "title": "Natural Blue Fire — SO₂ Combustion",
+            "title": "SO₂ Combustion Phenomenon",
             "description": "One of only two places on Earth where sulfuric gas (SO₂) ignites into electric-blue flames (~600°C). Visible only in darkness, between midnight and sunrise."
           },
           {
@@ -553,13 +553,13 @@
             "significance": "Respect for the living mountain and its power"
           }
         ],
-        "tips_for_visitors": "Start trek at midnight (01:00 AM) for blue fire viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights",
+        "tips_for_visitors": "Start trek at midnight (01:00 AM) for crater lake viewing, bring multiple warm layers as temperatures drop to 5°C, wear sturdy hiking boots with good grip, carry headlamp with extra batteries, acclimatize to altitude if coming from sea level, hire local guide for safety and cultural insights",
         "thumbnail_url": "/assets/img/destinations/ijen-crater.webp",
         "featured_image": "/assets/img/destinations/ijen-crater.webp",
         "published": true,
         "featured": true,
-        "seo_title": "Mount Ijen Blue Fire Volcano - Complete Trekking Guide 2024",
-        "seo_description": "Experience Mount Ijen's blue fire and acidic crater lake. Complete guide to trekking, safety, permits, and cultural significance in East Java.",
+        "seo_title": "Mount Ijen Crater - Complete Trekking Guide 2024",
+        "seo_description": "Experience Mount Ijen's acidic crater lake and volcanic phenomena. Complete guide to trekking, safety, permits, and cultural significance in East Java.",
         "schema_json": {
           "@id": "https://javavolcano-touroperator.com/destinations/ijen-crater",
           "geo": {
@@ -576,7 +576,7 @@
             "https://www.wikidata.org/wiki/Q744653"
           ],
           "@context": "https://schema.org",
-          "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where natural blue fire appears at night.",
+          "description": "Kawah Ijen is the world's largest acidic crater lake and one of only two places where SO₂ volcanic combustion occurs at night.",
           "touristType": [
             "Adventure travelers",
             "Nature enthusiasts",
@@ -607,7 +607,7 @@
         "slug": "ijen-crater",
         "short_slug": "ijen",
         "created_at": "2024-01-15T08:00:00.000Z",
-        "updated_at": "2026-04-27T17:58:38.673Z",
+        "updated_at": "2026-06-17T01:38:24.394Z",
         "deleted_at": null,
         "destination_assets": [
           {
