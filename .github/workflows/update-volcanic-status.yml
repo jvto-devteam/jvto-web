@@ -1,15 +1,29 @@
 name: Update Volcanic Status
 
+# Fetch MAGMA once, commit twice (see docs/CONTRIBUTING.md §2.2 — volcanic-status
+# is the sole data-only exception allowed to touch `live` without a PR):
+#   fetch     → checkout main, run scripts/update-volcanic-status.mjs, commit+push
+#               to main if the JSON changed.
+#   sync-live → runs ONLY when fetch reported a change (no empty commits on quiet
+#               days): copies the exact JSON committed to main (via artifact, never
+#               a second MAGMA fetch) onto live and pushes. That push triggers
+#               live's own deploy.yml (production rebuild + pm2 restart) —
+#               intentional: production volcanic status must not go stale between
+#               promotes. Pushes use GH_PAT so the target branch's deploy trigger
+#               actually fires (GITHUB_TOKEN pushes don't trigger workflows).
 on:
   schedule:
     - cron: '0 0 * * *' # Daily 00:00 UTC = 07:00 WIB
   workflow_dispatch:    # Allow manual trigger from GitHub UI
 
 jobs:
-  update:
+  fetch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
 
     steps:
       - uses: actions/checkout@v4
@@ -23,12 +37,53 @@ jobs:
       - name: Fetch MAGMA status and update JSON
         run: node scripts/update-volcanic-status.mjs
 
-      - name: Commit if changed
+      - name: Commit to main if changed
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/ops/volcanic-status.json
+          if git diff --staged --quiet; then
+            echo "No status changes today."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore: update volcanic status $(date -u +%Y-%m-%d)"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload committed status for sync-live
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: volcanic-status
+          path: public/ops/volcanic-status.json
+          retention-days: 1
+
+  sync-live:
+    needs: fetch
+    if: needs.fetch.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: live
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Download status committed to main
+        uses: actions/download-artifact@v4
+        with:
+          name: volcanic-status
+          path: public/ops
+
+      - name: Commit to live if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/ops/volcanic-status.json
           git diff --staged --quiet \
-            && echo "No status changes today." \
-            || git commit -m "chore: update volcanic status $(date -u +%Y-%m-%d)"
-          git push
+            && echo "live already matches — nothing to sync." \
+            || { git commit -m "chore(ops): sync volcanic status to live $(date -u +%Y-%m-%d)"; git push origin live; }
