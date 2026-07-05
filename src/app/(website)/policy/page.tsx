@@ -96,23 +96,30 @@ export default async function PolicyHubPage() {
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
         {/* Header */}
-        <section className="bg-accent border-b pb-12">
+        <section className="bg-jvto-navy text-white pb-12 pt-8 md:pt-12">
           <div className="container mx-auto px-4 max-w-5xl">
             {/* Breadcrumb */}
-            <nav className="mb-4  text-sm text-muted-foreground">
-              <Link href="/" prefetch={false} className="hover:text-primary">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
                 Home
               </Link>
               <span className="mx-2">›</span>
-              <span className="text-foreground font-medium">Policy</span>
+              <span className="text-white/80">Policy</span>
             </nav>
 
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              Policy Hub · 3 published
+            </span>
+
             {/* Title */}
-            <div className=" mb-10">
-              <h1 className="font-black text-2xl md:text-5xl mb-4">
+            <div className="mb-10">
+              <h1
+                className="font-black text-3xl md:text-5xl mb-4 text-white"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
                 {h1}
               </h1>
-              <p className="text-muted-foreground max-w-3xl">
+              <p className="text-white/70 max-w-3xl">
                 This page is a navigation hub. For binding terms, open the
                 relevant policy below and refer to your booking-specific
                 documents (Official E-Voucher / Invoice).
@@ -121,14 +128,14 @@ export default async function PolicyHubPage() {
 
             {/* Notice: precedence + contact */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-yellow-50 border border-yellow-200 p-4 text-left rounded-sm">
-                <p className="text-sm italic mb-2">
+              <div className="bg-white/5 border border-white/15 p-4 text-left rounded-lg backdrop-blur-sm">
+                <p className="text-sm italic mb-2 text-white/60">
                   Document precedence (if anything differs):
                 </p>
-                <p className="font-semibold text-foreground mb-2">
+                <p className="font-semibold text-white mb-2">
                   Order of authority:
                 </p>
-                <ol className="list-decimal pl-5 space-y-1 text-sm text-muted-foreground">
+                <ol className="list-decimal pl-5 space-y-1 text-sm text-white/70">
                   <li>
                     Your Official E‑Voucher / Invoice (for your confirmed
                     booking)
@@ -139,24 +146,24 @@ export default async function PolicyHubPage() {
                 </ol>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 p-4 text-left rounded-sm">
-                <p className="font-semibold text-foreground mb-2">
+              <div className="bg-white/5 border border-white/15 p-4 text-left rounded-lg backdrop-blur-sm">
+                <p className="font-semibold text-white mb-2">
                   Need help? Contact JVTO:
                 </p>
-                <p className="text-sm text-muted-foreground mb-2">
-                  <strong>WhatsApp:</strong>{" "}
+                <p className="text-sm text-white/70 mb-2">
+                  <strong className="text-white">WhatsApp:</strong>{" "}
                   <a
                     href="https://wa.me/6282244788833"
-                    className="text-primary hover:underline"
+                    className="text-jvto-lime hover:underline"
                   >
                     +62 822-4478-8833
                   </a>
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  <strong>Email:</strong>{" "}
+                <p className="text-sm text-white/70">
+                  <strong className="text-white">Email:</strong>{" "}
                   <a
                     href="mailto:hello@javavolcano-touroperator.com"
-                    className="text-primary hover:underline"
+                    className="text-jvto-lime hover:underline"
                   >
                     hello@javavolcano-touroperator.com
                   </a>

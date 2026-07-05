@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
+import { SITE_CONFIG } from "@/lib/site-config";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -81,39 +82,96 @@ export default async function IsicStudentPackagePage() {
         extraSchemas={[packageListSchema]}
       />
       <main className="flex-grow">
-        
+
         {/* ================= HERO SECTION ================= */}
         <section className="relative h-[60vh] md:h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
           {/* Background Image with Overlay */}
           <div className="absolute inset-0 z-0">
-            <Image 
+            <Image
               src="https://legacy.javavolcano-touroperator.com/assets/img/destinations/2d-1n-surabaya-bromo-1-day-tours-1679725846337/bromo6.webp" // Replace with your hero image path
               alt="Students at Mount Bromo"
               fill
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-jvto-navy/60" />
           </div>
-          
+
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 flex flex-col items-center">
-            {/* ISIC Logo Placeholder from design */}
-            <div className="mb-6">
-              <Image 
-                src="https://legacy.javavolcano-touroperator.com/assets/img/isic-logo.svg" // Replace with ISIC logo path
-                alt="ISIC Student"
-                width={180}
-                height={80}
-                className="h-auto"
-              />
-            </div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-6">
+              ISIC Provider {SITE_CONFIG.reviewLinks.isicProviderId}
+            </span>
             <h1 className="font-black text-4xl md:text-6xl tracking-tight mb-4 drop-shadow-lg">
               {seo.h1}
             </h1>
             <p className="text-lg md:text-xl font-medium max-w-3xl drop-shadow-md">
               {seo.description}
             </p>
+          </div>
+        </section>
+
+        {/* ================= WHAT IS ISIC — provider ID + verified facts ================= */}
+        <section className="py-14 md:py-16 bg-white border-b border-border">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-16 items-start max-w-5xl mx-auto">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-4">What is ISIC?</p>
+                <p className="text-muted-foreground text-base leading-relaxed mb-4">
+                  The International Student Identity Card (ISIC) is the only internationally
+                  recognised student identity document, endorsed by UNESCO and accepted in
+                  130+ countries. JVTO is a registered ISIC provider — if you hold a valid
+                  ISIC card, the same private vehicle, licensed guide, and all-inclusive
+                  format as our standard packages is available at reduced per-person rates.
+                </p>
+                <p className="text-muted-foreground text-base leading-relaxed">
+                  Student pricing is confirmed via a live Alive Verify API check against the
+                  ISIC database at the time of booking. Your card must be valid and current —
+                  no card, no discount, no exceptions.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border bg-muted/20 p-6 space-y-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Provider</p>
+                  <p className="font-semibold text-foreground">JVTO — PT Java Volcano Rendezvous</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Provider ID</p>
+                  <p className="font-semibold text-foreground">{SITE_CONFIG.reviewLinks.isicProviderId}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-1">Verify directory</p>
+                  <a href={SITE_CONFIG.reviewLinks.isic} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline break-words text-sm">
+                    isic.org/discounts/?providerId={SITE_CONFIG.reviewLinks.isicProviderId}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= HOW VERIFICATION WORKS ================= */}
+        <section className="py-14 md:py-16 bg-muted/20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-8">How verification works</p>
+              <ol className="space-y-6">
+                {[
+                  { t: "Share your card number", d: "Send your ISIC card number when booking via WhatsApp." },
+                  { t: "We run an Alive Verify check", d: "JVTO runs a live Alive Verify API check against the ISIC database." },
+                  { t: "Pricing is confirmed", d: "If the card returns valid, student pricing is confirmed for your booking." },
+                  { t: "Validity is checked on the day", d: "Your card must be valid on the date of verification — not just the travel date. No workarounds; the check is live and automated." },
+                ].map((step, i) => (
+                  <li key={step.t} className="flex gap-5">
+                    <span className="font-mono text-xs font-bold text-jvto-orange pt-1 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h4 className="font-bold text-foreground mb-1">{step.t}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{step.d}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </section>
 
@@ -279,7 +337,54 @@ export default async function IsicStudentPackagePage() {
             </div>
           </div>
         </section>
-        
+
+        {/* ================= SAME INCLUSIONS AS STANDARD ================= */}
+        <section className="py-16 md:py-20 bg-muted/20">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-16 max-w-5xl mx-auto">
+              <div>
+                <h2 className="font-black text-2xl md:text-3xl text-foreground mb-6">
+                  Same inclusions <span className="text-jvto-orange">as standard.</span>
+                </h2>
+                <ul className="space-y-3">
+                  {[
+                    "Private vehicle and driver for the full duration",
+                    "English-speaking licensed guide",
+                    "Hotel accommodation with breakfast",
+                    "All entrance fees, plus parking, fuel, and road tolls",
+                    "Drinking water throughout",
+                    "Gas masks on Ijen-inclusive routes · Bromo 4WD jeep on Bromo-inclusive routes",
+                    "Health-certificate screening coordination on Ijen routes when current BBKSDA access rules require it",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                      <CheckCircle2 size={16} className="text-jvto-lime mt-0.5 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <div className="rounded-2xl border border-border bg-background p-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-3">Not included</p>
+                  <ul className="space-y-1.5 text-sm text-muted-foreground">
+                    <li>International flights</li>
+                    <li>Travel insurance</li>
+                    <li>Personal trekking gear</li>
+                    <li>Tips</li>
+                    <li>On-site extras (Bromo horse, Ijen trolley ojek)</li>
+                  </ul>
+                </div>
+                <div className="rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-5">
+                  <p className="text-sm text-foreground"><strong>Card must be valid at verification.</strong> Student pricing is confirmed only after a live Alive Verify check returns a valid, current card. No card, no discount — no exceptions.</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-background p-5">
+                  <p className="text-sm text-muted-foreground">Operated by PT Java Volcano Rendezvous · NIB {SITE_CONFIG.registrationNumber} · Bondowoso, East Java.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   );

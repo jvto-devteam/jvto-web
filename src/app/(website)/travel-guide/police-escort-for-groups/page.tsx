@@ -11,7 +11,7 @@ export const revalidate = 86400;
 
 const defaultTitle = "Traffic Police Escort for Tourist Groups in East Java | JVTO";
 const defaultDescription =
-  "How official traffic police escorts work for larger tourist groups in East Java. When it is appropriate, how JVTO coordinates it, and what it involves.";
+  "For large groups — typically around 18 guests or more — JVTO can coordinate an official traffic police escort on certain road segments, when approved by the relevant Traffic Police (Ditlantas) unit. A formal request process, not a marketing add-on — approval is never guaranteed.";
 const defaultH1 = "Traffic Police Escort for Tourist Groups in East Java";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,32 +57,32 @@ export default async function PoliceEscortPage() {
         extraSchemas={[]}
         suppressCmsFaq={false}
       />
-      <main className="pt-24 w-full">
-        {/* Breadcrumb */}
-        <nav className="border-b border-slate-200 px-6 py-3 text-xs text-slate-500">
-          <div className="max-w-4xl mx-auto flex items-center gap-2">
-            <Link href="/" className="hover:text-slate-700 transition-colors">Home</Link>
-            <span>/</span>
-            <Link href="/travel-guide" className="hover:text-slate-700 transition-colors">Travel Guide</Link>
-            <span>/</span>
-            <span className="text-slate-700">Police Escort for Groups</span>
-          </div>
-        </nav>
-
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          {/* Header */}
-          <div className="mb-10">
-            <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/10 px-2.5 py-1 rounded-full mb-4">
-              <Shield size={11} /> Available on request — not auto-included
+      <main className="flex-1 pt-24 md:pt-36 pb-20 w-full">
+        <section className="bg-jvto-navy text-white pb-10 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" className="hover:text-white transition-colors">Home</Link>
+              <span className="mx-2">›</span>
+              <Link href="/travel-guide" className="hover:text-white transition-colors">Travel Guide</Link>
+              <span className="mx-2">›</span>
+              <span className="text-white/80">Police Escort for Groups</span>
+            </nav>
+            <div className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
+              <Shield size={11} /> ≈18 guests+ · request only · approval not guaranteed
             </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-4">
+            <h1
+              className="font-black text-3xl md:text-5xl text-white mb-4"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
               {h1}
             </h1>
-            <p className="text-slate-500 text-base leading-relaxed max-w-2xl">
+            <p className="text-white/70 text-base leading-relaxed max-w-2xl">
               {seo.description ?? defaultDescription}
             </p>
           </div>
+        </section>
 
+        <div className="max-w-4xl mx-auto px-6 py-12">
           {/* Photo evidence — escort day + night */}
           <section className="mb-12">
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
@@ -111,29 +111,29 @@ export default async function PoliceEscortPage() {
           {/* What a police escort involves */}
           <section className="mb-10">
             <h2 className="text-lg font-bold text-slate-900 mb-4">
-              What a Police Escort Involves
+              What a Traffic Police Escort Is
             </h2>
             <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
               <p>
-                A traffic police escort means a uniformed officer from the Bondowoso
-                Satlantas (traffic police) unit accompanies the group vehicle for the
-                transfer leg — typically from the departure hotel to the crater gate or
-                to the next accommodation. The officer travels in a marked patrol vehicle
-                ahead of or alongside the group's private vehicle.
+                A traffic police escort in East Java is a formal arrangement between JVTO
+                and the relevant Traffic Police unit (<strong>Ditlantas</strong>). When
+                approved, uniformed traffic police travel in official police vehicles,
+                under written orders (SPRIN documentation), to help manage road flow on
+                specific segments — particularly high-traffic junctions and toll-road
+                exits — for large vehicle convoys.
               </p>
               <p>
-                This is not a security escort in the personal-protection sense. Its
-                function is logistical: clearing intersections at unusual hours (most Ijen
-                transfers begin between 00:00–01:30), managing traffic at narrow junctions,
-                and providing visible authority if a road incident occurs. For groups of 10
-                or more passengers across multiple vehicles, this coordination meaningfully
-                reduces transfer time and eliminates the risk of convoy separation on
-                unfamiliar mountain roads.
+                JVTO does not provide escort vehicles itself. The escort, when it occurs,
+                is provided by the Indonesian National Police under a formal request
+                process — it is not a security detail in the personal-protection sense,
+                and it does not bypass speed limits, road rules, or grant preferential
+                access to national parks or restricted sites.
               </p>
               <p>
-                The escort vehicle does not enter the Ijen or Bromo conservation area —
-                BBKSDA jurisdiction begins at the crater gate. Its role ends at the handoff
-                point, where the JVTO guide takes over for the hiking section.
+                The escort operates under official police authority, not JVTO instruction.
+                Its role ends at the handoff point — for Ijen or Bromo itineraries, BBKSDA
+                jurisdiction begins at the crater gate, where the JVTO guide takes over for
+                the hiking section.
               </p>
             </div>
           </section>
@@ -141,31 +141,30 @@ export default async function PoliceEscortPage() {
           {/* How JVTO coordinates */}
           <section className="mb-10">
             <h2 className="text-lg font-bold text-slate-900 mb-4">
-              How JVTO Coordinates the Escort
+              How It Works
             </h2>
             <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
+              <ol className="list-decimal pl-5 space-y-2">
+                <li>JVTO submits a formal request to the competent Traffic Police unit — including group size, vehicle count, route, and date.</li>
+                <li>The request is reviewed against current regulations, unit availability, and route specifications.</li>
+                <li>If approved, the escort is issued with written orders (SPRIN documentation). JVTO has existing police-cooperation framework documents on file.</li>
+                <li>On the day, uniformed traffic police in official vehicles accompany the convoy on designated road segments — for example, from a toll exit to Bondowoso.</li>
+              </ol>
               <p>
-                JVTO's founder holds an active Tourist Police (POLPAR) commission issued
-                by Polres Bondowoso. This credential — the SPRIN POLPAR document,
-                verifiable on the{" "}
+                JVTO's founder, Mr. Sam (Agung Sambuko), is an active officer of the
+                Indonesian National Police, assigned to Ditpamobvit (Directorate of Vital
+                Object Security), East Java. This credential — verifiable on the{" "}
                 <Link href="/verify-jvto/police-safety" className="text-jvto-green font-medium hover:underline">
                   Police Safety verification page
                 </Link>{" "}
-                — gives JVTO a direct coordination channel with the local Satlantas unit
-                that most private operators do not have.
+                — gives JVTO an established institutional relationship with police
+                coordination frameworks most private operators do not have. It is not a
+                shortcut around regulations, but an established protocol within them.
               </p>
               <p>
-                The request is made through official police channels at least 24 hours
-                before departure. There is no payment to the escort officer — the
-                arrangement is institutional, coordinated through the police unit, not a
-                private transaction. JVTO includes the escort coordination at no additional
-                charge to the guest.
-              </p>
-              <p>
-                Because the POLPAR commission is personal to the founder and requires
-                active police service, this arrangement is not replicable by unlicensed
-                operators. It is one of the concrete, verifiable differences between JVTO
-                and standard tour operators in the region.
+                No unofficial on-road payments are associated with a JVTO-coordinated
+                escort. If anyone requests payment on the road during an escort, report it
+                to JVTO immediately.
               </p>
             </div>
           </section>
@@ -173,22 +172,23 @@ export default async function PoliceEscortPage() {
           {/* Who qualifies */}
           <section className="mb-10 bg-jvto-green/5 border border-jvto-green/20 rounded-xl p-6">
             <h2 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wide">
-              When Is a Police Escort Appropriate?
+              Who Qualifies
             </h2>
             <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
               <p>
-                An escort is most relevant for groups of 10 or more passengers, especially
-                when travelling in two or more vehicles that need to stay together. It is
-                also appropriate when departure time falls between midnight and 02:00, when
-                Bondowoso roads have minimal other traffic but junctions can still cause
-                convoy delays.
+                The escort is a coordination service for large vehicle convoys that meet
+                the qualifying group size — <strong>typically around 18 guests or more</strong>.
+                It is not a default inclusion for smaller groups, and not part of any
+                standard JVTO package unless it is written on your E-Voucher.
               </p>
               <p>
-                For solo travellers or couples, a police escort is rarely necessary and is
-                not typically offered — a single private vehicle with a JVTO guide manages
-                the transfer without coordination overhead. If your group is large or your
-                itinerary involves an unusually early start, mention it at booking and JVTO
-                will advise whether coordination makes sense for your specific trip.
+                Whether a specific route and date are approved depends on regulations,
+                Traffic Police unit availability, and route definitions at the time of
+                request. <strong>Approval is not guaranteed.</strong> If your group meets
+                the qualifying size, raise the escort request when you contact JVTO for
+                your initial quotation — include group size, vehicle count, proposed
+                route, and travel dates. If approved, escort costs are listed explicitly
+                in your programme and invoice — no post-booking additions.
               </p>
             </div>
           </section>
@@ -201,10 +201,10 @@ export default async function PoliceEscortPage() {
             <ul className="space-y-2.5">
               {[
                 "Available on request for large groups — not automatically included in standard packages.",
-                "Coordinated through official channels: JVTO's founder holds an active Tourist Police (POLPAR) commission.",
-                "Escort covers the transfer leg — typically from the departure point to the hotel or crater gate.",
-                "Groups of 10+ pax typically qualify; confirm at booking.",
-                "No additional charge for the escort vehicle — it is arranged through the police unit, not a private service.",
+                "Coordinated through official channels with the Traffic Police (Ditlantas) unit; JVTO's founder holds an active police commission (Ditpamobvit).",
+                "Escort covers designated road segments — typically from a toll exit or the departure point to the hotel or crater gate.",
+                "Qualifying size is typically around 18 guests or more; approval is not guaranteed and depends on unit availability and route.",
+                "Escort costs, if approved, are listed explicitly on the programme and invoice — no unofficial on-road payments.",
               ].map((fact, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
                   <CheckCircle2 size={14} className="text-jvto-green mt-0.5 shrink-0" />
