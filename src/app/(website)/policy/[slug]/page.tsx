@@ -96,25 +96,32 @@ export default async function PolicyDynamicPage({ params }: Props) {
       <Sidebar />
 
       <main className="flex-1 pt-24 md:pt-36 pb-20">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <nav className="mb-4 text-sm text-muted-foreground">
-            <Link href="/" prefetch={false} className="hover:text-primary">
-              Home
-            </Link>
-            <span className="mx-2">›</span>
-            <Link href="/policy" prefetch={false} className="hover:text-primary">
+        <section className="bg-jvto-navy text-white pb-10 pt-8 md:pt-12">
+          <div className="max-w-4xl mx-auto px-6 md:px-8">
+            <nav className="mb-6 text-sm text-white/50">
+              <Link href="/" prefetch={false} className="hover:text-white transition-colors">
+                Home
+              </Link>
+              <span className="mx-2">›</span>
+              <Link href="/policy" prefetch={false} className="hover:text-white transition-colors">
+                Policy
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-white/80">{h1}</span>
+            </nav>
+            <span className="inline-flex items-center gap-2 rounded-full border border-jvto-lime/30 bg-jvto-lime/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-lime mb-5">
               Policy
-            </Link>
-            <span className="mx-2">›</span>
-            <span className="text-foreground font-medium">
-              {h1}
             </span>
-          </nav>
+            <h1
+              className="font-black text-3xl md:text-5xl text-white"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {h1}
+            </h1>
+          </div>
+        </section>
 
-          <header className="mb-8">
-            <h1 className="text-3xl font-semibold tracking-tight">{h1}</h1>
-          </header>
-
+        <div className="container mx-auto px-4 max-w-4xl pt-12">
           <MarkdownRenderer markdown={body} />
           {content?.faq && (
             <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
