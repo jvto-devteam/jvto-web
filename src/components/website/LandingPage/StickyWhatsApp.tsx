@@ -83,13 +83,13 @@ export default function StickyWhatsApp({
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
         onClick={() => pushWaEvent(source, href, "Chat on WhatsApp")}
-        className="relative flex items-center gap-2.5 bg-[#25D366] text-white pl-4 pr-5 py-3 rounded-full shadow-2xl hover:bg-[#1ebe5d] transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
+        className="relative flex items-center gap-2.5 bg-jvto-wa-green text-white pl-4 pr-5 py-3 rounded-full shadow-[0_20px_40px_-10px_rgba(37,211,102,0.5)] hover:brightness-110 transition-all duration-200 hover:-translate-y-0.5 active:scale-95"
       >
         <WhatsAppIcon />
         <span className="font-semibold text-sm hidden sm:inline">
           Chat on WhatsApp
         </span>
-        <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20 pointer-events-none" />
+        <span className="absolute inset-0 rounded-full bg-jvto-wa-green animate-ping opacity-20 pointer-events-none" />
       </a>
     </div>
   );
