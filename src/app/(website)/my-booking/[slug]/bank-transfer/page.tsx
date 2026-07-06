@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "@/components/website/AppLink";
+import { getPolicyDomain } from "@/lib/policy-bundle";
 import {
   ArrowLeft,
   Upload,
@@ -12,6 +13,10 @@ import {
   Loader2,
   FileText,
 } from "lucide-react";
+
+const invoicePaymentPolicyNote =
+  getPolicyDomain("invoice", "payment-rules")?.notes ??
+  "20% deposit standard; close-departure bookings may require full payment.";
 
 // --- HELPERS ---
 const formatIDR = (num: number) =>
@@ -184,6 +189,7 @@ export default function BankTransferUploadPage() {
                 </div>
               </div>
               <p className="text-xs text-slate-500 mt-4 text-center">
+                {invoicePaymentPolicyNote}{" "}
                 For detailed payment terms, please check our{" "}
                 <a
                   href="https://javavolcano-touroperator.com/policy/booking-payment-cancellation"
