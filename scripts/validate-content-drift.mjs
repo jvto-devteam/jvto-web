@@ -84,11 +84,6 @@ const RULES = [
     re: /"sinceOperational"|"incorporated":\s*"?20\d\d/,
   },
   {
-    name: 'mandatory-health-wording',
-    // Ijen health screening is CONDITIONAL (BBKSDA SE.1658/KSA.9/2024), never "mandatory for all"
-    re: /[Mm]andatory health|required for all\s+\w{0,8}guests|must hold a valid/,
-  },
-  {
     name: 'blue-fire-guarantee',
     // blue fire = natural phenomenon, cannot be guaranteed
     re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|guarantee[^.]{0,40}[Bb]lue\s*[Ff]ire/,

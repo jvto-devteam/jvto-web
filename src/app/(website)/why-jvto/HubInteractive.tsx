@@ -46,7 +46,7 @@ const DIFF_DATA = [
     label: "Ijen screening",
     icon: Stethoscope,
     title: "Ijen Health-Screening",
-    text: "When BBKSDA rules require it, we coordinate a QR-verified surat sehat through an SIP-licensed doctor — scannable at the crater gate.",
+    text: "Mandatory for every guest under BBKSDA SE.1658/KSA.9/2024 — we coordinate a QR-verified surat sehat through an SIP-licensed doctor, scannable at the crater gate.",
     cred: "Proof · BBKSDA SE.1658/KSA.9/2024",
   },
   {

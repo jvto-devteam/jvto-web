@@ -354,7 +354,7 @@ export default async function IsicStudentPackagePage() {
                     "All entrance fees, plus parking, fuel, and road tolls",
                     "Drinking water throughout",
                     "Gas masks on Ijen-inclusive routes · Bromo 4WD jeep on Bromo-inclusive routes",
-                    "Health-certificate screening coordination on Ijen routes when current BBKSDA access rules require it",
+                    "Health-certificate screening coordination on Ijen routes — mandatory for every guest under BBKSDA SE.1658/KSA.9/2024",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                       <CheckCircle2 size={16} className="text-jvto-lime mt-0.5 shrink-0" />

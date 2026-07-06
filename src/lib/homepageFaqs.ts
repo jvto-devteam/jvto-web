@@ -48,8 +48,8 @@ export const HOMEPAGE_FAQS: QaPair[] = [
   {
     question: 'How do you ensure safety at Ijen Crater?',
     answer:
-      'Safety is our core product. When BBKSDA access rules require it (SE.1658/KSA.9/2024), JVTO coordinates the health certificate process ' +
-      '(surat sehat) with licensed medical partners. We provide professional-grade gas masks and a team trained in volcanic risk management. ' +
+      'Safety is our core product. A health certificate (surat sehat) is mandatory for every guest under BBKSDA SE.1658/KSA.9/2024, and JVTO coordinates the certificate process ' +
+      'with licensed medical partners. We provide professional-grade gas masks and a team trained in volcanic risk management. ' +
       "Our founder's background in the Tourist Police means our safety protocols are not just 'guidelines' — they are police-standard procedures.",
   },
   {

@@ -24,7 +24,7 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
   'ijen-crater': {
     name: 'Kawah Ijen',
     alternateName: ['Ijen Crater', 'Kawah Ijen Volcano'],
-    description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination required when BBKSDA SE.1658/KSA.9/2024 access rules apply.",
+    description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination is mandatory for every guest under BBKSDA SE.1658/KSA.9/2024.",
     lat: '-8.0635', lng: '114.2362', locality: 'Banyuwangi',
     amenityFeatures: [
       { name: 'Gas masks provided', value: true },

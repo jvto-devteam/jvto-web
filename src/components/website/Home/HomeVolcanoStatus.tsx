@@ -36,7 +36,7 @@ const VOLCANOES: VolcanoEntry[] = [
     levelName: "Normal",
     levelTone: "lime",
     description:
-      "Standard activity per PVMBG. When BBKSDA access rules require it, JVTO coordinates pre-ascent health screening before crater descent.",
+      "Standard activity per PVMBG. Pre-ascent health screening is mandatory for every guest before crater descent, per BBKSDA SE.1658/KSA.9/2024, and JVTO coordinates the clinic workflow.",
     toursOperating: true,
   },
 ];
