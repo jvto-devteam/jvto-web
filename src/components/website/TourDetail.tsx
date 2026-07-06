@@ -11,7 +11,6 @@ import LegalBadge from "@/components/website/LegalBadge";
 import AuthorityShield from "@/components/website/AuthorityShield";
 import WhatItsLike from "@/components/website/WhatItsLike";
 import TrustBar from "@/components/website/TrustBar";
-import DifficultyBadge from "@/components/website/DifficultyBadge";
 import BookWithConfidenceBlock from "@/components/website/BookWithConfidenceBlock";
 import GroupBookingCTA from "@/components/website/GroupBookingCTA";
 import Image from "next/image";
@@ -30,6 +29,7 @@ import {
   Check,
   X,
   Shield,
+  ShieldCheck,
   Users,
   Calendar,
   Flame,
@@ -127,30 +127,30 @@ function getInclusionIcon(text: string) {
     lower.includes("jeep") ||
     lower.includes("vehicle")
   )
-    return <Car size={20} className="text-jvto-green" />;
+    return <Car size={20} className="text-jvto-lime" />;
   if (lower.includes("guide"))
-    return <UserCheck size={20} className="text-jvto-green" />;
+    return <UserCheck size={20} className="text-jvto-lime" />;
   if (lower.includes("hotel") || lower.includes("accommodation"))
-    return <Home size={20} className="text-jvto-green" />;
+    return <Home size={20} className="text-jvto-lime" />;
   if (
     lower.includes("meal") ||
     lower.includes("breakfast") ||
     lower.includes("water")
   )
-    return <Utensils size={20} className="text-jvto-green" />;
+    return <Utensils size={20} className="text-jvto-lime" />;
   if (
     lower.includes("ticket") ||
     lower.includes("entrance") ||
     lower.includes("permit")
   )
-    return <Ticket size={20} className="text-jvto-green" />;
+    return <Ticket size={20} className="text-jvto-lime" />;
   if (
     lower.includes("equipment") ||
     lower.includes("mask") ||
     lower.includes("pole")
   )
-    return <Mountain size={20} className="text-jvto-green" />;
-  return <Check size={20} className="text-jvto-green" />;
+    return <Mountain size={20} className="text-jvto-lime" />;
+  return <Check size={20} className="text-jvto-lime" />;
 }
 
 // ... (Helper getExperienceIcon juga TETAP SAMA jika ada) ...
@@ -161,20 +161,20 @@ function getExperienceIcon(name: string) {
     lower.includes("air") ||
     lower.includes("tumpak")
   )
-    return <Waves size={24} className="text-jvto-green" />;
+    return <Waves size={24} className="text-jvto-navy" />;
   if (
     lower.includes("bromo") ||
     lower.includes("mount") ||
     lower.includes("sunrise")
   )
-    return <Mountain size={24} className="text-jvto-green" />;
+    return <Mountain size={24} className="text-jvto-navy" />;
   if (
     lower.includes("ijen") ||
     lower.includes("fire") ||
     lower.includes("blue")
   )
-    return <Flame size={24} className="text-jvto-green" />;
-  return <MapPin size={24} className="text-jvto-green" />;
+    return <Flame size={24} className="text-jvto-navy" />;
+  return <MapPin size={24} className="text-jvto-navy" />;
 }
 function calculateDownPayment(dateStr: string, total: number) {
   if (!dateStr) return 0;
@@ -204,6 +204,132 @@ const stripHtml = (html) => {
   if (!html) return "";
   return html.replace(/<[^>]+>/g, "");
 };
+
+// AEO/GEO restyle (design-reference W3b): cross-links from `pkg.route` entries to their
+// destination detail pages, mirroring the design-reference "Destinations on this route"
+// pkg-grid section. Slugs + elevations sourced from the live destinations data
+// (src/app/(website)/destinations/page.tsx HUB_FEATURE_COPY / getWebDestinationsList),
+// not fabricated. Route names not in this map (e.g. "Malang City", "Taman Safari Prigen")
+// have no destination detail page yet, so they're simply omitted rather than 404ing.
+const ROUTE_DESTINATION_MAP: Record<
+  string,
+  { slug: string; elevation?: string; blurb: string }
+> = {
+  "Mount Bromo": {
+    slug: "mount-bromo",
+    elevation: "2,329 m",
+    blurb:
+      "Sunrise over the Tengger sea of sand from the Penanjakan viewpoint, then a 4WD crossing to the smoking crater rim.",
+  },
+  "Ijen Crater": {
+    slug: "ijen-crater",
+    elevation: "2,386 m",
+    blurb:
+      "The pre-dawn blue-fire phenomenon (weather and gas dependent) and the world's largest acidic crater lake, reached by a night hike from Paltuding.",
+  },
+  "Tumpak Sewu Waterfall": {
+    slug: "tumpak-sewu-waterfall",
+    blurb:
+      "A curved cliff face sending dozens of streams over its edge in a continuous curtain — Java's answer to Niagara.",
+  },
+  "Madakaripura Waterfall": {
+    slug: "madakaripura-waterfall",
+    blurb:
+      "A narrow canyon opening into a horseshoe of falling water — the tallest waterfall in Java.",
+  },
+  "Papuma Beach": {
+    slug: "papuma-beach",
+    blurb:
+      "A white-sand beach framed by dramatic offshore rock formations on Java's south coast.",
+  },
+};
+
+// Keyed by destination slug (not route name) so it stays correct regardless of which
+// route-name variant maps to it.
+const ROUTE_DESTINATION_CATEGORY: Record<string, string> = {
+  "mount-bromo": "Volcano",
+  "ijen-crater": "Volcano",
+  "tumpak-sewu-waterfall": "Waterfall",
+  "madakaripura-waterfall": "Waterfall",
+  "papuma-beach": "Coastal",
+};
+
+// AEO/GEO restyle (design-reference W3b): shared heading treatment ported from the
+// already-merged W3f (DestinationDetailView.tsx) SectionHead component — same props,
+// same accent-orange trailing word, same § numbering idiom — kept local to this file
+// since neither component exports it as a shared primitive (per-cluster convention).
+function SectionHead({
+  num,
+  title,
+  accent,
+  meta,
+}: {
+  num?: string;
+  title: React.ReactNode;
+  accent: string;
+  meta?: string;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-end gap-4 md:gap-10 mb-8 pb-5 border-b border-jvto-border">
+      {num ? (
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-jvto-navy/50">
+          {num}
+        </span>
+      ) : (
+        <span aria-hidden="true" />
+      )}
+      <h2 className="text-2xl md:text-4xl leading-none tracking-[-0.02em] font-black text-jvto-navy">
+        {title} <span className="text-jvto-orange">{accent}</span>
+      </h2>
+      {meta && (
+        <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-jvto-navy/50 text-right">
+          {meta}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// AEO/GEO restyle (design-reference W3b): shared callout ported from the already-merged
+// W3f (DestinationDetailView.tsx) Callout component — same tone system (orange/lime/gold),
+// kept local per-cluster convention. Content passed in is always canonical-facts-locked
+// wording (docs/CANONICAL_FACTS.md), never spec-file copy verbatim.
+function Callout({
+  icon: Icon,
+  title,
+  children,
+  tone = "orange",
+}: {
+  icon: React.ElementType;
+  title: string;
+  children: React.ReactNode;
+  tone?: "orange" | "lime" | "gold";
+}) {
+  const borderColor =
+    tone === "lime" ? "border-l-jvto-lime" : tone === "gold" ? "border-l-jvto-gold" : "border-l-jvto-orange";
+  const iconColor =
+    tone === "lime" ? "text-jvto-lime" : tone === "gold" ? "text-jvto-gold" : "text-jvto-orange";
+
+  return (
+    <div
+      className={`flex gap-4 items-start rounded-sm border border-jvto-border ${borderColor} border-l-4 ${
+        tone === "gold" ? "bg-amber-50/60" : "bg-white"
+      } p-6`}
+    >
+      <Icon size={20} className={`${iconColor} shrink-0 mt-0.5`} aria-hidden="true" />
+      <div>
+        <div
+          className={`font-mono text-[11px] font-bold uppercase tracking-[0.2em] mb-1.5 ${
+            tone === "gold" ? "text-amber-700" : "text-jvto-navy"
+          }`}
+        >
+          {title}
+        </div>
+        <p className="text-sm text-jvto-muted font-light leading-relaxed">{children}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function PackageDetailPage({ initialData, reviews, ijenRelevant = false }: Props) {
   const router = useRouter();
@@ -264,6 +390,50 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
     [pax, pkg.offers.tiers],
   );
   const total = pricePerPerson ? pricePerPerson * Number(pax) : 0;
+
+  // AEO/GEO restyle (design-reference W3b): "Trip At A Glance" quick facts, mirroring the
+  // design-reference `.dest-facts` grid. All values are data-driven from `pkg`/`ijenRelevant`
+  // except "Best season" (April–October dry season is a regional constant identical across
+  // every design-reference tour-*.html file, not a per-tour claim) — see CANONICAL_FACTS.md
+  // for the health-screening wording lock.
+  const tripFacts = [
+    { k: "Duration", v: pkg.marketedDurationLabel, icon: Clock },
+    {
+      k: "Route",
+      v: `${pkg.originCity} → ${pkg.endCity}`,
+      sub: "Private vehicle & crew throughout",
+      icon: MapPin,
+    },
+    {
+      k: "Format",
+      v: "Private only",
+      sub: "Own vehicle & crew · no mixed groups",
+      icon: Users,
+    },
+    { k: "Fitness", v: pkg.physicalDifficulty, icon: Activity },
+    {
+      k: "Best season",
+      v: "April – October",
+      sub: "Dry season · clearest skies",
+      icon: Calendar,
+    },
+    {
+      k: "Health screening",
+      v: ijenRelevant ? "Conditional" : "Not required",
+      sub: ijenRelevant
+        ? "Ijen · BBKSDA SE.1658/KSA.9/2024"
+        : "No Ijen health-certificate rule on this route",
+      icon: Stethoscope,
+    },
+  ];
+
+  // AEO/GEO restyle (design-reference W3b): "Destinations on this route" cross-links,
+  // mirroring the design-reference pkg-grid. Only route entries with a known destination
+  // detail page render — no fabricated slugs.
+  const routeDestinations = (pkg.route ?? [])
+    .map((r) => ({ name: r, ...ROUTE_DESTINATION_MAP[r] }))
+    .filter((r): r is { name: string; slug: string; elevation?: string; blurb: string } => Boolean(r.slug));
+
   // --- ADD-ON LOGIC ---
   const [showAddOnModal, setShowAddOnModal] = useState(false);
   const [pendingBasePayload, setPendingBasePayload] = useState<any | null>(
@@ -431,18 +601,18 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
         <div className="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center text-white hover:text-jvto-green transition-colors text-sm font-bold uppercase tracking-wide bg-black/20 backdrop-blur-md px-4 py-2 rounded-full"
+            className="inline-flex items-center text-white hover:text-jvto-orange transition-colors text-sm font-bold uppercase tracking-wide bg-black/20 backdrop-blur-md px-4 py-2 rounded-full"
           >
             <ArrowLeft size={16} className="mr-2" /> Back
           </button>
-          <button aria-label="Save to favorites" className="text-white hover:text-jvto-green transition-colors">
+          <button aria-label="Save to favorites" className="text-white hover:text-jvto-orange transition-colors">
             <Heart size={28} />
           </button>
         </div>
 
         <div className="absolute bottom-0 w-full z-20 pb-12">
           <div className="max-w-7xl mx-auto px-6 md:px-8">
-            <div className="flex items-center gap-2 text-jvto-green text-xs font-black uppercase tracking-widest mb-4">
+            <div className="flex items-center gap-2 text-jvto-lime text-xs font-black uppercase tracking-widest mb-4">
               <MapPin size={14} /> From {pkg.originCity}, Indonesia
             </div>
             <h1 className="text-2xl md:text-5xl font-black uppercase leading-[1.3] text-white shadow-sm mb-0 max-w-5xl">
@@ -451,22 +621,34 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           </div>
         </div>
       </div>
-      {/* Meta row — moved below hero for photography-first clarity */}
-      <div className="bg-white border-b border-jvto-border py-4">
+      {/* Trip At A Glance — quick facts strip (design-reference `.dest-facts` pattern) */}
+      <div className="bg-jvto-off border-b border-jvto-border py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="flex flex-wrap items-center gap-3 md:gap-8 text-jvto-navy/80 text-sm font-bold uppercase tracking-wide">
-            <div className="flex items-center gap-2">
-              <Shield size={16} className="text-jvto-green" />
-              <span>{pkg.category}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock size={16} className="text-jvto-green" />
-              <span>{pkg.marketedDurationLabel}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mountain size={16} className="text-jvto-green" />
-              <DifficultyBadge physicality={pkg.physicalDifficulty} />
-            </div>
+          <div className="flex flex-wrap items-center gap-3 mb-5">
+            <p className="text-[10px] font-black uppercase tracking-widest text-jvto-muted">
+              Trip At A Glance
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-jvto-navy/60">
+              <Shield size={12} className="text-jvto-orange" /> {pkg.category}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-jvto-border rounded-[20px] overflow-hidden border border-jvto-border shadow-sm">
+            {tripFacts.map((f) => (
+              <div key={f.k} className="bg-white p-6 flex flex-col gap-2">
+                <f.icon size={20} className="text-jvto-orange" aria-hidden="true" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
+                  {f.k}
+                </span>
+                <span className="text-[17px] font-bold tracking-[-0.01em] text-jvto-navy leading-tight">
+                  {f.v}
+                  {f.sub && (
+                    <small className="block font-sans text-[12px] font-normal text-jvto-muted normal-case tracking-normal mt-0.5">
+                      {f.sub}
+                    </small>
+                  )}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -519,7 +701,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
               <button
                 onClick={scrollToBooking}
-                className="mt-8 w-full lg:w-auto bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold px-10 py-4 rounded-full transition-all shadow-lg shadow-jvto-green/30"
+                className="mt-8 w-full lg:w-auto bg-jvto-orange hover:bg-jvto-orange-hover text-white font-bold px-10 py-4 rounded-full transition-all shadow-lg shadow-jvto-orange/30"
               >
                 Dates & Prices
               </button>
@@ -536,7 +718,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </h3>
             <button
               onClick={() => openLightbox(0)}
-              className="text-xs font-bold uppercase text-jvto-green hover:text-white transition-colors flex items-center gap-1"
+              className="text-xs font-bold uppercase text-jvto-orange hover:text-white transition-colors flex items-center gap-1"
             >
               View All Photos <ChevronRight size={14} />
             </button>
@@ -628,8 +810,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* Description (With Show More/Less) */}
             <div id="overview" className="scroll-mt-28">
               <h2 className="text-2xl font-black mb-6 flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                About This Trip
+                <span className="w-8 h-1 bg-jvto-orange block"></span>
+                About This <span className="text-jvto-orange">Trip.</span>
               </h2>
 
               <div className="relative">
@@ -658,7 +840,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsDescriptionExpanded(!isDescriptionExpanded)
                     }
-                    className="mt-4 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-jvto-green hover:text-jvto-green transition-colors"
+                    className="mt-4 flex items-center gap-1 text-sm font-bold uppercase tracking-widest text-jvto-orange hover:text-jvto-orange transition-colors"
                   >
                     {isDescriptionExpanded ? (
                       <>
@@ -677,10 +859,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* the FAQPage JSON-LD schema (single source of truth via getTourSpineQaPairs).         */}
             {/* Hedge against AI engines that prefer natural-language over structured data (F14).    */}
             <div>
-              <h2 className="text-2xl font-black mb-8 flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                Quick Answers
-              </h2>
+              <SectionHead title="Quick" accent="Answers." meta="Straight to the point" />
               <div className="space-y-5">
                 {spineQaPairs.map((qa) => (
                   <div
@@ -697,12 +876,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       qa.uiLink ? (
                         <Link
                           href={qa.uiLink}
-                          className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full hover:bg-jvto-green/15 transition-colors"
+                          className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-lime bg-jvto-lime/5 px-3 py-1 rounded-full hover:bg-jvto-lime/15 transition-colors"
                         >
                           {qa.uiMeta} →
                         </Link>
                       ) : (
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-green bg-jvto-green/5 px-3 py-1 rounded-full">
+                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-jvto-lime bg-jvto-lime/5 px-3 py-1 rounded-full">
                           {qa.uiMeta}
                         </span>
                       )
@@ -714,8 +893,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             {/* Highlights (Design Gambar 2) */}
             <div>
               <h2 className="text-2xl font-black mb-8 flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                Trip Highlights
+                <span className="w-8 h-1 bg-jvto-orange block"></span>
+                Trip <span className="text-jvto-orange">Highlights.</span>
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -769,8 +948,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                ========================================================= */}
             <div id="itinerary" className="scroll-mt-28">
               <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                Itinerary
+                <span className="w-8 h-1 bg-jvto-orange block"></span>
+                <span className="text-jvto-orange">Itinerary.</span>
               </h2>
 
               {/* --- A. DESKTOP VIEW --- */}
@@ -784,12 +963,12 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         key={day.day}
                         onClick={() => setOpenDay(day.day)}
                         className={`w-full text-left p-4 rounded-sm border transition-all duration-300 group ${isActive
-                          ? "bg-white border-jvto-green shadow-md translate-x-2"
+                          ? "bg-white border-jvto-lime shadow-md translate-x-2"
                           : "bg-jvto-off border-transparent hover:bg-white hover:shadow-sm"
                           }`}
                       >
                         <span
-                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-green" : "text-jvto-navy/40"
+                          className={`block text-xs font-bold uppercase tracking-widest mb-1 ${isActive ? "text-jvto-lime" : "text-jvto-navy/40"
                             }`}
                         >
                           Day {day.day.toString().padStart(2, "0")}
@@ -836,7 +1015,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                             <h3 className="text-2xl font-black uppercase leading-none mb-2">
                               {day.title}
                             </h3>
-                            <div className="flex items-center gap-4 text-xs font-bold text-jvto-green uppercase tracking-wide">
+                            <div className="flex items-center gap-4 text-xs font-bold text-jvto-lime uppercase tracking-wide">
                               <span className="flex items-center gap-1">
                                 <MapPin size={14} />{" "}
                                 {day.overnight || "On Transport"}
@@ -857,14 +1036,14 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <div key={idx} className="relative pl-10">
                                 <div
                                   className={`absolute -left-[1.35rem] top-0 flex h-11 w-11 items-center justify-center rounded-full border-4 border-white shadow-sm ${idx % 2 === 0
-                                    ? "bg-jvto-green"
+                                    ? "bg-jvto-orange"
                                     : "bg-jvto-navy"
                                     }`}
                                 >
                                   {getActivityIcon(act.name)}
                                 </div>
                                 <div>
-                                  <span className="inline-block mb-1 text-xs font-bold text-jvto-green uppercase tracking-wider bg-jvto-green/5 px-2 py-0.5 rounded">
+                                  <span className="inline-block mb-1 text-xs font-bold text-jvto-lime uppercase tracking-wider bg-jvto-lime/5 px-2 py-0.5 rounded">
                                     {act.timeWindow}
                                   </span>
                                   <h4 className="text-base font-bold text-jvto-navy mb-1">
@@ -891,7 +1070,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     className={`px-3 py-1.5 rounded text-xs font-bold uppercase border flex items-center gap-2 ${(status as string)
                                       .toLowerCase()
                                       .includes("included")
-                                      ? "bg-jvto-green/5 text-jvto-green border-jvto-green/30"
+                                      ? "bg-jvto-lime/5 text-jvto-lime border-jvto-lime/30"
                                       : "bg-jvto-off text-jvto-navy/40 border-jvto-border"
                                       }`}
                                   >
@@ -918,7 +1097,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   {pkg.itineraryDays[0] && (
                     <div className="flex gap-4 items-start">
                       <div className="flex flex-col items-center mt-1.5">
-                        <div className="w-3 h-3 rounded-full bg-jvto-green ring-4 ring-jvto-green/10"></div>
+                        <div className="w-3 h-3 rounded-full bg-jvto-orange ring-4 ring-jvto-orange/10"></div>
                         <div className="w-0.5 h-full border-l-2 border-dashed border-jvto-border min-h-[40px] mt-1"></div>
                       </div>
                       <div className="flex-1 space-y-3 pb-8">
@@ -940,7 +1119,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="absolute bottom-6 left-0 w-full text-center z-20">
                     <button
                       onClick={() => setIsItineraryModalOpen(true)}
-                      className="text-jvto-green font-bold text-sm uppercase tracking-widest hover:text-jvto-green transition-colors flex items-center justify-center gap-1 mx-auto"
+                      className="text-jvto-orange font-bold text-sm uppercase tracking-widest hover:text-jvto-orange transition-colors flex items-center justify-center gap-1 mx-auto"
                     >
                       Show More <ChevronDown size={16} />
                     </button>
@@ -977,7 +1156,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               onClick={() => setModalOpenDay(day.day)}
                               className={`pb-3 text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-4 ${modalOpenDay === day.day
-                                ? "border-jvto-green text-jvto-green"
+                                ? "border-jvto-lime text-jvto-lime"
                                 : "border-transparent text-jvto-navy/40 hover:text-jvto-navy/70"
                                 }`}
                             >
@@ -996,8 +1175,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               key={day.day}
                               className="space-y-6 animate-in fade-in duration-300"
                             >
-                              <div className="p-4 bg-white rounded-sm border border-jvto-green/30 shadow-sm">
-                                <h4 className="text-xs font-bold uppercase text-jvto-green mb-2 tracking-widest">
+                              <div className="p-4 bg-white rounded-sm border border-jvto-lime/30 shadow-sm">
+                                <h4 className="text-xs font-bold uppercase text-jvto-lime mb-2 tracking-widest">
                                   Overview
                                 </h4>
                                 <p className="text-sm text-jvto-navy/70 leading-relaxed italic">
@@ -1013,7 +1192,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                     key={idx}
                                     className="relative pl-8 pb-8 last:pb-0"
                                   >
-                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-jvto-off bg-jvto-green z-10"></div>
+                                    <div className="absolute left-0 top-1.5 h-4 w-4 transform -translate-x-[50%] rounded-full border-4 border-jvto-off bg-jvto-orange z-10"></div>
                                     <span className="inline-block mb-1 text-xs font-bold text-jvto-navy/40 bg-jvto-off px-2 py-0.5 rounded border border-jvto-border">
                                       {act.timeWindow}
                                     </span>
@@ -1022,7 +1201,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                         {act.name}
                                       </h5>
                                       {act.location && (
-                                        <div className="flex items-center gap-1 text-xs font-medium text-jvto-green mb-2 uppercase tracking-wide">
+                                        <div className="flex items-center gap-1 text-xs font-medium text-jvto-lime mb-2 uppercase tracking-wide">
                                           <MapPin size={10} /> {act.location}
                                         </div>
                                       )}
@@ -1053,7 +1232,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                           className={`font-medium uppercase text-xs px-2 py-0.5 rounded ${(status as string)
                                             .toLowerCase()
                                             .includes("included")
-                                            ? "bg-jvto-green/10 text-jvto-green"
+                                            ? "bg-jvto-lime/10 text-jvto-lime"
                                             : "bg-jvto-off text-jvto-navy/40"
                                             }`}
                                         >
@@ -1081,8 +1260,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {initialData.trip?.vehiclePlan && (
                 <div id="accommodation" className="scroll-mt-28">
                   <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
-                    <span className="w-8 h-1 bg-jvto-green block"></span>
-                    Accommodation
+                    <span className="w-8 h-1 bg-jvto-orange block"></span>
+                    <span className="text-jvto-orange">Accommodation.</span>
                   </h2>
 
                   <Swiper
@@ -1115,7 +1294,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               </div>
                             )}
                             <div className="absolute top-4 left-4">
-                              <span className="bg-jvto-navy/80 backdrop-blur-sm text-jvto-green text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
+                              <span className="bg-jvto-navy/80 backdrop-blur-sm text-jvto-lime text-xs font-bold uppercase px-3 py-1.5 rounded-sm">
                                 Night {acc.night}
                               </span>
                             </div>
@@ -1145,8 +1324,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               {initialData.trip?.vehiclePlan && (
                 <div>
                   <h2 className="text-2xl font-black uppercase mb-2 flex items-center gap-3 text-jvto-navy">
-                    <span className="w-8 h-1 bg-jvto-green block"></span>
-                    Transport
+                    <span className="w-8 h-1 bg-jvto-orange block"></span>
+                    <span className="text-jvto-orange">Transport.</span>
                   </h2>
                   <p className="mb-8 text-jvto-navy/70 text-sm">
                     Travel in comfort and safety with our private fleet.
@@ -1185,7 +1364,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                                 <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                   {vehicle.model}
                                 </h4>
-                                <p className="text-xs font-bold uppercase text-jvto-green mb-4">
+                                <p className="text-xs font-bold uppercase text-jvto-orange mb-4">
                                   {vehicle.type}
                                 </p>
 
@@ -1245,7 +1424,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <h4 className="font-bold text-lg text-jvto-navy mb-1">
                                 Bromo Jeep
                               </h4>
-                              <p className="text-xs font-bold uppercase text-jvto-green mb-4">
+                              <p className="text-xs font-bold uppercase text-jvto-orange mb-4">
                                 4x4 Off-Road Vehicle
                               </p>
 
@@ -1286,10 +1465,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
             </div>
             {/* --- The Practicalities Section (NEW) --- */}
             <div>
-              <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                The Practicalities
-              </h2>
+              <SectionHead title="How This Trip" accent="Runs." meta="Specs · inclusions" />
 
               {/* Part 1: What's Covered & Not Covered */}
               <div className="mb-12 relative">
@@ -1301,6 +1477,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-8">
                     {/* Covered */}
                     <div>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-orange mb-2">
+                        <Check size={12} /> Included
+                      </span>
                       <h3 className="font-bold text-jvto-navy mb-4 flex items-center gap-2">
                         {`What's Covered`}
                       </h3>
@@ -1312,7 +1491,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           >
                             <CheckCircle
                               size={18}
-                              className="text-jvto-green shrink-0 mt-0.5"
+                              className="text-jvto-lime shrink-0 mt-0.5"
                             />
                             <span>{item}</span>
                           </li>
@@ -1322,6 +1501,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                     {/* Not Covered */}
                     <div>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted mb-2">
+                        <X size={12} /> Not included
+                      </span>
                       <h3 className="font-bold text-jvto-navy mb-4 flex items-center gap-2">
                         {`What's Not Covered`}
                       </h3>
@@ -1333,7 +1515,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           >
                             <XCircle
                               size={18}
-                              className="text-red-400 shrink-0 mt-0.5"
+                              className="text-jvto-muted shrink-0 mt-0.5"
                             />
                             <span>{item}</span>
                           </li>
@@ -1359,7 +1541,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     onClick={() =>
                       setIsInclusionsExpanded(!isInclusionsExpanded)
                     }
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-jvto-green hover:text-jvto-green transition-colors bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-jvto-green/30 hover:bg-white shadow-sm"
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-jvto-lime hover:text-jvto-lime transition-colors bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full border border-jvto-lime/30 hover:bg-white shadow-sm"
                   >
                     {isInclusionsExpanded ? (
                       <>
@@ -1374,13 +1556,32 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 </div>
               </div>
 
+              {/* AEO/GEO restyle (design-reference W3b): natural-phenomena + (if Ijen-relevant)
+                  BBKSDA health-screening callouts, mirroring the design-reference `.callout` /
+                  `.callout.lime` blocks in "How this trip runs". Canonical wording only. */}
+              <div className="space-y-4 mb-10">
+                <Callout icon={Flame} title="Weather-dependent, not guaranteed" tone="gold">
+                  Sunrise views and the Ijen blue-fire phenomenon are subject to weather and
+                  volcanic gas activity, outside any operator&apos;s control. Blue Fire is a
+                  natural phenomenon subject to weather and gas activity — JVTO designs timing
+                  to maximise the chance of good conditions but cannot promise a specific outcome.
+                </Callout>
+                {ijenRelevant && (
+                  <Callout icon={Stethoscope} title="Ijen health screening — conditional" tone="lime">
+                    Ijen access rules can require a recent local health certificate under BBKSDA
+                    Surat Edaran SE.1658/KSA.9/2024. When it applies, JVTO coordinates the clinic
+                    workflow with licensed medical staff — nothing for you to arrange separately.
+                  </Callout>
+                )}
+              </div>
+
               {/* Part 2: Essential Info Cards */}
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Fitness Level */}
-                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-orange/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <Activity size={24} className="text-jvto-green" />
+                      <Activity size={24} className="text-jvto-orange" />
                       <h4 className="font-bold text-jvto-navy">
                         Fitness Level
                       </h4>
@@ -1393,9 +1594,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
 
                   {/* Health & Safety */}
-                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-orange/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <Thermometer size={24} className="text-jvto-green" />
+                      <Thermometer size={24} className="text-jvto-orange" />
                       <h4 className="font-bold text-jvto-navy">
                         Health & Safety
                       </h4>
@@ -1406,9 +1607,9 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </div>
 
                   {/* Essential Gear */}
-                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-green/40 transition-colors">
+                  <div className="rounded-sm border border-jvto-border p-6 bg-white shadow-sm hover:border-jvto-orange/40 transition-colors">
                     <div className="flex items-center gap-3 mb-3">
-                      <ShoppingBag size={24} className="text-jvto-green" />
+                      <ShoppingBag size={24} className="text-jvto-orange" />
                       <h4 className="font-bold text-jvto-navy">
                         Essential Gear
                       </h4>
@@ -1423,11 +1624,52 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               </div>
             </div>
             {pkg.route.includes("Ijen Crater") && <TourRequirements />}
+
+            {/* AEO/GEO restyle (design-reference W3b): "Destinations on this route" cross-links,
+                mirroring the design-reference pkg-grid section. Internal linking only — no schema
+                changes (buildTourSchemas.ts already cross-references these via `subjectOf`). */}
+            {routeDestinations.length > 0 && (
+              <div>
+                <SectionHead
+                  title="Destinations on"
+                  accent="This Route."
+                  meta={`${routeDestinations.length} stop${routeDestinations.length === 1 ? "" : "s"}`}
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {routeDestinations.map((dest) => (
+                    <Link
+                      key={dest.slug}
+                      href={`/destinations/${dest.slug}`}
+                      className="group flex flex-col gap-3 rounded-sm border border-jvto-border bg-white p-6 shadow-sm hover:border-jvto-orange hover:shadow-md transition-all"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-muted">
+                          {ROUTE_DESTINATION_CATEGORY[dest.slug] ?? "Destination"}
+                        </span>
+                        {dest.elevation && (
+                          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-navy/50">
+                            {dest.elevation}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="text-lg font-bold text-jvto-navy leading-tight group-hover:text-jvto-orange transition-colors">
+                        {dest.name}
+                      </h3>
+                      <p className="text-sm text-jvto-muted leading-relaxed">{dest.blurb}</p>
+                      <span className="mt-auto pt-3 border-t border-jvto-border inline-flex items-center gap-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-jvto-navy">
+                        Explore destination <ChevronRight size={12} />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* --- Why Travel With Us Section (FINAL REVISION) --- */}
             <div className="md:py-12 border-t border-jvto-border mt-12">
               <h2 className="text-2xl hidden font-black mb-8 md:flex items-center gap-3 text-jvto-navy">
-                <span className="w-8 h-1 bg-jvto-green block"></span>
-                Why Travel With Us?
+                <span className="w-8 h-1 bg-jvto-orange block"></span>
+                Why <span className="text-jvto-orange">Travel With Us?</span>
               </h2>
               <ReviewsClient
                 reviews={reviews}
@@ -1608,7 +1850,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               className="sticky top-32 h-fit z-10 overflow-auto rounded-sm border border-jvto-border bg-white shadow-xl"
             >
               <div className="bg-jvto-navy p-6 text-white">
-                <p className="text-xs font-bold uppercase tracking-widest text-jvto-green">
+                <p className="text-xs font-bold uppercase tracking-widest text-jvto-lime">
                   Private Expedition
                 </p>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -1621,13 +1863,13 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               <div className="p-6">
                 <div className="flex gap-4 mb-6 text-xs font-bold text-jvto-navy/60 border-b border-jvto-border pb-4">
                   <div className="flex items-center gap-1">
-                    <Shield size={14} className="text-jvto-green" /> Safe
+                    <Shield size={14} className="text-jvto-lime" /> Safe
                   </div>
                   <div className="flex items-center gap-1">
-                    <Users size={14} className="text-jvto-green" /> Private
+                    <Users size={14} className="text-jvto-lime" /> Private
                   </div>
                   <div className="flex items-center gap-1">
-                    <Calendar size={14} className="text-jvto-green" /> Flexible
+                    <Calendar size={14} className="text-jvto-lime" /> Flexible
                   </div>
                 </div>
 
@@ -1645,7 +1887,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                       min={todayISO}
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-sm border border-jvto-border bg-white px-4 py-3 text-sm font-medium text-jvto-navy focus:border-jvto-green focus:outline-none focus:ring-2 focus:ring-jvto-green/20"
+                      className="w-full rounded-sm border border-jvto-border bg-white px-4 py-3 text-sm font-medium text-jvto-navy focus:border-jvto-navy focus:outline-none focus:ring-2 focus:ring-jvto-navy/20"
                       required
                     />
                   </div>
@@ -1697,7 +1939,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                               <div
                                 key={idx}
                                 className={`rounded-sm p-3 transition-all ${isInRange
-                                  ? "bg-jvto-green/5 border-2 border-jvto-green"
+                                  ? "bg-jvto-lime/5 border-2 border-jvto-lime"
                                   : "bg-jvto-off border-2 border-jvto-border"
                                   }`}
                               >
@@ -1716,7 +1958,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                                 {/* Price & Counter */}
                                 <div className="flex items-center justify-between">
-                                  <div className="text-sm font-bold text-jvto-navy">
+                                  <div className="text-sm font-bold text-jvto-orange">
                                     {formatCurrency(tier.pricePerPerson)}
                                   </div>
 
@@ -1779,7 +2021,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           <button
                             type="button"
                             onClick={() => setShowTravelersPicker(false)}
-                            className="w-full bg-jvto-green hover:bg-[#8cb82b] text-jvto-navy font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
+                            className="w-full bg-jvto-orange hover:bg-jvto-orange-hover text-white font-bold text-sm uppercase py-2 rounded-sm transition-all mt-2"
                           >
                             Done
                           </button>
@@ -1806,10 +2048,17 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <button
                     type="submit"
-                    className="w-full bg-jvto-green text-jvto-navy font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-[#8cb82b] transition-all shadow-md active:scale-[0.98]"
+                    className="w-full bg-jvto-orange text-white font-bold uppercase tracking-widest py-4 rounded-sm hover:bg-jvto-orange-hover transition-all shadow-md active:scale-[0.98]"
                   >
                     Instant Book
                   </button>
+                  {/* AEO/GEO restyle (design-reference W3b): compact booking-terms trust line,
+                      mirroring the design-reference "Pricing & booking" data-box. Canonical
+                      wording only — 20% deposit / 100% Lifetime Travel Credit (docs/CANONICAL_FACTS.md) */}
+                  <p className="flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-jvto-navy/50 text-center">
+                    <ShieldCheck size={12} className="text-jvto-lime shrink-0" />
+                    20% deposit · Cancel ≥48h = 100% Lifetime Travel Credit
+                  </p>
                   <div className="text-center">
                     <a
                       href="/policy/booking-payment-cancellation"
@@ -1847,7 +2096,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   setShowAddOnModal(false);
                   setSearchTerm(""); // Reset search saat close
                 }}
-                className="text-white hover:text-jvto-green transition-colors"
+                className="text-white hover:text-jvto-orange transition-colors"
               >
                 <X size={24} />
               </button>
@@ -1865,7 +2114,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   placeholder="Search add-ons"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-jvto-off border border-jvto-border rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-green/20 focus:border-jvto-green transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-jvto-off border border-jvto-border rounded-sm text-sm focus:outline-none focus:ring-2 focus:ring-jvto-navy/20 focus:border-jvto-navy transition-all"
                 />
               </div>
             </div>
@@ -1931,8 +2180,8 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                     <label
                       key={item.addOnId}
                       className={`flex cursor-pointer items-center gap-4 rounded-sm border p-4 transition-all ${item.selected
-                        ? "border-jvto-green bg-jvto-green/5"
-                        : "border-jvto-border bg-white hover:border-jvto-green/40"
+                        ? "border-jvto-lime bg-jvto-lime/5"
+                        : "border-jvto-border bg-white hover:border-jvto-orange/40"
                         }`}
                     >
                       {/* Gambar Transport (Hanya muncul jika tipe transport) */}
@@ -1981,7 +2230,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                           }}
                           className="peer sr-only"
                         />
-                        <div className="h-6 w-6 rounded border-2 border-jvto-border peer-checked:border-jvto-green peer-checked:bg-jvto-green transition-all flex items-center justify-center">
+                        <div className="h-6 w-6 rounded border-2 border-jvto-border peer-checked:border-jvto-lime peer-checked:bg-jvto-lime transition-all flex items-center justify-center">
                           {item.selected && (
                             <Check size={14} className="text-white" />
                           )}
@@ -2024,7 +2273,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                 <button
                   type="button"
                   onClick={handleConfirmAddOns}
-                  className="flex-1 rounded-sm bg-jvto-green py-3 text-sm font-bold uppercase text-jvto-navy hover:bg-[#8cb82b] shadow-md"
+                  className="flex-1 rounded-sm bg-jvto-orange py-3 text-sm font-bold uppercase text-white hover:bg-jvto-orange-hover shadow-md"
                 >
                   Continue
                 </button>
@@ -2042,7 +2291,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
               Start From
             </p>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg font-black text-jvto-green">
+              <span className="text-lg font-black text-jvto-orange">
                 {formatCurrency(pkg.offers.aggregateOffer.lowPrice)}
               </span>
               <span className="text-[10px] font-medium text-jvto-navy/40">
@@ -2055,7 +2304,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
           {/* Action Button */}
           <button
             onClick={scrollToBooking}
-            className="flex-1 text-sm bg-jvto-green hover:bg-[#8cb82b] text-black font-bold uppercase tracking-wide py-3 px-2 rounded-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
+            className="flex-1 text-sm bg-jvto-orange hover:bg-jvto-orange-hover text-white font-bold uppercase tracking-wide py-3 px-2 rounded-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-1"
           >
             Instant Book <ChevronRight size={16} />
           </button>

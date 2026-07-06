@@ -12,7 +12,7 @@ const CONFIDENCE_ITEMS = [
   {
     icon: HeartHandshake,
     title: "What's Covered",
-    description: "Cancellation & refund conditions",
+    description: "Cancellation & Travel Credit terms",
     href: "/policy/booking-payment-cancellation",
   },
   {
@@ -34,11 +34,11 @@ export default function BookWithConfidenceBlock() {
           <Link
             key={href}
             href={href}
-            className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 hover:border-jvto-green/40 hover:bg-jvto-green/5 transition-all group"
+            className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 hover:border-jvto-orange/40 hover:bg-jvto-orange/5 transition-all group"
           >
-            <Icon size={20} className="text-jvto-green shrink-0 mt-0.5" />
+            <Icon size={20} className="text-jvto-orange shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-bold text-slate-900 group-hover:text-jvto-green transition-colors">
+              <p className="text-sm font-bold text-slate-900 group-hover:text-jvto-orange transition-colors">
                 {title}
               </p>
               <p className="text-xs text-slate-500 mt-0.5">{description}</p>
