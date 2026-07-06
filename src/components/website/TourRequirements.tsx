@@ -10,9 +10,8 @@ const TourRequirements = () => {
       </h2>
 
       <p className="mb-6 text-gray-600">
-        Kawah Ijen sits inside a BBKSDA-managed conservation zone. The table below summarizes what current
-        access rules can require — conditional on BBKSDA Surat Edaran SE.1658/KSA.9/2024, not a blanket
-        rule applied the same way to every guest.
+        Kawah Ijen sits inside a BBKSDA-managed conservation zone. A health certificate is
+        mandatory for every guest before crater entry, per BBKSDA Surat Edaran SE.1658/KSA.9/2024.
       </p>
 
       <div className="overflow-x-auto mb-10">
@@ -33,9 +32,9 @@ const TourRequirements = () => {
                 Entry Document
               </td>
               <td className="px-6 py-4 text-gray-700">
-                <strong>Health certificate — conditional</strong><br />
+                <strong>Health certificate — mandatory</strong><br />
                 <span className="text-xs text-gray-500">
-                  Required when BBKSDA SE.1658/KSA.9/2024 thresholds apply. JVTO coordinates the clinic
+                  Required for every guest under BBKSDA SE.1658/KSA.9/2024. JVTO coordinates the clinic
                   workflow with Dr. Ahmad Irwandanu (Klinik Bakti Husada, Bondowoso) — nothing for you to
                   arrange separately.
                 </span>
@@ -94,9 +93,9 @@ const TourRequirements = () => {
               <span className="transition group-open:rotate-180">▾</span>
             </summary>
             <p className="mt-3 text-sm text-gray-600 leading-relaxed">
-              Ijen access rules can require a recent local health certificate under BBKSDA Surat Edaran
-              SE.1658/KSA.9/2024. When it applies, JVTO coordinates the clinic workflow — conducted by
-              licensed medical staff (Dr. Ahmad Irwandanu, SIP) — so there is nothing for you to arrange
+              Yes. A recent local health certificate is mandatory for every guest under BBKSDA Surat
+              Edaran SE.1658/KSA.9/2024. JVTO coordinates the clinic workflow — conducted by licensed
+              medical staff (Dr. Ahmad Irwandanu, SIP) — so there is nothing for you to arrange
               separately. The certificate carries a QR code checked at the crater access gate; without a
               valid code, the crater zone is not accessible that day.
             </p>

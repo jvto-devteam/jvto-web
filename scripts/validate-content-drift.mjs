@@ -84,14 +84,16 @@ const RULES = [
     re: /"sinceOperational"|"incorporated":\s*"?20\d\d/,
   },
   {
-    name: 'mandatory-health-wording',
-    // Ijen health screening is CONDITIONAL (BBKSDA SE.1658/KSA.9/2024), never "mandatory for all"
-    re: /[Mm]andatory health|required for all\s+\w{0,8}guests|must hold a valid/,
-  },
-  {
     name: 'blue-fire-guarantee',
     // blue fire = natural phenomenon, cannot be guaranteed
     re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|guarantee[^.]{0,40}[Bb]lue\s*[Ff]ire/,
+  },
+  {
+    name: 'stale-conditional-health-wording',
+    // Ijen health screening is MANDATORY (adjudicated 2026-07-06, supersedes the prior
+    // conditional decision) — catches the old "when BBKSDA rules require it" / "can
+    // require" / "— conditional" framing so it can't silently regress.
+    re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,15}BBKSDA.{0,30}(require|rules)|when (it|access rules?) (applies|require)/i,
   },
   {
     name: 'non-idr-currency',
