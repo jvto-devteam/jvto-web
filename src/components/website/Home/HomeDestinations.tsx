@@ -65,7 +65,7 @@ export default function HomeDestinations({ destinations }: HomeDestinationsProps
             const slug = dest.slug ?? "";
             const regency = REGENCY_BY_SLUG[slug];
             const tag = TAG_BY_SLUG[slug] ?? dest.highlight ?? "";
-            const altitude = formatAltitude(dest.geo.altitude);
+            const altitude = formatAltitude(dest.geo?.altitude ?? null);
             return (
               <Link
                 key={dest.id}
