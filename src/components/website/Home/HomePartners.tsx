@@ -7,6 +7,7 @@ const PARTNERS = [
     href: "https://www.trustpilot.com/review/javavolcano-touroperator.com",
     width: 120,
     height: 32,
+    meta: "4.8 · 51 verified",
   },
   {
     name: "Tripadvisor",
@@ -14,6 +15,7 @@ const PARTNERS = [
     href: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html",
     width: 120,
     height: 32,
+    meta: "4.95 · 21 reviews",
   },
   {
     name: "Google",
@@ -21,6 +23,7 @@ const PARTNERS = [
     href: "https://www.google.com/maps?cid=1266403973589689021",
     width: 80,
     height: 28,
+    meta: "4.90 · 123 reviews",
   },
   {
     name: "ISIC",
@@ -28,6 +31,7 @@ const PARTNERS = [
     href: "https://www.isic.org/discounts/?providerId=259268",
     width: 60,
     height: 32,
+    meta: "Provider 259268",
   },
   {
     name: "Klook",
@@ -35,6 +39,7 @@ const PARTNERS = [
     href: "https://www.klook.com",
     width: 80,
     height: 28,
+    meta: "Listed operator",
   },
   {
     name: "Indecon",
@@ -42,6 +47,7 @@ const PARTNERS = [
     href: "https://www.indecon.id/spotlight-networks/java-volcano-tour-operator",
     width: 100,
     height: 28,
+    meta: "Ecotourism-aligned",
   },
 ] as const;
 
@@ -53,14 +59,14 @@ export default function HomePartners() {
           Listed &amp; Verified On
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14">
+        <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-8 md:gap-x-14">
           {PARTNERS.map((partner) => (
             <a
               key={partner.name}
               href={partner.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-40 hover:opacity-80 transition-opacity duration-200 flex-shrink-0"
+              className="flex flex-col items-center gap-2 opacity-50 hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
               title={partner.name}
             >
               <Image
@@ -70,6 +76,9 @@ export default function HomePartners() {
                 height={partner.height}
                 className="h-7 md:h-8 w-auto object-contain"
               />
+              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-jvto-muted">
+                {partner.meta}
+              </span>
             </a>
           ))}
         </div>
