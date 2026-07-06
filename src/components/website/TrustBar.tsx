@@ -63,7 +63,7 @@ function PartnerLogo({ logo }: { logo: LogoSpec }) {
     );
   }
   return (
-    <span className="text-[10px] font-black text-jvto-green bg-jvto-green/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
+    <span className="text-[10px] font-black text-jvto-lime bg-jvto-lime/10 px-1.5 py-0.5 rounded-sm leading-none shrink-0">
       {logo.text}
     </span>
   );
