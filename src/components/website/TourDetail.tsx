@@ -485,7 +485,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
       downPayment: downPayment,
     };
     localStorage.setItem("checkoutPayload", JSON.stringify(payload));
-    router.push(`/checkout?pid=${payload.packageId}`);
+    // pid feeds checkout/page.tsx's Product schema only (never read by the
+    // booking flow) — use the SKU string so productID matches this page's
+    // own Product schema for the same package, not the internal numeric id.
+    router.push(`/checkout?pid=${encodeURIComponent(pkg.packageId)}`);
   };
   // Daftar tanggal yang ditutup (Format: YYYY-MM-DD)
   const BLOCKED_RANGES = [
