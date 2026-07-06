@@ -41,6 +41,7 @@ export default function Route3DEmbedded({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [inView, setInView] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,20 +62,28 @@ export default function Route3DEmbedded({
 
   useEffect(() => {
     if (!inView) return;
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
     fetch(`/routes/${slug}.geojson`)
       .then((r) => {
         if (!r.ok) throw new Error(r.statusText);
         return r.json();
       })
       .then((data: FeatureCollection) => {
+        if (cancelled) return;
         setGeojson(data);
         setLoading(false);
       })
       .catch(() => {
+        if (cancelled) return;
         setError(true);
         setLoading(false);
       });
-  }, [slug, inView]);
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, inView, attempt]);
 
   if (!inView) {
     return <div ref={sentinelRef}><LoadingSkeleton /></div>;
@@ -86,7 +95,7 @@ export default function Route3DEmbedded({
         <div className="text-center text-slate-500 text-sm">
           <p className="font-semibold mb-1">Failed to load route data</p>
           <button
-            onClick={() => { setError(false); setLoading(true); setInView(true); }}
+            onClick={() => setAttempt((n) => n + 1)}
             className="text-xs text-blue-400 hover:text-blue-300 underline"
           >
             Retry
