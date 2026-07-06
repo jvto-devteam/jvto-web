@@ -105,8 +105,10 @@ const RULES = [
   },
   {
     name: 'stale-group-threshold',
-    // police-escort threshold is ~18 guests, not 6
-    re: /[Gg]roups of 6|6\+ (guests|travel)/,
+    // police-escort threshold is ~18 guests, not 6. \b guards on both sides
+    // of the digit so "16+ guest reviews" / "party of 60" don't false-hit,
+    // and "group" is singular-or-plural to catch "Group of 6+?" headings.
+    re: /[Gg]roups? of 6\b|\b6\+ ?(guests?|travel(l)?ers?|people|pax)/,
   },
   {
     name: 'unverified-press-names',
