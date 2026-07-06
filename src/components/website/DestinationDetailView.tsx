@@ -44,6 +44,20 @@ const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
   ),
 });
 
+const Route3DEmbedded = dynamic(
+  () => import("@/components/website/Route3DEmbedded"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] md:h-[560px] rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-center">
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+          Loading 3D terrain…
+        </span>
+      </div>
+    ),
+  },
+);
+
 // --- HELPER COMPONENTS ---
 
 const SectionHeader = ({ title, icon: Icon }: { title: string; icon: any }) => (
@@ -332,6 +346,16 @@ export default function DestinationDetailView({
                 />
                 <p className="text-[9px] text-slate-700 mt-2 text-right">
                   Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
+                </p>
+              </div>
+            )}
+
+            {/* Interactive 3D terrain fly-through */}
+            {routeStats && (
+              <div className="mb-8">
+                <Route3DEmbedded slug={routeStats.slug} routeStats={routeStats} />
+                <p className="text-[9px] text-slate-700 mt-2 text-right">
+                  Route data: AllTrails.com · 3D terrain via Mapbox
                 </p>
               </div>
             )}
