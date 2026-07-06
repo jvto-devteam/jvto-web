@@ -33,6 +33,14 @@ const eslintConfig = [
       // Versioned design SPEC (W3 program) — reference HTML/JS from the design
       // zip, not production code. Never linted, never imported.
       "docs/design-reference/**",
+      // Claude Code state dir — notably nested git worktrees created during
+      // multi-agent sessions (.claude/worktrees/<id>/), each a full sibling
+      // checkout of this repo. Without this, `eslint .` run from the main
+      // checkout recurses into every nested worktree's own copy of the
+      // entire codebase (node_modules-adjacent generated files included),
+      // multiplying lint time by the worktree count and risking an OOM-class
+      // crash on large generated files (observed 2026-07-06).
+      ".claude/**",
     ],
   },
   {
