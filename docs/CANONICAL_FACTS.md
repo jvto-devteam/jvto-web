@@ -3,7 +3,7 @@
 > **Provenance:** Adjudicated 2026-07-05 dari `sambuko82/knowledge-catalog-jvto-bootstrap`
 > (bundle OKF) + llm-wiki policy pack v6. `foundingDate=2015` didukung artifact
 > **Booking.com Guest Review Award 2015** (`references/booking-com-guest-review-award-2015.md`,
-> `reference_kind: historical-award-artifact`); klaim "EST 2016" tidak memiliki dukungan
+> `reference_kind: historical-award-artifact`); klaim "EST 2016" tidak memiliki dukungan <!-- drift-ok: contoh terlarang dikutip sengaja -->
 > di katalog terverifikasi dan **dilarang**. <!-- drift-ok: contoh terlarang dikutip sengaja -->
 
 Setiap pelanggaran fakta di bawah ini = **bug**, bukan preferensi gaya. Facts lock ini
@@ -15,7 +15,7 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
 
 ## Facts
 
-- **foundingDate/since = 2015** (era guesthouse). JANGAN PERNAH menulis "EST 2016",
+- **foundingDate/since = 2015** (era guesthouse). JANGAN PERNAH menulis "EST 2016", <!-- drift-ok: contoh terlarang dikutip sengaja -->
   "Incorporated 2016", "incorporated 2019", atau foundingDate 2016/2019/2020/2023. <!-- drift-ok: contoh terlarang dikutip sengaja -->
   Formalisasi legal = PT Java Volcano Rendezvous, NIB/TDUP era 2023 — disebut hanya
   dalam konteks legal, tanpa mengarang tanggal inkorporasi.
@@ -36,7 +36,7 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
 - **Single source of truth untuk brand facts di runtime = `src/lib/site-config.ts`.**
   DILARANG membuat file config/brand baru (pola root `*-config.json` berisi brand
   facts). Jika menemukan file semacam itu (mis. `jvto-config.json` sisa lama, berisi
-  sinceOperational 2016 / incorporated 2019 / gmail-as-primary — semuanya salah),
+  sinceOperational 2016 / incorporated 2019 / gmail-as-primary — semuanya salah), <!-- drift-ok: contoh terlarang dikutip sengaja -->
   laporkan sebagai kandidat hapus; jangan diedit atau dipertahankan. <!-- drift-ok: contoh terlarang dikutip sengaja -->
 - **Review counts di `src/lib/jvtoReviews.ts` SUDAH BENAR** per audit 5 Jul 2026 —
   jangan diubah kecuali ada update data resmi baru.
