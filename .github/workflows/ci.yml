@@ -74,12 +74,17 @@ jobs:
       - name: Sync bundles and check for drift
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+          # sync-policy-bundle.mjs resolves its source via LLM_WIKI_ROOT (not
+          # LLM_WIKI_PATH) per its own header comment — set both to the same
+          # checked-out producer repo rather than editing the synced script.
+          LLM_WIKI_ROOT: ${{ github.workspace }}/llm-wiki
         run: |
           npm run sync:packages
           npm run sync:trust
           npm run sync:blog
-          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog' and commit."; exit 1; }
+          npm run sync:policy-bundle
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle \
+            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle' and commit."; exit 1; }
 
       - name: Typecheck (non-blocking)
         continue-on-error: true

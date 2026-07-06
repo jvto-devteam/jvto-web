@@ -1,0 +1,75 @@
+{
+  "checks": [
+    {
+      "deprecated": "Trip.com booking flow",
+      "correct": "Use \"JVTO website self-checkout flow\" or \"JVTO Website Booking Flow\". Historical \"Trip.com\" mentions in `wiki/log.md` are audit-trail only — not canonical source/policy wording."
+    },
+    {
+      "deprecated": "18+ page PDF",
+      "correct": "\"4 PDF pages, 18 Tango steps\""
+    },
+    {
+      "deprecated": "Blue Fire guaranteed",
+      "correct": "Never use. \"Blue Fire is a natural phenomenon subject to weather and gas activity — not guaranteed.\""
+    },
+    {
+      "deprecated": "Sunrise guaranteed",
+      "correct": "Never use. Weather and natural conditions are outside JVTO's control."
+    },
+    {
+      "deprecated": "Madakaripura helmet included by JVTO",
+      "correct": "Never use. Helmets are provided by the local waterfall site management at the canyon entrance — not a JVTO inclusion."
+    },
+    {
+      "deprecated": "Police escort included by default",
+      "correct": "Never use. JVTO can coordinate an official police escort for eligible large groups / certain segments, subject to Traffic Police approval."
+    },
+    {
+      "deprecated": "UNESCO endorses JVTO via ISIC",
+      "correct": "Never use. ISIC itself is UNESCO-endorsed; this does not mean UNESCO endorses JVTO."
+    },
+    {
+      "deprecated": "Cash refund available for guest-initiated cancellation",
+      "correct": "Do not use unless a specific legacy booking document says so. Canonical policy: Travel Credit, no cash refund."
+    },
+    {
+      "deprecated": "50% cancellation fee (<48h)",
+      "correct": "Never use. Canonical: 100% forfeiture if <48h. Stale \"50% fee\" survives only in `raw/db_export_raw.json` (read-only source export)."
+    }
+  ],
+  "summary": {
+    "consumers_checked": [
+      "checkout",
+      "invoice",
+      "whatsapp"
+    ],
+    "total_findings": 0,
+    "errors": 0
+  },
+  "consumers": {
+    "checkout": {
+      "checked_policy_ids": [
+        "booking-paths",
+        "payment-rules",
+        "anti-fraud"
+      ],
+      "findings": [],
+      "clean": true
+    },
+    "invoice": {
+      "checked_policy_ids": [
+        "payment-rules"
+      ],
+      "findings": [],
+      "clean": true
+    },
+    "whatsapp": {
+      "checked_policy_ids": [
+        "booking-paths",
+        "ijen-health-screening"
+      ],
+      "findings": [],
+      "clean": true
+    }
+  }
+}
