@@ -5,12 +5,14 @@ const TourRequirements = () => {
     <section className="my-8 p-6 bg-white rounded-sm shadow-sm border border-gray-100">
       
       <h2 className="text-2xl font-black uppercase mb-8 flex items-center gap-3 text-slate-900">
-        <span className="w-8 h-1 bg-jvto-green block"></span>
-        Mandatory Requirements: Ijen Crater Tour
+        <span className="w-8 h-1 bg-jvto-orange block"></span>
+        Ijen Crater Access &amp; Health Screening
       </h2>
 
       <p className="mb-6 text-gray-600">
-        To ensure safety and compliance with 2024/2025 BKSDA regulations, please review the requirements below.
+        Kawah Ijen sits inside a BBKSDA-managed conservation zone. The table below summarizes what current
+        access rules can require — conditional on BBKSDA Surat Edaran SE.1658/KSA.9/2024, not a blanket
+        rule applied the same way to every guest.
       </p>
 
       <div className="overflow-x-auto mb-10">
@@ -31,9 +33,11 @@ const TourRequirements = () => {
                 Entry Document
               </td>
               <td className="px-6 py-4 text-gray-700">
-                <strong>Health Certificate (Surat Sehat)</strong><br />
+                <strong>Health certificate — conditional</strong><br />
                 <span className="text-xs text-gray-500">
-                  Must state "Fit for hiking/physical activity". Provided by JVTO.
+                  Required when BBKSDA SE.1658/KSA.9/2024 thresholds apply. JVTO coordinates the clinic
+                  workflow with Dr. Ahmad Irwandanu (Klinik Bakti Husada, Bondowoso) — nothing for you to
+                  arrange separately.
                 </span>
               </td>
             </tr>
@@ -45,7 +49,7 @@ const TourRequirements = () => {
               <td className="px-6 py-4 text-gray-700">
                 <strong>Professional Gas Mask</strong><br />
                 <span className="text-xs text-gray-500">
-                  Provided by JVTO. Mandatory for sulfur fume protection.
+                  Provided by JVTO for sulfur fume protection on the crater hike.
                 </span>
               </td>
             </tr>
@@ -86,11 +90,15 @@ const TourRequirements = () => {
         <div className="space-y-4">
           <details className="group rounded-sm border border-gray-200 p-4">
             <summary className="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
-              Do I really need a health certificate for Ijen?
+              Do I need a health certificate for Ijen?
               <span className="transition group-open:rotate-180">▾</span>
             </summary>
             <p className="mt-3 text-sm text-gray-600 leading-relaxed">
-              Yes, it is <strong>absolutely mandatory</strong>. You cannot purchase an entrance ticket without showing a valid health certificate obtained from a clinic or hospital on the <strong>same day of the hike</strong>.
+              Ijen access rules can require a recent local health certificate under BBKSDA Surat Edaran
+              SE.1658/KSA.9/2024. When it applies, JVTO coordinates the clinic workflow — conducted by
+              licensed medical staff (Dr. Ahmad Irwandanu, SIP) — so there is nothing for you to arrange
+              separately. The certificate carries a QR code checked at the crater access gate; without a
+              valid code, the crater zone is not accessible that day.
             </p>
           </details>
 
@@ -100,7 +108,8 @@ const TourRequirements = () => {
               <span className="transition group-open:rotate-180">▾</span>
             </summary>
             <p className="mt-3 text-sm text-gray-600 leading-relaxed">
-              No. Children under <strong>10 years old</strong> are strictly prohibited by BKSDA regulations due to safety concerns, especially related to sulfur gas exposure.
+              No. Children under <strong>10 years old</strong> are not permitted into the Ijen crater zone
+              under BBKSDA safety guidance, primarily due to sulfur gas exposure risk.
             </p>
           </details>
         </div>
