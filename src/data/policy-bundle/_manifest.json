@@ -1,12 +1,12 @@
 {
   "schema_version": "policy-bundle/v1.0",
   "generated_by": "scripts/compile_policy_bundle.py",
-  "generated_at": "2026-06-26T12:24:15.285055+00:00",
+  "generated_at": "2026-07-06T12:47:46.624383+00:00",
   "dry_run": false,
   "source_hashes": {
-    "policy-source-ownership": "fb3a6e84deb5",
+    "policy-source-ownership": "f1d854218fee",
     "packages-overview": "c27b40068df6",
-    "faq-master": "0745a418ced1"
+    "faq-master": "356e229f9878"
   },
   "policy_domains": 9,
   "deprecated_checks": 9,

@@ -187,12 +187,12 @@
           "faq",
           "whatsapp"
         ],
-        "notes": "Conditional wording only (per BBKSDA SE.1658/KSA.9/2024); never \"universally mandatory\"",
+        "notes": "Mandatory wording (health certificate required for every guest before crater entry); BBKSDA SE.1658/KSA.9/2024 cited as supporting authority, not a conditional trigger. Adjudicated 2026-07-06, supersedes the 2026-07-05 conditional decision",
         "evidence": [
           {
             "source": "wiki/website/faq-master.md",
             "section": "Q6",
-            "text": "How does the Ijen health screening work?\n\n> ⚠ health_wording_mode: **conditional** — BBKSDA authority governs this answer. Never state as universally mandatory.\n\nFor tours that include the Ijen night hike, JVTO arranges health-screening coordination — conducted by licensed medical staff — as required under BBKSDA access regulations for the Ijen crater zone (Surat Edaran SE.1658/KSA.9/2024). The aim is to reduce the risk of sending unfit guests into a demanding environment with sulphur gas and steep trails. Vitals measured digitally include SpO2, blood pressure, heart rate, and respiratory history. The certificate carries a QR code verified by BBKSDA at the crater access gate. **No Valid QR Code = No Access to Crater Zone.** See [[people/dr-ahmad-irwandanu]] for the full protocol."
+            "text": "How does the Ijen health screening work?\n\n> ⚠ health_wording_mode: **mandatory** — a health certificate is required for every guest before Kawah Ijen crater entry. BBKSDA SE.1658/KSA.9/2024 is cited as supporting regulatory authority/evidence, not as a conditional trigger. Adjudicated 2026-07-06, supersedes the 2026-07-05 conditional decision.\n\nFor tours that include the Ijen night hike, a health certificate is mandatory for every guest before crater entry — JVTO arranges the health-screening coordination, conducted by licensed medical staff, per BBKSDA Surat Edaran SE.1658/KSA.9/2024 for the Ijen crater zone. The aim is to reduce the risk of sending unfit guests into a demanding environment with sulphur gas and steep trails. Vitals measured digitally include SpO2, blood pressure, heart rate, and respiratory history. The certificate carries a QR code verified by BBKSDA at the crater access gate. **No Valid QR Code = No Access to Crater Zone.** See [[people/dr-ahmad-irwandanu]] for the full protocol."
           },
           {
             "source": "wiki/website/faq-master.md",
