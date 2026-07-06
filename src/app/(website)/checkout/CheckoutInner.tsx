@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Providers } from "@/app/providers";
+import { getPolicyDomain } from "@/lib/policy-bundle";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -59,6 +60,12 @@ function calculateFOCDiscount(pax: number, pricePerPerson: number) {
   }
   return { amount: 0, label: "" };
 }
+
+const checkoutPolicyNotes = [
+  getPolicyDomain("checkout", "booking-paths")?.notes,
+  getPolicyDomain("checkout", "payment-rules")?.notes,
+  getPolicyDomain("checkout", "anti-fraud")?.notes,
+].filter(Boolean) as string[];
 
 interface ContactDetails {
   email: string;
@@ -945,6 +952,26 @@ const StepTwoPayment = ({
             )}{" "}
           </div>
         </div>
+        {checkoutPolicyNotes.length > 0 && (
+          <div className="mb-6 rounded-sm border border-emerald-100 bg-emerald-50 p-4 text-xs text-slate-700">
+            <p className="mb-2 font-black uppercase tracking-widest text-slate-900">
+              Policy source
+            </p>
+            <ul className="space-y-1.5">
+              {checkoutPolicyNotes.map((note) => (
+                <li key={note} className="flex gap-2">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-jvto-green" />
+                  <span>{note}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-slate-600">
+              Standard packages should continue through this website checkout.
+              WhatsApp remains available for assisted custom routes, group
+              arrangements, complex pickup/drop-off, or verification questions.
+            </p>
+          </div>
+        )}
         {/* LOGIC SUMMARY:
   >= 14 Days: 20% DP via Xendit
   < 14 Days: 100% via Xendit
