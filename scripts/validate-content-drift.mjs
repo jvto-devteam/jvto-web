@@ -3,12 +3,11 @@
  * validate-content-drift.mjs — canonical-facts content-drift gate.
  * Pure Node ESM, zero dependencies.
  *
- * Enforces docs/CANONICAL_FACTS.md at merge time: scans the scannable content
- * surface for forbidden patterns (stale founding year, blue-fire "guarantee"
- * wording, stale review counts, non-IDR prices, stale deposit/group terms,
- * unverified press names, and the retired root jvto-config.json brand-config
- * JSON pattern). Every hit prints `file:line — rule-name — matched text` and
- * the process exits 1.
+ * Enforces docs/CANONICAL_FACTS.md: scans the scannable content surface for
+ * forbidden patterns (stale founding year, blue-fire "guarantee" wording,
+ * stale review counts, non-IDR prices, stale deposit/group terms, unverified
+ * press names, and the retired root jvto-config.json brand-config JSON
+ * pattern). Every hit prints `file:line — rule-name — matched text`.
  *
  * Scope (scanned):
  *   - src/            (recursive)
@@ -26,18 +25,35 @@
  *   - binary files (images/fonts/media) by extension
  *
  * Whitelist: any LINE containing the marker `drift-ok:` is skipped — used by
- * docs/CANONICAL_FACTS.md itself to quote forbidden examples deliberately.
- * A drift-ok marker must always carry a reason after the colon.
+ * docs/CANONICAL_FACTS.md itself (and other deliberate anti-pattern-quoting
+ * comments) to whitelist a specific line. A drift-ok marker must always carry
+ * a reason after the colon.
  *
- * Usage: node scripts/validate-content-drift.mjs   (no arguments; extra args
- * are ignored so `npm run validate <sub>` arg-append cannot break the chain)
+ * GATE MODE — same governance pattern as scripts/lint-gate.mjs: this repo had
+ * ~48 pre-existing content-drift hits scattered across legacy/mock data files
+ * the day this validator was introduced (2026-07-06) — files nobody had
+ * scanned for these patterns before. Rather than either (a) hard-blocking
+ * every future PR until all 48 are individually fixed, or (b) loosening the
+ * regexes to stop noticing them, hits are gated against a COMMITTED
+ * per-file/per-rule baseline (scripts/content-drift-baseline.json): any
+ * bucket that grows beyond its baseline count = FAIL. Fixing a legacy hit
+ * elsewhere never offsets a new one appearing somewhere else.
+ *   - Fixed a legacy hit: `node scripts/validate-content-drift.mjs --update`
+ *     regenerates the baseline; commit the (smaller) diff for review.
+ *   - New code introducing NEW drift: gate fails naming the exact bucket(s)
+ *     that grew, regardless of the total hit count elsewhere.
+ *
+ * Usage: node scripts/validate-content-drift.mjs [--update]  (no other args;
+ * extra args are otherwise ignored so `npm run validate <sub>` arg-append
+ * cannot break the chain)
  */
 
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const BASELINE_PATH = path.join(ROOT, 'scripts', 'content-drift-baseline.json');
 
 // ── rules (data, not code) ────────────────────────────────────────────────────
 // Each hit of any rule on a non-whitelisted line fails the gate.
@@ -188,7 +204,7 @@ function scanFile(file) {
     if (line.includes(WHITELIST_MARKER)) continue;
     for (const rule of RULES) {
       const m = rule.re.exec(line);
-      if (m) hits.push(`${rel}:${i + 1} — ${rule.name} — ${truncate(m[0])}`);
+      if (m) hits.push({ rel, line: i + 1, rule: rule.name, text: truncate(m[0]) });
     }
   }
   return hits;
@@ -200,19 +216,57 @@ const targets = collectTargets();
 const allHits = [];
 for (const file of targets) allHits.push(...scanFile(file));
 
-for (const hit of allHits) console.log(`✗ ${hit}`);
+for (const h of allHits) console.log(`✗ ${h.rel}:${h.line} — ${h.rule} — ${h.text}`);
 console.log(
   `\n[content-drift] ${targets.length} files scanned, ${RULES.length} rules — ${allHits.length} hit(s)`,
 );
 
-if (allHits.length > 0) {
+// Bucket by file+rule (line numbers excluded — they shift on unrelated edits
+// and would false-positive constantly), same approach as scripts/lint-gate.mjs.
+const current = {};
+for (const h of allHits) {
+  const key = `${h.rel} :: ${h.rule}`;
+  current[key] = (current[key] ?? 0) + 1;
+}
+
+if (process.argv.includes('--update')) {
+  const sorted = Object.fromEntries(Object.entries(current).sort(([a], [b]) => a.localeCompare(b)));
+  writeFileSync(BASELINE_PATH, JSON.stringify(sorted, null, 2) + '\n');
+  console.log(`[content-drift] baseline written: ${allHits.length} hits across ${Object.keys(current).length} buckets → ${path.relative(ROOT, BASELINE_PATH)}`);
+  process.exit(0);
+}
+
+let baseline;
+try {
+  baseline = JSON.parse(readFileSync(BASELINE_PATH, 'utf8'));
+} catch {
+  console.error(`[content-drift] missing/unreadable ${path.relative(ROOT, BASELINE_PATH)} — run \`node scripts/validate-content-drift.mjs --update\` on a clean checkout and commit it.`);
+  process.exit(1);
+}
+
+const baseTotal = Object.values(baseline).reduce((s, n) => s + n, 0);
+console.log(`[content-drift] baseline: ${baseTotal} hits in ${Object.keys(baseline).length} bucket(s)`);
+
+const regressions = Object.entries(current)
+  .filter(([key, count]) => count > (baseline[key] ?? 0))
+  .map(([key, count]) => `  ${key} — ${count} hit(s), baseline ${baseline[key] ?? 0}`);
+
+if (regressions.length) {
+  console.log(`[content-drift] FAIL — new drift beyond baseline in ${regressions.length} bucket(s):`);
+  for (const line of regressions) console.log(line);
   console.log(
-    '[content-drift] FAIL — fix the content per docs/CANONICAL_FACTS.md, or mark a line',
+    '[content-drift] Fix the new content per docs/CANONICAL_FACTS.md, or mark a line with',
   );
   console.log(
-    "[content-drift]        with `drift-ok: <reason>` ONLY when it quotes a forbidden example deliberately.",
+    "[content-drift] `drift-ok: <reason>` ONLY when it quotes a forbidden example deliberately.",
+  );
+  console.log(
+    '[content-drift] Fixing a different, already-baselined hit does not offset a new one.',
   );
   process.exitCode = 1;
 } else {
+  if (allHits.length < baseTotal) {
+    console.log(`[content-drift] NOTE: legacy hits were fixed (${baseTotal} → ${allHits.length}) — run \`node scripts/validate-content-drift.mjs --update\` and commit the baseline so they cannot return.`);
+  }
   console.log('[content-drift] PASS');
 }
