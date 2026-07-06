@@ -1570,10 +1570,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   to maximise the chance of good conditions but cannot promise a specific outcome.
                 </Callout>
                 {ijenRelevant && (
-                  <Callout icon={Stethoscope} title="Ijen health screening — conditional" tone="lime">
-                    Ijen access rules can require a recent local health certificate under BBKSDA
-                    Surat Edaran SE.1658/KSA.9/2024. When it applies, JVTO coordinates the clinic
-                    workflow with licensed medical staff — nothing for you to arrange separately.
+                  <Callout icon={Stethoscope} title="Ijen health screening — mandatory" tone="lime">
+                    A recent local health certificate is mandatory for every guest under BBKSDA
+                    Surat Edaran SE.1658/KSA.9/2024. JVTO coordinates the clinic workflow with
+                    licensed medical staff — nothing for you to arrange separately.
                   </Callout>
                 )}
               </div>

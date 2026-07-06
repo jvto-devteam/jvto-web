@@ -23,12 +23,12 @@ export default function HomeHealthRail() {
               id="health-rail-heading"
               className="font-black text-lg md:text-xl text-jvto-navy mb-2 leading-snug"
             >
-              Ijen access rules can require a health certificate. We coordinate the
+              A health certificate is mandatory for Ijen entry. We coordinate the
               clinic.
             </h3>
             <p className="text-jvto-muted text-sm leading-relaxed max-w-3xl">
-              BBKSDA SE.1658/KSA.9/2024 governs entry to the crater zone. When access
-              rules require it, JVTO arranges the workflow with Dr. Ahmad Irwandanu —
+              BBKSDA SE.1658/KSA.9/2024 governs entry to the crater zone. Every guest is
+              screened — JVTO arranges the workflow with Dr. Ahmad Irwandanu —
               SIP-verified at satusehat.kemkes.go.id — the evening before your hike, at
               your hotel. Gas masks are provided. No valid clearance, no crater access —
               we won&apos;t send you up without it.

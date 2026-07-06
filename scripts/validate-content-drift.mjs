@@ -89,6 +89,13 @@ const RULES = [
     re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|guarantee[^.]{0,40}[Bb]lue\s*[Ff]ire/,
   },
   {
+    name: 'stale-conditional-health-wording',
+    // Ijen health screening is MANDATORY (adjudicated 2026-07-06, supersedes the prior
+    // conditional decision) — catches the old "when BBKSDA rules require it" / "can
+    // require" / "— conditional" framing so it can't silently regress.
+    re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,15}BBKSDA.{0,30}(require|rules)|when (it|access rules?) (applies|require)/i,
+  },
+  {
     name: 'non-idr-currency',
     // prices are IDR-only, format `IDR 1,550,000/person`
     re: /\$\s?\d|EUR\s?\d|USD\s?\d{2,}|Rp\s?\d/,
