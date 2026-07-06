@@ -45,7 +45,7 @@ const FEATURES: Feature[] = [
     label: "Ijen Health-Screening",
     Icon: HeartPulse,
     caption:
-      "When BBKSDA access rules require a recent health certificate, we coordinate the clinic before the hike — with Dr. Ahmad Irwandanu, SIP-verified at satusehat.kemkes.go.id (Kemenkes RI).",
+      "A recent health certificate is mandatory for every Ijen guest under BBKSDA SE.1658/KSA.9/2024 — we coordinate the clinic before the hike, with Dr. Ahmad Irwandanu, SIP-verified at satusehat.kemkes.go.id (Kemenkes RI).",
   },
   {
     id: "licenses",

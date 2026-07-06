@@ -172,7 +172,7 @@ export const evidenceRegistry: EvidenceItem[] = [
     category: 'medical',
     title: 'BBKSDA SE.1658/KSA.9/2024 — Ijen Access Health Regulation',
     description:
-      'Surat Edaran BBKSDA Jawa Timur establishing the conditional health-screening requirement for Mount Ijen access. JVTO coordinates this workflow when triggered.',
+      'Surat Edaran BBKSDA Jawa Timur establishing the mandatory health-screening requirement for every guest before Mount Ijen access. JVTO coordinates this workflow for all guests.',
     identifier: 'SE.1658/KSA.9/2024',
     authority: 'BBKSDA Jawa Timur',
     externalUrl: 'https://bbksdajatim.org',

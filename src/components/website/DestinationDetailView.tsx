@@ -534,9 +534,9 @@ function SignatureSection({
                   Health certificate <span className="text-jvto-orange">coordination.</span>
                 </h2>
                 <p className="text-white/74 text-base font-light leading-relaxed mb-4">
-                  Ijen access rules can require a recent local health certificate. When access
-                  rules require it, JVTO coordinates the clinic workflow — there is nothing for
-                  you to arrange separately.
+                  A recent health certificate is mandatory for every guest under BBKSDA Surat
+                  Edaran SE.1658/KSA.9/2024. JVTO coordinates the clinic workflow — there is
+                  nothing for you to arrange separately.
                 </p>
                 <p className="text-white/74 text-base font-light leading-relaxed">
                   The QR-verified surat sehat is issued through Dr. Ahmad Irwandanu (SIP, Kemenkes
@@ -916,11 +916,9 @@ export default function DestinationDetailView({
   const chrome = DEST_CHROME[slug];
   const quickFacts = DEST_QUICK_FACTS[slug];
   const elevationStat = DEST_ELEVATION_STAT[slug];
-  // Ijen's DB `summary` field uses unconditional "mandatory ... health screening" wording,
-  // which conflicts with the CANONICAL_FACTS.md-locked conditional framing (BBKSDA
-  // SE.1658/KSA.9/2024 wording is handled correctly in the dedicated Health Certificate
-  // Coordination section below). Swap in the facts-safe hero lede for the overview quote
-  // instead of publishing the DB string verbatim.
+  // Prefer the curated per-destination hero lede over the raw DB `summary` field for the
+  // overview quote — BBKSDA SE.1658/KSA.9/2024 health-certificate wording is handled
+  // separately in the dedicated Health Certificate Coordination section below.
   const overviewLede = chrome?.heroLede ?? data.summary;
 
   return (

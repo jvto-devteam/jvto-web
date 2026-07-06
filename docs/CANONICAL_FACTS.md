@@ -21,7 +21,10 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
   dalam konteks legal, tanpa mengarang tanggal inkorporasi.
 - **Blue fire**: hanya wording "natural phenomenon subject to weather and gas activity /
   cannot be guaranteed". Kata "guaranteed" berdekatan dgn "blue fire" = bug. <!-- drift-ok: contoh terlarang dikutip sengaja -->
-- **Ijen health screening**: wording KONDISIONAL + sitasi BBKSDA SE.1658/KSA.9/2024.
+- **Ijen health screening**: wording MANDATORY (health certificate required for every guest
+  before Kawah Ijen crater entry), didukung sitasi otoritas BBKSDA SE.1658/KSA.9/2024 sebagai
+  evidence — bukan sebagai syarat pemicu kondisional. Adjudikasi ulang 2026-07-06 (menggantikan
+  keputusan kondisional 2026-07-05); lihat commit history untuk detail.
 - **Police escort**: threshold ≈18 guests, "approval not guaranteed", unit Ditlantas.
 - **Deposit 20%**; cancellation = **100% Lifetime Travel Credit** (bukan cash refund).
 - **Harga IDR-only** format `IDR 1,550,000/person`.
