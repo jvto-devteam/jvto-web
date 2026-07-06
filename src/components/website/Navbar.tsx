@@ -447,7 +447,8 @@ const NavbarInner: React.FC = () => {
                 className="object-contain"
               />
               {/* Brand tag — dynamic from SITE_CONFIG.foundingDate (CANONICAL_FACTS: 2015).
-                  Never hardcode "EST 2016" / "EST 2015" as static text; this is the one
+                  drift-ok: anti-pattern quoted deliberately — never hardcode
+                  "EST 2016" / "EST 2015" as static text; this is the one
                   place the founding year renders in nav chrome. */}
               <span
                 className={`hidden sm:inline font-mono not-italic text-[10px] font-semibold tracking-[0.3em] uppercase opacity-55 ${finalLogoTextClass}`}
