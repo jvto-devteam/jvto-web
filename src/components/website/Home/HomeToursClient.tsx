@@ -12,51 +12,71 @@ interface HomeToursClientProps {
 
 type Tab = "surabaya" | "bali";
 
-function TourCard({ pkg }: { pkg: PackageListItem }) {
-  const price = `From IDR ${new Intl.NumberFormat("id-ID").format(pkg.startFrom)}`;
+function TourCard({ pkg, index, cityLabel }: { pkg: PackageListItem; index: number; cityLabel: string }) {
+  const price = `IDR ${new Intl.NumberFormat("id-ID").format(pkg.startFrom)}`;
   const duration = `${pkg.duration.day}D${pkg.duration.night > 0 ? ` ${pkg.duration.night}N` : ""}`;
-  const highlights = pkg.keyExperiences.slice(0, 3);
+  const highlights = pkg.keyExperiences.slice(0, 2);
+  const hasIjen =
+    pkg.tags.some((t) => t.toLowerCase().includes("ijen")) ||
+    (pkg.name ?? "").toLowerCase().includes("ijen");
 
   return (
     <Link
       href={`/${pkg.slug}`}
-      className="group relative bg-white rounded-sm border border-jvto-border overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0_20px_60px_-15px_rgba(13,27,42,0.15)] transition-all duration-200"
+      className="group relative bg-white rounded-sm border border-jvto-border overflow-hidden flex flex-col hover:-translate-y-1.5 hover:shadow-[0_14px_28px_-14px_rgba(13,27,42,0.18)] transition-all duration-300"
     >
-      <div className="relative h-56 sm:h-64 w-full flex-shrink-0">
+      <div className="relative h-52 sm:h-60 w-full flex-shrink-0">
         <Image
           src={pkg.banner.url}
           alt={pkg.banner.alt}
           fill
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/70 via-jvto-navy/20 to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-white font-black text-base sm:text-lg leading-snug drop-shadow-sm">
-              {pkg.name}
-            </p>
-          </div>
-          <span className="flex-shrink-0 text-[10px] font-bold text-white uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-sm">
-            {duration}
+        <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/60 via-jvto-navy/10 to-transparent" />
+        <div className="absolute top-3 left-3 right-3 flex flex-wrap gap-1.5">
+          <span className="text-[9px] font-bold text-jvto-navy uppercase tracking-wider bg-white px-2 py-1 rounded-sm">
+            From {cityLabel}
           </span>
+          <span className="text-[9px] font-bold text-white uppercase tracking-wider bg-jvto-navy px-2 py-1 rounded-sm">
+            &#10003; Police-Led
+          </span>
+          {hasIjen && (
+            <span className="text-[9px] font-bold text-jvto-navy uppercase tracking-wider bg-jvto-lime px-2 py-1 rounded-sm">
+              &#9877; Health Check
+            </span>
+          )}
         </div>
+        <span className="absolute bottom-3 right-3 font-mono text-[9px] font-bold text-white/70 uppercase tracking-wider">
+          JVTO-{String(index + 1).padStart(2, "0")}
+        </span>
       </div>
       <div className="p-5 flex flex-col gap-3 flex-1">
+        <p className="font-black text-base sm:text-lg leading-snug text-jvto-navy">
+          {pkg.name}
+        </p>
         {highlights.length > 0 && (
           <ul className="flex flex-col gap-1">
             {highlights.map((h, i) => (
               <li key={i} className="text-xs text-jvto-muted flex gap-1.5">
-                <span className="flex-shrink-0 text-jvto-green">·</span>
+                <span className="flex-shrink-0 text-jvto-green">&middot;</span>
                 <span>{h}</span>
               </li>
             ))}
           </ul>
         )}
-        <div className="flex items-end justify-between mt-auto pt-2 border-t border-jvto-border">
-          <p className="font-black text-jvto-navy text-lg">{price}</p>
-          <span className="text-xs font-bold text-jvto-green group-hover:translate-x-0.5 transition-transform">
-            View details &rarr;
+        <div className="flex items-end justify-between mt-auto pt-3 border-t border-jvto-border">
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-wider text-jvto-muted mb-0.5">
+              {duration} &middot; From
+            </p>
+            <p className="font-black text-jvto-navy text-base">
+              {price}
+              <small className="text-jvto-muted font-normal text-xs ml-1">/pax</small>
+            </p>
+          </div>
+          <span className="text-xs font-bold text-jvto-navy group-hover:translate-x-0.5 transition-transform">
+            Book inquiry &rarr;
           </span>
         </div>
       </div>
@@ -100,9 +120,14 @@ export default function HomeToursClient({
         </p>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
-            {packages.map((pkg) => (
-              <TourCard key={pkg.id} pkg={pkg} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+            {packages.map((pkg, i) => (
+              <TourCard
+                key={pkg.id}
+                pkg={pkg}
+                index={i}
+                cityLabel={activeTab === "surabaya" ? "Surabaya" : "Bali"}
+              />
             ))}
           </div>
 

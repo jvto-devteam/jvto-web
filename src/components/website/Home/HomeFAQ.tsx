@@ -5,11 +5,22 @@ const DISPLAY_FAQS = HOMEPAGE_FAQS.slice(0, 6);
 const LEFT_FAQS = DISPLAY_FAQS.slice(0, 3);
 const RIGHT_FAQS = DISPLAY_FAQS.slice(3);
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+function FaqItem({
+  question,
+  answer,
+  index,
+}: {
+  question: string;
+  answer: string;
+  index: number;
+}) {
   return (
     <details className="group py-5">
       <summary className="flex items-start justify-between gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         <span className="font-bold text-jvto-navy text-sm md:text-base leading-snug">
+          <span className="font-mono text-jvto-muted/60 mr-2">
+            Q{String(index + 1).padStart(2, "0")}
+          </span>
           {question}
         </span>
         <span
@@ -31,24 +42,24 @@ export default function HomeFAQ() {
     <section aria-labelledby="faq-heading" className="bg-jvto-off py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-jvto-muted mb-2">
-          FAQ
+          § 09 · FAQ
         </p>
         <h2
           id="faq-heading"
           className="font-black text-2xl md:text-3xl text-jvto-navy mb-12"
         >
-          Common Questions
+          Common <span className="text-jvto-orange">questions.</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 border-t border-jvto-border">
           <div className="flex flex-col divide-y divide-jvto-border">
-            {LEFT_FAQS.map((faq) => (
-              <FaqItem key={faq.question} {...faq} />
+            {LEFT_FAQS.map((faq, i) => (
+              <FaqItem key={faq.question} {...faq} index={i} />
             ))}
           </div>
           <div className="flex flex-col divide-y divide-jvto-border border-t border-jvto-border md:border-t-0">
-            {RIGHT_FAQS.map((faq) => (
-              <FaqItem key={faq.question} {...faq} />
+            {RIGHT_FAQS.map((faq, i) => (
+              <FaqItem key={faq.question} {...faq} index={i + LEFT_FAQS.length} />
             ))}
           </div>
         </div>

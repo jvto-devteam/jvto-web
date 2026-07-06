@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import HomeHero from "@/components/website/Home/HomeHero";
+import HomeVerifyBar from "@/components/website/Home/HomeVerifyBar";
 import HomeTrustStrip from "@/components/website/Home/HomeTrustStrip";
 import HomeTours from "@/components/website/Home/HomeTours";
 import HomeFounder from "@/components/website/Home/HomeFounder";
 import HomeConfidence from "@/components/website/Home/HomeConfidence";
-import HomeHowItWorks from "@/components/website/Home/HomeHowItWorks";
+import HomeFeatureCarousel from "@/components/website/Home/HomeFeatureCarousel";
+import HomeDestinations from "@/components/website/Home/HomeDestinations";
+import HomeHealthRail from "@/components/website/Home/HomeHealthRail";
 import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
+import HomeTravelGuideTeaser from "@/components/website/Home/HomeTravelGuideTeaser";
+import HomeOurStory from "@/components/website/Home/HomeOurStory";
 import Link from "@/components/website/AppLink";
 import Script from "next/script";
-import HomeExplore from "@/components/website/Home/HomeExplore";
 import HomePartners from "@/components/website/Home/HomePartners";
 import HomeFAQ from "@/components/website/Home/HomeFAQ";
 import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
+import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -25,13 +30,23 @@ import {
   FOUNDER_SCHEMA,
 } from "@/lib/schemas/entityGraph";
 
+// Spec "Iconic landscapes" order (docs/design-reference/homepage.html §05) —
+// filtered/ordered explicitly by slug so DB row order never reshuffles the
+// intended reading order.
+const LANDSCAPE_SLUG_ORDER = [
+  "mount-bromo",
+  "ijen-crater",
+  "tumpak-sewu-waterfall",
+  "madakaripura-waterfall",
+];
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE;
 export const revalidate = 3600;
 
 const fallbackSeo = {
   title:
     "Tourist Police-Led Private Volcano Tours in East Java | Java Volcano Tour Operator",
-  h1: "Private Volcano Tours.\nPolice-Led.",
+  h1: "Tourist Police-Led private\nvolcano tours, Java.",
   description:
     "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed Indonesian operator (Licence 1102230032918), police-led safety culture, all-inclusive packages, Ijen health screening included.",
 };
@@ -49,11 +64,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Home = async () => {
-  const [seo, surabayaTours, baliTours] = await Promise.all([
+  const [seo, surabayaTours, baliTours, destinations] = await Promise.all([
     getPageSeo("/", fallbackSeo),
     getWebPackagesList({ fromId: 4, limit: 4 }),
     getWebPackagesList({ fromId: 3, limit: 4 }),
+    getWebDestinationsList(),
   ]);
+
+  const landscapeDestinations = LANDSCAPE_SLUG_ORDER
+    .map((slug) => destinations.find((d) => d.slug === slug))
+    .filter((d): d is NonNullable<typeof d> => Boolean(d));
 
   const pageRow = seo.row
     ? {
@@ -137,11 +157,14 @@ const Home = async () => {
       />
 
       <HomeHero title={seo.h1} description={seo.description} />
+      <HomeVerifyBar />
       <HomeTrustStrip />
       <HomeTours surabayaPackages={surabayaTours} baliPackages={baliTours} />
-      <HomeFounder />
       <HomeConfidence />
-      <HomeHowItWorks />
+      <HomeFeatureCarousel />
+      <HomeFounder />
+      <HomeDestinations destinations={landscapeDestinations} />
+      <HomeHealthRail />
       <HomeVolcanoStatus />
 
       {/* Reviews — Elfsight live Google Reviews embed (S4 stitch from production) */}
@@ -191,9 +214,10 @@ const Home = async () => {
         </div>
       </section>
 
-      <HomeExplore />
       <HomePartners />
       <HomeFAQ />
+      <HomeTravelGuideTeaser />
+      <HomeOurStory />
       <HomeCTA />
     </div>
   );
