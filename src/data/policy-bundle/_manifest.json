@@ -1,0 +1,52 @@
+{
+  "schema_version": "policy-bundle/v1.0",
+  "generated_by": "scripts/compile_policy_bundle.py",
+  "generated_at": "2026-07-06T12:47:46.624383+00:00",
+  "dry_run": false,
+  "source_hashes": {
+    "policy-source-ownership": "f1d854218fee",
+    "packages-overview": "c27b40068df6",
+    "faq-master": "356e229f9878"
+  },
+  "policy_domains": 9,
+  "deprecated_checks": 9,
+  "consumers_checked": [
+    "checkout",
+    "invoice",
+    "whatsapp"
+  ],
+  "artifacts": [
+    "policy-bundle.json",
+    "consumer-bundles.json",
+    "deprecated-wording-report.json",
+    "gap-report.json"
+  ],
+  "sync_contract": {
+    "recommended_consumer": "jvto-web",
+    "source_path": "output/website/policy-bundle/",
+    "target_path": "src/data/policy-bundle/",
+    "required_gate": {
+      "schema_version": "policy-bundle/v1.0",
+      "clean": true
+    },
+    "required_files": [
+      "policy-bundle.json",
+      "consumer-bundles.json",
+      "deprecated-wording-report.json",
+      "gap-report.json",
+      "_manifest.json"
+    ],
+    "consumer_entrypoint": "consumer-bundles.json",
+    "consumer_keys": [
+      "checkout",
+      "invoice",
+      "whatsapp"
+    ],
+    "validation_files": [
+      "deprecated-wording-report.json",
+      "gap-report.json"
+    ],
+    "failure_rule": "Refuse sync if schema_version mismatches, clean is not true, any required file is missing, or any requested consumer is not present."
+  },
+  "clean": true
+}
