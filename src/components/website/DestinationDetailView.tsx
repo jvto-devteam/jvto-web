@@ -336,7 +336,7 @@ export default function DestinationDetailView({
             )}
 
             {/* Interactive route map */}
-            {routeStats && (
+            {/* {routeStats && (
               <div className="mb-8">
                 <RouteMap
                   slug={routeStats.slug}
@@ -348,7 +348,7 @@ export default function DestinationDetailView({
                   Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
                 </p>
               </div>
-            )}
+            )} */}
 
             {/* Interactive 3D terrain fly-through */}
             {routeStats && (

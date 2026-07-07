@@ -17,13 +17,21 @@ export async function sitemapDestinations(
     }),
   );
 
+  const dynamic3dPages: MetadataRoute.Sitemap = destinations.map((dest) => ({
+    url: url(`/3d/${dest.slug}`),
+    lastModified: dest.updatedAt ?? t,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   return [
     {
       url: url("/destinations"),
       lastModified: getLastModified(lastModifiedMap, "/destinations", t),
-      changeFrequency: "weekly", 
+      changeFrequency: "weekly",
       priority: 0.9,
     },
     ...dynamicDestinations,
+    ...dynamic3dPages,
   ];
 }
