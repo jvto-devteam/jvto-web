@@ -49,6 +49,29 @@ Confirm whether `Home/Testimonials.tsx` and `Home/LevelSelector.tsx` (legacy-tok
 by `page.tsx`) are still referenced anywhere. If orphaned, remove. **Verify** with a repo-wide import
 grep before deletion; `npx tsc --noEmit` after.
 
+### T6 · Resolve typography direction: load Raleway/JetBrains Mono, or retire the tokens — Effort **M** · (MAPPING B-S3)
+**Added 2026-07-07**, credit: automated Codex review on PR #90, deepened by follow-up investigation.
+Confirmed: `--font-jvto-display` / `--font-jvto-mono` (Raleway / JetBrains Mono) are declared in
+`website.css` but their `-loaded` fallback variables are never assigned anywhere in the repo, so
+**only Inter actually renders** sitewide (loaded via `next/font/google` in `src/app/layout.tsx`).
+This is entangled with a real, previously-undocumented conflict: repo root `DESIGN.md` (older,
+commit `50471f9`) mandates **Inter-only, "no display serif, no mono"**; the newer `jvto-system.css`
+V2 tokens (commit `ec7108c`) introduced Raleway/JetBrains Mono without removing `DESIGN.md`'s
+`h1,h2{font-family:Inter}` override or actually loading the new fonts.
+- **Owner decision needed between:**
+  (a) **Load the fonts** — add `Raleway` + `JetBrains_Mono` via `next/font/google` in
+      `src/app/(website)/layout.tsx` (mirrors the existing Rubik `--font-heading` pattern exactly),
+      assign to `--font-jvto-display-loaded` / `--font-jvto-mono-loaded`, remove the stale
+      `h1,h2{font-family:Inter}` override. Realizes the `jvto-system.css` spec as designed; visually
+      changes headings/labels **sitewide**.
+  (b) **Retire the tokens** — remove `--font-jvto-display`/`-mono` and the ~20 inline
+      `style={{fontFamily:"Raleway, Inter, sans-serif"}}` occurrences, formally ratify Inter-only per
+      root `DESIGN.md`, update `jvto-system.css`'s spec doc status to "superseded on this point."
+- **Why not auto-applied:** genuinely ambiguous — two committed design docs disagree, and either
+  resolution is a **sitewide, highly visible typography change**, not a bounded/reversible detail.
+- **Verify (once decided):** `npm run build`, visual QA of headings/labels/`.micro` mono labels across
+  homepage + verify-jvto + a tour detail page, `npx tsc --noEmit`.
+
 ---
 
 ## P3 — Hygiene / documentation
@@ -73,5 +96,10 @@ does not get mistaken for authorization to publish.
 3. **Deferred (owner decision / visual QA):** T1, T2, T3 are documented, not auto-applied, because
    each is either hard-to-reverse (live routes) or needs visual sign-off (trust-page palette) — this
    is the approved-plan boundary ("bounded, reversible; don't overwrite correct work; don't invent work").
+4. ✅ **2026-07-07, post-PR-review round:** an automated Codex review on PR #90 caught that the
+   typography row was marked DONE incorrectly. Investigating it surfaced the deeper root-`DESIGN.md`
+   conflict (§T6, MAPPING_MATRIX.md §B-S3) — all four docs corrected same-day; see
+   IMPLEMENTATION_LOG.md for the full account. T6 added to this backlog as a result; not auto-applied
+   for the same reason T1–T3 weren't (ambiguous, sitewide-visible, owner call).
 
 See IMPLEMENTATION_LOG.md for the verification evidence.

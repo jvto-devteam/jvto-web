@@ -153,3 +153,20 @@ register). Design-embedded drift to NOT carry forward:
 - Stefan Loose `2018 / ISBN 978-3-7701-7881-0` published as fact → repo flags **do-not-publish until physical scan verified**.
 
 Reviews (4.8/51, 4.9/123, 4.95/21, 195), HQ (Bondowoso), NIB/TDUP (1102230032918) — design and repo **agree**.
+
+### 6c. A third design source lives in the repo itself, outside the ZIP — added 2026-07-07
+**Correction, credit: automated PR review on #90.** Phase 1 reconnaissance only checked the ZIP
+against `docs/design-reference/`; it missed that repo **root `DESIGN.md`** (not part of the ZIP,
+not part of `docs/design-reference/`) documents a **third, independent design brief**: "The Field
+Operator's Clipboard" — phosphor-green `#9fce33`, obsidian `#1a1a1a`, **single-font Inter-only**
+("no display serif, no mono … unless rendering verified code-style data"), sharp 4px radius,
+flat-by-default elevation. This predates `jvto-system.css`'s V2 tokens in the repo (`DESIGN.md`
+landed in commit `50471f9`, 2026-06-12; the navy/orange/lime + Raleway/JetBrains-Mono tokens landed
+later, commit `ec7108c`) and was never formally superseded in writing — it was simply layered under.
+
+**Practical effect:** `website.css` still carries an `h1,h2{font-family:Inter}` rule that cites
+`DESIGN.md` by name, and the newer Raleway/JetBrains-Mono tokens it left in place are never actually
+loaded (see REPO_BASELINE.md §2/§7, MAPPING_MATRIX.md §B-S3). Two typography philosophies —
+"editorial display serif + mono accents" (`jvto-system.css`) vs. "weight-driven single sans-serif"
+(`DESIGN.md`) — coexist unresolved in the same stylesheet. This is a real open design-direction
+question, not merely a missed implementation detail; recorded for owner adjudication.

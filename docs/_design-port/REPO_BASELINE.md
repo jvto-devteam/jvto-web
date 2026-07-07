@@ -3,7 +3,17 @@
 > Extracted 2026-07-07 from the live tree on branch `claude/google-drive-zip-download-anvtq8`.
 > Purpose: capture the repo's design/architecture/naming so it can be mapped against
 > DESIGN_BASELINE.md. **Headline:** the design system in DESIGN_BASELINE.md is **already ported**
-> here (tokens + chrome + full homepage component suite) and is **facts-correct**.
+> here (color tokens + chrome + full homepage component suite) and is **facts-correct**.
+> **Updated 2026-07-07 (post-PR-review):** one exception — the Raleway/JetBrains-Mono typography
+> layer is declared but never loaded, and investigating that surfaced a **third, undocumented (until
+> now) design source at repo root, `DESIGN.md`**, which conflicts with it. See §2 and §9, and
+> `MAPPING_MATRIX.md` §B-S3.
+>
+> **Repo also contains its own design brief — root `DESIGN.md`** (not part of the supplied ZIP):
+> "The Field Operator's Clipboard" — phosphor-green `#9fce33` / obsidian `#1a1a1a`, **Inter-only**
+> ("no display serif, no mono"), sharp 4px radius. Older than the `jvto-system.css` V2 tokens
+> (commit `50471f9`, 2026-06-12, vs. V2's `ec7108c`); its palette survives as `website.css`'s
+> "legacy" `jvto-green/dark/light/text` tokens and an un-cleaned-up `h1,h2{font-family:Inter}` rule.
 
 ---
 
@@ -36,9 +46,9 @@ these; define new tokens HERE, never per-component."*
 | `--off #F6F5F2` | `--color-jvto-off` | `bg-jvto-off` |
 | `--muted #6B7280` | `--color-jvto-muted` | `text-jvto-muted` |
 | `--border #E3E0DA` | `--color-jvto-border` | `border-jvto-border` |
-| Raleway display | `--font-jvto-display` | `font-jvto-display` |
-| JetBrains Mono | `--font-jvto-mono` | `font-jvto-mono` |
-| Inter | `--font-sans` | `font-sans` |
+| Raleway display | `--font-jvto-display` | `font-jvto-display` ⚠️ token exists, font never loaded — see correction below |
+| JetBrains Mono | `--font-jvto-mono` | `font-jvto-mono` ⚠️ token exists, font never loaded — see correction below |
+| Inter | `--font-sans` | `font-sans` — the only display/body font actually fetched (`next/font/google` in `src/app/layout.tsx`) |
 
 **Additions over the raw spec (repo elaboration):**
 - **Radius scale** `--radius-jvto-{xs,sm,md,lg,xl}` = 8/12/18/28/40px → `rounded-jvto-*` (repo softens
@@ -50,7 +60,18 @@ these; define new tokens HERE, never per-component."*
 
 **Legacy tokens (intentionally retained** — comment: *"keep — other pages still reference these"*):
 `--color-jvto-green #9fce33`, `--color-jvto-dark #1a1a1a`, `--color-jvto-light #f5f5f5`,
-`--color-jvto-text #333333`. These are neutrals/older accents, **not drift**.
+`--color-jvto-text #333333`.
+
+> **Correction (2026-07-07, post-PR-review):** these are **not** generic legacy neutrals as this
+> document originally stated. They are the exact palette of a **third, separate design source: root
+> `DESIGN.md`** (repo root, commit `50471f9`, 2026-06-12) — "The Field Operator's Clipboard," an
+> Inter-only, phosphor-green system with its own component spec (buttons, cards, trust badges). See
+> `docs/_design-port/MAPPING_MATRIX.md` §B-S3 for the full conflict this creates with the newer
+> `jvto-system.css` V2 tokens (added later, commit `ec7108c`) — including an un-cleaned-up
+> `h1,h2{font-family:Inter}` override in `website.css` that still cites `DESIGN.md` by name, and the
+> Raleway/JetBrains-Mono fonts that V2 introduced but never actually loads (§7 below, and confirmed
+> independently of the PR review by a repo-wide grep: `--font-jvto-display-loaded` /
+> `--font-jvto-mono-loaded` are declared but never assigned anywhere).
 
 `src/app/globals.css` is the outer app shell (Tailwind import + typography plugin, **light-mode
 locked**, `.faq-content` list styling). `(website)/website.css` is the website-scoped theme layer.
