@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-07-06T02:34:38.614Z",
+  "updated_at": "2026-07-07T02:30:13.287Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,7 +9,7 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-07-06",
+      "last_verified": "2026-07-07",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
       "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/319950?signature=3db527c67275752b81cb8e7c8c489ec59f46577ba662b29fca4deb92c58ba951",
@@ -36,27 +36,27 @@
           "Beware of potential rockfall from crater walls."
         ],
         "author": "Nur Hudha, A.Md.",
-        "fetched_at": "2026-07-06T02:34:38.006Z"
+        "fetched_at": "2026-07-07T02:30:12.732Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-07-06",
+      "last_verified": "2026-07-07",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/319906?signature=d319967358e6b32ee0259657bb3ee125bba4c05175d4e1a4e42e254720d30b67",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/319991?signature=1c421866cdb7f37ded84bda1c40b6ca6115e78cecf5556a5a377648add29d11a",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas. Teramati asap kawah utama berwarna putih dengan intensitas tipis hingga sedang tinggi sekitar 50-400 meter dari puncak. Cuaca cerah hingga berawan, angin lemah ke arah utara, barat daya, barat dan barat laut.",
-        "visual_en": "White smoke, thin, 50-400 m above crater. Good visibility",
-        "climate": "Cuaca cerah hingga berawan, angin lemah ke arah utara, barat daya, barat dan barat laut. Suhu udara sekitar 12-26°C.",
-        "climate_en": "12-26°C · Wind → North",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607052400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-400 meter dari puncak. Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah utara, barat daya, barat dan barat laut.",
+        "visual_en": "White smoke, thin, 50-400 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah utara, barat daya, barat dan barat laut. Suhu udara sekitar 11-26°C.",
+        "climate_en": "11-26°C",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607062400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -66,8 +66,8 @@
           "Sunrise viewpoints and jeep safari routes remain accessible.",
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
-        "author": "Wahyu Andrian Kusuma",
-        "fetched_at": "2026-07-06T02:34:38.614Z"
+        "author": "Wahyu Wijayanto, A.Md.",
+        "fetched_at": "2026-07-07T02:30:13.287Z"
       }
     }
   }
