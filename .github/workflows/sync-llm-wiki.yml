@@ -62,28 +62,65 @@ jobs:
       - name: Sync artifacts from llm-wiki
         env:
           LLM_WIKI_PATH: ${{ github.workspace }}/llm-wiki
+          # sync-policy-bundle.mjs resolves its source via LLM_WIKI_ROOT (not
+          # LLM_WIKI_PATH) per its own header comment — same producer checkout,
+          # both env vars set rather than editing the synced script (see ci.yml).
+          LLM_WIKI_ROOT: ${{ github.workspace }}/llm-wiki
         run: |
           npm run sync:packages
           npm run sync:trust
           npm run sync:blog
+          # policy-bundle is main-only for now — `live`'s package.json has no
+          # sync:policy-bundle script (not yet promoted). Guard so the `live`
+          # matrix leg doesn't fail on a missing script.
+          if [ "${{ matrix.base }}" = "main" ]; then
+            npm run sync:policy-bundle
+          fi
+
+      - name: Resolve synced artifact paths for this base
+        # Single source of truth for "which src/data/* dirs does this base sync"
+        # so the diff/guard/PR steps below can't drift out of sync with each
+        # other the way sync:policy-bundle previously drifted out of sync with
+        # ci.yml's verify gate (see PR #90 investigation, 2026-07-07).
+        id: paths
+        run: |
+          dirs="package-readiness|trust-bundle|blog"
+          if [ "${{ matrix.base }}" = "main" ]; then
+            dirs="$dirs|policy-bundle"
+          fi
+          echo "pattern=^src/data/($dirs)/" >> "$GITHUB_OUTPUT"
+          {
+            echo 'list<<PATHS_EOF'
+            echo 'src/data/package-readiness'
+            echo 'src/data/trust-bundle'
+            echo 'src/data/blog'
+            if [ "${{ matrix.base }}" = "main" ]; then
+              echo 'src/data/policy-bundle'
+            fi
+            echo 'PATHS_EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Detect artifact changes
         id: diff
+        env:
+          PATHS: ${{ steps.paths.outputs.list }}
         run: |
-          if git diff --quiet -- src/data/package-readiness src/data/trust-bundle src/data/blog; then
+          if git diff --quiet -- $PATHS; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "::notice::[${{ matrix.base }}] No artifact changes — no sync needed."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            { echo "### Changed artifacts (${{ matrix.base }})"; echo '```'; git -c color.ui=never diff --stat -- src/data/package-readiness src/data/trust-bundle src/data/blog; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            { echo "### Changed artifacts (${{ matrix.base }})"; echo '```'; git -c color.ui=never diff --stat -- $PATHS; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Guard — only artifact dirs may change
         if: steps.diff.outputs.changed == 'true'
+        env:
+          PATTERN: ${{ steps.paths.outputs.pattern }}
         run: |
           # Tracked modifications only — the producer checkout lives at ./llm-wiki
           # (untracked) and must be ignored; sync only overwrites committed artifacts.
-          bad="$(git diff --name-only -- . | grep -vE '^src/data/(package-readiness|trust-bundle|blog)/' || true)"
+          bad="$(git diff --name-only -- . | grep -vE "$PATTERN" || true)"
           if [ -n "$bad" ]; then
             echo "::error::Unexpected non-artifact changes detected — aborting:"; echo "$bad"; exit 1
           fi
@@ -99,10 +136,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_PAT }}
-          add-paths: |
-            src/data/package-readiness
-            src/data/trust-bundle
-            src/data/blog
+          add-paths: ${{ steps.paths.outputs.list }}
           branch: automation/sync-llm-wiki-${{ matrix.base }}
           base: ${{ matrix.base }}
           delete-branch: false
@@ -112,8 +146,11 @@ jobs:
             Automated artifact sync from **llm-wiki** into `${{ matrix.base }}`.
 
             - **llm-wiki source commit:** `${{ steps.src.outputs.sha }}`
-            - **Changed dirs:** `src/data/package-readiness`, `src/data/trust-bundle`, `src/data/blog`
-            - **Sync commands:** `npm run sync:packages`, `npm run sync:trust`, `npm run sync:blog`
+            - **Changed dirs:**
+              ```
+              ${{ steps.paths.outputs.list }}
+              ```
+            - **Sync commands:** `npm run sync:packages`, `npm run sync:trust`, `npm run sync:blog`${{ matrix.base == 'main' && ', `npm run sync:policy-bundle`' || '' }}
             - **Triggered by:** `${{ github.event_name }}`
 
             Artifact-only change. The target branch's own deploy trigger picks it up
@@ -130,6 +167,7 @@ jobs:
           PR: ${{ steps.cpr.outputs.pull-request-number }}
           EXPECTED_HEAD: automation/sync-llm-wiki-${{ matrix.base }}
           EXPECTED_BASE: ${{ matrix.base }}
+          PATTERN: ${{ steps.paths.outputs.pattern }}
         run: |
           set -euo pipefail
           url=$(gh pr view "$PR" --json url -q .url)
@@ -148,7 +186,7 @@ jobs:
           # --- Gate 3: only artifact files changed (also enforces: no deploy.yml, no source) ---
           files=$(gh pr view "$PR" --json files -q '.files[].path')
           echo "Changed files:"; printf '  %s\n' $files
-          bad=$(printf '%s\n' $files | grep -vE '^src/data/(package-readiness|trust-bundle|blog)/' || true)
+          bad=$(printf '%s\n' $files | grep -vE "$PATTERN" || true)
           [ -z "$bad" ] || { echo "::error::refusing — non-artifact files present:"; printf '  %s\n' $bad; exit 1; }
 
           # --- Gate 4: wait for required check `verify` (build-develop is non-required: flaky VPS SSH, see #18) ---
