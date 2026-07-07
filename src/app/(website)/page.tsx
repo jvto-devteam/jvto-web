@@ -4,6 +4,7 @@ import type { Destination } from "@/interfaces";
 import Hero from "@/components/website/Home/Hero";
 import Differentiators from "@/components/website/Home/Differentiators";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
+import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
 import Script from "next/script";
 import TrustVerification from "@/components/website/Home/TrustVerification";
@@ -12,6 +13,7 @@ import HomeCTA from "@/components/website/Home/HomeCTA";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
+import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
@@ -60,6 +62,7 @@ const Home = async () => {
     getPageSeo("/", fallbackSeo),
     getDestinations(),
   ]);
+  const volcanicStatus = getAllVolcanicStatus();
 
   const pageRow = seo.row
     ? {
@@ -153,6 +156,9 @@ const Home = async () => {
 
       {/* 3. Destinations */}
       <HomeDestinations destinations={destinations} />
+
+      {/* 3b. Live volcano status (PVMBG/MAGMA feed) */}
+      <HomeVolcanoStatus statuses={volcanicStatus} />
 
       {/* 4. Tour Packages */}
       <FeaturedTours />
