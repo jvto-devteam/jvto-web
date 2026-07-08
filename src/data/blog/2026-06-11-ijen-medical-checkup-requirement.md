@@ -95,7 +95,7 @@ For guests on an Ijen-relevant JVTO package, the screening workflow runs as foll
 
 The session adds roughly 15–20 minutes to pre-hike logistics. JVTO builds this into the departure timeline so it does not affect the midnight climb window targeting the blue-fire viewing slot.
 
-Of JVTO's 16 tour packages, 12 are Ijen-relevant and trigger this health-screening coordination workflow when current BBKSDA access rules require it. Only the three non-Ijen packages (Bromo day trips and Taman Safari) operate outside this protocol.
+Of JVTO's 16 tour packages, 12 are Ijen-relevant and include this mandatory health-screening coordination workflow — a certificate is required for every guest before crater entry. Only the three non-Ijen packages (Bromo day trips and Taman Safari) operate outside this protocol.
 
 ## The Short Version
 
