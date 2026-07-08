@@ -20,12 +20,30 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
   lng: string;
   locality: string;
   amenityFeatures?: Array<{ name: string; value: boolean }>;
+  // Quantitative structured facts (wiki-sourced) — surfaced as schema.org
+  // additionalProperty / geo.elevation / estimatedCost so AI engines can quote
+  // trail difficulty, elevation, and entry cost directly instead of parsing prose.
+  // Facts: wiki/destinations/{mount-bromo,kawah-ijen}.md (last_updated 2026-05-25 / 2026-07-06).
+  elevationMasl?: number;
+  additionalProps?: Array<{ name: string; value: string; unitText?: string }>;
+  estimatedCost?: { currency: string; value: string; name?: string };
 }> = {
   'ijen-crater': {
     name: 'Kawah Ijen',
     alternateName: ['Ijen Crater', 'Kawah Ijen Volcano'],
     description: "Active stratovolcano at 2,386 m with the world's largest acidic crater lake and the pre-dawn blue fire phenomenon. Night hike from Paltuding trailhead (~3 km). BBKSDA East Java regulatory authority. Health-certificate coordination is mandatory for every guest under BBKSDA SE.1658/KSA.9/2024.",
     lat: '-8.0635', lng: '114.2362', locality: 'Banyuwangi',
+    elevationMasl: 2386,
+    additionalProps: [
+      { name: 'Crater rim elevation', value: '2386', unitText: 'm' },
+      { name: 'Trail distance (one-way)', value: '3', unitText: 'km' },
+      { name: 'Ascent time', value: '90', unitText: 'min' },
+      { name: 'Difficulty level', value: 'Strenuous — steep rocky night hike from Paltuding trailhead' },
+      { name: 'Crater lake acidity', value: '≈ pH 0 (highest-volume acidic crater lake on Earth)' },
+      { name: 'Blue fire', value: 'Pre-dawn sulfuric-gas phenomenon; weather- and gas-dependent, not guaranteed' },
+      { name: 'Health certificate', value: 'Mandatory for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024)' },
+      { name: 'Best time to visit', value: 'Dry season (April–October); midnight departure for the blue-fire window' },
+    ],
     amenityFeatures: [
       { name: 'Gas masks provided', value: true },
       { name: 'Trekking poles provided', value: true },
@@ -37,6 +55,16 @@ const TOURIST_ATTRACTION_DATA: Record<string, {
     alternateName: ['Gunung Bromo', 'Bromo Volcano'],
     description: 'Active stratovolcano at 2,329 m in the Tengger caldera, Probolinggo, East Java. Famous for the Penanjakan sunrise viewpoint (2,770 m), sea-of-sand caldera floor traversed by 4WD jeep, and active smoking crater. Part of Bromo Tengger Semeru National Park.',
     lat: '-7.9308', lng: '112.9581', locality: 'Probolinggo',
+    elevationMasl: 2329,
+    additionalProps: [
+      { name: 'Summit elevation', value: '2329', unitText: 'm' },
+      { name: 'Sunrise viewpoint elevation', value: '2770', unitText: 'm' },
+      { name: 'Difficulty level', value: 'Easy to moderate — short crater-rim walk, 4WD jeep access to the caldera' },
+      { name: '4WD jeep', value: 'Mandatory for Penanjakan viewpoint and Sea of Sand access (included in JVTO packages)' },
+      { name: 'Health certificate', value: 'Not required (no sulfuric-gas exposure at tourist viewing points)' },
+      { name: 'Best time to visit', value: 'Dry season (April–October); pre-dawn 03:00–05:00 for sunrise' },
+    ],
+    estimatedCost: { currency: 'IDR', value: '160000', name: 'Bromo Tengger Semeru National Park entrance (foreign visitor, per person)' },
     amenityFeatures: [
       { name: 'Private 4WD jeep included', value: true },
       { name: 'Sunrise viewpoint access', value: true },
@@ -96,7 +124,13 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
     alternateName: data.alternateName,
     url: `${BASE_URL}/destinations/${destinationSlug}`,
     description: data.description,
-    geo: { '@type': 'GeoCoordinates', latitude: lat, longitude: lng },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: lat,
+      longitude: lng,
+      // elevation in metres above sea level (schema.org GeoCoordinates.elevation)
+      ...(data.elevationMasl ? { elevation: `${data.elevationMasl} m` } : {}),
+    },
     address: { '@type': 'PostalAddress', addressLocality: data.locality, addressRegion: 'Jawa Timur', addressCountry: 'ID' },
     touristType: 'International independent travellers',
     isAccessibleForFree: false,
@@ -106,6 +140,27 @@ export function buildTouristAttractionSchema(destinationSlug: string): object | 
   };
   if (hazardousSubstance) {
     attraction.hazardousSubstance = hazardousSubstance;
+  }
+  // Quantitative facts → additionalProperty (PropertyValue). Lets AI engines quote
+  // trail difficulty / elevation / timing directly for "is Bromo safe / how long is
+  // the Ijen hike" style queries. unitText carried where the value is a measurement.
+  if (data.additionalProps?.length) {
+    attraction.additionalProperty = data.additionalProps.map(p => ({
+      '@type': 'PropertyValue',
+      name: p.name,
+      value: p.value,
+      ...(p.unitText ? { unitText: p.unitText } : {}),
+    }));
+  }
+  // Entry fee → estimatedCost (MonetaryAmount). Only emitted where a wiki-sourced
+  // figure exists (Bromo park entrance); omitted rather than invented for others.
+  if (data.estimatedCost) {
+    attraction.estimatedCost = {
+      '@type': 'MonetaryAmount',
+      currency: data.estimatedCost.currency,
+      value: data.estimatedCost.value,
+      ...(data.estimatedCost.name ? { name: data.estimatedCost.name } : {}),
+    };
   }
   if (data.amenityFeatures) {
     attraction.amenityFeature = data.amenityFeatures.map(f => ({

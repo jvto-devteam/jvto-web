@@ -89,6 +89,27 @@ export const PAGE_REGISTRY: PageEntry[] = [
     emitVia: 'combined',
     status: 'live',
   },
+  // ── Geographic market landing pages (GEO/AEO GAP-09). Server Components using
+  // PageJsonLdCombined + canonical market FAQs (resolveFaqs) + a Product/Offer
+  // ItemList passed via extraSchemas (buildMarketSchemas).
+  {
+    key: 'markets-singapore',
+    route: '/markets/singapore',
+    canonical: '/markets/singapore',
+    schemaType: ['ItemList', 'FAQPage', 'WebPage'],
+    faqSource: 'trust-bundle',
+    emitVia: 'combined',
+    status: 'live',
+  },
+  {
+    key: 'markets-malaysia',
+    route: '/markets/malaysia',
+    canonical: '/markets/malaysia',
+    schemaType: ['ItemList', 'FAQPage', 'WebPage'],
+    faqSource: 'trust-bundle',
+    emitVia: 'combined',
+    status: 'live',
+  },
   {
     key: 'my-booking',
     route: '/my-booking',

@@ -50,6 +50,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/verify-jvto/press-recognition",
       "/verify-jvto/history-artifacts",
       "/verify-jvto/police-safety",
+      "/markets/singapore",
+      "/markets/malaysia",
     ],
     t,
   );
