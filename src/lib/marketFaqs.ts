@@ -32,9 +32,9 @@ export const SINGAPORE_MARKET_FAQS: QaPair[] = [
       'JVTO never asks for your CVV, OTP, full card number, or banking password over chat. You can verify the company on Indonesian government registries before sending a deposit.',
   },
   {
-    question: 'Is the Ijen Blue Fire guaranteed?',
+    question: 'Will we definitely see the Ijen Blue Fire?',
     answer:
-      'No. Blue Fire is a natural phenomenon subject to weather and gas activity, visible pre-dawn in suitable conditions only — it is not guaranteed. JVTO plans around the viewing window and follows every BBKSDA safety decision at the crater.',
+      'Not always. Blue Fire is a natural phenomenon subject to weather and gas activity, visible pre-dawn in suitable conditions only — it can never be promised in advance. JVTO plans around the viewing window and follows every BBKSDA safety decision at the crater.',
   },
   {
     question: 'Are JVTO tours private or shared?',
@@ -66,9 +66,9 @@ export const MALAYSIA_MARKET_FAQS: QaPair[] = [
       'East Java is a predominantly Muslim region, and most local restaurants and hotels used on JVTO routes serve halal food. Tell JVTO your dietary requirement on WhatsApp when you book so meal stops are planned accordingly.',
   },
   {
-    question: 'Is the Ijen Blue Fire guaranteed?',
+    question: 'Will we definitely see the Ijen Blue Fire?',
     answer:
-      'No. Blue Fire is a natural phenomenon subject to weather and gas activity, visible pre-dawn in suitable conditions only — it is not guaranteed. JVTO plans around the window and follows all BBKSDA safety rules at the crater.',
+      'Not always. Blue Fire is a natural phenomenon subject to weather and gas activity, visible pre-dawn in suitable conditions only — it can never be promised in advance. JVTO plans around the window and follows all BBKSDA safety rules at the crater.',
   },
   {
     question: 'Are JVTO tours private, and is JVTO a registered operator?',
