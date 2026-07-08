@@ -8,8 +8,6 @@
   "src/components/website/Navbar.tsx :: wrong-founding-year": 1,
   "src/components/website/Tours/TourCard.tsx :: stale-review-counts": 1,
   "src/data_new.ts :: stale-review-counts": 16,
-  "src/data/blog/_manifest.json :: stale-conditional-health-wording": 1,
-  "src/data/blog/2026-06-11-ijen-medical-checkup-requirement.md :: stale-conditional-health-wording": 3,
   "src/data/faqs.ts :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/deprecated-wording-report.json :: unverified-press-names": 2,
