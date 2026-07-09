@@ -33,7 +33,7 @@ const HomeDestinations: React.FC<HomeDestinationsProps> = ({ destinations }) => 
             className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 max-w-2xl"
             style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
           >
-            Four destinations.{" "}
+            Five destinations.{" "}
             <em className="text-jvto-orange not-italic">One licensed operator</em>{" "}
             covering all of them.
           </h2>
