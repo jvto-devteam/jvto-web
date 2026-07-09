@@ -32,7 +32,7 @@ export const ORGANIZATION_SCHEMA = {
   url: `${BASE_URL}/`,
   logo: { '@type': 'ImageObject', url: `${BASE_URL}/assets/img/jvto-color.png` },
   image: `${BASE_URL}/assets/img/hero/home.webp`,
-  foundingDate: '2016',
+  foundingDate: '2015',
   slogan: 'Private volcano tours with police-led safety. Ijen, Bromo, Tumpak Sewu.',
   description:
     'Registered Indonesian tour operator (PT Java Volcano Rendezvous, NIB 1102230032918) offering private volcano tours in East Java. Founded by an active Tourist Police officer. HPWKI member with BBKSDA-verified safety training.',
@@ -62,12 +62,23 @@ export const ORGANIZATION_SCHEMA = {
     'Stefan Loose Reiseführer Indonesien — Editorial Feature (4th Edition, 2018)',
   ],
 
-  // Verified credentials (legal + association)
+  // Verified credentials (legal + association).
+  // Each identifier is an array pairing the registration number (where applicable) with the
+  // SHA-256 forensic anchor of the source document (published in public/llms.txt) as a
+  // PropertyValue — machine-verifiable authenticity proof against "ghost operator" fraud.
+  // Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
+  // NOTE: this constant is reference-only (see file header). The LIVE Organization node is
+  // DB-driven via buildOrganizationJsonLd(); to render these hashes in production the same
+  // hasCredential.identifier PropertyValues must be mirrored into the org `schema_json` DB
+  // column (owner/DB task — not editable from application code).
   hasCredential: [
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'NIB (Nomor Induk Berusaha)',
-      identifier: '1102230032918',
+      identifier: [
+        { '@type': 'PropertyValue', propertyID: 'NIB', value: '1102230032918' },
+        { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'NIB document SHA-256', value: 'fa20dde31bb75e46b061ed14cc6d003f6960c02a9a82c20d8603b0cbf6f7b1b7' },
+      ],
       url: `${BASE_URL}/legal/NIB-1102230032918.pdf`,
       credentialCategory: 'Indonesian Business Registration',
       recognizedBy: {
@@ -78,7 +89,10 @@ export const ORGANIZATION_SCHEMA = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'TDUP (Tanda Daftar Usaha Pariwisata)',
-      identifier: '1102230032918',
+      identifier: [
+        { '@type': 'PropertyValue', propertyID: 'TDUP', value: '1102230032918' },
+        { '@type': 'PropertyValue', propertyID: 'SHA-256', name: 'TDUP document SHA-256', value: '27252d512ddfa74de22a3e3ec10aa3dd40ef88da3eb57349fcd2137411551ee3' },
+      ],
       dateIssued: '2023-02-11',
       url: `${BASE_URL}/legal/TDUP-1102230032918.pdf`,
       credentialCategory: 'Indonesian Tourism Business Licence',
@@ -90,6 +104,12 @@ export const ORGANIZATION_SCHEMA = {
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'HPWKI Membership (Himpunan Pelaku Wisata Khusus Ijen)',
+      identifier: {
+        '@type': 'PropertyValue',
+        propertyID: 'SHA-256',
+        name: 'HPWKI approval letter SHA-256',
+        value: 'ca1fb1a48b550a7748d400f165899f12a356e6941aacdde9c043427698aaf63b',
+      },
       url: `${BASE_URL}/legal/HPWKI-approval.pdf`,
       credentialCategory: 'Volcanic Tourism Association — BBKSDA supervised',
       recognizedBy: {
@@ -207,12 +227,22 @@ export const FOUNDER_SCHEMA = {
     description: 'Ijen volcano guide association supervised by BBKSDA Jawa Timur (Ministry of Environment). HPWKI members receive annual training on volcanic gas protocols and evacuation procedures.',
     sameAs: 'https://ahu.go.id/sabh/perkumpulan/qrcode/?kode=NjAyNDAxMjczNTEwMTM2MV8wXzA3IEZlYnJ1YXJpIDIwMjRfMjcgSmFudWFyeSAyMDI0',
   },
-  // Police credentials — verifiable government documents
+  // Police credentials — verifiable government documents.
+  // identifier carries the SHA-256 forensic anchor of each source document (published in
+  // public/llms.txt) as a PropertyValue — machine-verifiable proof the credential file is
+  // authentic and unaltered, defending against "ghost operator" impersonation.
+  // Hashes: wiki/credentials/legal-licenses.md §SHA-256 Forensic Anchors.
   hasCredential: [
     {
       '@type': 'EducationalOccupationalCredential',
       name: 'SPRIN POLPAR (Tourist Police Assignment Letter)',
       credentialCategory: 'Law Enforcement — Tourist Police Assignment',
+      identifier: {
+        '@type': 'PropertyValue',
+        propertyID: 'SHA-256',
+        name: 'SPRIN POLPAR document SHA-256',
+        value: '03c8578dc22956faa366d957badecfe38868d4760359cd8059fb2d6b145dfeab',
+      },
       url: `${BASE_URL}/legal/SPRIN-POLPAR.pdf`,
       image: `${BASE_URL}/legal/SPRIN-POLPAR.webp`,
       recognizedBy: {
@@ -226,6 +256,12 @@ export const FOUNDER_SCHEMA = {
       name: 'SPRIN WAL-TRAVEL (Active Travel Order, February 2024)',
       dateIssued: '2024-02-12',
       credentialCategory: 'Law Enforcement — Active Travel Authorization',
+      identifier: {
+        '@type': 'PropertyValue',
+        propertyID: 'SHA-256',
+        name: 'SPRIN WAL-TRAVEL 2024-02-12 document SHA-256',
+        value: '179b061eae558943fdccc51d2ea3c8233a704b61f03ca3d212433f3e8d6f3bd3',
+      },
       url: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp`,
       recognizedBy: {
         '@type': 'GovernmentOrganization',
