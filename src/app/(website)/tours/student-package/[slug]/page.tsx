@@ -13,6 +13,7 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
+import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -287,8 +288,8 @@ function StructuredData({
         brand: { "@id": `${siteUrl}/#organization` },
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || "4.9",
-          reviewCount: pkg.aggregateRating?.reviewCount || "112",
+          ratingValue: pkg.aggregateRating?.ratingValue || String(AGGREGATE_RATING.ratingValue),
+          reviewCount: pkg.aggregateRating?.reviewCount || String(AGGREGATE_RATING.reviewCount),
         },
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
