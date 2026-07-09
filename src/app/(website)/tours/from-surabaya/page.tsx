@@ -82,7 +82,7 @@ const BOOKING_STEPS = [
 
 const TRUST_SIGNALS = [
   { label: "Trustpilot", value: "4.8 / 5 · 51 reviews" },
-  { label: "Google Maps", value: "4.90 / 5 · 92 reviews" },
+  { label: "Google Maps", value: "4.90 / 5 · 123 reviews" },
   { label: "TripAdvisor", value: "4.95 / 5 · 21 reviews" },
   { label: "Founded", value: "2015" },
   { label: "ISIC Provider", value: "ID 259268 (isic.org verifiable)" },
