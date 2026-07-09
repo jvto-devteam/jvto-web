@@ -176,14 +176,12 @@ const Home = async () => {
               className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
               style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
             >
-              51 reviews on Trustpilot.{" "}
-              <br />
-              <em className="text-jvto-orange not-italic">92 on Google Maps.</em>{" "}
+              <em className="text-jvto-orange not-italic">135 reviews on Google Maps.</em>{" "}
               <br />
               21 on TripAdvisor.
             </h2>
             <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
-              Ratings verified across three independent platforms. Every review links
+              Ratings verified across two independent platforms. Every review links
               to the original profile — browse by guide, by destination, or by trip length
               to find what matters to you.
             </p>
