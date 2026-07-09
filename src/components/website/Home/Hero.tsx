@@ -97,7 +97,7 @@ const Hero: React.FC<HeroProps> = ({
         <div className="grid grid-cols-2 md:inline-flex w-full md:w-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
           {[
             { val: "4.8", lbl: "Trustpilot · 51 reviews" },
-            { val: "4.90", lbl: "Google Maps · 92 reviews" },
+            { val: "4.90", lbl: "Google Maps · 123 reviews" },
             { val: "4.95", lbl: "TripAdvisor · 21 reviews" },
             { val: "16", lbl: "Private itineraries" },
           ].map((stat, i) => (
