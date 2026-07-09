@@ -189,6 +189,13 @@ export const ORGANIZATION_SCHEMA = {
   ],
 };
 
+// Shared export: the Organization credentials array (NIB/TDUP/HPWKI, each carrying a
+// SHA-256 forensic-anchor PropertyValue). buildOrganizationJsonLd() attaches this to the
+// live-rendered Organization node regardless of whether that node comes from the DB
+// schema_json column or the static snapshot fallback — so the hashes render in production
+// without any DB/SQL step. Single source of truth for the credentials list.
+export const ORGANIZATION_HAS_CREDENTIAL = ORGANIZATION_SCHEMA.hasCredential;
+
 // ── Agung Sambuko — Founder & Active Tourist Police Officer ───────────────────
 // Evidence chain: SPRIN-POLPAR + SPRIN-WAL-TRAVEL-2024 → Ditpamobvit
 //                 Detik.com "Bripka Agung Sambuko" → identity confirmation

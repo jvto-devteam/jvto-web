@@ -147,7 +147,7 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     {
       question: 'What do past guests say about JVTO?',
       answer:
-        `JVTO holds 4.8 ★ across 47+ verified reviews on Trustpilot, Google Maps, TripAdvisor, and Booking.com. ` +
+        `JVTO holds 4.9 ★ across 195 verified reviews on Trustpilot (51), Google Maps (123), and TripAdvisor (21). ` +
         `Reviews consistently cite Mr. Sam's police-safety background, guide professionalism, and the all-inclusive no-hidden-cost model. ` +
         `All review profiles link to the original platform so you can verify authenticity.`,
       uiMeta: 'Read verified reviews',
