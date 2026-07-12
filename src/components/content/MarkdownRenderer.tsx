@@ -19,10 +19,10 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
     <>
       <style>{`
         .jvto-prose {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-sans);
           font-size: 0.9rem;
           line-height: 1.8;
-          color: #2a3a18;
+          color: var(--color-jvto-navy);
         }
 
         /* Headings */
@@ -30,10 +30,10 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
         .jvto-prose h2,
         .jvto-prose h3,
         .jvto-prose h4 {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-raleway), sans-serif;
           font-weight: 700;
           letter-spacing: -0.015em;
-          color: #0c0e09;
+          color: var(--color-jvto-navy);
           margin-top: 1.75rem;
           margin-bottom: 0.5rem;
           line-height: 1.2;
@@ -42,11 +42,11 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
         .jvto-prose h2 {
           font-size: 1.1rem;
           padding-bottom: 0.375rem;
-          border-bottom: 1px solid #dde3d0;
+          border-bottom: 1px solid var(--color-jvto-border);
           margin-top: 2rem;
         }
         .jvto-prose h3 { font-size: 0.97rem; }
-        .jvto-prose h4 { font-size: 0.9rem; color: #4a5a35; }
+        .jvto-prose h4 { font-size: 0.9rem; color: var(--color-jvto-navy); }
 
         /* Paragraph */
         .jvto-prose p { margin: 0 0 0.875rem; }
@@ -54,17 +54,17 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
 
         /* Links */
         .jvto-prose a {
-          color: #7aaa1a;
+          color: var(--color-jvto-orange);
           text-decoration: none;
           font-weight: 500;
         }
         .jvto-prose a:hover {
-          color: #9fce33;
+          color: var(--color-jvto-orange-hover);
           text-decoration: underline;
         }
 
         /* Bold / italic */
-        .jvto-prose strong { font-weight: 600; color: #1a2a10; }
+        .jvto-prose strong { font-weight: 600; color: var(--color-jvto-navy); }
         .jvto-prose em { font-style: italic; }
 
         /* Lists */
@@ -84,7 +84,7 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
         }
         .jvto-prose ul li::before {
           content: '▸';
-          color: #9fce33;
+          color: var(--color-jvto-lime);
           font-size: 0.7rem;
           flex-shrink: 0;
           margin-top: 0.28rem;
@@ -130,41 +130,41 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
         .jvto-prose blockquote {
           margin: 1.25rem 0;
           padding: 1rem 1.25rem;
-          border-left: 3px solid #9fce33;
-          background: #f7faf0;
+          border-left: 3px solid var(--color-jvto-lime);
+          background: var(--color-jvto-off);
           border-radius: 0 0.625rem 0.625rem 0;
-          color: #3a4a28;
+          color: var(--color-jvto-navy);
           font-style: italic;
         }
 
         /* HR */
         .jvto-prose hr {
           border: none;
-          border-top: 1px solid #dde3d0;
+          border-top: 1px solid var(--color-jvto-border);
           margin: 1.5rem 0;
         }
 
         /* Inline code */
         .jvto-prose code {
-          font-family: 'JetBrains Mono', monospace;
+          font-family: var(--font-jetbrains-mono), monospace;
           font-size: 0.78em;
-          background: #eef5d8;
-          color: #3a5218;
+          background: rgba(140,198,63,0.12);
+          color: var(--color-jvto-navy);
           padding: 0.15rem 0.4rem;
           border-radius: 0.3rem;
         }
 
         /* Code block */
         .jvto-prose pre {
-          background: #0c0e09;
-          border-radius: 0.75rem;
+          background: var(--color-jvto-navy);
+          border-radius: var(--radius-jvto-sm);
           padding: 1.25rem;
           overflow-x: auto;
           margin-bottom: 1rem;
         }
         .jvto-prose pre code {
           background: transparent;
-          color: #9fce33;
+          color: var(--color-jvto-lime);
           padding: 0;
           font-size: 0.82rem;
         }
@@ -177,23 +177,23 @@ export function MarkdownRenderer({ markdown }: { markdown: string }) {
           margin-bottom: 1rem;
         }
         .jvto-prose th {
-          background: #f5f7f0;
-          font-family: 'Syne', sans-serif;
+          background: var(--color-jvto-off);
+          font-family: var(--font-raleway), sans-serif;
           font-weight: 700;
           text-align: left;
           padding: 0.6rem 0.875rem;
-          border-bottom: 2px solid #dde3d0;
-          color: #2a3a18;
+          border-bottom: 2px solid var(--color-jvto-border);
+          color: var(--color-jvto-navy);
           font-size: 0.78rem;
         }
         .jvto-prose td {
           padding: 0.5rem 0.875rem;
-          border-bottom: 1px solid #eef0e8;
+          border-bottom: 1px solid var(--color-jvto-border);
           vertical-align: top;
-          color: #3a4a28;
+          color: var(--color-jvto-navy);
         }
         .jvto-prose tr:last-child td { border-bottom: none; }
-        .jvto-prose tr:hover td { background: #f9fbf4; }
+        .jvto-prose tr:hover td { background: var(--color-jvto-off); }
       `}</style>
 
       <article className="jvto-prose">
