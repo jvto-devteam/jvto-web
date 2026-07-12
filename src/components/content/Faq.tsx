@@ -19,7 +19,7 @@ export function Faq({
       style={{
         marginTop: "3rem",
         paddingTop: "2.5rem",
-        borderTop: "1px solid #dde3d0",
+        borderTop: "1px solid var(--color-jvto-border)",
       }}
     >
       {/* Header */}
@@ -27,12 +27,12 @@ export function Faq({
         <span
           style={{
             display: "block",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "var(--font-jetbrains-mono), monospace",
             fontSize: "0.6rem",
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.15em",
-            color: "#9fce33",
+            color: "var(--color-jvto-orange)",
             marginBottom: "0.3rem",
           }}
         >
@@ -40,11 +40,11 @@ export function Faq({
         </span>
         <h2
           style={{
-            fontFamily: "'Syne', sans-serif",
+            fontFamily: "var(--font-raleway), sans-serif",
             fontSize: "1.35rem",
             fontWeight: 800,
             letterSpacing: "-0.02em",
-            color: "#0c0e09",
+            color: "var(--color-jvto-navy)",
             margin: 0,
           }}
         >
@@ -61,8 +61,8 @@ export function Faq({
             key={`${idx}-${it.q}`}
             style={{
               background: "#ffffff",
-              border: "1px solid #dde3d0",
-              borderRadius: "0.875rem",
+              border: "1px solid var(--color-jvto-border)",
+              borderRadius: "var(--radius-jvto-sm)",
               overflow: "hidden",
             }}
             className="jvto-faq-item"
@@ -85,7 +85,7 @@ export function Faq({
                   width: "2rem",
                   height: "2rem",
                   borderRadius: "0.5rem",
-                  background: "#9fce33",
+                  background: "var(--color-jvto-lime)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -99,10 +99,10 @@ export function Faq({
               {/* Question text */}
               <span
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: "0.875rem",
                   fontWeight: 600,
-                  color: "#0c0e09",
+                  color: "var(--color-jvto-navy)",
                   flex: 1,
                   lineHeight: 1.45,
                   paddingTop: "0.2rem",
@@ -114,7 +114,7 @@ export function Faq({
               {/* Chevron */}
               <ArrowRight
                 size={16}
-                color="#9aaa80"
+                color="var(--color-jvto-muted)"
                 style={{
                   flexShrink: 0,
                   marginTop: "0.25rem",
@@ -135,22 +135,22 @@ export function Faq({
       {/* Scoped hover + open styles */}
       <style>{`
         .jvto-faq-item[open] {
-          border-color: rgba(159,206,51,0.40);
+          border-color: rgba(140,198,63,0.40);
           box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
         .jvto-faq-item:not([open]):hover {
-          border-color: rgba(159,206,51,0.25);
+          border-color: rgba(140,198,63,0.25);
         }
 
         /* Default: icon hitam di atas background hijau */
         .jvto-faq-icon {
-          color: #0c0e09;
+          color: var(--color-jvto-navy);
         }
 
-        /* Open: background hitam, icon jadi hijau */
+        /* Open: background navy, icon jadi lime */
         .jvto-faq-item[open] .jvto-faq-icon {
-          background: #0c0e09 !important;
-          color: #9fce33;
+          background: var(--color-jvto-navy) !important;
+          color: var(--color-jvto-lime);
         }
         /* Pastikan SVG inherit color dari wrapper */
         .jvto-faq-icon svg {
@@ -160,8 +160,8 @@ export function Faq({
 
         .jvto-faq-item[open] .jvto-faq-chevron {
           transform: rotate(90deg);
-          color: #9fce33 !important;
-          stroke: #9fce33 !important;
+          color: var(--color-jvto-lime) !important;
+          stroke: var(--color-jvto-lime) !important;
         }
         .jvto-faq-item summary::-webkit-details-marker { display: none; }
 
@@ -171,7 +171,7 @@ export function Faq({
         }
         .jvto-faq-answer .jvto-prose {
           font-size: 0.85rem;
-          color: #4a5a35;
+          color: var(--color-jvto-navy);
           line-height: 1.75;
         }
         .jvto-faq-answer .jvto-prose p {
