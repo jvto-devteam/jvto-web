@@ -1,13 +1,5 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
 const eslintConfig = [
   {
@@ -19,7 +11,10 @@ const eslintConfig = [
     },
   },
 
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // eslint-config-next 16 sudah flat-native — impor langsung, tanpa FlatCompat.
+  // (FlatCompat.extends("next/core-web-vitals") crash "circular structure" di eslint 9.)
+  ...nextCoreWebVitals,
+  ...nextTypescript,
 
   {
     ignores: [
