@@ -22,6 +22,20 @@
   --color-jvto-off: #F6F5F2;
   --color-jvto-muted: #4B5563;
   --color-jvto-border: #E3E0DA;
+
+  /* ── DS v2 — display font (mono ditunda ke Fase 3/Verify; lihat plan) ── */
+  --font-display: var(--font-raleway), Georgia, serif;
+
+  /* ── DS v2 — radius scale (sumber: tokens/radii-shadows.css) ── */
+  --radius-jvto-sm: 12px;
+  --radius-jvto-md: 18px;
+  --radius-jvto-lg: 28px;
+  --radius-jvto-xl: 40px;
+
+  /* ── DS v2 — elevation. Nama -card-hover dipilih agar TIDAK bentrok
+     dengan --shadow-jvto-hover lama di blok :root di bawah ── */
+  --shadow-jvto-soft: 0 12px 32px -16px rgba(13, 27, 42, 0.12), 0 2px 6px -2px rgba(13, 27, 42, 0.04);
+  --shadow-jvto-card-hover: 0 30px 60px -25px rgba(13, 27, 42, 0.22), 0 4px 12px -4px rgba(13, 27, 42, 0.06);
 }
 
 /* ====== BASE GLOBAL STYLE ====== */
