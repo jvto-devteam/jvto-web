@@ -18,12 +18,15 @@ export type CrewMember = {
 // ─── Badge warna per role ─────────────────────────────────────────────────────
 
 const ROLE_STYLE: Record<string, { bg: string; color: string }> = {
-  Guide: { bg: "#eef5d8", color: "#3a5a18" },
-  Driver: { bg: "#f0f4ff", color: "#2a3a70" },
+  Guide: { bg: "rgba(140,198,63,0.15)", color: "var(--color-jvto-navy)" },
+  Driver: { bg: "var(--color-jvto-navy)", color: "#ffffff" },
 };
 
 function roleBadge(role: string) {
-  const s = ROLE_STYLE[role] ?? { bg: "#f5f5f5", color: "#555" };
+  const s = ROLE_STYLE[role] ?? {
+    bg: "var(--color-jvto-off)",
+    color: "var(--color-jvto-muted)",
+  };
   return (
     <span
       style={{
@@ -32,7 +35,7 @@ function roleBadge(role: string) {
         borderRadius: "999px",
         background: s.bg,
         color: s.color,
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "var(--font-jetbrains-mono), monospace",
         fontSize: "0.6rem",
         fontWeight: 700,
         textTransform: "uppercase",
@@ -161,15 +164,15 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
 
         /* ── Card ── */
         .jvto-crew-card {
-          border-radius: 1rem;
-          border: 1px solid #dde3d0;
+          border-radius: var(--radius-jvto-md);
+          border: 1px solid var(--color-jvto-border);
           background: #ffffff;
           overflow: hidden;
           transition: box-shadow 0.25s, border-color 0.25s, transform 0.2s;
         }
         .jvto-crew-card:hover {
           box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-          border-color: rgba(159,206,51,0.45);
+          border-color: rgba(140,198,63,0.45);
           transform: translateY(-3px);
         }
 
@@ -179,7 +182,7 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
           width: 100%;
           aspect-ratio: 4/5;
           overflow: hidden;
-          background: #f0f2ea;
+          background: var(--color-jvto-off);
         }
 
         /* Foto grayscale by default, warna saat card di-hover */
@@ -201,18 +204,18 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-raleway), sans-serif;
           font-size: 2rem;
           font-weight: 800;
-          color: #9fce33;
-          background: #f0f4e8;
+          color: var(--color-jvto-lime);
+          background: var(--color-jvto-off);
         }
 
         /* ── Overlay sosmed ── */
         .jvto-crew-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(12,14,9,0.72) 0%, transparent 55%);
+          background: linear-gradient(to top, rgba(13,27,42,0.72) 0%, transparent 55%);
           opacity: 0;
           transition: opacity 0.3s ease;
           display: flex;
@@ -242,8 +245,8 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
           transition: background 0.2s, transform 0.15s;
         }
         .jvto-crew-social-btn:hover {
-          background: #9fce33;
-          color: #0c0e09;
+          background: var(--color-jvto-orange);
+          color: #ffffff;
           transform: scale(1.1);
         }
 
@@ -260,10 +263,10 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
           margin-bottom: 0.5rem;
         }
         .jvto-crew-name {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-raleway), sans-serif;
           font-size: 0.95rem;
           font-weight: 700;
-          color: #0c0e09;
+          color: var(--color-jvto-navy);
           line-height: 1.2;
         }
 
@@ -275,11 +278,11 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
           margin-bottom: 0.6rem;
         }
         .jvto-crew-tag {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-sans);
           font-size: 0.68rem;
-          color: #5a7a30;
-          background: #f4f8ea;
-          border: 1px solid #dde8c0;
+          color: var(--color-jvto-navy);
+          background: rgba(140,198,63,0.12);
+          border: 1px solid var(--color-jvto-border);
           border-radius: 999px;
           padding: 0.1rem 0.5rem;
           white-space: nowrap;
@@ -287,9 +290,9 @@ export function CrewGrid({ items }: { items: CrewMember[] }) {
 
         /* ── About ── */
         .jvto-crew-about {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-sans);
           font-size: 0.75rem;
-          color: #6b7a55;
+          color: var(--color-jvto-muted);
           line-height: 1.6;
           margin: 0;
           /* Clamp ke 3 baris */
