@@ -74,7 +74,7 @@ function TimelineBlock({ md }: { md: string }) {
           top: 0.75rem;
           bottom: 0.75rem;
           width: 2px;
-          background: linear-gradient(180deg, #9fce33 0%, #dde8c0 100%);
+          background: linear-gradient(180deg, var(--color-jvto-lime) 0%, var(--color-jvto-border) 100%);
           border-radius: 1px;
         }
         .jvto-tl-item {
@@ -89,37 +89,37 @@ function TimelineBlock({ md }: { md: string }) {
           width: 0.875rem;
           height: 0.875rem;
           border-radius: 50%;
-          background: #9fce33;
+          background: var(--color-jvto-lime);
           border: 2.5px solid #ffffff;
-          box-shadow: 0 0 0 2px #9fce33;
+          box-shadow: 0 0 0 2px var(--color-jvto-lime);
         }
         .jvto-tl-item:first-child .jvto-tl-dot {
-          background: #0c0e09;
-          box-shadow: 0 0 0 2px #0c0e09;
+          background: var(--color-jvto-navy);
+          box-shadow: 0 0 0 2px var(--color-jvto-navy);
         }
         .jvto-tl-label {
-          font-family: 'JetBrains Mono', monospace;
+          font-family: var(--font-jetbrains-mono), monospace;
           font-size: 0.65rem;
           font-weight: 600;
-          color: #7aaa1a;
+          color: var(--color-jvto-orange);
           letter-spacing: 0.06em;
           text-transform: uppercase;
           margin-bottom: 0.25rem;
         }
-        .jvto-tl-item:first-child .jvto-tl-label { color: #0c0e09; }
+        .jvto-tl-item:first-child .jvto-tl-label { color: var(--color-jvto-navy); }
         .jvto-tl-text {
-          font-family: 'DM Sans', sans-serif;
+          font-family: var(--font-sans);
           font-size: 0.875rem;
-          color: #2a3a18;
+          color: var(--color-jvto-navy);
           line-height: 1.65;
-          background: #f7faf0;
-          border: 1px solid #dde8c0;
+          background: var(--color-jvto-off);
+          border: 1px solid var(--color-jvto-border);
           border-radius: 0.625rem;
           padding: 0.75rem 1rem;
         }
         .jvto-tl-item:first-child .jvto-tl-text {
-          background: #eef5d8;
-          border-color: rgba(159,206,51,0.4);
+          background: rgba(140,198,63,0.12);
+          border-color: rgba(140,198,63,0.4);
           font-weight: 500;
         }
       `}</style>
@@ -153,7 +153,7 @@ function getPlatformColor(label: string): string {
   for (const [k, v] of Object.entries(PLATFORM_COLORS)) {
     if (key.includes(k)) return v;
   }
-  return "#9fce33";
+  return "var(--color-jvto-lime)";
 }
 
 function ReviewLinksBlock({ md }: { md: string }) {
@@ -172,8 +172,8 @@ function ReviewLinksBlock({ md }: { md: string }) {
           align-items: flex-start;
           gap: 0.5rem;
           padding: 1rem 1.125rem 0.875rem;
-          border-radius: 0.875rem;
-          border: 1px solid #dde3d0;
+          border-radius: var(--radius-jvto-sm);
+          border: 1px solid var(--color-jvto-border);
           border-top-width: 3px;
           background: #ffffff;
           text-decoration: none;
@@ -191,7 +191,7 @@ function ReviewLinksBlock({ md }: { md: string }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-raleway), sans-serif;
           font-size: 0.7rem;
           font-weight: 800;
           color: #ffffff;
@@ -199,10 +199,10 @@ function ReviewLinksBlock({ md }: { md: string }) {
           flex-shrink: 0;
         }
         .jvto-review-name {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-raleway), sans-serif;
           font-size: 0.82rem;
           font-weight: 700;
-          color: #0c0e09;
+          color: var(--color-jvto-navy);
           line-height: 1.3;
           flex: 1;
         }
@@ -210,10 +210,10 @@ function ReviewLinksBlock({ md }: { md: string }) {
           display: inline-flex;
           align-items: center;
           gap: 0.2rem;
-          font-family: 'JetBrains Mono', monospace;
+          font-family: var(--font-jetbrains-mono), monospace;
           font-size: 0.6rem;
           font-weight: 500;
-          color: #9aaa80;
+          color: var(--color-jvto-muted);
           margin-top: 0.125rem;
         }
       `}</style>
@@ -275,10 +275,10 @@ function ImageFigure({
   return (
     <figure
       style={{
-        borderRadius: "0.875rem",
-        border: "1px solid #dde3d0",
+        borderRadius: "var(--radius-jvto-sm)",
+        border: "1px solid var(--color-jvto-border)",
         overflow: "hidden",
-        background: "#f5f7f0",
+        background: "var(--color-jvto-off)",
         margin: orientation === "portrait" ? "0 auto" : 0,
         maxWidth,
         width: "100%",
@@ -317,10 +317,10 @@ function ImageFigure({
           style={{
             padding: "0.625rem 0.875rem",
             fontSize: "0.75rem",
-            color: "#6b7a55",
-            fontFamily: "'DM Sans', sans-serif",
-            borderTop: "1px solid #dde3d0",
-            background: "#f7faf0",
+            color: "var(--color-jvto-muted)",
+            fontFamily: "var(--font-sans)",
+            borderTop: "1px solid var(--color-jvto-border)",
+            background: "var(--color-jvto-off)",
           }}
         >
           {caption}
@@ -336,10 +336,10 @@ function CardLink({ item }: { item: CardItem }) {
     <>
       <div
         style={{
-          fontFamily: "'Syne', sans-serif",
+          fontFamily: "var(--font-raleway), sans-serif",
           fontSize: "0.875rem",
           fontWeight: 700,
-          color: "#0c0e09",
+          color: "var(--color-jvto-navy)",
           marginBottom: item.summary ? "0.5rem" : 0,
           lineHeight: 1.3,
         }}
@@ -350,10 +350,10 @@ function CardLink({ item }: { item: CardItem }) {
         <div
           style={{
             fontSize: "0.8rem",
-            color: "#6b7a55",
+            color: "var(--color-jvto-muted)",
             lineHeight: 1.6,
             marginBottom: item.href ? "0.875rem" : 0,
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "var(--font-sans)",
           }}
         >
           {item.summary}
@@ -367,8 +367,8 @@ function CardLink({ item }: { item: CardItem }) {
             gap: "0.25rem",
             fontSize: "0.75rem",
             fontWeight: 700,
-            color: "#7aaa1a",
-            fontFamily: "'Syne', sans-serif",
+            color: "var(--color-jvto-orange)",
+            fontFamily: "var(--font-raleway), sans-serif",
           }}
         >
           Open <ArrowRight size={12} />
@@ -379,7 +379,7 @@ function CardLink({ item }: { item: CardItem }) {
   const base: React.CSSProperties = {
     display: "block",
     borderRadius: "0.875rem",
-    border: "1px solid #dde3d0",
+    border: "1px solid var(--color-jvto-border)",
     padding: "1.25rem 1.375rem",
     background: "#ffffff",
     textDecoration: "none",
@@ -402,7 +402,7 @@ function CardLink({ item }: { item: CardItem }) {
   }
   return (
     <div
-      style={{ ...base, background: "#f7faf0", border: "1px solid #dde8c0" }}
+      style={{ ...base, background: "var(--color-jvto-off)", border: "1px solid var(--color-jvto-border)" }}
     >
       {inner}
     </div>
@@ -517,7 +517,7 @@ export function BlocksRenderer({
 
   return (
     <>
-      <style>{`.jvto-card-link:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); border-color: rgba(159,206,51,0.4) !important; transform: translateY(-2px); }`}</style>
+      <style>{`.jvto-card-link:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); border-color: rgba(140,198,63,0.4) !important; transform: translateY(-2px); }`}</style>
       <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
         {out}
       </div>
