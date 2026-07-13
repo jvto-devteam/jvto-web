@@ -1,10 +1,11 @@
 // app/(website)/destinations/page.tsx
 import type { Metadata } from "next";
-import type { Destination } from "@/interfaces";
-import DestinationCard from "@/components/website/DestinationCard";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getPublicDestinationList } from "@/lib/publicContent/destinationListSnapshot";
+import {
+  getPublicDestinationList,
+  getPublicDestinationListSnapshot,
+} from "@/lib/publicContent/destinationListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -12,7 +13,7 @@ import {
   buildDestinationsCollectionJsonLd,
 } from "@/lib/seo/jsonld/builders";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getWebDestinationsList } from "@/lib/destinations/getWebDestinationsList";
+import DestinationsHub from "@/components/website/DestinationsHub";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://javavolcano-touroperator.com";
@@ -23,7 +24,7 @@ export const revalidate = 3600;
 
 const fallbackSeo = {
   title: "East Java Destinations | Bromo, Ijen & More",
-  h1: "Destinations",
+  h1: "Five destinations. One operator.",
   description:
     "Explore breathtaking destinations in East Java with JVTO. Discover our expert guides for Mount Bromo, Ijen Crater, Tumpak Sewu Waterfall, and more.",
 };
@@ -61,29 +62,25 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// ─── Data fetching ─────────────────────────────────────────────────────────────
-
-async function getAllDestinations(): Promise<Destination[]> {
-  return getPublicDestinationList();
-}
-
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DestinationsPage() {
-  const seo = await getPageSeo(ROUTE, fallbackSeo);
-  const [destinations, org] = await Promise.all([
-    getAllDestinations(),
+  const [seo, org] = await Promise.all([
+    getPageSeo(ROUTE, fallbackSeo),
     getOrganizationProfile(),
   ]);
 
-  // Build @graph: tidak ada @context di tiap node, hanya di root
+  // Rich snapshot items (includes geo.altitude, summary, tags) for the view
+  const snapshot = getPublicDestinationListSnapshot();
+  const items = snapshot.items;
+
+  // Lightweight Destination[] for JSON-LD schema builders
+  const destinations = getPublicDestinationList();
+
   const orgNode = buildOrganizationJsonLd(org as any, SITE_URL);
   const siteNode = buildWebSiteJsonLd(SITE_URL);
   const breadcrumb = buildBreadcrumbJsonLd(ROUTE, SITE_URL);
-  const collection = buildDestinationsCollectionJsonLd(
-    destinations as any,
-    SITE_URL,
-  );
+  const collection = buildDestinationsCollectionJsonLd(destinations as any, SITE_URL);
 
   const schema = {
     "@context": "https://schema.org",
@@ -93,29 +90,7 @@ export default async function DestinationsPage() {
   return (
     <>
       <JsonLd data={schema} />
-
-      <section className="md:py-40 py-26 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-            <div>
-              {/* h2 → h1: sebelumnya tidak ada h1 di halaman ini */}
-              <h1 className="text-3xl md:text-4xl font-black uppercase mb-4">
-                {seo.h1}
-              </h1>
-              <p className="text-gray-600 max-w-xl">
-                {seo.description}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* key={dest.id} lebih stabil dari key={idx} */}
-            {destinations.map((dest) => (
-              <DestinationCard key={dest.id} destination={dest} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <DestinationsHub items={items} />
     </>
   );
 }
