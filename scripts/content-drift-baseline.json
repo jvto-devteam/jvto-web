@@ -9,6 +9,7 @@
   "src/components/website/Tours/TourCard.tsx :: stale-review-counts": 1,
   "src/data_new.ts :: stale-review-counts": 16,
   "src/data/faqs.ts :: blue-fire-guarantee": 1,
+  "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 4,
   "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/deprecated-wording-report.json :: unverified-press-names": 2,
   "src/data/policy-bundle/policy-bundle.json :: blue-fire-guarantee": 2,
