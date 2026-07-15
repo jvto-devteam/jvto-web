@@ -10,9 +10,9 @@ export const revalidate = 86400;
 const ROUTE = "/why-jvto/our-story";
 
 const WHY_JVTO_NAV = [
-  { href: "/why-jvto", label: "Why JVTO" },
+  { href: "/why-jvto", label: "Why JVTO overview" },
   { href: "/why-jvto/the-jvto-difference", label: "The JVTO Difference" },
-  { href: "/why-jvto/reviews", label: "Guest Reviews" },
+  { href: "/why-jvto/reviews", label: "Reviews" },
   { href: "/why-jvto/our-story", label: "Our Story" },
   { href: "/why-jvto/our-team", label: "Our Team" },
   { href: "/why-jvto/community-standards", label: "Community Standards" },
