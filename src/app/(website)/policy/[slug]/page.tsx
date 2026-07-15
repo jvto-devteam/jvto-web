@@ -16,6 +16,21 @@ import {
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
+import { getCustomerCopy, type CustomerCopyKey } from "@/lib/policy-bundle";
+
+// Canonical Lifetime Package Guarantee blocks (compiled from the llm-wiki YAML
+// SSOT via customer-copy.json). Rendered on /policy/booking-payment-cancellation
+// so the binding summary comes from the policy bundle, not hand-written copy.
+const GUARANTEE_BLOCKS: { key: CustomerCopyKey; label: string }[] = [
+  { key: "package_guarantee_summary", label: "Lifetime Package Guarantee" },
+  { key: "before_48_full_cancellation", label: "Cancel your booking 48h+ before Day 1" },
+  { key: "after_48_full_cancellation", label: "Cancel within 48h of Day 1" },
+  { key: "partial_cancellation", label: "One traveller cancels (booking continues)" },
+  { key: "flight_disruption", label: "Flight disruption" },
+  { key: "destination_force_majeure", label: "Destination force majeure" },
+  { key: "package_transfer", label: "Transferring Package Credit" },
+  { key: "package_redemption", label: "Using Package Credit" },
+];
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -122,6 +137,33 @@ export default async function PolicyDynamicPage({ params }: Props) {
         </section>
 
         <div className="container mx-auto px-4 max-w-4xl pt-12">
+          {slug === "booking-payment-cancellation" && (
+            <section className="mb-12 rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-6 md:p-8">
+              <h2
+                className="font-black text-xl md:text-2xl text-jvto-navy mb-5"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Lifetime Package Guarantee — the rules in plain language
+              </h2>
+              <dl className="space-y-4">
+                {GUARANTEE_BLOCKS.map(({ key, label }) => {
+                  const text = getCustomerCopy(key);
+                  if (!text) return null;
+                  return (
+                    <div key={key}>
+                      <dt className="font-bold text-jvto-navy">{label}</dt>
+                      <dd className="text-jvto-navy/80">{text}</dd>
+                    </div>
+                  );
+                })}
+              </dl>
+              <p className="mt-5 text-xs text-jvto-navy/60">
+                These summaries are generated from JVTO&rsquo;s canonical policy source and take
+                precedence. Lifetime Package Credit is the current name for what earlier documents
+                called &ldquo;Travel Credit&rdquo;. The detailed policy sections follow below.
+              </p>
+            </section>
+          )}
           <MarkdownRenderer markdown={body} />
           {content?.faq && (
             <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />

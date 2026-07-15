@@ -155,7 +155,7 @@ const FAQ_ITEMS = [
   {
     question: "Bagaimana cara booking?",
     answer:
-      "Hubungi kami via WhatsApp di +62 822-4478-8833 atau isi form di bawah. Kami akan kirimkan quotation dalam 1 jam. Booking dikonfirmasi setelah pembayaran deposit 30%.",
+      "Booking dilakukan sepenuhnya melalui website resmi JVTO. Pilih paket, tanggal, dan jumlah peserta, lalu selesaikan booking di website dengan deposit standar 20%. Ada pertanyaan sebelum booking? Hubungi kami via WhatsApp di +62 822-4478-8833 — namun booking selalu diselesaikan di website.",
   },
 ];
 
@@ -206,7 +206,7 @@ export default function ToursFromSurabayaLP() {
               className="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-8 py-4 rounded-sm font-black uppercase tracking-wide text-base transition-all hover:-translate-y-0.5 shadow-lg"
             >
               <MessageCircle size={20} />
-              Book via WhatsApp
+              Ask on WhatsApp
             </a>
             <Link
               href="#packages"

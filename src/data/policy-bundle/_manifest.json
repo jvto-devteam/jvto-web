@@ -1,23 +1,36 @@
 {
-  "schema_version": "policy-bundle/v1.0",
+  "schema_version": "policy-bundle/v2.0",
   "generated_by": "scripts/compile_policy_bundle.py",
-  "generated_at": "2026-07-07T04:29:44.374065+00:00",
+  "generated_at": "2026-07-15T05:27:37.759483+00:00",
   "dry_run": false,
+  "cancellation_policy_version": "2026-07",
+  "cancellation_policy_hash": "7118ef3b7689",
   "source_hashes": {
-    "policy-source-ownership": "f1d854218fee",
-    "packages-overview": "c27b40068df6",
-    "faq-master": "d15d6f2afd04"
+    "policy-source-ownership": "8b1b0d8d6a6a",
+    "packages-overview": "fb302eee0f95",
+    "faq-master": "2fce84a142c5",
+    "cancellation-package-credit": "7118ef3b7689"
   },
   "policy_domains": 9,
-  "deprecated_checks": 9,
+  "deprecated_checks": 13,
   "consumers_checked": [
-    "checkout",
+    "website_checkout",
+    "booking_portal",
+    "e_voucher",
     "invoice",
-    "whatsapp"
+    "policy_page",
+    "faq",
+    "customer_support",
+    "booking_confirmation",
+    "package_pages",
+    "payment_instructions",
+    "quotation"
   ],
   "artifacts": [
     "policy-bundle.json",
     "consumer-bundles.json",
+    "decision-matrix.json",
+    "customer-copy.json",
     "deprecated-wording-report.json",
     "gap-report.json"
   ],
@@ -26,21 +39,31 @@
     "source_path": "output/website/policy-bundle/",
     "target_path": "src/data/policy-bundle/",
     "required_gate": {
-      "schema_version": "policy-bundle/v1.0",
+      "schema_version": "policy-bundle/v2.0",
       "clean": true
     },
     "required_files": [
       "policy-bundle.json",
       "consumer-bundles.json",
+      "decision-matrix.json",
+      "customer-copy.json",
       "deprecated-wording-report.json",
       "gap-report.json",
       "_manifest.json"
     ],
     "consumer_entrypoint": "consumer-bundles.json",
     "consumer_keys": [
-      "checkout",
+      "website_checkout",
+      "booking_portal",
+      "e_voucher",
       "invoice",
-      "whatsapp"
+      "policy_page",
+      "faq",
+      "customer_support",
+      "booking_confirmation",
+      "package_pages",
+      "payment_instructions",
+      "quotation"
     ],
     "validation_files": [
       "deprecated-wording-report.json",

@@ -157,7 +157,7 @@ export default async function IsicStudentPackagePage() {
               <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground mb-8">How verification works</p>
               <ol className="space-y-6">
                 {[
-                  { t: "Share your card number", d: "Send your ISIC card number when booking via WhatsApp." },
+                  { t: "Enter your card number", d: "Enter your ISIC card number when you book on the official JVTO website." },
                   { t: "We run an Alive Verify check", d: "JVTO runs a live Alive Verify API check against the ISIC database." },
                   { t: "Pricing is confirmed", d: "If the card returns valid, student pricing is confirmed for your booking." },
                   { t: "Validity is checked on the day", d: "Your card must be valid on the date of verification — not just the travel date. No workarounds; the check is live and automated." },

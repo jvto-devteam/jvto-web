@@ -260,7 +260,7 @@ const FAQ_ITEMS = [
   {
     question: "How do I book and what is the payment process?",
     answer:
-      "Send us your dates, Bali pickup location, and group size via WhatsApp. We send a tailored proposal with full itinerary and pricing. To confirm, you pay a 20% deposit online. The balance is due a few days before Day 1. You receive an official E-Voucher with all details and our contact numbers.",
+      "Choose your package, Bali pickup location, and group size and complete your booking on the official JVTO website. Pay a 20% deposit online to confirm; the balance is due a few days before Day 1. You receive an official E-Voucher with all details and our contact numbers. Questions before you book? WhatsApp us — every booking is completed on the website.",
   },
 ];
 

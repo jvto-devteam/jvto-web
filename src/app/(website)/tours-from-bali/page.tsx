@@ -24,7 +24,7 @@ import LPFaq from "@/components/website/LandingPage/LPFaq";
 export const metadata: Metadata = {
   title: "Bali to Bromo & Ijen Tour — Private, Door-to-Door from Your Villa | JVTO",
   description:
-    "Fully private Bali to Bromo & Ijen tours. Door-to-door from your Bali villa. Ferry included, Police-Led safety, licensed operator. Book via WhatsApp +62 822-4478-8833.",
+    "Fully private Bali to Bromo & Ijen tours. Door-to-door from your Bali villa. Ferry included, Police-Led safety, licensed operator. Book online on the official JVTO website.",
 };
 
 const WA_LINK = "https://wa.me/6282244788833";
@@ -226,7 +226,7 @@ export default function ToursFromBaliLP() {
               className="inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white px-8 py-4 rounded-sm font-black uppercase tracking-wide text-base transition-all hover:-translate-y-0.5 shadow-lg"
             >
               <MessageCircle size={20} />
-              Book via WhatsApp
+              Ask on WhatsApp
             </a>
             <Link
               href="#packages"

@@ -18,11 +18,11 @@ const invoicePaymentPolicyNote =
   getPolicyDomain("invoice", "payment-rules")?.notes ??
   "20% deposit standard; close-departure bookings may require full payment.";
 
-// Anti-fraud domain is tagged for both "checkout" and "payment instructions"
-// consumers in the synced bundle — checkout already surfaces it; this page is
-// the other "payment instructions" surface, shown right where users are
-// about to copy account numbers.
-const bankTransferAntiFraudNote = getPolicyDomain("checkout", "anti-fraud")?.notes;
+// Anti-fraud domain is tagged for both "website_checkout" and
+// "payment_instructions" consumers in the synced bundle — checkout already
+// surfaces it; this page is the other "payment_instructions" surface, shown
+// right where users are about to copy account numbers.
+const bankTransferAntiFraudNote = getPolicyDomain("website_checkout", "anti-fraud")?.notes;
 
 // --- HELPERS ---
 const formatIDR = (num: number) =>

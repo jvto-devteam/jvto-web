@@ -62,7 +62,7 @@
       "priority": 8,
       "url": null,
       "proposed_url": "https://javavolcano-touroperator.com/assets/agent-cards/booking_steps-en.jpg",
-      "alt_text": "How to book: website Instant Book or WhatsApp-assisted",
+      "alt_text": "How to book: complete your booking on the official JVTO website",
       "status": "to_create",
       "used_by": [
         "policy_booking_paths"

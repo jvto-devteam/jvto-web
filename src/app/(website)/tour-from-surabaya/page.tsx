@@ -308,7 +308,7 @@ const FAQ_ITEMS = [
   {
     question: "How do I book and what is the payment process?",
     answer:
-      "Send us your travel dates, group size, and pickup location via WhatsApp. We send a tailored proposal within 1 hour. To confirm, you pay a 20% deposit online. The balance is due a few days before Day 1. You receive an official E-Voucher with full details and our contact numbers.",
+      "Choose your package, travel dates, group size, and pickup location and complete your booking on the official JVTO website. Pay a 20% deposit online to confirm; the balance is due a few days before Day 1. You receive an official E-Voucher with full details and our contact numbers. Questions before you book? WhatsApp us — every booking is completed on the website.",
   },
 ];
 
