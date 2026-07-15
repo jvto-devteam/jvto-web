@@ -84,7 +84,7 @@ export default function DestinationsHub({ items }: Props) {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────── */}
-      <section className="bg-jvto-navy pt-24 md:pt-36 pb-28 relative overflow-hidden">
+      <section className="bg-jvto-navy pt-24 md:pt-50  md:pb-42 pb-28 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid md:grid-cols-[1.2fr_1fr] gap-12 md:gap-20 items-start">
             {/* Left: copy */}
@@ -92,9 +92,6 @@ export default function DestinationsHub({ items }: Props) {
               <div className="flex flex-wrap items-center gap-3 mb-6">
                 <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
                   East Java Destinations
-                </span>
-                <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-[0.22em] text-white/35">
-                  File 003 / Destinations
                 </span>
               </div>
               <h1
@@ -136,7 +133,7 @@ export default function DestinationsHub({ items }: Props) {
 
       {/* ── Feature list ──────────────────────────────────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-8 relative z-[2]"
+        className="bg-[#F6F5F2] py-20 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-18 relative z-[2]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -186,9 +183,11 @@ export default function DestinationsHub({ items }: Props) {
                       {meta.elevation}
                     </span>
                   )}
-                  <span className="absolute left-5 bottom-4 z-[2] font-mono text-[10px] uppercase tracking-[0.22em] text-white/65">
-                    {meta.index} — {meta.region}
-                  </span>
+                  {meta.region && (
+                    <span className="absolute left-5 bottom-4 z-[2] font-mono text-[10px] uppercase tracking-[0.22em] text-white/65">
+                      {meta.region}
+                    </span>
+                  )}
                 </div>
 
                 {/* Text */}
@@ -242,14 +241,14 @@ export default function DestinationsHub({ items }: Props) {
 
       {/* ── Transport note ────────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-8 relative z-[3]"
+        className="bg-jvto-navy py-20 md:pt-26 md:pb-38 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div>
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-lime mb-4">
-                Transport Note
+                Private Transport
               </p>
               <h2
                 className="font-black text-white leading-[1.04] mb-5"
@@ -290,10 +289,10 @@ export default function DestinationsHub({ items }: Props) {
 
       {/* ── CTA ───────────────────────────────────────────────────────── */}
       <section
-        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-8 relative z-[4]"
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-18 relative z-[4]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
           <h2
             className="font-black text-jvto-navy leading-[1.02] mb-8"
             style={{

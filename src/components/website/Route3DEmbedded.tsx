@@ -33,12 +33,18 @@ function prettifySlug(slug: string) {
 export default function Route3DEmbedded({
   slug,
   routeStats,
+  geojson: geojsonProp,
 }: {
   slug: string;
   routeStats: RouteStats;
+  // Preferred path: geojson loaded from the DB (jvto-cms GPX upload) via the destination
+  // detail query, passed straight through — no fetch needed. Falls back to the legacy
+  // public/routes/{slug}.geojson static export when absent (destination not re-uploaded yet).
+  geojson?: FeatureCollection | null;
 }) {
-  const [geojson, setGeojson] = useState<FeatureCollection | null>(null);
-  const [loading, setLoading] = useState(true);
+  const hasGeojsonProp = geojsonProp != null;
+  const [geojson, setGeojson] = useState<FeatureCollection | null>(geojsonProp ?? null);
+  const [loading, setLoading] = useState(!hasGeojsonProp);
   const [error, setError] = useState(false);
   const [inView, setInView] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -61,6 +67,7 @@ export default function Route3DEmbedded({
   }, []);
 
   useEffect(() => {
+    if (hasGeojsonProp) return;
     if (!inView) return;
     let cancelled = false;
     setLoading(true);
@@ -83,7 +90,7 @@ export default function Route3DEmbedded({
     return () => {
       cancelled = true;
     };
-  }, [slug, inView, attempt]);
+  }, [slug, inView, attempt, hasGeojsonProp]);
 
   if (!inView) {
     return <div ref={sentinelRef}><LoadingSkeleton /></div>;

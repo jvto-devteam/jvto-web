@@ -87,12 +87,25 @@ const getDestination = cache(async (slug: string): Promise<DestinationDetail | n
   getPublicDestinationDetail(slug),
 );
 
-function readRouteStats(_slug: string): RouteStats | null {
+// 3D trail data is managed through jvto-cms (GPX upload -> route_geojson + route_* stat
+// columns on `destinations`) and preferred here. The static public/routes/index.json export
+// is kept only as a fallback for any destination that hasn't had its GPX re-uploaded yet.
+function deriveRouteStats(data: DestinationDetail, slug: string): RouteStats | null {
+  if (data.route_geojson && data.route_length_m != null) {
+    return {
+      slug,
+      length_km: data.route_length_m / 1000,
+      elev_gain_m: data.route_elev_gain_m ?? 0,
+      elev_max_m: data.route_max_alt_m ?? 0,
+      elev_min_m: data.route_elev_min_m ?? 0,
+      bbox: (data.route_bbox as [number, number, number, number]) ?? [0, 0, 0, 0],
+    };
+  }
   try {
     const indexPath = path.join(process.cwd(), "public", "routes", "index.json");
     const raw = fs.readFileSync(indexPath, "utf8");
     const index = JSON.parse(raw) as { routes: RouteStats[] };
-    return index.routes.find((r) => r.slug === _slug) ?? null;
+    return index.routes.find((r) => r.slug === slug) ?? null;
   } catch {
     return null;
   }
@@ -235,10 +248,11 @@ export default async function DestinationDetailPage({ params }: Props) {
     getDestination(slug),
     getOrganizationProfile(),
   ]);
-  const routeStats = readRouteStats(slug);
   const volcanicStatus = readVolcanicStatus(slug);
 
   if (!data) notFound();
+
+  const routeStats = deriveRouteStats(data, slug);
 
   // ── Schema @graph ──────────────────────────────────────────────────────────
   //
@@ -330,7 +344,7 @@ export default async function DestinationDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={schema} />
-      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} />
+      <DestinationDetailView data={data} routeStats={routeStats} volcanicStatus={volcanicStatus} slug={slug} />
 
       {/* Health Certificate Coordination — Ijen only (wiki spec: ijen_relevant = true) */}
       {slug === "ijen-crater" && (

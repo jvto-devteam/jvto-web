@@ -209,19 +209,20 @@ async function serializePackageDetail(pkg) {
               timeWindow: activity.time_or_label,
               durationMinutes: activity.duration_minutes,
             };
+            const fromName = activity.locations_route_details_from_location_idTolocations?.name ?? "";
+            const toName = activity.locations_route_details_to_location_idTolocations?.name ?? "";
 
             if (activity.type === "TravelAction") {
               return {
                 ...baseActivity,
-                fromLocation: activity.from_location,
-                toLocation: activity.to_location,
-                destination: activity.location,
+                fromLocation: fromName,
+                toLocation: toName,
               };
             }
 
             return {
               ...baseActivity,
-              location: activity.location,
+              location: fromName,
             };
           }) ?? [],
         mealsPlan: {
@@ -230,7 +231,7 @@ async function serializePackageDetail(pkg) {
           dinner: day.meal_dinner ? "included" : "own expense",
         },
         mealsNotes: day.routes?.meals_notes ?? "",
-        overnight: day.hotel_id ? day.routes?.end_area ?? null : null,
+        overnight: day.hotel_id ? day.routes?.locations_routes_end_location_idTolocations?.name ?? null : null,
       })),
       gallery: (pkg.package_assets ?? [])
         .filter((asset) => asset.asset?.type === "image")
@@ -435,7 +436,12 @@ try {
             include: {
               route_details: {
                 orderBy: { seq: "asc" },
+                include: {
+                  locations_route_details_from_location_idTolocations: { select: { name: true } },
+                  locations_route_details_to_location_idTolocations: { select: { name: true } },
+                },
               },
+              locations_routes_end_location_idTolocations: { select: { name: true } },
             },
           },
         },

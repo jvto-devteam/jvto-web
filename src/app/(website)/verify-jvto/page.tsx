@@ -1,9 +1,10 @@
 // src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
-import VerifyJvtoClient from "./VerifyJvtoClient";
+import Link from "@/components/website/AppLink";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
+import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 
 export const revalidate = 86400;
@@ -789,6 +790,36 @@ export default async function VerifyJvtoPage() {
   const hubFaqResolution = await resolveFaqsForPage("/verify-jvto");
   const hubFaqResolvedNode = buildResolvedFaqSchema(hubFaqResolution, "/verify-jvto");
 
+  const PROOF_CARDS = [
+    { icon: "doc", h3: "NIB Business License", p: "PT Java Volcano Rendezvous registration via the Indonesian OSS portal.", meta: "Legal · NIB 1102230032918", href: "/verify-jvto/legal" },
+    { icon: "doc", h3: "Tourist Police Credentials", p: "Founder Agung Sambuko's active POLRI Tourist Police ID and assignment letter.", meta: "Safety · POLRI", href: "/verify-jvto/police-safety" },
+    { icon: "doc", h3: "Stefan Loose Travel Guide", p: "Recommended East Java operator in the German-language Stefan Loose guidebook.", meta: "Press · 2018, 4th ed.", href: "/verify-jvto/press-recognition" },
+    { icon: "doc", h3: "ISIC Discount Partner", p: "Listed partner with the International Student Identity Card.", meta: "Press · isic.org", href: "/verify-jvto/press-recognition" },
+    { icon: "doc", h3: "Indecon Sustainable Tourism", p: "Listed under Indecon's sustainable East Java operators directory.", meta: "Press · indecon.or.id", href: "/verify-jvto/press-recognition" },
+    { icon: "doc", h3: "Operational History Archive", p: "Wayback Machine snapshots of operations dating to 2016.", meta: "History · web.archive.org", href: "/verify-jvto/history-artifacts" },
+    { icon: "doc", h3: "Ijen Health Screening", p: "Coordinated health-certificate workflow with a licensed physician (Dr. Ahmad Irwandanu, SIP) under BBKSDA SE.1658/KSA.9/2024.", meta: "Safety · BBKSDA SE.1658", href: "/travel-guide/ijen-health-screening" },
+    { icon: "doc", h3: "Trustpilot Reviewed Business", p: "Verified business profile rated 4.8 / 5 from 51 independent guest reviews.", meta: "Reviews · trustpilot.com", href: "/why-jvto/reviews" },
+    { icon: "doc", h3: "TripAdvisor Listed Operator", p: "Long-standing TripAdvisor listing rated 4.95 / 5 from 21 reviews.", meta: "Reviews · tripadvisor.com", href: "/why-jvto/reviews" },
+    { icon: "doc", h3: "HPWKI Guide Association", p: "State-recognized Ijen specialist guide association. Membership requires BBKSDA-supervised volcanic safety training.", meta: "Safety · AHU-0001072·2024", href: "/verify-jvto/legal" },
+    { icon: "doc", h3: "BBKSDA Guide Training", p: "Park authority's own 2024 report on the SAR & first-aid training program JVTO's HPWKI guides completed at Paltuding.", meta: "Press · bbksdajatim.org", href: "/verify-jvto/press-recognition" },
+    { icon: "shield", h3: "SHA-256 Forensic Anchors", p: "Every credential document is fingerprinted with a published SHA-256 hash — tamper-evident, verifiable without releasing the original.", meta: "Legal · public/llms.txt", href: "/verify-jvto/legal" },
+  ] as const;
+
+  const TIMELINE = [
+    { year: "'15", h4: "2015 · Guesthouse", p: "Mr. Sam opens the Ijen Bondowoso Homestay on Jl. Khairil Anwar No.102. Booking.com guests rate it 9.4/10." },
+    { year: "'16", h4: "2016 · PT incorporation", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same Bondowoso address." },
+    { year: "'18", h4: "2018 · Stefan Loose listing", p: "Stefan Loose Reiseführer Indonesien (4th ed., p. 287) names \"Agung\" as operator — an independent German guidebook." },
+    { year: "'21", h4: "2021 · Independent press", p: "Detik.com and Radar Jember name Bripka Agung Sambuko in Tourist Police duties at Ijen Geopark." },
+    { year: "'23", h4: "2023 · TDUP formalized", p: "Tourism Business Permit formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
+    { year: "'26", h4: "2026 · Today", p: "16 private itineraries; 14-person crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
+  ] as const;
+
+  const ArrowRight = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7" />
+    </svg>
+  );
+
   return (
     <>
       <PageJsonLdCombined
@@ -796,10 +827,191 @@ export default async function VerifyJvtoPage() {
         extraSchemas={[jsonLd, hubFaqResolvedNode]}
         suppressCmsFaq={hubFaqResolution.suppressCmsFaq}
       />
-      <VerifyJvtoClient
-        heroTitle={seo.h1}
-        heroDescription={seo.description}
-      />
+
+      {/* ── Hero — navy ───────────────────────────────────────────────────── */}
+      <header className="bg-jvto-navy pt-24 md:pt-36 pb-32 md:pb-44 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-jvto-navy via-jvto-navy/95 to-[#1a2f45] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-8 relative">
+          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
+            <Link href="/" prefetch={false} className="hover:text-white/70 transition-colors">Home</Link>
+            <span>›</span>
+            <span className="text-white/70">Verify JVTO</span>
+          </nav>
+          <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                  Operational Transparency
+                </span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
+                  FILE 006 / PROOF LIBRARY
+                </span>
+              </div>
+              <h1
+                className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-6"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
+              >
+                Don&rsquo;t guess.{" "}
+                <em className="not-italic text-jvto-orange">Verify.</em>
+              </h1>
+              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[52ch]">
+                Audit JVTO's legal identity, historical continuity, and safety authority through our verifiable proof library.
+              </p>
+            </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+              {[
+                { label: "Database", value: "Evidence_Database_v2.0" },
+                { label: "Records", value: "24" },
+                { label: "Last audit", value: "2026-05-12" },
+                { label: "Status", value: "OPEN" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
+                  <strong className={`font-semibold text-sm text-right ${value === "OPEN" ? "text-[#8CC63F]" : "text-white"}`}>{value}</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* ── §01 Proof grid — navy, stacked ───────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.20)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#8CC63F] flex-shrink-0" style={{ boxShadow: "0 0 0 4px rgba(140,198,63,0.18)" }} />
+            <span className="font-mono text-[13px] font-bold uppercase tracking-[0.22em] text-[#8CC63F]">
+              EVIDENCE_DATABASE_v2.0
+            </span>
+          </div>
+          <VerifyProofGrid cards={PROOF_CARDS} />
+        </div>
+      </section>
+
+      {/* ── §02 History & continuity — off-white, stacked ────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-8">
+            <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 02</span>
+            <div>
+              <h2
+                className="font-black text-jvto-navy leading-[1.0]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.5vw, 44px)" }}
+              >
+                History &amp; <span className="text-jvto-orange">continuity.</span>
+              </h2>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Since 2016</span>
+            </div>
+          </div>
+          <p className="max-w-[64ch] text-[#6b7280] text-[18px] font-light mb-10">
+            JVTO is not a new startup. We have a documented history of operational excellence and the same legal entity since day one.
+          </p>
+          <ol className="space-y-0 max-w-[64ch]">
+            {TIMELINE.map(({ year, h4, p: tp }) => (
+              <li key={year} className="flex gap-6 border-b border-[#E3E0DA] last:border-0 py-5">
+                <div className="w-10 font-mono text-[12px] font-black text-jvto-orange flex-shrink-0 mt-0.5">{year}</div>
+                <div>
+                  <h4 className="font-semibold text-jvto-navy text-[15px] mb-1">{h4}</h4>
+                  <p className="text-[14px] text-[#6b7280] font-light leading-relaxed">{tp}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Link
+            href="/verify-jvto/history-artifacts"
+            prefetch={false}
+            className="inline-flex items-center gap-2 mt-8 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors"
+          >
+            Full artifact archive <ArrowRight />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── §03 Independent ratings — navy, stacked ──────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-10">
+            <span className="font-mono text-[11px] font-bold text-white/40">§ 03</span>
+            <div>
+              <h2
+                className="font-black text-white leading-[1.0]"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.5vw, 44px)" }}
+              >
+                Independent <span className="text-jvto-orange">platform ratings.</span>
+              </h2>
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35">Trustpilot · Tripadvisor · Google</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { platform: "Trustpilot", score: "4.8 / 5", desc: "51 verified reviews", href: "https://www.trustpilot.com/review/javavolcano-touroperator.com" },
+              { platform: "Google Maps", score: "4.9 / 5", desc: "123 reviews · verified location", href: "https://www.google.com/maps?cid=1266403973589689021" },
+              { platform: "TripAdvisor", score: "4.95 / 5", desc: "21 reviews", href: "https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html" },
+            ].map(({ platform, score, desc, href }) => (
+              <a
+                key={platform}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/[0.04] border border-white/10 rounded-[16px] p-7 hover:border-white/20 transition-colors block"
+              >
+                <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8CC63F] mb-3">{platform}</div>
+                <div
+                  className="text-white font-black mb-2"
+                  style={{ fontFamily: "Raleway, Inter, sans-serif", fontSize: "34px", letterSpacing: "-0.02em" }}
+                >
+                  {score}
+                </div>
+                <p className="text-white/50 text-[14px] font-light mb-4">{desc}</p>
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white/35">View profile →</span>
+              </a>
+            ))}
+          </div>
+          <p className="font-mono text-[11px] tracking-[0.14em] text-white/35 uppercase mt-8">
+            195 independent reviews across three platforms · Trustpilot is the schema-primary source
+          </p>
+        </div>
+      </section>
+
+      {/* ── CTA — navy, stacked ───────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.25)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+          <h2
+            className="font-black text-white leading-[1.02] mb-8"
+            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}
+          >
+            Ready for operational <span className="text-jvto-orange">certainty?</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/tours"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+            >
+              Explore tours <ArrowRight />
+            </Link>
+            <Link
+              href="/why-jvto"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+            >
+              Why JVTO
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

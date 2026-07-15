@@ -173,16 +173,6 @@ export type blogs = $Result.DefaultSelection<Prisma.$blogsPayload>
  */
 export type channel_unavailable_ranges = $Result.DefaultSelection<Prisma.$channel_unavailable_rangesPayload>
 /**
- * Model combined_package_details
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
- */
-export type combined_package_details = $Result.DefaultSelection<Prisma.$combined_package_detailsPayload>
-/**
- * Model combined_packages
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
- */
-export type combined_packages = $Result.DefaultSelection<Prisma.$combined_packagesPayload>
-/**
  * Model countries
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -390,12 +380,8 @@ export type package_faqs = $Result.DefaultSelection<Prisma.$package_faqsPayload>
  */
 export type package_hotel_options = $Result.DefaultSelection<Prisma.$package_hotel_optionsPayload>
 /**
- * Model package_images
- * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
- */
-export type package_images = $Result.DefaultSelection<Prisma.$package_imagesPayload>
-/**
  * Model package_includes
+ * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
 export type package_includes = $Result.DefaultSelection<Prisma.$package_includesPayload>
@@ -455,11 +441,6 @@ export type routes = $Result.DefaultSelection<Prisma.$routesPayload>
  * 
  */
 export type route_details = $Result.DefaultSelection<Prisma.$route_detailsPayload>
-/**
- * Model route_destinations
- * 
- */
-export type route_destinations = $Result.DefaultSelection<Prisma.$route_destinationsPayload>
 /**
  * Model room_configurations
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -587,6 +568,22 @@ export const asset_type: {
 export type asset_type = (typeof asset_type)[keyof typeof asset_type]
 
 
+export const location_type: {
+  destination: 'destination',
+  hotel: 'hotel',
+  city: 'city',
+  airport: 'airport',
+  harbour: 'harbour',
+  train_station: 'train_station',
+  restaurant: 'restaurant',
+  landmark: 'landmark',
+  clinic: 'clinic',
+  transit: 'transit'
+};
+
+export type location_type = (typeof location_type)[keyof typeof location_type]
+
+
 export const destination_asset_type: {
   primary: 'primary',
   secondary: 'secondary'
@@ -607,6 +604,10 @@ export const source_enum: typeof $Enums.source_enum
 export type asset_type = $Enums.asset_type
 
 export const asset_type: typeof $Enums.asset_type
+
+export type location_type = $Enums.location_type
+
+export const location_type: typeof $Enums.location_type
 
 export type destination_asset_type = $Enums.destination_asset_type
 
@@ -1031,26 +1032,6 @@ export class PrismaClient<
   get channel_unavailable_ranges(): Prisma.channel_unavailable_rangesDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.combined_package_details`: Exposes CRUD operations for the **combined_package_details** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Combined_package_details
-    * const combined_package_details = await prisma.combined_package_details.findMany()
-    * ```
-    */
-  get combined_package_details(): Prisma.combined_package_detailsDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.combined_packages`: Exposes CRUD operations for the **combined_packages** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Combined_packages
-    * const combined_packages = await prisma.combined_packages.findMany()
-    * ```
-    */
-  get combined_packages(): Prisma.combined_packagesDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.countries`: Exposes CRUD operations for the **countries** model.
     * Example usage:
     * ```ts
@@ -1461,16 +1442,6 @@ export class PrismaClient<
   get package_hotel_options(): Prisma.package_hotel_optionsDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.package_images`: Exposes CRUD operations for the **package_images** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Package_images
-    * const package_images = await prisma.package_images.findMany()
-    * ```
-    */
-  get package_images(): Prisma.package_imagesDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.package_includes`: Exposes CRUD operations for the **package_includes** model.
     * Example usage:
     * ```ts
@@ -1589,16 +1560,6 @@ export class PrismaClient<
     * ```
     */
   get route_details(): Prisma.route_detailsDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.route_destinations`: Exposes CRUD operations for the **route_destinations** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Route_destinations
-    * const route_destinations = await prisma.route_destinations.findMany()
-    * ```
-    */
-  get route_destinations(): Prisma.route_destinationsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.room_configurations`: Exposes CRUD operations for the **room_configurations** model.
@@ -2260,8 +2221,6 @@ export namespace Prisma {
     blog_categories: 'blog_categories',
     blogs: 'blogs',
     channel_unavailable_ranges: 'channel_unavailable_ranges',
-    combined_package_details: 'combined_package_details',
-    combined_packages: 'combined_packages',
     countries: 'countries',
     crew_member_reviews: 'crew_member_reviews',
     crew_member_roles: 'crew_member_roles',
@@ -2303,7 +2262,6 @@ export namespace Prisma {
     package_excludes: 'package_excludes',
     package_faqs: 'package_faqs',
     package_hotel_options: 'package_hotel_options',
-    package_images: 'package_images',
     package_includes: 'package_includes',
     locations: 'locations',
     package_itinerary_day_details: 'package_itinerary_day_details',
@@ -2316,7 +2274,6 @@ export namespace Prisma {
     price_tiers: 'price_tiers',
     routes: 'routes',
     route_details: 'route_details',
-    route_destinations: 'route_destinations',
     room_configurations: 'room_configurations',
     room_types: 'room_types',
     transport_crew_rules: 'transport_crew_rules',
@@ -2354,7 +2311,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "combined_package_details" | "combined_packages" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_images" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "route_destinations" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation" | "narrative_claims"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation" | "narrative_claims"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4575,154 +4532,6 @@ export namespace Prisma {
           count: {
             args: Prisma.channel_unavailable_rangesCountArgs<ExtArgs>
             result: $Utils.Optional<Channel_unavailable_rangesCountAggregateOutputType> | number
-          }
-        }
-      }
-      combined_package_details: {
-        payload: Prisma.$combined_package_detailsPayload<ExtArgs>
-        fields: Prisma.combined_package_detailsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.combined_package_detailsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.combined_package_detailsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          findFirst: {
-            args: Prisma.combined_package_detailsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.combined_package_detailsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          findMany: {
-            args: Prisma.combined_package_detailsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>[]
-          }
-          create: {
-            args: Prisma.combined_package_detailsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          createMany: {
-            args: Prisma.combined_package_detailsCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.combined_package_detailsCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>[]
-          }
-          delete: {
-            args: Prisma.combined_package_detailsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          update: {
-            args: Prisma.combined_package_detailsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          deleteMany: {
-            args: Prisma.combined_package_detailsDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.combined_package_detailsUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.combined_package_detailsUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>[]
-          }
-          upsert: {
-            args: Prisma.combined_package_detailsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_package_detailsPayload>
-          }
-          aggregate: {
-            args: Prisma.Combined_package_detailsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCombined_package_details>
-          }
-          groupBy: {
-            args: Prisma.combined_package_detailsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Combined_package_detailsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.combined_package_detailsCountArgs<ExtArgs>
-            result: $Utils.Optional<Combined_package_detailsCountAggregateOutputType> | number
-          }
-        }
-      }
-      combined_packages: {
-        payload: Prisma.$combined_packagesPayload<ExtArgs>
-        fields: Prisma.combined_packagesFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.combined_packagesFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.combined_packagesFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          findFirst: {
-            args: Prisma.combined_packagesFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.combined_packagesFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          findMany: {
-            args: Prisma.combined_packagesFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>[]
-          }
-          create: {
-            args: Prisma.combined_packagesCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          createMany: {
-            args: Prisma.combined_packagesCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.combined_packagesCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>[]
-          }
-          delete: {
-            args: Prisma.combined_packagesDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          update: {
-            args: Prisma.combined_packagesUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          deleteMany: {
-            args: Prisma.combined_packagesDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.combined_packagesUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.combined_packagesUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>[]
-          }
-          upsert: {
-            args: Prisma.combined_packagesUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$combined_packagesPayload>
-          }
-          aggregate: {
-            args: Prisma.Combined_packagesAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCombined_packages>
-          }
-          groupBy: {
-            args: Prisma.combined_packagesGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Combined_packagesGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.combined_packagesCountArgs<ExtArgs>
-            result: $Utils.Optional<Combined_packagesCountAggregateOutputType> | number
           }
         }
       }
@@ -7760,80 +7569,6 @@ export namespace Prisma {
           }
         }
       }
-      package_images: {
-        payload: Prisma.$package_imagesPayload<ExtArgs>
-        fields: Prisma.package_imagesFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.package_imagesFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.package_imagesFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          findFirst: {
-            args: Prisma.package_imagesFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.package_imagesFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          findMany: {
-            args: Prisma.package_imagesFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>[]
-          }
-          create: {
-            args: Prisma.package_imagesCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          createMany: {
-            args: Prisma.package_imagesCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.package_imagesCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>[]
-          }
-          delete: {
-            args: Prisma.package_imagesDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          update: {
-            args: Prisma.package_imagesUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          deleteMany: {
-            args: Prisma.package_imagesDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.package_imagesUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.package_imagesUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>[]
-          }
-          upsert: {
-            args: Prisma.package_imagesUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$package_imagesPayload>
-          }
-          aggregate: {
-            args: Prisma.Package_imagesAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePackage_images>
-          }
-          groupBy: {
-            args: Prisma.package_imagesGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Package_imagesGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.package_imagesCountArgs<ExtArgs>
-            result: $Utils.Optional<Package_imagesCountAggregateOutputType> | number
-          }
-        }
-      }
       package_includes: {
         payload: Prisma.$package_includesPayload<ExtArgs>
         fields: Prisma.package_includesFieldRefs
@@ -8719,80 +8454,6 @@ export namespace Prisma {
           count: {
             args: Prisma.route_detailsCountArgs<ExtArgs>
             result: $Utils.Optional<Route_detailsCountAggregateOutputType> | number
-          }
-        }
-      }
-      route_destinations: {
-        payload: Prisma.$route_destinationsPayload<ExtArgs>
-        fields: Prisma.route_destinationsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.route_destinationsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.route_destinationsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          findFirst: {
-            args: Prisma.route_destinationsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.route_destinationsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          findMany: {
-            args: Prisma.route_destinationsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>[]
-          }
-          create: {
-            args: Prisma.route_destinationsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          createMany: {
-            args: Prisma.route_destinationsCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.route_destinationsCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>[]
-          }
-          delete: {
-            args: Prisma.route_destinationsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          update: {
-            args: Prisma.route_destinationsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          deleteMany: {
-            args: Prisma.route_destinationsDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.route_destinationsUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.route_destinationsUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>[]
-          }
-          upsert: {
-            args: Prisma.route_destinationsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$route_destinationsPayload>
-          }
-          aggregate: {
-            args: Prisma.Route_destinationsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateRoute_destinations>
-          }
-          groupBy: {
-            args: Prisma.route_destinationsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<Route_destinationsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.route_destinationsCountArgs<ExtArgs>
-            result: $Utils.Optional<Route_destinationsCountAggregateOutputType> | number
           }
         }
       }
@@ -10328,8 +9989,6 @@ export namespace Prisma {
     blog_categories?: blog_categoriesOmit
     blogs?: blogsOmit
     channel_unavailable_ranges?: channel_unavailable_rangesOmit
-    combined_package_details?: combined_package_detailsOmit
-    combined_packages?: combined_packagesOmit
     countries?: countriesOmit
     crew_member_reviews?: crew_member_reviewsOmit
     crew_member_roles?: crew_member_rolesOmit
@@ -10371,7 +10030,6 @@ export namespace Prisma {
     package_excludes?: package_excludesOmit
     package_faqs?: package_faqsOmit
     package_hotel_options?: package_hotel_optionsOmit
-    package_images?: package_imagesOmit
     package_includes?: package_includesOmit
     locations?: locationsOmit
     package_itinerary_day_details?: package_itinerary_day_detailsOmit
@@ -10384,7 +10042,6 @@ export namespace Prisma {
     price_tiers?: price_tiersOmit
     routes?: routesOmit
     route_details?: route_detailsOmit
-    route_destinations?: route_destinationsOmit
     room_configurations?: room_configurationsOmit
     room_types?: room_typesOmit
     transport_crew_rules?: transport_crew_rulesOmit
@@ -11024,37 +10681,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type Combined_packagesCountOutputType
-   */
-
-  export type Combined_packagesCountOutputType = {
-    combined_package_details: number
-  }
-
-  export type Combined_packagesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    combined_package_details?: boolean | Combined_packagesCountOutputTypeCountCombined_package_detailsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * Combined_packagesCountOutputType without action
-   */
-  export type Combined_packagesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Combined_packagesCountOutputType
-     */
-    select?: Combined_packagesCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * Combined_packagesCountOutputType without action
-   */
-  export type Combined_packagesCountOutputTypeCountCombined_package_detailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: combined_package_detailsWhereInput
-  }
-
-
-  /**
    * Count Type Crew_membersCountOutputType
    */
 
@@ -11306,8 +10932,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations: number
     destination_assets: number
     destination_faqs: number
-    route_destinations: number
     destination_gears: number
+    locations: number
   }
 
   export type DestinationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11322,8 +10948,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: boolean | DestinationsCountOutputTypeCountPackages_packages_start_destination_idTodestinationsArgs
     destination_assets?: boolean | DestinationsCountOutputTypeCountDestination_assetsArgs
     destination_faqs?: boolean | DestinationsCountOutputTypeCountDestination_faqsArgs
-    route_destinations?: boolean | DestinationsCountOutputTypeCountRoute_destinationsArgs
     destination_gears?: boolean | DestinationsCountOutputTypeCountDestination_gearsArgs
+    locations?: boolean | DestinationsCountOutputTypeCountLocationsArgs
   }
 
   // Custom InputTypes
@@ -11417,15 +11043,15 @@ export namespace Prisma {
   /**
    * DestinationsCountOutputType without action
    */
-  export type DestinationsCountOutputTypeCountRoute_destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: route_destinationsWhereInput
+  export type DestinationsCountOutputTypeCountDestination_gearsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: destination_gearsWhereInput
   }
 
   /**
    * DestinationsCountOutputType without action
    */
-  export type DestinationsCountOutputTypeCountDestination_gearsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: destination_gearsWhereInput
+  export type DestinationsCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: locationsWhereInput
   }
 
 
@@ -11885,11 +11511,19 @@ export namespace Prisma {
   export type LocationsCountOutputType = {
     package_itinerary_day_details_from_location: number
     package_itinerary_day_details_to_location: number
+    route_details_route_details_from_location_idTolocations: number
+    route_details_route_details_to_location_idTolocations: number
+    routes_routes_start_location_idTolocations: number
+    routes_routes_end_location_idTolocations: number
   }
 
   export type LocationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     package_itinerary_day_details_from_location?: boolean | LocationsCountOutputTypeCountPackage_itinerary_day_details_from_locationArgs
     package_itinerary_day_details_to_location?: boolean | LocationsCountOutputTypeCountPackage_itinerary_day_details_to_locationArgs
+    route_details_route_details_from_location_idTolocations?: boolean | LocationsCountOutputTypeCountRoute_details_route_details_from_location_idTolocationsArgs
+    route_details_route_details_to_location_idTolocations?: boolean | LocationsCountOutputTypeCountRoute_details_route_details_to_location_idTolocationsArgs
+    routes_routes_start_location_idTolocations?: boolean | LocationsCountOutputTypeCountRoutes_routes_start_location_idTolocationsArgs
+    routes_routes_end_location_idTolocations?: boolean | LocationsCountOutputTypeCountRoutes_routes_end_location_idTolocationsArgs
   }
 
   // Custom InputTypes
@@ -11915,6 +11549,34 @@ export namespace Prisma {
    */
   export type LocationsCountOutputTypeCountPackage_itinerary_day_details_to_locationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_itinerary_day_detailsWhereInput
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountRoute_details_route_details_from_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: route_detailsWhereInput
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountRoute_details_route_details_to_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: route_detailsWhereInput
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountRoutes_routes_start_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: routesWhereInput
+  }
+
+  /**
+   * LocationsCountOutputType without action
+   */
+  export type LocationsCountOutputTypeCountRoutes_routes_end_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: routesWhereInput
   }
 
 
@@ -11955,12 +11617,10 @@ export namespace Prisma {
 
   export type PackagesCountOutputType = {
     bookings: number
-    combined_package_details: number
     package_addons: number
     package_destinations: number
     package_excludes: number
     package_hotel_options: number
-    package_images: number
     package_includes: number
     package_itinerary_days: number
     package_prices: number
@@ -11971,12 +11631,10 @@ export namespace Prisma {
 
   export type PackagesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | PackagesCountOutputTypeCountBookingsArgs
-    combined_package_details?: boolean | PackagesCountOutputTypeCountCombined_package_detailsArgs
     package_addons?: boolean | PackagesCountOutputTypeCountPackage_addonsArgs
     package_destinations?: boolean | PackagesCountOutputTypeCountPackage_destinationsArgs
     package_excludes?: boolean | PackagesCountOutputTypeCountPackage_excludesArgs
     package_hotel_options?: boolean | PackagesCountOutputTypeCountPackage_hotel_optionsArgs
-    package_images?: boolean | PackagesCountOutputTypeCountPackage_imagesArgs
     package_includes?: boolean | PackagesCountOutputTypeCountPackage_includesArgs
     package_itinerary_days?: boolean | PackagesCountOutputTypeCountPackage_itinerary_daysArgs
     package_prices?: boolean | PackagesCountOutputTypeCountPackage_pricesArgs
@@ -12006,13 +11664,6 @@ export namespace Prisma {
   /**
    * PackagesCountOutputType without action
    */
-  export type PackagesCountOutputTypeCountCombined_package_detailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: combined_package_detailsWhereInput
-  }
-
-  /**
-   * PackagesCountOutputType without action
-   */
   export type PackagesCountOutputTypeCountPackage_addonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_addonsWhereInput
   }
@@ -12036,13 +11687,6 @@ export namespace Prisma {
    */
   export type PackagesCountOutputTypeCountPackage_hotel_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_hotel_optionsWhereInput
-  }
-
-  /**
-   * PackagesCountOutputType without action
-   */
-  export type PackagesCountOutputTypeCountPackage_imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: package_imagesWhereInput
   }
 
   /**
@@ -12166,13 +11810,11 @@ export namespace Prisma {
   export type RoutesCountOutputType = {
     route_details: number
     package_itinerary_days: number
-    route_destinations: number
   }
 
   export type RoutesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     route_details?: boolean | RoutesCountOutputTypeCountRoute_detailsArgs
     package_itinerary_days?: boolean | RoutesCountOutputTypeCountPackage_itinerary_daysArgs
-    route_destinations?: boolean | RoutesCountOutputTypeCountRoute_destinationsArgs
   }
 
   // Custom InputTypes
@@ -12198,13 +11840,6 @@ export namespace Prisma {
    */
   export type RoutesCountOutputTypeCountPackage_itinerary_daysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: package_itinerary_daysWhereInput
-  }
-
-  /**
-   * RoutesCountOutputType without action
-   */
-  export type RoutesCountOutputTypeCountRoute_destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: route_destinationsWhereInput
   }
 
 
@@ -50130,2308 +49765,6 @@ export namespace Prisma {
 
 
   /**
-   * Model combined_package_details
-   */
-
-  export type AggregateCombined_package_details = {
-    _count: Combined_package_detailsCountAggregateOutputType | null
-    _avg: Combined_package_detailsAvgAggregateOutputType | null
-    _sum: Combined_package_detailsSumAggregateOutputType | null
-    _min: Combined_package_detailsMinAggregateOutputType | null
-    _max: Combined_package_detailsMaxAggregateOutputType | null
-  }
-
-  export type Combined_package_detailsAvgAggregateOutputType = {
-    id: number | null
-    combined_package_id: number | null
-    package_id: number | null
-  }
-
-  export type Combined_package_detailsSumAggregateOutputType = {
-    id: bigint | null
-    combined_package_id: bigint | null
-    package_id: bigint | null
-  }
-
-  export type Combined_package_detailsMinAggregateOutputType = {
-    id: bigint | null
-    combined_package_id: bigint | null
-    package_id: bigint | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Combined_package_detailsMaxAggregateOutputType = {
-    id: bigint | null
-    combined_package_id: bigint | null
-    package_id: bigint | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Combined_package_detailsCountAggregateOutputType = {
-    id: number
-    combined_package_id: number
-    package_id: number
-    created_at: number
-    updated_at: number
-    deleted_at: number
-    _all: number
-  }
-
-
-  export type Combined_package_detailsAvgAggregateInputType = {
-    id?: true
-    combined_package_id?: true
-    package_id?: true
-  }
-
-  export type Combined_package_detailsSumAggregateInputType = {
-    id?: true
-    combined_package_id?: true
-    package_id?: true
-  }
-
-  export type Combined_package_detailsMinAggregateInputType = {
-    id?: true
-    combined_package_id?: true
-    package_id?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Combined_package_detailsMaxAggregateInputType = {
-    id?: true
-    combined_package_id?: true
-    package_id?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Combined_package_detailsCountAggregateInputType = {
-    id?: true
-    combined_package_id?: true
-    package_id?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-    _all?: true
-  }
-
-  export type Combined_package_detailsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which combined_package_details to aggregate.
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_package_details to fetch.
-     */
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: combined_package_detailsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_package_details from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_package_details.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned combined_package_details
-    **/
-    _count?: true | Combined_package_detailsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Combined_package_detailsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Combined_package_detailsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Combined_package_detailsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Combined_package_detailsMaxAggregateInputType
-  }
-
-  export type GetCombined_package_detailsAggregateType<T extends Combined_package_detailsAggregateArgs> = {
-        [P in keyof T & keyof AggregateCombined_package_details]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCombined_package_details[P]>
-      : GetScalarType<T[P], AggregateCombined_package_details[P]>
-  }
-
-
-
-
-  export type combined_package_detailsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: combined_package_detailsWhereInput
-    orderBy?: combined_package_detailsOrderByWithAggregationInput | combined_package_detailsOrderByWithAggregationInput[]
-    by: Combined_package_detailsScalarFieldEnum[] | Combined_package_detailsScalarFieldEnum
-    having?: combined_package_detailsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Combined_package_detailsCountAggregateInputType | true
-    _avg?: Combined_package_detailsAvgAggregateInputType
-    _sum?: Combined_package_detailsSumAggregateInputType
-    _min?: Combined_package_detailsMinAggregateInputType
-    _max?: Combined_package_detailsMaxAggregateInputType
-  }
-
-  export type Combined_package_detailsGroupByOutputType = {
-    id: bigint
-    combined_package_id: bigint | null
-    package_id: bigint | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-    _count: Combined_package_detailsCountAggregateOutputType | null
-    _avg: Combined_package_detailsAvgAggregateOutputType | null
-    _sum: Combined_package_detailsSumAggregateOutputType | null
-    _min: Combined_package_detailsMinAggregateOutputType | null
-    _max: Combined_package_detailsMaxAggregateOutputType | null
-  }
-
-  type GetCombined_package_detailsGroupByPayload<T extends combined_package_detailsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Combined_package_detailsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Combined_package_detailsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Combined_package_detailsGroupByOutputType[P]>
-            : GetScalarType<T[P], Combined_package_detailsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type combined_package_detailsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    combined_package_id?: boolean
-    package_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["combined_package_details"]>
-
-  export type combined_package_detailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    combined_package_id?: boolean
-    package_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["combined_package_details"]>
-
-  export type combined_package_detailsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    combined_package_id?: boolean
-    package_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["combined_package_details"]>
-
-  export type combined_package_detailsSelectScalar = {
-    id?: boolean
-    combined_package_id?: boolean
-    package_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-  }
-
-  export type combined_package_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "combined_package_id" | "package_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["combined_package_details"]>
-  export type combined_package_detailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }
-  export type combined_package_detailsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }
-  export type combined_package_detailsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    combined_packages?: boolean | combined_package_details$combined_packagesArgs<ExtArgs>
-    packages?: boolean | combined_package_details$packagesArgs<ExtArgs>
-  }
-
-  export type $combined_package_detailsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "combined_package_details"
-    objects: {
-      combined_packages: Prisma.$combined_packagesPayload<ExtArgs> | null
-      packages: Prisma.$packagesPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: bigint
-      combined_package_id: bigint | null
-      package_id: bigint | null
-      created_at: Date | null
-      updated_at: Date | null
-      deleted_at: Date | null
-    }, ExtArgs["result"]["combined_package_details"]>
-    composites: {}
-  }
-
-  type combined_package_detailsGetPayload<S extends boolean | null | undefined | combined_package_detailsDefaultArgs> = $Result.GetResult<Prisma.$combined_package_detailsPayload, S>
-
-  type combined_package_detailsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<combined_package_detailsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Combined_package_detailsCountAggregateInputType | true
-    }
-
-  export interface combined_package_detailsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['combined_package_details'], meta: { name: 'combined_package_details' } }
-    /**
-     * Find zero or one Combined_package_details that matches the filter.
-     * @param {combined_package_detailsFindUniqueArgs} args - Arguments to find a Combined_package_details
-     * @example
-     * // Get one Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends combined_package_detailsFindUniqueArgs>(args: SelectSubset<T, combined_package_detailsFindUniqueArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Combined_package_details that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {combined_package_detailsFindUniqueOrThrowArgs} args - Arguments to find a Combined_package_details
-     * @example
-     * // Get one Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends combined_package_detailsFindUniqueOrThrowArgs>(args: SelectSubset<T, combined_package_detailsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Combined_package_details that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsFindFirstArgs} args - Arguments to find a Combined_package_details
-     * @example
-     * // Get one Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends combined_package_detailsFindFirstArgs>(args?: SelectSubset<T, combined_package_detailsFindFirstArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Combined_package_details that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsFindFirstOrThrowArgs} args - Arguments to find a Combined_package_details
-     * @example
-     * // Get one Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends combined_package_detailsFindFirstOrThrowArgs>(args?: SelectSubset<T, combined_package_detailsFindFirstOrThrowArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Combined_package_details that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findMany()
-     * 
-     * // Get first 10 Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const combined_package_detailsWithIdOnly = await prisma.combined_package_details.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends combined_package_detailsFindManyArgs>(args?: SelectSubset<T, combined_package_detailsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Combined_package_details.
-     * @param {combined_package_detailsCreateArgs} args - Arguments to create a Combined_package_details.
-     * @example
-     * // Create one Combined_package_details
-     * const Combined_package_details = await prisma.combined_package_details.create({
-     *   data: {
-     *     // ... data to create a Combined_package_details
-     *   }
-     * })
-     * 
-     */
-    create<T extends combined_package_detailsCreateArgs>(args: SelectSubset<T, combined_package_detailsCreateArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Combined_package_details.
-     * @param {combined_package_detailsCreateManyArgs} args - Arguments to create many Combined_package_details.
-     * @example
-     * // Create many Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends combined_package_detailsCreateManyArgs>(args?: SelectSubset<T, combined_package_detailsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Combined_package_details and returns the data saved in the database.
-     * @param {combined_package_detailsCreateManyAndReturnArgs} args - Arguments to create many Combined_package_details.
-     * @example
-     * // Create many Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Combined_package_details and only return the `id`
-     * const combined_package_detailsWithIdOnly = await prisma.combined_package_details.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends combined_package_detailsCreateManyAndReturnArgs>(args?: SelectSubset<T, combined_package_detailsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Combined_package_details.
-     * @param {combined_package_detailsDeleteArgs} args - Arguments to delete one Combined_package_details.
-     * @example
-     * // Delete one Combined_package_details
-     * const Combined_package_details = await prisma.combined_package_details.delete({
-     *   where: {
-     *     // ... filter to delete one Combined_package_details
-     *   }
-     * })
-     * 
-     */
-    delete<T extends combined_package_detailsDeleteArgs>(args: SelectSubset<T, combined_package_detailsDeleteArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Combined_package_details.
-     * @param {combined_package_detailsUpdateArgs} args - Arguments to update one Combined_package_details.
-     * @example
-     * // Update one Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends combined_package_detailsUpdateArgs>(args: SelectSubset<T, combined_package_detailsUpdateArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Combined_package_details.
-     * @param {combined_package_detailsDeleteManyArgs} args - Arguments to filter Combined_package_details to delete.
-     * @example
-     * // Delete a few Combined_package_details
-     * const { count } = await prisma.combined_package_details.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends combined_package_detailsDeleteManyArgs>(args?: SelectSubset<T, combined_package_detailsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Combined_package_details.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends combined_package_detailsUpdateManyArgs>(args: SelectSubset<T, combined_package_detailsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Combined_package_details and returns the data updated in the database.
-     * @param {combined_package_detailsUpdateManyAndReturnArgs} args - Arguments to update many Combined_package_details.
-     * @example
-     * // Update many Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Combined_package_details and only return the `id`
-     * const combined_package_detailsWithIdOnly = await prisma.combined_package_details.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends combined_package_detailsUpdateManyAndReturnArgs>(args: SelectSubset<T, combined_package_detailsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Combined_package_details.
-     * @param {combined_package_detailsUpsertArgs} args - Arguments to update or create a Combined_package_details.
-     * @example
-     * // Update or create a Combined_package_details
-     * const combined_package_details = await prisma.combined_package_details.upsert({
-     *   create: {
-     *     // ... data to create a Combined_package_details
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Combined_package_details we want to update
-     *   }
-     * })
-     */
-    upsert<T extends combined_package_detailsUpsertArgs>(args: SelectSubset<T, combined_package_detailsUpsertArgs<ExtArgs>>): Prisma__combined_package_detailsClient<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Combined_package_details.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsCountArgs} args - Arguments to filter Combined_package_details to count.
-     * @example
-     * // Count the number of Combined_package_details
-     * const count = await prisma.combined_package_details.count({
-     *   where: {
-     *     // ... the filter for the Combined_package_details we want to count
-     *   }
-     * })
-    **/
-    count<T extends combined_package_detailsCountArgs>(
-      args?: Subset<T, combined_package_detailsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Combined_package_detailsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Combined_package_details.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Combined_package_detailsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Combined_package_detailsAggregateArgs>(args: Subset<T, Combined_package_detailsAggregateArgs>): Prisma.PrismaPromise<GetCombined_package_detailsAggregateType<T>>
-
-    /**
-     * Group by Combined_package_details.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_package_detailsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends combined_package_detailsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: combined_package_detailsGroupByArgs['orderBy'] }
-        : { orderBy?: combined_package_detailsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, combined_package_detailsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCombined_package_detailsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the combined_package_details model
-   */
-  readonly fields: combined_package_detailsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for combined_package_details.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__combined_package_detailsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    combined_packages<T extends combined_package_details$combined_packagesArgs<ExtArgs> = {}>(args?: Subset<T, combined_package_details$combined_packagesArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    packages<T extends combined_package_details$packagesArgs<ExtArgs> = {}>(args?: Subset<T, combined_package_details$packagesArgs<ExtArgs>>): Prisma__packagesClient<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the combined_package_details model
-   */
-  interface combined_package_detailsFieldRefs {
-    readonly id: FieldRef<"combined_package_details", 'BigInt'>
-    readonly combined_package_id: FieldRef<"combined_package_details", 'BigInt'>
-    readonly package_id: FieldRef<"combined_package_details", 'BigInt'>
-    readonly created_at: FieldRef<"combined_package_details", 'DateTime'>
-    readonly updated_at: FieldRef<"combined_package_details", 'DateTime'>
-    readonly deleted_at: FieldRef<"combined_package_details", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * combined_package_details findUnique
-   */
-  export type combined_package_detailsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_package_details to fetch.
-     */
-    where: combined_package_detailsWhereUniqueInput
-  }
-
-  /**
-   * combined_package_details findUniqueOrThrow
-   */
-  export type combined_package_detailsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_package_details to fetch.
-     */
-    where: combined_package_detailsWhereUniqueInput
-  }
-
-  /**
-   * combined_package_details findFirst
-   */
-  export type combined_package_detailsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_package_details to fetch.
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_package_details to fetch.
-     */
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for combined_package_details.
-     */
-    cursor?: combined_package_detailsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_package_details from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_package_details.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of combined_package_details.
-     */
-    distinct?: Combined_package_detailsScalarFieldEnum | Combined_package_detailsScalarFieldEnum[]
-  }
-
-  /**
-   * combined_package_details findFirstOrThrow
-   */
-  export type combined_package_detailsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_package_details to fetch.
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_package_details to fetch.
-     */
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for combined_package_details.
-     */
-    cursor?: combined_package_detailsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_package_details from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_package_details.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of combined_package_details.
-     */
-    distinct?: Combined_package_detailsScalarFieldEnum | Combined_package_detailsScalarFieldEnum[]
-  }
-
-  /**
-   * combined_package_details findMany
-   */
-  export type combined_package_detailsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_package_details to fetch.
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_package_details to fetch.
-     */
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing combined_package_details.
-     */
-    cursor?: combined_package_detailsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_package_details from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_package_details.
-     */
-    skip?: number
-    distinct?: Combined_package_detailsScalarFieldEnum | Combined_package_detailsScalarFieldEnum[]
-  }
-
-  /**
-   * combined_package_details create
-   */
-  export type combined_package_detailsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a combined_package_details.
-     */
-    data?: XOR<combined_package_detailsCreateInput, combined_package_detailsUncheckedCreateInput>
-  }
-
-  /**
-   * combined_package_details createMany
-   */
-  export type combined_package_detailsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many combined_package_details.
-     */
-    data: combined_package_detailsCreateManyInput | combined_package_detailsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * combined_package_details createManyAndReturn
-   */
-  export type combined_package_detailsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * The data used to create many combined_package_details.
-     */
-    data: combined_package_detailsCreateManyInput | combined_package_detailsCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * combined_package_details update
-   */
-  export type combined_package_detailsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a combined_package_details.
-     */
-    data: XOR<combined_package_detailsUpdateInput, combined_package_detailsUncheckedUpdateInput>
-    /**
-     * Choose, which combined_package_details to update.
-     */
-    where: combined_package_detailsWhereUniqueInput
-  }
-
-  /**
-   * combined_package_details updateMany
-   */
-  export type combined_package_detailsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update combined_package_details.
-     */
-    data: XOR<combined_package_detailsUpdateManyMutationInput, combined_package_detailsUncheckedUpdateManyInput>
-    /**
-     * Filter which combined_package_details to update
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * Limit how many combined_package_details to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * combined_package_details updateManyAndReturn
-   */
-  export type combined_package_detailsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * The data used to update combined_package_details.
-     */
-    data: XOR<combined_package_detailsUpdateManyMutationInput, combined_package_detailsUncheckedUpdateManyInput>
-    /**
-     * Filter which combined_package_details to update
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * Limit how many combined_package_details to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * combined_package_details upsert
-   */
-  export type combined_package_detailsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the combined_package_details to update in case it exists.
-     */
-    where: combined_package_detailsWhereUniqueInput
-    /**
-     * In case the combined_package_details found by the `where` argument doesn't exist, create a new combined_package_details with this data.
-     */
-    create: XOR<combined_package_detailsCreateInput, combined_package_detailsUncheckedCreateInput>
-    /**
-     * In case the combined_package_details was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<combined_package_detailsUpdateInput, combined_package_detailsUncheckedUpdateInput>
-  }
-
-  /**
-   * combined_package_details delete
-   */
-  export type combined_package_detailsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    /**
-     * Filter which combined_package_details to delete.
-     */
-    where: combined_package_detailsWhereUniqueInput
-  }
-
-  /**
-   * combined_package_details deleteMany
-   */
-  export type combined_package_detailsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which combined_package_details to delete
-     */
-    where?: combined_package_detailsWhereInput
-    /**
-     * Limit how many combined_package_details to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * combined_package_details.combined_packages
-   */
-  export type combined_package_details$combined_packagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    where?: combined_packagesWhereInput
-  }
-
-  /**
-   * combined_package_details.packages
-   */
-  export type combined_package_details$packagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the packages
-     */
-    select?: packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the packages
-     */
-    omit?: packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: packagesInclude<ExtArgs> | null
-    where?: packagesWhereInput
-  }
-
-  /**
-   * combined_package_details without action
-   */
-  export type combined_package_detailsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model combined_packages
-   */
-
-  export type AggregateCombined_packages = {
-    _count: Combined_packagesCountAggregateOutputType | null
-    _avg: Combined_packagesAvgAggregateOutputType | null
-    _sum: Combined_packagesSumAggregateOutputType | null
-    _min: Combined_packagesMinAggregateOutputType | null
-    _max: Combined_packagesMaxAggregateOutputType | null
-  }
-
-  export type Combined_packagesAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type Combined_packagesSumAggregateOutputType = {
-    id: bigint | null
-  }
-
-  export type Combined_packagesMinAggregateOutputType = {
-    id: bigint | null
-    name: string | null
-    long_name: string | null
-    slug: string | null
-    highlights: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Combined_packagesMaxAggregateOutputType = {
-    id: bigint | null
-    name: string | null
-    long_name: string | null
-    slug: string | null
-    highlights: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Combined_packagesCountAggregateOutputType = {
-    id: number
-    name: number
-    long_name: number
-    slug: number
-    highlights: number
-    created_at: number
-    updated_at: number
-    deleted_at: number
-    _all: number
-  }
-
-
-  export type Combined_packagesAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type Combined_packagesSumAggregateInputType = {
-    id?: true
-  }
-
-  export type Combined_packagesMinAggregateInputType = {
-    id?: true
-    name?: true
-    long_name?: true
-    slug?: true
-    highlights?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Combined_packagesMaxAggregateInputType = {
-    id?: true
-    name?: true
-    long_name?: true
-    slug?: true
-    highlights?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Combined_packagesCountAggregateInputType = {
-    id?: true
-    name?: true
-    long_name?: true
-    slug?: true
-    highlights?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-    _all?: true
-  }
-
-  export type Combined_packagesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which combined_packages to aggregate.
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_packages to fetch.
-     */
-    orderBy?: combined_packagesOrderByWithRelationInput | combined_packagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: combined_packagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_packages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_packages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned combined_packages
-    **/
-    _count?: true | Combined_packagesCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Combined_packagesAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Combined_packagesSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Combined_packagesMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Combined_packagesMaxAggregateInputType
-  }
-
-  export type GetCombined_packagesAggregateType<T extends Combined_packagesAggregateArgs> = {
-        [P in keyof T & keyof AggregateCombined_packages]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCombined_packages[P]>
-      : GetScalarType<T[P], AggregateCombined_packages[P]>
-  }
-
-
-
-
-  export type combined_packagesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: combined_packagesWhereInput
-    orderBy?: combined_packagesOrderByWithAggregationInput | combined_packagesOrderByWithAggregationInput[]
-    by: Combined_packagesScalarFieldEnum[] | Combined_packagesScalarFieldEnum
-    having?: combined_packagesScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Combined_packagesCountAggregateInputType | true
-    _avg?: Combined_packagesAvgAggregateInputType
-    _sum?: Combined_packagesSumAggregateInputType
-    _min?: Combined_packagesMinAggregateInputType
-    _max?: Combined_packagesMaxAggregateInputType
-  }
-
-  export type Combined_packagesGroupByOutputType = {
-    id: bigint
-    name: string | null
-    long_name: string | null
-    slug: string | null
-    highlights: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-    _count: Combined_packagesCountAggregateOutputType | null
-    _avg: Combined_packagesAvgAggregateOutputType | null
-    _sum: Combined_packagesSumAggregateOutputType | null
-    _min: Combined_packagesMinAggregateOutputType | null
-    _max: Combined_packagesMaxAggregateOutputType | null
-  }
-
-  type GetCombined_packagesGroupByPayload<T extends combined_packagesGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Combined_packagesGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Combined_packagesGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Combined_packagesGroupByOutputType[P]>
-            : GetScalarType<T[P], Combined_packagesGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type combined_packagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    long_name?: boolean
-    slug?: boolean
-    highlights?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    combined_package_details?: boolean | combined_packages$combined_package_detailsArgs<ExtArgs>
-    _count?: boolean | Combined_packagesCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["combined_packages"]>
-
-  export type combined_packagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    long_name?: boolean
-    slug?: boolean
-    highlights?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-  }, ExtArgs["result"]["combined_packages"]>
-
-  export type combined_packagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    long_name?: boolean
-    slug?: boolean
-    highlights?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-  }, ExtArgs["result"]["combined_packages"]>
-
-  export type combined_packagesSelectScalar = {
-    id?: boolean
-    name?: boolean
-    long_name?: boolean
-    slug?: boolean
-    highlights?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-  }
-
-  export type combined_packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "long_name" | "slug" | "highlights" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["combined_packages"]>
-  export type combined_packagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    combined_package_details?: boolean | combined_packages$combined_package_detailsArgs<ExtArgs>
-    _count?: boolean | Combined_packagesCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type combined_packagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type combined_packagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $combined_packagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "combined_packages"
-    objects: {
-      combined_package_details: Prisma.$combined_package_detailsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: bigint
-      name: string | null
-      long_name: string | null
-      slug: string | null
-      highlights: string | null
-      created_at: Date | null
-      updated_at: Date | null
-      deleted_at: Date | null
-    }, ExtArgs["result"]["combined_packages"]>
-    composites: {}
-  }
-
-  type combined_packagesGetPayload<S extends boolean | null | undefined | combined_packagesDefaultArgs> = $Result.GetResult<Prisma.$combined_packagesPayload, S>
-
-  type combined_packagesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<combined_packagesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Combined_packagesCountAggregateInputType | true
-    }
-
-  export interface combined_packagesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['combined_packages'], meta: { name: 'combined_packages' } }
-    /**
-     * Find zero or one Combined_packages that matches the filter.
-     * @param {combined_packagesFindUniqueArgs} args - Arguments to find a Combined_packages
-     * @example
-     * // Get one Combined_packages
-     * const combined_packages = await prisma.combined_packages.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends combined_packagesFindUniqueArgs>(args: SelectSubset<T, combined_packagesFindUniqueArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Combined_packages that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {combined_packagesFindUniqueOrThrowArgs} args - Arguments to find a Combined_packages
-     * @example
-     * // Get one Combined_packages
-     * const combined_packages = await prisma.combined_packages.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends combined_packagesFindUniqueOrThrowArgs>(args: SelectSubset<T, combined_packagesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Combined_packages that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesFindFirstArgs} args - Arguments to find a Combined_packages
-     * @example
-     * // Get one Combined_packages
-     * const combined_packages = await prisma.combined_packages.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends combined_packagesFindFirstArgs>(args?: SelectSubset<T, combined_packagesFindFirstArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Combined_packages that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesFindFirstOrThrowArgs} args - Arguments to find a Combined_packages
-     * @example
-     * // Get one Combined_packages
-     * const combined_packages = await prisma.combined_packages.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends combined_packagesFindFirstOrThrowArgs>(args?: SelectSubset<T, combined_packagesFindFirstOrThrowArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Combined_packages that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Combined_packages
-     * const combined_packages = await prisma.combined_packages.findMany()
-     * 
-     * // Get first 10 Combined_packages
-     * const combined_packages = await prisma.combined_packages.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const combined_packagesWithIdOnly = await prisma.combined_packages.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends combined_packagesFindManyArgs>(args?: SelectSubset<T, combined_packagesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Combined_packages.
-     * @param {combined_packagesCreateArgs} args - Arguments to create a Combined_packages.
-     * @example
-     * // Create one Combined_packages
-     * const Combined_packages = await prisma.combined_packages.create({
-     *   data: {
-     *     // ... data to create a Combined_packages
-     *   }
-     * })
-     * 
-     */
-    create<T extends combined_packagesCreateArgs>(args: SelectSubset<T, combined_packagesCreateArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Combined_packages.
-     * @param {combined_packagesCreateManyArgs} args - Arguments to create many Combined_packages.
-     * @example
-     * // Create many Combined_packages
-     * const combined_packages = await prisma.combined_packages.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends combined_packagesCreateManyArgs>(args?: SelectSubset<T, combined_packagesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Combined_packages and returns the data saved in the database.
-     * @param {combined_packagesCreateManyAndReturnArgs} args - Arguments to create many Combined_packages.
-     * @example
-     * // Create many Combined_packages
-     * const combined_packages = await prisma.combined_packages.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Combined_packages and only return the `id`
-     * const combined_packagesWithIdOnly = await prisma.combined_packages.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends combined_packagesCreateManyAndReturnArgs>(args?: SelectSubset<T, combined_packagesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Combined_packages.
-     * @param {combined_packagesDeleteArgs} args - Arguments to delete one Combined_packages.
-     * @example
-     * // Delete one Combined_packages
-     * const Combined_packages = await prisma.combined_packages.delete({
-     *   where: {
-     *     // ... filter to delete one Combined_packages
-     *   }
-     * })
-     * 
-     */
-    delete<T extends combined_packagesDeleteArgs>(args: SelectSubset<T, combined_packagesDeleteArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Combined_packages.
-     * @param {combined_packagesUpdateArgs} args - Arguments to update one Combined_packages.
-     * @example
-     * // Update one Combined_packages
-     * const combined_packages = await prisma.combined_packages.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends combined_packagesUpdateArgs>(args: SelectSubset<T, combined_packagesUpdateArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Combined_packages.
-     * @param {combined_packagesDeleteManyArgs} args - Arguments to filter Combined_packages to delete.
-     * @example
-     * // Delete a few Combined_packages
-     * const { count } = await prisma.combined_packages.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends combined_packagesDeleteManyArgs>(args?: SelectSubset<T, combined_packagesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Combined_packages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Combined_packages
-     * const combined_packages = await prisma.combined_packages.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends combined_packagesUpdateManyArgs>(args: SelectSubset<T, combined_packagesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Combined_packages and returns the data updated in the database.
-     * @param {combined_packagesUpdateManyAndReturnArgs} args - Arguments to update many Combined_packages.
-     * @example
-     * // Update many Combined_packages
-     * const combined_packages = await prisma.combined_packages.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Combined_packages and only return the `id`
-     * const combined_packagesWithIdOnly = await prisma.combined_packages.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends combined_packagesUpdateManyAndReturnArgs>(args: SelectSubset<T, combined_packagesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Combined_packages.
-     * @param {combined_packagesUpsertArgs} args - Arguments to update or create a Combined_packages.
-     * @example
-     * // Update or create a Combined_packages
-     * const combined_packages = await prisma.combined_packages.upsert({
-     *   create: {
-     *     // ... data to create a Combined_packages
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Combined_packages we want to update
-     *   }
-     * })
-     */
-    upsert<T extends combined_packagesUpsertArgs>(args: SelectSubset<T, combined_packagesUpsertArgs<ExtArgs>>): Prisma__combined_packagesClient<$Result.GetResult<Prisma.$combined_packagesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Combined_packages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesCountArgs} args - Arguments to filter Combined_packages to count.
-     * @example
-     * // Count the number of Combined_packages
-     * const count = await prisma.combined_packages.count({
-     *   where: {
-     *     // ... the filter for the Combined_packages we want to count
-     *   }
-     * })
-    **/
-    count<T extends combined_packagesCountArgs>(
-      args?: Subset<T, combined_packagesCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Combined_packagesCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Combined_packages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Combined_packagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Combined_packagesAggregateArgs>(args: Subset<T, Combined_packagesAggregateArgs>): Prisma.PrismaPromise<GetCombined_packagesAggregateType<T>>
-
-    /**
-     * Group by Combined_packages.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {combined_packagesGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends combined_packagesGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: combined_packagesGroupByArgs['orderBy'] }
-        : { orderBy?: combined_packagesGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, combined_packagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCombined_packagesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the combined_packages model
-   */
-  readonly fields: combined_packagesFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for combined_packages.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__combined_packagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    combined_package_details<T extends combined_packages$combined_package_detailsArgs<ExtArgs> = {}>(args?: Subset<T, combined_packages$combined_package_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the combined_packages model
-   */
-  interface combined_packagesFieldRefs {
-    readonly id: FieldRef<"combined_packages", 'BigInt'>
-    readonly name: FieldRef<"combined_packages", 'String'>
-    readonly long_name: FieldRef<"combined_packages", 'String'>
-    readonly slug: FieldRef<"combined_packages", 'String'>
-    readonly highlights: FieldRef<"combined_packages", 'String'>
-    readonly created_at: FieldRef<"combined_packages", 'DateTime'>
-    readonly updated_at: FieldRef<"combined_packages", 'DateTime'>
-    readonly deleted_at: FieldRef<"combined_packages", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * combined_packages findUnique
-   */
-  export type combined_packagesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_packages to fetch.
-     */
-    where: combined_packagesWhereUniqueInput
-  }
-
-  /**
-   * combined_packages findUniqueOrThrow
-   */
-  export type combined_packagesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_packages to fetch.
-     */
-    where: combined_packagesWhereUniqueInput
-  }
-
-  /**
-   * combined_packages findFirst
-   */
-  export type combined_packagesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_packages to fetch.
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_packages to fetch.
-     */
-    orderBy?: combined_packagesOrderByWithRelationInput | combined_packagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for combined_packages.
-     */
-    cursor?: combined_packagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_packages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_packages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of combined_packages.
-     */
-    distinct?: Combined_packagesScalarFieldEnum | Combined_packagesScalarFieldEnum[]
-  }
-
-  /**
-   * combined_packages findFirstOrThrow
-   */
-  export type combined_packagesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_packages to fetch.
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_packages to fetch.
-     */
-    orderBy?: combined_packagesOrderByWithRelationInput | combined_packagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for combined_packages.
-     */
-    cursor?: combined_packagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_packages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_packages.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of combined_packages.
-     */
-    distinct?: Combined_packagesScalarFieldEnum | Combined_packagesScalarFieldEnum[]
-  }
-
-  /**
-   * combined_packages findMany
-   */
-  export type combined_packagesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter, which combined_packages to fetch.
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of combined_packages to fetch.
-     */
-    orderBy?: combined_packagesOrderByWithRelationInput | combined_packagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing combined_packages.
-     */
-    cursor?: combined_packagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` combined_packages from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` combined_packages.
-     */
-    skip?: number
-    distinct?: Combined_packagesScalarFieldEnum | Combined_packagesScalarFieldEnum[]
-  }
-
-  /**
-   * combined_packages create
-   */
-  export type combined_packagesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * The data needed to create a combined_packages.
-     */
-    data?: XOR<combined_packagesCreateInput, combined_packagesUncheckedCreateInput>
-  }
-
-  /**
-   * combined_packages createMany
-   */
-  export type combined_packagesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many combined_packages.
-     */
-    data: combined_packagesCreateManyInput | combined_packagesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * combined_packages createManyAndReturn
-   */
-  export type combined_packagesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * The data used to create many combined_packages.
-     */
-    data: combined_packagesCreateManyInput | combined_packagesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * combined_packages update
-   */
-  export type combined_packagesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * The data needed to update a combined_packages.
-     */
-    data: XOR<combined_packagesUpdateInput, combined_packagesUncheckedUpdateInput>
-    /**
-     * Choose, which combined_packages to update.
-     */
-    where: combined_packagesWhereUniqueInput
-  }
-
-  /**
-   * combined_packages updateMany
-   */
-  export type combined_packagesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update combined_packages.
-     */
-    data: XOR<combined_packagesUpdateManyMutationInput, combined_packagesUncheckedUpdateManyInput>
-    /**
-     * Filter which combined_packages to update
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * Limit how many combined_packages to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * combined_packages updateManyAndReturn
-   */
-  export type combined_packagesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * The data used to update combined_packages.
-     */
-    data: XOR<combined_packagesUpdateManyMutationInput, combined_packagesUncheckedUpdateManyInput>
-    /**
-     * Filter which combined_packages to update
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * Limit how many combined_packages to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * combined_packages upsert
-   */
-  export type combined_packagesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * The filter to search for the combined_packages to update in case it exists.
-     */
-    where: combined_packagesWhereUniqueInput
-    /**
-     * In case the combined_packages found by the `where` argument doesn't exist, create a new combined_packages with this data.
-     */
-    create: XOR<combined_packagesCreateInput, combined_packagesUncheckedCreateInput>
-    /**
-     * In case the combined_packages was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<combined_packagesUpdateInput, combined_packagesUncheckedUpdateInput>
-  }
-
-  /**
-   * combined_packages delete
-   */
-  export type combined_packagesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-    /**
-     * Filter which combined_packages to delete.
-     */
-    where: combined_packagesWhereUniqueInput
-  }
-
-  /**
-   * combined_packages deleteMany
-   */
-  export type combined_packagesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which combined_packages to delete
-     */
-    where?: combined_packagesWhereInput
-    /**
-     * Limit how many combined_packages to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * combined_packages.combined_package_details
-   */
-  export type combined_packages$combined_package_detailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    where?: combined_package_detailsWhereInput
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    cursor?: combined_package_detailsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Combined_package_detailsScalarFieldEnum | Combined_package_detailsScalarFieldEnum[]
-  }
-
-  /**
-   * combined_packages without action
-   */
-  export type combined_packagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_packages
-     */
-    select?: combined_packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_packages
-     */
-    omit?: combined_packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_packagesInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model countries
    */
 
@@ -68884,24 +66217,24 @@ export namespace Prisma {
 
   export type DestinationsAvgAggregateOutputType = {
     id: number | null
-    latitude: Decimal | null
-    longitude: Decimal | null
     altitude: number | null
-    area_hectares: Decimal | null
+    display_height_m: number | null
     physical_demand: number | null
-    cultural_depth: number | null
-    photo_potential: number | null
+    route_length_m: number | null
+    route_elev_gain_m: number | null
+    route_elev_min_m: number | null
+    route_max_alt_m: number | null
   }
 
   export type DestinationsSumAggregateOutputType = {
     id: bigint | null
-    latitude: Decimal | null
-    longitude: Decimal | null
     altitude: number | null
-    area_hectares: Decimal | null
+    display_height_m: number | null
     physical_demand: number | null
-    cultural_depth: number | null
-    photo_potential: number | null
+    route_length_m: number | null
+    route_elev_gain_m: number | null
+    route_elev_min_m: number | null
+    route_max_alt_m: number | null
   }
 
   export type DestinationsMinAggregateOutputType = {
@@ -68912,17 +66245,15 @@ export namespace Prisma {
     region: string | null
     province: string | null
     country: string | null
-    latitude: Decimal | null
-    longitude: Decimal | null
     altitude: number | null
-    area_hectares: Decimal | null
+    display_height_m: number | null
+    nickname: string | null
+    trailhead: string | null
+    physical_demand: number | null
     terrain: string | null
     best_time_to_visit: string | null
     difficulty_level: string | null
     duration: string | null
-    physical_demand: number | null
-    cultural_depth: number | null
-    photo_potential: number | null
     weather_by_season: string | null
     rainfall_intensity: string | null
     temperature_range: string | null
@@ -68936,12 +66267,15 @@ export namespace Prisma {
     physical_requirements: string | null
     cultural_context: string | null
     tips_for_visitors: string | null
-    thumbnail_url: string | null
     featured_image: string | null
     published: boolean | null
     featured: boolean | null
     seo_title: string | null
     seo_description: string | null
+    route_length_m: number | null
+    route_elev_gain_m: number | null
+    route_elev_min_m: number | null
+    route_max_alt_m: number | null
     slug: string | null
     short_slug: string | null
     created_at: Date | null
@@ -68957,17 +66291,15 @@ export namespace Prisma {
     region: string | null
     province: string | null
     country: string | null
-    latitude: Decimal | null
-    longitude: Decimal | null
     altitude: number | null
-    area_hectares: Decimal | null
+    display_height_m: number | null
+    nickname: string | null
+    trailhead: string | null
+    physical_demand: number | null
     terrain: string | null
     best_time_to_visit: string | null
     difficulty_level: string | null
     duration: string | null
-    physical_demand: number | null
-    cultural_depth: number | null
-    photo_potential: number | null
     weather_by_season: string | null
     rainfall_intensity: string | null
     temperature_range: string | null
@@ -68981,12 +66313,15 @@ export namespace Prisma {
     physical_requirements: string | null
     cultural_context: string | null
     tips_for_visitors: string | null
-    thumbnail_url: string | null
     featured_image: string | null
     published: boolean | null
     featured: boolean | null
     seo_title: string | null
     seo_description: string | null
+    route_length_m: number | null
+    route_elev_gain_m: number | null
+    route_elev_min_m: number | null
+    route_max_alt_m: number | null
     slug: string | null
     short_slug: string | null
     created_at: Date | null
@@ -69002,17 +66337,16 @@ export namespace Prisma {
     region: number
     province: number
     country: number
-    latitude: number
-    longitude: number
     altitude: number
-    area_hectares: number
+    display_height_m: number
+    nickname: number
+    trailhead: number
+    physical_demand: number
+    sections: number
     terrain: number
     best_time_to_visit: number
     difficulty_level: number
     duration: number
-    physical_demand: number
-    cultural_depth: number
-    photo_potential: number
     weather_by_season: number
     rainfall_intensity: number
     temperature_range: number
@@ -69026,23 +66360,26 @@ export namespace Prisma {
     permit_required: number
     permit_details: number
     guide_required: number
-    facilities: number
     safety_notes: number
     risk_factors: number
     environmental_factors: number
-    emergency_contacts: number
     physical_requirements: number
     cultural_context: number
     local_tribes: number
-    rituals_festivals: number
     tips_for_visitors: number
-    thumbnail_url: number
     featured_image: number
     published: number
     featured: number
     seo_title: number
     seo_description: number
     schema_json: number
+    route_geojson: number
+    route_length_m: number
+    route_elev_gain_m: number
+    route_elev_min_m: number
+    route_max_alt_m: number
+    route_bbox: number
+    route_start_point: number
     tags: number
     types: number
     slug: number
@@ -69056,24 +66393,24 @@ export namespace Prisma {
 
   export type DestinationsAvgAggregateInputType = {
     id?: true
-    latitude?: true
-    longitude?: true
     altitude?: true
-    area_hectares?: true
+    display_height_m?: true
     physical_demand?: true
-    cultural_depth?: true
-    photo_potential?: true
+    route_length_m?: true
+    route_elev_gain_m?: true
+    route_elev_min_m?: true
+    route_max_alt_m?: true
   }
 
   export type DestinationsSumAggregateInputType = {
     id?: true
-    latitude?: true
-    longitude?: true
     altitude?: true
-    area_hectares?: true
+    display_height_m?: true
     physical_demand?: true
-    cultural_depth?: true
-    photo_potential?: true
+    route_length_m?: true
+    route_elev_gain_m?: true
+    route_elev_min_m?: true
+    route_max_alt_m?: true
   }
 
   export type DestinationsMinAggregateInputType = {
@@ -69084,17 +66421,15 @@ export namespace Prisma {
     region?: true
     province?: true
     country?: true
-    latitude?: true
-    longitude?: true
     altitude?: true
-    area_hectares?: true
+    display_height_m?: true
+    nickname?: true
+    trailhead?: true
+    physical_demand?: true
     terrain?: true
     best_time_to_visit?: true
     difficulty_level?: true
     duration?: true
-    physical_demand?: true
-    cultural_depth?: true
-    photo_potential?: true
     weather_by_season?: true
     rainfall_intensity?: true
     temperature_range?: true
@@ -69108,12 +66443,15 @@ export namespace Prisma {
     physical_requirements?: true
     cultural_context?: true
     tips_for_visitors?: true
-    thumbnail_url?: true
     featured_image?: true
     published?: true
     featured?: true
     seo_title?: true
     seo_description?: true
+    route_length_m?: true
+    route_elev_gain_m?: true
+    route_elev_min_m?: true
+    route_max_alt_m?: true
     slug?: true
     short_slug?: true
     created_at?: true
@@ -69129,17 +66467,15 @@ export namespace Prisma {
     region?: true
     province?: true
     country?: true
-    latitude?: true
-    longitude?: true
     altitude?: true
-    area_hectares?: true
+    display_height_m?: true
+    nickname?: true
+    trailhead?: true
+    physical_demand?: true
     terrain?: true
     best_time_to_visit?: true
     difficulty_level?: true
     duration?: true
-    physical_demand?: true
-    cultural_depth?: true
-    photo_potential?: true
     weather_by_season?: true
     rainfall_intensity?: true
     temperature_range?: true
@@ -69153,12 +66489,15 @@ export namespace Prisma {
     physical_requirements?: true
     cultural_context?: true
     tips_for_visitors?: true
-    thumbnail_url?: true
     featured_image?: true
     published?: true
     featured?: true
     seo_title?: true
     seo_description?: true
+    route_length_m?: true
+    route_elev_gain_m?: true
+    route_elev_min_m?: true
+    route_max_alt_m?: true
     slug?: true
     short_slug?: true
     created_at?: true
@@ -69174,17 +66513,16 @@ export namespace Prisma {
     region?: true
     province?: true
     country?: true
-    latitude?: true
-    longitude?: true
     altitude?: true
-    area_hectares?: true
+    display_height_m?: true
+    nickname?: true
+    trailhead?: true
+    physical_demand?: true
+    sections?: true
     terrain?: true
     best_time_to_visit?: true
     difficulty_level?: true
     duration?: true
-    physical_demand?: true
-    cultural_depth?: true
-    photo_potential?: true
     weather_by_season?: true
     rainfall_intensity?: true
     temperature_range?: true
@@ -69198,23 +66536,26 @@ export namespace Prisma {
     permit_required?: true
     permit_details?: true
     guide_required?: true
-    facilities?: true
     safety_notes?: true
     risk_factors?: true
     environmental_factors?: true
-    emergency_contacts?: true
     physical_requirements?: true
     cultural_context?: true
     local_tribes?: true
-    rituals_festivals?: true
     tips_for_visitors?: true
-    thumbnail_url?: true
     featured_image?: true
     published?: true
     featured?: true
     seo_title?: true
     seo_description?: true
     schema_json?: true
+    route_geojson?: true
+    route_length_m?: true
+    route_elev_gain_m?: true
+    route_elev_min_m?: true
+    route_max_alt_m?: true
+    route_bbox?: true
+    route_start_point?: true
     tags?: true
     types?: true
     slug?: true
@@ -69319,17 +66660,16 @@ export namespace Prisma {
     region: string | null
     province: string | null
     country: string | null
-    latitude: Decimal | null
-    longitude: Decimal | null
     altitude: number | null
-    area_hectares: Decimal | null
+    display_height_m: number | null
+    nickname: string | null
+    trailhead: string | null
+    physical_demand: number | null
+    sections: JsonValue | null
     terrain: string | null
     best_time_to_visit: string | null
     difficulty_level: string | null
     duration: string | null
-    physical_demand: number | null
-    cultural_depth: number | null
-    photo_potential: number | null
     weather_by_season: string | null
     rainfall_intensity: string | null
     temperature_range: string | null
@@ -69343,23 +66683,26 @@ export namespace Prisma {
     permit_required: boolean | null
     permit_details: string | null
     guide_required: boolean | null
-    facilities: JsonValue | null
     safety_notes: JsonValue | null
     risk_factors: JsonValue | null
     environmental_factors: JsonValue | null
-    emergency_contacts: JsonValue | null
     physical_requirements: string | null
     cultural_context: string | null
     local_tribes: string[]
-    rituals_festivals: JsonValue | null
     tips_for_visitors: string | null
-    thumbnail_url: string | null
     featured_image: string | null
     published: boolean | null
     featured: boolean | null
     seo_title: string | null
     seo_description: string | null
     schema_json: JsonValue | null
+    route_geojson: JsonValue | null
+    route_length_m: number | null
+    route_elev_gain_m: number | null
+    route_elev_min_m: number | null
+    route_max_alt_m: number | null
+    route_bbox: JsonValue | null
+    route_start_point: JsonValue | null
     tags: string[]
     types: JsonValue | null
     slug: string | null
@@ -69396,17 +66739,16 @@ export namespace Prisma {
     region?: boolean
     province?: boolean
     country?: boolean
-    latitude?: boolean
-    longitude?: boolean
     altitude?: boolean
-    area_hectares?: boolean
+    display_height_m?: boolean
+    nickname?: boolean
+    trailhead?: boolean
+    physical_demand?: boolean
+    sections?: boolean
     terrain?: boolean
     best_time_to_visit?: boolean
     difficulty_level?: boolean
     duration?: boolean
-    physical_demand?: boolean
-    cultural_depth?: boolean
-    photo_potential?: boolean
     weather_by_season?: boolean
     rainfall_intensity?: boolean
     temperature_range?: boolean
@@ -69420,23 +66762,26 @@ export namespace Prisma {
     permit_required?: boolean
     permit_details?: boolean
     guide_required?: boolean
-    facilities?: boolean
     safety_notes?: boolean
     risk_factors?: boolean
     environmental_factors?: boolean
-    emergency_contacts?: boolean
     physical_requirements?: boolean
     cultural_context?: boolean
     local_tribes?: boolean
-    rituals_festivals?: boolean
     tips_for_visitors?: boolean
-    thumbnail_url?: boolean
     featured_image?: boolean
     published?: boolean
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
     schema_json?: boolean
+    route_geojson?: boolean
+    route_length_m?: boolean
+    route_elev_gain_m?: boolean
+    route_elev_min_m?: boolean
+    route_max_alt_m?: boolean
+    route_bbox?: boolean
+    route_start_point?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -69455,8 +66800,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
-    route_destinations?: boolean | destinations$route_destinationsArgs<ExtArgs>
     destination_gears?: boolean | destinations$destination_gearsArgs<ExtArgs>
+    locations?: boolean | destinations$locationsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["destinations"]>
 
@@ -69468,17 +66813,16 @@ export namespace Prisma {
     region?: boolean
     province?: boolean
     country?: boolean
-    latitude?: boolean
-    longitude?: boolean
     altitude?: boolean
-    area_hectares?: boolean
+    display_height_m?: boolean
+    nickname?: boolean
+    trailhead?: boolean
+    physical_demand?: boolean
+    sections?: boolean
     terrain?: boolean
     best_time_to_visit?: boolean
     difficulty_level?: boolean
     duration?: boolean
-    physical_demand?: boolean
-    cultural_depth?: boolean
-    photo_potential?: boolean
     weather_by_season?: boolean
     rainfall_intensity?: boolean
     temperature_range?: boolean
@@ -69492,23 +66836,26 @@ export namespace Prisma {
     permit_required?: boolean
     permit_details?: boolean
     guide_required?: boolean
-    facilities?: boolean
     safety_notes?: boolean
     risk_factors?: boolean
     environmental_factors?: boolean
-    emergency_contacts?: boolean
     physical_requirements?: boolean
     cultural_context?: boolean
     local_tribes?: boolean
-    rituals_festivals?: boolean
     tips_for_visitors?: boolean
-    thumbnail_url?: boolean
     featured_image?: boolean
     published?: boolean
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
     schema_json?: boolean
+    route_geojson?: boolean
+    route_length_m?: boolean
+    route_elev_gain_m?: boolean
+    route_elev_min_m?: boolean
+    route_max_alt_m?: boolean
+    route_bbox?: boolean
+    route_start_point?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -69526,17 +66873,16 @@ export namespace Prisma {
     region?: boolean
     province?: boolean
     country?: boolean
-    latitude?: boolean
-    longitude?: boolean
     altitude?: boolean
-    area_hectares?: boolean
+    display_height_m?: boolean
+    nickname?: boolean
+    trailhead?: boolean
+    physical_demand?: boolean
+    sections?: boolean
     terrain?: boolean
     best_time_to_visit?: boolean
     difficulty_level?: boolean
     duration?: boolean
-    physical_demand?: boolean
-    cultural_depth?: boolean
-    photo_potential?: boolean
     weather_by_season?: boolean
     rainfall_intensity?: boolean
     temperature_range?: boolean
@@ -69550,23 +66896,26 @@ export namespace Prisma {
     permit_required?: boolean
     permit_details?: boolean
     guide_required?: boolean
-    facilities?: boolean
     safety_notes?: boolean
     risk_factors?: boolean
     environmental_factors?: boolean
-    emergency_contacts?: boolean
     physical_requirements?: boolean
     cultural_context?: boolean
     local_tribes?: boolean
-    rituals_festivals?: boolean
     tips_for_visitors?: boolean
-    thumbnail_url?: boolean
     featured_image?: boolean
     published?: boolean
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
     schema_json?: boolean
+    route_geojson?: boolean
+    route_length_m?: boolean
+    route_elev_gain_m?: boolean
+    route_elev_min_m?: boolean
+    route_max_alt_m?: boolean
+    route_bbox?: boolean
+    route_start_point?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -69584,17 +66933,16 @@ export namespace Prisma {
     region?: boolean
     province?: boolean
     country?: boolean
-    latitude?: boolean
-    longitude?: boolean
     altitude?: boolean
-    area_hectares?: boolean
+    display_height_m?: boolean
+    nickname?: boolean
+    trailhead?: boolean
+    physical_demand?: boolean
+    sections?: boolean
     terrain?: boolean
     best_time_to_visit?: boolean
     difficulty_level?: boolean
     duration?: boolean
-    physical_demand?: boolean
-    cultural_depth?: boolean
-    photo_potential?: boolean
     weather_by_season?: boolean
     rainfall_intensity?: boolean
     temperature_range?: boolean
@@ -69608,23 +66956,26 @@ export namespace Prisma {
     permit_required?: boolean
     permit_details?: boolean
     guide_required?: boolean
-    facilities?: boolean
     safety_notes?: boolean
     risk_factors?: boolean
     environmental_factors?: boolean
-    emergency_contacts?: boolean
     physical_requirements?: boolean
     cultural_context?: boolean
     local_tribes?: boolean
-    rituals_festivals?: boolean
     tips_for_visitors?: boolean
-    thumbnail_url?: boolean
     featured_image?: boolean
     published?: boolean
     featured?: boolean
     seo_title?: boolean
     seo_description?: boolean
     schema_json?: boolean
+    route_geojson?: boolean
+    route_length_m?: boolean
+    route_elev_gain_m?: boolean
+    route_elev_min_m?: boolean
+    route_max_alt_m?: boolean
+    route_bbox?: boolean
+    route_start_point?: boolean
     tags?: boolean
     types?: boolean
     slug?: boolean
@@ -69634,7 +66985,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "latitude" | "longitude" | "altitude" | "area_hectares" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "physical_demand" | "cultural_depth" | "photo_potential" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "facilities" | "safety_notes" | "risk_factors" | "environmental_factors" | "emergency_contacts" | "physical_requirements" | "cultural_context" | "local_tribes" | "rituals_festivals" | "tips_for_visitors" | "thumbnail_url" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "schema_json" | "tags" | "types" | "slug" | "short_slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
+  export type destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "category" | "region" | "province" | "country" | "altitude" | "display_height_m" | "nickname" | "trailhead" | "physical_demand" | "sections" | "terrain" | "best_time_to_visit" | "difficulty_level" | "duration" | "weather_by_season" | "rainfall_intensity" | "temperature_range" | "trail_details" | "required_gear" | "summary" | "description" | "highlight" | "main_attractions" | "key_highlights" | "permit_required" | "permit_details" | "guide_required" | "safety_notes" | "risk_factors" | "environmental_factors" | "physical_requirements" | "cultural_context" | "local_tribes" | "tips_for_visitors" | "featured_image" | "published" | "featured" | "seo_title" | "seo_description" | "schema_json" | "route_geojson" | "route_length_m" | "route_elev_gain_m" | "route_elev_min_m" | "route_max_alt_m" | "route_bbox" | "route_start_point" | "tags" | "types" | "slug" | "short_slug" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["destinations"]>
   export type destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | destinations$activitiesArgs<ExtArgs>
     activity_ends?: boolean | destinations$activity_endsArgs<ExtArgs>
@@ -69647,8 +66998,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: boolean | destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>
     destination_assets?: boolean | destinations$destination_assetsArgs<ExtArgs>
     destination_faqs?: boolean | destinations$destination_faqsArgs<ExtArgs>
-    route_destinations?: boolean | destinations$route_destinationsArgs<ExtArgs>
     destination_gears?: boolean | destinations$destination_gearsArgs<ExtArgs>
+    locations?: boolean | destinations$locationsArgs<ExtArgs>
     _count?: boolean | DestinationsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type destinationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -69668,8 +67019,8 @@ export namespace Prisma {
       packages_packages_start_destination_idTodestinations: Prisma.$packagesPayload<ExtArgs>[]
       destination_assets: Prisma.$destination_assetsPayload<ExtArgs>[]
       destination_faqs: Prisma.$destination_faqsPayload<ExtArgs>[]
-      route_destinations: Prisma.$route_destinationsPayload<ExtArgs>[]
       destination_gears: Prisma.$destination_gearsPayload<ExtArgs>[]
+      locations: Prisma.$locationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
@@ -69679,17 +67030,16 @@ export namespace Prisma {
       region: string | null
       province: string | null
       country: string | null
-      latitude: Prisma.Decimal | null
-      longitude: Prisma.Decimal | null
       altitude: number | null
-      area_hectares: Prisma.Decimal | null
+      display_height_m: number | null
+      nickname: string | null
+      trailhead: string | null
+      physical_demand: number | null
+      sections: Prisma.JsonValue | null
       terrain: string | null
       best_time_to_visit: string | null
       difficulty_level: string | null
       duration: string | null
-      physical_demand: number | null
-      cultural_depth: number | null
-      photo_potential: number | null
       weather_by_season: string | null
       rainfall_intensity: string | null
       temperature_range: string | null
@@ -69703,23 +67053,26 @@ export namespace Prisma {
       permit_required: boolean | null
       permit_details: string | null
       guide_required: boolean | null
-      facilities: Prisma.JsonValue | null
       safety_notes: Prisma.JsonValue | null
       risk_factors: Prisma.JsonValue | null
       environmental_factors: Prisma.JsonValue | null
-      emergency_contacts: Prisma.JsonValue | null
       physical_requirements: string | null
       cultural_context: string | null
       local_tribes: string[]
-      rituals_festivals: Prisma.JsonValue | null
       tips_for_visitors: string | null
-      thumbnail_url: string | null
       featured_image: string | null
       published: boolean | null
       featured: boolean | null
       seo_title: string | null
       seo_description: string | null
       schema_json: Prisma.JsonValue | null
+      route_geojson: Prisma.JsonValue | null
+      route_length_m: number | null
+      route_elev_gain_m: number | null
+      route_elev_min_m: number | null
+      route_max_alt_m: number | null
+      route_bbox: Prisma.JsonValue | null
+      route_start_point: Prisma.JsonValue | null
       tags: string[]
       types: Prisma.JsonValue | null
       slug: string | null
@@ -70132,8 +67485,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations<T extends destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$packages_packages_start_destination_idTodestinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     destination_assets<T extends destinations$destination_assetsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_assetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_assetsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     destination_faqs<T extends destinations$destination_faqsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_faqsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    route_destinations<T extends destinations$route_destinationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$route_destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     destination_gears<T extends destinations$destination_gearsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$destination_gearsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$destination_gearsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    locations<T extends destinations$locationsArgs<ExtArgs> = {}>(args?: Subset<T, destinations$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -70170,17 +67523,16 @@ export namespace Prisma {
     readonly region: FieldRef<"destinations", 'String'>
     readonly province: FieldRef<"destinations", 'String'>
     readonly country: FieldRef<"destinations", 'String'>
-    readonly latitude: FieldRef<"destinations", 'Decimal'>
-    readonly longitude: FieldRef<"destinations", 'Decimal'>
     readonly altitude: FieldRef<"destinations", 'Int'>
-    readonly area_hectares: FieldRef<"destinations", 'Decimal'>
+    readonly display_height_m: FieldRef<"destinations", 'Int'>
+    readonly nickname: FieldRef<"destinations", 'String'>
+    readonly trailhead: FieldRef<"destinations", 'String'>
+    readonly physical_demand: FieldRef<"destinations", 'Int'>
+    readonly sections: FieldRef<"destinations", 'Json'>
     readonly terrain: FieldRef<"destinations", 'String'>
     readonly best_time_to_visit: FieldRef<"destinations", 'String'>
     readonly difficulty_level: FieldRef<"destinations", 'String'>
     readonly duration: FieldRef<"destinations", 'String'>
-    readonly physical_demand: FieldRef<"destinations", 'Int'>
-    readonly cultural_depth: FieldRef<"destinations", 'Int'>
-    readonly photo_potential: FieldRef<"destinations", 'Int'>
     readonly weather_by_season: FieldRef<"destinations", 'String'>
     readonly rainfall_intensity: FieldRef<"destinations", 'String'>
     readonly temperature_range: FieldRef<"destinations", 'String'>
@@ -70194,23 +67546,26 @@ export namespace Prisma {
     readonly permit_required: FieldRef<"destinations", 'Boolean'>
     readonly permit_details: FieldRef<"destinations", 'String'>
     readonly guide_required: FieldRef<"destinations", 'Boolean'>
-    readonly facilities: FieldRef<"destinations", 'Json'>
     readonly safety_notes: FieldRef<"destinations", 'Json'>
     readonly risk_factors: FieldRef<"destinations", 'Json'>
     readonly environmental_factors: FieldRef<"destinations", 'Json'>
-    readonly emergency_contacts: FieldRef<"destinations", 'Json'>
     readonly physical_requirements: FieldRef<"destinations", 'String'>
     readonly cultural_context: FieldRef<"destinations", 'String'>
     readonly local_tribes: FieldRef<"destinations", 'String[]'>
-    readonly rituals_festivals: FieldRef<"destinations", 'Json'>
     readonly tips_for_visitors: FieldRef<"destinations", 'String'>
-    readonly thumbnail_url: FieldRef<"destinations", 'String'>
     readonly featured_image: FieldRef<"destinations", 'String'>
     readonly published: FieldRef<"destinations", 'Boolean'>
     readonly featured: FieldRef<"destinations", 'Boolean'>
     readonly seo_title: FieldRef<"destinations", 'String'>
     readonly seo_description: FieldRef<"destinations", 'String'>
     readonly schema_json: FieldRef<"destinations", 'Json'>
+    readonly route_geojson: FieldRef<"destinations", 'Json'>
+    readonly route_length_m: FieldRef<"destinations", 'Int'>
+    readonly route_elev_gain_m: FieldRef<"destinations", 'Int'>
+    readonly route_elev_min_m: FieldRef<"destinations", 'Int'>
+    readonly route_max_alt_m: FieldRef<"destinations", 'Int'>
+    readonly route_bbox: FieldRef<"destinations", 'Json'>
+    readonly route_start_point: FieldRef<"destinations", 'Json'>
     readonly tags: FieldRef<"destinations", 'String[]'>
     readonly types: FieldRef<"destinations", 'Json'>
     readonly slug: FieldRef<"destinations", 'String'>
@@ -70870,30 +68225,6 @@ export namespace Prisma {
   }
 
   /**
-   * destinations.route_destinations
-   */
-  export type destinations$route_destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    where?: route_destinationsWhereInput
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    cursor?: route_destinationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Route_destinationsScalarFieldEnum | Route_destinationsScalarFieldEnum[]
-  }
-
-  /**
    * destinations.destination_gears
    */
   export type destinations$destination_gearsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -70915,6 +68246,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Destination_gearsScalarFieldEnum | Destination_gearsScalarFieldEnum[]
+  }
+
+  /**
+   * destinations.locations
+   */
+  export type destinations$locationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
+    orderBy?: locationsOrderByWithRelationInput | locationsOrderByWithRelationInput[]
+    cursor?: locationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LocationsScalarFieldEnum | LocationsScalarFieldEnum[]
   }
 
   /**
@@ -83552,7 +80907,6 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
-    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -83575,7 +80929,6 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
-    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -83598,7 +80951,6 @@ export namespace Prisma {
     destination_id: number
     description: number
     facilities: number
-    area: number
     address: number
     phone: number
     banner: number
@@ -83637,7 +80989,6 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
-    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -83660,7 +81011,6 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
-    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -83683,7 +81033,6 @@ export namespace Prisma {
     destination_id?: true
     description?: true
     facilities?: true
-    area?: true
     address?: true
     phone?: true
     banner?: true
@@ -83793,7 +81142,6 @@ export namespace Prisma {
     destination_id: bigint | null
     description: string | null
     facilities: string | null
-    area: string | null
     address: string | null
     phone: string | null
     banner: string | null
@@ -83835,7 +81183,6 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
-    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -83867,7 +81214,6 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
-    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -83891,7 +81237,6 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
-    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -83915,7 +81260,6 @@ export namespace Prisma {
     destination_id?: boolean
     description?: boolean
     facilities?: boolean
-    area?: boolean
     address?: boolean
     phone?: boolean
     banner?: boolean
@@ -83931,7 +81275,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type hotelsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "destination_id" | "description" | "facilities" | "area" | "address" | "phone" | "banner" | "slug" | "group_wa_id" | "map_url" | "website_url" | "lunch_rate" | "dinner_rate" | "is_publish" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["hotels"]>
+  export type hotelsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "name" | "destination_id" | "description" | "facilities" | "address" | "phone" | "banner" | "slug" | "group_wa_id" | "map_url" | "website_url" | "lunch_rate" | "dinner_rate" | "is_publish" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["hotels"]>
   export type hotelsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     booking_destination_schedules?: boolean | hotels$booking_destination_schedulesArgs<ExtArgs>
     booking_hotel_meals?: boolean | hotels$booking_hotel_mealsArgs<ExtArgs>
@@ -83969,7 +81313,6 @@ export namespace Prisma {
       destination_id: bigint | null
       description: string | null
       facilities: string | null
-      area: string | null
       address: string | null
       phone: string | null
       banner: string | null
@@ -84420,7 +81763,6 @@ export namespace Prisma {
     readonly destination_id: FieldRef<"hotels", 'BigInt'>
     readonly description: FieldRef<"hotels", 'String'>
     readonly facilities: FieldRef<"hotels", 'String'>
-    readonly area: FieldRef<"hotels", 'String'>
     readonly address: FieldRef<"hotels", 'String'>
     readonly phone: FieldRef<"hotels", 'String'>
     readonly banner: FieldRef<"hotels", 'String'>
@@ -101004,1203 +98346,6 @@ export namespace Prisma {
 
 
   /**
-   * Model package_images
-   */
-
-  export type AggregatePackage_images = {
-    _count: Package_imagesCountAggregateOutputType | null
-    _avg: Package_imagesAvgAggregateOutputType | null
-    _sum: Package_imagesSumAggregateOutputType | null
-    _min: Package_imagesMinAggregateOutputType | null
-    _max: Package_imagesMaxAggregateOutputType | null
-  }
-
-  export type Package_imagesAvgAggregateOutputType = {
-    id: number | null
-    package_id: number | null
-    sort_order: number | null
-  }
-
-  export type Package_imagesSumAggregateOutputType = {
-    id: bigint | null
-    package_id: bigint | null
-    sort_order: number | null
-  }
-
-  export type Package_imagesMinAggregateOutputType = {
-    id: bigint | null
-    package_id: bigint | null
-    url: string | null
-    og_image_url: string | null
-    sort_order: number | null
-    alt_text: string | null
-    caption: string | null
-    tags: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Package_imagesMaxAggregateOutputType = {
-    id: bigint | null
-    package_id: bigint | null
-    url: string | null
-    og_image_url: string | null
-    sort_order: number | null
-    alt_text: string | null
-    caption: string | null
-    tags: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-  }
-
-  export type Package_imagesCountAggregateOutputType = {
-    id: number
-    package_id: number
-    url: number
-    og_image_url: number
-    sort_order: number
-    alt_text: number
-    caption: number
-    tags: number
-    created_at: number
-    updated_at: number
-    deleted_at: number
-    _all: number
-  }
-
-
-  export type Package_imagesAvgAggregateInputType = {
-    id?: true
-    package_id?: true
-    sort_order?: true
-  }
-
-  export type Package_imagesSumAggregateInputType = {
-    id?: true
-    package_id?: true
-    sort_order?: true
-  }
-
-  export type Package_imagesMinAggregateInputType = {
-    id?: true
-    package_id?: true
-    url?: true
-    og_image_url?: true
-    sort_order?: true
-    alt_text?: true
-    caption?: true
-    tags?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Package_imagesMaxAggregateInputType = {
-    id?: true
-    package_id?: true
-    url?: true
-    og_image_url?: true
-    sort_order?: true
-    alt_text?: true
-    caption?: true
-    tags?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-  }
-
-  export type Package_imagesCountAggregateInputType = {
-    id?: true
-    package_id?: true
-    url?: true
-    og_image_url?: true
-    sort_order?: true
-    alt_text?: true
-    caption?: true
-    tags?: true
-    created_at?: true
-    updated_at?: true
-    deleted_at?: true
-    _all?: true
-  }
-
-  export type Package_imagesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which package_images to aggregate.
-     */
-    where?: package_imagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of package_images to fetch.
-     */
-    orderBy?: package_imagesOrderByWithRelationInput | package_imagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: package_imagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` package_images from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` package_images.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned package_images
-    **/
-    _count?: true | Package_imagesCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Package_imagesAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Package_imagesSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Package_imagesMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Package_imagesMaxAggregateInputType
-  }
-
-  export type GetPackage_imagesAggregateType<T extends Package_imagesAggregateArgs> = {
-        [P in keyof T & keyof AggregatePackage_images]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePackage_images[P]>
-      : GetScalarType<T[P], AggregatePackage_images[P]>
-  }
-
-
-
-
-  export type package_imagesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: package_imagesWhereInput
-    orderBy?: package_imagesOrderByWithAggregationInput | package_imagesOrderByWithAggregationInput[]
-    by: Package_imagesScalarFieldEnum[] | Package_imagesScalarFieldEnum
-    having?: package_imagesScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Package_imagesCountAggregateInputType | true
-    _avg?: Package_imagesAvgAggregateInputType
-    _sum?: Package_imagesSumAggregateInputType
-    _min?: Package_imagesMinAggregateInputType
-    _max?: Package_imagesMaxAggregateInputType
-  }
-
-  export type Package_imagesGroupByOutputType = {
-    id: bigint
-    package_id: bigint | null
-    url: string
-    og_image_url: string | null
-    sort_order: number | null
-    alt_text: string | null
-    caption: string | null
-    tags: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
-    _count: Package_imagesCountAggregateOutputType | null
-    _avg: Package_imagesAvgAggregateOutputType | null
-    _sum: Package_imagesSumAggregateOutputType | null
-    _min: Package_imagesMinAggregateOutputType | null
-    _max: Package_imagesMaxAggregateOutputType | null
-  }
-
-  type GetPackage_imagesGroupByPayload<T extends package_imagesGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Package_imagesGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Package_imagesGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Package_imagesGroupByOutputType[P]>
-            : GetScalarType<T[P], Package_imagesGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type package_imagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    package_id?: boolean
-    url?: boolean
-    og_image_url?: boolean
-    sort_order?: boolean
-    alt_text?: boolean
-    caption?: boolean
-    tags?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["package_images"]>
-
-  export type package_imagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    package_id?: boolean
-    url?: boolean
-    og_image_url?: boolean
-    sort_order?: boolean
-    alt_text?: boolean
-    caption?: boolean
-    tags?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["package_images"]>
-
-  export type package_imagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    package_id?: boolean
-    url?: boolean
-    og_image_url?: boolean
-    sort_order?: boolean
-    alt_text?: boolean
-    caption?: boolean
-    tags?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }, ExtArgs["result"]["package_images"]>
-
-  export type package_imagesSelectScalar = {
-    id?: boolean
-    package_id?: boolean
-    url?: boolean
-    og_image_url?: boolean
-    sort_order?: boolean
-    alt_text?: boolean
-    caption?: boolean
-    tags?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    deleted_at?: boolean
-  }
-
-  export type package_imagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "package_id" | "url" | "og_image_url" | "sort_order" | "alt_text" | "caption" | "tags" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["package_images"]>
-  export type package_imagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }
-  export type package_imagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }
-  export type package_imagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    packages?: boolean | package_images$packagesArgs<ExtArgs>
-  }
-
-  export type $package_imagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "package_images"
-    objects: {
-      packages: Prisma.$packagesPayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: bigint
-      package_id: bigint | null
-      url: string
-      og_image_url: string | null
-      sort_order: number | null
-      alt_text: string | null
-      caption: string | null
-      tags: string | null
-      created_at: Date | null
-      updated_at: Date | null
-      deleted_at: Date | null
-    }, ExtArgs["result"]["package_images"]>
-    composites: {}
-  }
-
-  type package_imagesGetPayload<S extends boolean | null | undefined | package_imagesDefaultArgs> = $Result.GetResult<Prisma.$package_imagesPayload, S>
-
-  type package_imagesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<package_imagesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Package_imagesCountAggregateInputType | true
-    }
-
-  export interface package_imagesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['package_images'], meta: { name: 'package_images' } }
-    /**
-     * Find zero or one Package_images that matches the filter.
-     * @param {package_imagesFindUniqueArgs} args - Arguments to find a Package_images
-     * @example
-     * // Get one Package_images
-     * const package_images = await prisma.package_images.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends package_imagesFindUniqueArgs>(args: SelectSubset<T, package_imagesFindUniqueArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Package_images that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {package_imagesFindUniqueOrThrowArgs} args - Arguments to find a Package_images
-     * @example
-     * // Get one Package_images
-     * const package_images = await prisma.package_images.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends package_imagesFindUniqueOrThrowArgs>(args: SelectSubset<T, package_imagesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Package_images that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesFindFirstArgs} args - Arguments to find a Package_images
-     * @example
-     * // Get one Package_images
-     * const package_images = await prisma.package_images.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends package_imagesFindFirstArgs>(args?: SelectSubset<T, package_imagesFindFirstArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Package_images that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesFindFirstOrThrowArgs} args - Arguments to find a Package_images
-     * @example
-     * // Get one Package_images
-     * const package_images = await prisma.package_images.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends package_imagesFindFirstOrThrowArgs>(args?: SelectSubset<T, package_imagesFindFirstOrThrowArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Package_images that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Package_images
-     * const package_images = await prisma.package_images.findMany()
-     * 
-     * // Get first 10 Package_images
-     * const package_images = await prisma.package_images.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const package_imagesWithIdOnly = await prisma.package_images.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends package_imagesFindManyArgs>(args?: SelectSubset<T, package_imagesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Package_images.
-     * @param {package_imagesCreateArgs} args - Arguments to create a Package_images.
-     * @example
-     * // Create one Package_images
-     * const Package_images = await prisma.package_images.create({
-     *   data: {
-     *     // ... data to create a Package_images
-     *   }
-     * })
-     * 
-     */
-    create<T extends package_imagesCreateArgs>(args: SelectSubset<T, package_imagesCreateArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Package_images.
-     * @param {package_imagesCreateManyArgs} args - Arguments to create many Package_images.
-     * @example
-     * // Create many Package_images
-     * const package_images = await prisma.package_images.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends package_imagesCreateManyArgs>(args?: SelectSubset<T, package_imagesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Package_images and returns the data saved in the database.
-     * @param {package_imagesCreateManyAndReturnArgs} args - Arguments to create many Package_images.
-     * @example
-     * // Create many Package_images
-     * const package_images = await prisma.package_images.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Package_images and only return the `id`
-     * const package_imagesWithIdOnly = await prisma.package_images.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends package_imagesCreateManyAndReturnArgs>(args?: SelectSubset<T, package_imagesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Package_images.
-     * @param {package_imagesDeleteArgs} args - Arguments to delete one Package_images.
-     * @example
-     * // Delete one Package_images
-     * const Package_images = await prisma.package_images.delete({
-     *   where: {
-     *     // ... filter to delete one Package_images
-     *   }
-     * })
-     * 
-     */
-    delete<T extends package_imagesDeleteArgs>(args: SelectSubset<T, package_imagesDeleteArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Package_images.
-     * @param {package_imagesUpdateArgs} args - Arguments to update one Package_images.
-     * @example
-     * // Update one Package_images
-     * const package_images = await prisma.package_images.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends package_imagesUpdateArgs>(args: SelectSubset<T, package_imagesUpdateArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Package_images.
-     * @param {package_imagesDeleteManyArgs} args - Arguments to filter Package_images to delete.
-     * @example
-     * // Delete a few Package_images
-     * const { count } = await prisma.package_images.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends package_imagesDeleteManyArgs>(args?: SelectSubset<T, package_imagesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Package_images.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Package_images
-     * const package_images = await prisma.package_images.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends package_imagesUpdateManyArgs>(args: SelectSubset<T, package_imagesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Package_images and returns the data updated in the database.
-     * @param {package_imagesUpdateManyAndReturnArgs} args - Arguments to update many Package_images.
-     * @example
-     * // Update many Package_images
-     * const package_images = await prisma.package_images.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Package_images and only return the `id`
-     * const package_imagesWithIdOnly = await prisma.package_images.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends package_imagesUpdateManyAndReturnArgs>(args: SelectSubset<T, package_imagesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Package_images.
-     * @param {package_imagesUpsertArgs} args - Arguments to update or create a Package_images.
-     * @example
-     * // Update or create a Package_images
-     * const package_images = await prisma.package_images.upsert({
-     *   create: {
-     *     // ... data to create a Package_images
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Package_images we want to update
-     *   }
-     * })
-     */
-    upsert<T extends package_imagesUpsertArgs>(args: SelectSubset<T, package_imagesUpsertArgs<ExtArgs>>): Prisma__package_imagesClient<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Package_images.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesCountArgs} args - Arguments to filter Package_images to count.
-     * @example
-     * // Count the number of Package_images
-     * const count = await prisma.package_images.count({
-     *   where: {
-     *     // ... the filter for the Package_images we want to count
-     *   }
-     * })
-    **/
-    count<T extends package_imagesCountArgs>(
-      args?: Subset<T, package_imagesCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Package_imagesCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Package_images.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Package_imagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Package_imagesAggregateArgs>(args: Subset<T, Package_imagesAggregateArgs>): Prisma.PrismaPromise<GetPackage_imagesAggregateType<T>>
-
-    /**
-     * Group by Package_images.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {package_imagesGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends package_imagesGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: package_imagesGroupByArgs['orderBy'] }
-        : { orderBy?: package_imagesGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, package_imagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPackage_imagesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the package_images model
-   */
-  readonly fields: package_imagesFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for package_images.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__package_imagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    packages<T extends package_images$packagesArgs<ExtArgs> = {}>(args?: Subset<T, package_images$packagesArgs<ExtArgs>>): Prisma__packagesClient<$Result.GetResult<Prisma.$packagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the package_images model
-   */
-  interface package_imagesFieldRefs {
-    readonly id: FieldRef<"package_images", 'BigInt'>
-    readonly package_id: FieldRef<"package_images", 'BigInt'>
-    readonly url: FieldRef<"package_images", 'String'>
-    readonly og_image_url: FieldRef<"package_images", 'String'>
-    readonly sort_order: FieldRef<"package_images", 'Int'>
-    readonly alt_text: FieldRef<"package_images", 'String'>
-    readonly caption: FieldRef<"package_images", 'String'>
-    readonly tags: FieldRef<"package_images", 'String'>
-    readonly created_at: FieldRef<"package_images", 'DateTime'>
-    readonly updated_at: FieldRef<"package_images", 'DateTime'>
-    readonly deleted_at: FieldRef<"package_images", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * package_images findUnique
-   */
-  export type package_imagesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter, which package_images to fetch.
-     */
-    where: package_imagesWhereUniqueInput
-  }
-
-  /**
-   * package_images findUniqueOrThrow
-   */
-  export type package_imagesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter, which package_images to fetch.
-     */
-    where: package_imagesWhereUniqueInput
-  }
-
-  /**
-   * package_images findFirst
-   */
-  export type package_imagesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter, which package_images to fetch.
-     */
-    where?: package_imagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of package_images to fetch.
-     */
-    orderBy?: package_imagesOrderByWithRelationInput | package_imagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for package_images.
-     */
-    cursor?: package_imagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` package_images from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` package_images.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of package_images.
-     */
-    distinct?: Package_imagesScalarFieldEnum | Package_imagesScalarFieldEnum[]
-  }
-
-  /**
-   * package_images findFirstOrThrow
-   */
-  export type package_imagesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter, which package_images to fetch.
-     */
-    where?: package_imagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of package_images to fetch.
-     */
-    orderBy?: package_imagesOrderByWithRelationInput | package_imagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for package_images.
-     */
-    cursor?: package_imagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` package_images from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` package_images.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of package_images.
-     */
-    distinct?: Package_imagesScalarFieldEnum | Package_imagesScalarFieldEnum[]
-  }
-
-  /**
-   * package_images findMany
-   */
-  export type package_imagesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter, which package_images to fetch.
-     */
-    where?: package_imagesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of package_images to fetch.
-     */
-    orderBy?: package_imagesOrderByWithRelationInput | package_imagesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing package_images.
-     */
-    cursor?: package_imagesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` package_images from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` package_images.
-     */
-    skip?: number
-    distinct?: Package_imagesScalarFieldEnum | Package_imagesScalarFieldEnum[]
-  }
-
-  /**
-   * package_images create
-   */
-  export type package_imagesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * The data needed to create a package_images.
-     */
-    data: XOR<package_imagesCreateInput, package_imagesUncheckedCreateInput>
-  }
-
-  /**
-   * package_images createMany
-   */
-  export type package_imagesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many package_images.
-     */
-    data: package_imagesCreateManyInput | package_imagesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * package_images createManyAndReturn
-   */
-  export type package_imagesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * The data used to create many package_images.
-     */
-    data: package_imagesCreateManyInput | package_imagesCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * package_images update
-   */
-  export type package_imagesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * The data needed to update a package_images.
-     */
-    data: XOR<package_imagesUpdateInput, package_imagesUncheckedUpdateInput>
-    /**
-     * Choose, which package_images to update.
-     */
-    where: package_imagesWhereUniqueInput
-  }
-
-  /**
-   * package_images updateMany
-   */
-  export type package_imagesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update package_images.
-     */
-    data: XOR<package_imagesUpdateManyMutationInput, package_imagesUncheckedUpdateManyInput>
-    /**
-     * Filter which package_images to update
-     */
-    where?: package_imagesWhereInput
-    /**
-     * Limit how many package_images to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * package_images updateManyAndReturn
-   */
-  export type package_imagesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * The data used to update package_images.
-     */
-    data: XOR<package_imagesUpdateManyMutationInput, package_imagesUncheckedUpdateManyInput>
-    /**
-     * Filter which package_images to update
-     */
-    where?: package_imagesWhereInput
-    /**
-     * Limit how many package_images to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * package_images upsert
-   */
-  export type package_imagesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * The filter to search for the package_images to update in case it exists.
-     */
-    where: package_imagesWhereUniqueInput
-    /**
-     * In case the package_images found by the `where` argument doesn't exist, create a new package_images with this data.
-     */
-    create: XOR<package_imagesCreateInput, package_imagesUncheckedCreateInput>
-    /**
-     * In case the package_images was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<package_imagesUpdateInput, package_imagesUncheckedUpdateInput>
-  }
-
-  /**
-   * package_images delete
-   */
-  export type package_imagesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    /**
-     * Filter which package_images to delete.
-     */
-    where: package_imagesWhereUniqueInput
-  }
-
-  /**
-   * package_images deleteMany
-   */
-  export type package_imagesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which package_images to delete
-     */
-    where?: package_imagesWhereInput
-    /**
-     * Limit how many package_images to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * package_images.packages
-   */
-  export type package_images$packagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the packages
-     */
-    select?: packagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the packages
-     */
-    omit?: packagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: packagesInclude<ExtArgs> | null
-    where?: packagesWhereInput
-  }
-
-  /**
-   * package_images without action
-   */
-  export type package_imagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model package_includes
    */
 
@@ -103373,50 +99518,86 @@ export namespace Prisma {
 
   export type LocationsAvgAggregateOutputType = {
     id: number | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    destination_id: number | null
   }
 
   export type LocationsSumAggregateOutputType = {
     id: number | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    destination_id: bigint | null
   }
 
   export type LocationsMinAggregateOutputType = {
     id: number | null
     name: string | null
+    type: $Enums.location_type | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    destination_id: bigint | null
   }
 
   export type LocationsMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    type: $Enums.location_type | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    destination_id: bigint | null
   }
 
   export type LocationsCountAggregateOutputType = {
     id: number
     name: number
+    type: number
+    latitude: number
+    longitude: number
+    destination_id: number
     _all: number
   }
 
 
   export type LocationsAvgAggregateInputType = {
     id?: true
+    latitude?: true
+    longitude?: true
+    destination_id?: true
   }
 
   export type LocationsSumAggregateInputType = {
     id?: true
+    latitude?: true
+    longitude?: true
+    destination_id?: true
   }
 
   export type LocationsMinAggregateInputType = {
     id?: true
     name?: true
+    type?: true
+    latitude?: true
+    longitude?: true
+    destination_id?: true
   }
 
   export type LocationsMaxAggregateInputType = {
     id?: true
     name?: true
+    type?: true
+    latitude?: true
+    longitude?: true
+    destination_id?: true
   }
 
   export type LocationsCountAggregateInputType = {
     id?: true
     name?: true
+    type?: true
+    latitude?: true
+    longitude?: true
+    destination_id?: true
     _all?: true
   }
 
@@ -103509,6 +99690,10 @@ export namespace Prisma {
   export type LocationsGroupByOutputType = {
     id: number
     name: string
+    type: $Enums.location_type | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    destination_id: bigint | null
     _count: LocationsCountAggregateOutputType | null
     _avg: LocationsAvgAggregateOutputType | null
     _sum: LocationsSumAggregateOutputType | null
@@ -103533,44 +99718,85 @@ export namespace Prisma {
   export type locationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    destination_id?: boolean
     package_itinerary_day_details_from_location?: boolean | locations$package_itinerary_day_details_from_locationArgs<ExtArgs>
     package_itinerary_day_details_to_location?: boolean | locations$package_itinerary_day_details_to_locationArgs<ExtArgs>
+    route_details_route_details_from_location_idTolocations?: boolean | locations$route_details_route_details_from_location_idTolocationsArgs<ExtArgs>
+    route_details_route_details_to_location_idTolocations?: boolean | locations$route_details_route_details_to_location_idTolocationsArgs<ExtArgs>
+    routes_routes_start_location_idTolocations?: boolean | locations$routes_routes_start_location_idTolocationsArgs<ExtArgs>
+    routes_routes_end_location_idTolocations?: boolean | locations$routes_routes_end_location_idTolocationsArgs<ExtArgs>
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
     _count?: boolean | LocationsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["locations"]>
 
   export type locationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    destination_id?: boolean
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
   }, ExtArgs["result"]["locations"]>
 
   export type locationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    destination_id?: boolean
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
   }, ExtArgs["result"]["locations"]>
 
   export type locationsSelectScalar = {
     id?: boolean
     name?: boolean
+    type?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    destination_id?: boolean
   }
 
-  export type locationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["locations"]>
+  export type locationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "latitude" | "longitude" | "destination_id", ExtArgs["result"]["locations"]>
   export type locationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     package_itinerary_day_details_from_location?: boolean | locations$package_itinerary_day_details_from_locationArgs<ExtArgs>
     package_itinerary_day_details_to_location?: boolean | locations$package_itinerary_day_details_to_locationArgs<ExtArgs>
+    route_details_route_details_from_location_idTolocations?: boolean | locations$route_details_route_details_from_location_idTolocationsArgs<ExtArgs>
+    route_details_route_details_to_location_idTolocations?: boolean | locations$route_details_route_details_to_location_idTolocationsArgs<ExtArgs>
+    routes_routes_start_location_idTolocations?: boolean | locations$routes_routes_start_location_idTolocationsArgs<ExtArgs>
+    routes_routes_end_location_idTolocations?: boolean | locations$routes_routes_end_location_idTolocationsArgs<ExtArgs>
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
     _count?: boolean | LocationsCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type locationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type locationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type locationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
+  }
+  export type locationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    destinations?: boolean | locations$destinationsArgs<ExtArgs>
+  }
 
   export type $locationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "locations"
     objects: {
       package_itinerary_day_details_from_location: Prisma.$package_itinerary_day_detailsPayload<ExtArgs>[]
       package_itinerary_day_details_to_location: Prisma.$package_itinerary_day_detailsPayload<ExtArgs>[]
+      route_details_route_details_from_location_idTolocations: Prisma.$route_detailsPayload<ExtArgs>[]
+      route_details_route_details_to_location_idTolocations: Prisma.$route_detailsPayload<ExtArgs>[]
+      routes_routes_start_location_idTolocations: Prisma.$routesPayload<ExtArgs>[]
+      routes_routes_end_location_idTolocations: Prisma.$routesPayload<ExtArgs>[]
+      destinations: Prisma.$destinationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      type: $Enums.location_type | null
+      latitude: Prisma.Decimal | null
+      longitude: Prisma.Decimal | null
+      destination_id: bigint | null
     }, ExtArgs["result"]["locations"]>
     composites: {}
   }
@@ -103967,6 +100193,11 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     package_itinerary_day_details_from_location<T extends locations$package_itinerary_day_details_from_locationArgs<ExtArgs> = {}>(args?: Subset<T, locations$package_itinerary_day_details_from_locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_day_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_itinerary_day_details_to_location<T extends locations$package_itinerary_day_details_to_locationArgs<ExtArgs> = {}>(args?: Subset<T, locations$package_itinerary_day_details_to_locationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_day_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    route_details_route_details_from_location_idTolocations<T extends locations$route_details_route_details_from_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, locations$route_details_route_details_from_location_idTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    route_details_route_details_to_location_idTolocations<T extends locations$route_details_route_details_to_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, locations$route_details_route_details_to_location_idTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    routes_routes_start_location_idTolocations<T extends locations$routes_routes_start_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, locations$routes_routes_start_location_idTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$routesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    routes_routes_end_location_idTolocations<T extends locations$routes_routes_end_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, locations$routes_routes_end_location_idTolocationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$routesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    destinations<T extends locations$destinationsArgs<ExtArgs> = {}>(args?: Subset<T, locations$destinationsArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -103998,6 +100229,10 @@ export namespace Prisma {
   interface locationsFieldRefs {
     readonly id: FieldRef<"locations", 'Int'>
     readonly name: FieldRef<"locations", 'String'>
+    readonly type: FieldRef<"locations", 'location_type'>
+    readonly latitude: FieldRef<"locations", 'Decimal'>
+    readonly longitude: FieldRef<"locations", 'Decimal'>
+    readonly destination_id: FieldRef<"locations", 'BigInt'>
   }
     
 
@@ -104247,6 +100482,10 @@ export namespace Prisma {
      */
     data: locationsCreateManyInput | locationsCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -104317,6 +100556,10 @@ export namespace Prisma {
      * Limit how many locations to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -104431,6 +100674,121 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Package_itinerary_day_detailsScalarFieldEnum | Package_itinerary_day_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * locations.route_details_route_details_from_location_idTolocations
+   */
+  export type locations$route_details_route_details_from_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the route_details
+     */
+    select?: route_detailsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the route_details
+     */
+    omit?: route_detailsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: route_detailsInclude<ExtArgs> | null
+    where?: route_detailsWhereInput
+    orderBy?: route_detailsOrderByWithRelationInput | route_detailsOrderByWithRelationInput[]
+    cursor?: route_detailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Route_detailsScalarFieldEnum | Route_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * locations.route_details_route_details_to_location_idTolocations
+   */
+  export type locations$route_details_route_details_to_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the route_details
+     */
+    select?: route_detailsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the route_details
+     */
+    omit?: route_detailsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: route_detailsInclude<ExtArgs> | null
+    where?: route_detailsWhereInput
+    orderBy?: route_detailsOrderByWithRelationInput | route_detailsOrderByWithRelationInput[]
+    cursor?: route_detailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Route_detailsScalarFieldEnum | Route_detailsScalarFieldEnum[]
+  }
+
+  /**
+   * locations.routes_routes_start_location_idTolocations
+   */
+  export type locations$routes_routes_start_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the routes
+     */
+    select?: routesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the routes
+     */
+    omit?: routesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: routesInclude<ExtArgs> | null
+    where?: routesWhereInput
+    orderBy?: routesOrderByWithRelationInput | routesOrderByWithRelationInput[]
+    cursor?: routesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoutesScalarFieldEnum | RoutesScalarFieldEnum[]
+  }
+
+  /**
+   * locations.routes_routes_end_location_idTolocations
+   */
+  export type locations$routes_routes_end_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the routes
+     */
+    select?: routesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the routes
+     */
+    omit?: routesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: routesInclude<ExtArgs> | null
+    where?: routesWhereInput
+    orderBy?: routesOrderByWithRelationInput | routesOrderByWithRelationInput[]
+    cursor?: routesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoutesScalarFieldEnum | RoutesScalarFieldEnum[]
+  }
+
+  /**
+   * locations.destinations
+   */
+  export type locations$destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the destinations
+     */
+    select?: destinationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the destinations
+     */
+    omit?: destinationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: destinationsInclude<ExtArgs> | null
+    where?: destinationsWhereInput
   }
 
   /**
@@ -108858,12 +105216,10 @@ export namespace Prisma {
     seo_title?: boolean
     seo_meta?: boolean
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
-    combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
     package_addons?: boolean | packages$package_addonsArgs<ExtArgs>
     package_destinations?: boolean | packages$package_destinationsArgs<ExtArgs>
     package_excludes?: boolean | packages$package_excludesArgs<ExtArgs>
     package_hotel_options?: boolean | packages$package_hotel_optionsArgs<ExtArgs>
-    package_images?: boolean | packages$package_imagesArgs<ExtArgs>
     package_includes?: boolean | packages$package_includesArgs<ExtArgs>
     package_itinerary_days?: boolean | packages$package_itinerary_daysArgs<ExtArgs>
     package_prices?: boolean | packages$package_pricesArgs<ExtArgs>
@@ -109029,12 +105385,10 @@ export namespace Prisma {
   export type packagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uuid" | "code" | "slug" | "name" | "description" | "short_label" | "duration_id" | "order_channel_id" | "package_category_id" | "start_destination_id" | "end_destination_id" | "key_highlights" | "ideal_arrival" | "physicality" | "suitable_for" | "is_publish" | "total_breakfast" | "total_lunch" | "total_dinner" | "google_merchant_product_id" | "meta_catalogue_id" | "perfect_for" | "highlights_bullets" | "safety_positioning" | "unique_selling_points" | "created_at" | "updated_at" | "deleted_at" | "aggregate_rating_value" | "aggregate_rating_count" | "traveler_requirements" | "tags" | "operational_complexity_note" | "first_day_last_pickup_guidance" | "last_day_safe_flight_note" | "health_requirements" | "environmental_risks" | "safety_mitigation" | "handover_notes" | "emergency_protocols" | "seo_title" | "seo_meta", ExtArgs["result"]["packages"]>
   export type packagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | packages$bookingsArgs<ExtArgs>
-    combined_package_details?: boolean | packages$combined_package_detailsArgs<ExtArgs>
     package_addons?: boolean | packages$package_addonsArgs<ExtArgs>
     package_destinations?: boolean | packages$package_destinationsArgs<ExtArgs>
     package_excludes?: boolean | packages$package_excludesArgs<ExtArgs>
     package_hotel_options?: boolean | packages$package_hotel_optionsArgs<ExtArgs>
-    package_images?: boolean | packages$package_imagesArgs<ExtArgs>
     package_includes?: boolean | packages$package_includesArgs<ExtArgs>
     package_itinerary_days?: boolean | packages$package_itinerary_daysArgs<ExtArgs>
     package_prices?: boolean | packages$package_pricesArgs<ExtArgs>
@@ -109067,12 +105421,10 @@ export namespace Prisma {
     name: "packages"
     objects: {
       bookings: Prisma.$bookingsPayload<ExtArgs>[]
-      combined_package_details: Prisma.$combined_package_detailsPayload<ExtArgs>[]
       package_addons: Prisma.$package_addonsPayload<ExtArgs>[]
       package_destinations: Prisma.$package_destinationsPayload<ExtArgs>[]
       package_excludes: Prisma.$package_excludesPayload<ExtArgs>[]
       package_hotel_options: Prisma.$package_hotel_optionsPayload<ExtArgs>[]
-      package_images: Prisma.$package_imagesPayload<ExtArgs>[]
       package_includes: Prisma.$package_includesPayload<ExtArgs>[]
       package_itinerary_days: Prisma.$package_itinerary_daysPayload<ExtArgs>[]
       package_prices: Prisma.$package_pricesPayload<ExtArgs>[]
@@ -109524,12 +105876,10 @@ export namespace Prisma {
   export interface Prisma__packagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     bookings<T extends packages$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, packages$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$bookingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    combined_package_details<T extends packages$combined_package_detailsArgs<ExtArgs> = {}>(args?: Subset<T, packages$combined_package_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$combined_package_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_addons<T extends packages$package_addonsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_addonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_addonsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_destinations<T extends packages$package_destinationsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_excludes<T extends packages$package_excludesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_excludesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_excludesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_hotel_options<T extends packages$package_hotel_optionsArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_hotel_optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_hotel_optionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    package_images<T extends packages$package_imagesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_imagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_includes<T extends packages$package_includesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_includesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_includesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_itinerary_days<T extends packages$package_itinerary_daysArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_itinerary_daysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_daysPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_prices<T extends packages$package_pricesArgs<ExtArgs> = {}>(args?: Subset<T, packages$package_pricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_pricesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -110033,30 +106383,6 @@ export namespace Prisma {
   }
 
   /**
-   * packages.combined_package_details
-   */
-  export type packages$combined_package_detailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the combined_package_details
-     */
-    select?: combined_package_detailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the combined_package_details
-     */
-    omit?: combined_package_detailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: combined_package_detailsInclude<ExtArgs> | null
-    where?: combined_package_detailsWhereInput
-    orderBy?: combined_package_detailsOrderByWithRelationInput | combined_package_detailsOrderByWithRelationInput[]
-    cursor?: combined_package_detailsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Combined_package_detailsScalarFieldEnum | Combined_package_detailsScalarFieldEnum[]
-  }
-
-  /**
    * packages.package_addons
    */
   export type packages$package_addonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -110150,30 +106476,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Package_hotel_optionsScalarFieldEnum | Package_hotel_optionsScalarFieldEnum[]
-  }
-
-  /**
-   * packages.package_images
-   */
-  export type packages$package_imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the package_images
-     */
-    select?: package_imagesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the package_images
-     */
-    omit?: package_imagesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: package_imagesInclude<ExtArgs> | null
-    where?: package_imagesWhereInput
-    orderBy?: package_imagesOrderByWithRelationInput | package_imagesOrderByWithRelationInput[]
-    cursor?: package_imagesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Package_imagesScalarFieldEnum | Package_imagesScalarFieldEnum[]
   }
 
   /**
@@ -114939,10 +111241,14 @@ export namespace Prisma {
 
   export type RoutesAvgAggregateOutputType = {
     id: number | null
+    start_location_id: number | null
+    end_location_id: number | null
   }
 
   export type RoutesSumAggregateOutputType = {
     id: bigint | null
+    start_location_id: number | null
+    end_location_id: number | null
   }
 
   export type RoutesMinAggregateOutputType = {
@@ -114950,8 +111256,6 @@ export namespace Prisma {
     code: string | null
     route: string | null
     itinerary_title: string | null
-    start_area: string | null
-    end_area: string | null
     estimated_duration: string | null
     main_activities: string | null
     accommodation_status: string | null
@@ -114961,6 +111265,8 @@ export namespace Prisma {
     lunch: boolean | null
     dinner: boolean | null
     meals_notes: string | null
+    start_location_id: number | null
+    end_location_id: number | null
   }
 
   export type RoutesMaxAggregateOutputType = {
@@ -114968,8 +111274,6 @@ export namespace Prisma {
     code: string | null
     route: string | null
     itinerary_title: string | null
-    start_area: string | null
-    end_area: string | null
     estimated_duration: string | null
     main_activities: string | null
     accommodation_status: string | null
@@ -114979,6 +111283,8 @@ export namespace Prisma {
     lunch: boolean | null
     dinner: boolean | null
     meals_notes: string | null
+    start_location_id: number | null
+    end_location_id: number | null
   }
 
   export type RoutesCountAggregateOutputType = {
@@ -114986,8 +111292,6 @@ export namespace Prisma {
     code: number
     route: number
     itinerary_title: number
-    start_area: number
-    end_area: number
     estimated_duration: number
     main_activities: number
     accommodation_status: number
@@ -114997,16 +111301,22 @@ export namespace Prisma {
     lunch: number
     dinner: number
     meals_notes: number
+    start_location_id: number
+    end_location_id: number
     _all: number
   }
 
 
   export type RoutesAvgAggregateInputType = {
     id?: true
+    start_location_id?: true
+    end_location_id?: true
   }
 
   export type RoutesSumAggregateInputType = {
     id?: true
+    start_location_id?: true
+    end_location_id?: true
   }
 
   export type RoutesMinAggregateInputType = {
@@ -115014,8 +111324,6 @@ export namespace Prisma {
     code?: true
     route?: true
     itinerary_title?: true
-    start_area?: true
-    end_area?: true
     estimated_duration?: true
     main_activities?: true
     accommodation_status?: true
@@ -115025,6 +111333,8 @@ export namespace Prisma {
     lunch?: true
     dinner?: true
     meals_notes?: true
+    start_location_id?: true
+    end_location_id?: true
   }
 
   export type RoutesMaxAggregateInputType = {
@@ -115032,8 +111342,6 @@ export namespace Prisma {
     code?: true
     route?: true
     itinerary_title?: true
-    start_area?: true
-    end_area?: true
     estimated_duration?: true
     main_activities?: true
     accommodation_status?: true
@@ -115043,6 +111351,8 @@ export namespace Prisma {
     lunch?: true
     dinner?: true
     meals_notes?: true
+    start_location_id?: true
+    end_location_id?: true
   }
 
   export type RoutesCountAggregateInputType = {
@@ -115050,8 +111360,6 @@ export namespace Prisma {
     code?: true
     route?: true
     itinerary_title?: true
-    start_area?: true
-    end_area?: true
     estimated_duration?: true
     main_activities?: true
     accommodation_status?: true
@@ -115061,6 +111369,8 @@ export namespace Prisma {
     lunch?: true
     dinner?: true
     meals_notes?: true
+    start_location_id?: true
+    end_location_id?: true
     _all?: true
   }
 
@@ -115155,8 +111465,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration: string | null
     main_activities: string | null
     accommodation_status: string | null
@@ -115166,6 +111474,8 @@ export namespace Prisma {
     lunch: boolean | null
     dinner: boolean | null
     meals_notes: string | null
+    start_location_id: number | null
+    end_location_id: number | null
     _count: RoutesCountAggregateOutputType | null
     _avg: RoutesAvgAggregateOutputType | null
     _sum: RoutesSumAggregateOutputType | null
@@ -115192,8 +111502,6 @@ export namespace Prisma {
     code?: boolean
     route?: boolean
     itinerary_title?: boolean
-    start_area?: boolean
-    end_area?: boolean
     estimated_duration?: boolean
     main_activities?: boolean
     accommodation_status?: boolean
@@ -115203,9 +111511,12 @@ export namespace Prisma {
     lunch?: boolean
     dinner?: boolean
     meals_notes?: boolean
+    start_location_id?: boolean
+    end_location_id?: boolean
     route_details?: boolean | routes$route_detailsArgs<ExtArgs>
     package_itinerary_days?: boolean | routes$package_itinerary_daysArgs<ExtArgs>
-    route_destinations?: boolean | routes$route_destinationsArgs<ExtArgs>
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
     _count?: boolean | RoutesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["routes"]>
 
@@ -115214,8 +111525,6 @@ export namespace Prisma {
     code?: boolean
     route?: boolean
     itinerary_title?: boolean
-    start_area?: boolean
-    end_area?: boolean
     estimated_duration?: boolean
     main_activities?: boolean
     accommodation_status?: boolean
@@ -115225,6 +111534,10 @@ export namespace Prisma {
     lunch?: boolean
     dinner?: boolean
     meals_notes?: boolean
+    start_location_id?: boolean
+    end_location_id?: boolean
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
   }, ExtArgs["result"]["routes"]>
 
   export type routesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -115232,8 +111545,6 @@ export namespace Prisma {
     code?: boolean
     route?: boolean
     itinerary_title?: boolean
-    start_area?: boolean
-    end_area?: boolean
     estimated_duration?: boolean
     main_activities?: boolean
     accommodation_status?: boolean
@@ -115243,6 +111554,10 @@ export namespace Prisma {
     lunch?: boolean
     dinner?: boolean
     meals_notes?: boolean
+    start_location_id?: boolean
+    end_location_id?: boolean
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
   }, ExtArgs["result"]["routes"]>
 
   export type routesSelectScalar = {
@@ -115250,8 +111565,6 @@ export namespace Prisma {
     code?: boolean
     route?: boolean
     itinerary_title?: boolean
-    start_area?: boolean
-    end_area?: boolean
     estimated_duration?: boolean
     main_activities?: boolean
     accommodation_status?: boolean
@@ -115261,32 +111574,40 @@ export namespace Prisma {
     lunch?: boolean
     dinner?: boolean
     meals_notes?: boolean
+    start_location_id?: boolean
+    end_location_id?: boolean
   }
 
-  export type routesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "route" | "itinerary_title" | "start_area" | "end_area" | "estimated_duration" | "main_activities" | "accommodation_status" | "customer_tips" | "overview" | "breakfast" | "lunch" | "dinner" | "meals_notes", ExtArgs["result"]["routes"]>
+  export type routesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "route" | "itinerary_title" | "estimated_duration" | "main_activities" | "accommodation_status" | "customer_tips" | "overview" | "breakfast" | "lunch" | "dinner" | "meals_notes" | "start_location_id" | "end_location_id", ExtArgs["result"]["routes"]>
   export type routesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     route_details?: boolean | routes$route_detailsArgs<ExtArgs>
     package_itinerary_days?: boolean | routes$package_itinerary_daysArgs<ExtArgs>
-    route_destinations?: boolean | routes$route_destinationsArgs<ExtArgs>
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
     _count?: boolean | RoutesCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type routesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type routesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type routesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
+  }
+  export type routesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    locations_routes_start_location_idTolocations?: boolean | routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>
+    locations_routes_end_location_idTolocations?: boolean | routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>
+  }
 
   export type $routesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "routes"
     objects: {
       route_details: Prisma.$route_detailsPayload<ExtArgs>[]
       package_itinerary_days: Prisma.$package_itinerary_daysPayload<ExtArgs>[]
-      route_destinations: Prisma.$route_destinationsPayload<ExtArgs>[]
+      locations_routes_start_location_idTolocations: Prisma.$locationsPayload<ExtArgs> | null
+      locations_routes_end_location_idTolocations: Prisma.$locationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       code: string
       route: string
       itinerary_title: string
-      start_area: string
-      end_area: string
       estimated_duration: string | null
       main_activities: string | null
       accommodation_status: string | null
@@ -115296,6 +111617,8 @@ export namespace Prisma {
       lunch: boolean | null
       dinner: boolean | null
       meals_notes: string | null
+      start_location_id: number | null
+      end_location_id: number | null
     }, ExtArgs["result"]["routes"]>
     composites: {}
   }
@@ -115692,7 +112015,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     route_details<T extends routes$route_detailsArgs<ExtArgs> = {}>(args?: Subset<T, routes$route_detailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_detailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     package_itinerary_days<T extends routes$package_itinerary_daysArgs<ExtArgs> = {}>(args?: Subset<T, routes$package_itinerary_daysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$package_itinerary_daysPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    route_destinations<T extends routes$route_destinationsArgs<ExtArgs> = {}>(args?: Subset<T, routes$route_destinationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    locations_routes_start_location_idTolocations<T extends routes$locations_routes_start_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, routes$locations_routes_start_location_idTolocationsArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    locations_routes_end_location_idTolocations<T extends routes$locations_routes_end_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, routes$locations_routes_end_location_idTolocationsArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -115726,8 +112050,6 @@ export namespace Prisma {
     readonly code: FieldRef<"routes", 'String'>
     readonly route: FieldRef<"routes", 'String'>
     readonly itinerary_title: FieldRef<"routes", 'String'>
-    readonly start_area: FieldRef<"routes", 'String'>
-    readonly end_area: FieldRef<"routes", 'String'>
     readonly estimated_duration: FieldRef<"routes", 'String'>
     readonly main_activities: FieldRef<"routes", 'String'>
     readonly accommodation_status: FieldRef<"routes", 'String'>
@@ -115737,6 +112059,8 @@ export namespace Prisma {
     readonly lunch: FieldRef<"routes", 'Boolean'>
     readonly dinner: FieldRef<"routes", 'Boolean'>
     readonly meals_notes: FieldRef<"routes", 'String'>
+    readonly start_location_id: FieldRef<"routes", 'Int'>
+    readonly end_location_id: FieldRef<"routes", 'Int'>
   }
     
 
@@ -115986,6 +112310,10 @@ export namespace Prisma {
      */
     data: routesCreateManyInput | routesCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: routesIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -116056,6 +112384,10 @@ export namespace Prisma {
      * Limit how many routes to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: routesIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -116173,27 +112505,41 @@ export namespace Prisma {
   }
 
   /**
-   * routes.route_destinations
+   * routes.locations_routes_start_location_idTolocations
    */
-  export type routes$route_destinationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type routes$locations_routes_start_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the route_destinations
+     * Select specific fields to fetch from the locations
      */
-    select?: route_destinationsSelect<ExtArgs> | null
+    select?: locationsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the route_destinations
+     * Omit specific fields from the locations
      */
-    omit?: route_destinationsOmit<ExtArgs> | null
+    omit?: locationsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: route_destinationsInclude<ExtArgs> | null
-    where?: route_destinationsWhereInput
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    cursor?: route_destinationsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Route_destinationsScalarFieldEnum | Route_destinationsScalarFieldEnum[]
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
+  }
+
+  /**
+   * routes.locations_routes_end_location_idTolocations
+   */
+  export type routes$locations_routes_end_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
   }
 
   /**
@@ -116232,6 +112578,8 @@ export namespace Prisma {
     route_id: number | null
     seq: number | null
     duration_minutes: number | null
+    from_location_id: number | null
+    to_location_id: number | null
   }
 
   export type Route_detailsSumAggregateOutputType = {
@@ -116239,6 +112587,8 @@ export namespace Prisma {
     route_id: bigint | null
     seq: number | null
     duration_minutes: number | null
+    from_location_id: number | null
+    to_location_id: number | null
   }
 
   export type Route_detailsMinAggregateOutputType = {
@@ -116246,14 +112596,12 @@ export namespace Prisma {
     route_id: bigint | null
     seq: number | null
     time_or_label: string | null
-    timezone: string | null
     name: string | null
     activity: string | null
     type: string | null
-    location: string | null
-    from_location: string | null
-    to_location: string | null
     duration_minutes: number | null
+    from_location_id: number | null
+    to_location_id: number | null
   }
 
   export type Route_detailsMaxAggregateOutputType = {
@@ -116261,14 +112609,12 @@ export namespace Prisma {
     route_id: bigint | null
     seq: number | null
     time_or_label: string | null
-    timezone: string | null
     name: string | null
     activity: string | null
     type: string | null
-    location: string | null
-    from_location: string | null
-    to_location: string | null
     duration_minutes: number | null
+    from_location_id: number | null
+    to_location_id: number | null
   }
 
   export type Route_detailsCountAggregateOutputType = {
@@ -116276,14 +112622,12 @@ export namespace Prisma {
     route_id: number
     seq: number
     time_or_label: number
-    timezone: number
     name: number
     activity: number
     type: number
-    location: number
-    from_location: number
-    to_location: number
     duration_minutes: number
+    from_location_id: number
+    to_location_id: number
     _all: number
   }
 
@@ -116293,6 +112637,8 @@ export namespace Prisma {
     route_id?: true
     seq?: true
     duration_minutes?: true
+    from_location_id?: true
+    to_location_id?: true
   }
 
   export type Route_detailsSumAggregateInputType = {
@@ -116300,6 +112646,8 @@ export namespace Prisma {
     route_id?: true
     seq?: true
     duration_minutes?: true
+    from_location_id?: true
+    to_location_id?: true
   }
 
   export type Route_detailsMinAggregateInputType = {
@@ -116307,14 +112655,12 @@ export namespace Prisma {
     route_id?: true
     seq?: true
     time_or_label?: true
-    timezone?: true
     name?: true
     activity?: true
     type?: true
-    location?: true
-    from_location?: true
-    to_location?: true
     duration_minutes?: true
+    from_location_id?: true
+    to_location_id?: true
   }
 
   export type Route_detailsMaxAggregateInputType = {
@@ -116322,14 +112668,12 @@ export namespace Prisma {
     route_id?: true
     seq?: true
     time_or_label?: true
-    timezone?: true
     name?: true
     activity?: true
     type?: true
-    location?: true
-    from_location?: true
-    to_location?: true
     duration_minutes?: true
+    from_location_id?: true
+    to_location_id?: true
   }
 
   export type Route_detailsCountAggregateInputType = {
@@ -116337,14 +112681,12 @@ export namespace Prisma {
     route_id?: true
     seq?: true
     time_or_label?: true
-    timezone?: true
     name?: true
     activity?: true
     type?: true
-    location?: true
-    from_location?: true
-    to_location?: true
     duration_minutes?: true
+    from_location_id?: true
+    to_location_id?: true
     _all?: true
   }
 
@@ -116439,14 +112781,12 @@ export namespace Prisma {
     route_id: bigint
     seq: number
     time_or_label: string | null
-    timezone: string | null
     name: string | null
     activity: string
     type: string | null
-    location: string | null
-    from_location: string | null
-    to_location: string | null
     duration_minutes: number | null
+    from_location_id: number | null
+    to_location_id: number | null
     _count: Route_detailsCountAggregateOutputType | null
     _avg: Route_detailsAvgAggregateOutputType | null
     _sum: Route_detailsSumAggregateOutputType | null
@@ -116473,15 +112813,15 @@ export namespace Prisma {
     route_id?: boolean
     seq?: boolean
     time_or_label?: boolean
-    timezone?: boolean
     name?: boolean
     activity?: boolean
     type?: boolean
-    location?: boolean
-    from_location?: boolean
-    to_location?: boolean
     duration_minutes?: boolean
+    from_location_id?: boolean
+    to_location_id?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
   export type route_detailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -116489,15 +112829,15 @@ export namespace Prisma {
     route_id?: boolean
     seq?: boolean
     time_or_label?: boolean
-    timezone?: boolean
     name?: boolean
     activity?: boolean
     type?: boolean
-    location?: boolean
-    from_location?: boolean
-    to_location?: boolean
     duration_minutes?: boolean
+    from_location_id?: boolean
+    to_location_id?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
   export type route_detailsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -116505,15 +112845,15 @@ export namespace Prisma {
     route_id?: boolean
     seq?: boolean
     time_or_label?: boolean
-    timezone?: boolean
     name?: boolean
     activity?: boolean
     type?: boolean
-    location?: boolean
-    from_location?: boolean
-    to_location?: boolean
     duration_minutes?: boolean
+    from_location_id?: boolean
+    to_location_id?: boolean
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }, ExtArgs["result"]["route_details"]>
 
   export type route_detailsSelectScalar = {
@@ -116521,45 +112861,49 @@ export namespace Prisma {
     route_id?: boolean
     seq?: boolean
     time_or_label?: boolean
-    timezone?: boolean
     name?: boolean
     activity?: boolean
     type?: boolean
-    location?: boolean
-    from_location?: boolean
-    to_location?: boolean
     duration_minutes?: boolean
+    from_location_id?: boolean
+    to_location_id?: boolean
   }
 
-  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "timezone" | "name" | "activity" | "type" | "location" | "from_location" | "to_location" | "duration_minutes", ExtArgs["result"]["route_details"]>
+  export type route_detailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "seq" | "time_or_label" | "name" | "activity" | "type" | "duration_minutes" | "from_location_id" | "to_location_id", ExtArgs["result"]["route_details"]>
   export type route_detailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }
   export type route_detailsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }
   export type route_detailsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     routes?: boolean | routesDefaultArgs<ExtArgs>
+    locations_route_details_from_location_idTolocations?: boolean | route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>
+    locations_route_details_to_location_idTolocations?: boolean | route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>
   }
 
   export type $route_detailsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "route_details"
     objects: {
       routes: Prisma.$routesPayload<ExtArgs>
+      locations_route_details_from_location_idTolocations: Prisma.$locationsPayload<ExtArgs> | null
+      locations_route_details_to_location_idTolocations: Prisma.$locationsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       route_id: bigint
       seq: number
       time_or_label: string | null
-      timezone: string | null
       name: string | null
       activity: string
       type: string | null
-      location: string | null
-      from_location: string | null
-      to_location: string | null
       duration_minutes: number | null
+      from_location_id: number | null
+      to_location_id: number | null
     }, ExtArgs["result"]["route_details"]>
     composites: {}
   }
@@ -116955,6 +113299,8 @@ export namespace Prisma {
   export interface Prisma__route_detailsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     routes<T extends routesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, routesDefaultArgs<ExtArgs>>): Prisma__routesClient<$Result.GetResult<Prisma.$routesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    locations_route_details_from_location_idTolocations<T extends route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    locations_route_details_to_location_idTolocations<T extends route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs> = {}>(args?: Subset<T, route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs>>): Prisma__locationsClient<$Result.GetResult<Prisma.$locationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -116988,14 +113334,12 @@ export namespace Prisma {
     readonly route_id: FieldRef<"route_details", 'BigInt'>
     readonly seq: FieldRef<"route_details", 'Int'>
     readonly time_or_label: FieldRef<"route_details", 'String'>
-    readonly timezone: FieldRef<"route_details", 'String'>
     readonly name: FieldRef<"route_details", 'String'>
     readonly activity: FieldRef<"route_details", 'String'>
     readonly type: FieldRef<"route_details", 'String'>
-    readonly location: FieldRef<"route_details", 'String'>
-    readonly from_location: FieldRef<"route_details", 'String'>
-    readonly to_location: FieldRef<"route_details", 'String'>
     readonly duration_minutes: FieldRef<"route_details", 'Int'>
+    readonly from_location_id: FieldRef<"route_details", 'Int'>
+    readonly to_location_id: FieldRef<"route_details", 'Int'>
   }
     
 
@@ -117392,6 +113736,44 @@ export namespace Prisma {
   }
 
   /**
+   * route_details.locations_route_details_from_location_idTolocations
+   */
+  export type route_details$locations_route_details_from_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
+  }
+
+  /**
+   * route_details.locations_route_details_to_location_idTolocations
+   */
+  export type route_details$locations_route_details_to_location_idTolocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the locations
+     */
+    select?: locationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the locations
+     */
+    omit?: locationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: locationsInclude<ExtArgs> | null
+    where?: locationsWhereInput
+  }
+
+  /**
    * route_details without action
    */
   export type route_detailsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -117407,1131 +113789,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: route_detailsInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model route_destinations
-   */
-
-  export type AggregateRoute_destinations = {
-    _count: Route_destinationsCountAggregateOutputType | null
-    _avg: Route_destinationsAvgAggregateOutputType | null
-    _sum: Route_destinationsSumAggregateOutputType | null
-    _min: Route_destinationsMinAggregateOutputType | null
-    _max: Route_destinationsMaxAggregateOutputType | null
-  }
-
-  export type Route_destinationsAvgAggregateOutputType = {
-    id: number | null
-    route_id: number | null
-    destination_id: number | null
-    sequence: number | null
-  }
-
-  export type Route_destinationsSumAggregateOutputType = {
-    id: bigint | null
-    route_id: bigint | null
-    destination_id: bigint | null
-    sequence: number | null
-  }
-
-  export type Route_destinationsMinAggregateOutputType = {
-    id: bigint | null
-    route_id: bigint | null
-    destination_id: bigint | null
-    sequence: number | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type Route_destinationsMaxAggregateOutputType = {
-    id: bigint | null
-    route_id: bigint | null
-    destination_id: bigint | null
-    sequence: number | null
-    created_at: Date | null
-    updated_at: Date | null
-  }
-
-  export type Route_destinationsCountAggregateOutputType = {
-    id: number
-    route_id: number
-    destination_id: number
-    sequence: number
-    created_at: number
-    updated_at: number
-    _all: number
-  }
-
-
-  export type Route_destinationsAvgAggregateInputType = {
-    id?: true
-    route_id?: true
-    destination_id?: true
-    sequence?: true
-  }
-
-  export type Route_destinationsSumAggregateInputType = {
-    id?: true
-    route_id?: true
-    destination_id?: true
-    sequence?: true
-  }
-
-  export type Route_destinationsMinAggregateInputType = {
-    id?: true
-    route_id?: true
-    destination_id?: true
-    sequence?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type Route_destinationsMaxAggregateInputType = {
-    id?: true
-    route_id?: true
-    destination_id?: true
-    sequence?: true
-    created_at?: true
-    updated_at?: true
-  }
-
-  export type Route_destinationsCountAggregateInputType = {
-    id?: true
-    route_id?: true
-    destination_id?: true
-    sequence?: true
-    created_at?: true
-    updated_at?: true
-    _all?: true
-  }
-
-  export type Route_destinationsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which route_destinations to aggregate.
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of route_destinations to fetch.
-     */
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: route_destinationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` route_destinations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` route_destinations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned route_destinations
-    **/
-    _count?: true | Route_destinationsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: Route_destinationsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: Route_destinationsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: Route_destinationsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: Route_destinationsMaxAggregateInputType
-  }
-
-  export type GetRoute_destinationsAggregateType<T extends Route_destinationsAggregateArgs> = {
-        [P in keyof T & keyof AggregateRoute_destinations]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRoute_destinations[P]>
-      : GetScalarType<T[P], AggregateRoute_destinations[P]>
-  }
-
-
-
-
-  export type route_destinationsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: route_destinationsWhereInput
-    orderBy?: route_destinationsOrderByWithAggregationInput | route_destinationsOrderByWithAggregationInput[]
-    by: Route_destinationsScalarFieldEnum[] | Route_destinationsScalarFieldEnum
-    having?: route_destinationsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: Route_destinationsCountAggregateInputType | true
-    _avg?: Route_destinationsAvgAggregateInputType
-    _sum?: Route_destinationsSumAggregateInputType
-    _min?: Route_destinationsMinAggregateInputType
-    _max?: Route_destinationsMaxAggregateInputType
-  }
-
-  export type Route_destinationsGroupByOutputType = {
-    id: bigint
-    route_id: bigint
-    destination_id: bigint
-    sequence: number
-    created_at: Date | null
-    updated_at: Date | null
-    _count: Route_destinationsCountAggregateOutputType | null
-    _avg: Route_destinationsAvgAggregateOutputType | null
-    _sum: Route_destinationsSumAggregateOutputType | null
-    _min: Route_destinationsMinAggregateOutputType | null
-    _max: Route_destinationsMaxAggregateOutputType | null
-  }
-
-  type GetRoute_destinationsGroupByPayload<T extends route_destinationsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<Route_destinationsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof Route_destinationsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], Route_destinationsGroupByOutputType[P]>
-            : GetScalarType<T[P], Route_destinationsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type route_destinationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    route_id?: boolean
-    destination_id?: boolean
-    sequence?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["route_destinations"]>
-
-  export type route_destinationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    route_id?: boolean
-    destination_id?: boolean
-    sequence?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["route_destinations"]>
-
-  export type route_destinationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    route_id?: boolean
-    destination_id?: boolean
-    sequence?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["route_destinations"]>
-
-  export type route_destinationsSelectScalar = {
-    id?: boolean
-    route_id?: boolean
-    destination_id?: boolean
-    sequence?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-  }
-
-  export type route_destinationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "route_id" | "destination_id" | "sequence" | "created_at" | "updated_at", ExtArgs["result"]["route_destinations"]>
-  export type route_destinationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }
-  export type route_destinationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }
-  export type route_destinationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    route?: boolean | routesDefaultArgs<ExtArgs>
-    destination?: boolean | destinationsDefaultArgs<ExtArgs>
-  }
-
-  export type $route_destinationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "route_destinations"
-    objects: {
-      route: Prisma.$routesPayload<ExtArgs>
-      destination: Prisma.$destinationsPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: bigint
-      route_id: bigint
-      destination_id: bigint
-      sequence: number
-      created_at: Date | null
-      updated_at: Date | null
-    }, ExtArgs["result"]["route_destinations"]>
-    composites: {}
-  }
-
-  type route_destinationsGetPayload<S extends boolean | null | undefined | route_destinationsDefaultArgs> = $Result.GetResult<Prisma.$route_destinationsPayload, S>
-
-  type route_destinationsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<route_destinationsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: Route_destinationsCountAggregateInputType | true
-    }
-
-  export interface route_destinationsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['route_destinations'], meta: { name: 'route_destinations' } }
-    /**
-     * Find zero or one Route_destinations that matches the filter.
-     * @param {route_destinationsFindUniqueArgs} args - Arguments to find a Route_destinations
-     * @example
-     * // Get one Route_destinations
-     * const route_destinations = await prisma.route_destinations.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends route_destinationsFindUniqueArgs>(args: SelectSubset<T, route_destinationsFindUniqueArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Route_destinations that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {route_destinationsFindUniqueOrThrowArgs} args - Arguments to find a Route_destinations
-     * @example
-     * // Get one Route_destinations
-     * const route_destinations = await prisma.route_destinations.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends route_destinationsFindUniqueOrThrowArgs>(args: SelectSubset<T, route_destinationsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Route_destinations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsFindFirstArgs} args - Arguments to find a Route_destinations
-     * @example
-     * // Get one Route_destinations
-     * const route_destinations = await prisma.route_destinations.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends route_destinationsFindFirstArgs>(args?: SelectSubset<T, route_destinationsFindFirstArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Route_destinations that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsFindFirstOrThrowArgs} args - Arguments to find a Route_destinations
-     * @example
-     * // Get one Route_destinations
-     * const route_destinations = await prisma.route_destinations.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends route_destinationsFindFirstOrThrowArgs>(args?: SelectSubset<T, route_destinationsFindFirstOrThrowArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Route_destinations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Route_destinations
-     * const route_destinations = await prisma.route_destinations.findMany()
-     * 
-     * // Get first 10 Route_destinations
-     * const route_destinations = await prisma.route_destinations.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const route_destinationsWithIdOnly = await prisma.route_destinations.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends route_destinationsFindManyArgs>(args?: SelectSubset<T, route_destinationsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Route_destinations.
-     * @param {route_destinationsCreateArgs} args - Arguments to create a Route_destinations.
-     * @example
-     * // Create one Route_destinations
-     * const Route_destinations = await prisma.route_destinations.create({
-     *   data: {
-     *     // ... data to create a Route_destinations
-     *   }
-     * })
-     * 
-     */
-    create<T extends route_destinationsCreateArgs>(args: SelectSubset<T, route_destinationsCreateArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Route_destinations.
-     * @param {route_destinationsCreateManyArgs} args - Arguments to create many Route_destinations.
-     * @example
-     * // Create many Route_destinations
-     * const route_destinations = await prisma.route_destinations.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends route_destinationsCreateManyArgs>(args?: SelectSubset<T, route_destinationsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Route_destinations and returns the data saved in the database.
-     * @param {route_destinationsCreateManyAndReturnArgs} args - Arguments to create many Route_destinations.
-     * @example
-     * // Create many Route_destinations
-     * const route_destinations = await prisma.route_destinations.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Route_destinations and only return the `id`
-     * const route_destinationsWithIdOnly = await prisma.route_destinations.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends route_destinationsCreateManyAndReturnArgs>(args?: SelectSubset<T, route_destinationsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Route_destinations.
-     * @param {route_destinationsDeleteArgs} args - Arguments to delete one Route_destinations.
-     * @example
-     * // Delete one Route_destinations
-     * const Route_destinations = await prisma.route_destinations.delete({
-     *   where: {
-     *     // ... filter to delete one Route_destinations
-     *   }
-     * })
-     * 
-     */
-    delete<T extends route_destinationsDeleteArgs>(args: SelectSubset<T, route_destinationsDeleteArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Route_destinations.
-     * @param {route_destinationsUpdateArgs} args - Arguments to update one Route_destinations.
-     * @example
-     * // Update one Route_destinations
-     * const route_destinations = await prisma.route_destinations.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends route_destinationsUpdateArgs>(args: SelectSubset<T, route_destinationsUpdateArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Route_destinations.
-     * @param {route_destinationsDeleteManyArgs} args - Arguments to filter Route_destinations to delete.
-     * @example
-     * // Delete a few Route_destinations
-     * const { count } = await prisma.route_destinations.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends route_destinationsDeleteManyArgs>(args?: SelectSubset<T, route_destinationsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Route_destinations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Route_destinations
-     * const route_destinations = await prisma.route_destinations.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends route_destinationsUpdateManyArgs>(args: SelectSubset<T, route_destinationsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Route_destinations and returns the data updated in the database.
-     * @param {route_destinationsUpdateManyAndReturnArgs} args - Arguments to update many Route_destinations.
-     * @example
-     * // Update many Route_destinations
-     * const route_destinations = await prisma.route_destinations.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Route_destinations and only return the `id`
-     * const route_destinationsWithIdOnly = await prisma.route_destinations.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends route_destinationsUpdateManyAndReturnArgs>(args: SelectSubset<T, route_destinationsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Route_destinations.
-     * @param {route_destinationsUpsertArgs} args - Arguments to update or create a Route_destinations.
-     * @example
-     * // Update or create a Route_destinations
-     * const route_destinations = await prisma.route_destinations.upsert({
-     *   create: {
-     *     // ... data to create a Route_destinations
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Route_destinations we want to update
-     *   }
-     * })
-     */
-    upsert<T extends route_destinationsUpsertArgs>(args: SelectSubset<T, route_destinationsUpsertArgs<ExtArgs>>): Prisma__route_destinationsClient<$Result.GetResult<Prisma.$route_destinationsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Route_destinations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsCountArgs} args - Arguments to filter Route_destinations to count.
-     * @example
-     * // Count the number of Route_destinations
-     * const count = await prisma.route_destinations.count({
-     *   where: {
-     *     // ... the filter for the Route_destinations we want to count
-     *   }
-     * })
-    **/
-    count<T extends route_destinationsCountArgs>(
-      args?: Subset<T, route_destinationsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], Route_destinationsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Route_destinations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {Route_destinationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends Route_destinationsAggregateArgs>(args: Subset<T, Route_destinationsAggregateArgs>): Prisma.PrismaPromise<GetRoute_destinationsAggregateType<T>>
-
-    /**
-     * Group by Route_destinations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {route_destinationsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends route_destinationsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: route_destinationsGroupByArgs['orderBy'] }
-        : { orderBy?: route_destinationsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, route_destinationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoute_destinationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the route_destinations model
-   */
-  readonly fields: route_destinationsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for route_destinations.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__route_destinationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    route<T extends routesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, routesDefaultArgs<ExtArgs>>): Prisma__routesClient<$Result.GetResult<Prisma.$routesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    destination<T extends destinationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, destinationsDefaultArgs<ExtArgs>>): Prisma__destinationsClient<$Result.GetResult<Prisma.$destinationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the route_destinations model
-   */
-  interface route_destinationsFieldRefs {
-    readonly id: FieldRef<"route_destinations", 'BigInt'>
-    readonly route_id: FieldRef<"route_destinations", 'BigInt'>
-    readonly destination_id: FieldRef<"route_destinations", 'BigInt'>
-    readonly sequence: FieldRef<"route_destinations", 'Int'>
-    readonly created_at: FieldRef<"route_destinations", 'DateTime'>
-    readonly updated_at: FieldRef<"route_destinations", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * route_destinations findUnique
-   */
-  export type route_destinationsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter, which route_destinations to fetch.
-     */
-    where: route_destinationsWhereUniqueInput
-  }
-
-  /**
-   * route_destinations findUniqueOrThrow
-   */
-  export type route_destinationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter, which route_destinations to fetch.
-     */
-    where: route_destinationsWhereUniqueInput
-  }
-
-  /**
-   * route_destinations findFirst
-   */
-  export type route_destinationsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter, which route_destinations to fetch.
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of route_destinations to fetch.
-     */
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for route_destinations.
-     */
-    cursor?: route_destinationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` route_destinations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` route_destinations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of route_destinations.
-     */
-    distinct?: Route_destinationsScalarFieldEnum | Route_destinationsScalarFieldEnum[]
-  }
-
-  /**
-   * route_destinations findFirstOrThrow
-   */
-  export type route_destinationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter, which route_destinations to fetch.
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of route_destinations to fetch.
-     */
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for route_destinations.
-     */
-    cursor?: route_destinationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` route_destinations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` route_destinations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of route_destinations.
-     */
-    distinct?: Route_destinationsScalarFieldEnum | Route_destinationsScalarFieldEnum[]
-  }
-
-  /**
-   * route_destinations findMany
-   */
-  export type route_destinationsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter, which route_destinations to fetch.
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of route_destinations to fetch.
-     */
-    orderBy?: route_destinationsOrderByWithRelationInput | route_destinationsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing route_destinations.
-     */
-    cursor?: route_destinationsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` route_destinations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` route_destinations.
-     */
-    skip?: number
-    distinct?: Route_destinationsScalarFieldEnum | Route_destinationsScalarFieldEnum[]
-  }
-
-  /**
-   * route_destinations create
-   */
-  export type route_destinationsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a route_destinations.
-     */
-    data: XOR<route_destinationsCreateInput, route_destinationsUncheckedCreateInput>
-  }
-
-  /**
-   * route_destinations createMany
-   */
-  export type route_destinationsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many route_destinations.
-     */
-    data: route_destinationsCreateManyInput | route_destinationsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * route_destinations createManyAndReturn
-   */
-  export type route_destinationsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * The data used to create many route_destinations.
-     */
-    data: route_destinationsCreateManyInput | route_destinationsCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * route_destinations update
-   */
-  export type route_destinationsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a route_destinations.
-     */
-    data: XOR<route_destinationsUpdateInput, route_destinationsUncheckedUpdateInput>
-    /**
-     * Choose, which route_destinations to update.
-     */
-    where: route_destinationsWhereUniqueInput
-  }
-
-  /**
-   * route_destinations updateMany
-   */
-  export type route_destinationsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update route_destinations.
-     */
-    data: XOR<route_destinationsUpdateManyMutationInput, route_destinationsUncheckedUpdateManyInput>
-    /**
-     * Filter which route_destinations to update
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * Limit how many route_destinations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * route_destinations updateManyAndReturn
-   */
-  export type route_destinationsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * The data used to update route_destinations.
-     */
-    data: XOR<route_destinationsUpdateManyMutationInput, route_destinationsUncheckedUpdateManyInput>
-    /**
-     * Filter which route_destinations to update
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * Limit how many route_destinations to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * route_destinations upsert
-   */
-  export type route_destinationsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the route_destinations to update in case it exists.
-     */
-    where: route_destinationsWhereUniqueInput
-    /**
-     * In case the route_destinations found by the `where` argument doesn't exist, create a new route_destinations with this data.
-     */
-    create: XOR<route_destinationsCreateInput, route_destinationsUncheckedCreateInput>
-    /**
-     * In case the route_destinations was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<route_destinationsUpdateInput, route_destinationsUncheckedUpdateInput>
-  }
-
-  /**
-   * route_destinations delete
-   */
-  export type route_destinationsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
-    /**
-     * Filter which route_destinations to delete.
-     */
-    where: route_destinationsWhereUniqueInput
-  }
-
-  /**
-   * route_destinations deleteMany
-   */
-  export type route_destinationsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which route_destinations to delete
-     */
-    where?: route_destinationsWhereInput
-    /**
-     * Limit how many route_destinations to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * route_destinations without action
-   */
-  export type route_destinationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the route_destinations
-     */
-    select?: route_destinationsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the route_destinations
-     */
-    omit?: route_destinationsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: route_destinationsInclude<ExtArgs> | null
   }
 
 
@@ -140808,32 +136065,6 @@ export namespace Prisma {
   export type Channel_unavailable_rangesScalarFieldEnum = (typeof Channel_unavailable_rangesScalarFieldEnum)[keyof typeof Channel_unavailable_rangesScalarFieldEnum]
 
 
-  export const Combined_package_detailsScalarFieldEnum: {
-    id: 'id',
-    combined_package_id: 'combined_package_id',
-    package_id: 'package_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    deleted_at: 'deleted_at'
-  };
-
-  export type Combined_package_detailsScalarFieldEnum = (typeof Combined_package_detailsScalarFieldEnum)[keyof typeof Combined_package_detailsScalarFieldEnum]
-
-
-  export const Combined_packagesScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    long_name: 'long_name',
-    slug: 'slug',
-    highlights: 'highlights',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    deleted_at: 'deleted_at'
-  };
-
-  export type Combined_packagesScalarFieldEnum = (typeof Combined_packagesScalarFieldEnum)[keyof typeof Combined_packagesScalarFieldEnum]
-
-
   export const CountriesScalarFieldEnum: {
     id: 'id',
     short_name: 'short_name',
@@ -141052,17 +136283,16 @@ export namespace Prisma {
     region: 'region',
     province: 'province',
     country: 'country',
-    latitude: 'latitude',
-    longitude: 'longitude',
     altitude: 'altitude',
-    area_hectares: 'area_hectares',
+    display_height_m: 'display_height_m',
+    nickname: 'nickname',
+    trailhead: 'trailhead',
+    physical_demand: 'physical_demand',
+    sections: 'sections',
     terrain: 'terrain',
     best_time_to_visit: 'best_time_to_visit',
     difficulty_level: 'difficulty_level',
     duration: 'duration',
-    physical_demand: 'physical_demand',
-    cultural_depth: 'cultural_depth',
-    photo_potential: 'photo_potential',
     weather_by_season: 'weather_by_season',
     rainfall_intensity: 'rainfall_intensity',
     temperature_range: 'temperature_range',
@@ -141076,23 +136306,26 @@ export namespace Prisma {
     permit_required: 'permit_required',
     permit_details: 'permit_details',
     guide_required: 'guide_required',
-    facilities: 'facilities',
     safety_notes: 'safety_notes',
     risk_factors: 'risk_factors',
     environmental_factors: 'environmental_factors',
-    emergency_contacts: 'emergency_contacts',
     physical_requirements: 'physical_requirements',
     cultural_context: 'cultural_context',
     local_tribes: 'local_tribes',
-    rituals_festivals: 'rituals_festivals',
     tips_for_visitors: 'tips_for_visitors',
-    thumbnail_url: 'thumbnail_url',
     featured_image: 'featured_image',
     published: 'published',
     featured: 'featured',
     seo_title: 'seo_title',
     seo_description: 'seo_description',
     schema_json: 'schema_json',
+    route_geojson: 'route_geojson',
+    route_length_m: 'route_length_m',
+    route_elev_gain_m: 'route_elev_gain_m',
+    route_elev_min_m: 'route_elev_min_m',
+    route_max_alt_m: 'route_max_alt_m',
+    route_bbox: 'route_bbox',
+    route_start_point: 'route_start_point',
     tags: 'tags',
     types: 'types',
     slug: 'slug',
@@ -141282,7 +136515,6 @@ export namespace Prisma {
     destination_id: 'destination_id',
     description: 'description',
     facilities: 'facilities',
-    area: 'area',
     address: 'address',
     phone: 'phone',
     banner: 'banner',
@@ -141489,23 +136721,6 @@ export namespace Prisma {
   export type Package_hotel_optionsScalarFieldEnum = (typeof Package_hotel_optionsScalarFieldEnum)[keyof typeof Package_hotel_optionsScalarFieldEnum]
 
 
-  export const Package_imagesScalarFieldEnum: {
-    id: 'id',
-    package_id: 'package_id',
-    url: 'url',
-    og_image_url: 'og_image_url',
-    sort_order: 'sort_order',
-    alt_text: 'alt_text',
-    caption: 'caption',
-    tags: 'tags',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    deleted_at: 'deleted_at'
-  };
-
-  export type Package_imagesScalarFieldEnum = (typeof Package_imagesScalarFieldEnum)[keyof typeof Package_imagesScalarFieldEnum]
-
-
   export const Package_includesScalarFieldEnum: {
     id: 'id',
     package_id: 'package_id',
@@ -141520,7 +136735,11 @@ export namespace Prisma {
 
   export const LocationsScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    type: 'type',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    destination_id: 'destination_id'
   };
 
   export type LocationsScalarFieldEnum = (typeof LocationsScalarFieldEnum)[keyof typeof LocationsScalarFieldEnum]
@@ -141690,8 +136909,6 @@ export namespace Prisma {
     code: 'code',
     route: 'route',
     itinerary_title: 'itinerary_title',
-    start_area: 'start_area',
-    end_area: 'end_area',
     estimated_duration: 'estimated_duration',
     main_activities: 'main_activities',
     accommodation_status: 'accommodation_status',
@@ -141700,7 +136917,9 @@ export namespace Prisma {
     breakfast: 'breakfast',
     lunch: 'lunch',
     dinner: 'dinner',
-    meals_notes: 'meals_notes'
+    meals_notes: 'meals_notes',
+    start_location_id: 'start_location_id',
+    end_location_id: 'end_location_id'
   };
 
   export type RoutesScalarFieldEnum = (typeof RoutesScalarFieldEnum)[keyof typeof RoutesScalarFieldEnum]
@@ -141711,29 +136930,15 @@ export namespace Prisma {
     route_id: 'route_id',
     seq: 'seq',
     time_or_label: 'time_or_label',
-    timezone: 'timezone',
     name: 'name',
     activity: 'activity',
     type: 'type',
-    location: 'location',
-    from_location: 'from_location',
-    to_location: 'to_location',
-    duration_minutes: 'duration_minutes'
+    duration_minutes: 'duration_minutes',
+    from_location_id: 'from_location_id',
+    to_location_id: 'to_location_id'
   };
 
   export type Route_detailsScalarFieldEnum = (typeof Route_detailsScalarFieldEnum)[keyof typeof Route_detailsScalarFieldEnum]
-
-
-  export const Route_destinationsScalarFieldEnum: {
-    id: 'id',
-    route_id: 'route_id',
-    destination_id: 'destination_id',
-    sequence: 'sequence',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
-  };
-
-  export type Route_destinationsScalarFieldEnum = (typeof Route_destinationsScalarFieldEnum)[keyof typeof Route_destinationsScalarFieldEnum]
 
 
   export const Room_configurationsScalarFieldEnum: {
@@ -142164,6 +137369,20 @@ export namespace Prisma {
    * Reference to a field of type 'policy_document_type[]'
    */
   export type ListEnumpolicy_document_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'policy_document_type[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'location_type'
+   */
+  export type Enumlocation_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'location_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'location_type[]'
+   */
+  export type ListEnumlocation_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'location_type[]'>
     
 
 
@@ -145009,144 +140228,6 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"channel_unavailable_ranges"> | Date | string | null
   }
 
-  export type combined_package_detailsWhereInput = {
-    AND?: combined_package_detailsWhereInput | combined_package_detailsWhereInput[]
-    OR?: combined_package_detailsWhereInput[]
-    NOT?: combined_package_detailsWhereInput | combined_package_detailsWhereInput[]
-    id?: BigIntFilter<"combined_package_details"> | bigint | number
-    combined_package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    created_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    combined_packages?: XOR<Combined_packagesNullableScalarRelationFilter, combined_packagesWhereInput> | null
-    packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
-  }
-
-  export type combined_package_detailsOrderByWithRelationInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrderInput | SortOrder
-    package_id?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    combined_packages?: combined_packagesOrderByWithRelationInput
-    packages?: packagesOrderByWithRelationInput
-  }
-
-  export type combined_package_detailsWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    combined_package_id_package_id?: combined_package_detailsCombined_package_idPackage_idCompoundUniqueInput
-    AND?: combined_package_detailsWhereInput | combined_package_detailsWhereInput[]
-    OR?: combined_package_detailsWhereInput[]
-    NOT?: combined_package_detailsWhereInput | combined_package_detailsWhereInput[]
-    combined_package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    created_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    combined_packages?: XOR<Combined_packagesNullableScalarRelationFilter, combined_packagesWhereInput> | null
-    packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
-  }, "id" | "combined_package_id_package_id">
-
-  export type combined_package_detailsOrderByWithAggregationInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrderInput | SortOrder
-    package_id?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    _count?: combined_package_detailsCountOrderByAggregateInput
-    _avg?: combined_package_detailsAvgOrderByAggregateInput
-    _max?: combined_package_detailsMaxOrderByAggregateInput
-    _min?: combined_package_detailsMinOrderByAggregateInput
-    _sum?: combined_package_detailsSumOrderByAggregateInput
-  }
-
-  export type combined_package_detailsScalarWhereWithAggregatesInput = {
-    AND?: combined_package_detailsScalarWhereWithAggregatesInput | combined_package_detailsScalarWhereWithAggregatesInput[]
-    OR?: combined_package_detailsScalarWhereWithAggregatesInput[]
-    NOT?: combined_package_detailsScalarWhereWithAggregatesInput | combined_package_detailsScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"combined_package_details"> | bigint | number
-    combined_package_id?: BigIntNullableWithAggregatesFilter<"combined_package_details"> | bigint | number | null
-    package_id?: BigIntNullableWithAggregatesFilter<"combined_package_details"> | bigint | number | null
-    created_at?: DateTimeNullableWithAggregatesFilter<"combined_package_details"> | Date | string | null
-    updated_at?: DateTimeNullableWithAggregatesFilter<"combined_package_details"> | Date | string | null
-    deleted_at?: DateTimeNullableWithAggregatesFilter<"combined_package_details"> | Date | string | null
-  }
-
-  export type combined_packagesWhereInput = {
-    AND?: combined_packagesWhereInput | combined_packagesWhereInput[]
-    OR?: combined_packagesWhereInput[]
-    NOT?: combined_packagesWhereInput | combined_packagesWhereInput[]
-    id?: BigIntFilter<"combined_packages"> | bigint | number
-    name?: StringNullableFilter<"combined_packages"> | string | null
-    long_name?: StringNullableFilter<"combined_packages"> | string | null
-    slug?: StringNullableFilter<"combined_packages"> | string | null
-    highlights?: StringNullableFilter<"combined_packages"> | string | null
-    created_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    combined_package_details?: Combined_package_detailsListRelationFilter
-  }
-
-  export type combined_packagesOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrderInput | SortOrder
-    long_name?: SortOrderInput | SortOrder
-    slug?: SortOrderInput | SortOrder
-    highlights?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    combined_package_details?: combined_package_detailsOrderByRelationAggregateInput
-  }
-
-  export type combined_packagesWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    slug?: string
-    AND?: combined_packagesWhereInput | combined_packagesWhereInput[]
-    OR?: combined_packagesWhereInput[]
-    NOT?: combined_packagesWhereInput | combined_packagesWhereInput[]
-    name?: StringNullableFilter<"combined_packages"> | string | null
-    long_name?: StringNullableFilter<"combined_packages"> | string | null
-    highlights?: StringNullableFilter<"combined_packages"> | string | null
-    created_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"combined_packages"> | Date | string | null
-    combined_package_details?: Combined_package_detailsListRelationFilter
-  }, "id" | "slug">
-
-  export type combined_packagesOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrderInput | SortOrder
-    long_name?: SortOrderInput | SortOrder
-    slug?: SortOrderInput | SortOrder
-    highlights?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    _count?: combined_packagesCountOrderByAggregateInput
-    _avg?: combined_packagesAvgOrderByAggregateInput
-    _max?: combined_packagesMaxOrderByAggregateInput
-    _min?: combined_packagesMinOrderByAggregateInput
-    _sum?: combined_packagesSumOrderByAggregateInput
-  }
-
-  export type combined_packagesScalarWhereWithAggregatesInput = {
-    AND?: combined_packagesScalarWhereWithAggregatesInput | combined_packagesScalarWhereWithAggregatesInput[]
-    OR?: combined_packagesScalarWhereWithAggregatesInput[]
-    NOT?: combined_packagesScalarWhereWithAggregatesInput | combined_packagesScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"combined_packages"> | bigint | number
-    name?: StringNullableWithAggregatesFilter<"combined_packages"> | string | null
-    long_name?: StringNullableWithAggregatesFilter<"combined_packages"> | string | null
-    slug?: StringNullableWithAggregatesFilter<"combined_packages"> | string | null
-    highlights?: StringNullableWithAggregatesFilter<"combined_packages"> | string | null
-    created_at?: DateTimeNullableWithAggregatesFilter<"combined_packages"> | Date | string | null
-    updated_at?: DateTimeNullableWithAggregatesFilter<"combined_packages"> | Date | string | null
-    deleted_at?: DateTimeNullableWithAggregatesFilter<"combined_packages"> | Date | string | null
-  }
-
   export type countriesWhereInput = {
     AND?: countriesWhereInput | countriesWhereInput[]
     OR?: countriesWhereInput[]
@@ -146279,17 +141360,16 @@ export namespace Prisma {
     region?: StringNullableFilter<"destinations"> | string | null
     province?: StringNullableFilter<"destinations"> | string | null
     country?: StringNullableFilter<"destinations"> | string | null
-    latitude?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
-    longitude?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
     altitude?: IntNullableFilter<"destinations"> | number | null
-    area_hectares?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: IntNullableFilter<"destinations"> | number | null
+    nickname?: StringNullableFilter<"destinations"> | string | null
+    trailhead?: StringNullableFilter<"destinations"> | string | null
+    physical_demand?: IntNullableFilter<"destinations"> | number | null
+    sections?: JsonNullableFilter<"destinations">
     terrain?: StringNullableFilter<"destinations"> | string | null
     best_time_to_visit?: StringNullableFilter<"destinations"> | string | null
     difficulty_level?: StringNullableFilter<"destinations"> | string | null
     duration?: StringNullableFilter<"destinations"> | string | null
-    physical_demand?: IntNullableFilter<"destinations"> | number | null
-    cultural_depth?: IntNullableFilter<"destinations"> | number | null
-    photo_potential?: IntNullableFilter<"destinations"> | number | null
     weather_by_season?: StringNullableFilter<"destinations"> | string | null
     rainfall_intensity?: StringNullableFilter<"destinations"> | string | null
     temperature_range?: StringNullableFilter<"destinations"> | string | null
@@ -146303,23 +141383,26 @@ export namespace Prisma {
     permit_required?: BoolNullableFilter<"destinations"> | boolean | null
     permit_details?: StringNullableFilter<"destinations"> | string | null
     guide_required?: BoolNullableFilter<"destinations"> | boolean | null
-    facilities?: JsonNullableFilter<"destinations">
     safety_notes?: JsonNullableFilter<"destinations">
     risk_factors?: JsonNullableFilter<"destinations">
     environmental_factors?: JsonNullableFilter<"destinations">
-    emergency_contacts?: JsonNullableFilter<"destinations">
     physical_requirements?: StringNullableFilter<"destinations"> | string | null
     cultural_context?: StringNullableFilter<"destinations"> | string | null
     local_tribes?: StringNullableListFilter<"destinations">
-    rituals_festivals?: JsonNullableFilter<"destinations">
     tips_for_visitors?: StringNullableFilter<"destinations"> | string | null
-    thumbnail_url?: StringNullableFilter<"destinations"> | string | null
     featured_image?: StringNullableFilter<"destinations"> | string | null
     published?: BoolNullableFilter<"destinations"> | boolean | null
     featured?: BoolNullableFilter<"destinations"> | boolean | null
     seo_title?: StringNullableFilter<"destinations"> | string | null
     seo_description?: StringNullableFilter<"destinations"> | string | null
     schema_json?: JsonNullableFilter<"destinations">
+    route_geojson?: JsonNullableFilter<"destinations">
+    route_length_m?: IntNullableFilter<"destinations"> | number | null
+    route_elev_gain_m?: IntNullableFilter<"destinations"> | number | null
+    route_elev_min_m?: IntNullableFilter<"destinations"> | number | null
+    route_max_alt_m?: IntNullableFilter<"destinations"> | number | null
+    route_bbox?: JsonNullableFilter<"destinations">
+    route_start_point?: JsonNullableFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     slug?: StringNullableFilter<"destinations"> | string | null
@@ -146338,8 +141421,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
     destination_assets?: Destination_assetsListRelationFilter
     destination_faqs?: Destination_faqsListRelationFilter
-    route_destinations?: Route_destinationsListRelationFilter
     destination_gears?: Destination_gearsListRelationFilter
+    locations?: LocationsListRelationFilter
   }
 
   export type destinationsOrderByWithRelationInput = {
@@ -146350,17 +141433,16 @@ export namespace Prisma {
     region?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
-    latitude?: SortOrderInput | SortOrder
-    longitude?: SortOrderInput | SortOrder
     altitude?: SortOrderInput | SortOrder
-    area_hectares?: SortOrderInput | SortOrder
+    display_height_m?: SortOrderInput | SortOrder
+    nickname?: SortOrderInput | SortOrder
+    trailhead?: SortOrderInput | SortOrder
+    physical_demand?: SortOrderInput | SortOrder
+    sections?: SortOrderInput | SortOrder
     terrain?: SortOrderInput | SortOrder
     best_time_to_visit?: SortOrderInput | SortOrder
     difficulty_level?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
-    physical_demand?: SortOrderInput | SortOrder
-    cultural_depth?: SortOrderInput | SortOrder
-    photo_potential?: SortOrderInput | SortOrder
     weather_by_season?: SortOrderInput | SortOrder
     rainfall_intensity?: SortOrderInput | SortOrder
     temperature_range?: SortOrderInput | SortOrder
@@ -146374,23 +141456,26 @@ export namespace Prisma {
     permit_required?: SortOrderInput | SortOrder
     permit_details?: SortOrderInput | SortOrder
     guide_required?: SortOrderInput | SortOrder
-    facilities?: SortOrderInput | SortOrder
     safety_notes?: SortOrderInput | SortOrder
     risk_factors?: SortOrderInput | SortOrder
     environmental_factors?: SortOrderInput | SortOrder
-    emergency_contacts?: SortOrderInput | SortOrder
     physical_requirements?: SortOrderInput | SortOrder
     cultural_context?: SortOrderInput | SortOrder
     local_tribes?: SortOrder
-    rituals_festivals?: SortOrderInput | SortOrder
     tips_for_visitors?: SortOrderInput | SortOrder
-    thumbnail_url?: SortOrderInput | SortOrder
     featured_image?: SortOrderInput | SortOrder
     published?: SortOrderInput | SortOrder
     featured?: SortOrderInput | SortOrder
     seo_title?: SortOrderInput | SortOrder
     seo_description?: SortOrderInput | SortOrder
     schema_json?: SortOrderInput | SortOrder
+    route_geojson?: SortOrderInput | SortOrder
+    route_length_m?: SortOrderInput | SortOrder
+    route_elev_gain_m?: SortOrderInput | SortOrder
+    route_elev_min_m?: SortOrderInput | SortOrder
+    route_max_alt_m?: SortOrderInput | SortOrder
+    route_bbox?: SortOrderInput | SortOrder
+    route_start_point?: SortOrderInput | SortOrder
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
@@ -146409,8 +141494,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesOrderByRelationAggregateInput
     destination_assets?: destination_assetsOrderByRelationAggregateInput
     destination_faqs?: destination_faqsOrderByRelationAggregateInput
-    route_destinations?: route_destinationsOrderByRelationAggregateInput
     destination_gears?: destination_gearsOrderByRelationAggregateInput
+    locations?: locationsOrderByRelationAggregateInput
   }
 
   export type destinationsWhereUniqueInput = Prisma.AtLeast<{
@@ -146425,17 +141510,16 @@ export namespace Prisma {
     region?: StringNullableFilter<"destinations"> | string | null
     province?: StringNullableFilter<"destinations"> | string | null
     country?: StringNullableFilter<"destinations"> | string | null
-    latitude?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
-    longitude?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
     altitude?: IntNullableFilter<"destinations"> | number | null
-    area_hectares?: DecimalNullableFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: IntNullableFilter<"destinations"> | number | null
+    nickname?: StringNullableFilter<"destinations"> | string | null
+    trailhead?: StringNullableFilter<"destinations"> | string | null
+    physical_demand?: IntNullableFilter<"destinations"> | number | null
+    sections?: JsonNullableFilter<"destinations">
     terrain?: StringNullableFilter<"destinations"> | string | null
     best_time_to_visit?: StringNullableFilter<"destinations"> | string | null
     difficulty_level?: StringNullableFilter<"destinations"> | string | null
     duration?: StringNullableFilter<"destinations"> | string | null
-    physical_demand?: IntNullableFilter<"destinations"> | number | null
-    cultural_depth?: IntNullableFilter<"destinations"> | number | null
-    photo_potential?: IntNullableFilter<"destinations"> | number | null
     weather_by_season?: StringNullableFilter<"destinations"> | string | null
     rainfall_intensity?: StringNullableFilter<"destinations"> | string | null
     temperature_range?: StringNullableFilter<"destinations"> | string | null
@@ -146449,23 +141533,26 @@ export namespace Prisma {
     permit_required?: BoolNullableFilter<"destinations"> | boolean | null
     permit_details?: StringNullableFilter<"destinations"> | string | null
     guide_required?: BoolNullableFilter<"destinations"> | boolean | null
-    facilities?: JsonNullableFilter<"destinations">
     safety_notes?: JsonNullableFilter<"destinations">
     risk_factors?: JsonNullableFilter<"destinations">
     environmental_factors?: JsonNullableFilter<"destinations">
-    emergency_contacts?: JsonNullableFilter<"destinations">
     physical_requirements?: StringNullableFilter<"destinations"> | string | null
     cultural_context?: StringNullableFilter<"destinations"> | string | null
     local_tribes?: StringNullableListFilter<"destinations">
-    rituals_festivals?: JsonNullableFilter<"destinations">
     tips_for_visitors?: StringNullableFilter<"destinations"> | string | null
-    thumbnail_url?: StringNullableFilter<"destinations"> | string | null
     featured_image?: StringNullableFilter<"destinations"> | string | null
     published?: BoolNullableFilter<"destinations"> | boolean | null
     featured?: BoolNullableFilter<"destinations"> | boolean | null
     seo_title?: StringNullableFilter<"destinations"> | string | null
     seo_description?: StringNullableFilter<"destinations"> | string | null
     schema_json?: JsonNullableFilter<"destinations">
+    route_geojson?: JsonNullableFilter<"destinations">
+    route_length_m?: IntNullableFilter<"destinations"> | number | null
+    route_elev_gain_m?: IntNullableFilter<"destinations"> | number | null
+    route_elev_min_m?: IntNullableFilter<"destinations"> | number | null
+    route_max_alt_m?: IntNullableFilter<"destinations"> | number | null
+    route_bbox?: JsonNullableFilter<"destinations">
+    route_start_point?: JsonNullableFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableFilter<"destinations">
     short_slug?: StringNullableFilter<"destinations"> | string | null
@@ -146483,8 +141570,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: PackagesListRelationFilter
     destination_assets?: Destination_assetsListRelationFilter
     destination_faqs?: Destination_faqsListRelationFilter
-    route_destinations?: Route_destinationsListRelationFilter
     destination_gears?: Destination_gearsListRelationFilter
+    locations?: LocationsListRelationFilter
   }, "id" | "slug">
 
   export type destinationsOrderByWithAggregationInput = {
@@ -146495,17 +141582,16 @@ export namespace Prisma {
     region?: SortOrderInput | SortOrder
     province?: SortOrderInput | SortOrder
     country?: SortOrderInput | SortOrder
-    latitude?: SortOrderInput | SortOrder
-    longitude?: SortOrderInput | SortOrder
     altitude?: SortOrderInput | SortOrder
-    area_hectares?: SortOrderInput | SortOrder
+    display_height_m?: SortOrderInput | SortOrder
+    nickname?: SortOrderInput | SortOrder
+    trailhead?: SortOrderInput | SortOrder
+    physical_demand?: SortOrderInput | SortOrder
+    sections?: SortOrderInput | SortOrder
     terrain?: SortOrderInput | SortOrder
     best_time_to_visit?: SortOrderInput | SortOrder
     difficulty_level?: SortOrderInput | SortOrder
     duration?: SortOrderInput | SortOrder
-    physical_demand?: SortOrderInput | SortOrder
-    cultural_depth?: SortOrderInput | SortOrder
-    photo_potential?: SortOrderInput | SortOrder
     weather_by_season?: SortOrderInput | SortOrder
     rainfall_intensity?: SortOrderInput | SortOrder
     temperature_range?: SortOrderInput | SortOrder
@@ -146519,23 +141605,26 @@ export namespace Prisma {
     permit_required?: SortOrderInput | SortOrder
     permit_details?: SortOrderInput | SortOrder
     guide_required?: SortOrderInput | SortOrder
-    facilities?: SortOrderInput | SortOrder
     safety_notes?: SortOrderInput | SortOrder
     risk_factors?: SortOrderInput | SortOrder
     environmental_factors?: SortOrderInput | SortOrder
-    emergency_contacts?: SortOrderInput | SortOrder
     physical_requirements?: SortOrderInput | SortOrder
     cultural_context?: SortOrderInput | SortOrder
     local_tribes?: SortOrder
-    rituals_festivals?: SortOrderInput | SortOrder
     tips_for_visitors?: SortOrderInput | SortOrder
-    thumbnail_url?: SortOrderInput | SortOrder
     featured_image?: SortOrderInput | SortOrder
     published?: SortOrderInput | SortOrder
     featured?: SortOrderInput | SortOrder
     seo_title?: SortOrderInput | SortOrder
     seo_description?: SortOrderInput | SortOrder
     schema_json?: SortOrderInput | SortOrder
+    route_geojson?: SortOrderInput | SortOrder
+    route_length_m?: SortOrderInput | SortOrder
+    route_elev_gain_m?: SortOrderInput | SortOrder
+    route_elev_min_m?: SortOrderInput | SortOrder
+    route_max_alt_m?: SortOrderInput | SortOrder
+    route_bbox?: SortOrderInput | SortOrder
+    route_start_point?: SortOrderInput | SortOrder
     tags?: SortOrder
     types?: SortOrderInput | SortOrder
     slug?: SortOrderInput | SortOrder
@@ -146561,17 +141650,16 @@ export namespace Prisma {
     region?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     province?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     country?: StringNullableWithAggregatesFilter<"destinations"> | string | null
-    latitude?: DecimalNullableWithAggregatesFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
-    longitude?: DecimalNullableWithAggregatesFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
     altitude?: IntNullableWithAggregatesFilter<"destinations"> | number | null
-    area_hectares?: DecimalNullableWithAggregatesFilter<"destinations"> | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    nickname?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    trailhead?: StringNullableWithAggregatesFilter<"destinations"> | string | null
+    physical_demand?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    sections?: JsonNullableWithAggregatesFilter<"destinations">
     terrain?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     best_time_to_visit?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     difficulty_level?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     duration?: StringNullableWithAggregatesFilter<"destinations"> | string | null
-    physical_demand?: IntNullableWithAggregatesFilter<"destinations"> | number | null
-    cultural_depth?: IntNullableWithAggregatesFilter<"destinations"> | number | null
-    photo_potential?: IntNullableWithAggregatesFilter<"destinations"> | number | null
     weather_by_season?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     rainfall_intensity?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     temperature_range?: StringNullableWithAggregatesFilter<"destinations"> | string | null
@@ -146585,23 +141673,26 @@ export namespace Prisma {
     permit_required?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
     permit_details?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     guide_required?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
-    facilities?: JsonNullableWithAggregatesFilter<"destinations">
     safety_notes?: JsonNullableWithAggregatesFilter<"destinations">
     risk_factors?: JsonNullableWithAggregatesFilter<"destinations">
     environmental_factors?: JsonNullableWithAggregatesFilter<"destinations">
-    emergency_contacts?: JsonNullableWithAggregatesFilter<"destinations">
     physical_requirements?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     cultural_context?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     local_tribes?: StringNullableListFilter<"destinations">
-    rituals_festivals?: JsonNullableWithAggregatesFilter<"destinations">
     tips_for_visitors?: StringNullableWithAggregatesFilter<"destinations"> | string | null
-    thumbnail_url?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     featured_image?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     published?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
     featured?: BoolNullableWithAggregatesFilter<"destinations"> | boolean | null
     seo_title?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     seo_description?: StringNullableWithAggregatesFilter<"destinations"> | string | null
     schema_json?: JsonNullableWithAggregatesFilter<"destinations">
+    route_geojson?: JsonNullableWithAggregatesFilter<"destinations">
+    route_length_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    route_elev_gain_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    route_elev_min_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    route_max_alt_m?: IntNullableWithAggregatesFilter<"destinations"> | number | null
+    route_bbox?: JsonNullableWithAggregatesFilter<"destinations">
+    route_start_point?: JsonNullableWithAggregatesFilter<"destinations">
     tags?: StringNullableListFilter<"destinations">
     types?: JsonNullableWithAggregatesFilter<"destinations">
     slug?: StringNullableWithAggregatesFilter<"destinations"> | string | null
@@ -147490,7 +142581,6 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
-    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -147521,7 +142611,6 @@ export namespace Prisma {
     destination_id?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     facilities?: SortOrderInput | SortOrder
-    area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     banner?: SortOrderInput | SortOrder
@@ -147556,7 +142645,6 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
-    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -147586,7 +142674,6 @@ export namespace Prisma {
     destination_id?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     facilities?: SortOrderInput | SortOrder
-    area?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     banner?: SortOrderInput | SortOrder
@@ -147617,7 +142704,6 @@ export namespace Prisma {
     destination_id?: BigIntNullableWithAggregatesFilter<"hotels"> | bigint | number | null
     description?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     facilities?: StringNullableWithAggregatesFilter<"hotels"> | string | null
-    area?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     address?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     phone?: StringNullableWithAggregatesFilter<"hotels"> | string | null
     banner?: StringNullableWithAggregatesFilter<"hotels"> | string | null
@@ -148627,93 +143713,6 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"package_hotel_options"> | Date | string | null
   }
 
-  export type package_imagesWhereInput = {
-    AND?: package_imagesWhereInput | package_imagesWhereInput[]
-    OR?: package_imagesWhereInput[]
-    NOT?: package_imagesWhereInput | package_imagesWhereInput[]
-    id?: BigIntFilter<"package_images"> | bigint | number
-    package_id?: BigIntNullableFilter<"package_images"> | bigint | number | null
-    url?: StringFilter<"package_images"> | string
-    og_image_url?: StringNullableFilter<"package_images"> | string | null
-    sort_order?: IntNullableFilter<"package_images"> | number | null
-    alt_text?: StringNullableFilter<"package_images"> | string | null
-    caption?: StringNullableFilter<"package_images"> | string | null
-    tags?: StringNullableFilter<"package_images"> | string | null
-    created_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
-  }
-
-  export type package_imagesOrderByWithRelationInput = {
-    id?: SortOrder
-    package_id?: SortOrderInput | SortOrder
-    url?: SortOrder
-    og_image_url?: SortOrderInput | SortOrder
-    sort_order?: SortOrderInput | SortOrder
-    alt_text?: SortOrderInput | SortOrder
-    caption?: SortOrderInput | SortOrder
-    tags?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    packages?: packagesOrderByWithRelationInput
-  }
-
-  export type package_imagesWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: package_imagesWhereInput | package_imagesWhereInput[]
-    OR?: package_imagesWhereInput[]
-    NOT?: package_imagesWhereInput | package_imagesWhereInput[]
-    package_id?: BigIntNullableFilter<"package_images"> | bigint | number | null
-    url?: StringFilter<"package_images"> | string
-    og_image_url?: StringNullableFilter<"package_images"> | string | null
-    sort_order?: IntNullableFilter<"package_images"> | number | null
-    alt_text?: StringNullableFilter<"package_images"> | string | null
-    caption?: StringNullableFilter<"package_images"> | string | null
-    tags?: StringNullableFilter<"package_images"> | string | null
-    created_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    packages?: XOR<PackagesNullableScalarRelationFilter, packagesWhereInput> | null
-  }, "id">
-
-  export type package_imagesOrderByWithAggregationInput = {
-    id?: SortOrder
-    package_id?: SortOrderInput | SortOrder
-    url?: SortOrder
-    og_image_url?: SortOrderInput | SortOrder
-    sort_order?: SortOrderInput | SortOrder
-    alt_text?: SortOrderInput | SortOrder
-    caption?: SortOrderInput | SortOrder
-    tags?: SortOrderInput | SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    deleted_at?: SortOrderInput | SortOrder
-    _count?: package_imagesCountOrderByAggregateInput
-    _avg?: package_imagesAvgOrderByAggregateInput
-    _max?: package_imagesMaxOrderByAggregateInput
-    _min?: package_imagesMinOrderByAggregateInput
-    _sum?: package_imagesSumOrderByAggregateInput
-  }
-
-  export type package_imagesScalarWhereWithAggregatesInput = {
-    AND?: package_imagesScalarWhereWithAggregatesInput | package_imagesScalarWhereWithAggregatesInput[]
-    OR?: package_imagesScalarWhereWithAggregatesInput[]
-    NOT?: package_imagesScalarWhereWithAggregatesInput | package_imagesScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"package_images"> | bigint | number
-    package_id?: BigIntNullableWithAggregatesFilter<"package_images"> | bigint | number | null
-    url?: StringWithAggregatesFilter<"package_images"> | string
-    og_image_url?: StringNullableWithAggregatesFilter<"package_images"> | string | null
-    sort_order?: IntNullableWithAggregatesFilter<"package_images"> | number | null
-    alt_text?: StringNullableWithAggregatesFilter<"package_images"> | string | null
-    caption?: StringNullableWithAggregatesFilter<"package_images"> | string | null
-    tags?: StringNullableWithAggregatesFilter<"package_images"> | string | null
-    created_at?: DateTimeNullableWithAggregatesFilter<"package_images"> | Date | string | null
-    updated_at?: DateTimeNullableWithAggregatesFilter<"package_images"> | Date | string | null
-    deleted_at?: DateTimeNullableWithAggregatesFilter<"package_images"> | Date | string | null
-  }
-
   export type package_includesWhereInput = {
     AND?: package_includesWhereInput | package_includesWhereInput[]
     OR?: package_includesWhereInput[]
@@ -148786,15 +143785,33 @@ export namespace Prisma {
     NOT?: locationsWhereInput | locationsWhereInput[]
     id?: IntFilter<"locations"> | number
     name?: StringFilter<"locations"> | string
+    type?: Enumlocation_typeNullableFilter<"locations"> | $Enums.location_type | null
+    latitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    destination_id?: BigIntNullableFilter<"locations"> | bigint | number | null
     package_itinerary_day_details_from_location?: Package_itinerary_day_detailsListRelationFilter
     package_itinerary_day_details_to_location?: Package_itinerary_day_detailsListRelationFilter
+    route_details_route_details_from_location_idTolocations?: Route_detailsListRelationFilter
+    route_details_route_details_to_location_idTolocations?: Route_detailsListRelationFilter
+    routes_routes_start_location_idTolocations?: RoutesListRelationFilter
+    routes_routes_end_location_idTolocations?: RoutesListRelationFilter
+    destinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }
 
   export type locationsOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    destination_id?: SortOrderInput | SortOrder
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsOrderByRelationAggregateInput
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsOrderByRelationAggregateInput
+    route_details_route_details_from_location_idTolocations?: route_detailsOrderByRelationAggregateInput
+    route_details_route_details_to_location_idTolocations?: route_detailsOrderByRelationAggregateInput
+    routes_routes_start_location_idTolocations?: routesOrderByRelationAggregateInput
+    routes_routes_end_location_idTolocations?: routesOrderByRelationAggregateInput
+    destinations?: destinationsOrderByWithRelationInput
   }
 
   export type locationsWhereUniqueInput = Prisma.AtLeast<{
@@ -148803,13 +143820,26 @@ export namespace Prisma {
     OR?: locationsWhereInput[]
     NOT?: locationsWhereInput | locationsWhereInput[]
     name?: StringFilter<"locations"> | string
+    type?: Enumlocation_typeNullableFilter<"locations"> | $Enums.location_type | null
+    latitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    destination_id?: BigIntNullableFilter<"locations"> | bigint | number | null
     package_itinerary_day_details_from_location?: Package_itinerary_day_detailsListRelationFilter
     package_itinerary_day_details_to_location?: Package_itinerary_day_detailsListRelationFilter
+    route_details_route_details_from_location_idTolocations?: Route_detailsListRelationFilter
+    route_details_route_details_to_location_idTolocations?: Route_detailsListRelationFilter
+    routes_routes_start_location_idTolocations?: RoutesListRelationFilter
+    routes_routes_end_location_idTolocations?: RoutesListRelationFilter
+    destinations?: XOR<DestinationsNullableScalarRelationFilter, destinationsWhereInput> | null
   }, "id">
 
   export type locationsOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    destination_id?: SortOrderInput | SortOrder
     _count?: locationsCountOrderByAggregateInput
     _avg?: locationsAvgOrderByAggregateInput
     _max?: locationsMaxOrderByAggregateInput
@@ -148823,6 +143853,10 @@ export namespace Prisma {
     NOT?: locationsScalarWhereWithAggregatesInput | locationsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"locations"> | number
     name?: StringWithAggregatesFilter<"locations"> | string
+    type?: Enumlocation_typeNullableWithAggregatesFilter<"locations"> | $Enums.location_type | null
+    latitude?: DecimalNullableWithAggregatesFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableWithAggregatesFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    destination_id?: BigIntNullableWithAggregatesFilter<"locations"> | bigint | number | null
   }
 
   export type package_itinerary_day_detailsWhereInput = {
@@ -149171,12 +144205,10 @@ export namespace Prisma {
     seo_title?: StringNullableFilter<"packages"> | string | null
     seo_meta?: StringNullableFilter<"packages"> | string | null
     bookings?: BookingsListRelationFilter
-    combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
     package_destinations?: Package_destinationsListRelationFilter
     package_excludes?: Package_excludesListRelationFilter
     package_hotel_options?: Package_hotel_optionsListRelationFilter
-    package_images?: Package_imagesListRelationFilter
     package_includes?: Package_includesListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     package_prices?: Package_pricesListRelationFilter
@@ -149235,12 +144267,10 @@ export namespace Prisma {
     seo_title?: SortOrderInput | SortOrder
     seo_meta?: SortOrderInput | SortOrder
     bookings?: bookingsOrderByRelationAggregateInput
-    combined_package_details?: combined_package_detailsOrderByRelationAggregateInput
     package_addons?: package_addonsOrderByRelationAggregateInput
     package_destinations?: package_destinationsOrderByRelationAggregateInput
     package_excludes?: package_excludesOrderByRelationAggregateInput
     package_hotel_options?: package_hotel_optionsOrderByRelationAggregateInput
-    package_images?: package_imagesOrderByRelationAggregateInput
     package_includes?: package_includesOrderByRelationAggregateInput
     package_itinerary_days?: package_itinerary_daysOrderByRelationAggregateInput
     package_prices?: package_pricesOrderByRelationAggregateInput
@@ -149302,12 +144332,10 @@ export namespace Prisma {
     seo_title?: StringNullableFilter<"packages"> | string | null
     seo_meta?: StringNullableFilter<"packages"> | string | null
     bookings?: BookingsListRelationFilter
-    combined_package_details?: Combined_package_detailsListRelationFilter
     package_addons?: Package_addonsListRelationFilter
     package_destinations?: Package_destinationsListRelationFilter
     package_excludes?: Package_excludesListRelationFilter
     package_hotel_options?: Package_hotel_optionsListRelationFilter
-    package_images?: Package_imagesListRelationFilter
     package_includes?: Package_includesListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
     package_prices?: Package_pricesListRelationFilter
@@ -149719,8 +144747,6 @@ export namespace Prisma {
     code?: StringFilter<"routes"> | string
     route?: StringFilter<"routes"> | string
     itinerary_title?: StringFilter<"routes"> | string
-    start_area?: StringFilter<"routes"> | string
-    end_area?: StringFilter<"routes"> | string
     estimated_duration?: StringNullableFilter<"routes"> | string | null
     main_activities?: StringNullableFilter<"routes"> | string | null
     accommodation_status?: StringNullableFilter<"routes"> | string | null
@@ -149730,9 +144756,12 @@ export namespace Prisma {
     lunch?: BoolNullableFilter<"routes"> | boolean | null
     dinner?: BoolNullableFilter<"routes"> | boolean | null
     meals_notes?: StringNullableFilter<"routes"> | string | null
+    start_location_id?: IntNullableFilter<"routes"> | number | null
+    end_location_id?: IntNullableFilter<"routes"> | number | null
     route_details?: Route_detailsListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
-    route_destinations?: Route_destinationsListRelationFilter
+    locations_routes_start_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_routes_end_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }
 
   export type routesOrderByWithRelationInput = {
@@ -149740,8 +144769,6 @@ export namespace Prisma {
     code?: SortOrder
     route?: SortOrder
     itinerary_title?: SortOrder
-    start_area?: SortOrder
-    end_area?: SortOrder
     estimated_duration?: SortOrderInput | SortOrder
     main_activities?: SortOrderInput | SortOrder
     accommodation_status?: SortOrderInput | SortOrder
@@ -149751,9 +144778,12 @@ export namespace Prisma {
     lunch?: SortOrderInput | SortOrder
     dinner?: SortOrderInput | SortOrder
     meals_notes?: SortOrderInput | SortOrder
+    start_location_id?: SortOrderInput | SortOrder
+    end_location_id?: SortOrderInput | SortOrder
     route_details?: route_detailsOrderByRelationAggregateInput
     package_itinerary_days?: package_itinerary_daysOrderByRelationAggregateInput
-    route_destinations?: route_destinationsOrderByRelationAggregateInput
+    locations_routes_start_location_idTolocations?: locationsOrderByWithRelationInput
+    locations_routes_end_location_idTolocations?: locationsOrderByWithRelationInput
   }
 
   export type routesWhereUniqueInput = Prisma.AtLeast<{
@@ -149764,8 +144794,6 @@ export namespace Prisma {
     code?: StringFilter<"routes"> | string
     route?: StringFilter<"routes"> | string
     itinerary_title?: StringFilter<"routes"> | string
-    start_area?: StringFilter<"routes"> | string
-    end_area?: StringFilter<"routes"> | string
     estimated_duration?: StringNullableFilter<"routes"> | string | null
     main_activities?: StringNullableFilter<"routes"> | string | null
     accommodation_status?: StringNullableFilter<"routes"> | string | null
@@ -149775,9 +144803,12 @@ export namespace Prisma {
     lunch?: BoolNullableFilter<"routes"> | boolean | null
     dinner?: BoolNullableFilter<"routes"> | boolean | null
     meals_notes?: StringNullableFilter<"routes"> | string | null
+    start_location_id?: IntNullableFilter<"routes"> | number | null
+    end_location_id?: IntNullableFilter<"routes"> | number | null
     route_details?: Route_detailsListRelationFilter
     package_itinerary_days?: Package_itinerary_daysListRelationFilter
-    route_destinations?: Route_destinationsListRelationFilter
+    locations_routes_start_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_routes_end_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }, "id">
 
   export type routesOrderByWithAggregationInput = {
@@ -149785,8 +144816,6 @@ export namespace Prisma {
     code?: SortOrder
     route?: SortOrder
     itinerary_title?: SortOrder
-    start_area?: SortOrder
-    end_area?: SortOrder
     estimated_duration?: SortOrderInput | SortOrder
     main_activities?: SortOrderInput | SortOrder
     accommodation_status?: SortOrderInput | SortOrder
@@ -149796,6 +144825,8 @@ export namespace Prisma {
     lunch?: SortOrderInput | SortOrder
     dinner?: SortOrderInput | SortOrder
     meals_notes?: SortOrderInput | SortOrder
+    start_location_id?: SortOrderInput | SortOrder
+    end_location_id?: SortOrderInput | SortOrder
     _count?: routesCountOrderByAggregateInput
     _avg?: routesAvgOrderByAggregateInput
     _max?: routesMaxOrderByAggregateInput
@@ -149811,8 +144842,6 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"routes"> | string
     route?: StringWithAggregatesFilter<"routes"> | string
     itinerary_title?: StringWithAggregatesFilter<"routes"> | string
-    start_area?: StringWithAggregatesFilter<"routes"> | string
-    end_area?: StringWithAggregatesFilter<"routes"> | string
     estimated_duration?: StringNullableWithAggregatesFilter<"routes"> | string | null
     main_activities?: StringNullableWithAggregatesFilter<"routes"> | string | null
     accommodation_status?: StringNullableWithAggregatesFilter<"routes"> | string | null
@@ -149822,6 +144851,8 @@ export namespace Prisma {
     lunch?: BoolNullableWithAggregatesFilter<"routes"> | boolean | null
     dinner?: BoolNullableWithAggregatesFilter<"routes"> | boolean | null
     meals_notes?: StringNullableWithAggregatesFilter<"routes"> | string | null
+    start_location_id?: IntNullableWithAggregatesFilter<"routes"> | number | null
+    end_location_id?: IntNullableWithAggregatesFilter<"routes"> | number | null
   }
 
   export type route_detailsWhereInput = {
@@ -149832,15 +144863,15 @@ export namespace Prisma {
     route_id?: BigIntFilter<"route_details"> | bigint | number
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
-    timezone?: StringNullableFilter<"route_details"> | string | null
     name?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
-    location?: StringNullableFilter<"route_details"> | string | null
-    from_location?: StringNullableFilter<"route_details"> | string | null
-    to_location?: StringNullableFilter<"route_details"> | string | null
     duration_minutes?: IntNullableFilter<"route_details"> | number | null
+    from_location_id?: IntNullableFilter<"route_details"> | number | null
+    to_location_id?: IntNullableFilter<"route_details"> | number | null
     routes?: XOR<RoutesScalarRelationFilter, routesWhereInput>
+    locations_route_details_from_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_route_details_to_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }
 
   export type route_detailsOrderByWithRelationInput = {
@@ -149848,15 +144879,15 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
-    timezone?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
-    from_location?: SortOrderInput | SortOrder
-    to_location?: SortOrderInput | SortOrder
     duration_minutes?: SortOrderInput | SortOrder
+    from_location_id?: SortOrderInput | SortOrder
+    to_location_id?: SortOrderInput | SortOrder
     routes?: routesOrderByWithRelationInput
+    locations_route_details_from_location_idTolocations?: locationsOrderByWithRelationInput
+    locations_route_details_to_location_idTolocations?: locationsOrderByWithRelationInput
   }
 
   export type route_detailsWhereUniqueInput = Prisma.AtLeast<{
@@ -149867,15 +144898,15 @@ export namespace Prisma {
     route_id?: BigIntFilter<"route_details"> | bigint | number
     seq?: IntFilter<"route_details"> | number
     time_or_label?: StringNullableFilter<"route_details"> | string | null
-    timezone?: StringNullableFilter<"route_details"> | string | null
     name?: StringNullableFilter<"route_details"> | string | null
     activity?: StringFilter<"route_details"> | string
     type?: StringNullableFilter<"route_details"> | string | null
-    location?: StringNullableFilter<"route_details"> | string | null
-    from_location?: StringNullableFilter<"route_details"> | string | null
-    to_location?: StringNullableFilter<"route_details"> | string | null
     duration_minutes?: IntNullableFilter<"route_details"> | number | null
+    from_location_id?: IntNullableFilter<"route_details"> | number | null
+    to_location_id?: IntNullableFilter<"route_details"> | number | null
     routes?: XOR<RoutesScalarRelationFilter, routesWhereInput>
+    locations_route_details_from_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
+    locations_route_details_to_location_idTolocations?: XOR<LocationsNullableScalarRelationFilter, locationsWhereInput> | null
   }, "id">
 
   export type route_detailsOrderByWithAggregationInput = {
@@ -149883,14 +144914,12 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     time_or_label?: SortOrderInput | SortOrder
-    timezone?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     activity?: SortOrder
     type?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
-    from_location?: SortOrderInput | SortOrder
-    to_location?: SortOrderInput | SortOrder
     duration_minutes?: SortOrderInput | SortOrder
+    from_location_id?: SortOrderInput | SortOrder
+    to_location_id?: SortOrderInput | SortOrder
     _count?: route_detailsCountOrderByAggregateInput
     _avg?: route_detailsAvgOrderByAggregateInput
     _max?: route_detailsMaxOrderByAggregateInput
@@ -149906,79 +144935,12 @@ export namespace Prisma {
     route_id?: BigIntWithAggregatesFilter<"route_details"> | bigint | number
     seq?: IntWithAggregatesFilter<"route_details"> | number
     time_or_label?: StringNullableWithAggregatesFilter<"route_details"> | string | null
-    timezone?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     name?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     activity?: StringWithAggregatesFilter<"route_details"> | string
     type?: StringNullableWithAggregatesFilter<"route_details"> | string | null
-    location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
-    from_location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
-    to_location?: StringNullableWithAggregatesFilter<"route_details"> | string | null
     duration_minutes?: IntNullableWithAggregatesFilter<"route_details"> | number | null
-  }
-
-  export type route_destinationsWhereInput = {
-    AND?: route_destinationsWhereInput | route_destinationsWhereInput[]
-    OR?: route_destinationsWhereInput[]
-    NOT?: route_destinationsWhereInput | route_destinationsWhereInput[]
-    id?: BigIntFilter<"route_destinations"> | bigint | number
-    route_id?: BigIntFilter<"route_destinations"> | bigint | number
-    destination_id?: BigIntFilter<"route_destinations"> | bigint | number
-    sequence?: IntFilter<"route_destinations"> | number
-    created_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-    route?: XOR<RoutesScalarRelationFilter, routesWhereInput>
-    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
-  }
-
-  export type route_destinationsOrderByWithRelationInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    route?: routesOrderByWithRelationInput
-    destination?: destinationsOrderByWithRelationInput
-  }
-
-  export type route_destinationsWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: route_destinationsWhereInput | route_destinationsWhereInput[]
-    OR?: route_destinationsWhereInput[]
-    NOT?: route_destinationsWhereInput | route_destinationsWhereInput[]
-    route_id?: BigIntFilter<"route_destinations"> | bigint | number
-    destination_id?: BigIntFilter<"route_destinations"> | bigint | number
-    sequence?: IntFilter<"route_destinations"> | number
-    created_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-    route?: XOR<RoutesScalarRelationFilter, routesWhereInput>
-    destination?: XOR<DestinationsScalarRelationFilter, destinationsWhereInput>
-  }, "id">
-
-  export type route_destinationsOrderByWithAggregationInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-    created_at?: SortOrderInput | SortOrder
-    updated_at?: SortOrderInput | SortOrder
-    _count?: route_destinationsCountOrderByAggregateInput
-    _avg?: route_destinationsAvgOrderByAggregateInput
-    _max?: route_destinationsMaxOrderByAggregateInput
-    _min?: route_destinationsMinOrderByAggregateInput
-    _sum?: route_destinationsSumOrderByAggregateInput
-  }
-
-  export type route_destinationsScalarWhereWithAggregatesInput = {
-    AND?: route_destinationsScalarWhereWithAggregatesInput | route_destinationsScalarWhereWithAggregatesInput[]
-    OR?: route_destinationsScalarWhereWithAggregatesInput[]
-    NOT?: route_destinationsScalarWhereWithAggregatesInput | route_destinationsScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"route_destinations"> | bigint | number
-    route_id?: BigIntWithAggregatesFilter<"route_destinations"> | bigint | number
-    destination_id?: BigIntWithAggregatesFilter<"route_destinations"> | bigint | number
-    sequence?: IntWithAggregatesFilter<"route_destinations"> | number
-    created_at?: DateTimeNullableWithAggregatesFilter<"route_destinations"> | Date | string | null
-    updated_at?: DateTimeNullableWithAggregatesFilter<"route_destinations"> | Date | string | null
+    from_location_id?: IntNullableWithAggregatesFilter<"route_details"> | number | null
+    to_location_id?: IntNullableWithAggregatesFilter<"route_details"> | number | null
   }
 
   export type room_configurationsWhereInput = {
@@ -154378,148 +149340,6 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type combined_package_detailsCreateInput = {
-    id?: bigint | number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    combined_packages?: combined_packagesCreateNestedOneWithoutCombined_package_detailsInput
-    packages?: packagesCreateNestedOneWithoutCombined_package_detailsInput
-  }
-
-  export type combined_package_detailsUncheckedCreateInput = {
-    id?: bigint | number
-    combined_package_id?: bigint | number | null
-    package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_package_detailsUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    combined_packages?: combined_packagesUpdateOneWithoutCombined_package_detailsNestedInput
-    packages?: packagesUpdateOneWithoutCombined_package_detailsNestedInput
-  }
-
-  export type combined_package_detailsUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    combined_package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_package_detailsCreateManyInput = {
-    id?: bigint | number
-    combined_package_id?: bigint | number | null
-    package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_package_detailsUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_package_detailsUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    combined_package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_packagesCreateInput = {
-    id?: bigint | number
-    name?: string | null
-    long_name?: string | null
-    slug?: string | null
-    highlights?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutCombined_packagesInput
-  }
-
-  export type combined_packagesUncheckedCreateInput = {
-    id?: bigint | number
-    name?: string | null
-    long_name?: string | null
-    slug?: string | null
-    highlights?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutCombined_packagesInput
-  }
-
-  export type combined_packagesUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    combined_package_details?: combined_package_detailsUpdateManyWithoutCombined_packagesNestedInput
-  }
-
-  export type combined_packagesUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutCombined_packagesNestedInput
-  }
-
-  export type combined_packagesCreateManyInput = {
-    id?: bigint | number
-    name?: string | null
-    long_name?: string | null
-    slug?: string | null
-    highlights?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_packagesUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_packagesUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type countriesCreateInput = {
     id?: bigint | number
     short_name: string
@@ -155746,17 +150566,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -155770,23 +150589,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -155805,8 +150627,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateInput = {
@@ -155817,17 +150639,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -155841,23 +150662,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -155876,8 +150700,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUpdateInput = {
@@ -155888,17 +150712,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155912,23 +150735,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155947,8 +150773,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateInput = {
@@ -155959,17 +150785,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155983,23 +150808,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156018,8 +150846,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsCreateManyInput = {
@@ -156030,17 +150858,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -156054,23 +150881,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -156088,17 +150918,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156112,23 +150941,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156146,17 +150978,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156170,23 +151001,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157185,7 +152019,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -157216,7 +152049,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -157245,7 +152077,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157276,7 +152107,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157306,7 +152136,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -157328,7 +152157,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157351,7 +152179,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158409,103 +153236,6 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type package_imagesCreateInput = {
-    id?: bigint | number
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    packages?: packagesCreateNestedOneWithoutPackage_imagesInput
-  }
-
-  export type package_imagesUncheckedCreateInput = {
-    id?: bigint | number
-    package_id?: bigint | number | null
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type package_imagesUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    packages?: packagesUpdateOneWithoutPackage_imagesNestedInput
-  }
-
-  export type package_imagesUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type package_imagesCreateManyInput = {
-    id?: bigint | number
-    package_id?: bigint | number | null
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type package_imagesUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type package_imagesUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type package_includesCreateInput = {
     id?: bigint | number
     created_at?: Date | string | null
@@ -158569,42 +153299,85 @@ export namespace Prisma {
 
   export type locationsCreateInput = {
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
   }
 
   export type locationsUncheckedCreateInput = {
     id?: number
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
   }
 
   export type locationsUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
   }
 
   export type locationsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
   }
 
   export type locationsCreateManyInput = {
     id?: number
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
   }
 
   export type locationsUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type locationsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type package_itinerary_day_detailsCreateInput = {
@@ -158948,12 +153721,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -159012,12 +153783,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -159066,12 +153835,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -159130,12 +153897,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -159609,8 +154374,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -159622,7 +154385,8 @@ export namespace Prisma {
     meals_notes?: string | null
     route_details?: route_detailsCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
+    locations_routes_start_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_start_location_idTolocationsInput
+    locations_routes_end_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_end_location_idTolocationsInput
   }
 
   export type routesUncheckedCreateInput = {
@@ -159630,8 +154394,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -159641,9 +154403,10 @@ export namespace Prisma {
     lunch?: boolean | null
     dinner?: boolean | null
     meals_notes?: string | null
+    start_location_id?: number | null
+    end_location_id?: number | null
     route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
   }
 
   export type routesUpdateInput = {
@@ -159651,8 +154414,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159664,7 +154425,8 @@ export namespace Prisma {
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
+    locations_routes_start_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_start_location_idTolocationsNestedInput
+    locations_routes_end_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_end_location_idTolocationsNestedInput
   }
 
   export type routesUncheckedUpdateInput = {
@@ -159672,8 +154434,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159683,9 +154443,10 @@ export namespace Prisma {
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
     route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
   }
 
   export type routesCreateManyInput = {
@@ -159693,8 +154454,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -159704,6 +154463,8 @@ export namespace Prisma {
     lunch?: boolean | null
     dinner?: boolean | null
     meals_notes?: string | null
+    start_location_id?: number | null
+    end_location_id?: number | null
   }
 
   export type routesUpdateManyMutationInput = {
@@ -159711,8 +154472,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159729,8 +154488,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -159740,21 +154497,21 @@ export namespace Prisma {
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsCreateInput = {
     id?: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
     routes: routesCreateNestedOneWithoutRoute_detailsInput
+    locations_route_details_from_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_from_location_idTolocationsInput
+    locations_route_details_to_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_to_location_idTolocationsInput
   }
 
   export type route_detailsUncheckedCreateInput = {
@@ -159762,29 +154519,25 @@ export namespace Prisma {
     route_id: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
+    from_location_id?: number | null
+    to_location_id?: number | null
   }
 
   export type route_detailsUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
     routes?: routesUpdateOneRequiredWithoutRoute_detailsNestedInput
+    locations_route_details_from_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_from_location_idTolocationsNestedInput
+    locations_route_details_to_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_to_location_idTolocationsNestedInput
   }
 
   export type route_detailsUncheckedUpdateInput = {
@@ -159792,14 +154545,12 @@ export namespace Prisma {
     route_id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsCreateManyInput = {
@@ -159807,27 +154558,21 @@ export namespace Prisma {
     route_id: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
+    from_location_id?: number | null
+    to_location_id?: number | null
   }
 
   export type route_detailsUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -159836,75 +154581,12 @@ export namespace Prisma {
     route_id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type route_destinationsCreateInput = {
-    id?: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    route: routesCreateNestedOneWithoutRoute_destinationsInput
-    destination: destinationsCreateNestedOneWithoutRoute_destinationsInput
-  }
-
-  export type route_destinationsUncheckedCreateInput = {
-    id?: bigint | number
-    route_id: bigint | number
-    destination_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-  }
-
-  export type route_destinationsUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    route?: routesUpdateOneRequiredWithoutRoute_destinationsNestedInput
-    destination?: destinationsUpdateOneRequiredWithoutRoute_destinationsNestedInput
-  }
-
-  export type route_destinationsUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type route_destinationsCreateManyInput = {
-    id?: bigint | number
-    route_id: bigint | number
-    destination_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-  }
-
-  export type route_destinationsUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type route_destinationsUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type room_configurationsCreateInput = {
@@ -163657,106 +158339,6 @@ export namespace Prisma {
     order_channel_id?: SortOrder
   }
 
-  export type Combined_packagesNullableScalarRelationFilter = {
-    is?: combined_packagesWhereInput | null
-    isNot?: combined_packagesWhereInput | null
-  }
-
-  export type combined_package_detailsCombined_package_idPackage_idCompoundUniqueInput = {
-    combined_package_id: bigint | number
-    package_id: bigint | number
-  }
-
-  export type combined_package_detailsCountOrderByAggregateInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrder
-    package_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_package_detailsAvgOrderByAggregateInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrder
-    package_id?: SortOrder
-  }
-
-  export type combined_package_detailsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrder
-    package_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_package_detailsMinOrderByAggregateInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrder
-    package_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_package_detailsSumOrderByAggregateInput = {
-    id?: SortOrder
-    combined_package_id?: SortOrder
-    package_id?: SortOrder
-  }
-
-  export type Combined_package_detailsListRelationFilter = {
-    every?: combined_package_detailsWhereInput
-    some?: combined_package_detailsWhereInput
-    none?: combined_package_detailsWhereInput
-  }
-
-  export type combined_package_detailsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type combined_packagesCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    long_name?: SortOrder
-    slug?: SortOrder
-    highlights?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_packagesAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type combined_packagesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    long_name?: SortOrder
-    slug?: SortOrder
-    highlights?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_packagesMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    long_name?: SortOrder
-    slug?: SortOrder
-    highlights?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type combined_packagesSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type countriesCountOrderByAggregateInput = {
     id?: SortOrder
     short_name?: SortOrder
@@ -164618,16 +159200,16 @@ export namespace Prisma {
     none?: destination_faqsWhereInput
   }
 
-  export type Route_destinationsListRelationFilter = {
-    every?: route_destinationsWhereInput
-    some?: route_destinationsWhereInput
-    none?: route_destinationsWhereInput
-  }
-
   export type Destination_gearsListRelationFilter = {
     every?: destination_gearsWhereInput
     some?: destination_gearsWhereInput
     none?: destination_gearsWhereInput
+  }
+
+  export type LocationsListRelationFilter = {
+    every?: locationsWhereInput
+    some?: locationsWhereInput
+    none?: locationsWhereInput
   }
 
   export type activity_endsOrderByRelationAggregateInput = {
@@ -164662,11 +159244,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type route_destinationsOrderByRelationAggregateInput = {
+  export type destination_gearsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type destination_gearsOrderByRelationAggregateInput = {
+  export type locationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -164678,17 +159260,16 @@ export namespace Prisma {
     region?: SortOrder
     province?: SortOrder
     country?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
     altitude?: SortOrder
-    area_hectares?: SortOrder
+    display_height_m?: SortOrder
+    nickname?: SortOrder
+    trailhead?: SortOrder
+    physical_demand?: SortOrder
+    sections?: SortOrder
     terrain?: SortOrder
     best_time_to_visit?: SortOrder
     difficulty_level?: SortOrder
     duration?: SortOrder
-    physical_demand?: SortOrder
-    cultural_depth?: SortOrder
-    photo_potential?: SortOrder
     weather_by_season?: SortOrder
     rainfall_intensity?: SortOrder
     temperature_range?: SortOrder
@@ -164702,23 +159283,26 @@ export namespace Prisma {
     permit_required?: SortOrder
     permit_details?: SortOrder
     guide_required?: SortOrder
-    facilities?: SortOrder
     safety_notes?: SortOrder
     risk_factors?: SortOrder
     environmental_factors?: SortOrder
-    emergency_contacts?: SortOrder
     physical_requirements?: SortOrder
     cultural_context?: SortOrder
     local_tribes?: SortOrder
-    rituals_festivals?: SortOrder
     tips_for_visitors?: SortOrder
-    thumbnail_url?: SortOrder
     featured_image?: SortOrder
     published?: SortOrder
     featured?: SortOrder
     seo_title?: SortOrder
     seo_description?: SortOrder
     schema_json?: SortOrder
+    route_geojson?: SortOrder
+    route_length_m?: SortOrder
+    route_elev_gain_m?: SortOrder
+    route_elev_min_m?: SortOrder
+    route_max_alt_m?: SortOrder
+    route_bbox?: SortOrder
+    route_start_point?: SortOrder
     tags?: SortOrder
     types?: SortOrder
     slug?: SortOrder
@@ -164730,13 +159314,13 @@ export namespace Prisma {
 
   export type destinationsAvgOrderByAggregateInput = {
     id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
     altitude?: SortOrder
-    area_hectares?: SortOrder
+    display_height_m?: SortOrder
     physical_demand?: SortOrder
-    cultural_depth?: SortOrder
-    photo_potential?: SortOrder
+    route_length_m?: SortOrder
+    route_elev_gain_m?: SortOrder
+    route_elev_min_m?: SortOrder
+    route_max_alt_m?: SortOrder
   }
 
   export type destinationsMaxOrderByAggregateInput = {
@@ -164747,17 +159331,15 @@ export namespace Prisma {
     region?: SortOrder
     province?: SortOrder
     country?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
     altitude?: SortOrder
-    area_hectares?: SortOrder
+    display_height_m?: SortOrder
+    nickname?: SortOrder
+    trailhead?: SortOrder
+    physical_demand?: SortOrder
     terrain?: SortOrder
     best_time_to_visit?: SortOrder
     difficulty_level?: SortOrder
     duration?: SortOrder
-    physical_demand?: SortOrder
-    cultural_depth?: SortOrder
-    photo_potential?: SortOrder
     weather_by_season?: SortOrder
     rainfall_intensity?: SortOrder
     temperature_range?: SortOrder
@@ -164771,12 +159353,15 @@ export namespace Prisma {
     physical_requirements?: SortOrder
     cultural_context?: SortOrder
     tips_for_visitors?: SortOrder
-    thumbnail_url?: SortOrder
     featured_image?: SortOrder
     published?: SortOrder
     featured?: SortOrder
     seo_title?: SortOrder
     seo_description?: SortOrder
+    route_length_m?: SortOrder
+    route_elev_gain_m?: SortOrder
+    route_elev_min_m?: SortOrder
+    route_max_alt_m?: SortOrder
     slug?: SortOrder
     short_slug?: SortOrder
     created_at?: SortOrder
@@ -164792,17 +159377,15 @@ export namespace Prisma {
     region?: SortOrder
     province?: SortOrder
     country?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
     altitude?: SortOrder
-    area_hectares?: SortOrder
+    display_height_m?: SortOrder
+    nickname?: SortOrder
+    trailhead?: SortOrder
+    physical_demand?: SortOrder
     terrain?: SortOrder
     best_time_to_visit?: SortOrder
     difficulty_level?: SortOrder
     duration?: SortOrder
-    physical_demand?: SortOrder
-    cultural_depth?: SortOrder
-    photo_potential?: SortOrder
     weather_by_season?: SortOrder
     rainfall_intensity?: SortOrder
     temperature_range?: SortOrder
@@ -164816,12 +159399,15 @@ export namespace Prisma {
     physical_requirements?: SortOrder
     cultural_context?: SortOrder
     tips_for_visitors?: SortOrder
-    thumbnail_url?: SortOrder
     featured_image?: SortOrder
     published?: SortOrder
     featured?: SortOrder
     seo_title?: SortOrder
     seo_description?: SortOrder
+    route_length_m?: SortOrder
+    route_elev_gain_m?: SortOrder
+    route_elev_min_m?: SortOrder
+    route_max_alt_m?: SortOrder
     slug?: SortOrder
     short_slug?: SortOrder
     created_at?: SortOrder
@@ -164831,13 +159417,13 @@ export namespace Prisma {
 
   export type destinationsSumOrderByAggregateInput = {
     id?: SortOrder
-    latitude?: SortOrder
-    longitude?: SortOrder
     altitude?: SortOrder
-    area_hectares?: SortOrder
+    display_height_m?: SortOrder
     physical_demand?: SortOrder
-    cultural_depth?: SortOrder
-    photo_potential?: SortOrder
+    route_length_m?: SortOrder
+    route_elev_gain_m?: SortOrder
+    route_elev_min_m?: SortOrder
+    route_max_alt_m?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -165586,7 +160172,6 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
-    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -165616,7 +160201,6 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
-    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -165639,7 +160223,6 @@ export namespace Prisma {
     destination_id?: SortOrder
     description?: SortOrder
     facilities?: SortOrder
-    area?: SortOrder
     address?: SortOrder
     phone?: SortOrder
     banner?: SortOrder
@@ -166310,60 +160893,6 @@ export namespace Prisma {
     hotel_id?: SortOrder
   }
 
-  export type package_imagesCountOrderByAggregateInput = {
-    id?: SortOrder
-    package_id?: SortOrder
-    url?: SortOrder
-    og_image_url?: SortOrder
-    sort_order?: SortOrder
-    alt_text?: SortOrder
-    caption?: SortOrder
-    tags?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type package_imagesAvgOrderByAggregateInput = {
-    id?: SortOrder
-    package_id?: SortOrder
-    sort_order?: SortOrder
-  }
-
-  export type package_imagesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    package_id?: SortOrder
-    url?: SortOrder
-    og_image_url?: SortOrder
-    sort_order?: SortOrder
-    alt_text?: SortOrder
-    caption?: SortOrder
-    tags?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type package_imagesMinOrderByAggregateInput = {
-    id?: SortOrder
-    package_id?: SortOrder
-    url?: SortOrder
-    og_image_url?: SortOrder
-    sort_order?: SortOrder
-    alt_text?: SortOrder
-    caption?: SortOrder
-    tags?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    deleted_at?: SortOrder
-  }
-
-  export type package_imagesSumOrderByAggregateInput = {
-    id?: SortOrder
-    package_id?: SortOrder
-    sort_order?: SortOrder
-  }
-
   export type Item_includesNullableScalarRelationFilter = {
     is?: item_includesWhereInput | null
     isNot?: item_includesWhereInput | null
@@ -166413,27 +160942,82 @@ export namespace Prisma {
     item_include_id?: SortOrder
   }
 
+  export type Enumlocation_typeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.location_type | Enumlocation_typeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlocation_typeNullableFilter<$PrismaModel> | $Enums.location_type | null
+  }
+
+  export type Route_detailsListRelationFilter = {
+    every?: route_detailsWhereInput
+    some?: route_detailsWhereInput
+    none?: route_detailsWhereInput
+  }
+
+  export type RoutesListRelationFilter = {
+    every?: routesWhereInput
+    some?: routesWhereInput
+    none?: routesWhereInput
+  }
+
+  export type route_detailsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type routesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type locationsCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    destination_id?: SortOrder
   }
 
   export type locationsAvgOrderByAggregateInput = {
     id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    destination_id?: SortOrder
   }
 
   export type locationsMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    destination_id?: SortOrder
   }
 
   export type locationsMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    destination_id?: SortOrder
   }
 
   export type locationsSumOrderByAggregateInput = {
     id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    destination_id?: SortOrder
+  }
+
+  export type Enumlocation_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.location_type | Enumlocation_typeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlocation_typeNullableWithAggregatesFilter<$PrismaModel> | $Enums.location_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumlocation_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumlocation_typeNullableFilter<$PrismaModel>
   }
 
   export type ActivitiesNullableScalarRelationFilter = {
@@ -166649,12 +161233,6 @@ export namespace Prisma {
     klook_net_price?: SortOrder
   }
 
-  export type Package_imagesListRelationFilter = {
-    every?: package_imagesWhereInput
-    some?: package_imagesWhereInput
-    none?: package_imagesWhereInput
-  }
-
   export type Package_pricesListRelationFilter = {
     every?: package_pricesWhereInput
     some?: package_pricesWhereInput
@@ -166670,10 +161248,6 @@ export namespace Prisma {
     every?: package_assetsWhereInput
     some?: package_assetsWhereInput
     none?: package_assetsWhereInput
-  }
-
-  export type package_imagesOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type package_pricesOrderByRelationAggregateInput = {
@@ -167011,23 +161585,11 @@ export namespace Prisma {
     max_pax?: SortOrder
   }
 
-  export type Route_detailsListRelationFilter = {
-    every?: route_detailsWhereInput
-    some?: route_detailsWhereInput
-    none?: route_detailsWhereInput
-  }
-
-  export type route_detailsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type routesCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     route?: SortOrder
     itinerary_title?: SortOrder
-    start_area?: SortOrder
-    end_area?: SortOrder
     estimated_duration?: SortOrder
     main_activities?: SortOrder
     accommodation_status?: SortOrder
@@ -167037,10 +161599,14 @@ export namespace Prisma {
     lunch?: SortOrder
     dinner?: SortOrder
     meals_notes?: SortOrder
+    start_location_id?: SortOrder
+    end_location_id?: SortOrder
   }
 
   export type routesAvgOrderByAggregateInput = {
     id?: SortOrder
+    start_location_id?: SortOrder
+    end_location_id?: SortOrder
   }
 
   export type routesMaxOrderByAggregateInput = {
@@ -167048,8 +161614,6 @@ export namespace Prisma {
     code?: SortOrder
     route?: SortOrder
     itinerary_title?: SortOrder
-    start_area?: SortOrder
-    end_area?: SortOrder
     estimated_duration?: SortOrder
     main_activities?: SortOrder
     accommodation_status?: SortOrder
@@ -167059,6 +161623,8 @@ export namespace Prisma {
     lunch?: SortOrder
     dinner?: SortOrder
     meals_notes?: SortOrder
+    start_location_id?: SortOrder
+    end_location_id?: SortOrder
   }
 
   export type routesMinOrderByAggregateInput = {
@@ -167066,8 +161632,6 @@ export namespace Prisma {
     code?: SortOrder
     route?: SortOrder
     itinerary_title?: SortOrder
-    start_area?: SortOrder
-    end_area?: SortOrder
     estimated_duration?: SortOrder
     main_activities?: SortOrder
     accommodation_status?: SortOrder
@@ -167077,10 +161641,14 @@ export namespace Prisma {
     lunch?: SortOrder
     dinner?: SortOrder
     meals_notes?: SortOrder
+    start_location_id?: SortOrder
+    end_location_id?: SortOrder
   }
 
   export type routesSumOrderByAggregateInput = {
     id?: SortOrder
+    start_location_id?: SortOrder
+    end_location_id?: SortOrder
   }
 
   export type RoutesScalarRelationFilter = {
@@ -167093,14 +161661,12 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     time_or_label?: SortOrder
-    timezone?: SortOrder
     name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
-    location?: SortOrder
-    from_location?: SortOrder
-    to_location?: SortOrder
     duration_minutes?: SortOrder
+    from_location_id?: SortOrder
+    to_location_id?: SortOrder
   }
 
   export type route_detailsAvgOrderByAggregateInput = {
@@ -167108,6 +161674,8 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     duration_minutes?: SortOrder
+    from_location_id?: SortOrder
+    to_location_id?: SortOrder
   }
 
   export type route_detailsMaxOrderByAggregateInput = {
@@ -167115,14 +161683,12 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     time_or_label?: SortOrder
-    timezone?: SortOrder
     name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
-    location?: SortOrder
-    from_location?: SortOrder
-    to_location?: SortOrder
     duration_minutes?: SortOrder
+    from_location_id?: SortOrder
+    to_location_id?: SortOrder
   }
 
   export type route_detailsMinOrderByAggregateInput = {
@@ -167130,14 +161696,12 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     time_or_label?: SortOrder
-    timezone?: SortOrder
     name?: SortOrder
     activity?: SortOrder
     type?: SortOrder
-    location?: SortOrder
-    from_location?: SortOrder
-    to_location?: SortOrder
     duration_minutes?: SortOrder
+    from_location_id?: SortOrder
+    to_location_id?: SortOrder
   }
 
   export type route_detailsSumOrderByAggregateInput = {
@@ -167145,47 +161709,8 @@ export namespace Prisma {
     route_id?: SortOrder
     seq?: SortOrder
     duration_minutes?: SortOrder
-  }
-
-  export type route_destinationsCountOrderByAggregateInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type route_destinationsAvgOrderByAggregateInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-  }
-
-  export type route_destinationsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type route_destinationsMinOrderByAggregateInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-  }
-
-  export type route_destinationsSumOrderByAggregateInput = {
-    id?: SortOrder
-    route_id?: SortOrder
-    destination_id?: SortOrder
-    sequence?: SortOrder
+    from_location_id?: SortOrder
+    to_location_id?: SortOrder
   }
 
   export type room_configurationsCountOrderByAggregateInput = {
@@ -170463,80 +164988,6 @@ export namespace Prisma {
     update?: XOR<XOR<order_channelsUpdateToOneWithWhereWithoutChannel_unavailable_rangesInput, order_channelsUpdateWithoutChannel_unavailable_rangesInput>, order_channelsUncheckedUpdateWithoutChannel_unavailable_rangesInput>
   }
 
-  export type combined_packagesCreateNestedOneWithoutCombined_package_detailsInput = {
-    create?: XOR<combined_packagesCreateWithoutCombined_package_detailsInput, combined_packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    connectOrCreate?: combined_packagesCreateOrConnectWithoutCombined_package_detailsInput
-    connect?: combined_packagesWhereUniqueInput
-  }
-
-  export type packagesCreateNestedOneWithoutCombined_package_detailsInput = {
-    create?: XOR<packagesCreateWithoutCombined_package_detailsInput, packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    connectOrCreate?: packagesCreateOrConnectWithoutCombined_package_detailsInput
-    connect?: packagesWhereUniqueInput
-  }
-
-  export type combined_packagesUpdateOneWithoutCombined_package_detailsNestedInput = {
-    create?: XOR<combined_packagesCreateWithoutCombined_package_detailsInput, combined_packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    connectOrCreate?: combined_packagesCreateOrConnectWithoutCombined_package_detailsInput
-    upsert?: combined_packagesUpsertWithoutCombined_package_detailsInput
-    disconnect?: combined_packagesWhereInput | boolean
-    delete?: combined_packagesWhereInput | boolean
-    connect?: combined_packagesWhereUniqueInput
-    update?: XOR<XOR<combined_packagesUpdateToOneWithWhereWithoutCombined_package_detailsInput, combined_packagesUpdateWithoutCombined_package_detailsInput>, combined_packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-  }
-
-  export type packagesUpdateOneWithoutCombined_package_detailsNestedInput = {
-    create?: XOR<packagesCreateWithoutCombined_package_detailsInput, packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    connectOrCreate?: packagesCreateOrConnectWithoutCombined_package_detailsInput
-    upsert?: packagesUpsertWithoutCombined_package_detailsInput
-    disconnect?: packagesWhereInput | boolean
-    delete?: packagesWhereInput | boolean
-    connect?: packagesWhereUniqueInput
-    update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutCombined_package_detailsInput, packagesUpdateWithoutCombined_package_detailsInput>, packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-  }
-
-  export type combined_package_detailsCreateNestedManyWithoutCombined_packagesInput = {
-    create?: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput> | combined_package_detailsCreateWithoutCombined_packagesInput[] | combined_package_detailsUncheckedCreateWithoutCombined_packagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutCombined_packagesInput | combined_package_detailsCreateOrConnectWithoutCombined_packagesInput[]
-    createMany?: combined_package_detailsCreateManyCombined_packagesInputEnvelope
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-  }
-
-  export type combined_package_detailsUncheckedCreateNestedManyWithoutCombined_packagesInput = {
-    create?: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput> | combined_package_detailsCreateWithoutCombined_packagesInput[] | combined_package_detailsUncheckedCreateWithoutCombined_packagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutCombined_packagesInput | combined_package_detailsCreateOrConnectWithoutCombined_packagesInput[]
-    createMany?: combined_package_detailsCreateManyCombined_packagesInputEnvelope
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-  }
-
-  export type combined_package_detailsUpdateManyWithoutCombined_packagesNestedInput = {
-    create?: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput> | combined_package_detailsCreateWithoutCombined_packagesInput[] | combined_package_detailsUncheckedCreateWithoutCombined_packagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutCombined_packagesInput | combined_package_detailsCreateOrConnectWithoutCombined_packagesInput[]
-    upsert?: combined_package_detailsUpsertWithWhereUniqueWithoutCombined_packagesInput | combined_package_detailsUpsertWithWhereUniqueWithoutCombined_packagesInput[]
-    createMany?: combined_package_detailsCreateManyCombined_packagesInputEnvelope
-    set?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    disconnect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    delete?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    update?: combined_package_detailsUpdateWithWhereUniqueWithoutCombined_packagesInput | combined_package_detailsUpdateWithWhereUniqueWithoutCombined_packagesInput[]
-    updateMany?: combined_package_detailsUpdateManyWithWhereWithoutCombined_packagesInput | combined_package_detailsUpdateManyWithWhereWithoutCombined_packagesInput[]
-    deleteMany?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-  }
-
-  export type combined_package_detailsUncheckedUpdateManyWithoutCombined_packagesNestedInput = {
-    create?: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput> | combined_package_detailsCreateWithoutCombined_packagesInput[] | combined_package_detailsUncheckedCreateWithoutCombined_packagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutCombined_packagesInput | combined_package_detailsCreateOrConnectWithoutCombined_packagesInput[]
-    upsert?: combined_package_detailsUpsertWithWhereUniqueWithoutCombined_packagesInput | combined_package_detailsUpsertWithWhereUniqueWithoutCombined_packagesInput[]
-    createMany?: combined_package_detailsCreateManyCombined_packagesInputEnvelope
-    set?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    disconnect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    delete?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    update?: combined_package_detailsUpdateWithWhereUniqueWithoutCombined_packagesInput | combined_package_detailsUpdateWithWhereUniqueWithoutCombined_packagesInput[]
-    updateMany?: combined_package_detailsUpdateManyWithWhereWithoutCombined_packagesInput | combined_package_detailsUpdateManyWithWhereWithoutCombined_packagesInput[]
-    deleteMany?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-  }
-
   export type bookingsCreateNestedOneWithoutCrew_member_reviewsInput = {
     create?: XOR<bookingsCreateWithoutCrew_member_reviewsInput, bookingsUncheckedCreateWithoutCrew_member_reviewsInput>
     connectOrCreate?: bookingsCreateOrConnectWithoutCrew_member_reviewsInput
@@ -171430,18 +165881,18 @@ export namespace Prisma {
     connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
   }
 
-  export type route_destinationsCreateNestedManyWithoutDestinationInput = {
-    create?: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput> | route_destinationsCreateWithoutDestinationInput[] | route_destinationsUncheckedCreateWithoutDestinationInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutDestinationInput | route_destinationsCreateOrConnectWithoutDestinationInput[]
-    createMany?: route_destinationsCreateManyDestinationInputEnvelope
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-  }
-
   export type destination_gearsCreateNestedManyWithoutDestinationInput = {
     create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
     connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
     createMany?: destination_gearsCreateManyDestinationInputEnvelope
     connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+  }
+
+  export type locationsCreateNestedManyWithoutDestinationsInput = {
+    create?: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput> | locationsCreateWithoutDestinationsInput[] | locationsUncheckedCreateWithoutDestinationsInput[]
+    connectOrCreate?: locationsCreateOrConnectWithoutDestinationsInput | locationsCreateOrConnectWithoutDestinationsInput[]
+    createMany?: locationsCreateManyDestinationsInputEnvelope
+    connect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
   }
 
   export type activitiesUncheckedCreateNestedManyWithoutDestinationsInput = {
@@ -171521,18 +165972,18 @@ export namespace Prisma {
     connect?: destination_faqsWhereUniqueInput | destination_faqsWhereUniqueInput[]
   }
 
-  export type route_destinationsUncheckedCreateNestedManyWithoutDestinationInput = {
-    create?: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput> | route_destinationsCreateWithoutDestinationInput[] | route_destinationsUncheckedCreateWithoutDestinationInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutDestinationInput | route_destinationsCreateOrConnectWithoutDestinationInput[]
-    createMany?: route_destinationsCreateManyDestinationInputEnvelope
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-  }
-
   export type destination_gearsUncheckedCreateNestedManyWithoutDestinationInput = {
     create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
     connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
     createMany?: destination_gearsCreateManyDestinationInputEnvelope
     connect?: destination_gearsWhereUniqueInput | destination_gearsWhereUniqueInput[]
+  }
+
+  export type locationsUncheckedCreateNestedManyWithoutDestinationsInput = {
+    create?: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput> | locationsCreateWithoutDestinationsInput[] | locationsUncheckedCreateWithoutDestinationsInput[]
+    connectOrCreate?: locationsCreateOrConnectWithoutDestinationsInput | locationsCreateOrConnectWithoutDestinationsInput[]
+    createMany?: locationsCreateManyDestinationsInputEnvelope
+    connect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
   }
 
   export type destinationsUpdatelocal_tribesInput = {
@@ -171699,20 +166150,6 @@ export namespace Prisma {
     deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
   }
 
-  export type route_destinationsUpdateManyWithoutDestinationNestedInput = {
-    create?: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput> | route_destinationsCreateWithoutDestinationInput[] | route_destinationsUncheckedCreateWithoutDestinationInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutDestinationInput | route_destinationsCreateOrConnectWithoutDestinationInput[]
-    upsert?: route_destinationsUpsertWithWhereUniqueWithoutDestinationInput | route_destinationsUpsertWithWhereUniqueWithoutDestinationInput[]
-    createMany?: route_destinationsCreateManyDestinationInputEnvelope
-    set?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    disconnect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    delete?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    update?: route_destinationsUpdateWithWhereUniqueWithoutDestinationInput | route_destinationsUpdateWithWhereUniqueWithoutDestinationInput[]
-    updateMany?: route_destinationsUpdateManyWithWhereWithoutDestinationInput | route_destinationsUpdateManyWithWhereWithoutDestinationInput[]
-    deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
-  }
-
   export type destination_gearsUpdateManyWithoutDestinationNestedInput = {
     create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
     connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
@@ -171725,6 +166162,20 @@ export namespace Prisma {
     update?: destination_gearsUpdateWithWhereUniqueWithoutDestinationInput | destination_gearsUpdateWithWhereUniqueWithoutDestinationInput[]
     updateMany?: destination_gearsUpdateManyWithWhereWithoutDestinationInput | destination_gearsUpdateManyWithWhereWithoutDestinationInput[]
     deleteMany?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+  }
+
+  export type locationsUpdateManyWithoutDestinationsNestedInput = {
+    create?: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput> | locationsCreateWithoutDestinationsInput[] | locationsUncheckedCreateWithoutDestinationsInput[]
+    connectOrCreate?: locationsCreateOrConnectWithoutDestinationsInput | locationsCreateOrConnectWithoutDestinationsInput[]
+    upsert?: locationsUpsertWithWhereUniqueWithoutDestinationsInput | locationsUpsertWithWhereUniqueWithoutDestinationsInput[]
+    createMany?: locationsCreateManyDestinationsInputEnvelope
+    set?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    disconnect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    delete?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    connect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    update?: locationsUpdateWithWhereUniqueWithoutDestinationsInput | locationsUpdateWithWhereUniqueWithoutDestinationsInput[]
+    updateMany?: locationsUpdateManyWithWhereWithoutDestinationsInput | locationsUpdateManyWithWhereWithoutDestinationsInput[]
+    deleteMany?: locationsScalarWhereInput | locationsScalarWhereInput[]
   }
 
   export type activitiesUncheckedUpdateManyWithoutDestinationsNestedInput = {
@@ -171881,20 +166332,6 @@ export namespace Prisma {
     deleteMany?: destination_faqsScalarWhereInput | destination_faqsScalarWhereInput[]
   }
 
-  export type route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput = {
-    create?: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput> | route_destinationsCreateWithoutDestinationInput[] | route_destinationsUncheckedCreateWithoutDestinationInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutDestinationInput | route_destinationsCreateOrConnectWithoutDestinationInput[]
-    upsert?: route_destinationsUpsertWithWhereUniqueWithoutDestinationInput | route_destinationsUpsertWithWhereUniqueWithoutDestinationInput[]
-    createMany?: route_destinationsCreateManyDestinationInputEnvelope
-    set?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    disconnect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    delete?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    update?: route_destinationsUpdateWithWhereUniqueWithoutDestinationInput | route_destinationsUpdateWithWhereUniqueWithoutDestinationInput[]
-    updateMany?: route_destinationsUpdateManyWithWhereWithoutDestinationInput | route_destinationsUpdateManyWithWhereWithoutDestinationInput[]
-    deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
-  }
-
   export type destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput = {
     create?: XOR<destination_gearsCreateWithoutDestinationInput, destination_gearsUncheckedCreateWithoutDestinationInput> | destination_gearsCreateWithoutDestinationInput[] | destination_gearsUncheckedCreateWithoutDestinationInput[]
     connectOrCreate?: destination_gearsCreateOrConnectWithoutDestinationInput | destination_gearsCreateOrConnectWithoutDestinationInput[]
@@ -171907,6 +166344,20 @@ export namespace Prisma {
     update?: destination_gearsUpdateWithWhereUniqueWithoutDestinationInput | destination_gearsUpdateWithWhereUniqueWithoutDestinationInput[]
     updateMany?: destination_gearsUpdateManyWithWhereWithoutDestinationInput | destination_gearsUpdateManyWithWhereWithoutDestinationInput[]
     deleteMany?: destination_gearsScalarWhereInput | destination_gearsScalarWhereInput[]
+  }
+
+  export type locationsUncheckedUpdateManyWithoutDestinationsNestedInput = {
+    create?: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput> | locationsCreateWithoutDestinationsInput[] | locationsUncheckedCreateWithoutDestinationsInput[]
+    connectOrCreate?: locationsCreateOrConnectWithoutDestinationsInput | locationsCreateOrConnectWithoutDestinationsInput[]
+    upsert?: locationsUpsertWithWhereUniqueWithoutDestinationsInput | locationsUpsertWithWhereUniqueWithoutDestinationsInput[]
+    createMany?: locationsCreateManyDestinationsInputEnvelope
+    set?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    disconnect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    delete?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    connect?: locationsWhereUniqueInput | locationsWhereUniqueInput[]
+    update?: locationsUpdateWithWhereUniqueWithoutDestinationsInput | locationsUpdateWithWhereUniqueWithoutDestinationsInput[]
+    updateMany?: locationsUpdateManyWithWhereWithoutDestinationsInput | locationsUpdateManyWithWhereWithoutDestinationsInput[]
+    deleteMany?: locationsScalarWhereInput | locationsScalarWhereInput[]
   }
 
   export type destinationsCreateNestedOneWithoutDestination_gearsInput = {
@@ -173218,22 +167669,6 @@ export namespace Prisma {
     update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutPackage_hotel_optionsInput, packagesUpdateWithoutPackage_hotel_optionsInput>, packagesUncheckedUpdateWithoutPackage_hotel_optionsInput>
   }
 
-  export type packagesCreateNestedOneWithoutPackage_imagesInput = {
-    create?: XOR<packagesCreateWithoutPackage_imagesInput, packagesUncheckedCreateWithoutPackage_imagesInput>
-    connectOrCreate?: packagesCreateOrConnectWithoutPackage_imagesInput
-    connect?: packagesWhereUniqueInput
-  }
-
-  export type packagesUpdateOneWithoutPackage_imagesNestedInput = {
-    create?: XOR<packagesCreateWithoutPackage_imagesInput, packagesUncheckedCreateWithoutPackage_imagesInput>
-    connectOrCreate?: packagesCreateOrConnectWithoutPackage_imagesInput
-    upsert?: packagesUpsertWithoutPackage_imagesInput
-    disconnect?: packagesWhereInput | boolean
-    delete?: packagesWhereInput | boolean
-    connect?: packagesWhereUniqueInput
-    update?: XOR<XOR<packagesUpdateToOneWithWhereWithoutPackage_imagesInput, packagesUpdateWithoutPackage_imagesInput>, packagesUncheckedUpdateWithoutPackage_imagesInput>
-  }
-
   export type item_includesCreateNestedOneWithoutPackage_includesInput = {
     create?: XOR<item_includesCreateWithoutPackage_includesInput, item_includesUncheckedCreateWithoutPackage_includesInput>
     connectOrCreate?: item_includesCreateOrConnectWithoutPackage_includesInput
@@ -173280,6 +167715,40 @@ export namespace Prisma {
     connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
   }
 
+  export type route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_from_location_idTolocationsInputEnvelope
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+  }
+
+  export type route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_to_location_idTolocationsInputEnvelope
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+  }
+
+  export type routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput> | routesCreateWithoutLocations_routes_start_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_start_location_idTolocationsInputEnvelope
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+  }
+
+  export type routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput> | routesCreateWithoutLocations_routes_end_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_end_location_idTolocationsInputEnvelope
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+  }
+
+  export type destinationsCreateNestedOneWithoutLocationsInput = {
+    create?: XOR<destinationsCreateWithoutLocationsInput, destinationsUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutLocationsInput
+    connect?: destinationsWhereUniqueInput
+  }
+
   export type package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput = {
     create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
     connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
@@ -173292,6 +167761,38 @@ export namespace Prisma {
     connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_toInput[]
     createMany?: package_itinerary_day_detailsCreateManyLocations_toInputEnvelope
     connect?: package_itinerary_day_detailsWhereUniqueInput | package_itinerary_day_detailsWhereUniqueInput[]
+  }
+
+  export type route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_from_location_idTolocationsInputEnvelope
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+  }
+
+  export type route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_to_location_idTolocationsInputEnvelope
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+  }
+
+  export type routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput> | routesCreateWithoutLocations_routes_start_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_start_location_idTolocationsInputEnvelope
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+  }
+
+  export type routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput> | routesCreateWithoutLocations_routes_end_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_end_location_idTolocationsInputEnvelope
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+  }
+
+  export type NullableEnumlocation_typeFieldUpdateOperationsInput = {
+    set?: $Enums.location_type | null
   }
 
   export type package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput = {
@@ -173322,6 +167823,72 @@ export namespace Prisma {
     deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
   }
 
+  export type route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput[]
+    upsert?: route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_from_location_idTolocationsInputEnvelope
+    set?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    disconnect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    delete?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    update?: route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput[]
+    updateMany?: route_detailsUpdateManyWithWhereWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpdateManyWithWhereWithoutLocations_route_details_from_location_idTolocationsInput[]
+    deleteMany?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+  }
+
+  export type route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput[]
+    upsert?: route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_to_location_idTolocationsInputEnvelope
+    set?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    disconnect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    delete?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    update?: route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput[]
+    updateMany?: route_detailsUpdateManyWithWhereWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpdateManyWithWhereWithoutLocations_route_details_to_location_idTolocationsInput[]
+    deleteMany?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+  }
+
+  export type routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput> | routesCreateWithoutLocations_routes_start_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput[]
+    upsert?: routesUpsertWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput | routesUpsertWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_start_location_idTolocationsInputEnvelope
+    set?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    disconnect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    delete?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    update?: routesUpdateWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput | routesUpdateWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput[]
+    updateMany?: routesUpdateManyWithWhereWithoutLocations_routes_start_location_idTolocationsInput | routesUpdateManyWithWhereWithoutLocations_routes_start_location_idTolocationsInput[]
+    deleteMany?: routesScalarWhereInput | routesScalarWhereInput[]
+  }
+
+  export type routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput> | routesCreateWithoutLocations_routes_end_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput[]
+    upsert?: routesUpsertWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput | routesUpsertWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_end_location_idTolocationsInputEnvelope
+    set?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    disconnect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    delete?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    update?: routesUpdateWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput | routesUpdateWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput[]
+    updateMany?: routesUpdateManyWithWhereWithoutLocations_routes_end_location_idTolocationsInput | routesUpdateManyWithWhereWithoutLocations_routes_end_location_idTolocationsInput[]
+    deleteMany?: routesScalarWhereInput | routesScalarWhereInput[]
+  }
+
+  export type destinationsUpdateOneWithoutLocationsNestedInput = {
+    create?: XOR<destinationsCreateWithoutLocationsInput, destinationsUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: destinationsCreateOrConnectWithoutLocationsInput
+    upsert?: destinationsUpsertWithoutLocationsInput
+    disconnect?: destinationsWhereInput | boolean
+    delete?: destinationsWhereInput | boolean
+    connect?: destinationsWhereUniqueInput
+    update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutLocationsInput, destinationsUpdateWithoutLocationsInput>, destinationsUncheckedUpdateWithoutLocationsInput>
+  }
+
   export type package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput = {
     create?: XOR<package_itinerary_day_detailsCreateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput> | package_itinerary_day_detailsCreateWithoutLocations_fromInput[] | package_itinerary_day_detailsUncheckedCreateWithoutLocations_fromInput[]
     connectOrCreate?: package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput | package_itinerary_day_detailsCreateOrConnectWithoutLocations_fromInput[]
@@ -173348,6 +167915,62 @@ export namespace Prisma {
     update?: package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput | package_itinerary_day_detailsUpdateWithWhereUniqueWithoutLocations_toInput[]
     updateMany?: package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput | package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput[]
     deleteMany?: package_itinerary_day_detailsScalarWhereInput | package_itinerary_day_detailsScalarWhereInput[]
+  }
+
+  export type route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput[]
+    upsert?: route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_from_location_idTolocationsInputEnvelope
+    set?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    disconnect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    delete?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    update?: route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput[]
+    updateMany?: route_detailsUpdateManyWithWhereWithoutLocations_route_details_from_location_idTolocationsInput | route_detailsUpdateManyWithWhereWithoutLocations_route_details_from_location_idTolocationsInput[]
+    deleteMany?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+  }
+
+  export type route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput = {
+    create?: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput> | route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput[] | route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput[]
+    connectOrCreate?: route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput[]
+    upsert?: route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput[]
+    createMany?: route_detailsCreateManyLocations_route_details_to_location_idTolocationsInputEnvelope
+    set?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    disconnect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    delete?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    connect?: route_detailsWhereUniqueInput | route_detailsWhereUniqueInput[]
+    update?: route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput[]
+    updateMany?: route_detailsUpdateManyWithWhereWithoutLocations_route_details_to_location_idTolocationsInput | route_detailsUpdateManyWithWhereWithoutLocations_route_details_to_location_idTolocationsInput[]
+    deleteMany?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+  }
+
+  export type routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput> | routesCreateWithoutLocations_routes_start_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput[]
+    upsert?: routesUpsertWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput | routesUpsertWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_start_location_idTolocationsInputEnvelope
+    set?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    disconnect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    delete?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    update?: routesUpdateWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput | routesUpdateWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput[]
+    updateMany?: routesUpdateManyWithWhereWithoutLocations_routes_start_location_idTolocationsInput | routesUpdateManyWithWhereWithoutLocations_routes_start_location_idTolocationsInput[]
+    deleteMany?: routesScalarWhereInput | routesScalarWhereInput[]
+  }
+
+  export type routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput = {
+    create?: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput> | routesCreateWithoutLocations_routes_end_location_idTolocationsInput[] | routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput[]
+    connectOrCreate?: routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput | routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput[]
+    upsert?: routesUpsertWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput | routesUpsertWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput[]
+    createMany?: routesCreateManyLocations_routes_end_location_idTolocationsInputEnvelope
+    set?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    disconnect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    delete?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    connect?: routesWhereUniqueInput | routesWhereUniqueInput[]
+    update?: routesUpdateWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput | routesUpdateWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput[]
+    updateMany?: routesUpdateManyWithWhereWithoutLocations_routes_end_location_idTolocationsInput | routesUpdateManyWithWhereWithoutLocations_routes_end_location_idTolocationsInput[]
+    deleteMany?: routesScalarWhereInput | routesScalarWhereInput[]
   }
 
   export type activitiesCreateNestedOneWithoutPackage_itinerary_day_detailsInput = {
@@ -173615,13 +168238,6 @@ export namespace Prisma {
     connect?: bookingsWhereUniqueInput | bookingsWhereUniqueInput[]
   }
 
-  export type combined_package_detailsCreateNestedManyWithoutPackagesInput = {
-    create?: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput> | combined_package_detailsCreateWithoutPackagesInput[] | combined_package_detailsUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutPackagesInput | combined_package_detailsCreateOrConnectWithoutPackagesInput[]
-    createMany?: combined_package_detailsCreateManyPackagesInputEnvelope
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-  }
-
   export type package_addonsCreateNestedManyWithoutPackagesInput = {
     create?: XOR<package_addonsCreateWithoutPackagesInput, package_addonsUncheckedCreateWithoutPackagesInput> | package_addonsCreateWithoutPackagesInput[] | package_addonsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: package_addonsCreateOrConnectWithoutPackagesInput | package_addonsCreateOrConnectWithoutPackagesInput[]
@@ -173648,13 +168264,6 @@ export namespace Prisma {
     connectOrCreate?: package_hotel_optionsCreateOrConnectWithoutPackagesInput | package_hotel_optionsCreateOrConnectWithoutPackagesInput[]
     createMany?: package_hotel_optionsCreateManyPackagesInputEnvelope
     connect?: package_hotel_optionsWhereUniqueInput | package_hotel_optionsWhereUniqueInput[]
-  }
-
-  export type package_imagesCreateNestedManyWithoutPackagesInput = {
-    create?: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput> | package_imagesCreateWithoutPackagesInput[] | package_imagesUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: package_imagesCreateOrConnectWithoutPackagesInput | package_imagesCreateOrConnectWithoutPackagesInput[]
-    createMany?: package_imagesCreateManyPackagesInputEnvelope
-    connect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
   }
 
   export type package_includesCreateNestedManyWithoutPackagesInput = {
@@ -173736,13 +168345,6 @@ export namespace Prisma {
     connect?: bookingsWhereUniqueInput | bookingsWhereUniqueInput[]
   }
 
-  export type combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput = {
-    create?: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput> | combined_package_detailsCreateWithoutPackagesInput[] | combined_package_detailsUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutPackagesInput | combined_package_detailsCreateOrConnectWithoutPackagesInput[]
-    createMany?: combined_package_detailsCreateManyPackagesInputEnvelope
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-  }
-
   export type package_addonsUncheckedCreateNestedManyWithoutPackagesInput = {
     create?: XOR<package_addonsCreateWithoutPackagesInput, package_addonsUncheckedCreateWithoutPackagesInput> | package_addonsCreateWithoutPackagesInput[] | package_addonsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: package_addonsCreateOrConnectWithoutPackagesInput | package_addonsCreateOrConnectWithoutPackagesInput[]
@@ -173769,13 +168371,6 @@ export namespace Prisma {
     connectOrCreate?: package_hotel_optionsCreateOrConnectWithoutPackagesInput | package_hotel_optionsCreateOrConnectWithoutPackagesInput[]
     createMany?: package_hotel_optionsCreateManyPackagesInputEnvelope
     connect?: package_hotel_optionsWhereUniqueInput | package_hotel_optionsWhereUniqueInput[]
-  }
-
-  export type package_imagesUncheckedCreateNestedManyWithoutPackagesInput = {
-    create?: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput> | package_imagesCreateWithoutPackagesInput[] | package_imagesUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: package_imagesCreateOrConnectWithoutPackagesInput | package_imagesCreateOrConnectWithoutPackagesInput[]
-    createMany?: package_imagesCreateManyPackagesInputEnvelope
-    connect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
   }
 
   export type package_includesUncheckedCreateNestedManyWithoutPackagesInput = {
@@ -173884,20 +168479,6 @@ export namespace Prisma {
     deleteMany?: bookingsScalarWhereInput | bookingsScalarWhereInput[]
   }
 
-  export type combined_package_detailsUpdateManyWithoutPackagesNestedInput = {
-    create?: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput> | combined_package_detailsCreateWithoutPackagesInput[] | combined_package_detailsUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutPackagesInput | combined_package_detailsCreateOrConnectWithoutPackagesInput[]
-    upsert?: combined_package_detailsUpsertWithWhereUniqueWithoutPackagesInput | combined_package_detailsUpsertWithWhereUniqueWithoutPackagesInput[]
-    createMany?: combined_package_detailsCreateManyPackagesInputEnvelope
-    set?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    disconnect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    delete?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    update?: combined_package_detailsUpdateWithWhereUniqueWithoutPackagesInput | combined_package_detailsUpdateWithWhereUniqueWithoutPackagesInput[]
-    updateMany?: combined_package_detailsUpdateManyWithWhereWithoutPackagesInput | combined_package_detailsUpdateManyWithWhereWithoutPackagesInput[]
-    deleteMany?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-  }
-
   export type package_addonsUpdateManyWithoutPackagesNestedInput = {
     create?: XOR<package_addonsCreateWithoutPackagesInput, package_addonsUncheckedCreateWithoutPackagesInput> | package_addonsCreateWithoutPackagesInput[] | package_addonsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: package_addonsCreateOrConnectWithoutPackagesInput | package_addonsCreateOrConnectWithoutPackagesInput[]
@@ -173952,20 +168533,6 @@ export namespace Prisma {
     update?: package_hotel_optionsUpdateWithWhereUniqueWithoutPackagesInput | package_hotel_optionsUpdateWithWhereUniqueWithoutPackagesInput[]
     updateMany?: package_hotel_optionsUpdateManyWithWhereWithoutPackagesInput | package_hotel_optionsUpdateManyWithWhereWithoutPackagesInput[]
     deleteMany?: package_hotel_optionsScalarWhereInput | package_hotel_optionsScalarWhereInput[]
-  }
-
-  export type package_imagesUpdateManyWithoutPackagesNestedInput = {
-    create?: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput> | package_imagesCreateWithoutPackagesInput[] | package_imagesUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: package_imagesCreateOrConnectWithoutPackagesInput | package_imagesCreateOrConnectWithoutPackagesInput[]
-    upsert?: package_imagesUpsertWithWhereUniqueWithoutPackagesInput | package_imagesUpsertWithWhereUniqueWithoutPackagesInput[]
-    createMany?: package_imagesCreateManyPackagesInputEnvelope
-    set?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    disconnect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    delete?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    connect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    update?: package_imagesUpdateWithWhereUniqueWithoutPackagesInput | package_imagesUpdateWithWhereUniqueWithoutPackagesInput[]
-    updateMany?: package_imagesUpdateManyWithWhereWithoutPackagesInput | package_imagesUpdateManyWithWhereWithoutPackagesInput[]
-    deleteMany?: package_imagesScalarWhereInput | package_imagesScalarWhereInput[]
   }
 
   export type package_includesUpdateManyWithoutPackagesNestedInput = {
@@ -174116,20 +168683,6 @@ export namespace Prisma {
     deleteMany?: bookingsScalarWhereInput | bookingsScalarWhereInput[]
   }
 
-  export type combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput = {
-    create?: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput> | combined_package_detailsCreateWithoutPackagesInput[] | combined_package_detailsUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: combined_package_detailsCreateOrConnectWithoutPackagesInput | combined_package_detailsCreateOrConnectWithoutPackagesInput[]
-    upsert?: combined_package_detailsUpsertWithWhereUniqueWithoutPackagesInput | combined_package_detailsUpsertWithWhereUniqueWithoutPackagesInput[]
-    createMany?: combined_package_detailsCreateManyPackagesInputEnvelope
-    set?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    disconnect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    delete?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    connect?: combined_package_detailsWhereUniqueInput | combined_package_detailsWhereUniqueInput[]
-    update?: combined_package_detailsUpdateWithWhereUniqueWithoutPackagesInput | combined_package_detailsUpdateWithWhereUniqueWithoutPackagesInput[]
-    updateMany?: combined_package_detailsUpdateManyWithWhereWithoutPackagesInput | combined_package_detailsUpdateManyWithWhereWithoutPackagesInput[]
-    deleteMany?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-  }
-
   export type package_addonsUncheckedUpdateManyWithoutPackagesNestedInput = {
     create?: XOR<package_addonsCreateWithoutPackagesInput, package_addonsUncheckedCreateWithoutPackagesInput> | package_addonsCreateWithoutPackagesInput[] | package_addonsUncheckedCreateWithoutPackagesInput[]
     connectOrCreate?: package_addonsCreateOrConnectWithoutPackagesInput | package_addonsCreateOrConnectWithoutPackagesInput[]
@@ -174184,20 +168737,6 @@ export namespace Prisma {
     update?: package_hotel_optionsUpdateWithWhereUniqueWithoutPackagesInput | package_hotel_optionsUpdateWithWhereUniqueWithoutPackagesInput[]
     updateMany?: package_hotel_optionsUpdateManyWithWhereWithoutPackagesInput | package_hotel_optionsUpdateManyWithWhereWithoutPackagesInput[]
     deleteMany?: package_hotel_optionsScalarWhereInput | package_hotel_optionsScalarWhereInput[]
-  }
-
-  export type package_imagesUncheckedUpdateManyWithoutPackagesNestedInput = {
-    create?: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput> | package_imagesCreateWithoutPackagesInput[] | package_imagesUncheckedCreateWithoutPackagesInput[]
-    connectOrCreate?: package_imagesCreateOrConnectWithoutPackagesInput | package_imagesCreateOrConnectWithoutPackagesInput[]
-    upsert?: package_imagesUpsertWithWhereUniqueWithoutPackagesInput | package_imagesUpsertWithWhereUniqueWithoutPackagesInput[]
-    createMany?: package_imagesCreateManyPackagesInputEnvelope
-    set?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    disconnect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    delete?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    connect?: package_imagesWhereUniqueInput | package_imagesWhereUniqueInput[]
-    update?: package_imagesUpdateWithWhereUniqueWithoutPackagesInput | package_imagesUpdateWithWhereUniqueWithoutPackagesInput[]
-    updateMany?: package_imagesUpdateManyWithWhereWithoutPackagesInput | package_imagesUpdateManyWithWhereWithoutPackagesInput[]
-    deleteMany?: package_imagesScalarWhereInput | package_imagesScalarWhereInput[]
   }
 
   export type package_includesUncheckedUpdateManyWithoutPackagesNestedInput = {
@@ -174424,11 +168963,16 @@ export namespace Prisma {
     connect?: package_itinerary_daysWhereUniqueInput | package_itinerary_daysWhereUniqueInput[]
   }
 
-  export type route_destinationsCreateNestedManyWithoutRouteInput = {
-    create?: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput> | route_destinationsCreateWithoutRouteInput[] | route_destinationsUncheckedCreateWithoutRouteInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutRouteInput | route_destinationsCreateOrConnectWithoutRouteInput[]
-    createMany?: route_destinationsCreateManyRouteInputEnvelope
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
+  export type locationsCreateNestedOneWithoutRoutes_routes_start_location_idTolocationsInput = {
+    create?: XOR<locationsCreateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_start_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoutes_routes_start_location_idTolocationsInput
+    connect?: locationsWhereUniqueInput
+  }
+
+  export type locationsCreateNestedOneWithoutRoutes_routes_end_location_idTolocationsInput = {
+    create?: XOR<locationsCreateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_end_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoutes_routes_end_location_idTolocationsInput
+    connect?: locationsWhereUniqueInput
   }
 
   export type route_detailsUncheckedCreateNestedManyWithoutRoutesInput = {
@@ -174443,13 +168987,6 @@ export namespace Prisma {
     connectOrCreate?: package_itinerary_daysCreateOrConnectWithoutRoutesInput | package_itinerary_daysCreateOrConnectWithoutRoutesInput[]
     createMany?: package_itinerary_daysCreateManyRoutesInputEnvelope
     connect?: package_itinerary_daysWhereUniqueInput | package_itinerary_daysWhereUniqueInput[]
-  }
-
-  export type route_destinationsUncheckedCreateNestedManyWithoutRouteInput = {
-    create?: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput> | route_destinationsCreateWithoutRouteInput[] | route_destinationsUncheckedCreateWithoutRouteInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutRouteInput | route_destinationsCreateOrConnectWithoutRouteInput[]
-    createMany?: route_destinationsCreateManyRouteInputEnvelope
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
   }
 
   export type route_detailsUpdateManyWithoutRoutesNestedInput = {
@@ -174480,18 +169017,24 @@ export namespace Prisma {
     deleteMany?: package_itinerary_daysScalarWhereInput | package_itinerary_daysScalarWhereInput[]
   }
 
-  export type route_destinationsUpdateManyWithoutRouteNestedInput = {
-    create?: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput> | route_destinationsCreateWithoutRouteInput[] | route_destinationsUncheckedCreateWithoutRouteInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutRouteInput | route_destinationsCreateOrConnectWithoutRouteInput[]
-    upsert?: route_destinationsUpsertWithWhereUniqueWithoutRouteInput | route_destinationsUpsertWithWhereUniqueWithoutRouteInput[]
-    createMany?: route_destinationsCreateManyRouteInputEnvelope
-    set?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    disconnect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    delete?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    update?: route_destinationsUpdateWithWhereUniqueWithoutRouteInput | route_destinationsUpdateWithWhereUniqueWithoutRouteInput[]
-    updateMany?: route_destinationsUpdateManyWithWhereWithoutRouteInput | route_destinationsUpdateManyWithWhereWithoutRouteInput[]
-    deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
+  export type locationsUpdateOneWithoutRoutes_routes_start_location_idTolocationsNestedInput = {
+    create?: XOR<locationsCreateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_start_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoutes_routes_start_location_idTolocationsInput
+    upsert?: locationsUpsertWithoutRoutes_routes_start_location_idTolocationsInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutRoutes_routes_start_location_idTolocationsInput, locationsUpdateWithoutRoutes_routes_start_location_idTolocationsInput>, locationsUncheckedUpdateWithoutRoutes_routes_start_location_idTolocationsInput>
+  }
+
+  export type locationsUpdateOneWithoutRoutes_routes_end_location_idTolocationsNestedInput = {
+    create?: XOR<locationsCreateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_end_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoutes_routes_end_location_idTolocationsInput
+    upsert?: locationsUpsertWithoutRoutes_routes_end_location_idTolocationsInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutRoutes_routes_end_location_idTolocationsInput, locationsUpdateWithoutRoutes_routes_end_location_idTolocationsInput>, locationsUncheckedUpdateWithoutRoutes_routes_end_location_idTolocationsInput>
   }
 
   export type route_detailsUncheckedUpdateManyWithoutRoutesNestedInput = {
@@ -174522,24 +169065,22 @@ export namespace Prisma {
     deleteMany?: package_itinerary_daysScalarWhereInput | package_itinerary_daysScalarWhereInput[]
   }
 
-  export type route_destinationsUncheckedUpdateManyWithoutRouteNestedInput = {
-    create?: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput> | route_destinationsCreateWithoutRouteInput[] | route_destinationsUncheckedCreateWithoutRouteInput[]
-    connectOrCreate?: route_destinationsCreateOrConnectWithoutRouteInput | route_destinationsCreateOrConnectWithoutRouteInput[]
-    upsert?: route_destinationsUpsertWithWhereUniqueWithoutRouteInput | route_destinationsUpsertWithWhereUniqueWithoutRouteInput[]
-    createMany?: route_destinationsCreateManyRouteInputEnvelope
-    set?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    disconnect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    delete?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    connect?: route_destinationsWhereUniqueInput | route_destinationsWhereUniqueInput[]
-    update?: route_destinationsUpdateWithWhereUniqueWithoutRouteInput | route_destinationsUpdateWithWhereUniqueWithoutRouteInput[]
-    updateMany?: route_destinationsUpdateManyWithWhereWithoutRouteInput | route_destinationsUpdateManyWithWhereWithoutRouteInput[]
-    deleteMany?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
-  }
-
   export type routesCreateNestedOneWithoutRoute_detailsInput = {
     create?: XOR<routesCreateWithoutRoute_detailsInput, routesUncheckedCreateWithoutRoute_detailsInput>
     connectOrCreate?: routesCreateOrConnectWithoutRoute_detailsInput
     connect?: routesWhereUniqueInput
+  }
+
+  export type locationsCreateNestedOneWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    create?: XOR<locationsCreateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_from_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoute_details_route_details_from_location_idTolocationsInput
+    connect?: locationsWhereUniqueInput
+  }
+
+  export type locationsCreateNestedOneWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    create?: XOR<locationsCreateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_to_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoute_details_route_details_to_location_idTolocationsInput
+    connect?: locationsWhereUniqueInput
   }
 
   export type routesUpdateOneRequiredWithoutRoute_detailsNestedInput = {
@@ -174550,32 +169091,24 @@ export namespace Prisma {
     update?: XOR<XOR<routesUpdateToOneWithWhereWithoutRoute_detailsInput, routesUpdateWithoutRoute_detailsInput>, routesUncheckedUpdateWithoutRoute_detailsInput>
   }
 
-  export type routesCreateNestedOneWithoutRoute_destinationsInput = {
-    create?: XOR<routesCreateWithoutRoute_destinationsInput, routesUncheckedCreateWithoutRoute_destinationsInput>
-    connectOrCreate?: routesCreateOrConnectWithoutRoute_destinationsInput
-    connect?: routesWhereUniqueInput
+  export type locationsUpdateOneWithoutRoute_details_route_details_from_location_idTolocationsNestedInput = {
+    create?: XOR<locationsCreateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_from_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoute_details_route_details_from_location_idTolocationsInput
+    upsert?: locationsUpsertWithoutRoute_details_route_details_from_location_idTolocationsInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput>, locationsUncheckedUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput>
   }
 
-  export type destinationsCreateNestedOneWithoutRoute_destinationsInput = {
-    create?: XOR<destinationsCreateWithoutRoute_destinationsInput, destinationsUncheckedCreateWithoutRoute_destinationsInput>
-    connectOrCreate?: destinationsCreateOrConnectWithoutRoute_destinationsInput
-    connect?: destinationsWhereUniqueInput
-  }
-
-  export type routesUpdateOneRequiredWithoutRoute_destinationsNestedInput = {
-    create?: XOR<routesCreateWithoutRoute_destinationsInput, routesUncheckedCreateWithoutRoute_destinationsInput>
-    connectOrCreate?: routesCreateOrConnectWithoutRoute_destinationsInput
-    upsert?: routesUpsertWithoutRoute_destinationsInput
-    connect?: routesWhereUniqueInput
-    update?: XOR<XOR<routesUpdateToOneWithWhereWithoutRoute_destinationsInput, routesUpdateWithoutRoute_destinationsInput>, routesUncheckedUpdateWithoutRoute_destinationsInput>
-  }
-
-  export type destinationsUpdateOneRequiredWithoutRoute_destinationsNestedInput = {
-    create?: XOR<destinationsCreateWithoutRoute_destinationsInput, destinationsUncheckedCreateWithoutRoute_destinationsInput>
-    connectOrCreate?: destinationsCreateOrConnectWithoutRoute_destinationsInput
-    upsert?: destinationsUpsertWithoutRoute_destinationsInput
-    connect?: destinationsWhereUniqueInput
-    update?: XOR<XOR<destinationsUpdateToOneWithWhereWithoutRoute_destinationsInput, destinationsUpdateWithoutRoute_destinationsInput>, destinationsUncheckedUpdateWithoutRoute_destinationsInput>
+  export type locationsUpdateOneWithoutRoute_details_route_details_to_location_idTolocationsNestedInput = {
+    create?: XOR<locationsCreateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_to_location_idTolocationsInput>
+    connectOrCreate?: locationsCreateOrConnectWithoutRoute_details_route_details_to_location_idTolocationsInput
+    upsert?: locationsUpsertWithoutRoute_details_route_details_to_location_idTolocationsInput
+    disconnect?: locationsWhereInput | boolean
+    delete?: locationsWhereInput | boolean
+    connect?: locationsWhereUniqueInput
+    update?: XOR<XOR<locationsUpdateToOneWithWhereWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput>, locationsUncheckedUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput>
   }
 
   export type hotelsCreateNestedOneWithoutRoom_configurationsInput = {
@@ -176121,6 +170654,23 @@ export namespace Prisma {
     _max?: NestedEnumpolicy_document_typeFilter<$PrismaModel>
   }
 
+  export type NestedEnumlocation_typeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.location_type | Enumlocation_typeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlocation_typeNullableFilter<$PrismaModel> | $Enums.location_type | null
+  }
+
+  export type NestedEnumlocation_typeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.location_type | Enumlocation_typeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.location_type[] | ListEnumlocation_typeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumlocation_typeNullableWithAggregatesFilter<$PrismaModel> | $Enums.location_type | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumlocation_typeNullableFilter<$PrismaModel>
+    _max?: NestedEnumlocation_typeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumasset_typeFilter<$PrismaModel = never> = {
     equals?: $Enums.asset_type | Enumasset_typeFieldRefInput<$PrismaModel>
     in?: $Enums.asset_type[] | ListEnumasset_typeFieldRefInput<$PrismaModel>
@@ -176186,17 +170736,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -176210,23 +170759,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -176244,8 +170796,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutActivitiesInput = {
@@ -176256,17 +170808,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -176280,23 +170831,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -176314,8 +170868,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutActivitiesInput = {
@@ -176407,17 +170961,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176431,23 +170984,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176465,8 +171021,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivitiesInput = {
@@ -176477,17 +171033,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176501,23 +171056,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176535,8 +171093,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutActivitiesInput = {
@@ -176648,17 +171206,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -176672,23 +171229,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -176706,8 +171266,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_endsInput = {
@@ -176718,17 +171278,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -176742,23 +171301,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -176776,8 +171338,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_endsInput = {
@@ -176896,17 +171458,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176920,23 +171481,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176954,8 +171518,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_endsInput = {
@@ -176966,17 +171530,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176990,23 +171553,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177024,8 +171590,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_endsInput = {
@@ -177109,17 +171675,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -177133,23 +171698,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -177167,8 +171735,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutActivity_startsInput = {
@@ -177179,17 +171747,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -177203,23 +171770,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -177237,8 +171807,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutActivity_startsInput = {
@@ -177357,17 +171927,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177381,23 +171950,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177415,8 +171987,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutActivity_startsInput = {
@@ -177427,17 +171999,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177451,23 +172022,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177485,8 +172059,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type booking_itinerariesUpsertWithWhereUniqueWithoutActivity_startsInput = {
@@ -178717,17 +173291,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -178741,23 +173314,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -178775,8 +173351,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutBooking_destination_activitiesInput = {
@@ -178787,17 +173363,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -178811,23 +173386,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -178845,8 +173423,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutBooking_destination_activitiesInput = {
@@ -179033,17 +173611,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179057,23 +173634,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179091,8 +173671,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutBooking_destination_activitiesInput = {
@@ -179103,17 +173683,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179127,23 +173706,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179161,8 +173743,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type bookingsCreateWithoutBooking_destination_schedulesInput = {
@@ -179278,7 +173860,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -179308,7 +173889,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -179465,7 +174045,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179495,7 +174074,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179897,7 +174475,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -179927,7 +174504,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -180137,7 +174713,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180167,7 +174742,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180895,7 +175469,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -180925,7 +175498,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -181195,7 +175767,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181225,7 +175796,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185186,12 +179756,10 @@ export namespace Prisma {
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     seo_title?: string | null
     seo_meta?: string | null
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -185249,12 +179817,10 @@ export namespace Prisma {
     emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
     seo_title?: string | null
     seo_meta?: string | null
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -186089,12 +180655,10 @@ export namespace Prisma {
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -186152,12 +180716,10 @@ export namespace Prisma {
     emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -186448,368 +181010,6 @@ export namespace Prisma {
     crew_roles?: crew_rolesUncheckedUpdateManyWithoutOrder_channelsNestedInput
     packages?: packagesUncheckedUpdateManyWithoutOrder_channelsNestedInput
     transport_crew_rules?: transport_crew_rulesUncheckedUpdateManyWithoutOrder_channelsNestedInput
-  }
-
-  export type combined_packagesCreateWithoutCombined_package_detailsInput = {
-    id?: bigint | number
-    name?: string | null
-    long_name?: string | null
-    slug?: string | null
-    highlights?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_packagesUncheckedCreateWithoutCombined_package_detailsInput = {
-    id?: bigint | number
-    name?: string | null
-    long_name?: string | null
-    slug?: string | null
-    highlights?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_packagesCreateOrConnectWithoutCombined_package_detailsInput = {
-    where: combined_packagesWhereUniqueInput
-    create: XOR<combined_packagesCreateWithoutCombined_package_detailsInput, combined_packagesUncheckedCreateWithoutCombined_package_detailsInput>
-  }
-
-  export type packagesCreateWithoutCombined_package_detailsInput = {
-    id?: bigint | number
-    uuid?: string | null
-    code?: string | null
-    slug?: string | null
-    name: string
-    description?: string | null
-    short_label?: string | null
-    key_highlights?: string | null
-    ideal_arrival?: string | null
-    physicality?: string | null
-    suitable_for?: string | null
-    is_publish?: boolean | null
-    total_breakfast?: number | null
-    total_lunch?: number | null
-    total_dinner?: number | null
-    google_merchant_product_id?: string | null
-    meta_catalogue_id?: string | null
-    perfect_for?: packagesCreateperfect_forInput | string[]
-    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
-    safety_positioning?: string | null
-    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: number | null
-    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
-    tags?: packagesCreatetagsInput | string[]
-    operational_complexity_note?: string | null
-    first_day_last_pickup_guidance?: string | null
-    last_day_safe_flight_note?: string | null
-    health_requirements?: packagesCreatehealth_requirementsInput | string[]
-    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
-    handover_notes?: packagesCreatehandover_notesInput | string[]
-    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
-    seo_title?: string | null
-    seo_meta?: string | null
-    bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
-    package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
-    package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
-    package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
-    package_includes?: package_includesCreateNestedManyWithoutPackagesInput
-    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
-    package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
-    durations?: durationsCreateNestedOneWithoutPackagesInput
-    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
-    order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
-    package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
-    package_assets?: package_assetsCreateNestedManyWithoutPackageInput
-    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
-    reviews?: reviewsCreateNestedManyWithoutPackageInput
-  }
-
-  export type packagesUncheckedCreateWithoutCombined_package_detailsInput = {
-    id?: bigint | number
-    uuid?: string | null
-    code?: string | null
-    slug?: string | null
-    name: string
-    description?: string | null
-    short_label?: string | null
-    duration_id?: bigint | number | null
-    order_channel_id?: bigint | number | null
-    package_category_id?: bigint | number | null
-    start_destination_id?: bigint | number | null
-    end_destination_id?: bigint | number | null
-    key_highlights?: string | null
-    ideal_arrival?: string | null
-    physicality?: string | null
-    suitable_for?: string | null
-    is_publish?: boolean | null
-    total_breakfast?: number | null
-    total_lunch?: number | null
-    total_dinner?: number | null
-    google_merchant_product_id?: string | null
-    meta_catalogue_id?: string | null
-    perfect_for?: packagesCreateperfect_forInput | string[]
-    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
-    safety_positioning?: string | null
-    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: number | null
-    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
-    tags?: packagesCreatetagsInput | string[]
-    operational_complexity_note?: string | null
-    first_day_last_pickup_guidance?: string | null
-    last_day_safe_flight_note?: string | null
-    health_requirements?: packagesCreatehealth_requirementsInput | string[]
-    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
-    handover_notes?: packagesCreatehandover_notesInput | string[]
-    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
-    seo_title?: string | null
-    seo_meta?: string | null
-    bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
-    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
-    package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
-    package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
-    package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
-    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
-    package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
-    package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
-    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
-    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
-  }
-
-  export type packagesCreateOrConnectWithoutCombined_package_detailsInput = {
-    where: packagesWhereUniqueInput
-    create: XOR<packagesCreateWithoutCombined_package_detailsInput, packagesUncheckedCreateWithoutCombined_package_detailsInput>
-  }
-
-  export type combined_packagesUpsertWithoutCombined_package_detailsInput = {
-    update: XOR<combined_packagesUpdateWithoutCombined_package_detailsInput, combined_packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-    create: XOR<combined_packagesCreateWithoutCombined_package_detailsInput, combined_packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    where?: combined_packagesWhereInput
-  }
-
-  export type combined_packagesUpdateToOneWithWhereWithoutCombined_package_detailsInput = {
-    where?: combined_packagesWhereInput
-    data: XOR<combined_packagesUpdateWithoutCombined_package_detailsInput, combined_packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-  }
-
-  export type combined_packagesUpdateWithoutCombined_package_detailsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_packagesUncheckedUpdateWithoutCombined_package_detailsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    long_name?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type packagesUpsertWithoutCombined_package_detailsInput = {
-    update: XOR<packagesUpdateWithoutCombined_package_detailsInput, packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-    create: XOR<packagesCreateWithoutCombined_package_detailsInput, packagesUncheckedCreateWithoutCombined_package_detailsInput>
-    where?: packagesWhereInput
-  }
-
-  export type packagesUpdateToOneWithWhereWithoutCombined_package_detailsInput = {
-    where?: packagesWhereInput
-    data: XOR<packagesUpdateWithoutCombined_package_detailsInput, packagesUncheckedUpdateWithoutCombined_package_detailsInput>
-  }
-
-  export type packagesUpdateWithoutCombined_package_detailsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    short_label?: NullableStringFieldUpdateOperationsInput | string | null
-    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
-    physicality?: NullableStringFieldUpdateOperationsInput | string | null
-    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
-    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
-    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
-    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
-    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
-    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
-    perfect_for?: packagesUpdateperfect_forInput | string[]
-    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
-    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
-    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
-    tags?: packagesUpdatetagsInput | string[]
-    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
-    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
-    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
-    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
-    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
-    handover_notes?: packagesUpdatehandover_notesInput | string[]
-    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
-    package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
-    package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
-    package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
-    package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
-    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
-    package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
-    durations?: durationsUpdateOneWithoutPackagesNestedInput
-    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
-    order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
-    package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
-    package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
-    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
-    reviews?: reviewsUpdateManyWithoutPackageNestedInput
-  }
-
-  export type packagesUncheckedUpdateWithoutCombined_package_detailsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    short_label?: NullableStringFieldUpdateOperationsInput | string | null
-    duration_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    order_channel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    package_category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    start_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    end_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
-    physicality?: NullableStringFieldUpdateOperationsInput | string | null
-    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
-    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
-    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
-    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
-    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
-    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
-    perfect_for?: packagesUpdateperfect_forInput | string[]
-    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
-    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
-    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
-    tags?: packagesUpdatetagsInput | string[]
-    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
-    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
-    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
-    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
-    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
-    handover_notes?: packagesUpdatehandover_notesInput | string[]
-    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
-    package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
-    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
-    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
-  }
-
-  export type combined_package_detailsCreateWithoutCombined_packagesInput = {
-    id?: bigint | number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    packages?: packagesCreateNestedOneWithoutCombined_package_detailsInput
-  }
-
-  export type combined_package_detailsUncheckedCreateWithoutCombined_packagesInput = {
-    id?: bigint | number
-    package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_package_detailsCreateOrConnectWithoutCombined_packagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    create: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput>
-  }
-
-  export type combined_package_detailsCreateManyCombined_packagesInputEnvelope = {
-    data: combined_package_detailsCreateManyCombined_packagesInput | combined_package_detailsCreateManyCombined_packagesInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type combined_package_detailsUpsertWithWhereUniqueWithoutCombined_packagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    update: XOR<combined_package_detailsUpdateWithoutCombined_packagesInput, combined_package_detailsUncheckedUpdateWithoutCombined_packagesInput>
-    create: XOR<combined_package_detailsCreateWithoutCombined_packagesInput, combined_package_detailsUncheckedCreateWithoutCombined_packagesInput>
-  }
-
-  export type combined_package_detailsUpdateWithWhereUniqueWithoutCombined_packagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    data: XOR<combined_package_detailsUpdateWithoutCombined_packagesInput, combined_package_detailsUncheckedUpdateWithoutCombined_packagesInput>
-  }
-
-  export type combined_package_detailsUpdateManyWithWhereWithoutCombined_packagesInput = {
-    where: combined_package_detailsScalarWhereInput
-    data: XOR<combined_package_detailsUpdateManyMutationInput, combined_package_detailsUncheckedUpdateManyWithoutCombined_packagesInput>
-  }
-
-  export type combined_package_detailsScalarWhereInput = {
-    AND?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-    OR?: combined_package_detailsScalarWhereInput[]
-    NOT?: combined_package_detailsScalarWhereInput | combined_package_detailsScalarWhereInput[]
-    id?: BigIntFilter<"combined_package_details"> | bigint | number
-    combined_package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    package_id?: BigIntNullableFilter<"combined_package_details"> | bigint | number | null
-    created_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"combined_package_details"> | Date | string | null
   }
 
   export type bookingsCreateWithoutCrew_member_reviewsInput = {
@@ -188048,12 +182248,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -188111,12 +182309,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -188303,12 +182499,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -188366,12 +182560,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -189179,17 +183371,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -189203,23 +183394,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -189237,8 +183431,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_activitiesInput = {
@@ -189249,17 +183443,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -189273,23 +183466,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -189307,8 +183503,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_activitiesInput = {
@@ -189378,17 +183574,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189402,23 +183597,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189436,8 +183634,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_activitiesInput = {
@@ -189448,17 +183646,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189472,23 +183669,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189506,8 +183706,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type vendorsUpsertWithoutDestination_activitiesInput = {
@@ -189745,7 +183945,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -189774,7 +183973,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -189875,12 +184073,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -189937,12 +184133,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -190001,12 +184195,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -190063,12 +184255,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -190137,32 +184327,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type route_destinationsCreateWithoutDestinationInput = {
-    id?: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    route: routesCreateNestedOneWithoutRoute_destinationsInput
-  }
-
-  export type route_destinationsUncheckedCreateWithoutDestinationInput = {
-    id?: bigint | number
-    route_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-  }
-
-  export type route_destinationsCreateOrConnectWithoutDestinationInput = {
-    where: route_destinationsWhereUniqueInput
-    create: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput>
-  }
-
-  export type route_destinationsCreateManyDestinationInputEnvelope = {
-    data: route_destinationsCreateManyDestinationInput | route_destinationsCreateManyDestinationInput[]
-    skipDuplicates?: boolean
-  }
-
   export type destination_gearsCreateWithoutDestinationInput = {
     id?: bigint | number
     gear: string
@@ -190186,6 +184350,43 @@ export namespace Prisma {
 
   export type destination_gearsCreateManyDestinationInputEnvelope = {
     data: destination_gearsCreateManyDestinationInput | destination_gearsCreateManyDestinationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type locationsCreateWithoutDestinationsInput = {
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+  }
+
+  export type locationsUncheckedCreateWithoutDestinationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+  }
+
+  export type locationsCreateOrConnectWithoutDestinationsInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput>
+  }
+
+  export type locationsCreateManyDestinationsInputEnvelope = {
+    data: locationsCreateManyDestinationsInput | locationsCreateManyDestinationsInput[]
     skipDuplicates?: boolean
   }
 
@@ -190348,7 +184549,6 @@ export namespace Prisma {
     destination_id?: BigIntNullableFilter<"hotels"> | bigint | number | null
     description?: StringNullableFilter<"hotels"> | string | null
     facilities?: StringNullableFilter<"hotels"> | string | null
-    area?: StringNullableFilter<"hotels"> | string | null
     address?: StringNullableFilter<"hotels"> | string | null
     phone?: StringNullableFilter<"hotels"> | string | null
     banner?: StringNullableFilter<"hotels"> | string | null
@@ -190529,34 +184729,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"destination_faqs"> | Date | string
   }
 
-  export type route_destinationsUpsertWithWhereUniqueWithoutDestinationInput = {
-    where: route_destinationsWhereUniqueInput
-    update: XOR<route_destinationsUpdateWithoutDestinationInput, route_destinationsUncheckedUpdateWithoutDestinationInput>
-    create: XOR<route_destinationsCreateWithoutDestinationInput, route_destinationsUncheckedCreateWithoutDestinationInput>
-  }
-
-  export type route_destinationsUpdateWithWhereUniqueWithoutDestinationInput = {
-    where: route_destinationsWhereUniqueInput
-    data: XOR<route_destinationsUpdateWithoutDestinationInput, route_destinationsUncheckedUpdateWithoutDestinationInput>
-  }
-
-  export type route_destinationsUpdateManyWithWhereWithoutDestinationInput = {
-    where: route_destinationsScalarWhereInput
-    data: XOR<route_destinationsUpdateManyMutationInput, route_destinationsUncheckedUpdateManyWithoutDestinationInput>
-  }
-
-  export type route_destinationsScalarWhereInput = {
-    AND?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
-    OR?: route_destinationsScalarWhereInput[]
-    NOT?: route_destinationsScalarWhereInput | route_destinationsScalarWhereInput[]
-    id?: BigIntFilter<"route_destinations"> | bigint | number
-    route_id?: BigIntFilter<"route_destinations"> | bigint | number
-    destination_id?: BigIntFilter<"route_destinations"> | bigint | number
-    sequence?: IntFilter<"route_destinations"> | number
-    created_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"route_destinations"> | Date | string | null
-  }
-
   export type destination_gearsUpsertWithWhereUniqueWithoutDestinationInput = {
     where: destination_gearsWhereUniqueInput
     update: XOR<destination_gearsUpdateWithoutDestinationInput, destination_gearsUncheckedUpdateWithoutDestinationInput>
@@ -190585,6 +184757,34 @@ export namespace Prisma {
     updated_at?: DateTimeNullableFilter<"destination_gears"> | Date | string | null
   }
 
+  export type locationsUpsertWithWhereUniqueWithoutDestinationsInput = {
+    where: locationsWhereUniqueInput
+    update: XOR<locationsUpdateWithoutDestinationsInput, locationsUncheckedUpdateWithoutDestinationsInput>
+    create: XOR<locationsCreateWithoutDestinationsInput, locationsUncheckedCreateWithoutDestinationsInput>
+  }
+
+  export type locationsUpdateWithWhereUniqueWithoutDestinationsInput = {
+    where: locationsWhereUniqueInput
+    data: XOR<locationsUpdateWithoutDestinationsInput, locationsUncheckedUpdateWithoutDestinationsInput>
+  }
+
+  export type locationsUpdateManyWithWhereWithoutDestinationsInput = {
+    where: locationsScalarWhereInput
+    data: XOR<locationsUpdateManyMutationInput, locationsUncheckedUpdateManyWithoutDestinationsInput>
+  }
+
+  export type locationsScalarWhereInput = {
+    AND?: locationsScalarWhereInput | locationsScalarWhereInput[]
+    OR?: locationsScalarWhereInput[]
+    NOT?: locationsScalarWhereInput | locationsScalarWhereInput[]
+    id?: IntFilter<"locations"> | number
+    name?: StringFilter<"locations"> | string
+    type?: Enumlocation_typeNullableFilter<"locations"> | $Enums.location_type | null
+    latitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"locations"> | Decimal | DecimalJsLike | number | string | null
+    destination_id?: BigIntNullableFilter<"locations"> | bigint | number | null
+  }
+
   export type destinationsCreateWithoutDestination_gearsInput = {
     id?: bigint | number
     code?: string | null
@@ -190593,17 +184793,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -190617,23 +184816,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -190652,7 +184854,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_gearsInput = {
@@ -190663,17 +184865,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -190687,23 +184888,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -190722,7 +184926,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_gearsInput = {
@@ -190749,17 +184953,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190773,23 +184976,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190808,7 +185014,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_gearsInput = {
@@ -190819,17 +185025,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190843,23 +185048,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -190878,7 +185086,7 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type booking_payment_termsCreateWithoutDiscountsInput = {
@@ -191217,12 +185425,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -191279,12 +185485,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -191897,17 +186101,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -191921,23 +186124,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -191955,8 +186161,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutHotelsInput = {
@@ -191967,17 +186173,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -191991,23 +186196,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -192025,8 +186233,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutHotelsInput = {
@@ -192243,17 +186451,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192267,23 +186474,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192301,8 +186511,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutHotelsInput = {
@@ -192313,17 +186523,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192337,23 +186546,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192371,8 +186583,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type package_hotel_optionsUpsertWithWhereUniqueWithoutHotelsInput = {
@@ -192810,12 +187022,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -192872,12 +187082,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -193220,11 +187428,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -193283,11 +187489,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -193391,11 +187595,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -193454,11 +187656,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -193507,12 +187707,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -193570,12 +187768,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -193682,12 +187878,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -193745,12 +187939,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -193847,12 +188039,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -193909,12 +188099,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -193957,17 +188145,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -193981,23 +188168,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -194015,8 +188205,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutPackage_destinationsInput = {
@@ -194027,17 +188217,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -194051,23 +188240,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -194085,8 +188277,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutPackage_destinationsInput = {
@@ -194134,11 +188326,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -194197,11 +188387,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -194234,17 +188422,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194258,23 +188445,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194292,8 +188482,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackage_destinationsInput = {
@@ -194304,17 +188494,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194328,23 +188517,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -194362,8 +188554,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type packagesUpsertWithoutPackage_destinationsInput = {
@@ -194417,11 +188609,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -194480,11 +188670,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -194554,11 +188742,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -194617,11 +188803,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -194713,11 +188897,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -194776,11 +188958,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -194829,12 +189009,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -194892,12 +189070,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -194992,12 +189168,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -195055,12 +189229,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -195111,7 +189283,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -195141,7 +189312,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -195208,11 +189378,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
@@ -195271,11 +189439,9 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
@@ -195306,7 +189472,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195336,7 +189501,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -195409,11 +189573,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -195472,259 +189634,9 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
-    package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
-    package_faqs?: package_faqsUncheckedUpdateManyWithoutPackageNestedInput
-    reviews?: reviewsUncheckedUpdateManyWithoutPackageNestedInput
-  }
-
-  export type packagesCreateWithoutPackage_imagesInput = {
-    id?: bigint | number
-    uuid?: string | null
-    code?: string | null
-    slug?: string | null
-    name: string
-    description?: string | null
-    short_label?: string | null
-    key_highlights?: string | null
-    ideal_arrival?: string | null
-    physicality?: string | null
-    suitable_for?: string | null
-    is_publish?: boolean | null
-    total_breakfast?: number | null
-    total_lunch?: number | null
-    total_dinner?: number | null
-    google_merchant_product_id?: string | null
-    meta_catalogue_id?: string | null
-    perfect_for?: packagesCreateperfect_forInput | string[]
-    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
-    safety_positioning?: string | null
-    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: number | null
-    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
-    tags?: packagesCreatetagsInput | string[]
-    operational_complexity_note?: string | null
-    first_day_last_pickup_guidance?: string | null
-    last_day_safe_flight_note?: string | null
-    health_requirements?: packagesCreatehealth_requirementsInput | string[]
-    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
-    handover_notes?: packagesCreatehandover_notesInput | string[]
-    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
-    seo_title?: string | null
-    seo_meta?: string | null
-    bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
-    package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
-    package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
-    package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
-    package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_includes?: package_includesCreateNestedManyWithoutPackagesInput
-    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
-    package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
-    durations?: durationsCreateNestedOneWithoutPackagesInput
-    end_destination?: destinationsCreateNestedOneWithoutPackages_packages_end_destination_idTodestinationsInput
-    order_channels?: order_channelsCreateNestedOneWithoutPackagesInput
-    package_categories?: package_categoriesCreateNestedOneWithoutPackagesInput
-    start_destination?: destinationsCreateNestedOneWithoutPackages_packages_start_destination_idTodestinationsInput
-    package_assets?: package_assetsCreateNestedManyWithoutPackageInput
-    package_faqs?: package_faqsCreateNestedManyWithoutPackageInput
-    reviews?: reviewsCreateNestedManyWithoutPackageInput
-  }
-
-  export type packagesUncheckedCreateWithoutPackage_imagesInput = {
-    id?: bigint | number
-    uuid?: string | null
-    code?: string | null
-    slug?: string | null
-    name: string
-    description?: string | null
-    short_label?: string | null
-    duration_id?: bigint | number | null
-    order_channel_id?: bigint | number | null
-    package_category_id?: bigint | number | null
-    start_destination_id?: bigint | number | null
-    end_destination_id?: bigint | number | null
-    key_highlights?: string | null
-    ideal_arrival?: string | null
-    physicality?: string | null
-    suitable_for?: string | null
-    is_publish?: boolean | null
-    total_breakfast?: number | null
-    total_lunch?: number | null
-    total_dinner?: number | null
-    google_merchant_product_id?: string | null
-    meta_catalogue_id?: string | null
-    perfect_for?: packagesCreateperfect_forInput | string[]
-    highlights_bullets?: packagesCreatehighlights_bulletsInput | string[]
-    safety_positioning?: string | null
-    unique_selling_points?: packagesCreateunique_selling_pointsInput | string[]
-    created_at?: Date | string
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    aggregate_rating_value?: Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: number | null
-    traveler_requirements?: packagesCreatetraveler_requirementsInput | string[]
-    tags?: packagesCreatetagsInput | string[]
-    operational_complexity_note?: string | null
-    first_day_last_pickup_guidance?: string | null
-    last_day_safe_flight_note?: string | null
-    health_requirements?: packagesCreatehealth_requirementsInput | string[]
-    environmental_risks?: packagesCreateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesCreatesafety_mitigationInput | string[]
-    handover_notes?: packagesCreatehandover_notesInput | string[]
-    emergency_protocols?: packagesCreateemergency_protocolsInput | string[]
-    seo_title?: string | null
-    seo_meta?: string | null
-    bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
-    package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
-    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
-    package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
-    package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
-    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
-    package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
-    package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
-    package_faqs?: package_faqsUncheckedCreateNestedManyWithoutPackageInput
-    reviews?: reviewsUncheckedCreateNestedManyWithoutPackageInput
-  }
-
-  export type packagesCreateOrConnectWithoutPackage_imagesInput = {
-    where: packagesWhereUniqueInput
-    create: XOR<packagesCreateWithoutPackage_imagesInput, packagesUncheckedCreateWithoutPackage_imagesInput>
-  }
-
-  export type packagesUpsertWithoutPackage_imagesInput = {
-    update: XOR<packagesUpdateWithoutPackage_imagesInput, packagesUncheckedUpdateWithoutPackage_imagesInput>
-    create: XOR<packagesCreateWithoutPackage_imagesInput, packagesUncheckedCreateWithoutPackage_imagesInput>
-    where?: packagesWhereInput
-  }
-
-  export type packagesUpdateToOneWithWhereWithoutPackage_imagesInput = {
-    where?: packagesWhereInput
-    data: XOR<packagesUpdateWithoutPackage_imagesInput, packagesUncheckedUpdateWithoutPackage_imagesInput>
-  }
-
-  export type packagesUpdateWithoutPackage_imagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    short_label?: NullableStringFieldUpdateOperationsInput | string | null
-    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
-    physicality?: NullableStringFieldUpdateOperationsInput | string | null
-    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
-    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
-    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
-    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
-    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
-    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
-    perfect_for?: packagesUpdateperfect_forInput | string[]
-    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
-    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
-    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
-    tags?: packagesUpdatetagsInput | string[]
-    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
-    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
-    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
-    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
-    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
-    handover_notes?: packagesUpdatehandover_notesInput | string[]
-    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
-    package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
-    package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
-    package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
-    package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
-    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
-    package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
-    durations?: durationsUpdateOneWithoutPackagesNestedInput
-    end_destination?: destinationsUpdateOneWithoutPackages_packages_end_destination_idTodestinationsNestedInput
-    order_channels?: order_channelsUpdateOneWithoutPackagesNestedInput
-    package_categories?: package_categoriesUpdateOneWithoutPackagesNestedInput
-    start_destination?: destinationsUpdateOneWithoutPackages_packages_start_destination_idTodestinationsNestedInput
-    package_assets?: package_assetsUpdateManyWithoutPackageNestedInput
-    package_faqs?: package_faqsUpdateManyWithoutPackageNestedInput
-    reviews?: reviewsUpdateManyWithoutPackageNestedInput
-  }
-
-  export type packagesUncheckedUpdateWithoutPackage_imagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    uuid?: NullableStringFieldUpdateOperationsInput | string | null
-    code?: NullableStringFieldUpdateOperationsInput | string | null
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    short_label?: NullableStringFieldUpdateOperationsInput | string | null
-    duration_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    order_channel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    package_category_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    start_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    end_destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    key_highlights?: NullableStringFieldUpdateOperationsInput | string | null
-    ideal_arrival?: NullableStringFieldUpdateOperationsInput | string | null
-    physicality?: NullableStringFieldUpdateOperationsInput | string | null
-    suitable_for?: NullableStringFieldUpdateOperationsInput | string | null
-    is_publish?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    total_breakfast?: NullableIntFieldUpdateOperationsInput | number | null
-    total_lunch?: NullableIntFieldUpdateOperationsInput | number | null
-    total_dinner?: NullableIntFieldUpdateOperationsInput | number | null
-    google_merchant_product_id?: NullableStringFieldUpdateOperationsInput | string | null
-    meta_catalogue_id?: NullableStringFieldUpdateOperationsInput | string | null
-    perfect_for?: packagesUpdateperfect_forInput | string[]
-    highlights_bullets?: packagesUpdatehighlights_bulletsInput | string[]
-    safety_positioning?: NullableStringFieldUpdateOperationsInput | string | null
-    unique_selling_points?: packagesUpdateunique_selling_pointsInput | string[]
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    aggregate_rating_value?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    aggregate_rating_count?: NullableIntFieldUpdateOperationsInput | number | null
-    traveler_requirements?: packagesUpdatetraveler_requirementsInput | string[]
-    tags?: packagesUpdatetagsInput | string[]
-    operational_complexity_note?: NullableStringFieldUpdateOperationsInput | string | null
-    first_day_last_pickup_guidance?: NullableStringFieldUpdateOperationsInput | string | null
-    last_day_safe_flight_note?: NullableStringFieldUpdateOperationsInput | string | null
-    health_requirements?: packagesUpdatehealth_requirementsInput | string[]
-    environmental_risks?: packagesUpdateenvironmental_risksInput | string[]
-    safety_mitigation?: packagesUpdatesafety_mitigationInput | string[]
-    handover_notes?: packagesUpdatehandover_notesInput | string[]
-    emergency_protocols?: packagesUpdateemergency_protocolsInput | string[]
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
-    bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
-    package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -195794,12 +189706,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
@@ -195857,12 +189767,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
@@ -195953,12 +189861,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
@@ -196016,12 +189922,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
@@ -196101,6 +190005,319 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput = {
+    id?: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    routes: routesCreateNestedOneWithoutRoute_detailsInput
+    locations_route_details_to_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_to_location_idTolocationsInput
+  }
+
+  export type route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput = {
+    id?: bigint | number
+    route_id: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    to_location_id?: number | null
+  }
+
+  export type route_detailsCreateOrConnectWithoutLocations_route_details_from_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    create: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput>
+  }
+
+  export type route_detailsCreateManyLocations_route_details_from_location_idTolocationsInputEnvelope = {
+    data: route_detailsCreateManyLocations_route_details_from_location_idTolocationsInput | route_detailsCreateManyLocations_route_details_from_location_idTolocationsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput = {
+    id?: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    routes: routesCreateNestedOneWithoutRoute_detailsInput
+    locations_route_details_from_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_from_location_idTolocationsInput
+  }
+
+  export type route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput = {
+    id?: bigint | number
+    route_id: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    from_location_id?: number | null
+  }
+
+  export type route_detailsCreateOrConnectWithoutLocations_route_details_to_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    create: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput>
+  }
+
+  export type route_detailsCreateManyLocations_route_details_to_location_idTolocationsInputEnvelope = {
+    data: route_detailsCreateManyLocations_route_details_to_location_idTolocationsInput | route_detailsCreateManyLocations_route_details_to_location_idTolocationsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type routesCreateWithoutLocations_routes_start_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    route_details?: route_detailsCreateNestedManyWithoutRoutesInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
+    locations_routes_end_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_end_location_idTolocationsInput
+  }
+
+  export type routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    end_location_id?: number | null
+    route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
+    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
+  }
+
+  export type routesCreateOrConnectWithoutLocations_routes_start_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    create: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput>
+  }
+
+  export type routesCreateManyLocations_routes_start_location_idTolocationsInputEnvelope = {
+    data: routesCreateManyLocations_routes_start_location_idTolocationsInput | routesCreateManyLocations_routes_start_location_idTolocationsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type routesCreateWithoutLocations_routes_end_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    route_details?: route_detailsCreateNestedManyWithoutRoutesInput
+    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
+    locations_routes_start_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_start_location_idTolocationsInput
+  }
+
+  export type routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    start_location_id?: number | null
+    route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
+    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
+  }
+
+  export type routesCreateOrConnectWithoutLocations_routes_end_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    create: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput>
+  }
+
+  export type routesCreateManyLocations_routes_end_location_idTolocationsInputEnvelope = {
+    data: routesCreateManyLocations_routes_end_location_idTolocationsInput | routesCreateManyLocations_routes_end_location_idTolocationsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type destinationsCreateWithoutLocationsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    category?: string | null
+    region?: string | null
+    province?: string | null
+    country?: string | null
+    altitude?: number | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
+    terrain?: string | null
+    best_time_to_visit?: string | null
+    difficulty_level?: string | null
+    duration?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    temperature_range?: string | null
+    trail_details?: string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: string | null
+    description?: string | null
+    highlight?: string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: boolean | null
+    permit_details?: string | null
+    guide_required?: boolean | null
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: string | null
+    cultural_context?: string | null
+    local_tribes?: destinationsCreatelocal_tribesInput | string[]
+    tips_for_visitors?: string | null
+    featured_image?: string | null
+    published?: boolean | null
+    featured?: boolean | null
+    seo_title?: string | null
+    seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
+    tags?: destinationsCreatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: string | null
+    short_slug?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsUncheckedCreateWithoutLocationsInput = {
+    id?: bigint | number
+    code?: string | null
+    name: string
+    category?: string | null
+    region?: string | null
+    province?: string | null
+    country?: string | null
+    altitude?: number | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
+    terrain?: string | null
+    best_time_to_visit?: string | null
+    difficulty_level?: string | null
+    duration?: string | null
+    weather_by_season?: string | null
+    rainfall_intensity?: string | null
+    temperature_range?: string | null
+    trail_details?: string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: string | null
+    description?: string | null
+    highlight?: string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: boolean | null
+    permit_details?: string | null
+    guide_required?: boolean | null
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: string | null
+    cultural_context?: string | null
+    local_tribes?: destinationsCreatelocal_tribesInput | string[]
+    tips_for_visitors?: string | null
+    featured_image?: string | null
+    published?: boolean | null
+    featured?: boolean | null
+    seo_title?: string | null
+    seo_description?: string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
+    tags?: destinationsCreatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: string | null
+    short_slug?: string | null
+    created_at?: Date | string | null
+    updated_at?: Date | string | null
+    deleted_at?: Date | string | null
+    activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
+    activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
+    hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
+    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
+    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
+    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+  }
+
+  export type destinationsCreateOrConnectWithoutLocationsInput = {
+    where: destinationsWhereUniqueInput
+    create: XOR<destinationsCreateWithoutLocationsInput, destinationsUncheckedCreateWithoutLocationsInput>
+  }
+
   export type package_itinerary_day_detailsUpsertWithWhereUniqueWithoutLocations_fromInput = {
     where: package_itinerary_day_detailsWhereUniqueInput
     update: XOR<package_itinerary_day_detailsUpdateWithoutLocations_fromInput, package_itinerary_day_detailsUncheckedUpdateWithoutLocations_fromInput>
@@ -196131,6 +190348,262 @@ export namespace Prisma {
   export type package_itinerary_day_detailsUpdateManyWithWhereWithoutLocations_toInput = {
     where: package_itinerary_day_detailsScalarWhereInput
     data: XOR<package_itinerary_day_detailsUpdateManyMutationInput, package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toInput>
+  }
+
+  export type route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    update: XOR<route_detailsUpdateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedUpdateWithoutLocations_route_details_from_location_idTolocationsInput>
+    create: XOR<route_detailsCreateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_from_location_idTolocationsInput>
+  }
+
+  export type route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_from_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    data: XOR<route_detailsUpdateWithoutLocations_route_details_from_location_idTolocationsInput, route_detailsUncheckedUpdateWithoutLocations_route_details_from_location_idTolocationsInput>
+  }
+
+  export type route_detailsUpdateManyWithWhereWithoutLocations_route_details_from_location_idTolocationsInput = {
+    where: route_detailsScalarWhereInput
+    data: XOR<route_detailsUpdateManyMutationInput, route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsInput>
+  }
+
+  export type route_detailsScalarWhereInput = {
+    AND?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+    OR?: route_detailsScalarWhereInput[]
+    NOT?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
+    id?: BigIntFilter<"route_details"> | bigint | number
+    route_id?: BigIntFilter<"route_details"> | bigint | number
+    seq?: IntFilter<"route_details"> | number
+    time_or_label?: StringNullableFilter<"route_details"> | string | null
+    name?: StringNullableFilter<"route_details"> | string | null
+    activity?: StringFilter<"route_details"> | string
+    type?: StringNullableFilter<"route_details"> | string | null
+    duration_minutes?: IntNullableFilter<"route_details"> | number | null
+    from_location_id?: IntNullableFilter<"route_details"> | number | null
+    to_location_id?: IntNullableFilter<"route_details"> | number | null
+  }
+
+  export type route_detailsUpsertWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    update: XOR<route_detailsUpdateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedUpdateWithoutLocations_route_details_to_location_idTolocationsInput>
+    create: XOR<route_detailsCreateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedCreateWithoutLocations_route_details_to_location_idTolocationsInput>
+  }
+
+  export type route_detailsUpdateWithWhereUniqueWithoutLocations_route_details_to_location_idTolocationsInput = {
+    where: route_detailsWhereUniqueInput
+    data: XOR<route_detailsUpdateWithoutLocations_route_details_to_location_idTolocationsInput, route_detailsUncheckedUpdateWithoutLocations_route_details_to_location_idTolocationsInput>
+  }
+
+  export type route_detailsUpdateManyWithWhereWithoutLocations_route_details_to_location_idTolocationsInput = {
+    where: route_detailsScalarWhereInput
+    data: XOR<route_detailsUpdateManyMutationInput, route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsInput>
+  }
+
+  export type routesUpsertWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    update: XOR<routesUpdateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedUpdateWithoutLocations_routes_start_location_idTolocationsInput>
+    create: XOR<routesCreateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_start_location_idTolocationsInput>
+  }
+
+  export type routesUpdateWithWhereUniqueWithoutLocations_routes_start_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    data: XOR<routesUpdateWithoutLocations_routes_start_location_idTolocationsInput, routesUncheckedUpdateWithoutLocations_routes_start_location_idTolocationsInput>
+  }
+
+  export type routesUpdateManyWithWhereWithoutLocations_routes_start_location_idTolocationsInput = {
+    where: routesScalarWhereInput
+    data: XOR<routesUpdateManyMutationInput, routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsInput>
+  }
+
+  export type routesScalarWhereInput = {
+    AND?: routesScalarWhereInput | routesScalarWhereInput[]
+    OR?: routesScalarWhereInput[]
+    NOT?: routesScalarWhereInput | routesScalarWhereInput[]
+    id?: BigIntFilter<"routes"> | bigint | number
+    code?: StringFilter<"routes"> | string
+    route?: StringFilter<"routes"> | string
+    itinerary_title?: StringFilter<"routes"> | string
+    estimated_duration?: StringNullableFilter<"routes"> | string | null
+    main_activities?: StringNullableFilter<"routes"> | string | null
+    accommodation_status?: StringNullableFilter<"routes"> | string | null
+    customer_tips?: StringNullableFilter<"routes"> | string | null
+    overview?: StringNullableFilter<"routes"> | string | null
+    breakfast?: BoolNullableFilter<"routes"> | boolean | null
+    lunch?: BoolNullableFilter<"routes"> | boolean | null
+    dinner?: BoolNullableFilter<"routes"> | boolean | null
+    meals_notes?: StringNullableFilter<"routes"> | string | null
+    start_location_id?: IntNullableFilter<"routes"> | number | null
+    end_location_id?: IntNullableFilter<"routes"> | number | null
+  }
+
+  export type routesUpsertWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    update: XOR<routesUpdateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedUpdateWithoutLocations_routes_end_location_idTolocationsInput>
+    create: XOR<routesCreateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedCreateWithoutLocations_routes_end_location_idTolocationsInput>
+  }
+
+  export type routesUpdateWithWhereUniqueWithoutLocations_routes_end_location_idTolocationsInput = {
+    where: routesWhereUniqueInput
+    data: XOR<routesUpdateWithoutLocations_routes_end_location_idTolocationsInput, routesUncheckedUpdateWithoutLocations_routes_end_location_idTolocationsInput>
+  }
+
+  export type routesUpdateManyWithWhereWithoutLocations_routes_end_location_idTolocationsInput = {
+    where: routesScalarWhereInput
+    data: XOR<routesUpdateManyMutationInput, routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsInput>
+  }
+
+  export type destinationsUpsertWithoutLocationsInput = {
+    update: XOR<destinationsUpdateWithoutLocationsInput, destinationsUncheckedUpdateWithoutLocationsInput>
+    create: XOR<destinationsCreateWithoutLocationsInput, destinationsUncheckedCreateWithoutLocationsInput>
+    where?: destinationsWhereInput
+  }
+
+  export type destinationsUpdateToOneWithWhereWithoutLocationsInput = {
+    where?: destinationsWhereInput
+    data: XOR<destinationsUpdateWithoutLocationsInput, destinationsUncheckedUpdateWithoutLocationsInput>
+  }
+
+  export type destinationsUpdateWithoutLocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    altitude?: NullableIntFieldUpdateOperationsInput | number | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
+    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
+    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
+    tags?: destinationsUpdatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+  }
+
+  export type destinationsUncheckedUpdateWithoutLocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    province?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    altitude?: NullableIntFieldUpdateOperationsInput | number | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
+    terrain?: NullableStringFieldUpdateOperationsInput | string | null
+    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
+    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
+    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
+    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
+    required_gear?: NullableJsonNullValueInput | InputJsonValue
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    highlight?: NullableStringFieldUpdateOperationsInput | string | null
+    main_attractions?: NullableJsonNullValueInput | InputJsonValue
+    key_highlights?: NullableJsonNullValueInput | InputJsonValue
+    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
+    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    safety_notes?: NullableJsonNullValueInput | InputJsonValue
+    risk_factors?: NullableJsonNullValueInput | InputJsonValue
+    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
+    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
+    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
+    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
+    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
+    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
+    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
+    schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
+    tags?: destinationsUpdatetagsInput | string[]
+    types?: NullableJsonNullValueInput | InputJsonValue
+    slug?: NullableStringFieldUpdateOperationsInput | string | null
+    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
+    activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
+    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
+    hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
+    package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
+    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
+    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
+    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
   }
 
   export type activitiesCreateWithoutPackage_itinerary_day_detailsInput = {
@@ -196207,13 +190680,29 @@ export namespace Prisma {
 
   export type locationsCreateWithoutPackage_itinerary_day_details_from_locationInput = {
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
   }
 
   export type locationsUncheckedCreateWithoutPackage_itinerary_day_details_from_locationInput = {
     id?: number
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
   }
 
   export type locationsCreateOrConnectWithoutPackage_itinerary_day_details_from_locationInput = {
@@ -196223,13 +190712,29 @@ export namespace Prisma {
 
   export type locationsCreateWithoutPackage_itinerary_day_details_to_locationInput = {
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
   }
 
   export type locationsUncheckedCreateWithoutPackage_itinerary_day_details_to_locationInput = {
     id?: number
     name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
   }
 
   export type locationsCreateOrConnectWithoutPackage_itinerary_day_details_to_locationInput = {
@@ -196334,13 +190839,29 @@ export namespace Prisma {
 
   export type locationsUpdateWithoutPackage_itinerary_day_details_from_locationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
   }
 
   export type locationsUncheckedUpdateWithoutPackage_itinerary_day_details_from_locationInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
   }
 
   export type locationsUpsertWithoutPackage_itinerary_day_details_to_locationInput = {
@@ -196356,13 +190877,29 @@ export namespace Prisma {
 
   export type locationsUpdateWithoutPackage_itinerary_day_details_to_locationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
   }
 
   export type locationsUncheckedUpdateWithoutPackage_itinerary_day_details_to_locationInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
   }
 
   export type package_itinerary_day_detailsCreateWithoutPackage_itinerary_daysInput = {
@@ -196473,7 +191010,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -196503,7 +191039,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -196570,12 +191105,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
@@ -196633,12 +191166,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_prices?: package_pricesUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
@@ -196656,8 +191187,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -196668,7 +191197,8 @@ export namespace Prisma {
     dinner?: boolean | null
     meals_notes?: string | null
     route_details?: route_detailsCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
+    locations_routes_start_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_start_location_idTolocationsInput
+    locations_routes_end_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_end_location_idTolocationsInput
   }
 
   export type routesUncheckedCreateWithoutPackage_itinerary_daysInput = {
@@ -196676,8 +191206,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -196687,8 +191215,9 @@ export namespace Prisma {
     lunch?: boolean | null
     dinner?: boolean | null
     meals_notes?: string | null
+    start_location_id?: number | null
+    end_location_id?: number | null
     route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
   }
 
   export type routesCreateOrConnectWithoutPackage_itinerary_daysInput = {
@@ -196807,7 +191336,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196837,7 +191365,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -196910,12 +191437,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
@@ -196973,12 +191498,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
@@ -197002,8 +191525,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197014,7 +191535,8 @@ export namespace Prisma {
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
+    locations_routes_start_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_start_location_idTolocationsNestedInput
+    locations_routes_end_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_end_location_idTolocationsNestedInput
   }
 
   export type routesUncheckedUpdateWithoutPackage_itinerary_daysInput = {
@@ -197022,8 +191544,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -197033,8 +191553,9 @@ export namespace Prisma {
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
     route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
   }
 
   export type packagesCreateWithoutPackage_pricesInput = {
@@ -197077,12 +191598,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutPackagesInput
     durations?: durationsCreateNestedOneWithoutPackagesInput
@@ -197140,12 +191659,10 @@ export namespace Prisma {
     seo_title?: string | null
     seo_meta?: string | null
     bookings?: bookingsUncheckedCreateNestedManyWithoutPackagesInput
-    combined_package_details?: combined_package_detailsUncheckedCreateNestedManyWithoutPackagesInput
     package_addons?: package_addonsUncheckedCreateNestedManyWithoutPackagesInput
     package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutPackagesInput
     package_excludes?: package_excludesUncheckedCreateNestedManyWithoutPackagesInput
     package_hotel_options?: package_hotel_optionsUncheckedCreateNestedManyWithoutPackagesInput
-    package_images?: package_imagesUncheckedCreateNestedManyWithoutPackagesInput
     package_includes?: package_includesUncheckedCreateNestedManyWithoutPackagesInput
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutPackagesInput
     package_assets?: package_assetsUncheckedCreateNestedManyWithoutPackageInput
@@ -197236,12 +191753,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     durations?: durationsUpdateOneWithoutPackagesNestedInput
@@ -197299,12 +191814,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_assets?: package_assetsUncheckedUpdateManyWithoutPackageNestedInput
@@ -197457,32 +191970,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type combined_package_detailsCreateWithoutPackagesInput = {
-    id?: bigint | number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    combined_packages?: combined_packagesCreateNestedOneWithoutCombined_package_detailsInput
-  }
-
-  export type combined_package_detailsUncheckedCreateWithoutPackagesInput = {
-    id?: bigint | number
-    combined_package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_package_detailsCreateOrConnectWithoutPackagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    create: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput>
-  }
-
-  export type combined_package_detailsCreateManyPackagesInputEnvelope = {
-    data: combined_package_detailsCreateManyPackagesInput | combined_package_detailsCreateManyPackagesInput[]
-    skipDuplicates?: boolean
-  }
-
   export type package_addonsCreateWithoutPackagesInput = {
     id?: bigint | number
     created_at?: Date | string | null
@@ -197588,42 +192075,6 @@ export namespace Prisma {
 
   export type package_hotel_optionsCreateManyPackagesInputEnvelope = {
     data: package_hotel_optionsCreateManyPackagesInput | package_hotel_optionsCreateManyPackagesInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type package_imagesCreateWithoutPackagesInput = {
-    id?: bigint | number
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type package_imagesUncheckedCreateWithoutPackagesInput = {
-    id?: bigint | number
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type package_imagesCreateOrConnectWithoutPackagesInput = {
-    where: package_imagesWhereUniqueInput
-    create: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput>
-  }
-
-  export type package_imagesCreateManyPackagesInputEnvelope = {
-    data: package_imagesCreateManyPackagesInput | package_imagesCreateManyPackagesInput[]
     skipDuplicates?: boolean
   }
 
@@ -197766,17 +192217,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -197790,23 +192240,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -197824,8 +192277,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -197836,17 +192289,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -197860,23 +192312,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -197894,8 +192349,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -197969,17 +192424,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -197993,23 +192447,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -198027,8 +192484,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -198039,17 +192496,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -198063,23 +192519,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -198097,8 +192556,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -198216,22 +192675,6 @@ export namespace Prisma {
     data: XOR<bookingsUpdateManyMutationInput, bookingsUncheckedUpdateManyWithoutPackagesInput>
   }
 
-  export type combined_package_detailsUpsertWithWhereUniqueWithoutPackagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    update: XOR<combined_package_detailsUpdateWithoutPackagesInput, combined_package_detailsUncheckedUpdateWithoutPackagesInput>
-    create: XOR<combined_package_detailsCreateWithoutPackagesInput, combined_package_detailsUncheckedCreateWithoutPackagesInput>
-  }
-
-  export type combined_package_detailsUpdateWithWhereUniqueWithoutPackagesInput = {
-    where: combined_package_detailsWhereUniqueInput
-    data: XOR<combined_package_detailsUpdateWithoutPackagesInput, combined_package_detailsUncheckedUpdateWithoutPackagesInput>
-  }
-
-  export type combined_package_detailsUpdateManyWithWhereWithoutPackagesInput = {
-    where: combined_package_detailsScalarWhereInput
-    data: XOR<combined_package_detailsUpdateManyMutationInput, combined_package_detailsUncheckedUpdateManyWithoutPackagesInput>
-  }
-
   export type package_addonsUpsertWithWhereUniqueWithoutPackagesInput = {
     where: package_addonsWhereUniqueInput
     update: XOR<package_addonsUpdateWithoutPackagesInput, package_addonsUncheckedUpdateWithoutPackagesInput>
@@ -198294,39 +192737,6 @@ export namespace Prisma {
   export type package_hotel_optionsUpdateManyWithWhereWithoutPackagesInput = {
     where: package_hotel_optionsScalarWhereInput
     data: XOR<package_hotel_optionsUpdateManyMutationInput, package_hotel_optionsUncheckedUpdateManyWithoutPackagesInput>
-  }
-
-  export type package_imagesUpsertWithWhereUniqueWithoutPackagesInput = {
-    where: package_imagesWhereUniqueInput
-    update: XOR<package_imagesUpdateWithoutPackagesInput, package_imagesUncheckedUpdateWithoutPackagesInput>
-    create: XOR<package_imagesCreateWithoutPackagesInput, package_imagesUncheckedCreateWithoutPackagesInput>
-  }
-
-  export type package_imagesUpdateWithWhereUniqueWithoutPackagesInput = {
-    where: package_imagesWhereUniqueInput
-    data: XOR<package_imagesUpdateWithoutPackagesInput, package_imagesUncheckedUpdateWithoutPackagesInput>
-  }
-
-  export type package_imagesUpdateManyWithWhereWithoutPackagesInput = {
-    where: package_imagesScalarWhereInput
-    data: XOR<package_imagesUpdateManyMutationInput, package_imagesUncheckedUpdateManyWithoutPackagesInput>
-  }
-
-  export type package_imagesScalarWhereInput = {
-    AND?: package_imagesScalarWhereInput | package_imagesScalarWhereInput[]
-    OR?: package_imagesScalarWhereInput[]
-    NOT?: package_imagesScalarWhereInput | package_imagesScalarWhereInput[]
-    id?: BigIntFilter<"package_images"> | bigint | number
-    package_id?: BigIntNullableFilter<"package_images"> | bigint | number | null
-    url?: StringFilter<"package_images"> | string
-    og_image_url?: StringNullableFilter<"package_images"> | string | null
-    sort_order?: IntNullableFilter<"package_images"> | number | null
-    alt_text?: StringNullableFilter<"package_images"> | string | null
-    caption?: StringNullableFilter<"package_images"> | string | null
-    tags?: StringNullableFilter<"package_images"> | string | null
-    created_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    updated_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
-    deleted_at?: DateTimeNullableFilter<"package_images"> | Date | string | null
   }
 
   export type package_includesUpsertWithWhereUniqueWithoutPackagesInput = {
@@ -198444,17 +192854,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198468,23 +192877,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198502,8 +192914,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_end_destination_idTodestinationsInput = {
@@ -198514,17 +192926,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198538,23 +192949,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198572,8 +192986,8 @@ export namespace Prisma {
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type order_channelsUpsertWithoutPackagesInput = {
@@ -198665,17 +193079,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198689,23 +193102,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198723,8 +193139,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutPackages_packages_start_destination_idTodestinationsInput = {
@@ -198735,17 +193151,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198759,23 +193174,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -198793,8 +193211,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type package_assetsUpsertWithWhereUniqueWithoutPackageInput = {
@@ -199049,28 +193467,24 @@ export namespace Prisma {
     id?: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
+    locations_route_details_from_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_from_location_idTolocationsInput
+    locations_route_details_to_location_idTolocations?: locationsCreateNestedOneWithoutRoute_details_route_details_to_location_idTolocationsInput
   }
 
   export type route_detailsUncheckedCreateWithoutRoutesInput = {
     id?: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
+    from_location_id?: number | null
+    to_location_id?: number | null
   }
 
   export type route_detailsCreateOrConnectWithoutRoutesInput = {
@@ -199129,30 +193543,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type route_destinationsCreateWithoutRouteInput = {
-    id?: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    destination: destinationsCreateNestedOneWithoutRoute_destinationsInput
+  export type locationsCreateWithoutRoutes_routes_start_location_idTolocationsInput = {
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
   }
 
-  export type route_destinationsUncheckedCreateWithoutRouteInput = {
-    id?: bigint | number
-    destination_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
+  export type locationsUncheckedCreateWithoutRoutes_routes_start_location_idTolocationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
   }
 
-  export type route_destinationsCreateOrConnectWithoutRouteInput = {
-    where: route_destinationsWhereUniqueInput
-    create: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput>
+  export type locationsCreateOrConnectWithoutRoutes_routes_start_location_idTolocationsInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_start_location_idTolocationsInput>
   }
 
-  export type route_destinationsCreateManyRouteInputEnvelope = {
-    data: route_destinationsCreateManyRouteInput | route_destinationsCreateManyRouteInput[]
-    skipDuplicates?: boolean
+  export type locationsCreateWithoutRoutes_routes_end_location_idTolocationsInput = {
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
+  }
+
+  export type locationsUncheckedCreateWithoutRoutes_routes_end_location_idTolocationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+  }
+
+  export type locationsCreateOrConnectWithoutRoutes_routes_end_location_idTolocationsInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_end_location_idTolocationsInput>
   }
 
   export type route_detailsUpsertWithWhereUniqueWithoutRoutesInput = {
@@ -199171,24 +193623,6 @@ export namespace Prisma {
     data: XOR<route_detailsUpdateManyMutationInput, route_detailsUncheckedUpdateManyWithoutRoutesInput>
   }
 
-  export type route_detailsScalarWhereInput = {
-    AND?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
-    OR?: route_detailsScalarWhereInput[]
-    NOT?: route_detailsScalarWhereInput | route_detailsScalarWhereInput[]
-    id?: BigIntFilter<"route_details"> | bigint | number
-    route_id?: BigIntFilter<"route_details"> | bigint | number
-    seq?: IntFilter<"route_details"> | number
-    time_or_label?: StringNullableFilter<"route_details"> | string | null
-    timezone?: StringNullableFilter<"route_details"> | string | null
-    name?: StringNullableFilter<"route_details"> | string | null
-    activity?: StringFilter<"route_details"> | string
-    type?: StringNullableFilter<"route_details"> | string | null
-    location?: StringNullableFilter<"route_details"> | string | null
-    from_location?: StringNullableFilter<"route_details"> | string | null
-    to_location?: StringNullableFilter<"route_details"> | string | null
-    duration_minutes?: IntNullableFilter<"route_details"> | number | null
-  }
-
   export type package_itinerary_daysUpsertWithWhereUniqueWithoutRoutesInput = {
     where: package_itinerary_daysWhereUniqueInput
     update: XOR<package_itinerary_daysUpdateWithoutRoutesInput, package_itinerary_daysUncheckedUpdateWithoutRoutesInput>
@@ -199205,20 +193639,80 @@ export namespace Prisma {
     data: XOR<package_itinerary_daysUpdateManyMutationInput, package_itinerary_daysUncheckedUpdateManyWithoutRoutesInput>
   }
 
-  export type route_destinationsUpsertWithWhereUniqueWithoutRouteInput = {
-    where: route_destinationsWhereUniqueInput
-    update: XOR<route_destinationsUpdateWithoutRouteInput, route_destinationsUncheckedUpdateWithoutRouteInput>
-    create: XOR<route_destinationsCreateWithoutRouteInput, route_destinationsUncheckedCreateWithoutRouteInput>
+  export type locationsUpsertWithoutRoutes_routes_start_location_idTolocationsInput = {
+    update: XOR<locationsUpdateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoutes_routes_start_location_idTolocationsInput>
+    create: XOR<locationsCreateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_start_location_idTolocationsInput>
+    where?: locationsWhereInput
   }
 
-  export type route_destinationsUpdateWithWhereUniqueWithoutRouteInput = {
-    where: route_destinationsWhereUniqueInput
-    data: XOR<route_destinationsUpdateWithoutRouteInput, route_destinationsUncheckedUpdateWithoutRouteInput>
+  export type locationsUpdateToOneWithWhereWithoutRoutes_routes_start_location_idTolocationsInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutRoutes_routes_start_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoutes_routes_start_location_idTolocationsInput>
   }
 
-  export type route_destinationsUpdateManyWithWhereWithoutRouteInput = {
-    where: route_destinationsScalarWhereInput
-    data: XOR<route_destinationsUpdateManyMutationInput, route_destinationsUncheckedUpdateManyWithoutRouteInput>
+  export type locationsUpdateWithoutRoutes_routes_start_location_idTolocationsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutRoutes_routes_start_location_idTolocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+  }
+
+  export type locationsUpsertWithoutRoutes_routes_end_location_idTolocationsInput = {
+    update: XOR<locationsUpdateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoutes_routes_end_location_idTolocationsInput>
+    create: XOR<locationsCreateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedCreateWithoutRoutes_routes_end_location_idTolocationsInput>
+    where?: locationsWhereInput
+  }
+
+  export type locationsUpdateToOneWithWhereWithoutRoutes_routes_end_location_idTolocationsInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutRoutes_routes_end_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoutes_routes_end_location_idTolocationsInput>
+  }
+
+  export type locationsUpdateWithoutRoutes_routes_end_location_idTolocationsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutRoutes_routes_end_location_idTolocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
   }
 
   export type routesCreateWithoutRoute_detailsInput = {
@@ -199226,8 +193720,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -199238,7 +193730,8 @@ export namespace Prisma {
     dinner?: boolean | null
     meals_notes?: string | null
     package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutRouteInput
+    locations_routes_start_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_start_location_idTolocationsInput
+    locations_routes_end_location_idTolocations?: locationsCreateNestedOneWithoutRoutes_routes_end_location_idTolocationsInput
   }
 
   export type routesUncheckedCreateWithoutRoute_detailsInput = {
@@ -199246,8 +193739,6 @@ export namespace Prisma {
     code: string
     route: string
     itinerary_title: string
-    start_area: string
-    end_area: string
     estimated_duration?: string | null
     main_activities?: string | null
     accommodation_status?: string | null
@@ -199257,13 +193748,78 @@ export namespace Prisma {
     lunch?: boolean | null
     dinner?: boolean | null
     meals_notes?: string | null
+    start_location_id?: number | null
+    end_location_id?: number | null
     package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutRouteInput
   }
 
   export type routesCreateOrConnectWithoutRoute_detailsInput = {
     where: routesWhereUniqueInput
     create: XOR<routesCreateWithoutRoute_detailsInput, routesUncheckedCreateWithoutRoute_detailsInput>
+  }
+
+  export type locationsCreateWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_to_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
+  }
+
+  export type locationsUncheckedCreateWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_to_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+  }
+
+  export type locationsCreateOrConnectWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_from_location_idTolocationsInput>
+  }
+
+  export type locationsCreateWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+    destinations?: destinationsCreateNestedOneWithoutLocationsInput
+  }
+
+  export type locationsUncheckedCreateWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    destination_id?: bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_fromInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedCreateNestedManyWithoutLocations_toInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedCreateNestedManyWithoutLocations_route_details_from_location_idTolocationsInput
+    routes_routes_start_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_start_location_idTolocationsInput
+    routes_routes_end_location_idTolocations?: routesUncheckedCreateNestedManyWithoutLocations_routes_end_location_idTolocationsInput
+  }
+
+  export type locationsCreateOrConnectWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    where: locationsWhereUniqueInput
+    create: XOR<locationsCreateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_to_location_idTolocationsInput>
   }
 
   export type routesUpsertWithoutRoute_detailsInput = {
@@ -199282,8 +193838,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199294,7 +193848,8 @@ export namespace Prisma {
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutRouteNestedInput
+    locations_routes_start_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_start_location_idTolocationsNestedInput
+    locations_routes_end_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_end_location_idTolocationsNestedInput
   }
 
   export type routesUncheckedUpdateWithoutRoute_detailsInput = {
@@ -199302,8 +193857,6 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     route?: StringFieldUpdateOperationsInput | string
     itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
     estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
     main_activities?: NullableStringFieldUpdateOperationsInput | string | null
     accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199313,400 +193866,85 @@ export namespace Prisma {
     lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
     dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
     meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutRouteNestedInput
-  }
-
-  export type routesCreateWithoutRoute_destinationsInput = {
-    id?: bigint | number
-    code: string
-    route: string
-    itinerary_title: string
-    start_area: string
-    end_area: string
-    estimated_duration?: string | null
-    main_activities?: string | null
-    accommodation_status?: string | null
-    customer_tips?: string | null
-    overview?: string | null
-    breakfast?: boolean | null
-    lunch?: boolean | null
-    dinner?: boolean | null
-    meals_notes?: string | null
-    route_details?: route_detailsCreateNestedManyWithoutRoutesInput
-    package_itinerary_days?: package_itinerary_daysCreateNestedManyWithoutRoutesInput
-  }
-
-  export type routesUncheckedCreateWithoutRoute_destinationsInput = {
-    id?: bigint | number
-    code: string
-    route: string
-    itinerary_title: string
-    start_area: string
-    end_area: string
-    estimated_duration?: string | null
-    main_activities?: string | null
-    accommodation_status?: string | null
-    customer_tips?: string | null
-    overview?: string | null
-    breakfast?: boolean | null
-    lunch?: boolean | null
-    dinner?: boolean | null
-    meals_notes?: string | null
-    route_details?: route_detailsUncheckedCreateNestedManyWithoutRoutesInput
-    package_itinerary_days?: package_itinerary_daysUncheckedCreateNestedManyWithoutRoutesInput
-  }
-
-  export type routesCreateOrConnectWithoutRoute_destinationsInput = {
-    where: routesWhereUniqueInput
-    create: XOR<routesCreateWithoutRoute_destinationsInput, routesUncheckedCreateWithoutRoute_destinationsInput>
-  }
-
-  export type destinationsCreateWithoutRoute_destinationsInput = {
-    id?: bigint | number
-    code?: string | null
-    name: string
-    category?: string | null
-    region?: string | null
-    province?: string | null
-    country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
-    altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
-    terrain?: string | null
-    best_time_to_visit?: string | null
-    difficulty_level?: string | null
-    duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
-    weather_by_season?: string | null
-    rainfall_intensity?: string | null
-    temperature_range?: string | null
-    trail_details?: string | null
-    required_gear?: NullableJsonNullValueInput | InputJsonValue
-    summary?: string | null
-    description?: string | null
-    highlight?: string | null
-    main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    key_highlights?: NullableJsonNullValueInput | InputJsonValue
-    permit_required?: boolean | null
-    permit_details?: string | null
-    guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
-    safety_notes?: NullableJsonNullValueInput | InputJsonValue
-    risk_factors?: NullableJsonNullValueInput | InputJsonValue
-    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
-    physical_requirements?: string | null
-    cultural_context?: string | null
-    local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
-    tips_for_visitors?: string | null
-    thumbnail_url?: string | null
-    featured_image?: string | null
-    published?: boolean | null
-    featured?: boolean | null
-    seo_title?: string | null
-    seo_description?: string | null
-    schema_json?: NullableJsonNullValueInput | InputJsonValue
-    tags?: destinationsCreatetagsInput | string[]
-    types?: NullableJsonNullValueInput | InputJsonValue
-    slug?: string | null
-    short_slug?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    activities?: activitiesCreateNestedManyWithoutDestinationsInput
-    activity_ends?: activity_endsCreateNestedManyWithoutDestinationsInput
-    activity_starts?: activity_startsCreateNestedManyWithoutDestinationsInput
-    booking_destination_activities?: booking_destination_activitiesCreateNestedManyWithoutDestinationsInput
-    destination_activities?: destination_activitiesCreateNestedManyWithoutDestinationsInput
-    hotels?: hotelsCreateNestedManyWithoutDestinationsInput
-    package_destinations?: package_destinationsCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
-    packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
-    destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
-    destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
-  }
-
-  export type destinationsUncheckedCreateWithoutRoute_destinationsInput = {
-    id?: bigint | number
-    code?: string | null
-    name: string
-    category?: string | null
-    region?: string | null
-    province?: string | null
-    country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
-    altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
-    terrain?: string | null
-    best_time_to_visit?: string | null
-    difficulty_level?: string | null
-    duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
-    weather_by_season?: string | null
-    rainfall_intensity?: string | null
-    temperature_range?: string | null
-    trail_details?: string | null
-    required_gear?: NullableJsonNullValueInput | InputJsonValue
-    summary?: string | null
-    description?: string | null
-    highlight?: string | null
-    main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    key_highlights?: NullableJsonNullValueInput | InputJsonValue
-    permit_required?: boolean | null
-    permit_details?: string | null
-    guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
-    safety_notes?: NullableJsonNullValueInput | InputJsonValue
-    risk_factors?: NullableJsonNullValueInput | InputJsonValue
-    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
-    physical_requirements?: string | null
-    cultural_context?: string | null
-    local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
-    tips_for_visitors?: string | null
-    thumbnail_url?: string | null
-    featured_image?: string | null
-    published?: boolean | null
-    featured?: boolean | null
-    seo_title?: string | null
-    seo_description?: string | null
-    schema_json?: NullableJsonNullValueInput | InputJsonValue
-    tags?: destinationsCreatetagsInput | string[]
-    types?: NullableJsonNullValueInput | InputJsonValue
-    slug?: string | null
-    short_slug?: string | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-    activities?: activitiesUncheckedCreateNestedManyWithoutDestinationsInput
-    activity_ends?: activity_endsUncheckedCreateNestedManyWithoutDestinationsInput
-    activity_starts?: activity_startsUncheckedCreateNestedManyWithoutDestinationsInput
-    booking_destination_activities?: booking_destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
-    destination_activities?: destination_activitiesUncheckedCreateNestedManyWithoutDestinationsInput
-    hotels?: hotelsUncheckedCreateNestedManyWithoutDestinationsInput
-    package_destinations?: package_destinationsUncheckedCreateNestedManyWithoutDestinationsInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
-    destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
-    destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
-  }
-
-  export type destinationsCreateOrConnectWithoutRoute_destinationsInput = {
-    where: destinationsWhereUniqueInput
-    create: XOR<destinationsCreateWithoutRoute_destinationsInput, destinationsUncheckedCreateWithoutRoute_destinationsInput>
-  }
-
-  export type routesUpsertWithoutRoute_destinationsInput = {
-    update: XOR<routesUpdateWithoutRoute_destinationsInput, routesUncheckedUpdateWithoutRoute_destinationsInput>
-    create: XOR<routesCreateWithoutRoute_destinationsInput, routesUncheckedCreateWithoutRoute_destinationsInput>
-    where?: routesWhereInput
-  }
-
-  export type routesUpdateToOneWithWhereWithoutRoute_destinationsInput = {
-    where?: routesWhereInput
-    data: XOR<routesUpdateWithoutRoute_destinationsInput, routesUncheckedUpdateWithoutRoute_destinationsInput>
-  }
-
-  export type routesUpdateWithoutRoute_destinationsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    code?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
-    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
-    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
-    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
-    overview?: NullableStringFieldUpdateOperationsInput | string | null
-    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
-    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
-  }
-
-  export type routesUncheckedUpdateWithoutRoute_destinationsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    code?: StringFieldUpdateOperationsInput | string
-    route?: StringFieldUpdateOperationsInput | string
-    itinerary_title?: StringFieldUpdateOperationsInput | string
-    start_area?: StringFieldUpdateOperationsInput | string
-    end_area?: StringFieldUpdateOperationsInput | string
-    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
-    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
-    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
-    overview?: NullableStringFieldUpdateOperationsInput | string | null
-    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
-    route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
   }
 
-  export type destinationsUpsertWithoutRoute_destinationsInput = {
-    update: XOR<destinationsUpdateWithoutRoute_destinationsInput, destinationsUncheckedUpdateWithoutRoute_destinationsInput>
-    create: XOR<destinationsCreateWithoutRoute_destinationsInput, destinationsUncheckedCreateWithoutRoute_destinationsInput>
-    where?: destinationsWhereInput
+  export type locationsUpsertWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    update: XOR<locationsUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput>
+    create: XOR<locationsCreateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_from_location_idTolocationsInput>
+    where?: locationsWhereInput
   }
 
-  export type destinationsUpdateToOneWithWhereWithoutRoute_destinationsInput = {
-    where?: destinationsWhereInput
-    data: XOR<destinationsUpdateWithoutRoute_destinationsInput, destinationsUncheckedUpdateWithoutRoute_destinationsInput>
+  export type locationsUpdateToOneWithWhereWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput>
   }
 
-  export type destinationsUpdateWithoutRoute_destinationsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    code?: NullableStringFieldUpdateOperationsInput | string | null
+  export type locationsUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput = {
     name?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
     latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    terrain?: NullableStringFieldUpdateOperationsInput | string | null
-    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
-    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
-    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
-    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
-    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
-    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
-    required_gear?: NullableJsonNullValueInput | InputJsonValue
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    highlight?: NullableStringFieldUpdateOperationsInput | string | null
-    main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    key_highlights?: NullableJsonNullValueInput | InputJsonValue
-    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
-    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
-    safety_notes?: NullableJsonNullValueInput | InputJsonValue
-    risk_factors?: NullableJsonNullValueInput | InputJsonValue
-    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
-    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
-    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
-    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
-    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
-    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
-    schema_json?: NullableJsonNullValueInput | InputJsonValue
-    tags?: destinationsUpdatetagsInput | string[]
-    types?: NullableJsonNullValueInput | InputJsonValue
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    activities?: activitiesUpdateManyWithoutDestinationsNestedInput
-    activity_ends?: activity_endsUpdateManyWithoutDestinationsNestedInput
-    activity_starts?: activity_startsUpdateManyWithoutDestinationsNestedInput
-    booking_destination_activities?: booking_destination_activitiesUpdateManyWithoutDestinationsNestedInput
-    destination_activities?: destination_activitiesUpdateManyWithoutDestinationsNestedInput
-    hotels?: hotelsUpdateManyWithoutDestinationsNestedInput
-    package_destinations?: package_destinationsUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
-    destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
-    destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
   }
 
-  export type destinationsUncheckedUpdateWithoutRoute_destinationsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    code?: NullableStringFieldUpdateOperationsInput | string | null
+  export type locationsUncheckedUpdateWithoutRoute_details_route_details_from_location_idTolocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    province?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
     latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    terrain?: NullableStringFieldUpdateOperationsInput | string | null
-    best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
-    difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
-    duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
-    weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
-    rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
-    temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
-    trail_details?: NullableStringFieldUpdateOperationsInput | string | null
-    required_gear?: NullableJsonNullValueInput | InputJsonValue
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    highlight?: NullableStringFieldUpdateOperationsInput | string | null
-    main_attractions?: NullableJsonNullValueInput | InputJsonValue
-    key_highlights?: NullableJsonNullValueInput | InputJsonValue
-    permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    permit_details?: NullableStringFieldUpdateOperationsInput | string | null
-    guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
-    safety_notes?: NullableJsonNullValueInput | InputJsonValue
-    risk_factors?: NullableJsonNullValueInput | InputJsonValue
-    environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
-    physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
-    cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
-    local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
-    tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
-    featured_image?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    seo_title?: NullableStringFieldUpdateOperationsInput | string | null
-    seo_description?: NullableStringFieldUpdateOperationsInput | string | null
-    schema_json?: NullableJsonNullValueInput | InputJsonValue
-    tags?: destinationsUpdatetagsInput | string[]
-    types?: NullableJsonNullValueInput | InputJsonValue
-    slug?: NullableStringFieldUpdateOperationsInput | string | null
-    short_slug?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    activities?: activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
-    activity_ends?: activity_endsUncheckedUpdateManyWithoutDestinationsNestedInput
-    activity_starts?: activity_startsUncheckedUpdateManyWithoutDestinationsNestedInput
-    booking_destination_activities?: booking_destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
-    destination_activities?: destination_activitiesUncheckedUpdateManyWithoutDestinationsNestedInput
-    hotels?: hotelsUncheckedUpdateManyWithoutDestinationsNestedInput
-    package_destinations?: package_destinationsUncheckedUpdateManyWithoutDestinationsNestedInput
-    packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
-    packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
-    destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
-    destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+  }
+
+  export type locationsUpsertWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    update: XOR<locationsUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput>
+    create: XOR<locationsCreateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedCreateWithoutRoute_details_route_details_to_location_idTolocationsInput>
+    where?: locationsWhereInput
+  }
+
+  export type locationsUpdateToOneWithWhereWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    where?: locationsWhereInput
+    data: XOR<locationsUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput, locationsUncheckedUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput>
+  }
+
+  export type locationsUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+    destinations?: destinationsUpdateOneWithoutLocationsNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutRoute_details_route_details_to_location_idTolocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
   }
 
   export type hotelsCreateWithoutRoom_configurationsInput = {
@@ -199715,7 +193953,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -199745,7 +193982,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -199822,7 +194058,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199852,7 +194087,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -199985,7 +194219,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -200015,7 +194248,6 @@ export namespace Prisma {
     destination_id?: bigint | number | null
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -200091,7 +194323,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -200121,7 +194352,6 @@ export namespace Prisma {
     destination_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201503,17 +195733,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -201527,23 +195756,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -201561,8 +195793,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_faqs?: destination_faqsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_assetsInput = {
@@ -201573,17 +195805,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -201597,23 +195828,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -201631,8 +195865,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_faqs?: destination_faqsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_assetsInput = {
@@ -201702,17 +195936,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201726,23 +195959,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201760,8 +195996,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_faqs?: destination_faqsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_assetsInput = {
@@ -201772,17 +196008,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201796,23 +196031,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -201830,8 +196068,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_faqs?: destination_faqsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type assetsUpsertWithoutDestination_assetsInput = {
@@ -201891,17 +196129,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -201915,23 +196152,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -201949,8 +196189,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsCreateNestedManyWithoutDestinationInput
+    locations?: locationsCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsUncheckedCreateWithoutDestination_faqsInput = {
@@ -201961,17 +196201,16 @@ export namespace Prisma {
     region?: string | null
     province?: string | null
     country?: string | null
-    latitude?: Decimal | DecimalJsLike | number | string | null
-    longitude?: Decimal | DecimalJsLike | number | string | null
     altitude?: number | null
-    area_hectares?: Decimal | DecimalJsLike | number | string | null
+    display_height_m?: number | null
+    nickname?: string | null
+    trailhead?: string | null
+    physical_demand?: number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: string | null
     best_time_to_visit?: string | null
     difficulty_level?: string | null
     duration?: string | null
-    physical_demand?: number | null
-    cultural_depth?: number | null
-    photo_potential?: number | null
     weather_by_season?: string | null
     rainfall_intensity?: string | null
     temperature_range?: string | null
@@ -201985,23 +196224,26 @@ export namespace Prisma {
     permit_required?: boolean | null
     permit_details?: string | null
     guide_required?: boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: string | null
     cultural_context?: string | null
     local_tribes?: destinationsCreatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: string | null
-    thumbnail_url?: string | null
     featured_image?: string | null
     published?: boolean | null
     featured?: boolean | null
     seo_title?: string | null
     seo_description?: string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: number | null
+    route_elev_gain_m?: number | null
+    route_elev_min_m?: number | null
+    route_max_alt_m?: number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsCreatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: string | null
@@ -202019,8 +196261,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutEnd_destinationInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedCreateNestedManyWithoutStart_destinationInput
     destination_assets?: destination_assetsUncheckedCreateNestedManyWithoutDestinationInput
-    route_destinations?: route_destinationsUncheckedCreateNestedManyWithoutDestinationInput
     destination_gears?: destination_gearsUncheckedCreateNestedManyWithoutDestinationInput
+    locations?: locationsUncheckedCreateNestedManyWithoutDestinationsInput
   }
 
   export type destinationsCreateOrConnectWithoutDestination_faqsInput = {
@@ -202078,17 +196320,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202102,23 +196343,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202136,8 +196380,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUpdateManyWithoutDestinationsNestedInput
   }
 
   export type destinationsUncheckedUpdateWithoutDestination_faqsInput = {
@@ -202148,17 +196392,16 @@ export namespace Prisma {
     region?: NullableStringFieldUpdateOperationsInput | string | null
     province?: NullableStringFieldUpdateOperationsInput | string | null
     country?: NullableStringFieldUpdateOperationsInput | string | null
-    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     altitude?: NullableIntFieldUpdateOperationsInput | number | null
-    area_hectares?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    display_height_m?: NullableIntFieldUpdateOperationsInput | number | null
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    trailhead?: NullableStringFieldUpdateOperationsInput | string | null
+    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
+    sections?: NullableJsonNullValueInput | InputJsonValue
     terrain?: NullableStringFieldUpdateOperationsInput | string | null
     best_time_to_visit?: NullableStringFieldUpdateOperationsInput | string | null
     difficulty_level?: NullableStringFieldUpdateOperationsInput | string | null
     duration?: NullableStringFieldUpdateOperationsInput | string | null
-    physical_demand?: NullableIntFieldUpdateOperationsInput | number | null
-    cultural_depth?: NullableIntFieldUpdateOperationsInput | number | null
-    photo_potential?: NullableIntFieldUpdateOperationsInput | number | null
     weather_by_season?: NullableStringFieldUpdateOperationsInput | string | null
     rainfall_intensity?: NullableStringFieldUpdateOperationsInput | string | null
     temperature_range?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202172,23 +196415,26 @@ export namespace Prisma {
     permit_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
     permit_details?: NullableStringFieldUpdateOperationsInput | string | null
     guide_required?: NullableBoolFieldUpdateOperationsInput | boolean | null
-    facilities?: NullableJsonNullValueInput | InputJsonValue
     safety_notes?: NullableJsonNullValueInput | InputJsonValue
     risk_factors?: NullableJsonNullValueInput | InputJsonValue
     environmental_factors?: NullableJsonNullValueInput | InputJsonValue
-    emergency_contacts?: NullableJsonNullValueInput | InputJsonValue
     physical_requirements?: NullableStringFieldUpdateOperationsInput | string | null
     cultural_context?: NullableStringFieldUpdateOperationsInput | string | null
     local_tribes?: destinationsUpdatelocal_tribesInput | string[]
-    rituals_festivals?: NullableJsonNullValueInput | InputJsonValue
     tips_for_visitors?: NullableStringFieldUpdateOperationsInput | string | null
-    thumbnail_url?: NullableStringFieldUpdateOperationsInput | string | null
     featured_image?: NullableStringFieldUpdateOperationsInput | string | null
     published?: NullableBoolFieldUpdateOperationsInput | boolean | null
     featured?: NullableBoolFieldUpdateOperationsInput | boolean | null
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_description?: NullableStringFieldUpdateOperationsInput | string | null
     schema_json?: NullableJsonNullValueInput | InputJsonValue
+    route_geojson?: NullableJsonNullValueInput | InputJsonValue
+    route_length_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_gain_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_elev_min_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_max_alt_m?: NullableIntFieldUpdateOperationsInput | number | null
+    route_bbox?: NullableJsonNullValueInput | InputJsonValue
+    route_start_point?: NullableJsonNullValueInput | InputJsonValue
     tags?: destinationsUpdatetagsInput | string[]
     types?: NullableJsonNullValueInput | InputJsonValue
     slug?: NullableStringFieldUpdateOperationsInput | string | null
@@ -202206,8 +196452,8 @@ export namespace Prisma {
     packages_packages_end_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutEnd_destinationNestedInput
     packages_packages_start_destination_idTodestinations?: packagesUncheckedUpdateManyWithoutStart_destinationNestedInput
     destination_assets?: destination_assetsUncheckedUpdateManyWithoutDestinationNestedInput
-    route_destinations?: route_destinationsUncheckedUpdateManyWithoutDestinationNestedInput
     destination_gears?: destination_gearsUncheckedUpdateManyWithoutDestinationNestedInput
+    locations?: locationsUncheckedUpdateManyWithoutDestinationsNestedInput
   }
 
   export type faqsUpsertWithoutDestination_faqsInput = {
@@ -204625,38 +198871,6 @@ export namespace Prisma {
     update_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type combined_package_detailsCreateManyCombined_packagesInput = {
-    id?: bigint | number
-    package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type combined_package_detailsUpdateWithoutCombined_packagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    packages?: packagesUpdateOneWithoutCombined_package_detailsNestedInput
-  }
-
-  export type combined_package_detailsUncheckedUpdateWithoutCombined_packagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_package_detailsUncheckedUpdateManyWithoutCombined_packagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type booking_crew_membersCreateManyCrew_membersInput = {
     id?: bigint | number
     booking_id: bigint | number
@@ -205390,7 +199604,6 @@ export namespace Prisma {
     name: string
     description?: string | null
     facilities?: string | null
-    area?: string | null
     address?: string | null
     phone?: string | null
     banner?: string | null
@@ -205520,20 +199733,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type route_destinationsCreateManyDestinationInput = {
-    id?: bigint | number
-    route_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-  }
-
   export type destination_gearsCreateManyDestinationInput = {
     id?: bigint | number
     gear: string
     type: string
     created_at?: Date | string | null
     updated_at?: Date | string | null
+  }
+
+  export type locationsCreateManyDestinationsInput = {
+    id?: number
+    name: string
+    type?: $Enums.location_type | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type activitiesUpdateWithoutDestinationsInput = {
@@ -205755,7 +199968,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205784,7 +199996,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205813,7 +200024,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     facilities?: NullableStringFieldUpdateOperationsInput | string | null
-    area?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     banner?: NullableStringFieldUpdateOperationsInput | string | null
@@ -205896,12 +200106,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -205958,12 +200166,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -206057,12 +200263,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -206119,12 +200323,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -206223,30 +200425,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type route_destinationsUpdateWithoutDestinationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    route?: routesUpdateOneRequiredWithoutRoute_destinationsNestedInput
-  }
-
-  export type route_destinationsUncheckedUpdateWithoutDestinationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type route_destinationsUncheckedUpdateManyWithoutDestinationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type destination_gearsUpdateWithoutDestinationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     gear?: StringFieldUpdateOperationsInput | string
@@ -206269,6 +200447,41 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type locationsUpdateWithoutDestinationsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+  }
+
+  export type locationsUncheckedUpdateWithoutDestinationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    package_itinerary_day_details_from_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_fromNestedInput
+    package_itinerary_day_details_to_location?: package_itinerary_day_detailsUncheckedUpdateManyWithoutLocations_toNestedInput
+    route_details_route_details_from_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsNestedInput
+    route_details_route_details_to_location_idTolocations?: route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsNestedInput
+    routes_routes_start_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsNestedInput
+    routes_routes_end_location_idTolocations?: routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsNestedInput
+  }
+
+  export type locationsUncheckedUpdateManyWithoutDestinationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    type?: NullableEnumlocation_typeFieldUpdateOperationsInput | $Enums.location_type | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type booking_payment_termsCreateManyDiscountsInput = {
@@ -206652,12 +200865,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -206714,12 +200925,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -207660,12 +201869,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -207722,12 +201929,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -207948,12 +202153,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUpdateManyWithoutPackagesNestedInput
@@ -208010,12 +202213,10 @@ export namespace Prisma {
     seo_title?: NullableStringFieldUpdateOperationsInput | string | null
     seo_meta?: NullableStringFieldUpdateOperationsInput | string | null
     bookings?: bookingsUncheckedUpdateManyWithoutPackagesNestedInput
-    combined_package_details?: combined_package_detailsUncheckedUpdateManyWithoutPackagesNestedInput
     package_addons?: package_addonsUncheckedUpdateManyWithoutPackagesNestedInput
     package_destinations?: package_destinationsUncheckedUpdateManyWithoutPackagesNestedInput
     package_excludes?: package_excludesUncheckedUpdateManyWithoutPackagesNestedInput
     package_hotel_options?: package_hotel_optionsUncheckedUpdateManyWithoutPackagesNestedInput
-    package_images?: package_imagesUncheckedUpdateManyWithoutPackagesNestedInput
     package_includes?: package_includesUncheckedUpdateManyWithoutPackagesNestedInput
     package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutPackagesNestedInput
     package_prices?: package_pricesUncheckedUpdateManyWithoutPackagesNestedInput
@@ -208095,6 +202296,64 @@ export namespace Prisma {
     deleted_at?: Date | string | null
   }
 
+  export type route_detailsCreateManyLocations_route_details_from_location_idTolocationsInput = {
+    id?: bigint | number
+    route_id: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    to_location_id?: number | null
+  }
+
+  export type route_detailsCreateManyLocations_route_details_to_location_idTolocationsInput = {
+    id?: bigint | number
+    route_id: bigint | number
+    seq: number
+    time_or_label?: string | null
+    name?: string | null
+    activity: string
+    type?: string | null
+    duration_minutes?: number | null
+    from_location_id?: number | null
+  }
+
+  export type routesCreateManyLocations_routes_start_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    end_location_id?: number | null
+  }
+
+  export type routesCreateManyLocations_routes_end_location_idTolocationsInput = {
+    id?: bigint | number
+    code: string
+    route: string
+    itinerary_title: string
+    estimated_duration?: string | null
+    main_activities?: string | null
+    accommodation_status?: string | null
+    customer_tips?: string | null
+    overview?: string | null
+    breakfast?: boolean | null
+    lunch?: boolean | null
+    dinner?: boolean | null
+    meals_notes?: string | null
+    start_location_id?: number | null
+  }
+
   export type package_itinerary_day_detailsUpdateWithoutLocations_fromInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     sort_order?: NullableIntFieldUpdateOperationsInput | number | null
@@ -208171,6 +202430,188 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type route_detailsUpdateWithoutLocations_route_details_from_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    routes?: routesUpdateOneRequiredWithoutRoute_detailsNestedInput
+    locations_route_details_to_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_to_location_idTolocationsNestedInput
+  }
+
+  export type route_detailsUncheckedUpdateWithoutLocations_route_details_from_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type route_detailsUncheckedUpdateManyWithoutLocations_route_details_from_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type route_detailsUpdateWithoutLocations_route_details_to_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    routes?: routesUpdateOneRequiredWithoutRoute_detailsNestedInput
+    locations_route_details_from_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_from_location_idTolocationsNestedInput
+  }
+
+  export type route_detailsUncheckedUpdateWithoutLocations_route_details_to_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type route_detailsUncheckedUpdateManyWithoutLocations_route_details_to_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    route_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    seq?: IntFieldUpdateOperationsInput | number
+    time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    activity?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type routesUpdateWithoutLocations_routes_start_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
+    locations_routes_end_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_end_location_idTolocationsNestedInput
+  }
+
+  export type routesUncheckedUpdateWithoutLocations_routes_start_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
+    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
+  }
+
+  export type routesUncheckedUpdateManyWithoutLocations_routes_start_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    end_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type routesUpdateWithoutLocations_routes_end_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    route_details?: route_detailsUpdateManyWithoutRoutesNestedInput
+    package_itinerary_days?: package_itinerary_daysUpdateManyWithoutRoutesNestedInput
+    locations_routes_start_location_idTolocations?: locationsUpdateOneWithoutRoutes_routes_start_location_idTolocationsNestedInput
+  }
+
+  export type routesUncheckedUpdateWithoutLocations_routes_end_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    route_details?: route_detailsUncheckedUpdateManyWithoutRoutesNestedInput
+    package_itinerary_days?: package_itinerary_daysUncheckedUpdateManyWithoutRoutesNestedInput
+  }
+
+  export type routesUncheckedUpdateManyWithoutLocations_routes_end_location_idTolocationsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    code?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
+    itinerary_title?: StringFieldUpdateOperationsInput | string
+    estimated_duration?: NullableStringFieldUpdateOperationsInput | string | null
+    main_activities?: NullableStringFieldUpdateOperationsInput | string | null
+    accommodation_status?: NullableStringFieldUpdateOperationsInput | string | null
+    customer_tips?: NullableStringFieldUpdateOperationsInput | string | null
+    overview?: NullableStringFieldUpdateOperationsInput | string | null
+    breakfast?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lunch?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    dinner?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    meals_notes?: NullableStringFieldUpdateOperationsInput | string | null
+    start_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type package_itinerary_day_detailsCreateManyPackage_itinerary_daysInput = {
@@ -208254,14 +202695,6 @@ export namespace Prisma {
     deleted_at?: Date | string | null
   }
 
-  export type combined_package_detailsCreateManyPackagesInput = {
-    id?: bigint | number
-    combined_package_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
   export type package_addonsCreateManyPackagesInput = {
     id?: bigint | number
     addon_id?: bigint | number | null
@@ -208291,19 +202724,6 @@ export namespace Prisma {
     id?: bigint | number
     day_no: number
     hotel_id?: bigint | number | null
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-    deleted_at?: Date | string | null
-  }
-
-  export type package_imagesCreateManyPackagesInput = {
-    id?: bigint | number
-    url: string
-    og_image_url?: string | null
-    sort_order?: number | null
-    alt_text?: string | null
-    caption?: string | null
-    tags?: string | null
     created_at?: Date | string | null
     updated_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -208507,30 +202927,6 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type combined_package_detailsUpdateWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    combined_packages?: combined_packagesUpdateOneWithoutCombined_package_detailsNestedInput
-  }
-
-  export type combined_package_detailsUncheckedUpdateWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    combined_package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type combined_package_detailsUncheckedUpdateManyWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    combined_package_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
   export type package_addonsUpdateWithoutPackagesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -208628,45 +203024,6 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     day_no?: IntFieldUpdateOperationsInput | number
     hotel_id?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type package_imagesUpdateWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type package_imagesUncheckedUpdateWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type package_imagesUncheckedUpdateManyWithoutPackagesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    url?: StringFieldUpdateOperationsInput | string
-    og_image_url?: NullableStringFieldUpdateOperationsInput | string | null
-    sort_order?: NullableIntFieldUpdateOperationsInput | number | null
-    alt_text?: NullableStringFieldUpdateOperationsInput | string | null
-    caption?: NullableStringFieldUpdateOperationsInput | string | null
-    tags?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -209101,14 +203458,12 @@ export namespace Prisma {
     id?: bigint | number
     seq: number
     time_or_label?: string | null
-    timezone?: string | null
     name?: string | null
     activity: string
     type?: string | null
-    location?: string | null
-    from_location?: string | null
-    to_location?: string | null
     duration_minutes?: number | null
+    from_location_id?: number | null
+    to_location_id?: number | null
   }
 
   export type package_itinerary_daysCreateManyRoutesInput = {
@@ -209128,54 +203483,40 @@ export namespace Prisma {
     deleted_at?: Date | string | null
   }
 
-  export type route_destinationsCreateManyRouteInput = {
-    id?: bigint | number
-    destination_id: bigint | number
-    sequence: number
-    created_at?: Date | string | null
-    updated_at?: Date | string | null
-  }
-
   export type route_detailsUpdateWithoutRoutesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    locations_route_details_from_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_from_location_idTolocationsNestedInput
+    locations_route_details_to_location_idTolocations?: locationsUpdateOneWithoutRoute_details_route_details_to_location_idTolocationsNestedInput
   }
 
   export type route_detailsUncheckedUpdateWithoutRoutesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type route_detailsUncheckedUpdateManyWithoutRoutesInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     seq?: IntFieldUpdateOperationsInput | number
     time_or_label?: NullableStringFieldUpdateOperationsInput | string | null
-    timezone?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     activity?: StringFieldUpdateOperationsInput | string
     type?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    from_location?: NullableStringFieldUpdateOperationsInput | string | null
-    to_location?: NullableStringFieldUpdateOperationsInput | string | null
     duration_minutes?: NullableIntFieldUpdateOperationsInput | number | null
+    from_location_id?: NullableIntFieldUpdateOperationsInput | number | null
+    to_location_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type package_itinerary_daysUpdateWithoutRoutesInput = {
@@ -209229,30 +203570,6 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type route_destinationsUpdateWithoutRouteInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    destination?: destinationsUpdateOneRequiredWithoutRoute_destinationsNestedInput
-  }
-
-  export type route_destinationsUncheckedUpdateWithoutRouteInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type route_destinationsUncheckedUpdateManyWithoutRouteInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    destination_id?: BigIntFieldUpdateOperationsInput | bigint | number
-    sequence?: IntFieldUpdateOperationsInput | number
-    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type booking_hotel_roomsCreateManyRoom_typesInput = {

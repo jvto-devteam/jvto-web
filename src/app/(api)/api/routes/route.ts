@@ -10,12 +10,6 @@ export async function GET(_req: NextRequest) {
         route_details: {
           orderBy: { seq: "asc" },
         },
-        route_destinations: {
-          orderBy: { sequence: "asc" },
-          include: {
-            destination: true,
-          },
-        },
       },
     });
 
@@ -24,8 +18,6 @@ export async function GET(_req: NextRequest) {
       code: r.code,
       route: r.route,
       itinerary_title: r.itinerary_title,
-      start_area: r.start_area,
-      end_area: r.end_area,
       estimated_duration: r.estimated_duration,
       main_activities: r.main_activities,
       accommodation_status: r.accommodation_status,
@@ -39,13 +31,6 @@ export async function GET(_req: NextRequest) {
         seq: d.seq,
         time_or_label: d.time_or_label,
         activity: d.activity,
-      })),
-      // 🔴 BARU: destinasi yang dilewati route ini
-      destinations: r.route_destinations.map((rd) => ({
-        id: Number(rd.id),
-        destination_id: Number(rd.destination_id),
-        name: rd.destination?.name ?? "",
-        sequence: rd.sequence,
       })),
     }));
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T01:06:04.433Z",
+  "generatedAt": "2026-07-15T00:51:47.789Z",
   "items": [
     {
       "id": 28,
@@ -633,41 +633,28 @@
         "night": 2
       },
       "banner": {
-        "url": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+        "url": "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
         "alt": "3 Day Bromo & Ijen Volcano Discovery from Bali"
       },
       "keyExperiences": [
         "Ijen Crater Hike",
         "Bromo Sunrise Tour",
+        "Ijen Crater Hike",
+        "Madakaripura Waterfall Tour",
+        "Bromo Sunrise Tour",
         "Madakaripura Waterfall Tour"
       ],
       "images": [
         {
-          "url": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+          "url": "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
           "alt": ""
         }
       ],
       "startFrom": 2850000,
       "slug": "tours/from-bali/bromo-ijen-3d2n",
       "physicality": "moderate",
-      "tags": [
-        "3d2n",
-        "bali",
-        "bromo",
-        "ijen",
-        "blue-fire",
-        "madakaripura",
-        "volcano",
-        "adventure",
-        "cross-island",
-        "site_visible"
-      ],
-      "highlights": [
-        "Two-volcano private route from Bali with guided cross-island handling",
-        "Bromo sunrise and Ijen crater kept central without stretching into a longer expedition",
-        "Best for Bali-based travelers who want both signature volcanoes in one route",
-        "Round-trip Bali finish with private handling across ferry and overland segments"
-      ],
+      "tags": [],
+      "highlights": [],
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 3,

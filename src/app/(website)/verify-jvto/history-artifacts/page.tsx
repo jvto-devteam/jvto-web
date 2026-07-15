@@ -1,12 +1,10 @@
 import { getDocsByGroup } from "@/lib/data-loader";
-import VerifyJvtoClient from "../VerifyJvtoClient";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
-import Image from "next/image";
-import { ExternalLink, CheckCircle2 } from "lucide-react";
+import Link from "@/components/website/AppLink";
 
 export const revalidate = 86400;
 
@@ -19,9 +17,6 @@ const fallbackSeo = {
     "Historical records and artifacts documenting JVTO's operational continuity from the 2015 guesthouse era through PT incorporation.",
 };
 
-// ── Timeline ItemList schema — 5 anchors ──────────────────────────────────────
-// Per cluster_role_contracts.md Cluster 4 /history-artifacts MH:
-// Timeline ItemList with Event per anchor — entity age + longevity signal for AEO.
 const HISTORY_TIMELINE_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -128,72 +123,6 @@ const HISTORY_TIMELINE_SCHEMA = {
   ],
 };
 
-// ── Timeline display data (HTML only — not schema) ────────────────────────────
-
-const TIMELINE_ENTRIES: Array<{
-  year: string;
-  event: string;
-  detail: string;
-  images: Array<{ src: string; alt: string }> | null;
-  verifyHref: string | null;
-  verifyLabel: string | null;
-}> = [
-  {
-    year: "2015",
-    event: "Booking.com Guest Review Award",
-    detail:
-      "Score 9.4/10 — independently calculated by Booking.com. Issued to the guesthouse at Jl. Khairil Anwar 102A, Bondowoso. Physical plaque and award letter retained on-site.",
-    images: [
-      { src: `/history/booking-2015-plaque.jpg`, alt: "Booking.com Guest Review Award 2015 plaque" },
-      { src: `/history/booking-2015-shipping-label.jpg`, alt: "Booking.com award shipping label addressed to Ijen Bondowoso Homestay" },
-    ],
-    verifyHref: null,
-    verifyLabel: null,
-  },
-  {
-    year: "2016",
-    event: "Stefan Loose Travel Guide — First Mention",
-    detail:
-      "Earliest European travel guide editorial citation naming the founder as operator for Ijen crater tours. Pre-digital corroboration from an independent editorial source.",
-    images: [
-      { src: `/history/stefan-loose-ijen-bondowoso-page.png`, alt: "Stefan Loose travel guide page mentioning Ijen, Bondowoso" },
-      { src: `/history/stefan_loose_crop_enh.jpg`, alt: "Cropped view of Stefan Loose guide entry for Ijen Bondowoso Homestay" },
-      { src: `/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`, alt: "Mr. Sam with guests inspired by Stefan Loose travel guide" },
-    ],
-    verifyHref: null,
-    verifyLabel: null,
-  },
-  {
-    year: "2021",
-    event: "Detik.com Press Article",
-    detail:
-      '"Suka Duka Polisi Pariwisata Bondowoso" — national-reach press coverage identifying the founder (Bripka Agung Sambuko) in his Tourist Police role, independently confirming the police-led model.',
-    images: null,
-    verifyHref:
-      "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin",
-    verifyLabel: "Read article on Detik.com",
-  },
-  {
-    year: "2023",
-    event: "PT Java Volcano Rendezvous Incorporated",
-    detail:
-      "Formal business incorporation: NIB 1102230032918 registered via OSS Indonesia (February 2023). TDUP tourism license issued by Ministry of Tourism. All registrations publicly verifiable.",
-    images: null,
-    verifyHref:
-      "https://ahu.go.id/sabh/perseroan/qrcode/?kode=NDAyMzAyMDYzNTEwMjE3NF8yXzA4IEZlYnJ1YXJpIDIwMjNfMDggRmVicnVhcmkgMjAyMw==",
-    verifyLabel: "Verify PT on AHU registry",
-  },
-  {
-    year: "Today",
-    event: "Active Licensed Operator",
-    detail:
-      "PT Java Volcano Rendezvous operates under NIB + TDUP No. 1102230032918, HPWKI-certified guides, ISIC Provider ID 259268, and INDECON Spotlight membership. Led by an active Tourist Police officer.",
-    images: null,
-    verifyHref: "/verify-jvto/legal",
-    verifyLabel: "See full credential verification",
-  },
-];
-
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   return { title: seo.title, description: seo.description };
@@ -202,14 +131,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HistoryArtifactsPage() {
   const seo = await getPageSeo("/verify-jvto/history-artifacts", fallbackSeo);
   const docs = getDocsByGroup("historyArtifacts");
-
-  // FAQ resolver: no narrative_claims + no canonical registered for this route
-  // → falls through to CMS content.faq (3 items) → suppressCmsFaq stays false.
   const faqResolution = await resolveFaqsForPage("/verify-jvto/history-artifacts");
-  const faqResolvedNode = buildResolvedFaqSchema(
-    faqResolution,
-    "/verify-jvto/history-artifacts"
-  );
+  const faqResolvedNode = buildResolvedFaqSchema(faqResolution, "/verify-jvto/history-artifacts");
 
   const pageRow = seo.row
     ? {
@@ -227,6 +150,23 @@ export default async function HistoryArtifactsPage() {
         content: { h1: seo.h1 },
       };
 
+  const NAV_LINKS = [
+    { href: "/verify-jvto", label: "Proof library overview", active: false },
+    { href: "/verify-jvto/legal", label: "Legal Identity", active: false },
+    { href: "/verify-jvto/history-artifacts", label: "History & Artifacts", active: true },
+    { href: "/verify-jvto/press-recognition", label: "Press & Recognition", active: false },
+    { href: "/verify-jvto/police-safety", label: "Police & Safety", active: false },
+  ];
+
+  const TIMELINE = [
+    { year: "'15", h4: "2015", p: "Ijen Bondowoso Homestay opens on Jl. Khairil Anwar No.102. Booking.com guest score 9.4/10; award shipped to the Bondowoso address." },
+    { year: "'16", h4: "2016", p: "PT Java Volcano Rendezvous incorporated 2016-01-01 at the same address." },
+    { year: "'18", h4: "2018", p: "Stefan Loose Reiseführer Indonesien (4th ed., ISBN 978-3-7701-7881-0, p. 287) names \"Agung\" as operator." },
+    { year: "'21", h4: "2021", p: "Independent press: Detik.com (2021-03-14) and Radar Jember (2021-03-24) name Bripka Agung Sambuko in Tourist Police duties." },
+    { year: "'23", h4: "2023", p: "TDUP formalized 2023-02-11. NIB 1102230032918 OSS-verifiable." },
+    { year: "'26", h4: "2026", p: "16 private itineraries; a 14-person named crew (11 KTA-confirmed); coordinated Ijen health screening with a licensed physician." },
+  ] as const;
+
   return (
     <>
       <PageJsonLdCombined
@@ -239,118 +179,162 @@ export default async function HistoryArtifactsPage() {
             breadcrumbLabel: seo.h1,
             docs,
           }),
-          // Timeline ItemList — 5 Event anchors (MH per cluster_role_contracts.md Cluster 4)
           HISTORY_TIMELINE_SCHEMA,
-          // CMS FAQ resolver (3 items from content_pages.content.faq)
           faqResolvedNode,
         ]}
         suppressCmsFaq={faqResolution.suppressCmsFaq}
       />
-      <VerifyJvtoClient
-        initialDocs={docs}
-        groupTitle={seo.h1}
-        heroTitle={seo.h1}
-        heroDescription={seo.description}
-      />
 
-      {/* ── Documented History Timeline ── */}
-      <section className="bg-slate-950 border-t border-slate-800">
-        <div className="container mx-auto px-6 py-14">
-          <p className="text-[9px] font-black uppercase tracking-widest text-slate-600 mb-10">
-            Operational Continuity — Artifact-Anchored Timeline
-          </p>
-
-          <div className="relative">
-            <div
-              className="absolute left-[72px] top-0 bottom-0 w-px bg-slate-800 hidden md:block"
-              aria-hidden
-            />
-
-            <div className="space-y-10">
-              {TIMELINE_ENTRIES.map((entry, i) => (
-                <div key={entry.year} className="flex gap-6 md:gap-10 items-start">
-                  <div className="shrink-0 w-[72px] flex flex-col items-center md:items-end">
-                    <span
-                      className={`text-[10px] font-black px-2 py-1 rounded-sm leading-none ${
-                        entry.year === "Today"
-                          ? "text-white bg-jvto-green text-black"
-                          : "text-jvto-green bg-jvto-green/10"
-                      }`}
-                    >
-                      {entry.year}
-                    </span>
-                    <div className="hidden md:block w-2 h-2 rounded-full bg-slate-700 mt-3 mr-[-5px] self-end border border-slate-600" />
-                  </div>
-
-                  <div className="flex-1 border border-slate-800 rounded-lg bg-slate-900/50 overflow-hidden">
-                    {entry.images && entry.images.length > 0 && (
-                      <div className={`grid gap-0.5 bg-slate-950 ${entry.images.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
-                        {entry.images.map((img, imgIdx) => (
-                          <div
-                            key={imgIdx}
-                            className={`relative h-36 ${entry.images!.length === 3 && imgIdx === 2 ? "col-span-2" : ""}`}
-                          >
-                            <Image
-                              src={img.src}
-                              alt={img.alt}
-                              fill
-                              className="object-cover object-center opacity-80"
-                              sizes="(max-width: 768px) 100vw, 300px"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="p-5">
-                      <h3 className="text-white font-bold text-sm mb-2">
-                        {entry.event}
-                      </h3>
-                      <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                        {entry.detail}
-                      </p>
-                      {entry.verifyHref && entry.verifyLabel && (
-                        <a
-                          href={entry.verifyHref}
-                          target={entry.verifyHref.startsWith("http") ? "_blank" : undefined}
-                          rel={
-                            entry.verifyHref.startsWith("http")
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          className="inline-flex items-center gap-1.5 text-[10px] font-bold text-jvto-green hover:text-white transition-colors uppercase tracking-widest"
-                        >
-                          {entry.verifyLabel}
-                          {entry.verifyHref.startsWith("http") && (
-                            <ExternalLink size={10} />
-                          )}
-                        </a>
-                      )}
-                    </div>
-                  </div>
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <header className="bg-jvto-navy pt-24 md:pt-36 pb-32 md:pb-44 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-jvto-navy via-jvto-navy/95 to-[#1a2f45] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 md:px-8 relative">
+          <nav className="mb-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">
+            <Link href="/" prefetch={false} className="hover:text-white/70 transition-colors">Home</Link>
+            <span>›</span>
+            <Link href="/verify-jvto" prefetch={false} className="hover:text-white/70 transition-colors">Verify JVTO</Link>
+            <span>›</span>
+            <span className="text-white/70">History &amp; Artifacts</span>
+          </nav>
+          <div className="grid md:grid-cols-[1.3fr_1fr] gap-12 md:gap-16 items-start">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/20 bg-white/5 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">Audit · History</span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">PROOF / HISTORY</span>
+              </div>
+              <h1 className="text-5xl md:text-7xl font-black text-white leading-[0.98] mb-6" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}>
+                History &amp; <em className="not-italic text-jvto-orange">artifacts.</em>
+              </h1>
+              <p className="text-white/60 text-lg font-light leading-relaxed max-w-[52ch]">
+                Operational continuity since 2015, documented through archived web snapshots and dated press references.
+              </p>
+            </div>
+            <div className="bg-white/[0.04] border border-white/10 rounded-[20px] p-6 md:mt-10 self-center">
+              {[
+                { label: "Earliest record", value: "2015" },
+                { label: "Web snapshots", value: "27+" },
+                { label: "Press references", value: "8" },
+                { label: "Audit trail", value: "Wayback Machine" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between items-center border-b border-white/10 last:border-0 py-3.5">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{label}</span>
+                  <strong className="font-semibold text-sm text-right text-white">{value}</strong>
                 </div>
               ))}
             </div>
           </div>
         </div>
+      </header>
+
+      {/* ── Article section ───────────────────────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-16 md:py-24 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-10 md:gap-16">
+            {/* Sidebar */}
+            <aside className="flex flex-col">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#9ca3af] mb-4">Verify JVTO</span>
+              <ul style={{ borderTop: "1px solid #E3E0DA" }}>
+                {NAV_LINKS.map(({ href, label, active }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      prefetch={false}
+                      className={`block py-2.5 text-[14px] transition-colors ${
+                        active ? "text-jvto-navy font-semibold" : "text-[#6b7280] hover:text-jvto-navy"
+                      }`}
+                      style={{ borderBottom: "1px solid #E3E0DA" }}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/tours" prefetch={false} className="mt-6 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors">
+                Browse tours →
+              </Link>
+            </aside>
+
+            {/* Article */}
+            <article className="bg-white rounded-2xl p-8 md:p-10">
+              <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#9ca3af] mb-5">Audit record · HIST-001</span>
+              <p className="text-[17px] text-[#374151] font-light leading-relaxed mb-8">
+                JVTO is not a new operator. We have a documented operational history dating to 2015, with public web archives that anyone can audit.
+              </p>
+
+              <h2 className="font-black text-2xl leading-tight mb-6 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Operational timeline</h2>
+              <ol className="mb-10" style={{ maxWidth: "none" }}>
+                {TIMELINE.map(({ year, h4, p }) => (
+                  <li key={year} className="flex gap-6" style={{ borderTop: "1px solid #E3E0DA", padding: "1.25rem 0" }}>
+                    <div className="font-mono text-[12px] font-black text-jvto-orange flex-shrink-0 w-8 mt-0.5">{year}</div>
+                    <div>
+                      <h4 className="font-semibold text-jvto-navy text-[15px] mb-1">{h4}</h4>
+                      <p className="text-[14px] text-[#6b7280] font-light leading-relaxed">{p}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Recognition artifacts</h2>
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
+                Two pieces of dated, third-party recognition bracket the guesthouse-to-PT transition — both tied to the same Bondowoso address.
+              </p>
+              <div className="rounded-xl overflow-hidden mb-6" style={{ border: "1px solid #E3E0DA" }}>
+                {[
+                  { k: "Booking.com Guest Review Award", v: "9.4 / 10 · 2015" },
+                  { k: "Awarded to", v: "Ijen Bondowoso Homestay" },
+                  { k: "Stefan Loose Reiseführer", v: "4th ed. · 2018 · p. 287" },
+                  { k: "ISBN", v: "978-3-7701-7881-0" },
+                ].map(({ k, v }) => (
+                  <div key={k} className="flex justify-between items-center px-4 py-3" style={{ borderBottom: "1px solid #E3E0DA" }}>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#9ca3af]">{k}</span>
+                    <span className="text-[14px] font-medium text-jvto-navy text-right">{v}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
+                The 2015 Booking.com award was shipped to <strong className="text-jvto-navy font-semibold">"Agung, Jl. Khairil Anwar No.102, Bondowoso"</strong> — the same address line as today's PT office. That shipping label is the continuity anchor: it places the founder, the name, and the address together a full year before PT Java Volcano Rendezvous was incorporated. The Stefan Loose guidebook then names "Agung" as the operator of Ijen Bondowoso Homestay, confirming an international reputation in print well before any social media existed. Both artifacts are catalogued on the <Link href="/verify-jvto/press-recognition" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Press &amp; Recognition page</Link>.
+              </p>
+
+              <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Independent web archive</h2>
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
+                The Wayback Machine (web.archive.org) holds 27+ snapshots of <strong className="text-jvto-navy font-semibold">javavolcano-touroperator.com</strong> dating from 2016 forward. Anyone can audit:
+              </p>
+              <ul className="space-y-2 mb-8 pl-5 list-disc marker:text-jvto-orange">
+                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Domain age and continuity</li>
+                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Founder name consistency</li>
+                <li className="text-[15px] text-[#374151] font-light leading-relaxed">Address consistency</li>
+                <li className="text-[15px] text-[#374151] font-light leading-relaxed">NIB displayed after 2016 incorporation</li>
+              </ul>
+
+              <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>What this rules out</h2>
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed">
+                The Wayback footprint rules out the "scammer registered a domain last month" pattern. Anyone running a years-long operation under one name, at one address, with one founder, is publicly auditable. Anyone who isn't, isn't.
+              </p>
+            </article>
+          </div>
+        </div>
       </section>
 
-      {/* ── Continuity Note ── */}
-      <section className="bg-slate-900 border-t border-slate-800">
-        <div className="container mx-auto px-6 py-10">
-          <div className="flex items-start gap-4 max-w-2xl">
-            <CheckCircle2 size={18} className="text-jvto-green shrink-0 mt-0.5" />
-            <div>
-              <p className="text-slate-300 text-sm font-semibold mb-1">
-                Same address. Same founder. Same operation.
-              </p>
-              <p className="text-slate-500 text-xs leading-relaxed">
-                The Booking.com award (2015), the travel guide mention (2016), the press
-                article (2021), and the PT registration (2023) all reference the same
-                location — Jl. Khairil Anwar 102A, Bondowoso — and the same person,
-                Agung Sambuko. Continuity is observable, not just claimed.
-              </p>
-            </div>
+      {/* ── CTA ──────────────────────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.25)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+          <h2 className="font-black text-white leading-[1.02] mb-8" style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 52px)" }}>
+            Ready for operational <span className="text-jvto-orange">certainty?</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/tours" prefetch={false} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors">
+              Explore tours
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+            </Link>
+            <Link href="/verify-jvto" prefetch={false} className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors">
+              Verify JVTO
+            </Link>
           </div>
         </div>
       </section>
