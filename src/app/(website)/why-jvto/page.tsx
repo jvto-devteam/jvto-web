@@ -84,7 +84,7 @@ export default async function WhyJvtoPage() {
                 style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em" }}
               >
                 Six things that{" "}
-                <em className="not-italic text-jvto-orange">separate</em>{" "}
+                <em className="italic text-jvto-orange">separate</em>{" "}
                 us.
               </h1>
               <p className="text-white/60 text-lg font-light leading-relaxed max-w-[48ch]">
@@ -128,7 +128,8 @@ export default async function WhyJvtoPage() {
                 <span className="text-jvto-orange">each verifiable.</span>
               </h2>
               <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6">
-                Not marketing language — every one is backed by a credential you can check.
+                Not marketing language — every one is backed by a credential you can check.{" "}
+                <strong className="font-semibold text-jvto-navy">Tap a pillar to see what proves it.</strong>
               </p>
               <DiffChipsPanel />
               <Link
@@ -267,7 +268,8 @@ export default async function WhyJvtoPage() {
                 <span className="text-jvto-orange">licensed operator.</span>
               </h2>
               <p className="text-white/60 text-[14px] font-light leading-relaxed mb-6">
-                Eleven years of operational continuity at one Bondowoso address — documented by third parties.
+                Eleven years of operational continuity at one Bondowoso address — documented by third parties.{" "}
+                <strong className="font-semibold text-white/80">Tap a year.</strong>
               </p>
               <StoryTabsPanel />
               <Link
@@ -315,8 +317,8 @@ export default async function WhyJvtoPage() {
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-10">
             <div>
-              <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40 mb-4">
-                <span className="text-white/50">§ 04</span> · Our Team
+              <span className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-jvto-lime mb-4">
+                <span className="text-jvto-lime">§ 04</span> · Our Team
               </span>
               <h2
                 className="font-black text-white leading-[1.04]"
@@ -369,7 +371,7 @@ export default async function WhyJvtoPage() {
               style={{ animation: "jvto-marquee 46s linear infinite" }}
             >
               {[...CREW, ...CREW].map((p, idx) => (
-                <div key={idx} className="flex-shrink-0 w-36">
+                <div key={idx} className="flex-shrink-0 w-[190px]">
                   <div className="relative rounded-[20px] overflow-hidden aspect-[3/4] mb-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -381,7 +383,7 @@ export default async function WhyJvtoPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     <div className="absolute bottom-2 left-0 right-0 text-center">
                       <div className="font-black text-white text-[13px]" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{p.name}</div>
-                      <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-white/60">{p.role}</div>
+                      <div className="font-mono text-[9px] uppercase tracking-[0.12em] text-jvto-lime">{p.role}</div>
                     </div>
                   </div>
                 </div>
