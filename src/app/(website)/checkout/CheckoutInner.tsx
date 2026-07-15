@@ -62,9 +62,10 @@ function calculateFOCDiscount(pax: number, pricePerPerson: number) {
 }
 
 const checkoutPolicyNotes = [
-  getPolicyDomain("checkout", "booking-paths")?.notes,
-  getPolicyDomain("checkout", "payment-rules")?.notes,
-  getPolicyDomain("checkout", "anti-fraud")?.notes,
+  getPolicyDomain("website_checkout", "booking-paths")?.notes,
+  getPolicyDomain("website_checkout", "payment-rules")?.notes,
+  getPolicyDomain("website_checkout", "cancellation-package-credit")?.notes,
+  getPolicyDomain("website_checkout", "anti-fraud")?.notes,
 ].filter(Boolean) as string[];
 
 interface ContactDetails {
@@ -966,9 +967,10 @@ const StepTwoPayment = ({
               ))}
             </ul>
             <p className="mt-3 text-slate-600">
-              Standard packages should continue through this website checkout.
-              WhatsApp remains available for assisted custom routes, group
-              arrangements, complex pickup/drop-off, or verification questions.
+              All bookings are completed here on the official JVTO website
+              checkout. WhatsApp remains available for questions about custom
+              routes, group arrangements, complex pickup/drop-off, or
+              verification — but it does not create, confirm, or change a booking.
             </p>
           </div>
         )}

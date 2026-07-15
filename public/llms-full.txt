@@ -401,10 +401,11 @@ International / domestic flights. Tips for drivers and guides (at guest discreti
 - Email: hello@javavolcano-touroperator.com
 - Secondary email: javavolcanotouroperator@gmail.com
 
-### Booking flow (6 steps)
-1. Inquiry via WhatsApp with dates, group size, preferred package
-2. Package confirmation (slug, pick-up point, special requirements)
-3. Price quotation per pricing table for group size
+### Booking flow (website-only, 6 steps)
+Bookings are accepted exclusively through the official JVTO website checkout. WhatsApp and email provide customer assistance but do not create, confirm, modify, cancel, or transfer bookings; every booking is completed on the website under a valid JVTO Booking ID.
+1. Choose package, date, group size, and pick-up point on the website
+2. Review price per pricing table for group size, plus any add-ons
+3. Accept the Terms & Cancellation Policy (a policy version is recorded with the booking)
 4. Deposit payment (20% of total, card via secure JVTO link)
 5. Voucher issuance (e-voucher with full trip details + pre-trip guide)
 6. Tour execution (private pick-up at confirmed time)
@@ -433,7 +434,7 @@ International / domestic flights. Tips for drivers and guides (at guest discreti
 | 35 | 2 | — |
 | 50 | 3 | + 5% group discount |
 
-FOC applies to same package, same dates. Direct bookings only (website + WhatsApp). Not applicable to GetYourGuide, Booking.com, or other third-party platforms.
+FOC applies to same package, same dates. Website bookings only. Not applicable to GetYourGuide, Booking.com, or other third-party platforms.
 
 ### Anti-fraud policy
 - Use only official JVTO website, WhatsApp, email, payment links, and listed bank accounts

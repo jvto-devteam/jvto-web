@@ -10,6 +10,7 @@
 // so wiki-driven ingest only needs to update that one file.
 
 import { AGGREGATE_RATING } from './jvtoReviews';
+import { getCustomerCopy } from './policy-bundle';
 
 /**
  * Minimal tour shape this module needs. Live's existing tour types (e.g., TourPackageDetail from
@@ -133,18 +134,21 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
   pairs.push(
     {
       question: 'What happens if I need to cancel?',
-      answer:
-        `Cancellations made ≥48 hours before Day 1 receive 100% Travel Credit — non-expiring, transferable to any traveler, denominated in IDR, ` +
-        `with no rebooking fee. Within 48 hours, the deposit is forfeited. Force-majeure closures (e.g., volcanic alert) are handled under ` +
-        `a separate weather-and-closures protocol with full Travel Credit protection.`,
+      answer: [
+        getCustomerCopy('before_48_full_cancellation'),
+        getCustomerCopy('after_48_full_cancellation'),
+        getCustomerCopy('partial_cancellation'),
+      ]
+        .filter(Boolean)
+        .join(' '),
       uiMeta: 'See cancellation policy',
       uiLink: '/policy/booking-payment-cancellation',
     },
     {
       question: 'What if the volcano closes on my trip date?',
       answer:
-        `Volcanic alert level changes and BBKSDA closures are outside any operator's control. When a closure affects your confirmed dates, ` +
-        `JVTO issues 100% Travel Credit with no rebooking fee — valid indefinitely, transferable. We monitor PVMBG alerts and notify guests ` +
+        `Volcanic alert level changes and BBKSDA closures are outside any operator's control. ` +
+        `${getCustomerCopy('destination_force_majeure')} We monitor PVMBG alerts and notify guests ` +
         `proactively; our weather-and-closures policy documents the full SOP.`,
       uiMeta: 'See weather & closures policy',
       uiLink: '/travel-guide/weather-and-closures',
