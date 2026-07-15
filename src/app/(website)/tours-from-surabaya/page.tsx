@@ -155,7 +155,7 @@ const FAQ_ITEMS = [
   {
     question: "Bagaimana cara booking?",
     answer:
-      "Booking dilakukan sepenuhnya melalui website resmi JVTO. Pilih paket, tanggal, dan jumlah peserta, lalu selesaikan booking di website dengan deposit 30%. Ada pertanyaan sebelum booking? Hubungi kami via WhatsApp di +62 822-4478-8833 — namun booking selalu diselesaikan di website.",
+      "Booking dilakukan sepenuhnya melalui website resmi JVTO. Pilih paket, tanggal, dan jumlah peserta, lalu selesaikan booking di website dengan deposit standar 20%. Ada pertanyaan sebelum booking? Hubungi kami via WhatsApp di +62 822-4478-8833 — namun booking selalu diselesaikan di website.",
   },
 ];
 

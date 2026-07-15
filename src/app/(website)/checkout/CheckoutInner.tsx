@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { Providers } from "@/app/providers";
-import { getPolicyDomain } from "@/lib/policy-bundle";
+import { getPolicyDomain, getCustomerCopy } from "@/lib/policy-bundle";
 
 // =================================================================
 // 1. UTILITIES & INTERFACES
@@ -61,10 +61,13 @@ function calculateFOCDiscount(pax: number, pricePerPerson: number) {
   return { amount: 0, label: "" };
 }
 
+// Customer-facing checkout microcopy. Payment/anti-fraud use the short ownership
+// notes (clean sentences); booking-channel + cancellation use canonical
+// customer-copy so no internal/compiler wording or raw Markdown reaches the UI.
 const checkoutPolicyNotes = [
-  getPolicyDomain("website_checkout", "booking-paths")?.notes,
+  "Bookings are accepted exclusively through the official JVTO website checkout.",
   getPolicyDomain("website_checkout", "payment-rules")?.notes,
-  getPolicyDomain("website_checkout", "cancellation-package-credit")?.notes,
+  getCustomerCopy("package_guarantee_summary"),
   getPolicyDomain("website_checkout", "anti-fraud")?.notes,
 ].filter(Boolean) as string[];
 

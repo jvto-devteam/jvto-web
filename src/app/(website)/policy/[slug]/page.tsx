@@ -158,8 +158,9 @@ export default async function PolicyDynamicPage({ params }: Props) {
                 })}
               </dl>
               <p className="mt-5 text-xs text-jvto-navy/60">
-                These summaries are generated from JVTO&rsquo;s canonical policy source; the full binding
-                terms appear below.
+                These summaries are generated from JVTO&rsquo;s canonical policy source and take
+                precedence. Lifetime Package Credit is the current name for what earlier documents
+                called &ldquo;Travel Credit&rdquo;. The detailed policy sections follow below.
               </p>
             </section>
           )}
