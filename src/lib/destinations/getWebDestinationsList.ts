@@ -16,8 +16,6 @@ export interface WebDestinationListItem {
   highlight: string | null;
   description: string | null;
   geo: {
-    latitude: number | null;
-    longitude: number | null;
     altitude: string | null;
   };
   keyInfo: {
@@ -29,10 +27,8 @@ export interface WebDestinationListItem {
     physical_requirements: string | null;
   };
   main_attractions: unknown;
-  key_highlights: unknown;
   seo: { title: string | null; description: string | null };
   tags: string[];
-  types: unknown;
   schema_json: unknown;
 }
 
@@ -68,8 +64,6 @@ function serializeDestination(dest: any): WebDestinationListItem {
     highlight: dest.highlight ?? null,
     description: dest.description ?? null,
     geo: {
-      latitude: dest.latitude ? Number(dest.latitude) : null,
-      longitude: dest.longitude ? Number(dest.longitude) : null,
       altitude: dest.altitude ?? null,
     },
     keyInfo: {
@@ -81,13 +75,11 @@ function serializeDestination(dest: any): WebDestinationListItem {
       physical_requirements: dest.physical_requirements ?? null,
     },
     main_attractions: safeJson(dest.main_attractions),
-    key_highlights: safeJson(dest.key_highlights),
     seo: {
       title: dest.seo_title ?? null,
       description: dest.seo_description ?? null,
     },
     tags: dest.tags ?? [],
-    types: safeJson(dest.types),
     schema_json: dest.schema_json ?? null,
   };
 }
@@ -130,8 +122,6 @@ export async function getWebDestinationsList(
       summary: true,
       highlight: true,
       description: true,
-      latitude: true,
-      longitude: true,
       altitude: true,
       difficulty_level: true,
       temperature_range: true,
@@ -140,11 +130,9 @@ export async function getWebDestinationsList(
       permit_details: true,
       physical_requirements: true,
       main_attractions: true,
-      key_highlights: true,
       seo_title: true,
       seo_description: true,
       tags: true,
-      types: true,
       schema_json: true,
       destination_assets: {
         where: { asset: { type: 'image' } },

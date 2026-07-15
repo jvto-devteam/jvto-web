@@ -569,33 +569,6 @@ model channel_unavailable_ranges {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model combined_package_details {
-  id                  BigInt             @id @default(autoincrement())
-  combined_package_id BigInt?
-  package_id          BigInt?
-  created_at          DateTime?          @db.Timestamp(6)
-  updated_at          DateTime?          @db.Timestamp(6)
-  deleted_at          DateTime?          @db.Timestamp(6)
-  combined_packages   combined_packages? @relation(fields: [combined_package_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_combined_package_details_combined_package_id")
-  packages            packages?          @relation(fields: [package_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_combined_package_details_package_id")
-
-  @@unique([combined_package_id, package_id], map: "uq_combined_package")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model combined_packages {
-  id                       BigInt                     @id @default(autoincrement())
-  name                     String?
-  long_name                String?
-  slug                     String?                    @unique
-  highlights               String?
-  created_at               DateTime?                  @db.Timestamp(6)
-  updated_at               DateTime?                  @db.Timestamp(6)
-  deleted_at               DateTime?                  @db.Timestamp(6)
-  combined_package_details combined_package_details[]
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model countries {
   id         BigInt    @id @default(autoincrement())
   short_name String    @unique(map: "uq_countries_short_name")
@@ -844,18 +817,17 @@ model destinations {
   province String? @db.VarChar(100)
   country  String? @db.VarChar(100)
 
-  latitude      Decimal? @db.Decimal(10, 6)
-  longitude     Decimal? @db.Decimal(10, 6)
-  altitude      Int?
-  area_hectares Decimal? @db.Decimal(10, 2)
+  altitude         Int?
+  display_height_m Int?
+  nickname         String? @db.VarChar(150)
+  trailhead        String? @db.VarChar(200)
+  physical_demand  Int?
+  sections         Json?
 
   terrain            String? @db.Text
   best_time_to_visit String? @db.VarChar(100)
   difficulty_level   String? @db.VarChar(50)
   duration           String? @db.VarChar(100)
-  physical_demand    Int?
-  cultural_depth     Int?
-  photo_potential    Int?
   weather_by_season  String? @db.Text
   rainfall_intensity String? @db.VarChar(100)
   temperature_range  String? @db.VarChar(100)
@@ -872,26 +844,32 @@ model destinations {
   permit_details  String?  @db.Text
   guide_required  Boolean? @default(false)
 
-  facilities            Json?
   safety_notes          Json?
   risk_factors          Json?
   environmental_factors Json?
-  emergency_contacts    Json?
 
   physical_requirements String? @db.Text
   cultural_context      String? @db.Text
 
   local_tribes      String[] @db.VarChar(200)
-  rituals_festivals Json?
   tips_for_visitors String?  @db.Text
 
-  thumbnail_url   String?  @db.VarChar(500)
   featured_image  String?  @db.VarChar(500)
   published       Boolean? @default(false)
   featured        Boolean? @default(false)
   seo_title       String?  @db.VarChar(200)
   seo_description String?  @db.Text
   schema_json     Json?
+
+  // 3D trail fly-through data (jvto-cms upload feature) — full GeoJSON LineString + summary
+  // stats, replacing the old static public/routes/{slug}.geojson + index.json files.
+  route_geojson     Json?
+  route_length_m    Int?
+  route_elev_gain_m Int?
+  route_elev_min_m  Int?
+  route_max_alt_m   Int?
+  route_bbox        Json?
+  route_start_point Json?
 
   tags       String[] @db.VarChar(100)
   types      Json?
@@ -914,8 +892,8 @@ model destinations {
   packages_packages_start_destination_idTodestinations packages[]                       @relation("packages_start_destination_idTodestinations")
   destination_assets                                   destination_assets[]
   destination_faqs                                     destination_faqs[]
-  route_destinations                                   route_destinations[]
   destination_gears                                    destination_gears[]
+  locations                                            locations[]
 }
 
 model destination_gears {
@@ -1128,7 +1106,6 @@ model hotels {
   destination_id                BigInt?
   description                   String?
   facilities                    String?
-  area                          String?                         @db.VarChar(200)
   address                       String?
   phone                         String?
   banner                        String?
@@ -1354,21 +1331,6 @@ model package_hotel_options {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model package_images {
-  id           BigInt    @id @default(autoincrement())
-  package_id   BigInt?
-  url          String
-  og_image_url String?
-  sort_order   Int?
-  alt_text     String?
-  caption      String?
-  tags         String?
-  created_at   DateTime? @db.Timestamp(6)
-  updated_at   DateTime? @db.Timestamp(6)
-  deleted_at   DateTime? @db.Timestamp(6)
-  packages     packages? @relation(fields: [package_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_package_images_package_id")
-}
-
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model package_includes {
   id              BigInt         @id @default(autoincrement())
@@ -1384,10 +1346,19 @@ model package_includes {
 }
 
 model locations {
-  id                                          Int                             @id @default(autoincrement())
-  name                                        String                          @db.VarChar
-  package_itinerary_day_details_from_location package_itinerary_day_details[] @relation("package_itinerary_day_details_from_location")
-  package_itinerary_day_details_to_location   package_itinerary_day_details[] @relation("package_itinerary_day_details_to_location")
+  id                                                      Int                             @id @default(autoincrement())
+  name                                                    String                          @db.VarChar
+  type                                                    location_type?
+  latitude                                                Decimal?                        @db.Decimal(10, 6)
+  longitude                                               Decimal?                        @db.Decimal(10, 6)
+  destination_id                                          BigInt?
+  package_itinerary_day_details_from_location             package_itinerary_day_details[] @relation("package_itinerary_day_details_from_location")
+  package_itinerary_day_details_to_location               package_itinerary_day_details[] @relation("package_itinerary_day_details_to_location")
+  route_details_route_details_from_location_idTolocations route_details[]                 @relation("route_details_from_location_idTolocations")
+  route_details_route_details_to_location_idTolocations   route_details[]                 @relation("route_details_to_location_idTolocations")
+  routes_routes_start_location_idTolocations              routes[]                        @relation("routes_start_location_idTolocations")
+  routes_routes_end_location_idTolocations                routes[]                        @relation("routes_end_location_idTolocations")
+  destinations                                            destinations?                   @relation(fields: [destination_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -1455,10 +1426,10 @@ model package_prices {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model packages {
-  id                             BigInt                     @id @default(autoincrement())
+  id                             BigInt                   @id @default(autoincrement())
   uuid                           String?
-  code                           String?                    @unique
-  slug                           String?                    @unique
+  code                           String?                  @unique
+  slug                           String?                  @unique
   name                           String
   description                    String?
   short_label                    String?
@@ -1481,38 +1452,36 @@ model packages {
   highlights_bullets             String[] // maps to text[]
   safety_positioning             String? // single text
   unique_selling_points          String[] // maps to text[]
-  created_at                     DateTime                   @default(now()) @db.Timestamp(6)
-  updated_at                     DateTime?                  @db.Timestamp(6)
-  deleted_at                     DateTime?                  @db.Timestamp(6)
-  aggregate_rating_value         Decimal?                   @default(0) @db.Decimal(3, 2)
-  aggregate_rating_count         Int?                       @default(0)
-  traveler_requirements          String[]                   @db.Text
-  tags                           String[]                   @db.Text
-  operational_complexity_note    String?                    @db.Text
-  first_day_last_pickup_guidance String?                    @db.Text
-  last_day_safe_flight_note      String?                    @db.Text
-  health_requirements            String[]                   @db.Text
-  environmental_risks            String[]                   @db.Text
-  safety_mitigation              String[]                   @db.Text
-  handover_notes                 String[]                   @db.Text
-  emergency_protocols            String[]                   @db.Text
-  seo_title                      String?                    @db.Text
-  seo_meta                       String?                    @db.Text
+  created_at                     DateTime                 @default(now()) @db.Timestamp(6)
+  updated_at                     DateTime?                @db.Timestamp(6)
+  deleted_at                     DateTime?                @db.Timestamp(6)
+  aggregate_rating_value         Decimal?                 @default(0) @db.Decimal(3, 2)
+  aggregate_rating_count         Int?                     @default(0)
+  traveler_requirements          String[]                 @db.Text
+  tags                           String[]                 @db.Text
+  operational_complexity_note    String?                  @db.Text
+  first_day_last_pickup_guidance String?                  @db.Text
+  last_day_safe_flight_note      String?                  @db.Text
+  health_requirements            String[]                 @db.Text
+  environmental_risks            String[]                 @db.Text
+  safety_mitigation              String[]                 @db.Text
+  handover_notes                 String[]                 @db.Text
+  emergency_protocols            String[]                 @db.Text
+  seo_title                      String?                  @db.Text
+  seo_meta                       String?                  @db.Text
   bookings                       bookings[]
-  combined_package_details       combined_package_details[]
   package_addons                 package_addons[]
   package_destinations           package_destinations[]
   package_excludes               package_excludes[]
   package_hotel_options          package_hotel_options[]
-  package_images                 package_images[]
   package_includes               package_includes[]
   package_itinerary_days         package_itinerary_days[]
   package_prices                 package_prices[]
-  durations                      durations?                 @relation(fields: [duration_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_duration_id")
-  end_destination                destinations?              @relation("packages_end_destination_idTodestinations", fields: [end_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_end_destination_id")
-  order_channels                 order_channels?            @relation(fields: [order_channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_order_channel_id")
-  package_categories             package_categories?        @relation(fields: [package_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_package_category_id")
-  start_destination              destinations?              @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
+  durations                      durations?               @relation(fields: [duration_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_duration_id")
+  end_destination                destinations?            @relation("packages_end_destination_idTodestinations", fields: [end_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_end_destination_id")
+  order_channels                 order_channels?          @relation(fields: [order_channel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_order_channel_id")
+  package_categories             package_categories?      @relation(fields: [package_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_package_category_id")
+  start_destination              destinations?            @relation("packages_start_destination_idTodestinations", fields: [start_destination_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_packages_start_destination_id")
   package_assets                 package_assets[]
   package_faqs                   package_faqs[]
   reviews                        reviews[]
@@ -1578,8 +1547,6 @@ model routes {
   code                 String   @db.VarChar(50)
   route                String
   itinerary_title      String
-  start_area           String   @db.VarChar(100)
-  end_area             String   @db.VarChar(100)
   estimated_duration   String?
   main_activities      String?
   accommodation_status String?
@@ -1589,11 +1556,14 @@ model routes {
   lunch                Boolean? @default(false)
   dinner               Boolean? @default(false)
   meals_notes          String?  @db.Text
+  start_location_id    Int?
+  end_location_id      Int?
 
   // relations
-  route_details          route_details[]
-  package_itinerary_days package_itinerary_days[]
-  route_destinations     route_destinations[]
+  route_details                                 route_details[]
+  package_itinerary_days                        package_itinerary_days[]
+  locations_routes_start_location_idTolocations locations?               @relation("routes_start_location_idTolocations", fields: [start_location_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  locations_routes_end_location_idTolocations   locations?               @relation("routes_end_location_idTolocations", fields: [end_location_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model route_details {
@@ -1601,29 +1571,17 @@ model route_details {
   route_id         BigInt
   seq              Int
   time_or_label    String?
-  timezone         String? @db.VarChar(10)
   name             String?
   activity         String
   type             String? @db.VarChar(100)
-  location         String? @db.Text
-  from_location    String? @db.Text
-  to_location      String? @db.Text
   duration_minutes Int?
+  from_location_id Int?
+  to_location_id   Int?
 
   // relation
-  routes routes @relation(fields: [route_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_route_details_route_id")
-}
-
-model route_destinations {
-  id             BigInt    @id @default(autoincrement())
-  route_id       BigInt
-  destination_id BigInt
-  sequence       Int
-  created_at     DateTime? @db.Timestamp(6)
-  updated_at     DateTime? @db.Timestamp(6)
-
-  route       routes       @relation(fields: [route_id], references: [id], onDelete: Cascade)
-  destination destinations @relation(fields: [destination_id], references: [id], onDelete: Cascade)
+  routes                                              routes     @relation(fields: [route_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_route_details_route_id")
+  locations_route_details_from_location_idTolocations locations? @relation("route_details_from_location_idTolocations", fields: [from_location_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  locations_route_details_to_location_idTolocations   locations? @relation("route_details_to_location_idTolocations", fields: [to_location_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -1756,6 +1714,19 @@ enum asset_type {
   image
   video
   document
+}
+
+enum location_type {
+  destination
+  hotel
+  city
+  airport
+  harbour
+  train_station
+  restaurant
+  landmark
+  clinic
+  transit
 }
 
 model folders {

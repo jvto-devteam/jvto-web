@@ -88,7 +88,16 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
           },
           hotels: true,
           routes: {
-            include: { route_details: { orderBy: { seq: 'asc' } } },
+            include: {
+              route_details: {
+                orderBy: { seq: 'asc' },
+                include: {
+                  locations_route_details_from_location_idTolocations: { select: { name: true } },
+                  locations_route_details_to_location_idTolocations: { select: { name: true } },
+                },
+              },
+              locations_routes_end_location_idTolocations: { select: { name: true } },
+            },
           },
         },
       },
@@ -260,14 +269,15 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
           activities:
             day.routes?.route_details?.map((act: any) => {
               const type = act.type;
+              const fromName = act.locations_route_details_from_location_idTolocations?.name ?? '';
+              const toName = act.locations_route_details_to_location_idTolocations?.name ?? '';
               if (type === 'TravelAction') {
                 return {
                   type,
                   name: act.name,
                   description: act.activity,
-                  fromLocation: act.from_location,
-                  toLocation: act.to_location,
-                  destination: act.location,
+                  fromLocation: fromName,
+                  toLocation: toName,
                   timeWindow: act.time_or_label,
                   durationMinutes: act.duration_minutes,
                 };
@@ -276,7 +286,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
                 type,
                 name: act.name,
                 description: act.activity,
-                location: act.location,
+                location: fromName,
                 timeWindow: act.time_or_label,
                 durationMinutes: act.duration_minutes,
               };
@@ -287,7 +297,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
             dinner: day.meal_dinner ? 'included' : 'own expense',
           },
           mealsNotes: day.routes?.meals_notes ?? '',
-          overnight: day.hotel_id ? day.routes?.end_area ?? null : null,
+          overnight: day.hotel_id ? day.routes?.locations_routes_end_location_idTolocations?.name ?? null : null,
         })) ?? [],
       gallery: (pkg.package_assets ?? [])
         .filter((pa: any) => pa.asset?.type === 'image')

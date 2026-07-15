@@ -7,7 +7,6 @@ export async function GET() {
       durations: true,
       start_destination: true,
       end_destination: true,
-      package_images: true,
       package_prices: { include: { price_tiers: true } },
     },
     where: { is_publish: true },

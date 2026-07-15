@@ -1,614 +1,991 @@
-// src/components/website/DestinationDetailView.tsx
 "use client";
 
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
+import React from "react";
 import Image from "next/image";
-import {
-  MapPin,
-  Mountain,
-  Thermometer,
-  Clock,
-  ShieldAlert,
-  Info,
-  CheckCircle2,
-  Footprints,
-  Wind,
-  Flame,
-  Award,
-  ChevronDown,
-  ChevronUp,
-  AlertTriangle,
-  HardHat,
-  ArrowRight,
-  Star,
-  Calendar,
-  XCircle,
-  TrendingUp,
-  Route,
-} from "lucide-react";
+import dynamic from "next/dynamic";
+import { Mountain, MapPin, Clock, Calendar, Navigation, Zap, AlertTriangle } from "lucide-react";
+import type { FeatureCollection } from "geojson";
 import type { DestinationDetail } from "@/interfaces";
 import type { RouteStats } from "@/app/(website)/destinations/[slug]/page";
-import VolcanicStatusBadge from "@/components/website/VolcanicStatusBadge";
 import type { VolcanicStatusData } from "@/components/website/VolcanicStatusBadge";
-import PvmbgFieldReport from "@/components/website/PvmbgFieldReport";
-
-const RouteMap = dynamic(() => import("@/components/website/RouteMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-72 md:h-96 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center">
-      <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
-        Loading map…
-      </span>
-    </div>
-  ),
-});
+import AppLink from "@/components/website/AppLink";
 
 const Route3DEmbedded = dynamic(
   () => import("@/components/website/Route3DEmbedded"),
   {
     ssr: false,
     loading: () => (
-      <div className="h-[500px] md:h-[560px] rounded-xl border border-slate-800 bg-slate-950 flex items-center justify-center">
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse">
+      <div className="h-[500px] md:h-[560px] rounded-[28px] bg-jvto-navy/10 flex items-center justify-center">
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-jvto-navy/30 animate-pulse">
           Loading 3D terrain…
         </span>
       </div>
     ),
+  }
+);
+
+// ─── Editorial maps (canonical per slug) ─────────────────────────────────────
+
+const DEST_HERO_META: Record<string, {
+  elevation: string; viewpoint: string; fromSurabaya: string; difficulty: string;
+}> = {
+  "mount-bromo": {
+    elevation: "2,329 m", viewpoint: "Penanjakan · 2,770 m",
+    fromSurabaya: "~3 hours", difficulty: "Easy to Moderate",
   },
-);
-
-// --- HELPER COMPONENTS ---
-
-const SectionHeader = ({ title, icon: Icon }: { title: string; icon: any }) => (
-  <div className="flex items-center gap-3 mb-6">
-    <div className="p-2 rounded-sm bg-gray-100 text-black">
-      <Icon size={24} />
-    </div>
-    <h2 className="text-2xl font-bold text-gray-900 uppercase tracking-wide">
-      {title}
-    </h2>
-  </div>
-);
-
-const StatCard = ({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: any;
-  label: string;
-  value: string | number;
-}) => (
-  <div className="bg-white border border-gray-200 shadow-sm p-4 rounded-sm flex items-center gap-4 hover:border-[#B2F35F] transition-colors">
-    <div className="p-2 rounded-full bg-gray-100 text-gray-900">
-      <Icon size={20} />
-    </div>
-    <div>
-      <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">
-        {label}
-      </p>
-      <p className="text-gray-900 font-bold">{value}</p>
-    </div>
-  </div>
-);
-
-const RiskAccordion = ({ risk }: { risk: any }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const isHigh = risk.level === "high";
-
-  return (
-    <div
-      className={`border rounded-sm mb-3 overflow-hidden transition-all ${
-        isOpen ? "bg-gray-50 border-gray-300" : "bg-white border-gray-200"
-      }`}
-    >
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-4 text-left hover:bg-gray-50 transition-colors"
-      >
-        <div className="flex items-center gap-3">
-          <AlertTriangle
-            size={20}
-            className={isHigh ? "text-red-600" : "text-yellow-600"}
-          />
-          <span className="text-gray-900 font-bold">
-            {risk.type.toUpperCase()} RISK
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span
-            className={`text-[10px] font-black px-2 py-1 rounded uppercase ${
-              isHigh
-                ? "bg-red-100 text-red-700"
-                : "bg-yellow-100 text-yellow-700"
-            }`}
-          >
-            {risk.level}
-          </span>
-          {isOpen ? (
-            <ChevronUp size={16} className="text-gray-500" />
-          ) : (
-            <ChevronDown size={16} className="text-gray-500" />
-          )}
-        </div>
-      </button>
-
-      {isOpen && (
-        <div className="p-4 pt-0 text-sm">
-          <p className="text-gray-600 mb-3">{risk.description}</p>
-          <div className="bg-jvto-green/5 p-3 rounded-sm border border-jvto-green/30">
-            <p className="text-black font-bold text-xs mb-1 uppercase">
-              Mitigation Strategy:
-            </p>
-            <p className="text-gray-600">{risk.mitigation}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  "ijen-crater": {
+    elevation: "2,386 m", viewpoint: "Crater rim · 2,386 m",
+    fromSurabaya: "~5 hours", difficulty: "Moderate to Hard",
+  },
+  "kawah-ijen": {
+    elevation: "2,386 m", viewpoint: "Crater rim · 2,386 m",
+    fromSurabaya: "~5 hours", difficulty: "Moderate to Hard",
+  },
+  "tumpak-sewu-waterfall": {
+    elevation: "~120 m waterfall", viewpoint: "Canyon rim viewpoint",
+    fromSurabaya: "~4 hours", difficulty: "Moderate to Hard",
+  },
+  "madakaripura-waterfall": {
+    elevation: "~100 m waterfall", viewpoint: "Horseshoe basin",
+    fromSurabaya: "~3 hours", difficulty: "Easy to Moderate",
+  },
+  "papuma-beach": {
+    elevation: "~86 m cape", viewpoint: "Coastal headland",
+    fromSurabaya: "~4 hours", difficulty: "Easy",
+  },
 };
 
-// --- MAIN COMPONENT ---
+const DEST_VOLCANIC_VANTAGES: Record<string, {
+  accessible: { title: string; text: string };
+  restricted: { title: string; text: string };
+  planB: string;
+}> = {
+  "mount-bromo": {
+    accessible: {
+      title: "The core experience is unaffected.",
+      text: "Penanjakan sunrise viewpoint (2,770 m), the sea-of-sand jeep traverse, and the Pura Luhur Poten temple area all sit outside the exclusion radius and remain open.",
+    },
+    restricted: {
+      title: "The crater lip only.",
+      text: "The final approach to the crater rim may fall within the exclusion zone during elevated status. JVTO will not take guests to the crater lip while restrictions are in effect.",
+    },
+    planB: "The Penanjakan sunrise, sea-of-sand crossing, and caldera-floor exploration are the primary experiences. Your guide confirms the adjusted itinerary before arrival. No day is lost.",
+  },
+  "ijen-crater": {
+    accessible: {
+      title: "The rim and night hike typically proceed.",
+      text: "The crater rim viewpoint and blue-fire observation point remain accessible during normal operations. The night hike proceeds during the dry season (April–October).",
+    },
+    restricted: {
+      title: "Crater floor access is regulated.",
+      text: "Descending to the crater floor requires PVMBG clearance. JVTO guides assess on-site and update your itinerary if restrictions apply.",
+    },
+    planB: "JVTO holds BBKSDA park clearance for Ijen. If any restriction affects your route, your guide contacts you before the trek. The rim sunrise remains the primary experience.",
+  },
+  "kawah-ijen": {
+    accessible: {
+      title: "The rim and night hike typically proceed.",
+      text: "The crater rim viewpoint and blue-fire observation point remain accessible during normal operations. The night hike proceeds during the dry season (April–October).",
+    },
+    restricted: {
+      title: "Crater floor access is regulated.",
+      text: "Descending to the crater floor requires PVMBG clearance. JVTO guides assess on-site and update your itinerary if restrictions apply.",
+    },
+    planB: "JVTO holds BBKSDA park clearance for Ijen. If any restriction affects your route, your guide contacts you before the trek. The rim sunrise remains the primary experience.",
+  },
+};
+
+const WHY_TILES = [
+  {
+    title: "Police-led",
+    desc: "Founder Mr. Sam (Bripka Agung Sambuko) is an active Ditpamobvit officer. Route decisions answer to police protocol, not marketing metrics.",
+    meta: "Authority",
+    Icon: () => (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+      </svg>
+    ),
+  },
+  {
+    title: "100% private",
+    desc: "Your own vehicle, driver, and crew — no shared jeeps, no strangers, no compromise on timing or pace.",
+    meta: "Private",
+    Icon: () => (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+      </svg>
+    ),
+  },
+  {
+    title: "All-inclusive",
+    desc: "Transport, entrance fees, accommodation, water, and T-shirt bundled. No surprise local payments on the day.",
+    meta: "Written inclusions",
+    Icon: () => (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+    ),
+  },
+  {
+    title: "Verifiable",
+    desc: "NIB 1102230032918 checkable at OSS. POLPAR, BBKSDA, and HPWKI credentials listed. Every document publicly verifiable before you pay.",
+    meta: "Proof library",
+    Icon: () => (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/>
+      </svg>
+    ),
+  },
+];
+
+const GENERIC_INCLUSIONS = [
+  "Private AC transport (fuel, tolls, parking)",
+  "Dedicated driver and English-speaking guide",
+  "BBKSDA national-park entrance fees",
+  "Daily mineral water · JVTO T-shirt",
+  "Accommodation & breakfast (overnight packages)",
+];
+
+// ─── Inline SVG helpers ───────────────────────────────────────────────────────
+
+const ArrowRight = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+    <path d="M5 12h14M13 5l7 7-7 7" />
+  </svg>
+);
+
+const CheckMark = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="text-jvto-lime shrink-0" aria-hidden="true">
+    <path d="M20 6L9 17l-5-5" />
+  </svg>
+);
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 export default function DestinationDetailView({
   data,
   routeStats,
   volcanicStatus,
+  slug = "",
 }: {
   data: DestinationDetail;
   routeStats?: RouteStats | null;
   volcanicStatus?: VolcanicStatusData | null;
+  slug?: string;
 }) {
-  const [activeSection, setActiveSection] = useState("overview");
+  const heroMeta = DEST_HERO_META[slug] ?? {
+    elevation: `${data.altitude} m`,
+    viewpoint: data.region,
+    fromSurabaya: data.duration,
+    difficulty: data.difficulty_level,
+  };
 
-  const navigationItems = [
-    { id: "overview", label: "Overview", icon: Info },
-    { id: "logistics", label: "Logistics", icon: Mountain },
-    { id: "safety", label: "Safety", icon: ShieldAlert },
-    { id: "culture", label: "Culture", icon: Award },
+  const displayHeight = data.display_height_m
+    ? data.category === "volcano"
+      ? `${data.display_height_m.toLocaleString()} m`
+      : data.category === "waterfall"
+      ? `~${data.display_height_m} m drop`
+      : `~${data.display_height_m} m`
+    : heroMeta.elevation;
+
+  const demandDots = data.physical_demand
+    ? "●".repeat(data.physical_demand) + "○".repeat(5 - data.physical_demand)
+    : null;
+
+  const volcanicVantage = volcanicStatus ? (DEST_VOLCANIC_VANTAGES[slug] ?? null) : null;
+
+  const inclusions =
+    slug === "mount-bromo"
+      ? [...GENERIC_INCLUSIONS, "Bromo 4WD private jeep"]
+      : GENERIC_INCLUSIONS;
+
+  const primaryAsset = data.destination_assets?.find((a) => a.type === "primary");
+  const heroImageUrl = primaryAsset?.asset?.url ?? data.featured_image;
+
+  const quickFacts = [
+    { Icon: Mountain,   label: "Elevation",        value: displayHeight },
+    { Icon: MapPin,     label: "Location",         value: `${data.region}, ${data.province}` },
+    { Icon: Navigation, label: "Trailhead",        value: data.trailhead ?? heroMeta.viewpoint },
+    { Icon: Clock,      label: "From Surabaya",    value: heroMeta.fromSurabaya },
+    { Icon: Calendar,   label: "Best season",      value: data.best_time_to_visit ?? "Dry: Apr–Oct" },
+    { Icon: Zap,        label: "Physical demand",  value: demandDots ?? heroMeta.difficulty },
   ];
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const offset = 20;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-      setActiveSection(id);
-    }
-  };
-  const primaryAsset = data.destination_assets?.find(
-    (item) => item.type === 'primary'
-  );
-  const heroImageUrl = primaryAsset
-    ? `${primaryAsset.asset.url}`
-    : data.featured_image;
-
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans selection:bg-[#B2F35F] selection:text-black">
-      {/* HERO SECTION */}
-      <header className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
-        <div className="absolute inset-0 bg-black/20 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10" />
-        <Image
-          src={heroImageUrl}
-          alt={data.name}
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute bottom-0 left-0 w-full z-20 pb-12 px-4 md:px-8">
-          <div className="container mx-auto">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {data.tags.slice(0, 5).map((tag, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white text-black shadow-lg"
-                >
-                  {tag.replace("-", " ")}
+    <div className="min-h-screen bg-[#F6F5F2]">
+
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <header className="relative min-h-[72vh] md:min-h-[80vh] w-full overflow-hidden bg-jvto-navy flex flex-col justify-end">
+        {heroImageUrl && (
+          <>
+            <div className="absolute inset-0 bg-black/20 z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/90 via-jvto-navy/30 to-transparent z-[1]" />
+            <Image
+              src={heroImageUrl}
+              alt={data.name}
+              fill
+              priority
+              fetchPriority="high"
+              className="object-cover"
+              sizes="100vw"
+            />
+          </>
+        )}
+        <div className="relative z-[2] pb-14 md:pb-20 px-6 md:px-8 max-w-7xl mx-auto w-full">
+          <div className="grid md:grid-cols-[1.4fr_1fr] gap-10 md:gap-16 items-end">
+
+            {/* Left: heading + lede */}
+            <div>
+              <div className="flex flex-wrap items-center gap-2 mb-5">
+                <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-white/20 bg-white/[0.07] font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                  {data.region} · East Java
                 </span>
+              </div>
+              <h1
+                className="font-black text-white leading-[0.98] mb-3"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(40px, 6.5vw, 86px)",
+                  letterSpacing: "-0.035em",
+                }}
+              >
+                {data.name}
+              </h1>
+              {data.nickname && (
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange/80 mb-4">
+                  {data.nickname}
+                </p>
+              )}
+              {data.summary && (
+                <p className="text-white/65 text-[17px] font-light leading-relaxed max-w-[54ch]">
+                  {data.summary}
+                </p>
+              )}
+            </div>
+
+            {/* Right: meta block */}
+            <div className="bg-white/[0.06] border border-white/10 rounded-[20px] p-5 md:p-6 backdrop-blur-sm">
+              {[
+                { k: "Elevation",     v: displayHeight },
+                { k: "Trailhead",     v: data.trailhead ?? heroMeta.viewpoint },
+                { k: "From Surabaya", v: heroMeta.fromSurabaya },
+                { k: "Difficulty",    v: heroMeta.difficulty },
+              ].map(({ k, v }) => (
+                <div
+                  key={k}
+                  className="flex justify-between items-center border-b border-white/10 last:border-0 py-3"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/50">
+                    {k}
+                  </span>
+                  <strong className="text-white font-semibold text-sm text-right max-w-[55%] leading-snug">
+                    {v}
+                  </strong>
+                </div>
               ))}
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-2 tracking-tight uppercase leading-none drop-shadow-lg">
-              {data.name}
-            </h1>
-            <div className="flex items-center gap-2 text-lg text-white font-bold mb-6 drop-shadow-md">
-              <MapPin className="text-[#B2F35F]" size={20} />
-              {data.region}, {data.province}, {data.country}
-            </div>
           </div>
         </div>
       </header>
 
-      {/* STATIC NAVIGATION */}
-      <nav className="bg-white border-b border-gray-200 py-4 shadow-sm mb-8">
-        <div className="container mx-auto px-4 overflow-x-auto no-scrollbar">
-          <div className="flex gap-8 min-w-max">
-            {navigationItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider py-2 border-b-2 transition-all ${
-                  activeSection === item.id
-                    ? "border-[#B2F35F] text-black"
-                    : "border-transparent text-gray-500 hover:text-black"
-                }`}
+      {/* ── Quick Facts ──────────────────────────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[2]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+            {quickFacts.map(({ Icon, label, value }) => (
+              <div
+                key={label}
+                className="bg-white rounded-[20px] p-5 md:p-6 border border-[#E3E0DA]"
+                style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
               >
-                <item.icon size={16} />
-                {item.label}
-              </button>
+                <Icon size={20} className="text-jvto-orange mb-3" />
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af] mb-1.5">
+                  {label}
+                </p>
+                <p
+                  className="font-black text-jvto-navy leading-tight"
+                  style={{ fontFamily: "Raleway, Georgia, serif", fontSize: "clamp(15px,1.8vw,19px)" }}
+                >
+                  {value}
+                </p>
+              </div>
             ))}
           </div>
         </div>
-      </nav>
+      </section>
 
-      {/* CONTENT GRID */}
-      <main className="container mx-auto px-4 pb-20 grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* LEFT COLUMN (Main Content) */}
-        <div className="lg:col-span-2 space-y-16">
-          {/* 1. OVERVIEW */}
-          <section id="overview" className="scroll-mt-10">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <StatCard
-                icon={Mountain}
-                label="Altitude"
-                value={`${data.altitude} masl`}
-              />
-              <StatCard
-                icon={Thermometer}
-                label="Temp"
-                value={data.temperature_range.split(",")[0]}
-              />
-              <StatCard
-                icon={HardHat}
-                label="Difficulty"
-                value={data.difficulty_level}
-              />
-              <StatCard icon={Clock} label="Duration" value={data.duration} />
-            </div>
+      {/* ── Overview ─────────────────────────────────────────────────────── */}
+      <section
+        className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[3]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.06)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
 
-            <div className="prose prose-lg text-gray-700 max-w-none mb-8">
-              <p className="font-light text-xl leading-relaxed italic pl-0 mb-6">
-                {data.summary}
+            {/* Text */}
+            <div>
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9ca3af] mb-4">
+                Destination overview
               </p>
-              <div className="text-base text-gray-600 whitespace-pre-line">
-                {data.description}
+              <h2
+                className="font-black text-jvto-navy leading-[1.02] mb-6"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(26px, 3vw, 42px)",
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                {data.description?.split(".")[0]?.trim()}.
+              </h2>
+              <div className="space-y-4">
+                {data.description &&
+                  data.description
+                    .split(/\n\n/)
+                    .slice(0, 3)
+                    .map((para, i) => (
+                      <p key={i} className="text-[17px] text-[#6b7280] font-light leading-relaxed">
+                        {para.trim()}
+                      </p>
+                    ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data.main_attractions.map((h, i) => (
+            {/* Image */}
+            <div
+              className="relative rounded-[40px] overflow-hidden bg-jvto-navy"
+              style={{
+                aspectRatio: "4/5",
+                boxShadow: "0 30px 60px -25px rgba(13,27,42,0.22), 0 4px 12px -4px rgba(13,27,42,0.06)",
+              }}
+            >
+              {heroImageUrl ? (
+                <Image
+                  src={heroImageUrl}
+                  alt={data.name}
+                  fill
+                  unoptimized
+                  loading="lazy"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 45vw"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1C2E40] to-jvto-navy" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/40 via-transparent to-transparent" />
+            </div>
+
+          </div>
+
+          {/* Attractions grid */}
+          {data.main_attractions?.length > 0 && (
+            <div className="mt-16 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {data.main_attractions.slice(0, 4).map((attr, i) => (
                 <div
                   key={i}
-                  className="bg-white p-5 rounded-sm border border-gray-200 shadow-sm hover:shadow-md transition-all group"
+                  className="bg-[#F6F5F2] rounded-[20px] p-6 border border-[#E3E0DA]"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mb-3 group-hover:bg-[#B2F35F] transition-colors">
-                    <Star size={18} className="text-black" />
-                  </div>
-                  <h4 className="font-bold text-gray-900 mb-1">{h.title}</h4>
-                  <p className="text-sm text-gray-500">{h.description}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* 2. LOGISTICS */}
-          <section id="logistics" className="scroll-mt-10">
-            <SectionHeader title="Trail & Logistics" icon={Footprints} />
-
-            {/* Trail stats */}
-            {routeStats && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
-                  <Route size={18} className="text-jvto-green shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Distance</p>
-                    <p className="text-white font-bold text-sm">{routeStats.length_km.toFixed(1)} km</p>
-                  </div>
-                </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
-                  <TrendingUp size={18} className="text-jvto-green shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Elev. Gain</p>
-                    <p className="text-white font-bold text-sm">+{routeStats.elev_gain_m} m</p>
-                  </div>
-                </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
-                  <Mountain size={18} className="text-jvto-green shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Max Elev.</p>
-                    <p className="text-white font-bold text-sm">{routeStats.elev_max_m} m</p>
-                  </div>
-                </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center gap-3">
-                  <Mountain size={18} className="text-slate-500 shrink-0" />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-500">Min Elev.</p>
-                    <p className="text-white font-bold text-sm">{routeStats.elev_min_m} m</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Interactive route map */}
-            {/* {routeStats && (
-              <div className="mb-8">
-                <RouteMap
-                  slug={routeStats.slug}
-                  bbox={routeStats.bbox}
-                  elevMinM={routeStats.elev_min_m}
-                  elevMaxM={routeStats.elev_max_m}
-                />
-                <p className="text-[9px] text-slate-700 mt-2 text-right">
-                  Route data: AllTrails.com · Rendered via OpenStreetMap/CARTO
-                </p>
-              </div>
-            )} */}
-
-            {/* Interactive 3D terrain fly-through */}
-            {routeStats && (
-              <div className="mb-8">
-                <Route3DEmbedded slug={routeStats.slug} routeStats={routeStats} />
-                <p className="text-[9px] text-slate-700 mt-2 text-right">
-                  Route data: AllTrails.com · 3D terrain via Mapbox
-                </p>
-              </div>
-            )}
-
-            <div className="bg-white rounded-sm border border-gray-200 shadow-sm overflow-hidden mb-8">
-              <div className="p-6 md:p-8 border-b border-gray-100">
-                <div className="flex flex-col md:flex-row gap-8">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                      <Wind size={18} className="text-black" /> Terrain & Trail
-                    </h4>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                      {data.terrain}
-                    </p>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                      {data.trail_details}
-                    </p>
-                    <div className="text-sm bg-gray-100 p-3 rounded border border-gray-200">
-                      <span className="text-gray-500 block mb-1 uppercase text-[10px] font-bold">
-                        Best Time to Visit
-                      </span>
-                      <span className="text-gray-900 font-medium">
-                        {data.best_time_to_visit}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                      <HardHat size={18} className="text-black" /> Required Gear
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {data.required_gear.map((gear, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-2 text-xs text-gray-600"
-                        >
-                          <CheckCircle2
-                            size={12}
-                            className="text-[#B2F35F] fill-black"
-                          />
-                          <span className="capitalize">
-                            {gear.replace("_", " ")}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Environmental Factors */}
-              <div className="grid grid-cols-2 md:grid-cols-5 divide-x divide-gray-100 bg-gray-50/50">
-                {data.environmental_factors.map((env, i) => (
-                  <div key={i} className="p-4 text-center">
-                    <p className="text-[10px] uppercase text-gray-400 font-bold mb-1">
-                      {env.factor.replace("_", " ")}
-                    </p>
-                    <p className="text-gray-900 font-bold text-sm">
-                      {env.value}{" "}
-                      <span className="text-[10px] font-normal text-gray-500">
-                        {env.unit || ""}
-                      </span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-blue-50 border border-blue-100 p-5 rounded-sm">
-              <h4 className="font-bold text-blue-900 flex items-center gap-2 mb-2">
-                <Info size={18} /> Visitor Tips
-              </h4>
-              <p className="text-sm text-blue-800 leading-relaxed">
-                {data.tips_for_visitors}
-              </p>
-            </div>
-          </section>
-
-          {/* 3. SAFETY */}
-          <section id="safety" className="scroll-mt-10">
-            <div className="flex items-center justify-between mb-6">
-              <SectionHeader title="Safety Protocol" icon={ShieldAlert} />
-              <div className="px-3 py-1 rounded bg-red-100 border border-red-200 text-red-600 text-xs font-bold uppercase flex items-center gap-2">
-                <AlertTriangle size={14} /> High Caution Area
-              </div>
-            </div>
-
-            <div className="space-y-4 mb-8">
-              {data.risk_factors.map((risk, i) => (
-                <RiskAccordion key={i} risk={risk} />
-              ))}
-            </div>
-
-            <div className="p-5 rounded-sm bg-gray-100 border border-gray-200">
-              <h5 className="font-bold text-gray-900 text-sm mb-3">
-                Important Safety Notes
-              </h5>
-              <ul className="space-y-2">
-                {data.safety_notes.map((note, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-sm text-gray-600"
+                  <p
+                    className="font-black text-jvto-navy text-base mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
                   >
-                    <div className="mt-1 min-w-[6px] h-[6px] rounded-full bg-red-500" />
-                    {note}
-                  </li>
+                    {attr.title}
+                  </p>
+                  <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                    {attr.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Key highlights — distinguishing features */}
+          {data.key_highlights?.length > 0 && (
+            <div className="mt-5">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9ca3af] mb-4">
+                What makes it remarkable
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {data.key_highlights.slice(0, 4).map((kh, i) => (
+                  <div
+                    key={i}
+                    className="bg-jvto-navy rounded-[20px] p-6"
+                  >
+                    <p
+                      className="font-black text-white text-base mb-2"
+                      style={{ fontFamily: "Raleway, Georgia, serif" }}
+                    >
+                      {kh.title}
+                    </p>
+                    <p className="text-sm text-white/55 font-light leading-relaxed">
+                      {kh.description}
+                    </p>
+                  </div>
                 ))}
-              </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Volcanic Status (Bromo / Ijen only) ──────────────────────────── */}
+      {volcanicStatus && (
+        <section
+          className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+
+            <div className="mb-8">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-2">
+                Verify before travel
+              </p>
+              <h2
+                className="font-black text-jvto-navy leading-[1.02]"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(28px, 3.8vw, 50px)",
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                Volcanic status <span className="text-jvto-orange">notice.</span>
+              </h2>
             </div>
 
-            {/* Official PVMBG recommendations — sourced from live MAGMA feed */}
-            {volcanicStatus?.pvmbg_report?.recommendations_en?.length ? (
-              <div className="p-5 rounded-sm bg-red-50 border border-red-100">
-                <div className="flex items-center justify-between mb-3">
-                  <h5 className="font-bold text-red-900 text-sm flex items-center gap-2">
-                    <AlertTriangle size={14} className="text-red-600" />
-                    Official PVMBG Recommendations
-                  </h5>
+            {/* Gold alert */}
+            <div className="flex gap-4 p-5 md:p-6 rounded-[20px] bg-[#FEF7E6] border border-[#F5A623]/30 mb-5">
+              <AlertTriangle size={20} className="text-[#F5A623] shrink-0 mt-0.5" />
+              <div>
+                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#9A6A05] mb-1">
+                  {volcanicStatus.alert_level ?? "Elevated status"}
+                </p>
+                <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">
+                  {volcanicStatus.notes ??
+                    `PVMBG has issued an elevated notice for ${data.name}. Verify the current PVMBG/BBKSDA status before you travel — this notice reflects a one-time reading, not a live feed.`}
+                </p>
+                {volcanicStatus.source_url && (
                   <a
                     href={volcanicStatus.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[9px] text-red-400 hover:text-red-600 transition-colors"
+                    className="inline-flex items-center gap-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A6A05]/70 hover:text-[#9A6A05] transition-colors mt-2"
                   >
-                    PVMBG Source ↗
+                    PVMBG source ↗
                   </a>
+                )}
+              </div>
+            </div>
+
+            {/* Vantage cards */}
+            {volcanicVantage && (
+              <>
+                <div className="grid md:grid-cols-2 gap-4 mb-5">
+                  <div
+                    className="bg-white rounded-[20px] p-6 border border-[#E3E0DA] border-l-[3px] border-l-jvto-lime"
+                    style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+                  >
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-jvto-lime mb-2">
+                      Fully accessible
+                    </p>
+                    <h3
+                      className="font-black text-jvto-navy text-base mb-2"
+                      style={{ fontFamily: "Raleway, Georgia, serif" }}
+                    >
+                      {volcanicVantage.accessible.title}
+                    </h3>
+                    <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                      {volcanicVantage.accessible.text}
+                    </p>
+                  </div>
+                  <div
+                    className="bg-white rounded-[20px] p-6 border border-[#E3E0DA] border-l-[3px] border-l-[#F5A623]"
+                    style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+                  >
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A6A05] mb-2">
+                      Currently restricted
+                    </p>
+                    <h3
+                      className="font-black text-jvto-navy text-base mb-2"
+                      style={{ fontFamily: "Raleway, Georgia, serif" }}
+                    >
+                      {volcanicVantage.restricted.title}
+                    </h3>
+                    <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                      {volcanicVantage.restricted.text}
+                    </p>
+                  </div>
                 </div>
-                <ul className="space-y-2">
-                  {volcanicStatus.pvmbg_report.recommendations_en.map((rec, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-red-800">
-                      <div className="mt-1 min-w-[6px] h-[6px] rounded-full bg-red-500 shrink-0" />
-                      {rec}
+
+                {/* Lime callout */}
+                <div className="flex gap-4 p-5 md:p-6 rounded-[20px] bg-jvto-lime/[0.07] border border-jvto-lime/20">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="text-jvto-lime shrink-0 mt-0.5" aria-hidden="true">
+                    <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                  </svg>
+                  <div>
+                    <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-lime mb-1">
+                      Effect on your itinerary · minimal
+                    </p>
+                    <p className="text-[15px] text-[#6b7280] font-light leading-relaxed">
+                      {volcanicVantage.planB}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+
+          </div>
+        </section>
+      )}
+
+      {/* ── Why JVTO ─────────────────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.22)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-10 md:mb-14">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50 mb-2">
+              Police-led · private · verifiable
+            </p>
+            <h2
+              className="font-black text-white leading-[1.02]"
+              style={{
+                fontFamily: "Raleway, Georgia, serif",
+                fontSize: "clamp(28px, 3.8vw, 50px)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Why JVTO for <span className="text-jvto-orange">{data.name}.</span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {WHY_TILES.map(({ title, desc, meta, Icon }) => (
+              <div
+                key={title}
+                className="bg-white/[0.05] border border-white/10 rounded-[20px] p-6 md:p-7"
+              >
+                <div className="text-jvto-lime mb-4">
+                  <Icon />
+                </div>
+                <h3
+                  className="font-black text-white text-lg mb-2"
+                  style={{ fontFamily: "Raleway, Georgia, serif" }}
+                >
+                  {title}
+                </h3>
+                <p className="text-white/55 text-sm font-light leading-relaxed mb-4">
+                  {desc}
+                </p>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+                  {meta}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Tours / Packages ─────────────────────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-10 md:mb-12">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-jvto-orange mb-2">
+              Book your trip
+            </p>
+            <h2
+              className="font-black text-jvto-navy leading-[1.02]"
+              style={{
+                fontFamily: "Raleway, Georgia, serif",
+                fontSize: "clamp(28px, 3.8vw, 50px)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              {data.name} tour <span className="text-jvto-orange">packages.</span>
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
+            <AppLink
+              href="/tours/from-surabaya"
+              prefetch={false}
+              className="group bg-white rounded-[20px] p-6 md:p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 transition-colors"
+              style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+            >
+              <div className="mb-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white bg-jvto-navy px-3 py-1.5 rounded-full">
+                  From Surabaya
+                </span>
+              </div>
+              <h3
+                className="font-black text-jvto-navy text-xl mb-2"
+                style={{ fontFamily: "Raleway, Georgia, serif" }}
+              >
+                {data.name} from Surabaya
+              </h3>
+              <p className="text-sm text-[#6b7280] font-light leading-relaxed mb-5">
+                Midnight departure. Private vehicle, sunrise at the viewpoint, dedicated crew throughout.
+              </p>
+              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+                View packages <ArrowRight />
+              </span>
+            </AppLink>
+            <AppLink
+              href="/tours/from-bali"
+              prefetch={false}
+              className="group bg-white rounded-[20px] p-6 md:p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 transition-colors"
+              style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+            >
+              <div className="mb-4">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white bg-jvto-navy px-3 py-1.5 rounded-full">
+                  From Bali
+                </span>
+              </div>
+              <h3
+                className="font-black text-jvto-navy text-xl mb-2"
+                style={{ fontFamily: "Raleway, Georgia, serif" }}
+              >
+                {data.name} from Bali
+              </h3>
+              <p className="text-sm text-[#6b7280] font-light leading-relaxed mb-5">
+                Cross-island private package. Bali pickup, East Java circuit, return or drop at your next stop.
+              </p>
+              <span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange">
+                View packages <ArrowRight />
+              </span>
+            </AppLink>
+          </div>
+          <p className="text-center font-mono text-[11px] text-[#9ca3af] tracking-[0.14em] uppercase">
+            Multi-destination packages (3D2N to 6D5N) also available ·{" "}
+            <AppLink href="/tours" prefetch={false} className="text-jvto-navy hover:text-jvto-orange transition-colors">
+              See full list
+            </AppLink>
+          </p>
+        </div>
+      </section>
+
+      {/* ── Practical Info ────────────────────────────────────────────────── */}
+      <section
+        className="bg-white py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.06)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="mb-10 md:mb-12">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9ca3af] mb-2">
+              Plan your day
+            </p>
+            <h2
+              className="font-black text-jvto-navy leading-[1.02]"
+              style={{
+                fontFamily: "Raleway, Georgia, serif",
+                fontSize: "clamp(28px, 3.8vw, 50px)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Practical <span className="text-jvto-orange">information.</span>
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
+
+            {/* Left prose */}
+            <div className="space-y-7">
+              {data.best_time_to_visit && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Best season
+                  </h3>
+                  <p className="text-[16px] text-[#6b7280] font-light leading-relaxed">
+                    {data.best_time_to_visit}
+                  </p>
+                </div>
+              )}
+              {data.temperature_range && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Temperature
+                  </h3>
+                  <p className="text-[16px] text-[#6b7280] font-light leading-relaxed">
+                    {data.temperature_range}. Warm layers are recommended — wind chill at viewpoints is significant regardless of daytime temperatures lower down.
+                  </p>
+                </div>
+              )}
+              {(data.physical_requirements || data.terrain) && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Physical requirements
+                  </h3>
+                  <p className="text-[16px] text-[#6b7280] font-light leading-relaxed">
+                    {data.physical_requirements ?? data.terrain}
+                  </p>
+                </div>
+              )}
+              {data.tips_for_visitors && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Visitor tips
+                  </h3>
+                  <p className="text-[16px] text-[#6b7280] font-light leading-relaxed">
+                    {data.tips_for_visitors}
+                  </p>
+                </div>
+              )}
+              {data.cultural_context && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-2"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Cultural context
+                  </h3>
+                  <p className="text-[16px] text-[#6b7280] font-light leading-relaxed">
+                    {data.cultural_context}
+                  </p>
+                </div>
+              )}
+              {data.safety_notes?.length > 0 && (
+                <div>
+                  <h3
+                    className="font-black text-jvto-navy text-lg mb-3"
+                    style={{ fontFamily: "Raleway, Georgia, serif" }}
+                  >
+                    Safety notes
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {data.safety_notes.map((note, i) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <AlertTriangle size={14} className="text-jvto-orange shrink-0 mt-1" />
+                        <span className="text-[15px] text-[#6b7280] font-light leading-relaxed">{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Right data boxes */}
+            <div className="space-y-4">
+              <div className="bg-[#F6F5F2] rounded-[20px] p-6 border border-[#E3E0DA]">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-4">
+                  Included on all {data.name} packages
+                </p>
+                <ul className="space-y-3">
+                  {inclusions.map((item) => (
+                    <li key={item} className="flex items-center gap-2.5 text-sm text-jvto-navy font-light">
+                      <CheckMark /> {item}
                     </li>
                   ))}
                 </ul>
-                <p className="text-[9px] text-red-400 mt-3">
-                  Verified {volcanicStatus.last_verified} · {volcanicStatus.source}
+              </div>
+              <div className="bg-[#F6F5F2] rounded-[20px] p-6 border border-[#E3E0DA]">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-3">
+                  Not included
+                </p>
+                <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                  Flights · gratuities (guest discretion) · personal expenses · optional horse riding arranged on-site where available.
                 </p>
               </div>
-            ) : null}
-          </section>
-
-          {/* 4. CULTURE */}
-          <section id="culture" className="scroll-mt-10">
-            <SectionHeader title="Cultural Significance" icon={Award} />
-            <div className="bg-white border border-gray-200 shadow-sm p-8 rounded-sm relative overflow-hidden">
-              <div className="relative z-10">
-                <p className="text-lg text-gray-600 italic mb-6 leading-relaxed">
-                  "{data.cultural_context}"
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {data.local_tribes.map((tribe) => (
-                    <span
-                      key={tribe}
-                      className="px-3 py-1 rounded-full bg-gray-100 border border-gray-200 text-xs text-gray-600 font-medium"
-                    >
-                      {tribe} Tribe
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <Flame className="absolute -bottom-10 -right-10 text-gray-100 w-64 h-64 opacity-50" />
-            </div>
-          </section>
-        </div>
-
-        {/* RIGHT COLUMN (Sidebar) */}
-        <aside className="lg:col-span-1">
-          <div className="space-y-6">
-            {/* Volcanic status badge — Ijen + Bromo only */}
-            {volcanicStatus && (
-              <VolcanicStatusBadge
-                destinationName={data.name}
-                status={volcanicStatus}
-              />
-            )}
-
-            {/* PVMBG field report — visual observation + summit conditions */}
-            {volcanicStatus?.pvmbg_report && (
-              <PvmbgFieldReport
-                report={volcanicStatus.pvmbg_report}
-                sourceUrl={volcanicStatus.source_url}
-                lastVerified={volcanicStatus.last_verified}
-              />
-            )}
-
-            {/* INFO CARD (Permit Details) */}
-            <div className="rounded-sm p-1 bg-[#B2F35F] shadow-lg">
-              <div className="bg-white rounded-sm p-6 h-full">
-                <div className="mb-6">
-                  <p className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1">
-                    Permit & Entry
+              {data.permit_details && (
+                <div className="bg-[#F6F5F2] rounded-[20px] p-6 border border-[#E3E0DA]">
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-3">
+                    Permit & entry
                   </p>
-                  <h3 className="text-xl font-black text-gray-900">
-                    Information
-                  </h3>
+                  <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                    {data.permit_details}
+                  </p>
                 </div>
-
-                <div className="space-y-4 mb-6">
-                  <div className="text-sm bg-gray-50 p-3 rounded-sm border border-gray-100">
-                    <p className="font-bold text-gray-900 mb-1">
-                      Permit Details
-                    </p>
-                    <p className="text-gray-600 text-xs leading-relaxed">
-                      {data.permit_details}
-                    </p>
-                  </div>
-
-                  <div className="flex justify-between text-sm py-2 border-b border-gray-100">
-                    <span className="text-gray-500">Permit Status</span>
-                    <span className="text-gray-900 flex items-center gap-1 font-bold">
-                      {data.permit_required ? (
-                        <CheckCircle2 size={14} className="text-black" />
-                      ) : (
-                        <XCircle size={14} />
-                      )}{" "}
-                      Required
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm py-2 border-b border-gray-100">
-                    <span className="text-gray-500">Guide Status</span>
-                    <span className="text-gray-900 flex items-center gap-1 font-bold">
-                      {data.guide_required ? (
-                        <CheckCircle2 size={14} className="text-black" />
-                      ) : (
-                        <XCircle size={14} />
-                      )}{" "}
-                      Mandatory
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-[10px] text-center text-gray-400">
-                  Operated by JVTO • Police-Led Safety
-                </p>
-              </div>
+              )}
             </div>
 
-            {/* Quick Summary Card */}
-            <div className="bg-white border border-gray-200 shadow-sm rounded-sm p-6">
-              <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Calendar size={18} /> Seasonality
-              </h4>
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                {data.weather_by_season}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trek & Terrain Profile ────────────────────────────────────────── */}
+      {routeStats && (
+        <section
+          className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[8]"
+          style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="mb-10 md:mb-12">
+              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#9ca3af] mb-2">
+                {heroMeta.difficulty} · {displayHeight}
               </p>
-              <div className="text-xs text-gray-500 pt-4 border-t border-gray-100">
-                <strong>Rainfall:</strong> {data.rainfall_intensity}
+              <h2
+                className="font-black text-jvto-navy leading-[1.02]"
+                style={{
+                  fontFamily: "Raleway, Georgia, serif",
+                  fontSize: "clamp(28px, 3.8vw, 50px)",
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                Trek &amp; terrain <span className="text-jvto-orange">profile.</span>
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-[260px_1fr] gap-8 md:gap-12">
+
+              {/* Stats panel */}
+              <div
+                className="bg-white rounded-[20px] p-6 border border-[#E3E0DA] h-fit"
+                style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+              >
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#9ca3af] mb-1">
+                  Difficulty
+                </p>
+                <p
+                  className="font-black text-jvto-navy text-xl mb-6"
+                  style={{ fontFamily: "Raleway, Georgia, serif" }}
+                >
+                  {heroMeta.difficulty}
+                </p>
+                {[
+                  { k: "Distance",      v: `${routeStats.length_km.toFixed(1)} km` },
+                  { k: "Elev. gain",    v: `+${routeStats.elev_gain_m} m` },
+                  { k: "Max elevation", v: `${routeStats.elev_max_m} m` },
+                  { k: "Min elevation", v: `${routeStats.elev_min_m} m` },
+                  { k: "Best season",   v: data.best_time_to_visit ?? "Dry: Apr–Oct" },
+                ].map(({ k, v }) => (
+                  <div key={k} className="flex justify-between border-b border-[#F6F5F2] py-2.5 last:border-0">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9ca3af]">{k}</span>
+                    <span className="font-semibold text-sm text-jvto-navy">{v}</span>
+                  </div>
+                ))}
               </div>
+
+              {/* 3D terrain + details */}
+              <div className="space-y-6">
+                <Route3DEmbedded
+                  slug={routeStats.slug}
+                  routeStats={routeStats}
+                  geojson={data.route_geojson as FeatureCollection | null | undefined}
+                />
+                <p className="text-[10px] text-[#9ca3af] text-right font-mono">
+                  Route data: AllTrails.com · 3D terrain via Mapbox
+                </p>
+
+                {data.trail_details && (
+                  <div
+                    className="bg-white rounded-[20px] p-6 border border-[#E3E0DA]"
+                    style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+                  >
+                    <h3
+                      className="font-black text-jvto-navy text-base mb-3"
+                      style={{ fontFamily: "Raleway, Georgia, serif" }}
+                    >
+                      On the trail
+                    </h3>
+                    <p className="text-sm text-[#6b7280] font-light leading-relaxed">
+                      {data.trail_details}
+                    </p>
+                  </div>
+                )}
+
+                {data.required_gear?.length > 0 && (
+                  <div
+                    className="bg-white rounded-[20px] p-6 border border-[#E3E0DA]"
+                    style={{ boxShadow: "0 2px 8px -4px rgba(13,27,42,0.06)" }}
+                  >
+                    <h3
+                      className="font-black text-jvto-navy text-base mb-4"
+                      style={{ fontFamily: "Raleway, Georgia, serif" }}
+                    >
+                      What to bring
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {data.required_gear.map((gear) => (
+                        <span
+                          key={gear}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-jvto-lime/10 border border-jvto-lime/25 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-jvto-navy"
+                        >
+                          <CheckMark />
+                          {gear.replace(/_/g, " ")}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {data.environmental_factors?.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {data.environmental_factors.map((env) => (
+                      <div
+                        key={env.factor}
+                        className="bg-white rounded-[16px] p-4 border border-[#E3E0DA] text-center"
+                      >
+                        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9ca3af] mb-1">
+                          {env.factor.replace(/_/g, " ")}
+                        </p>
+                        <p className="font-semibold text-jvto-navy text-sm">
+                          {env.value}{" "}
+                          {env.unit && (
+                            <span className="font-normal text-[#9ca3af] text-xs">{env.unit}</span>
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
-        </aside>
-      </main>
+        </section>
+      )}
+
+      {/* ── CTA ──────────────────────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-24 md:py-32 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[9]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.22)" }}
+      >
+        <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
+          <h2
+            className="font-black text-white leading-[1.02] mb-4"
+            style={{
+              fontFamily: "Raleway, Georgia, serif",
+              fontSize: "clamp(30px, 4.5vw, 58px)",
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Visit <span className="text-jvto-orange">{data.name}</span> with JVTO.
+          </h2>
+          <p className="text-white/55 text-[17px] font-light mb-10 max-w-[46ch] mx-auto">
+            Police-led. 100% private. BBKSDA clearance in hand. Verifiable before you pay.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <AppLink
+              href="/tours"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
+            >
+              View {data.name} packages <ArrowRight />
+            </AppLink>
+            <AppLink
+              href="/contact"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+            >
+              WhatsApp us
+            </AppLink>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

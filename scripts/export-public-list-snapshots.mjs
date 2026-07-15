@@ -102,6 +102,7 @@ function serializeDestination(dest) {
     (dest.destination_assets ?? []).find(
       (da) => da.asset?.type === "image" && da.type === "primary",
     )?.asset ?? null;
+  const primaryLocation = (dest.locations ?? [])[0] ?? null;
 
   return {
     id: Number(dest.id),
@@ -117,8 +118,8 @@ function serializeDestination(dest) {
     highlight: dest.highlight ?? null,
     description: dest.description ?? null,
     geo: {
-      latitude: dest.latitude ? Number(dest.latitude) : null,
-      longitude: dest.longitude ? Number(dest.longitude) : null,
+      latitude: primaryLocation?.latitude ? Number(primaryLocation.latitude) : null,
+      longitude: primaryLocation?.longitude ? Number(primaryLocation.longitude) : null,
       altitude: dest.altitude ?? null,
     },
     keyInfo: {
@@ -136,7 +137,6 @@ function serializeDestination(dest) {
       description: dest.seo_description ?? null,
     },
     tags: dest.tags ?? [],
-    types: safeJson(dest.types),
     schema_json: dest.schema_json ?? null,
   };
 }
@@ -185,8 +185,6 @@ try {
       summary: true,
       highlight: true,
       description: true,
-      latitude: true,
-      longitude: true,
       altitude: true,
       difficulty_level: true,
       temperature_range: true,
@@ -199,11 +197,18 @@ try {
       seo_title: true,
       seo_description: true,
       tags: true,
-      types: true,
       schema_json: true,
       destination_assets: {
         where: { asset: { type: "image" } },
         include: { asset: true },
+      },
+      // latitude/longitude live on `locations` now (destinations.latitude/longitude was
+      // dropped as a duplicate) — the unique partial index on locations(destination_id)
+      // WHERE type='destination' guarantees at most one match here.
+      locations: {
+        where: { type: "destination" },
+        select: { latitude: true, longitude: true },
+        take: 1,
       },
     },
     orderBy: { id: "asc" },

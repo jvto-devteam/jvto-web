@@ -33,7 +33,6 @@ export async function GET(
           },
         },
       },
-      package_images: true,
       package_includes: { include: { item_includes: true } },
       package_itinerary_days: {
         orderBy: { day_no: "asc" },

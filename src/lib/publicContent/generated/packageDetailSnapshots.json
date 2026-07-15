@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T01:05:29.286Z",
+  "generatedAt": "2026-07-15T06:13:06.533Z",
   "items": [
     {
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
@@ -1149,17 +1149,25 @@
                   "description": "Pickup at your location in Surabaya. Meet our team at the confirmed pick-up point, complete a quick departure check, and begin the transfer toward the Mount Bromo area (Cemoro Lawang).",
                   "timeWindow": "12:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Lunch at Local Restaurant",
                   "description": "Stop at a local restaurant for lunch (cost not included). This is the planned lunch break during the transfer day, allowing time to order and dine before continuing to the Bromo area.",
                   "timeWindow": "12:30",
-                  "durationMinutes": 210,
+                  "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bromo Transfer",
+                  "description": "Continue the journey from the restaurant toward the Bromo area, arriving in time for hotel check-in.",
+                  "timeWindow": "13:30",
+                  "durationMinutes": 150,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bromo Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -1167,7 +1175,7 @@
                   "description": "Arrive at the Mount Bromo area and complete hotel check-in. This step covers arrival at your accommodation in the Bromo area and settling in for the next part of the program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Mount Bromo Hotel"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -1176,7 +1184,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Cemoro Lawang (Bromo Area)"
+              "overnight": "Bromo Hotel"
             },
             {
               "day": 2,
@@ -1189,7 +1197,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo sunrise program, following the Mount Bromo touring sequence within the allocated time block.",
                   "timeWindow": "02:00",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1197,7 +1205,7 @@
                   "description": "Back to the hotel for breakfast. Return from the Bromo program to the hotel and take the planned breakfast break, allowing time to rest briefly before check-out and the next destination transfer.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -1206,14 +1214,13 @@
                   "timeWindow": "11:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bromo Hotel",
-                  "toLocation": "Madakaripura Waterfall",
-                  "destination": ""
+                  "toLocation": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. Arrive at the Madakaripura area and begin the scheduled trekking session, using the full activity block for the on-site waterfall exploration as planned.",
-                  "timeWindow": "00:00",
+                  "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "location": "Madakaripura Waterfall"
                 },
@@ -1223,9 +1230,8 @@
                   "description": "Finish explore Madakaripura waterfall. Conclude the trekking and on-site exploration segment at Madakaripura, regroup at the designated meeting point, and prepare for departure to the next transfer leg.",
                   "timeWindow": "15:00",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Madakaripura Waterfall"
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -1233,9 +1239,8 @@
                   "description": "Start the long journey to Bondowoso (about 3 hours). Depart from the Madakaripura area and begin the overland transfer to Bondowoso (Ijen area), using the scheduled travel window for the afternoon relocation.",
                   "timeWindow": "15:00",
                   "durationMinutes": 180,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Bondowoso City"
                 },
                 {
                   "type": "CheckInAction",
@@ -1243,7 +1248,7 @@
                   "description": "Arrive in Bondowoso, check-in hotel. Reach Bondowoso and complete the hotel check-in process after the long day, ensuring you are settled before the evening prerequisite procedures.",
                   "timeWindow": "18:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bondowoso"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1251,7 +1256,7 @@
                   "description": "A health screening will be conducted by medical personnel directly at your hotel. This is a brief vital-signs check scheduled as a prerequisite before the Ijen climbing program.",
                   "timeWindow": "18:30",
                   "durationMinutes": 15,
-                  "location": "Hotel in Bondowoso"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1268,7 +1273,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 3,
@@ -1289,9 +1294,8 @@
                   "description": "Start the journey to Ketapang Harbor. Depart from the Ijen area and begin the road transfer to Ketapang Harbor to connect with the ferry crossing to Bali.",
                   "timeWindow": "09:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ijen area",
-                  "toLocation": "Ketapang Harbor",
-                  "destination": ""
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -1299,9 +1303,8 @@
                   "description": "Arrive at Ketapang Port and board the ferry. Proceed through the port arrival and boarding flow to begin the ferry crossing toward Gilimanuk Harbor in Bali.",
                   "timeWindow": "10:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -1309,9 +1312,8 @@
                   "description": "Arrive at Gilimanuk Harbor, Bali (+1 hour time zone). Disembark at Gilimanuk and adjust to the time zone difference, completing the crossing segment upon arrival in Bali.",
                   "timeWindow": "12:30",
                   "durationMinutes": 10,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Bali",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Bali Hotel"
                 }
               ],
               "mealsPlan": {
@@ -1641,10 +1643,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1653,6 +1654,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -1674,7 +1684,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -1685,7 +1695,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -1698,7 +1708,16 @@
                   "description": "Follow the entire Ijen tour series. This block represents the full scheduled Ijen program as arranged for the day, completed in sequence before the onward transfer to the Bromo area later.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 120,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -1706,7 +1725,7 @@
                   "description": "Check-out from the Ijen area hotel. This is the formal check-out step after finishing the Ijen tour series, preparing for lunch and the transfer toward the Bromo area.",
                   "timeWindow": "11:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1723,8 +1742,7 @@
                   "timeWindow": "12:30",
                   "durationMinutes": 210,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -1732,7 +1750,7 @@
                   "description": "Arrive in Bromo area, check-in hotel. This step covers arrival at the accommodation and completing check-in so you can rest and prepare for the next day’s Bromo program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bromo Area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -1754,7 +1772,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled Mount Bromo sunrise tour sequence by Jeep, completing the morning program within the allocated time block.",
                   "timeWindow": "02:30",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -1773,6 +1791,15 @@
                   "location": "Bromo Hotel"
                 },
                 {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Depart from the Bromo hotel after check-out and continue the overland transfer to Madakaripura Waterfall.",
+                  "timeWindow": "11:10",
+                  "durationMinutes": 20,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. This is the main on-site activity window at Madakaripura Waterfall, dedicated to the trek segment as listed in the schedule.",
@@ -1786,7 +1813,7 @@
                   "description": "After trekking, have lunch (fees not included). This is the planned meal break after the Madakaripura trekking segment, with dining costs handled personally.",
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
-                  "location": "Madakaripura Area"
+                  "location": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -1794,9 +1821,8 @@
                   "description": "Journey to Surabaya. Begin the return transfer from the Madakaripura area to Surabaya, closing the day tour route.",
                   "timeWindow": "14:30",
                   "durationMinutes": 120,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -1804,9 +1830,8 @@
                   "description": "Arrived in Surabaya. Complete arrival procedures and proceed to the final drop-off point as applicable.",
                   "timeWindow": "16:30",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Surabaya"
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -2142,10 +2167,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2154,6 +2178,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -2175,7 +2208,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -2186,7 +2219,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -2199,7 +2232,16 @@
                   "description": "Follow the entire Ijen tour series. This block represents the full scheduled Ijen program as arranged for the day, completed in sequence before the onward transfer to the Bromo area later.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 120,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -2207,7 +2249,7 @@
                   "description": "Check-out from the Ijen area hotel. This is the formal check-out step after finishing the Ijen tour series, preparing for lunch and the transfer toward the Bromo area.",
                   "timeWindow": "11:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2224,8 +2266,7 @@
                   "timeWindow": "12:30",
                   "durationMinutes": 210,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -2233,7 +2274,7 @@
                   "description": "Arrive in Bromo area, check-in hotel. This step covers arrival at the accommodation and completing check-in so you can rest and prepare for the next day’s Bromo program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bromo Area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -2255,7 +2296,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled Mount Bromo sunrise tour sequence by Jeep, completing the morning program within the allocated time block.",
                   "timeWindow": "02:30",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2274,6 +2315,15 @@
                   "location": "Bromo Hotel"
                 },
                 {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Depart from the Bromo hotel after check-out and continue the overland transfer to Madakaripura Waterfall.",
+                  "timeWindow": "11:10",
+                  "durationMinutes": 20,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. This is the main on-site activity window at Madakaripura Waterfall, dedicated to the trek segment as listed in the schedule.",
@@ -2287,7 +2337,7 @@
                   "description": "After trekking, have lunch (fees not included). This is the planned meal break after the Madakaripura trekking segment, with dining costs handled personally.",
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
-                  "location": "Madakaripura Area"
+                  "location": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -2295,9 +2345,8 @@
                   "description": "Journey to Surabaya. Begin the return transfer from the Madakaripura area to Surabaya, closing the day tour route.",
                   "timeWindow": "14:30",
                   "durationMinutes": 120,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -2305,9 +2354,8 @@
                   "description": "Arrived in Surabaya. Complete arrival procedures and proceed to the final drop-off point as applicable.",
                   "timeWindow": "16:30",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Surabaya"
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -2316,7 +2364,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Surabaya"
+              "overnight": "Surabaya City"
             },
             {
               "day": 4,
@@ -2329,7 +2377,7 @@
                   "description": "Breakfast at the hotel and free time until check-out time. This block is reserved for your morning meal and unstructured time at the hotel before the scheduled airport transfer.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -2337,9 +2385,8 @@
                   "description": "Pick up at your hotel lobby (planned 3 hours before your flight departure time) and transfer to Juanda Airport. This segment covers the direct road transfer to the airport for your departure connection.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Hotel",
-                  "toLocation": "Juanda Airport",
-                  "destination": ""
+                  "fromLocation": "Accommodation",
+                  "toLocation": "Surabaya Airport"
                 }
               ],
               "mealsPlan": {
@@ -2548,7 +2595,7 @@
             },
             {
               "name": "Papuma Beach",
-              "highlight": "White sand beach with turquoise waters and unique rock formations"
+              "highlight": "White sand beach with turquoise waters and unique rock formations. Cape headland Tanjung Papuma ~86m. The only coastal stop on a JVTO East Java circuit — between Ijen night hike and Tumpak Sewu canyon descent."
             }
           ],
           "physicalDifficulty": "moderate",
@@ -2683,10 +2730,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2695,6 +2741,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -2716,7 +2771,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -2727,7 +2782,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -2740,7 +2795,16 @@
                   "description": "Take the Ijen tour. This block represents completing the scheduled Ijen program for the day, finished in full before the onward travel sequence to Jember and Papuma Beach.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -2748,7 +2812,7 @@
                   "description": "Check out hotels in the Ijen area. This is the departure step from the Ijen-area accommodation after completing the Ijen tour block, transitioning to lunch and onward travel.",
                   "timeWindow": "12:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2756,7 +2820,7 @@
                   "description": "Lunch at a local restaurant (included). This is the planned meal stop after check-out, providing time to eat before the transfer toward Jember.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Bondowoso City"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -2765,8 +2829,7 @@
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Jember",
-                  "destination": ""
+                  "toLocation": "Jember City"
                 },
                 {
                   "type": "CheckInAction",
@@ -2774,7 +2837,16 @@
                   "description": "Arrive in Jember, check-in, then head straight to Papuma Beach. This step covers arriving at the Jember hotel, completing check-in efficiently, and continuing onward to the beach for the late-afternoon program.",
                   "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Papuma Beach",
+                  "description": "Depart from the Jember hotel and transfer to Papuma Beach in time for the sunset window.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Papuma Beach"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2791,8 +2863,7 @@
                   "timeWindow": "18:00",
                   "durationMinutes": 60,
                   "fromLocation": "Papuma Beach",
-                  "toLocation": "Hotel in Jember",
-                  "destination": ""
+                  "toLocation": "Jember Hotel"
                 }
               ],
               "mealsPlan": {
@@ -2801,7 +2872,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Jember"
+              "overnight": "Jember Hotel"
             },
             {
               "day": 3,
@@ -2814,7 +2885,7 @@
                   "description": "Check out hotel. Complete the standard hotel check-out process in Jember, confirm departure readiness, and prepare for the early transfer toward the early Tumpak Sewu (Lumajang) area.",
                   "timeWindow": "03:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -2822,9 +2893,8 @@
                   "description": "Transfer to Tumpak Sewu waterfall. Depart from the hotel in Jember and begin the direct overland drive to the Tumpak Sewu area, using the allocated travel window for the point-to-point transfer.",
                   "timeWindow": "03:30",
                   "durationMinutes": 180,
-                  "fromLocation": "Hotel in Jember",
-                  "toLocation": "Tumpak Sewu",
-                  "destination": ""
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2841,7 +2911,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Area"
             },
             {
               "day": 4,
@@ -2854,7 +2924,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the sunrise tour sequence by Jeep in the Mount Bromo area, following the planned route flow for the morning program.",
                   "timeWindow": "02:00",
                   "durationMinutes": 420,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -2879,8 +2949,7 @@
                   "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -2888,9 +2957,8 @@
                   "description": "Arrive in Surabaya and proceed with the final transfer to your requested drop-off (hotel/airport). Tour ends after drop-off completion.",
                   "timeWindow": "15:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Airport / Hotel",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Accommodation"
                 }
               ],
               "mealsPlan": {
@@ -3095,7 +3163,7 @@
             },
             {
               "name": "Tumpak Sewu Waterfall",
-              "highlight": "Thousand-stream waterfall curtain with Mount Semeru backdrop"
+              "highlight": "Java's Niagara — ~120m multi-tiered waterfall curtain. Thousand-stream waterfall curtain with Mount Semeru backdrop"
             },
             {
               "name": "Ijen Crater",
@@ -4208,9 +4276,8 @@
                   "description": "Pickup at your location in Surabaya and begin the transfer to the Tumpak Sewu area (Lumajang). This segment is the overland journey from the city to the waterfall area accommodation zone.",
                   "timeWindow": "12:00",
                   "durationMinutes": 210,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Tumpak Sewu area",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -4218,7 +4285,7 @@
                   "description": "Arrive at the Tumpak Sewu area and check in at the homestay/cottage. This is the scheduled arrival and check-in process so you can settle at the accommodation near the Tumpak Sewu area.",
                   "timeWindow": "15:30",
                   "durationMinutes": 30,
-                  "location": "Homestay in Tumpak Sewu area"
+                  "location": "Tumpak Sewu Hotel"
                 }
               ],
               "mealsPlan": {
@@ -4227,7 +4294,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Hotel"
             },
             {
               "day": 2,
@@ -4256,9 +4323,8 @@
                   "description": "Starting the journey to the Mount Bromo area. Depart from the Tumpak Sewu area and begin the overland transfer to the Mount Bromo accommodation zone as scheduled.",
                   "timeWindow": "12:30",
                   "durationMinutes": 270,
-                  "fromLocation": "Tumpak Sewu",
-                  "toLocation": "Mount Bromo area",
-                  "destination": ""
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -4266,7 +4332,7 @@
                   "description": "Arrive at Bromo area and check-in hotel. Reach the Bromo area and complete hotel check-in, concluding the day’s relocation and preparing for the next morning’s Bromo program.",
                   "timeWindow": "16:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bromo area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -4288,7 +4354,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo program, following the sunrise tour sequence in the Mount Bromo area within the allocated time window.",
                   "timeWindow": "02:00",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -4310,25 +4376,33 @@
                   "type": "TravelAction",
                   "name": "Transfer to Bondowoso",
                   "description": "Travel to Bondowoso (about 3-4 hours). Start the overland transfer from the Bromo area to Bondowoso, transitioning from the volcanic highlands toward the Ijen-area base town as scheduled.",
-                  "timeWindow": "12:00",
-                  "durationMinutes": 210,
+                  "timeWindow": "12:10",
+                  "durationMinutes": 90,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "toLocation": "Transit Stop"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Lunch Break (Own Expense)",
                   "description": "Stop for lunch on the way (cost not included). Take a short meal break during the transfer, allowing time to order food and rest briefly before continuing to Bondowoso.",
-                  "timeWindow": "13:30",
+                  "timeWindow": "13:40",
                   "durationMinutes": 30,
-                  "location": "En route to Bondowoso"
+                  "location": "Transit Stop"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transit Stop to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the rest stop toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:10",
+                  "durationMinutes": 90,
+                  "fromLocation": "Transit Stop",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
                   "name": "Bondowoso Hotel Check-in",
                   "description": "Arrive in Bondowoso, check-in hotel. Reach the Bondowoso accommodation and complete the check-in procedure so you can settle in after the transfer day.",
-                  "timeWindow": "15:30",
+                  "timeWindow": "15:40",
                   "durationMinutes": 10,
                   "location": "Bondowoso Hotel"
                 },
@@ -4355,7 +4429,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 4,
@@ -4376,9 +4450,8 @@
                   "description": "Start the journey to Ketapang Harbor. Depart from the Ijen area and begin the road transfer to Ketapang Harbor to connect with the ferry crossing to Bali.",
                   "timeWindow": "09:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ijen area",
-                  "toLocation": "Ketapang Harbor",
-                  "destination": ""
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -4386,9 +4459,8 @@
                   "description": "Arrive at Ketapang Port and board the ferry. Proceed through the port arrival and boarding flow to begin the ferry crossing toward Gilimanuk Harbor in Bali.",
                   "timeWindow": "10:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -4396,9 +4468,8 @@
                   "description": "Arrive at Gilimanuk Harbor, Bali (+1 hour time zone). Disembark at Gilimanuk and adjust to the time zone difference, completing the crossing segment upon arrival in Bali.",
                   "timeWindow": "12:30",
                   "durationMinutes": 10,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Bali",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Bali Hotel"
                 }
               ],
               "mealsPlan": {
@@ -4734,10 +4805,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -4746,6 +4816,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -4767,7 +4846,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -4778,7 +4857,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -4791,7 +4870,16 @@
                   "description": "Follow the entire Ijen tour series. This block represents the full scheduled Ijen program as arranged for the day, completed in sequence before the onward transfer to the Bromo area later.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 120,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -4799,7 +4887,7 @@
                   "description": "Check-out from the Ijen area hotel. This is the formal check-out step after finishing the Ijen tour series, preparing for lunch and the transfer toward the Bromo area.",
                   "timeWindow": "11:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -4816,8 +4904,7 @@
                   "timeWindow": "12:30",
                   "durationMinutes": 210,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -4825,7 +4912,7 @@
                   "description": "Arrive in Bromo area, check-in hotel. This step covers arrival at the accommodation and completing check-in so you can rest and prepare for the next day’s Bromo program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bromo Area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -4847,7 +4934,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo sunrise program, completing the Mount Bromo touring block within the allocated time window before continuing to the next destination.",
                   "timeWindow": "02:00",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -4855,7 +4942,7 @@
                   "description": "Back to the hotel for breakfast. Return from the Bromo program to the hotel and take the planned breakfast break, allowing time to refresh before check-out and transfer to Madakaripura.",
                   "timeWindow": "09:00",
                   "durationMinutes": 90,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -4864,14 +4951,13 @@
                   "timeWindow": "11:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bromo Hotel",
-                  "toLocation": "Madakaripura Waterfall",
-                  "destination": ""
+                  "toLocation": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. Arrive at the Madakaripura area and begin the scheduled trekking session, using the allocated time for on-site exploration of the waterfall area as planned.",
-                  "timeWindow": "00:00",
+                  "timeWindow": "12:00",
                   "durationMinutes": 120,
                   "location": "Madakaripura Waterfall"
                 },
@@ -4889,9 +4975,8 @@
                   "description": "Start the journey to Malang (about 3-4 hours). Depart from the Madakaripura area and begin the overland transfer to Malang, using the planned travel time for the afternoon relocation.",
                   "timeWindow": "15:00",
                   "durationMinutes": 180,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Malang",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Malang City"
                 },
                 {
                   "type": "CheckInAction",
@@ -4899,7 +4984,7 @@
                   "description": "Arrive in Malang, check-in hotel. Reach Malang and complete hotel check-in, concluding the day’s program upon arrival at the accommodation.",
                   "timeWindow": "18:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Malang"
+                  "location": "Malang Hotel"
                 }
               ],
               "mealsPlan": {
@@ -4908,7 +4993,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Malang Area"
+              "overnight": "Malang Hotel"
             },
             {
               "day": 4,
@@ -4929,9 +5014,8 @@
                   "description": "Starting the tour to the Batu area. Begin the transfer from Malang toward Batu City, starting the day’s touring sequence in the Batu area within the allocated time block.",
                   "timeWindow": "08:30",
                   "durationMinutes": 240,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Batu City"
+                  "fromLocation": "Malang Hotel",
+                  "toLocation": "Batu City"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -4939,7 +5023,7 @@
                   "description": "Lunch in Batu (cost not included). Take the planned lunch break in Batu, with time to dine and rest before departing toward Surabaya later in the day.",
                   "timeWindow": "12:30",
                   "durationMinutes": 90,
-                  "location": "Batu"
+                  "location": "Batu City"
                 },
                 {
                   "type": "TravelAction",
@@ -4947,9 +5031,8 @@
                   "description": "Transfer to Surabaya City. Depart Batu and start the overland transfer to Surabaya, shifting from the Batu area touring segment to the final return leg.",
                   "timeWindow": "14:00",
                   "durationMinutes": 150,
-                  "fromLocation": "Batu",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Batu City",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -4957,9 +5040,8 @@
                   "description": "Arrive in Surabaya, transfer to hotel/airport. Complete arrival in Surabaya and proceed with the final drop-off to the requested hotel or airport location. Tour ends after drop-off.",
                   "timeWindow": "16:30",
                   "durationMinutes": 30,
-                  "fromLocation": "",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -4968,7 +5050,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Surabaya Hotel/Airport"
+              "overnight": "Surabaya City"
             },
             {
               "day": 5,
@@ -4981,7 +5063,7 @@
                   "description": "Breakfast at the hotel and free time until check-out time. This block is reserved for your morning meal and unstructured time at the hotel before the scheduled airport transfer.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -4989,9 +5071,8 @@
                   "description": "Pick up at your hotel lobby (planned 3 hours before your flight departure time) and transfer to Juanda Airport. This segment covers the direct road transfer to the airport for your departure connection.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Hotel",
-                  "toLocation": "Juanda Airport",
-                  "destination": ""
+                  "fromLocation": "Accommodation",
+                  "toLocation": "Surabaya Airport"
                 }
               ],
               "mealsPlan": {
@@ -5296,10 +5377,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -5308,6 +5388,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -5329,7 +5418,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -5340,7 +5429,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -5358,12 +5447,11 @@
                 {
                   "type": "TravelAction",
                   "name": "Check-out and Transfer to Surabaya",
-                  "description": "Return to hotel in Bondowoso, before start the journey to Surabaya. Depart from the Ijen area and proceed with the transfer flow toward Surabaya as scheduled, closing the Ijen-area segment for the day.",
+                  "description": "Return to the hotel in Bondowoso. Depart from the Ijen area and proceed with the transfer back to the Bondowoso hotel, closing the Ijen-area segment for the day.",
                   "timeWindow": "09:00",
-                  "durationMinutes": 390,
-                  "fromLocation": "Ijen area",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "durationMinutes": 90,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -5371,7 +5459,16 @@
                   "description": "Having lunch at the hotel. Use this planned meal break at the hotel restaurant as scheduled, allowing time to sit down and eat before continuing the remaining transfer segment.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Restaurant at the hotel"
+                  "location": "Bondowoso Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Bondowoso to Surabaya Transfer",
+                  "description": "Start the journey to Surabaya. Depart from the Bondowoso hotel and continue the long overland transfer toward Surabaya as scheduled.",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 300,
+                  "fromLocation": "Bondowoso Hotel",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -5379,9 +5476,8 @@
                   "description": "Arrive in Surabaya, transfer to hotel/airport. Tour ends. Reach Surabaya and complete the final transfer to the requested drop-off point (hotel/airport), concluding services after drop-off.",
                   "timeWindow": "16:00",
                   "durationMinutes": 30,
-                  "fromLocation": "",
-                  "toLocation": "Surabaya Hotel/Airport",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya Hotel"
                 }
               ],
               "mealsPlan": {
@@ -5697,17 +5793,25 @@
                   "description": "Pickup at your location in Surabaya. Meet our team at the confirmed pick-up point, complete a quick departure check, and begin the transfer toward the Mount Bromo area (Cemoro Lawang).",
                   "timeWindow": "12:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Lunch at Local Restaurant",
                   "description": "Stop at a local restaurant for lunch (cost not included). This is the planned lunch break during the transfer day, allowing time to order and dine before continuing to the Bromo area.",
                   "timeWindow": "12:30",
-                  "durationMinutes": 210,
+                  "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bromo Transfer",
+                  "description": "Continue the journey from the restaurant toward the Bromo area, arriving in time for hotel check-in.",
+                  "timeWindow": "13:30",
+                  "durationMinutes": 150,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bromo Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -5715,7 +5819,7 @@
                   "description": "Arrive at the Mount Bromo area and complete hotel check-in. This step covers arrival at your accommodation in the Bromo area and settling in for the next part of the program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Mount Bromo Hotel"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -5724,7 +5828,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Cemoro Lawang (Bromo Area)"
+              "overnight": "Bromo Hotel"
             },
             {
               "day": 2,
@@ -5737,7 +5841,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled Mount Bromo sunrise tour sequence by Jeep, completing the morning program within the allocated time block.",
                   "timeWindow": "02:30",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -5756,6 +5860,15 @@
                   "location": "Bromo Hotel"
                 },
                 {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Depart from the Bromo hotel after check-out and continue the overland transfer to Madakaripura Waterfall.",
+                  "timeWindow": "11:10",
+                  "durationMinutes": 20,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. This is the main on-site activity window at Madakaripura Waterfall, dedicated to the trek segment as listed in the schedule.",
@@ -5769,7 +5882,7 @@
                   "description": "After trekking, have lunch (fees not included). This is the planned meal break after the Madakaripura trekking segment, with dining costs handled personally.",
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
-                  "location": "Madakaripura Area"
+                  "location": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -5777,9 +5890,8 @@
                   "description": "Journey to Surabaya. Begin the return transfer from the Madakaripura area to Surabaya, closing the day tour route.",
                   "timeWindow": "14:30",
                   "durationMinutes": 120,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -5787,9 +5899,8 @@
                   "description": "Arrived in Surabaya. Complete arrival procedures and proceed to the final drop-off point as applicable.",
                   "timeWindow": "16:30",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Surabaya"
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -5999,7 +6110,7 @@
             },
             {
               "name": "Papuma Beach",
-              "highlight": "White sand beach with turquoise waters and unique rock formations"
+              "highlight": "White sand beach with turquoise waters and unique rock formations. Cape headland Tanjung Papuma ~86m. The only coastal stop on a JVTO East Java circuit — between Ijen night hike and Tumpak Sewu canyon descent."
             }
           ],
           "physicalDifficulty": "moderate",
@@ -6142,9 +6253,8 @@
                   "description": "Pick up at your hotel in Bali and depart for Gilimanuk Harbor. This is the overland transfer segment across Bali toward the ferry port to continue the journey to Banyuwangi.",
                   "timeWindow": "10:00",
                   "durationMinutes": 240,
-                  "fromLocation": "Hotel in Bali",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Bali Hotel",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -6152,9 +6262,8 @@
                   "description": "Arrive at Gilimanuk Harbor and proceed with the ferry boarding process. This step covers arrival at the harbor and completing the necessary boarding flow to cross to Ketapang Port.",
                   "timeWindow": "14:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Ketapang Port",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -6162,9 +6271,8 @@
                   "description": "Arrive at Ketapang Port, Banyuwangi, and note the time zone change of -1 hour. This is the arrival point on the Java side; adjust your timing reference accordingly before continuing the transfer to the hotel.",
                   "timeWindow": "14:15",
                   "durationMinutes": 15,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Banyuwangi Hotel",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Banyuwangi Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -6197,7 +6305,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Banyuwangi (Ijen Area)"
+              "overnight": "Banyuwangi Hotel"
             },
             {
               "day": 2,
@@ -6210,7 +6318,16 @@
                   "description": "Take the Ijen tour. This block represents completing the scheduled Ijen program for the day, finished in full before the onward travel sequence to Jember and Papuma Beach.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -6218,7 +6335,7 @@
                   "description": "Check out hotels in the Ijen area. This is the departure step from the Ijen-area accommodation after completing the Ijen tour block, transitioning to lunch and onward travel.",
                   "timeWindow": "12:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6226,7 +6343,7 @@
                   "description": "Lunch at a local restaurant (included). This is the planned meal stop after check-out, providing time to eat before the transfer toward Jember.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Bondowoso City"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -6235,8 +6352,7 @@
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Jember",
-                  "destination": ""
+                  "toLocation": "Jember City"
                 },
                 {
                   "type": "CheckInAction",
@@ -6244,7 +6360,16 @@
                   "description": "Arrive in Jember, check-in, then head straight to Papuma Beach. This step covers arriving at the Jember hotel, completing check-in efficiently, and continuing onward to the beach for the late-afternoon program.",
                   "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Papuma Beach",
+                  "description": "Depart from the Jember hotel and transfer to Papuma Beach in time for the sunset window.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Papuma Beach"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6261,8 +6386,7 @@
                   "timeWindow": "18:00",
                   "durationMinutes": 60,
                   "fromLocation": "Papuma Beach",
-                  "toLocation": "Hotel in Jember",
-                  "destination": ""
+                  "toLocation": "Jember Hotel"
                 }
               ],
               "mealsPlan": {
@@ -6271,7 +6395,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Jember"
+              "overnight": "Jember Hotel"
             },
             {
               "day": 3,
@@ -6284,7 +6408,7 @@
                   "description": "Check out hotel. Complete the standard hotel check-out process in Jember, confirm departure readiness, and prepare for the early transfer toward the early Tumpak Sewu (Lumajang) area.",
                   "timeWindow": "03:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -6292,9 +6416,8 @@
                   "description": "Transfer to Tumpak Sewu waterfall. Depart from the hotel in Jember and begin the direct overland drive to the Tumpak Sewu area, using the allocated travel window for the point-to-point transfer.",
                   "timeWindow": "03:30",
                   "durationMinutes": 180,
-                  "fromLocation": "Hotel in Jember",
-                  "toLocation": "Tumpak Sewu",
-                  "destination": ""
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6311,7 +6434,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Area"
             },
             {
               "day": 4,
@@ -6324,7 +6447,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the sunrise tour sequence by Jeep in the Mount Bromo area, following the planned route flow for the morning program.",
                   "timeWindow": "02:00",
                   "durationMinutes": 420,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6349,8 +6472,7 @@
                   "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -6358,9 +6480,8 @@
                   "description": "Arrive in Surabaya and proceed with the final transfer to your requested drop-off (hotel/airport). Tour ends after drop-off completion.",
                   "timeWindow": "15:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Airport / Hotel",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Accommodation"
                 }
               ],
               "mealsPlan": {
@@ -6579,7 +6700,7 @@
             },
             {
               "name": "Papuma Beach",
-              "highlight": "White sand beach with turquoise waters and unique rock formations"
+              "highlight": "White sand beach with turquoise waters and unique rock formations. Cape headland Tanjung Papuma ~86m. The only coastal stop on a JVTO East Java circuit — between Ijen night hike and Tumpak Sewu canyon descent."
             }
           ],
           "physicalDifficulty": "moderate",
@@ -6723,9 +6844,8 @@
                   "description": "Pick up at your hotel in Bali and depart for Gilimanuk Harbor. This is the overland transfer segment across Bali toward the ferry port to continue the journey to Banyuwangi.",
                   "timeWindow": "10:00",
                   "durationMinutes": 240,
-                  "fromLocation": "Hotel in Bali",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Bali Hotel",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -6733,9 +6853,8 @@
                   "description": "Arrive at Gilimanuk Harbor and proceed with the ferry boarding process. This step covers arrival at the harbor and completing the necessary boarding flow to cross to Ketapang Port.",
                   "timeWindow": "14:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Ketapang Port",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -6743,9 +6862,8 @@
                   "description": "Arrive at Ketapang Port, Banyuwangi, and note the time zone change of -1 hour. This is the arrival point on the Java side; adjust your timing reference accordingly before continuing the transfer to the hotel.",
                   "timeWindow": "14:15",
                   "durationMinutes": 15,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Banyuwangi Hotel",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Banyuwangi Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -6778,7 +6896,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Banyuwangi (Ijen Area)"
+              "overnight": "Banyuwangi Hotel"
             },
             {
               "day": 2,
@@ -6791,7 +6909,16 @@
                   "description": "Take the Ijen tour. This block represents completing the scheduled Ijen program for the day, finished in full before the onward travel sequence to Jember and Papuma Beach.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -6799,7 +6926,7 @@
                   "description": "Check out hotels in the Ijen area. This is the departure step from the Ijen-area accommodation after completing the Ijen tour block, transitioning to lunch and onward travel.",
                   "timeWindow": "12:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6807,7 +6934,7 @@
                   "description": "Lunch at a local restaurant (included). This is the planned meal stop after check-out, providing time to eat before the transfer toward Jember.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Bondowoso City"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -6816,8 +6943,7 @@
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Jember",
-                  "destination": ""
+                  "toLocation": "Jember City"
                 },
                 {
                   "type": "CheckInAction",
@@ -6825,7 +6951,16 @@
                   "description": "Arrive in Jember, check-in, then head straight to Papuma Beach. This step covers arriving at the Jember hotel, completing check-in efficiently, and continuing onward to the beach for the late-afternoon program.",
                   "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Papuma Beach",
+                  "description": "Depart from the Jember hotel and transfer to Papuma Beach in time for the sunset window.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Papuma Beach"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6842,8 +6977,7 @@
                   "timeWindow": "18:00",
                   "durationMinutes": 60,
                   "fromLocation": "Papuma Beach",
-                  "toLocation": "Hotel in Jember",
-                  "destination": ""
+                  "toLocation": "Jember Hotel"
                 }
               ],
               "mealsPlan": {
@@ -6852,7 +6986,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Jember"
+              "overnight": "Jember Hotel"
             },
             {
               "day": 3,
@@ -6865,7 +6999,7 @@
                   "description": "Check out hotel. Complete the standard hotel check-out process in Jember, confirm departure readiness, and prepare for the early transfer toward the early Tumpak Sewu (Lumajang) area.",
                   "timeWindow": "03:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -6873,9 +7007,8 @@
                   "description": "Transfer to Tumpak Sewu waterfall. Depart from the hotel in Jember and begin the direct overland drive to the Tumpak Sewu area, using the allocated travel window for the point-to-point transfer.",
                   "timeWindow": "03:30",
                   "durationMinutes": 180,
-                  "fromLocation": "Hotel in Jember",
-                  "toLocation": "Tumpak Sewu",
-                  "destination": ""
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6892,7 +7025,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Area"
             },
             {
               "day": 4,
@@ -6905,7 +7038,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the sunrise tour sequence by Jeep in the Mount Bromo area, following the planned route flow for the morning program.",
                   "timeWindow": "02:00",
                   "durationMinutes": 420,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -6930,8 +7063,7 @@
                   "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -6939,9 +7071,8 @@
                   "description": "Arrive in Surabaya and proceed with the final transfer to your requested drop-off (hotel/airport). Tour ends after drop-off completion.",
                   "timeWindow": "15:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Airport / Hotel",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Accommodation"
                 }
               ],
               "mealsPlan": {
@@ -6950,7 +7081,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Surabaya"
+              "overnight": "Surabaya City"
             },
             {
               "day": 5,
@@ -6963,7 +7094,7 @@
                   "description": "Breakfast at the hotel and free time until check-out time. This block is reserved for your morning meal and unstructured time at the hotel before the scheduled airport transfer.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -6971,9 +7102,8 @@
                   "description": "Pick up at your hotel lobby (planned 3 hours before your flight departure time) and transfer to Juanda Airport. This segment covers the direct road transfer to the airport for your departure connection.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Hotel",
-                  "toLocation": "Juanda Airport",
-                  "destination": ""
+                  "fromLocation": "Accommodation",
+                  "toLocation": "Surabaya Airport"
                 }
               ],
               "mealsPlan": {
@@ -7190,7 +7320,7 @@
             },
             {
               "name": "Papuma Beach",
-              "highlight": "White sand beach with turquoise waters and unique rock formations"
+              "highlight": "White sand beach with turquoise waters and unique rock formations. Cape headland Tanjung Papuma ~86m. The only coastal stop on a JVTO East Java circuit — between Ijen night hike and Tumpak Sewu canyon descent."
             }
           ],
           "physicalDifficulty": "moderate",
@@ -7331,10 +7461,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -7343,6 +7472,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -7364,7 +7502,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -7375,7 +7513,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -7388,7 +7526,16 @@
                   "description": "Take the Ijen tour. This block represents completing the scheduled Ijen program for the day, finished in full before the onward travel sequence to Jember and Papuma Beach.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -7396,7 +7543,7 @@
                   "description": "Check out hotels in the Ijen area. This is the departure step from the Ijen-area accommodation after completing the Ijen tour block, transitioning to lunch and onward travel.",
                   "timeWindow": "12:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -7404,7 +7551,7 @@
                   "description": "Lunch at a local restaurant (included). This is the planned meal stop after check-out, providing time to eat before the transfer toward Jember.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Bondowoso City"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -7413,8 +7560,7 @@
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Jember",
-                  "destination": ""
+                  "toLocation": "Jember City"
                 },
                 {
                   "type": "CheckInAction",
@@ -7422,7 +7568,16 @@
                   "description": "Arrive in Jember, check-in, then head straight to Papuma Beach. This step covers arriving at the Jember hotel, completing check-in efficiently, and continuing onward to the beach for the late-afternoon program.",
                   "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Papuma Beach",
+                  "description": "Depart from the Jember hotel and transfer to Papuma Beach in time for the sunset window.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Papuma Beach"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -7439,8 +7594,7 @@
                   "timeWindow": "18:00",
                   "durationMinutes": 60,
                   "fromLocation": "Papuma Beach",
-                  "toLocation": "Hotel in Jember",
-                  "destination": ""
+                  "toLocation": "Jember Hotel"
                 }
               ],
               "mealsPlan": {
@@ -7449,7 +7603,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Jember"
+              "overnight": "Jember Hotel"
             },
             {
               "day": 3,
@@ -7462,7 +7616,7 @@
                   "description": "Check out hotel. Complete the standard hotel check-out process in Jember, confirm departure readiness, and prepare for the early transfer toward the early Tumpak Sewu (Lumajang) area.",
                   "timeWindow": "03:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -7470,9 +7624,8 @@
                   "description": "Transfer to Tumpak Sewu waterfall. Depart from the hotel in Jember and begin the direct overland drive to the Tumpak Sewu area, using the allocated travel window for the point-to-point transfer.",
                   "timeWindow": "03:30",
                   "durationMinutes": 180,
-                  "fromLocation": "Hotel in Jember",
-                  "toLocation": "Tumpak Sewu",
-                  "destination": ""
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -7489,7 +7642,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Area"
             },
             {
               "day": 4,
@@ -7502,7 +7655,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the sunrise tour sequence by Jeep in the Mount Bromo area, following the planned route flow for the morning program.",
                   "timeWindow": "02:00",
                   "durationMinutes": 420,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -7527,8 +7680,7 @@
                   "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -7536,9 +7688,8 @@
                   "description": "Arrive in Surabaya and proceed with the final transfer to your requested drop-off (hotel/airport). Tour ends after drop-off completion.",
                   "timeWindow": "15:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Airport / Hotel",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Accommodation"
                 }
               ],
               "mealsPlan": {
@@ -7547,7 +7698,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Surabaya"
+              "overnight": "Surabaya City"
             },
             {
               "day": 5,
@@ -7560,7 +7711,7 @@
                   "description": "Breakfast at the hotel and free time until check-out time. This block is reserved for your morning meal and unstructured time at the hotel before the scheduled airport transfer.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -7568,9 +7719,8 @@
                   "description": "Pick up at your hotel lobby (planned 3 hours before your flight departure time) and transfer to Juanda Airport. This segment covers the direct road transfer to the airport for your departure connection.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Hotel",
-                  "toLocation": "Juanda Airport",
-                  "destination": ""
+                  "fromLocation": "Accommodation",
+                  "toLocation": "Surabaya Airport"
                 }
               ],
               "mealsPlan": {
@@ -7910,9 +8060,8 @@
                   "description": "Pick up at your hotel in Bali and depart for Gilimanuk Harbor. This is the overland transfer segment across Bali toward the ferry port to continue the journey to Banyuwangi.",
                   "timeWindow": "10:00",
                   "durationMinutes": 240,
-                  "fromLocation": "Hotel in Bali",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Bali Hotel",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -7920,9 +8069,8 @@
                   "description": "Arrive at Gilimanuk Harbor and proceed with the ferry boarding process. This step covers arrival at the harbor and completing the necessary boarding flow to cross to Ketapang Port.",
                   "timeWindow": "14:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Ketapang Port",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -7930,9 +8078,8 @@
                   "description": "Arrive at Ketapang Port, Banyuwangi, and note the time zone change of -1 hour. This is the arrival point on the Java side; adjust your timing reference accordingly before continuing the transfer to the hotel.",
                   "timeWindow": "14:15",
                   "durationMinutes": 15,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Banyuwangi Hotel",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Banyuwangi Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -7965,7 +8112,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Banyuwangi (Ijen Area)"
+              "overnight": "Banyuwangi Hotel"
             },
             {
               "day": 2,
@@ -7978,7 +8125,16 @@
                   "description": "Follow the entire Ijen tour series. This block represents the full scheduled Ijen program as arranged for the day, completed in sequence before the onward transfer to the Bromo area later.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 120,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -7986,7 +8142,7 @@
                   "description": "Check-out from the Ijen area hotel. This is the formal check-out step after finishing the Ijen tour series, preparing for lunch and the transfer toward the Bromo area.",
                   "timeWindow": "11:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8003,8 +8159,7 @@
                   "timeWindow": "12:30",
                   "durationMinutes": 210,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -8012,7 +8167,7 @@
                   "description": "Arrive in Bromo area, check-in hotel. This step covers arrival at the accommodation and completing check-in so you can rest and prepare for the next day’s Bromo program.",
                   "timeWindow": "16:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bromo Area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -8034,7 +8189,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled Mount Bromo sunrise tour sequence by Jeep, completing the morning program within the allocated time block.",
                   "timeWindow": "02:30",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8053,6 +8208,15 @@
                   "location": "Bromo Hotel"
                 },
                 {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Depart from the Bromo hotel after check-out and continue the overland transfer to Madakaripura Waterfall.",
+                  "timeWindow": "11:10",
+                  "durationMinutes": 20,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. This is the main on-site activity window at Madakaripura Waterfall, dedicated to the trek segment as listed in the schedule.",
@@ -8066,7 +8230,7 @@
                   "description": "After trekking, have lunch (fees not included). This is the planned meal break after the Madakaripura trekking segment, with dining costs handled personally.",
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
-                  "location": "Madakaripura Area"
+                  "location": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -8074,9 +8238,8 @@
                   "description": "Journey to Surabaya. Begin the return transfer from the Madakaripura area to Surabaya, closing the day tour route.",
                   "timeWindow": "14:30",
                   "durationMinutes": 120,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -8084,9 +8247,8 @@
                   "description": "Arrived in Surabaya. Complete arrival procedures and proceed to the final drop-off point as applicable.",
                   "timeWindow": "16:30",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Surabaya"
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -8324,12 +8486,18 @@
               },
               {
                 "sku": "1D1N-4",
+                "paxMin": 2,
+                "paxMax": 3,
+                "pricePerPerson": 1300000
+              },
+              {
+                "sku": "1D1N-5",
                 "paxMin": 3,
                 "paxMax": 4,
                 "pricePerPerson": 1400000
               },
               {
-                "sku": "1D1N-5",
+                "sku": "1D1N-6",
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 1550000
@@ -8392,9 +8560,8 @@
                   "description": "Pickup at your location in Surabaya. Our team meets you at the agreed pick-up point, confirms the booking details, and begins the overnight overland drive toward the Bromo transit point to start the midnight tour flow.",
                   "timeWindow": "00:00",
                   "durationMinutes": 150,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bromo Transit",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Transit Stop"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8402,7 +8569,7 @@
                   "description": "Arrive at the Bromo transit point and transition to a private 4WD Jeep. After switching vehicles, the Bromo sunrise program starts, continuing by Jeep into the Bromo area according to the sunrise touring sequence.",
                   "timeWindow": "02:30",
                   "durationMinutes": 180,
-                  "location": "Bromo Transit Point"
+                  "location": "Transit Stop"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8410,7 +8577,7 @@
                   "description": "Witness the sunrise from the viewpoint area. This is the dedicated time window for sunrise viewing, taking photos, and enjoying the changing light across the landscape from the designated Bromo viewpoint.",
                   "timeWindow": "05:30",
                   "durationMinutes": 210,
-                  "location": "Bromo Viewpoint"
+                  "location": "Bromo Kingkong Hill"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8418,7 +8585,7 @@
                   "description": "Explore the Sea of Sand and continue to the Bromo crater area. This segment covers moving through the Sea of Sand zone and completing the approach to the crater, including the climb up to the crater viewpoint/rim area as stated in the route plan.",
                   "timeWindow": "07:00",
                   "durationMinutes": 120,
-                  "location": "Sea of Sand and Bromo Crater"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TravelAction",
@@ -8426,9 +8593,8 @@
                   "description": "After completing the Bromo activity sequence, return from the Bromo area to the transit point. This is the regrouping and transfer-back step before the breakfast stop and the return drive.",
                   "timeWindow": "09:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Bromo",
-                  "toLocation": "Transit Point",
-                  "destination": ""
+                  "fromLocation": "Bromo Area",
+                  "toLocation": "Transit Stop"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8444,9 +8610,8 @@
                   "description": "Start the journey back to Surabaya. This is the main return transfer segment by road after finishing the Bromo sunrise route and breakfast stop.",
                   "timeWindow": "10:30",
                   "durationMinutes": 240,
-                  "fromLocation": "Bromo",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Bromo Area",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -8454,9 +8619,8 @@
                   "description": "Estimated arrival back in Surabaya. Upon arrival, proceed with the final transfer to your requested drop-off point (hotel/airport/station). Tour ends after the drop-off is completed.",
                   "timeWindow": "14:30",
                   "durationMinutes": 30,
-                  "fromLocation": "",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -8672,7 +8836,7 @@
             },
             {
               "name": "Papuma Beach",
-              "highlight": "White sand beach with turquoise waters and unique rock formations"
+              "highlight": "White sand beach with turquoise waters and unique rock formations. Cape headland Tanjung Papuma ~86m. The only coastal stop on a JVTO East Java circuit — between Ijen night hike and Tumpak Sewu canyon descent."
             }
           ],
           "physicalDifficulty": "moderate",
@@ -8813,10 +8977,9 @@
                   "name": "Surabaya to Bondowoso Transfer",
                   "description": "Pickup by our team at your location in Surabaya. After meeting at the confirmed pick-up point, begin the overland transfer toward Bondowoso (Ijen area) as scheduled in the route plan.",
                   "timeWindow": "11:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Surabaya",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "durationMinutes": 150,
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Local Restaurant"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8825,6 +8988,15 @@
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
                   "location": "Local Restaurant"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Local Restaurant to Bondowoso Transfer",
+                  "description": "Continue the overland journey from the restaurant toward Bondowoso, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Local Restaurant",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckInAction",
@@ -8846,7 +9018,7 @@
                   "type": "TouristAttractionVisit",
                   "name": "Dinner at Accommodation",
                   "description": "Dinner is served at the accommodation or a nearby restaurant (included). This is the planned dinner time after the transfer and screening, scheduled as an included meal for the day.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "18:30",
                   "durationMinutes": 60,
                   "location": "Bondowoso Hotel"
                 }
@@ -8857,7 +9029,7 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 2,
@@ -8870,7 +9042,16 @@
                   "description": "Take the Ijen tour. This block represents completing the scheduled Ijen program for the day, finished in full before the onward travel sequence to Jember and Papuma Beach.",
                   "timeWindow": "00:00",
                   "durationMinutes": 540,
-                  "location": "Ijen Crater"
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Return to Bondowoso Hotel",
+                  "description": "Depart from the Ijen area after completing the hike and transfer back to the hotel in Bondowoso.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Bondowoso Hotel"
                 },
                 {
                   "type": "CheckOutAction",
@@ -8878,7 +9059,7 @@
                   "description": "Check out hotels in the Ijen area. This is the departure step from the Ijen-area accommodation after completing the Ijen tour block, transitioning to lunch and onward travel.",
                   "timeWindow": "12:00",
                   "durationMinutes": 10,
-                  "location": "Bondowoso City"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8886,7 +9067,7 @@
                   "description": "Lunch at a local restaurant (included). This is the planned meal stop after check-out, providing time to eat before the transfer toward Jember.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "location": "Bondowoso City"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -8895,8 +9076,7 @@
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bondowoso City",
-                  "toLocation": "Jember",
-                  "destination": ""
+                  "toLocation": "Jember City"
                 },
                 {
                   "type": "CheckInAction",
@@ -8904,7 +9084,16 @@
                   "description": "Arrive in Jember, check-in, then head straight to Papuma Beach. This step covers arriving at the Jember hotel, completing check-in efficiently, and continuing onward to the beach for the late-afternoon program.",
                   "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Papuma Beach",
+                  "description": "Depart from the Jember hotel and transfer to Papuma Beach in time for the sunset window.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 90,
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Papuma Beach"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8921,8 +9110,7 @@
                   "timeWindow": "18:00",
                   "durationMinutes": 60,
                   "fromLocation": "Papuma Beach",
-                  "toLocation": "Hotel in Jember",
-                  "destination": ""
+                  "toLocation": "Jember Hotel"
                 }
               ],
               "mealsPlan": {
@@ -8931,7 +9119,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Jember"
+              "overnight": "Jember Hotel"
             },
             {
               "day": 3,
@@ -8944,7 +9132,7 @@
                   "description": "Check out hotel. Complete the standard hotel check-out process in Jember, confirm departure readiness, and prepare for the early transfer toward the early Tumpak Sewu (Lumajang) area.",
                   "timeWindow": "03:30",
                   "durationMinutes": 10,
-                  "location": "Hotel in Jember"
+                  "location": "Jember Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -8952,9 +9140,8 @@
                   "description": "Transfer to Tumpak Sewu waterfall. Depart from the hotel in Jember and begin the direct overland drive to the Tumpak Sewu area, using the allocated travel window for the point-to-point transfer.",
                   "timeWindow": "03:30",
                   "durationMinutes": 180,
-                  "fromLocation": "Hotel in Jember",
-                  "toLocation": "Tumpak Sewu",
-                  "destination": ""
+                  "fromLocation": "Jember Hotel",
+                  "toLocation": "Tumpak Sewu Area"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -8971,7 +9158,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Lumajang (Tumpak Sewu Area)"
+              "overnight": "Tumpak Sewu Area"
             },
             {
               "day": 4,
@@ -8984,7 +9171,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the early-morning Jeep-based Bromo sunrise program, completing the Mount Bromo touring block as scheduled before continuing onward later in the day.",
                   "timeWindow": "02:00",
                   "durationMinutes": 420,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -9009,8 +9196,7 @@
                   "timeWindow": "12:00",
                   "durationMinutes": 150,
                   "fromLocation": "Bromo Area",
-                  "toLocation": "Malang",
-                  "destination": ""
+                  "toLocation": "Malang City"
                 },
                 {
                   "type": "CheckInAction",
@@ -9027,7 +9213,7 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Malang Area"
+              "overnight": "Malang Hotel"
             },
             {
               "day": 5,
@@ -9040,7 +9226,7 @@
                   "description": "Breakfast at your hotel. Start the day with breakfast at the accommodation, allowing time to prepare for the scheduled city tour departure.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel in Malang"
+                  "location": "Malang Hotel"
                 },
                 {
                   "type": "TravelAction",
@@ -9048,9 +9234,8 @@
                   "description": "Pick up at your hotel in Malang. Meet at the hotel pick-up point, confirm the day’s route flow, and begin the city tour sequence from Malang.",
                   "timeWindow": "09:00",
                   "durationMinutes": 30,
-                  "fromLocation": "Hotel in Malang",
-                  "toLocation": "",
-                  "destination": ""
+                  "fromLocation": "Malang Hotel",
+                  "toLocation": "Jodipan Colorful Village"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -9074,7 +9259,7 @@
                   "description": "Lunch in Batu (cost not included). Take the planned meal break in Batu, with time allocated to choose food and rest briefly before continuing the afternoon stops.",
                   "timeWindow": "13:00",
                   "durationMinutes": 60,
-                  "location": "Batu"
+                  "location": "Batu City"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -9098,9 +9283,8 @@
                   "description": "Back to the hotel in Malang. Conclude the city tour route and return by road to the hotel, completing the day’s program upon arrival back at the accommodation.",
                   "timeWindow": "17:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Batu",
-                  "toLocation": "Malang",
-                  "destination": ""
+                  "fromLocation": "Batu City",
+                  "toLocation": "Malang Hotel"
                 }
               ],
               "mealsPlan": {
@@ -9122,7 +9306,7 @@
                   "description": "Breakfast at the hotel and free time until check-out time. This block is reserved for your morning meal and unstructured time at the hotel before the scheduled airport transfer.",
                   "timeWindow": "08:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -9130,9 +9314,8 @@
                   "description": "Pick up at your hotel lobby (planned 3 hours before your flight departure time) and transfer to Juanda Airport. This segment covers the direct road transfer to the airport for your departure connection.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Hotel",
-                  "toLocation": "Juanda Airport",
-                  "destination": ""
+                  "fromLocation": "Accommodation",
+                  "toLocation": "Surabaya Airport"
                 }
               ],
               "mealsPlan": {
@@ -9297,7 +9480,7 @@
     },
     {
       "slug": "tours/from-bali/bromo-ijen-3d2n",
-      "updatedAt": "2026-03-31T10:24:19.723Z",
+      "updatedAt": "2026-07-09T00:22:00.444Z",
       "snapshotMeta": {
         "packageCategoryId": 1,
         "startDestinationId": 3,
@@ -9333,6 +9516,9 @@
           "route": [
             "Ijen Crater",
             "Mount Bromo",
+            "Ijen Crater",
+            "Madakaripura Waterfall",
+            "Mount Bromo",
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-BALI-3D2N-001.json",
@@ -9341,6 +9527,18 @@
             {
               "name": "Ijen Crater",
               "highlight": "Acidic crater lake"
+            },
+            {
+              "name": "Mount Bromo",
+              "highlight": "Sunrise over Tengger Caldera and sacred Hindu ceremonies"
+            },
+            {
+              "name": "Ijen Crater",
+              "highlight": "Acidic crater lake"
+            },
+            {
+              "name": "Madakaripura Waterfall",
+              "highlight": "Sacred 200-meter canyon waterfall and Gajah Mada's meditation site"
             },
             {
               "name": "Mount Bromo",
@@ -9367,36 +9565,78 @@
               },
               {
                 "sku": "package-BALI-3D2N-001-2",
+                "paxMin": 11,
+                "paxMax": 0,
+                "pricePerPerson": 2850000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-3",
                 "paxMin": 8,
                 "paxMax": 10,
                 "pricePerPerson": 3050000
               },
               {
-                "sku": "package-BALI-3D2N-001-3",
+                "sku": "package-BALI-3D2N-001-4",
+                "paxMin": 8,
+                "paxMax": 10,
+                "pricePerPerson": 3050000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-5",
                 "paxMin": 6,
                 "paxMax": 7,
                 "pricePerPerson": 3350000
               },
               {
-                "sku": "package-BALI-3D2N-001-4",
+                "sku": "package-BALI-3D2N-001-6",
+                "paxMin": 6,
+                "paxMax": 7,
+                "pricePerPerson": 3350000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-7",
                 "paxMin": 4,
                 "paxMax": 5,
                 "pricePerPerson": 3550000
               },
               {
-                "sku": "package-BALI-3D2N-001-5",
+                "sku": "package-BALI-3D2N-001-8",
+                "paxMin": 4,
+                "paxMax": 5,
+                "pricePerPerson": 3550000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-9",
                 "paxMin": 3,
                 "paxMax": 3,
                 "pricePerPerson": 3800000
               },
               {
-                "sku": "package-BALI-3D2N-001-6",
+                "sku": "package-BALI-3D2N-001-10",
+                "paxMin": 3,
+                "paxMax": 3,
+                "pricePerPerson": 3800000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-11",
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 4050000
               },
               {
-                "sku": "package-BALI-3D2N-001-7",
+                "sku": "package-BALI-3D2N-001-12",
+                "paxMin": 2,
+                "paxMax": 2,
+                "pricePerPerson": 4050000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-13",
+                "paxMin": 1,
+                "paxMax": 1,
+                "pricePerPerson": 7500000
+              },
+              {
+                "sku": "package-BALI-3D2N-001-14",
                 "paxMin": 1,
                 "paxMax": 1,
                 "pricePerPerson": 7500000
@@ -10405,6 +10645,60 @@
               "transportType": "big",
               "transportDestination": "TEGALALANG",
               "price": 1400000
+            },
+            {
+              "id": "4",
+              "name": "Transport to Transfer To Ubud",
+              "type": "transport",
+              "description": "Transport to Transfer To Ubud -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Transfer to Ubud",
+              "price": 0
+            },
+            {
+              "id": "17",
+              "name": "Transport to Transport To Kuta",
+              "type": "transport",
+              "description": "Transport to Transport To Kuta -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Transport to Kuta",
+              "price": 600000
+            },
+            {
+              "id": "170",
+              "name": "Transport to Transfer To Bedugul",
+              "type": "transport",
+              "description": "Transport to Transfer To Bedugul -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Transfer to Bedugul",
+              "price": 1000000
+            },
+            {
+              "id": "173",
+              "name": "Transport to Transport To Gianyar",
+              "type": "transport",
+              "description": "Transport to Transport To Gianyar -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Transport to Gianyar",
+              "price": 950000
+            },
+            {
+              "id": "174",
+              "name": "Transport to Transport To Denpasar (5 Pax)",
+              "type": "transport",
+              "description": "Transport to Transport To Denpasar (5 Pax) -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Transport to Denpasar (5 pax)",
+              "price": 1000000
+            },
+            {
+              "id": "188",
+              "name": "Transport to Ulun Danu Beratan Transport Surcharge",
+              "type": "transport",
+              "description": "Transport to Ulun Danu Beratan Transport Surcharge -  Car (10 Pax Above)",
+              "transportType": null,
+              "transportDestination": "Ulun Danu Beratan Transport Surcharge",
+              "price": 100000
             }
           ],
           "accommodationPlan": [
@@ -10426,6 +10720,10 @@
               "Gas masks (Ijen)",
               "Headlamps",
               "Trekking poles",
+              "Gas masks (Ijen)",
+              "Headlamps",
+              "Trekking poles",
+              "Helmet",
               "Helmet"
             ],
             "recommended": [
@@ -10450,9 +10748,8 @@
                   "description": "Morning pick up at your hotel in Bali. Meet at the confirmed lobby pick-up point and begin the overland transfer toward Gilimanuk Harbor to connect with the ferry crossing.",
                   "timeWindow": "08:00",
                   "durationMinutes": 240,
-                  "fromLocation": "Hotel in Bali",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Bali Hotel",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -10460,33 +10757,40 @@
                   "description": "Arrive at Gilimanuk Harbor and board the ferry. This step covers port arrival and completing the boarding flow to begin the sea crossing to Ketapang Port.",
                   "timeWindow": "12:00",
                   "durationMinutes": 60,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Ketapang Port",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
                   "name": "Long Journey to Bromo",
                   "description": "Arrive at Ketapang Port, Banyuwangi and continue the long overland transfer to the Bromo area. This is the extended road journey segment connecting the ferry arrival point to the Bromo accommodation area.",
-                  "timeWindow": "12:00",
-                  "durationMinutes": 300,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Bromo Area",
-                  "destination": ""
+                  "timeWindow": "13:00",
+                  "durationMinutes": 60,
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Transit Stop"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Lunch Break (Own Expense)",
                   "description": "Lunch (at your own expense) along the way. This is a short, practical meal stop during the drive, with time allocated to order food and take a brief rest before continuing the transfer.",
-                  "timeWindow": "13:00",
+                  "timeWindow": "14:00",
                   "durationMinutes": 30,
-                  "location": "En route to Bromo"
+                  "location": "Transit Stop"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transit Stop to Bromo Transfer",
+                  "description": "Continue the long overland journey from the rest stop toward the Bromo area, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 270,
+                  "fromLocation": "Transit Stop",
+                  "toLocation": "Bromo Hotel"
                 },
                 {
                   "type": "CheckInAction",
                   "name": "Bromo Hotel Check-in",
                   "description": "Estimated arrival in the Bromo area. Check in to your hotel and rest immediately. This step covers arrival at the accommodation and completing check-in so you can settle in after a full day of travel.",
-                  "timeWindow": "18:00",
+                  "timeWindow": "19:00",
                   "durationMinutes": 10,
                   "location": "Bromo Hotel"
                 }
@@ -10497,7 +10801,73 @@
                 "dinner": "own expense"
               },
               "mealsNotes": "",
-              "overnight": "Cemoro Lawang (Bromo Area)"
+              "overnight": "Bromo Hotel"
+            },
+            {
+              "day": 1,
+              "title": "Bali to the Bromo Side via East Java Crossing",
+              "summary": "The route begins in Bali and crosses into East Java before moving onward to the Bromo side. This first day is about clean cross-island positioning so the volcano sequence can start properly the next morning.",
+              "activities": [
+                {
+                  "type": "TravelAction",
+                  "name": "Bali Morning Pick-up to Gilimanuk",
+                  "description": "Morning pick up at your hotel in Bali. Meet at the confirmed lobby pick-up point and begin the overland transfer toward Gilimanuk Harbor to connect with the ferry crossing.",
+                  "timeWindow": "08:00",
+                  "durationMinutes": 240,
+                  "fromLocation": "Bali Hotel",
+                  "toLocation": "Gilimanuk Harbour"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Ferry Crossing to Ketapang",
+                  "description": "Arrive at Gilimanuk Harbor and board the ferry. This step covers port arrival and completing the boarding flow to begin the sea crossing to Ketapang Port.",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Ketapang Harbour"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Long Journey to Bromo",
+                  "description": "Arrive at Ketapang Port, Banyuwangi and continue the long overland transfer to the Bromo area. This is the extended road journey segment connecting the ferry arrival point to the Bromo accommodation area.",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 60,
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Transit Stop"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch Break (Own Expense)",
+                  "description": "Lunch (at your own expense) along the way. This is a short, practical meal stop during the drive, with time allocated to order food and take a brief rest before continuing the transfer.",
+                  "timeWindow": "14:00",
+                  "durationMinutes": 30,
+                  "location": "Transit Stop"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transit Stop to Bromo Transfer",
+                  "description": "Continue the long overland journey from the rest stop toward the Bromo area, arriving in time for hotel check-in.",
+                  "timeWindow": "14:30",
+                  "durationMinutes": 270,
+                  "fromLocation": "Transit Stop",
+                  "toLocation": "Bromo Hotel"
+                },
+                {
+                  "type": "CheckInAction",
+                  "name": "Bromo Hotel Check-in",
+                  "description": "Estimated arrival in the Bromo area. Check in to your hotel and rest immediately. This step covers arrival at the accommodation and completing check-in so you can settle in after a full day of travel.",
+                  "timeWindow": "19:00",
+                  "durationMinutes": 10,
+                  "location": "Bromo Hotel"
+                }
+              ],
+              "mealsPlan": {
+                "breakfast": "own expense",
+                "lunch": "own expense",
+                "dinner": "own expense"
+              },
+              "mealsNotes": "",
+              "overnight": "Bromo Hotel"
             },
             {
               "day": 2,
@@ -10510,7 +10880,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo sunrise program, following the Mount Bromo touring sequence within the allocated time block.",
                   "timeWindow": "02:00",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -10518,7 +10888,7 @@
                   "description": "Back to the hotel for breakfast. Return from the Bromo program to the hotel and take the planned breakfast break, allowing time to rest briefly before check-out and the next destination transfer.",
                   "timeWindow": "09:00",
                   "durationMinutes": 60,
-                  "location": "Hotel"
+                  "location": "Accommodation"
                 },
                 {
                   "type": "TravelAction",
@@ -10527,14 +10897,13 @@
                   "timeWindow": "11:00",
                   "durationMinutes": 60,
                   "fromLocation": "Bromo Hotel",
-                  "toLocation": "Madakaripura Waterfall",
-                  "destination": ""
+                  "toLocation": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. Arrive at the Madakaripura area and begin the scheduled trekking session, using the full activity block for the on-site waterfall exploration as planned.",
-                  "timeWindow": "00:00",
+                  "timeWindow": "12:00",
                   "durationMinutes": 180,
                   "location": "Madakaripura Waterfall"
                 },
@@ -10544,9 +10913,8 @@
                   "description": "Finish explore Madakaripura waterfall. Conclude the trekking and on-site exploration segment at Madakaripura, regroup at the designated meeting point, and prepare for departure to the next transfer leg.",
                   "timeWindow": "15:00",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Madakaripura Waterfall"
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -10554,9 +10922,8 @@
                   "description": "Start the long journey to Bondowoso (about 3 hours). Depart from the Madakaripura area and begin the overland transfer to Bondowoso (Ijen area), using the scheduled travel window for the afternoon relocation.",
                   "timeWindow": "15:00",
                   "durationMinutes": 180,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Bondowoso",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Bondowoso City"
                 },
                 {
                   "type": "CheckInAction",
@@ -10564,7 +10931,7 @@
                   "description": "Arrive in Bondowoso, check-in hotel. Reach Bondowoso and complete the hotel check-in process after the long day, ensuring you are settled before the evening prerequisite procedures.",
                   "timeWindow": "18:00",
                   "durationMinutes": 10,
-                  "location": "Hotel in Bondowoso"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -10572,7 +10939,7 @@
                   "description": "A health screening will be conducted by medical personnel directly at your hotel. This is a brief vital-signs check scheduled as a prerequisite before the Ijen climbing program.",
                   "timeWindow": "18:30",
                   "durationMinutes": 15,
-                  "location": "Hotel in Bondowoso"
+                  "location": "Bondowoso Hotel"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -10589,7 +10956,96 @@
                 "dinner": "included"
               },
               "mealsNotes": "",
-              "overnight": "Bondowoso (Ijen Area)"
+              "overnight": "Bondowoso Hotel"
+            },
+            {
+              "day": 2,
+              "title": "Bromo Sunrise, Madakaripura, and Transfer to Bondowoso",
+              "summary": "After the Bromo sunrise sequence, the route continues through Madakaripura before transferring toward Bondowoso. The day stays productive, but it should be understood as one of the heavier connection days in the itinerary.",
+              "activities": [
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Bromo Jeep Tour",
+                  "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo sunrise program, following the Mount Bromo touring sequence within the allocated time block.",
+                  "timeWindow": "02:00",
+                  "durationMinutes": 390,
+                  "location": "Sea of Sand & Bromo Crater"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Breakfast at Hotel",
+                  "description": "Back to the hotel for breakfast. Return from the Bromo program to the hotel and take the planned breakfast break, allowing time to rest briefly before check-out and the next destination transfer.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 60,
+                  "location": "Accommodation"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Check-out, travel to Madakaripura Waterfall. Complete the hotel check-out process in the Bromo area, then begin the road transfer to Madakaripura Waterfall to start the canyon waterfall segment of the day.",
+                  "timeWindow": "11:00",
+                  "durationMinutes": 60,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Madakaripura Trekking",
+                  "description": "Arrive at Madakaripura and start trekking. Arrive at the Madakaripura area and begin the scheduled trekking session, using the full activity block for the on-site waterfall exploration as planned.",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 180,
+                  "location": "Madakaripura Waterfall"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Finish explore Madakaripura waterfall",
+                  "description": "Finish explore Madakaripura waterfall. Conclude the trekking and on-site exploration segment at Madakaripura, regroup at the designated meeting point, and prepare for departure to the next transfer leg.",
+                  "timeWindow": "15:00",
+                  "durationMinutes": 0,
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bondowoso",
+                  "description": "Start the long journey to Bondowoso (about 3 hours). Depart from the Madakaripura area and begin the overland transfer to Bondowoso (Ijen area), using the scheduled travel window for the afternoon relocation.",
+                  "timeWindow": "15:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Bondowoso City"
+                },
+                {
+                  "type": "CheckInAction",
+                  "name": "Check-in at Bondowoso Hotel",
+                  "description": "Arrive in Bondowoso, check-in hotel. Reach Bondowoso and complete the hotel check-in process after the long day, ensuring you are settled before the evening prerequisite procedures.",
+                  "timeWindow": "18:00",
+                  "durationMinutes": 10,
+                  "location": "Bondowoso Hotel"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Health screening for Ijen",
+                  "description": "A health screening will be conducted by medical personnel directly at your hotel. This is a brief vital-signs check scheduled as a prerequisite before the Ijen climbing program.",
+                  "timeWindow": "18:30",
+                  "durationMinutes": 15,
+                  "location": "Bondowoso Hotel"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Dinner at Accommodation",
+                  "description": "Dinner is served at the accommodation (included). End the day with the included dinner at the accommodation, allowing time to rest after the early start, trekking, and long-distance travel.",
+                  "timeWindow": "19:00",
+                  "durationMinutes": 60,
+                  "location": "Accommodation"
+                }
+              ],
+              "mealsPlan": {
+                "breakfast": "included",
+                "lunch": "own expense",
+                "dinner": "included"
+              },
+              "mealsNotes": "",
+              "overnight": "Bondowoso Hotel"
             },
             {
               "day": 3,
@@ -10610,9 +11066,8 @@
                   "description": "Start the journey to Ketapang Harbor. Depart from the Ijen area and begin the road transfer to Ketapang Harbor to connect with the ferry crossing to Bali.",
                   "timeWindow": "09:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ijen area",
-                  "toLocation": "Ketapang Harbor",
-                  "destination": ""
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Ketapang Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -10620,9 +11075,8 @@
                   "description": "Arrive at Ketapang Port and board the ferry. Proceed through the port arrival and boarding flow to begin the ferry crossing toward Gilimanuk Harbor in Bali.",
                   "timeWindow": "10:30",
                   "durationMinutes": 60,
-                  "fromLocation": "Ketapang Port",
-                  "toLocation": "Gilimanuk Harbor",
-                  "destination": ""
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Gilimanuk Harbour"
                 },
                 {
                   "type": "TravelAction",
@@ -10630,9 +11084,57 @@
                   "description": "Arrive at Gilimanuk Harbor, Bali (+1 hour time zone). Disembark at Gilimanuk and adjust to the time zone difference, completing the crossing segment upon arrival in Bali.",
                   "timeWindow": "12:30",
                   "durationMinutes": 10,
-                  "fromLocation": "Gilimanuk Harbor",
-                  "toLocation": "Bali",
-                  "destination": ""
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Bali Hotel"
+                }
+              ],
+              "mealsPlan": {
+                "breakfast": "included",
+                "lunch": "own expense",
+                "dinner": "own expense"
+              },
+              "mealsNotes": "",
+              "overnight": null
+            },
+            {
+              "day": 3,
+              "title": "Ijen Climb and Return to Bali",
+              "summary": "The final day completes the Ijen segment before the route crosses back toward Bali. This return works best for guests who actively value the round-trip Bali finish and accept the rhythm needed to make it work cleanly.",
+              "activities": [
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Short break after the hike",
+                  "description": "Short break after Ijen Hike. Use this short recovery window in the Ijen area to rest briefly after the hike, reorganize personal items, and prepare for the onward transfer to the harbor.",
+                  "timeWindow": "09:00",
+                  "durationMinutes": 30,
+                  "location": "Ijen Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Ketapang",
+                  "description": "Start the journey to Ketapang Harbor. Depart from the Ijen area and begin the road transfer to Ketapang Harbor to connect with the ferry crossing to Bali.",
+                  "timeWindow": "09:30",
+                  "durationMinutes": 60,
+                  "fromLocation": "Ijen Area",
+                  "toLocation": "Ketapang Harbour"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Ferry to Gilimanuk Harbor",
+                  "description": "Arrive at Ketapang Port and board the ferry. Proceed through the port arrival and boarding flow to begin the ferry crossing toward Gilimanuk Harbor in Bali.",
+                  "timeWindow": "10:30",
+                  "durationMinutes": 60,
+                  "fromLocation": "Ketapang Harbour",
+                  "toLocation": "Gilimanuk Harbour"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Arrival at Bali",
+                  "description": "Arrive at Gilimanuk Harbor, Bali (+1 hour time zone). Disembark at Gilimanuk and adjust to the time zone difference, completing the crossing segment upon arrival in Bali.",
+                  "timeWindow": "12:30",
+                  "durationMinutes": 10,
+                  "fromLocation": "Gilimanuk Harbour",
+                  "toLocation": "Bali Hotel"
                 }
               ],
               "mealsPlan": {
@@ -10645,43 +11147,21 @@
             }
           ],
           "gallery": [
-            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
-            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
-            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_2.webp",
-            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_3.webp",
-            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_4.webp"
+            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
+            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_2.webp",
+            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_3.webp",
+            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_4.webp"
           ],
-          "imageUrl": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
-          "tags": [
-            "3d2n",
-            "bali",
-            "bromo",
-            "ijen",
-            "blue-fire",
-            "madakaripura",
-            "volcano",
-            "adventure",
-            "cross-island",
-            "site_visible"
-          ],
+          "imageUrl": "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
+          "tags": [],
           "aggregateRating": {
             "ratingValue": 0,
             "reviewCount": 0
           },
           "marketing": {
-            "perfectFor": [
-              "Adventure seekers",
-              "Nature lovers",
-              "Volcano enthusiasts",
-              "Photography enthusiasts",
-              "Active travelers"
-            ],
-            "highlightsBullets": [
-              "Two-volcano private route from Bali with guided cross-island handling",
-              "Bromo sunrise and Ijen crater kept central without stretching into a longer expedition",
-              "Best for Bali-based travelers who want both signature volcanoes in one route",
-              "Round-trip Bali finish with private handling across ferry and overland segments"
-            ],
+            "perfectFor": [],
+            "highlightsBullets": [],
             "safetyPositioning": "sterilized gas masks, health screening for Ijen, experienced Jeep drivers, sulfur exposure protocols, strong safety track record with professional guides and strict protocols",
             "uniqueSellingPoints": [
               "Two legendary volcanoes in one compact itinerary",
@@ -10969,9 +11449,8 @@
                   "description": "Pick up at your hotel in Surabaya and depart for Prigen Safari Park. This is the transfer segment from Surabaya to the safari destination to begin the day’s planned visit.",
                   "timeWindow": "09:00",
                   "durationMinutes": 90,
-                  "fromLocation": "Hotel in Surabaya",
-                  "toLocation": "Prigen Safari Park",
-                  "destination": ""
+                  "fromLocation": "Surabaya Hotel",
+                  "toLocation": "Prigen Safari Park"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -10987,7 +11466,7 @@
                   "description": "Lunch inside the safari area (fees not included). This is the scheduled lunch break within the park area, allowing time to order and dine before continuing the day’s onward travel.",
                   "timeWindow": "13:00",
                   "durationMinutes": 120,
-                  "location": "Safari Area Restaurant"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -10996,8 +11475,7 @@
                   "timeWindow": "15:00",
                   "durationMinutes": 120,
                   "fromLocation": "Prigen Safari Park",
-                  "toLocation": "Bromo area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -11005,7 +11483,7 @@
                   "description": "Arrive in the Bromo area and check in at the hotel. This is the scheduled arrival and check-in process at your accommodation in the Bromo area after the transfer.",
                   "timeWindow": "17:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Bromo area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -11035,9 +11513,8 @@
                   "description": "Pick up at your hotel in Surabaya and depart for Prigen Safari Park. This is the transfer segment from Surabaya to the safari destination to begin the day’s planned visit.",
                   "timeWindow": "09:00",
                   "durationMinutes": 90,
-                  "fromLocation": "Hotel in Surabaya",
-                  "toLocation": "Prigen Safari Park",
-                  "destination": ""
+                  "fromLocation": "Surabaya Hotel",
+                  "toLocation": "Prigen Safari Park"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -11053,7 +11530,7 @@
                   "description": "Lunch inside the safari area (fees not included). This is the scheduled lunch break within the park area, allowing time to order and dine before continuing the day’s onward travel.",
                   "timeWindow": "13:00",
                   "durationMinutes": 120,
-                  "location": "Safari Area Restaurant"
+                  "location": "Local Restaurant"
                 },
                 {
                   "type": "TravelAction",
@@ -11062,8 +11539,7 @@
                   "timeWindow": "15:00",
                   "durationMinutes": 120,
                   "fromLocation": "Prigen Safari Park",
-                  "toLocation": "Bromo area",
-                  "destination": ""
+                  "toLocation": "Bromo Area"
                 },
                 {
                   "type": "CheckInAction",
@@ -11071,7 +11547,7 @@
                   "description": "Arrive in the Bromo area and check in at the hotel. This is the scheduled arrival and check-in process at your accommodation in the Bromo area after the transfer.",
                   "timeWindow": "17:00",
                   "durationMinutes": 30,
-                  "location": "Hotel in Bromo area"
+                  "location": "Bromo Hotel"
                 }
               ],
               "mealsPlan": {
@@ -11093,7 +11569,7 @@
                   "description": "Starting the Bromo Jeep tour. Begin the scheduled Mount Bromo sunrise tour sequence by Jeep, completing the morning program within the allocated time block.",
                   "timeWindow": "02:30",
                   "durationMinutes": 390,
-                  "location": "Mount Bromo"
+                  "location": "Sea of Sand & Bromo Crater"
                 },
                 {
                   "type": "TouristAttractionVisit",
@@ -11112,6 +11588,15 @@
                   "location": "Bromo Hotel"
                 },
                 {
+                  "type": "TravelAction",
+                  "name": "Check-out and Transfer to Madakaripura",
+                  "description": "Depart from the Bromo hotel after check-out and continue the overland transfer to Madakaripura Waterfall.",
+                  "timeWindow": "11:10",
+                  "durationMinutes": 20,
+                  "fromLocation": "Bromo Hotel",
+                  "toLocation": "Madakaripura Waterfall"
+                },
+                {
                   "type": "TouristAttractionVisit",
                   "name": "Madakaripura Trekking",
                   "description": "Arrive at Madakaripura and start trekking. This is the main on-site activity window at Madakaripura Waterfall, dedicated to the trek segment as listed in the schedule.",
@@ -11125,7 +11610,7 @@
                   "description": "After trekking, have lunch (fees not included). This is the planned meal break after the Madakaripura trekking segment, with dining costs handled personally.",
                   "timeWindow": "13:30",
                   "durationMinutes": 60,
-                  "location": "Madakaripura Area"
+                  "location": "Madakaripura Waterfall"
                 },
                 {
                   "type": "TravelAction",
@@ -11133,9 +11618,8 @@
                   "description": "Journey to Surabaya. Begin the return transfer from the Madakaripura area to Surabaya, closing the day tour route.",
                   "timeWindow": "14:30",
                   "durationMinutes": 120,
-                  "fromLocation": "Madakaripura",
-                  "toLocation": "Surabaya",
-                  "destination": ""
+                  "fromLocation": "Madakaripura Waterfall",
+                  "toLocation": "Surabaya City"
                 },
                 {
                   "type": "TravelAction",
@@ -11143,9 +11627,8 @@
                   "description": "Arrived in Surabaya. Complete arrival procedures and proceed to the final drop-off point as applicable.",
                   "timeWindow": "16:30",
                   "durationMinutes": 0,
-                  "fromLocation": "",
-                  "toLocation": "",
-                  "destination": "Surabaya"
+                  "fromLocation": "Surabaya City",
+                  "toLocation": "Surabaya City"
                 }
               ],
               "mealsPlan": {
@@ -11160,14 +11643,14 @@
           "gallery": [
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_0.jpg",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_4.png",
-            "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_6.png",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_7.jpg",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_8.webp",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_9.webp",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_10.webp",
             "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_12.webp",
-            "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_13.webp"
+            "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_13.webp",
+            "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png"
           ],
           "imageUrl": "/uploads/3-day-taman-safari-prigen-bromo-madakaripura-family-adventure-from-surabaya_5.png",
           "tags": [

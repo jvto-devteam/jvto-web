@@ -546,26 +546,6 @@ exports.Prisma.Channel_unavailable_rangesScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
-exports.Prisma.Combined_package_detailsScalarFieldEnum = {
-  id: 'id',
-  combined_package_id: 'combined_package_id',
-  package_id: 'package_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
-};
-
-exports.Prisma.Combined_packagesScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  long_name: 'long_name',
-  slug: 'slug',
-  highlights: 'highlights',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
-};
-
 exports.Prisma.CountriesScalarFieldEnum = {
   id: 'id',
   short_name: 'short_name',
@@ -742,17 +722,16 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   region: 'region',
   province: 'province',
   country: 'country',
-  latitude: 'latitude',
-  longitude: 'longitude',
   altitude: 'altitude',
-  area_hectares: 'area_hectares',
+  display_height_m: 'display_height_m',
+  nickname: 'nickname',
+  trailhead: 'trailhead',
+  physical_demand: 'physical_demand',
+  sections: 'sections',
   terrain: 'terrain',
   best_time_to_visit: 'best_time_to_visit',
   difficulty_level: 'difficulty_level',
   duration: 'duration',
-  physical_demand: 'physical_demand',
-  cultural_depth: 'cultural_depth',
-  photo_potential: 'photo_potential',
   weather_by_season: 'weather_by_season',
   rainfall_intensity: 'rainfall_intensity',
   temperature_range: 'temperature_range',
@@ -766,23 +745,26 @@ exports.Prisma.DestinationsScalarFieldEnum = {
   permit_required: 'permit_required',
   permit_details: 'permit_details',
   guide_required: 'guide_required',
-  facilities: 'facilities',
   safety_notes: 'safety_notes',
   risk_factors: 'risk_factors',
   environmental_factors: 'environmental_factors',
-  emergency_contacts: 'emergency_contacts',
   physical_requirements: 'physical_requirements',
   cultural_context: 'cultural_context',
   local_tribes: 'local_tribes',
-  rituals_festivals: 'rituals_festivals',
   tips_for_visitors: 'tips_for_visitors',
-  thumbnail_url: 'thumbnail_url',
   featured_image: 'featured_image',
   published: 'published',
   featured: 'featured',
   seo_title: 'seo_title',
   seo_description: 'seo_description',
   schema_json: 'schema_json',
+  route_geojson: 'route_geojson',
+  route_length_m: 'route_length_m',
+  route_elev_gain_m: 'route_elev_gain_m',
+  route_elev_min_m: 'route_elev_min_m',
+  route_max_alt_m: 'route_max_alt_m',
+  route_bbox: 'route_bbox',
+  route_start_point: 'route_start_point',
   tags: 'tags',
   types: 'types',
   slug: 'slug',
@@ -936,7 +918,6 @@ exports.Prisma.HotelsScalarFieldEnum = {
   destination_id: 'destination_id',
   description: 'description',
   facilities: 'facilities',
-  area: 'area',
   address: 'address',
   phone: 'phone',
   banner: 'banner',
@@ -1098,20 +1079,6 @@ exports.Prisma.Package_hotel_optionsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
-exports.Prisma.Package_imagesScalarFieldEnum = {
-  id: 'id',
-  package_id: 'package_id',
-  url: 'url',
-  og_image_url: 'og_image_url',
-  sort_order: 'sort_order',
-  alt_text: 'alt_text',
-  caption: 'caption',
-  tags: 'tags',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
-};
-
 exports.Prisma.Package_includesScalarFieldEnum = {
   id: 'id',
   package_id: 'package_id',
@@ -1123,7 +1090,11 @@ exports.Prisma.Package_includesScalarFieldEnum = {
 
 exports.Prisma.LocationsScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  type: 'type',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  destination_id: 'destination_id'
 };
 
 exports.Prisma.Package_itinerary_day_detailsScalarFieldEnum = {
@@ -1266,8 +1237,6 @@ exports.Prisma.RoutesScalarFieldEnum = {
   code: 'code',
   route: 'route',
   itinerary_title: 'itinerary_title',
-  start_area: 'start_area',
-  end_area: 'end_area',
   estimated_duration: 'estimated_duration',
   main_activities: 'main_activities',
   accommodation_status: 'accommodation_status',
@@ -1276,7 +1245,9 @@ exports.Prisma.RoutesScalarFieldEnum = {
   breakfast: 'breakfast',
   lunch: 'lunch',
   dinner: 'dinner',
-  meals_notes: 'meals_notes'
+  meals_notes: 'meals_notes',
+  start_location_id: 'start_location_id',
+  end_location_id: 'end_location_id'
 };
 
 exports.Prisma.Route_detailsScalarFieldEnum = {
@@ -1284,23 +1255,12 @@ exports.Prisma.Route_detailsScalarFieldEnum = {
   route_id: 'route_id',
   seq: 'seq',
   time_or_label: 'time_or_label',
-  timezone: 'timezone',
   name: 'name',
   activity: 'activity',
   type: 'type',
-  location: 'location',
-  from_location: 'from_location',
-  to_location: 'to_location',
-  duration_minutes: 'duration_minutes'
-};
-
-exports.Prisma.Route_destinationsScalarFieldEnum = {
-  id: 'id',
-  route_id: 'route_id',
-  destination_id: 'destination_id',
-  sequence: 'sequence',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  duration_minutes: 'duration_minutes',
+  from_location_id: 'from_location_id',
+  to_location_id: 'to_location_id'
 };
 
 exports.Prisma.Room_configurationsScalarFieldEnum = {
@@ -1532,6 +1492,19 @@ exports.policy_document_type = exports.$Enums.policy_document_type = {
   guest_responsibilities: 'guest_responsibilities'
 };
 
+exports.location_type = exports.$Enums.location_type = {
+  destination: 'destination',
+  hotel: 'hotel',
+  city: 'city',
+  airport: 'airport',
+  harbour: 'harbour',
+  train_station: 'train_station',
+  restaurant: 'restaurant',
+  landmark: 'landmark',
+  clinic: 'clinic',
+  transit: 'transit'
+};
+
 exports.asset_type = exports.$Enums.asset_type = {
   image: 'image',
   video: 'video',
@@ -1574,8 +1547,6 @@ exports.Prisma.ModelName = {
   blog_categories: 'blog_categories',
   blogs: 'blogs',
   channel_unavailable_ranges: 'channel_unavailable_ranges',
-  combined_package_details: 'combined_package_details',
-  combined_packages: 'combined_packages',
   countries: 'countries',
   crew_member_reviews: 'crew_member_reviews',
   crew_member_roles: 'crew_member_roles',
@@ -1617,7 +1588,6 @@ exports.Prisma.ModelName = {
   package_excludes: 'package_excludes',
   package_faqs: 'package_faqs',
   package_hotel_options: 'package_hotel_options',
-  package_images: 'package_images',
   package_includes: 'package_includes',
   locations: 'locations',
   package_itinerary_day_details: 'package_itinerary_day_details',
@@ -1630,7 +1600,6 @@ exports.Prisma.ModelName = {
   price_tiers: 'price_tiers',
   routes: 'routes',
   route_details: 'route_details',
-  route_destinations: 'route_destinations',
   room_configurations: 'room_configurations',
   room_types: 'room_types',
   transport_crew_rules: 'transport_crew_rules',
