@@ -25,8 +25,24 @@ async function getAccessToken(): Promise<string> {
   return data.access_token as string;
 }
 
-async function fetchAllReviews(token: string): Promise<GbpReview[]> {
+interface GbpReview {
+  name: string;
+  reviewer: { displayName?: string; profilePhotoUrl?: string };
+  starRating: string;
+  comment?: string;
+  createTime?: string;
+}
+
+interface GbpFetchResult {
+  reviews: GbpReview[];
+  average_rating: number | null;
+  total_review_count: number | null;
+}
+
+async function fetchAllReviews(token: string): Promise<GbpFetchResult> {
   const all: GbpReview[] = [];
+  let averageRating: number | null = null;
+  let totalReviewCount: number | null = null;
   let pageToken: string | undefined;
 
   do {
@@ -34,37 +50,27 @@ async function fetchAllReviews(token: string): Promise<GbpReview[]> {
       ? `${GBP_REVIEWS_BASE}?pageToken=${encodeURIComponent(pageToken)}`
       : GBP_REVIEWS_BASE;
 
-    const res = await fetch(url, {
+    let res = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (res.status === 401) {
       const newToken = await getAccessToken();
-      const retry = await fetch(url, {
-        headers: { Authorization: `Bearer ${newToken}` },
-      });
-      if (!retry.ok) throw new Error(`GBP API error: ${retry.status}`);
-      const data = await retry.json();
-      all.push(...(data.reviews ?? []));
-      pageToken = data.nextPageToken;
+      res = await fetch(url, { headers: { Authorization: `Bearer ${newToken}` } });
+      if (!res.ok) throw new Error(`GBP API error after token refresh: ${res.status}`);
     } else if (!res.ok) {
       throw new Error(`GBP API error: ${res.status}`);
-    } else {
-      const data = await res.json();
-      all.push(...(data.reviews ?? []));
-      pageToken = data.nextPageToken;
     }
+
+    const data = await res.json();
+    all.push(...(data.reviews ?? []));
+    pageToken = data.nextPageToken ?? undefined;
+    // GBP returns these on every page — keep last seen value
+    if (data.averageRating != null) averageRating = data.averageRating;
+    if (data.totalReviewCount != null) totalReviewCount = data.totalReviewCount;
   } while (pageToken);
 
-  return all;
-}
-
-interface GbpReview {
-  name: string;
-  reviewer: { displayName?: string; profilePhotoUrl?: string };
-  starRating: string;
-  comment?: string;
-  createTime?: string;
+  return { reviews: all, average_rating: averageRating, total_review_count: totalReviewCount };
 }
 
 async function syncReviews(reviews: GbpReview[]) {
@@ -149,9 +155,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const token = await getAccessToken();
-    const reviews = await fetchAllReviews(token);
+    const { reviews, average_rating, total_review_count } = await fetchAllReviews(token);
     const result = await syncReviews(reviews);
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ success: true, ...result, average_rating, total_review_count });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     console.error("[sync-google]", message);
