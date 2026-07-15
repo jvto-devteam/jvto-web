@@ -239,6 +239,11 @@ export default async function TravelGuideHubPage() {
                   prefetch={false}
                   className="group bg-white rounded-[20px] p-7 border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-[0_8px_32px_rgba(232,101,10,0.08)] transition-all block"
                 >
+                  <div className="mb-4">
+                    <svg className="w-7 h-7 text-jvto-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </div>
                   <h3
                     className="font-black text-jvto-navy text-xl mb-3"
                     style={{ fontFamily: "Raleway, Inter, sans-serif" }}
@@ -414,31 +419,36 @@ export default async function TravelGuideHubPage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* CTA */}
-          <div className="mt-24 text-center">
-            <h2
-              className="font-black text-jvto-navy leading-[1.02] mb-8"
-              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 48px)" }}
+      {/* ── CTA — navy, stacked ─────────────────────────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
+          <h2
+            className="font-black text-white leading-[1.02] mb-8"
+            style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(32px, 4.5vw, 48px)" }}
+          >
+            Ready for operational <span className="text-jvto-orange">certainty?</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/tours"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
             >
-              Ready for operational <span className="text-jvto-orange">certainty?</span>
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/tours"
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-jvto-orange text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-[#C4520A] transition-colors"
-              >
-                Explore tours <ArrowRight />
-              </Link>
-              <Link
-                href="/verify-jvto"
-                prefetch={false}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#E3E0DA] text-jvto-navy font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-jvto-navy hover:text-white transition-colors"
-              >
-                Verify JVTO
-              </Link>
-            </div>
+              Explore tours <ArrowRight />
+            </Link>
+            <Link
+              href="/verify-jvto"
+              prefetch={false}
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] hover:bg-white/10 transition-colors"
+            >
+              Verify JVTO
+            </Link>
           </div>
         </div>
       </section>
