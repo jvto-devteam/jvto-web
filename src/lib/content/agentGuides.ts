@@ -113,13 +113,13 @@ export const AGENT_GUIDES: Record<string, AgentGuide> = {
     "slug": "how-booking-works",
     "route": "/travel-guide/how-booking-works",
     "title": "How Booking Works",
-    "description": "The two official ways to book a JVTO tour: website Instant Book and WhatsApp-assisted booking.",
+    "description": "Booking a JVTO tour is website-only: complete your booking on the official website under a JVTO Booking ID.",
     "h1": "How Booking Works",
-    "intro": "There are two official booking paths. Here is how each one works.",
+    "intro": "JVTO accepts bookings exclusively through the official website. Here is how it works.",
     "sections": [
       {
         "h2": "How to Book",
-        "body": "JVTO's two official booking paths — website Instant Book and WhatsApp-assisted booking.\n\nJVTO offers two official ways to book:"
+        "body": "JVTO accepts bookings exclusively through the official website checkout. WhatsApp and email provide customer assistance but do not create, confirm, modify, cancel, or transfer bookings — every booking action is completed on the website and recorded under a valid JVTO Booking ID.\n\nTo book: choose your package, select your date and travellers, review the price and add-ons, accept the Terms & Cancellation Policy, and complete payment. JVTO then follows up with your confirmation / E-Voucher."
       }
     ],
     "related": [
