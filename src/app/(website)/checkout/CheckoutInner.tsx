@@ -1014,6 +1014,14 @@ const StepTwoPayment = ({
             </div>
           )}
         </div>
+        {/* Ijen health-screening note — only shown for packages that include Kawah Ijen */}
+        {payload.packageLabel.toLowerCase().includes("ijen") && (
+          <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+            <strong>Catatan Akses Ijen:</strong>{" "}
+            Akses Ijen dapat mensyaratkan surat sehat terkini; JVTO mengoordinasikan alur klinik bila aturan akses mensyaratkan.
+          </div>
+        )}
+
         <div className="mt-8 border-t border-slate-100 pt-6">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
@@ -1042,6 +1050,16 @@ const StepTwoPayment = ({
               .
             </span>
           </label>
+          <p className="mt-3 text-sm text-slate-500">
+            Kebijakan pembatalan:{" "}
+            <a
+              href="/policy/booking-payment-cancellation"
+              target="_blank"
+              className="font-semibold underline decoration-jvto-green decoration-2 underline-offset-2 hover:text-slate-700"
+            >
+              100% Travel Credit jika batal ≥48 jam sebelum tour; hangus jika &lt;48 jam.
+            </a>
+          </p>
         </div>
       </div>
 
