@@ -1,0 +1,34 @@
+name: Sync Google Reviews
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # Daily 01:00 UTC = 08:00 WIB
+  workflow_dispatch:    # Allow manual trigger from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: POST /api/review/sync-google
+        run: |
+          response=$(curl -s -o response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            "${{ secrets.SITE_URL }}/api/review/sync-google")
+
+          echo "HTTP status: $response"
+          cat response.json
+          echo ""
+
+          if [ "$response" != "200" ]; then
+            echo "❌ Sync failed with HTTP $response"
+            exit 1
+          fi
+
+          total=$(jq -r '.total_review_count // "n/a"' response.json)
+          rating=$(jq -r '.average_rating // "n/a"' response.json)
+          synced=$(jq -r '.synced // "n/a"' response.json)
+          skipped=$(jq -r '.skipped // "n/a"' response.json)
+          echo "✅ Google reviews synced — total: $total, rating: $rating, new/updated: $synced, skipped: $skipped"
