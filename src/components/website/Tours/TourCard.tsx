@@ -60,7 +60,7 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
           <div className="flex items-center gap-1 text-white">
             <Star className="fill-jvto-green text-jvto-green w-4 h-4" />
             <span className="font-bold text-sm">{AGGREGATE_RATING.ratingValue.toFixed(1)}</span>
-            <span className="text-xs text-gray-300">(112 reviews)</span>
+            <span className="text-xs text-gray-300">({AGGREGATE_RATING.reviewCount} reviews)</span>
           </div>
         </div>
       </div>
