@@ -18,35 +18,35 @@ export interface ReviewTheme {
   claimLinkage: string;
 }
 
-// Cross-platform aggregate: 195 total reviews across Trustpilot (51), Google Maps (123),
-// and TripAdvisor (21). ratingValue is the review-count-weighted blend
-// (4.8·51 + 4.9·123 + 4.95·21) / 195 ≈ 4.88. Drives aggregateRating on every schema page.
+// Cross-platform aggregate: 203 total reviews across Google Maps (138), Trustpilot (44),
+// and TripAdvisor (21). ratingValue = AVG(star) across all platforms in DB = 4.91.
+// Used as fallback when review_stats table unavailable. Live schema reads from review_stats via getGoogleReviewStats().
 export const AGGREGATE_RATING = {
-  ratingValue: 4.88,
+  ratingValue: 4.91,
   bestRating: 5,
   worstRating: 1,
-  reviewCount: 195,
+  reviewCount: 203,
   primaryPlatform: 'Trustpilot',
   primaryPlatformUrl: 'https://trustpilot.com/review/javavolcano-touroperator.com',
-  lastVerified: '2026-05-26',
+  lastVerified: '2026-07-16',
 } as const;
 
 export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   {
     platform: 'Trustpilot',
-    count: 51,
-    rating: 4.8,
+    count: 44,
+    rating: 4.93,
     url: 'https://trustpilot.com/review/javavolcano-touroperator.com',
     isPrimary: true,
-    lastVerified: '2026-05-09',
+    lastVerified: '2026-07-16',
   },
   {
     platform: 'Google Maps',
-    count: 123,
+    count: 138,
     rating: 4.9,
     url: 'https://www.google.com/maps?cid=1266403973589689021',
     isPrimary: false,
-    lastVerified: '2026-05-26',
+    lastVerified: '2026-07-16',
   },
   {
     platform: 'TripAdvisor',

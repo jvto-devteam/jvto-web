@@ -14,6 +14,7 @@ import {
   buildToursHubFaqSchema,
   buildToursHubAggregateRatingSchema,
 } from "@/lib/schemas/buildToursHubSchemas";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { ArrowRight, Shield, Users, FileText, Award, Check, Ship } from "lucide-react";
 
 export const revalidate = 3600;
@@ -149,7 +150,8 @@ export default async function ToursPageBali() {
   };
 
   const hubFaqSchema = buildToursHubFaqSchema();
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-bali" });
+  const googleStats = await getGoogleReviewStats();
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-bali", liveStats: googleStats });
 
   return (
     <>

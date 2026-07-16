@@ -14,6 +14,7 @@ import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -272,10 +273,11 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Why JVTO";
+  const googleStats = slug === "reviews" ? await getGoogleReviewStats() : null;
   const slugExtraSchemas =
     slug === "reviews"
       ? [
-          buildWhyJvtoReviewsAggregateRatingSchema(),
+          buildWhyJvtoReviewsAggregateRatingSchema(googleStats),
           ...buildIndividualReviewSchemas(
             reviewsData as Awaited<ReturnType<typeof getReviewsForSchema>>,
           ),

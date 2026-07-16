@@ -654,6 +654,14 @@ exports.Prisma.Crew_reviewsScalarFieldEnum = {
   crew_id: 'crew_id'
 };
 
+exports.Prisma.Review_statsScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  rating: 'rating',
+  count: 'count',
+  synced_at: 'synced_at'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1556,6 +1564,7 @@ exports.Prisma.ModelName = {
   currency_exchange_rates: 'currency_exchange_rates',
   reviews: 'reviews',
   crew_reviews: 'crew_reviews',
+  review_stats: 'review_stats',
   User: 'User',
   Account: 'Account',
   Session: 'Session',

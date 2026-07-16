@@ -53,6 +53,8 @@ export async function GET(
     return Response.json({ error: "Package not found" }, { status: 404 });
   }
 
+  const googleStats = await prisma.review_stats.findUnique({ where: { source: "google" } });
+
   const serialized = JSON.parse(
     JSON.stringify(pkg, (_, value) =>
       typeof value === "bigint" ? value.toString() : value
@@ -167,8 +169,8 @@ export async function GET(
           },
 
           aggregateRating: {
-            ratingValue: 4.9,
-            reviewCount: 102,
+            ratingValue: googleStats?.rating ?? 4.8,
+            reviewCount: googleStats?.count ?? 138,
             sourceExamples: [
               {
                 text: "",

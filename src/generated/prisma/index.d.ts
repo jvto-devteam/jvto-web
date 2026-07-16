@@ -219,6 +219,11 @@ export type reviews = $Result.DefaultSelection<Prisma.$reviewsPayload>
  */
 export type crew_reviews = $Result.DefaultSelection<Prisma.$crew_reviewsPayload>
 /**
+ * Model review_stats
+ * 
+ */
+export type review_stats = $Result.DefaultSelection<Prisma.$review_statsPayload>
+/**
  * Model User
  * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  */
@@ -1120,6 +1125,16 @@ export class PrismaClient<
     * ```
     */
   get crew_reviews(): Prisma.crew_reviewsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.review_stats`: Exposes CRUD operations for the **review_stats** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Review_stats
+    * const review_stats = await prisma.review_stats.findMany()
+    * ```
+    */
+  get review_stats(): Prisma.review_statsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -2230,6 +2245,7 @@ export namespace Prisma {
     currency_exchange_rates: 'currency_exchange_rates',
     reviews: 'reviews',
     crew_reviews: 'crew_reviews',
+    review_stats: 'review_stats',
     User: 'User',
     Account: 'Account',
     Session: 'Session',
@@ -2311,7 +2327,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation" | "narrative_claims"
+      modelProps: "activities" | "activity_categories" | "activity_ends" | "activity_starts" | "addons" | "announcements" | "booking_addons" | "booking_crew_member_activities" | "booking_crew_members" | "booking_destination_activities" | "booking_destination_schedules" | "booking_finances" | "booking_hotel_meals" | "booking_hotel_rooms" | "booking_hotels" | "booking_itineraries" | "booking_logistics" | "booking_other_activities" | "booking_payment_histories" | "booking_payment_terms" | "booking_police_escort" | "booking_review_crews" | "booking_reviews" | "booking_tshirts" | "booking_vehicle_units" | "booking_whatsapp_logs" | "bookings" | "blog_categories" | "blogs" | "channel_unavailable_ranges" | "countries" | "crew_member_reviews" | "crew_member_roles" | "crew_members" | "crew_roles" | "crew_unavailabilities" | "currency_exchange_rates" | "reviews" | "crew_reviews" | "review_stats" | "user" | "account" | "session" | "verificationToken" | "destination_activities" | "destinations" | "destination_gears" | "discounts" | "document_categories" | "documents" | "durations" | "category_faqs" | "content_pages" | "faqs" | "policy_documents" | "site_identity" | "feedback" | "hotels" | "inclusion_rules" | "item_excludes" | "item_includes" | "knowledge_bases" | "order_channels" | "other_activities" | "organization_profile" | "package_addons" | "package_assets" | "package_categories" | "package_destinations" | "package_excludes" | "package_faqs" | "package_hotel_options" | "package_includes" | "locations" | "package_itinerary_day_details" | "package_itinerary_days" | "package_prices" | "packages" | "page_contents" | "payment_methods" | "policies" | "price_tiers" | "routes" | "route_details" | "room_configurations" | "room_types" | "transport_crew_rules" | "vehicle_types" | "vehicle_units" | "vendor_categories" | "vendors" | "web_metadata" | "folders" | "tags_assets" | "assets" | "asset_tags" | "destination_assets" | "destination_faqs" | "eav_entity" | "eav_attribute" | "eav_value" | "eav_relation" | "narrative_claims"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5198,6 +5214,80 @@ export namespace Prisma {
           count: {
             args: Prisma.crew_reviewsCountArgs<ExtArgs>
             result: $Utils.Optional<Crew_reviewsCountAggregateOutputType> | number
+          }
+        }
+      }
+      review_stats: {
+        payload: Prisma.$review_statsPayload<ExtArgs>
+        fields: Prisma.review_statsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.review_statsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.review_statsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          findFirst: {
+            args: Prisma.review_statsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.review_statsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          findMany: {
+            args: Prisma.review_statsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>[]
+          }
+          create: {
+            args: Prisma.review_statsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          createMany: {
+            args: Prisma.review_statsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.review_statsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>[]
+          }
+          delete: {
+            args: Prisma.review_statsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          update: {
+            args: Prisma.review_statsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          deleteMany: {
+            args: Prisma.review_statsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.review_statsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.review_statsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>[]
+          }
+          upsert: {
+            args: Prisma.review_statsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$review_statsPayload>
+          }
+          aggregate: {
+            args: Prisma.Review_statsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReview_stats>
+          }
+          groupBy: {
+            args: Prisma.review_statsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Review_statsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.review_statsCountArgs<ExtArgs>
+            result: $Utils.Optional<Review_statsCountAggregateOutputType> | number
           }
         }
       }
@@ -9998,6 +10088,7 @@ export namespace Prisma {
     currency_exchange_rates?: currency_exchange_ratesOmit
     reviews?: reviewsOmit
     crew_reviews?: crew_reviewsOmit
+    review_stats?: review_statsOmit
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
@@ -60409,6 +60500,1043 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: crew_reviewsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model review_stats
+   */
+
+  export type AggregateReview_stats = {
+    _count: Review_statsCountAggregateOutputType | null
+    _avg: Review_statsAvgAggregateOutputType | null
+    _sum: Review_statsSumAggregateOutputType | null
+    _min: Review_statsMinAggregateOutputType | null
+    _max: Review_statsMaxAggregateOutputType | null
+  }
+
+  export type Review_statsAvgAggregateOutputType = {
+    id: number | null
+    rating: number | null
+    count: number | null
+  }
+
+  export type Review_statsSumAggregateOutputType = {
+    id: bigint | null
+    rating: number | null
+    count: number | null
+  }
+
+  export type Review_statsMinAggregateOutputType = {
+    id: bigint | null
+    source: string | null
+    rating: number | null
+    count: number | null
+    synced_at: Date | null
+  }
+
+  export type Review_statsMaxAggregateOutputType = {
+    id: bigint | null
+    source: string | null
+    rating: number | null
+    count: number | null
+    synced_at: Date | null
+  }
+
+  export type Review_statsCountAggregateOutputType = {
+    id: number
+    source: number
+    rating: number
+    count: number
+    synced_at: number
+    _all: number
+  }
+
+
+  export type Review_statsAvgAggregateInputType = {
+    id?: true
+    rating?: true
+    count?: true
+  }
+
+  export type Review_statsSumAggregateInputType = {
+    id?: true
+    rating?: true
+    count?: true
+  }
+
+  export type Review_statsMinAggregateInputType = {
+    id?: true
+    source?: true
+    rating?: true
+    count?: true
+    synced_at?: true
+  }
+
+  export type Review_statsMaxAggregateInputType = {
+    id?: true
+    source?: true
+    rating?: true
+    count?: true
+    synced_at?: true
+  }
+
+  export type Review_statsCountAggregateInputType = {
+    id?: true
+    source?: true
+    rating?: true
+    count?: true
+    synced_at?: true
+    _all?: true
+  }
+
+  export type Review_statsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which review_stats to aggregate.
+     */
+    where?: review_statsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of review_stats to fetch.
+     */
+    orderBy?: review_statsOrderByWithRelationInput | review_statsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: review_statsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` review_stats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` review_stats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned review_stats
+    **/
+    _count?: true | Review_statsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Review_statsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Review_statsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Review_statsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Review_statsMaxAggregateInputType
+  }
+
+  export type GetReview_statsAggregateType<T extends Review_statsAggregateArgs> = {
+        [P in keyof T & keyof AggregateReview_stats]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReview_stats[P]>
+      : GetScalarType<T[P], AggregateReview_stats[P]>
+  }
+
+
+
+
+  export type review_statsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: review_statsWhereInput
+    orderBy?: review_statsOrderByWithAggregationInput | review_statsOrderByWithAggregationInput[]
+    by: Review_statsScalarFieldEnum[] | Review_statsScalarFieldEnum
+    having?: review_statsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Review_statsCountAggregateInputType | true
+    _avg?: Review_statsAvgAggregateInputType
+    _sum?: Review_statsSumAggregateInputType
+    _min?: Review_statsMinAggregateInputType
+    _max?: Review_statsMaxAggregateInputType
+  }
+
+  export type Review_statsGroupByOutputType = {
+    id: bigint
+    source: string
+    rating: number
+    count: number
+    synced_at: Date
+    _count: Review_statsCountAggregateOutputType | null
+    _avg: Review_statsAvgAggregateOutputType | null
+    _sum: Review_statsSumAggregateOutputType | null
+    _min: Review_statsMinAggregateOutputType | null
+    _max: Review_statsMaxAggregateOutputType | null
+  }
+
+  type GetReview_statsGroupByPayload<T extends review_statsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Review_statsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Review_statsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Review_statsGroupByOutputType[P]>
+            : GetScalarType<T[P], Review_statsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type review_statsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    source?: boolean
+    rating?: boolean
+    count?: boolean
+    synced_at?: boolean
+  }, ExtArgs["result"]["review_stats"]>
+
+  export type review_statsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    source?: boolean
+    rating?: boolean
+    count?: boolean
+    synced_at?: boolean
+  }, ExtArgs["result"]["review_stats"]>
+
+  export type review_statsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    source?: boolean
+    rating?: boolean
+    count?: boolean
+    synced_at?: boolean
+  }, ExtArgs["result"]["review_stats"]>
+
+  export type review_statsSelectScalar = {
+    id?: boolean
+    source?: boolean
+    rating?: boolean
+    count?: boolean
+    synced_at?: boolean
+  }
+
+  export type review_statsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "source" | "rating" | "count" | "synced_at", ExtArgs["result"]["review_stats"]>
+
+  export type $review_statsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "review_stats"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      source: string
+      rating: number
+      count: number
+      synced_at: Date
+    }, ExtArgs["result"]["review_stats"]>
+    composites: {}
+  }
+
+  type review_statsGetPayload<S extends boolean | null | undefined | review_statsDefaultArgs> = $Result.GetResult<Prisma.$review_statsPayload, S>
+
+  type review_statsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<review_statsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Review_statsCountAggregateInputType | true
+    }
+
+  export interface review_statsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['review_stats'], meta: { name: 'review_stats' } }
+    /**
+     * Find zero or one Review_stats that matches the filter.
+     * @param {review_statsFindUniqueArgs} args - Arguments to find a Review_stats
+     * @example
+     * // Get one Review_stats
+     * const review_stats = await prisma.review_stats.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends review_statsFindUniqueArgs>(args: SelectSubset<T, review_statsFindUniqueArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Review_stats that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {review_statsFindUniqueOrThrowArgs} args - Arguments to find a Review_stats
+     * @example
+     * // Get one Review_stats
+     * const review_stats = await prisma.review_stats.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends review_statsFindUniqueOrThrowArgs>(args: SelectSubset<T, review_statsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Review_stats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsFindFirstArgs} args - Arguments to find a Review_stats
+     * @example
+     * // Get one Review_stats
+     * const review_stats = await prisma.review_stats.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends review_statsFindFirstArgs>(args?: SelectSubset<T, review_statsFindFirstArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Review_stats that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsFindFirstOrThrowArgs} args - Arguments to find a Review_stats
+     * @example
+     * // Get one Review_stats
+     * const review_stats = await prisma.review_stats.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends review_statsFindFirstOrThrowArgs>(args?: SelectSubset<T, review_statsFindFirstOrThrowArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Review_stats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Review_stats
+     * const review_stats = await prisma.review_stats.findMany()
+     * 
+     * // Get first 10 Review_stats
+     * const review_stats = await prisma.review_stats.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const review_statsWithIdOnly = await prisma.review_stats.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends review_statsFindManyArgs>(args?: SelectSubset<T, review_statsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Review_stats.
+     * @param {review_statsCreateArgs} args - Arguments to create a Review_stats.
+     * @example
+     * // Create one Review_stats
+     * const Review_stats = await prisma.review_stats.create({
+     *   data: {
+     *     // ... data to create a Review_stats
+     *   }
+     * })
+     * 
+     */
+    create<T extends review_statsCreateArgs>(args: SelectSubset<T, review_statsCreateArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Review_stats.
+     * @param {review_statsCreateManyArgs} args - Arguments to create many Review_stats.
+     * @example
+     * // Create many Review_stats
+     * const review_stats = await prisma.review_stats.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends review_statsCreateManyArgs>(args?: SelectSubset<T, review_statsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Review_stats and returns the data saved in the database.
+     * @param {review_statsCreateManyAndReturnArgs} args - Arguments to create many Review_stats.
+     * @example
+     * // Create many Review_stats
+     * const review_stats = await prisma.review_stats.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Review_stats and only return the `id`
+     * const review_statsWithIdOnly = await prisma.review_stats.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends review_statsCreateManyAndReturnArgs>(args?: SelectSubset<T, review_statsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Review_stats.
+     * @param {review_statsDeleteArgs} args - Arguments to delete one Review_stats.
+     * @example
+     * // Delete one Review_stats
+     * const Review_stats = await prisma.review_stats.delete({
+     *   where: {
+     *     // ... filter to delete one Review_stats
+     *   }
+     * })
+     * 
+     */
+    delete<T extends review_statsDeleteArgs>(args: SelectSubset<T, review_statsDeleteArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Review_stats.
+     * @param {review_statsUpdateArgs} args - Arguments to update one Review_stats.
+     * @example
+     * // Update one Review_stats
+     * const review_stats = await prisma.review_stats.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends review_statsUpdateArgs>(args: SelectSubset<T, review_statsUpdateArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Review_stats.
+     * @param {review_statsDeleteManyArgs} args - Arguments to filter Review_stats to delete.
+     * @example
+     * // Delete a few Review_stats
+     * const { count } = await prisma.review_stats.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends review_statsDeleteManyArgs>(args?: SelectSubset<T, review_statsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Review_stats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Review_stats
+     * const review_stats = await prisma.review_stats.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends review_statsUpdateManyArgs>(args: SelectSubset<T, review_statsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Review_stats and returns the data updated in the database.
+     * @param {review_statsUpdateManyAndReturnArgs} args - Arguments to update many Review_stats.
+     * @example
+     * // Update many Review_stats
+     * const review_stats = await prisma.review_stats.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Review_stats and only return the `id`
+     * const review_statsWithIdOnly = await prisma.review_stats.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends review_statsUpdateManyAndReturnArgs>(args: SelectSubset<T, review_statsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Review_stats.
+     * @param {review_statsUpsertArgs} args - Arguments to update or create a Review_stats.
+     * @example
+     * // Update or create a Review_stats
+     * const review_stats = await prisma.review_stats.upsert({
+     *   create: {
+     *     // ... data to create a Review_stats
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Review_stats we want to update
+     *   }
+     * })
+     */
+    upsert<T extends review_statsUpsertArgs>(args: SelectSubset<T, review_statsUpsertArgs<ExtArgs>>): Prisma__review_statsClient<$Result.GetResult<Prisma.$review_statsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Review_stats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsCountArgs} args - Arguments to filter Review_stats to count.
+     * @example
+     * // Count the number of Review_stats
+     * const count = await prisma.review_stats.count({
+     *   where: {
+     *     // ... the filter for the Review_stats we want to count
+     *   }
+     * })
+    **/
+    count<T extends review_statsCountArgs>(
+      args?: Subset<T, review_statsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Review_statsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Review_stats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Review_statsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Review_statsAggregateArgs>(args: Subset<T, Review_statsAggregateArgs>): Prisma.PrismaPromise<GetReview_statsAggregateType<T>>
+
+    /**
+     * Group by Review_stats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {review_statsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends review_statsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: review_statsGroupByArgs['orderBy'] }
+        : { orderBy?: review_statsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, review_statsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReview_statsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the review_stats model
+   */
+  readonly fields: review_statsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for review_stats.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__review_statsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the review_stats model
+   */
+  interface review_statsFieldRefs {
+    readonly id: FieldRef<"review_stats", 'BigInt'>
+    readonly source: FieldRef<"review_stats", 'String'>
+    readonly rating: FieldRef<"review_stats", 'Float'>
+    readonly count: FieldRef<"review_stats", 'Int'>
+    readonly synced_at: FieldRef<"review_stats", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * review_stats findUnique
+   */
+  export type review_statsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter, which review_stats to fetch.
+     */
+    where: review_statsWhereUniqueInput
+  }
+
+  /**
+   * review_stats findUniqueOrThrow
+   */
+  export type review_statsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter, which review_stats to fetch.
+     */
+    where: review_statsWhereUniqueInput
+  }
+
+  /**
+   * review_stats findFirst
+   */
+  export type review_statsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter, which review_stats to fetch.
+     */
+    where?: review_statsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of review_stats to fetch.
+     */
+    orderBy?: review_statsOrderByWithRelationInput | review_statsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for review_stats.
+     */
+    cursor?: review_statsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` review_stats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` review_stats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of review_stats.
+     */
+    distinct?: Review_statsScalarFieldEnum | Review_statsScalarFieldEnum[]
+  }
+
+  /**
+   * review_stats findFirstOrThrow
+   */
+  export type review_statsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter, which review_stats to fetch.
+     */
+    where?: review_statsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of review_stats to fetch.
+     */
+    orderBy?: review_statsOrderByWithRelationInput | review_statsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for review_stats.
+     */
+    cursor?: review_statsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` review_stats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` review_stats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of review_stats.
+     */
+    distinct?: Review_statsScalarFieldEnum | Review_statsScalarFieldEnum[]
+  }
+
+  /**
+   * review_stats findMany
+   */
+  export type review_statsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter, which review_stats to fetch.
+     */
+    where?: review_statsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of review_stats to fetch.
+     */
+    orderBy?: review_statsOrderByWithRelationInput | review_statsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing review_stats.
+     */
+    cursor?: review_statsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` review_stats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` review_stats.
+     */
+    skip?: number
+    distinct?: Review_statsScalarFieldEnum | Review_statsScalarFieldEnum[]
+  }
+
+  /**
+   * review_stats create
+   */
+  export type review_statsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a review_stats.
+     */
+    data: XOR<review_statsCreateInput, review_statsUncheckedCreateInput>
+  }
+
+  /**
+   * review_stats createMany
+   */
+  export type review_statsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many review_stats.
+     */
+    data: review_statsCreateManyInput | review_statsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * review_stats createManyAndReturn
+   */
+  export type review_statsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * The data used to create many review_stats.
+     */
+    data: review_statsCreateManyInput | review_statsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * review_stats update
+   */
+  export type review_statsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a review_stats.
+     */
+    data: XOR<review_statsUpdateInput, review_statsUncheckedUpdateInput>
+    /**
+     * Choose, which review_stats to update.
+     */
+    where: review_statsWhereUniqueInput
+  }
+
+  /**
+   * review_stats updateMany
+   */
+  export type review_statsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update review_stats.
+     */
+    data: XOR<review_statsUpdateManyMutationInput, review_statsUncheckedUpdateManyInput>
+    /**
+     * Filter which review_stats to update
+     */
+    where?: review_statsWhereInput
+    /**
+     * Limit how many review_stats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * review_stats updateManyAndReturn
+   */
+  export type review_statsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * The data used to update review_stats.
+     */
+    data: XOR<review_statsUpdateManyMutationInput, review_statsUncheckedUpdateManyInput>
+    /**
+     * Filter which review_stats to update
+     */
+    where?: review_statsWhereInput
+    /**
+     * Limit how many review_stats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * review_stats upsert
+   */
+  export type review_statsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the review_stats to update in case it exists.
+     */
+    where: review_statsWhereUniqueInput
+    /**
+     * In case the review_stats found by the `where` argument doesn't exist, create a new review_stats with this data.
+     */
+    create: XOR<review_statsCreateInput, review_statsUncheckedCreateInput>
+    /**
+     * In case the review_stats was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<review_statsUpdateInput, review_statsUncheckedUpdateInput>
+  }
+
+  /**
+   * review_stats delete
+   */
+  export type review_statsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
+    /**
+     * Filter which review_stats to delete.
+     */
+    where: review_statsWhereUniqueInput
+  }
+
+  /**
+   * review_stats deleteMany
+   */
+  export type review_statsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which review_stats to delete
+     */
+    where?: review_statsWhereInput
+    /**
+     * Limit how many review_stats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * review_stats without action
+   */
+  export type review_statsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the review_stats
+     */
+    select?: review_statsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the review_stats
+     */
+    omit?: review_statsOmit<ExtArgs> | null
   }
 
 
@@ -136200,6 +137328,17 @@ export namespace Prisma {
   export type Crew_reviewsScalarFieldEnum = (typeof Crew_reviewsScalarFieldEnum)[keyof typeof Crew_reviewsScalarFieldEnum]
 
 
+  export const Review_statsScalarFieldEnum: {
+    id: 'id',
+    source: 'source',
+    rating: 'rating',
+    count: 'count',
+    synced_at: 'synced_at'
+  };
+
+  export type Review_statsScalarFieldEnum = (typeof Review_statsScalarFieldEnum)[keyof typeof Review_statsScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -137317,20 +138456,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -137341,6 +138466,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -140953,6 +142092,60 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
     review_id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
     crew_id?: BigIntWithAggregatesFilter<"crew_reviews"> | bigint | number
+  }
+
+  export type review_statsWhereInput = {
+    AND?: review_statsWhereInput | review_statsWhereInput[]
+    OR?: review_statsWhereInput[]
+    NOT?: review_statsWhereInput | review_statsWhereInput[]
+    id?: BigIntFilter<"review_stats"> | bigint | number
+    source?: StringFilter<"review_stats"> | string
+    rating?: FloatFilter<"review_stats"> | number
+    count?: IntFilter<"review_stats"> | number
+    synced_at?: DateTimeFilter<"review_stats"> | Date | string
+  }
+
+  export type review_statsOrderByWithRelationInput = {
+    id?: SortOrder
+    source?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+    synced_at?: SortOrder
+  }
+
+  export type review_statsWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    source?: string
+    AND?: review_statsWhereInput | review_statsWhereInput[]
+    OR?: review_statsWhereInput[]
+    NOT?: review_statsWhereInput | review_statsWhereInput[]
+    rating?: FloatFilter<"review_stats"> | number
+    count?: IntFilter<"review_stats"> | number
+    synced_at?: DateTimeFilter<"review_stats"> | Date | string
+  }, "id" | "source">
+
+  export type review_statsOrderByWithAggregationInput = {
+    id?: SortOrder
+    source?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+    synced_at?: SortOrder
+    _count?: review_statsCountOrderByAggregateInput
+    _avg?: review_statsAvgOrderByAggregateInput
+    _max?: review_statsMaxOrderByAggregateInput
+    _min?: review_statsMinOrderByAggregateInput
+    _sum?: review_statsSumOrderByAggregateInput
+  }
+
+  export type review_statsScalarWhereWithAggregatesInput = {
+    AND?: review_statsScalarWhereWithAggregatesInput | review_statsScalarWhereWithAggregatesInput[]
+    OR?: review_statsScalarWhereWithAggregatesInput[]
+    NOT?: review_statsScalarWhereWithAggregatesInput | review_statsScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"review_stats"> | bigint | number
+    source?: StringWithAggregatesFilter<"review_stats"> | string
+    rating?: FloatWithAggregatesFilter<"review_stats"> | number
+    count?: IntWithAggregatesFilter<"review_stats"> | number
+    synced_at?: DateTimeWithAggregatesFilter<"review_stats"> | Date | string
   }
 
   export type UserWhereInput = {
@@ -150126,6 +151319,62 @@ export namespace Prisma {
     crew_id?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
+  export type review_statsCreateInput = {
+    id?: bigint | number
+    source: string
+    rating: number
+    count: number
+    synced_at?: Date | string
+  }
+
+  export type review_statsUncheckedCreateInput = {
+    id?: bigint | number
+    source: string
+    rating: number
+    count: number
+    synced_at?: Date | string
+  }
+
+  export type review_statsUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    source?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+    synced_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type review_statsUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    source?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+    synced_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type review_statsCreateManyInput = {
+    id?: bigint | number
+    source: string
+    rating: number
+    count: number
+    synced_at?: Date | string
+  }
+
+  export type review_statsUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    source?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+    synced_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type review_statsUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    source?: StringFieldUpdateOperationsInput | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    count?: IntFieldUpdateOperationsInput | number
+    synced_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateInput = {
     id?: bigint | number
     name?: string | null
@@ -158855,6 +160104,69 @@ export namespace Prisma {
     crew_id?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type review_statsCountOrderByAggregateInput = {
+    id?: SortOrder
+    source?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+    synced_at?: SortOrder
+  }
+
+  export type review_statsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+  }
+
+  export type review_statsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    source?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+    synced_at?: SortOrder
+  }
+
+  export type review_statsMinOrderByAggregateInput = {
+    id?: SortOrder
+    source?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+    synced_at?: SortOrder
+  }
+
+  export type review_statsSumOrderByAggregateInput = {
+    id?: SortOrder
+    rating?: SortOrder
+    count?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
@@ -165568,6 +166880,14 @@ export namespace Prisma {
     update?: XOR<XOR<crew_membersUpdateToOneWithWhereWithoutCrew_reviewsInput, crew_membersUpdateWithoutCrew_reviewsInput>, crew_membersUncheckedUpdateWithoutCrew_reviewsInput>
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -170518,6 +171838,22 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<

@@ -17,6 +17,7 @@ import { getAllVolcanicStatus } from "@/lib/ops/getVolcanicStatus";
 import { DEFAULT_SITE } from "@/lib/seo/jsonld/builders";
 import { buildHomepageAggregateRatingSchema } from "@/lib/schemas/buildHomepageSchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import {
   BBKSDA_REGULATION_SCHEMA,
   DEFINED_TERMS,
@@ -103,7 +104,8 @@ const Home = async () => {
   // ── FAQPage schema (AEO — emits JSON-LD even without visual FAQ section) ────
   const faqResolution = await resolveFaqsForPage("/");
   const faqNode = buildResolvedFaqSchema(faqResolution, "/");
-  const aggregateRatingNode = buildHomepageAggregateRatingSchema();
+  const googleStats = await getGoogleReviewStats();
+  const aggregateRatingNode = buildHomepageAggregateRatingSchema(googleStats);
 
   // ── WebApplication schema (Ijen Health Screening — schema-only, no visual) ─
   const healthAppNode = {
