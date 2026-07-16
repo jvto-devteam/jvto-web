@@ -41,7 +41,6 @@ export function middleware(req: NextRequest) {
 
   // daftar exact URL delete permanent
   const goneUrls = [
-    "/all-inclusive",
     "/all-inclusive/transport",
     "/assets/img/cars/${data}",
     "/assets/img/locations/${data.location.images}?0",
@@ -49,7 +48,6 @@ export function middleware(req: NextRequest) {
     "/blog/2025-ijen-volcano-health-certificate-guide",
     "/blog/blue-fire-ijen-crater-hiking-guide-2025",
     "/blog/ijen-volcano-historical-activity-east-java",
-    "/custom-package",
     "/destinations//span[",
     "/destinations/ijen",
     "/destinations/juanda-airport",
@@ -103,8 +101,6 @@ export function middleware(req: NextRequest) {
     "/public/mice",
     "/public/office",
     "/public/review",
-    "/student-package",
-    "/terms-and-conditions",
     "/tours/1-day-bromo-midnight-experience-from-surabaya",
     "/tours/2-day-bromo-sunrise-adventure-from-surabaya",
     "/tours/2-day-ijen-blue-fire-expedition-from-surabaya",
@@ -194,6 +190,16 @@ export function middleware(req: NextRequest) {
     "/why-jvto/proof-transparency/police-safety": "/verify-jvto/police-safety",
     "/why-jvto/proof-transparency/history-artifacts":
       "/verify-jvto/history-artifacts",
+    // Pindahan dari goneUrls — seharusnya 301 bukan 410
+    "/all-inclusive": "/policy/inclusions-exclusions",
+    "/custom-package": "/tours",
+    "/student-package": "/isic/student-package",
+    "/terms-and-conditions": "/policy",
+    // Folder duplikat internal
+    "/tours-from-surabaya": "/tours/from-surabaya",
+    "/tour-from-surabaya": "/tours/from-surabaya",
+    "/tours-from-bali": "/tours/from-bali",
+    "/tour-from-bali": "/tours/from-bali",
   };
 
   if (pathname.startsWith("/faq")) {
@@ -207,6 +213,17 @@ export function middleware(req: NextRequest) {
 
   if (pathname.startsWith("/packages") || pathname.startsWith("/tours/style")) {
     const res = NextResponse.redirect(new URL("/tours", req.url), 301);
+    trackVisit(req, res);
+    return res;
+  }
+
+  // 3D route viewer → destinations canonical
+  if (pathname.startsWith("/3d/")) {
+    const slug = pathname.slice(4); // strip "/3d/"
+    const res = NextResponse.redirect(
+      new URL(`/destinations/${slug}`, req.url),
+      301,
+    );
     trackVisit(req, res);
     return res;
   }
