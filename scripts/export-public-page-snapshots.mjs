@@ -33,6 +33,10 @@ const STATIC_DB_ROUTES = [
   "/why-jvto/our-story",
   "/why-jvto/our-team",
   "/why-jvto/community-standards",
+  "/travel-guide/bbksda-se-1658",
+  "/travel-guide/ijen-health-certificate",
+  "/travel-guide/bromo-vs-ijen-comparison",
+  "/travel-guide/is-bromo-open-today",
 ];
 
 function normalizeJson(value) {
