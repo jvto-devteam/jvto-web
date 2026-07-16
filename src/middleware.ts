@@ -217,17 +217,6 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  // 3D route viewer → destinations canonical
-  if (pathname.startsWith("/3d/")) {
-    const slug = pathname.slice(4); // strip "/3d/"
-    const res = NextResponse.redirect(
-      new URL(`/destinations/${slug}`, req.url),
-      301,
-    );
-    trackVisit(req, res);
-    return res;
-  }
-
   const destination = redirectMap[pathname];
   if (destination) {
     const res = NextResponse.redirect(new URL(destination, req.url), 301);
