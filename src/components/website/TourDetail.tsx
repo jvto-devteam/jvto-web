@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
+// TODO: apply AGGREGATE_RATING when the ReviewStats block (lines ~1447–1609) is uncommented
 import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 import AuthorityShield from "@/components/website/AuthorityShield";
 import TrustBar from "@/components/website/TrustBar";
