@@ -26,11 +26,11 @@ const CREDENTIALS = [
     external: true,
   },
   {
-    label: "Physical Office",
-    value: "Bondowoso, East Java",
-    sub: "Walk-in welcome · since 2015",
-    href: "https://www.google.com/maps?cid=1266403973589689021",
-    external: true,
+    label: "Health Coordination",
+    value: "Ijen Gate Certified",
+    sub: "JVTO coordinates Ijen access screening",
+    href: "/travel-guide/ijen-health-screening",
+    external: false,
   },
 ];
 
