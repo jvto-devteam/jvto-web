@@ -14,6 +14,7 @@ import {
   buildToursHubFaqSchema,
   buildToursHubAggregateRatingSchema,
 } from "@/lib/schemas/buildToursHubSchemas";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -97,7 +98,8 @@ export default async function ToursPageGlobal() {
   // AEO/GEO port (2026-04-29): hub-level FAQPage (3 canonical Q&A from getToursHubQaPairs)
   // + standalone AggregateRating cross-ref to Organization. Per cluster_role_contracts.md Cluster 1 hub MH.
   const hubFaqSchema = buildToursHubFaqSchema();
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '' });
+  const googleStats = await getGoogleReviewStats();
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: '', liveStats: googleStats });
 
   return (
     <>

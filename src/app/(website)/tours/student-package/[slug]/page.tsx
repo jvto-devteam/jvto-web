@@ -13,7 +13,7 @@ import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
 } from "@/lib/seo/jsonld/builders";
-import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -143,9 +143,11 @@ const getTourData = cache(async (slugParam: string) => {
 function StructuredData({
   data,
   globalNodes,
+  googleStats,
 }: {
   data: TourPackageDetailResponse;
   globalNodes: any[];
+  googleStats: { rating: number; count: number } | null;
 }) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://javavolcano-touroperator.com";
@@ -288,8 +290,8 @@ function StructuredData({
         brand: { "@id": `${siteUrl}/#organization` },
         aggregateRating: {
           "@type": "AggregateRating",
-          ratingValue: pkg.aggregateRating?.ratingValue || String(AGGREGATE_RATING.ratingValue),
-          reviewCount: pkg.aggregateRating?.reviewCount || String(AGGREGATE_RATING.reviewCount),
+          ratingValue: pkg.aggregateRating?.ratingValue || String(googleStats?.rating ?? 4.8),
+          reviewCount: pkg.aggregateRating?.reviewCount || String(googleStats?.count ?? 141),
         },
         offers: { "@id": `${pageUrl}#aggregateOffer` },
         potentialAction: { "@type": "ReserveAction", target: pageUrl },
@@ -379,7 +381,7 @@ export async function generateMetadata(
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const [data, org] = await Promise.all([getTourData(slug), getOrganizationProfile()]);
+  const [data, org, googleStats] = await Promise.all([getTourData(slug), getOrganizationProfile(), getGoogleReviewStats()]);
 
   if (!data) notFound();
   const siteUrl =
@@ -391,7 +393,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <StructuredData data={data} globalNodes={globalNodes} />
+      <StructuredData data={data} globalNodes={globalNodes} googleStats={googleStats} />
       <TourDetail initialData={data} reviews={[]} />
     </>
   );

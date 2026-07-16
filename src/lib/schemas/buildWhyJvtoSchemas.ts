@@ -149,15 +149,21 @@ export function buildNarrativeClaimsItemList(claims: NarrativeClaim[]) {
 /**
  * AggregateRating standalone for /why-jvto/reviews — reinforces the operator-level rating at reviews page level.
  * itemReviewed cross-refs Organization @id; same data as ORG schema's aggregateRating (jvtoReviews.ts canonical).
+ * Pass `liveStats` from `getGoogleReviewStats()` to override with live DB values.
  */
-export function buildWhyJvtoReviewsAggregateRatingSchema() {
+export function buildWhyJvtoReviewsAggregateRatingSchema(liveStats?: {
+  rating: number;
+  count: number;
+} | null) {
+  const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
+  const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${BASE_URL}/why-jvto/reviews#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(AGGREGATE_RATING.ratingValue),
-    reviewCount: String(AGGREGATE_RATING.reviewCount),
+    ratingValue: String(ratingValue),
+    reviewCount: String(reviewCount),
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

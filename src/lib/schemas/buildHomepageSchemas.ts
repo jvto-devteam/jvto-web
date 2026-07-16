@@ -86,15 +86,21 @@ export function buildHomepageBreadcrumbSchema() {
 /**
  * Standalone AggregateRating cross-referenced to Organization. Same data lives inside
  * ORGANIZATION_SCHEMA but a page-level node strengthens AEO signal at the homepage.
+ * Pass `liveStats` from `getGoogleReviewStats()` to override with live DB values.
  */
-export function buildHomepageAggregateRatingSchema() {
+export function buildHomepageAggregateRatingSchema(liveStats?: {
+  rating: number;
+  count: number;
+} | null) {
+  const ratingValue = liveStats?.rating ?? AGGREGATE_RATING.ratingValue;
+  const reviewCount = liveStats?.count ?? AGGREGATE_RATING.reviewCount;
   return {
     '@context': 'https://schema.org',
     '@type': 'AggregateRating',
     '@id': `${BASE_URL}/#aggregate-rating`,
     itemReviewed: { '@id': `${BASE_URL}/#organization` },
-    ratingValue: String(AGGREGATE_RATING.ratingValue),
-    reviewCount: String(AGGREGATE_RATING.reviewCount),
+    ratingValue: String(ratingValue),
+    reviewCount: String(reviewCount),
     bestRating: String(AGGREGATE_RATING.bestRating),
     worstRating: String(AGGREGATE_RATING.worstRating),
   };

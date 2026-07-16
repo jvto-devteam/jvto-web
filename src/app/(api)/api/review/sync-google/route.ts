@@ -157,6 +157,15 @@ export async function POST(req: NextRequest) {
     const token = await getAccessToken();
     const { reviews, average_rating, total_review_count } = await fetchAllReviews(token);
     const result = await syncReviews(reviews);
+
+    if (average_rating != null && total_review_count != null) {
+      await prisma.review_stats.upsert({
+        where: { source: "google" },
+        update: { rating: average_rating, count: total_review_count, synced_at: new Date() },
+        create: { source: "google", rating: average_rating, count: total_review_count },
+      });
+    }
+
     return NextResponse.json({ success: true, ...result, average_rating, total_review_count });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

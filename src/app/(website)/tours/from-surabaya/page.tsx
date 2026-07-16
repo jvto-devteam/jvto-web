@@ -14,6 +14,7 @@ import {
   buildToursHubFaqSchema,
   buildToursHubAggregateRatingSchema,
 } from "@/lib/schemas/buildToursHubSchemas";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 import { ArrowRight, Shield, Users, FileText, Award, Check } from "lucide-react";
 
 export const revalidate = 3600;
@@ -148,7 +149,8 @@ export default async function ToursPageSurabaya() {
   };
 
   const hubFaqSchema = buildToursHubFaqSchema();
-  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-surabaya" });
+  const googleStats = await getGoogleReviewStats();
+  const hubAggregateRatingSchema = buildToursHubAggregateRatingSchema({ hubPath: "from-surabaya", liveStats: googleStats });
 
   return (
     <>

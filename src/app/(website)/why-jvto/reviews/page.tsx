@@ -8,6 +8,7 @@ import {
   buildIndividualReviewSchemas,
   buildWhyJvtoReviewsAggregateRatingSchema,
 } from "@/lib/schemas/buildWhyJvtoSchemas";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 export const revalidate = 86400;
 
@@ -175,8 +176,9 @@ export default async function WhyJvtoReviewsPage() {
     getReviewsForSchema().catch(() => []),
   ]);
 
+  const googleStats = await getGoogleReviewStats();
   const extraSchemas = [
-    buildWhyJvtoReviewsAggregateRatingSchema(),
+    buildWhyJvtoReviewsAggregateRatingSchema(googleStats),
     ...buildIndividualReviewSchemas(reviewsData),
   ].filter(Boolean);
 

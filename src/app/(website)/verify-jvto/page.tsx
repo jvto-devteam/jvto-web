@@ -6,6 +6,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { VerifyProofGrid } from "@/components/website/VerifyProofGrid";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 export const revalidate = 86400;
 
@@ -44,7 +45,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function VerifyJvtoPage() {
-  const seo = await getPageSeo("/verify-jvto", fallbackSeo);
+  const [seo, googleStats] = await Promise.all([
+    getPageSeo("/verify-jvto", fallbackSeo),
+    getGoogleReviewStats(),
+  ]);
   const pageRow = seo.row
     ? {
         route: seo.row.route,
@@ -573,11 +577,11 @@ export default async function VerifyJvtoPage() {
     // Historical recognition
     subjectOf: [{ "@id": `${siteUrl}/#book-stefan-loose-indonesien` }],
 
-    // Review triangulation placeholder
+    // Review triangulation
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "200",
+      ratingValue: String(googleStats?.rating ?? 4.8),
+      reviewCount: String(googleStats?.count ?? 141),
       bestRating: "5",
       worstRating: "1",
       description:
