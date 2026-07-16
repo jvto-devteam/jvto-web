@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import TourRequirements from "./TourRequirements";
 import LegalBadge from "@/components/website/LegalBadge";
+import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 import AuthorityShield from "@/components/website/AuthorityShield";
 import TrustBar from "@/components/website/TrustBar";
 import Image from "next/image";
@@ -1451,7 +1452,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
 
                   <div className="flex flex-col md:flex-row md:items-center gap-4 mb-8">
                     <span className="text-6xl font-black text-slate-900 tracking-tighter">
-                      4.9
+                      {AGGREGATE_RATING.ratingValue.toFixed(1)}
                       <span className="text-3xl text-slate-400 font-medium">
                         /5
                       </span>

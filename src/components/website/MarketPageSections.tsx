@@ -3,6 +3,7 @@
 // model. Static, SSG-safe (no DB fetch, no client interactivity) — v1 per GAP-09. Visual mode
 // follows the Trust/verify cluster (dark slate + jvto-green accent).
 import Link from "next/link";
+import { AGGREGATE_RATING } from "@/lib/jvtoReviews";
 import type { MarketContent } from "@/lib/marketContent";
 import {
   ShieldCheck,
@@ -229,7 +230,7 @@ export function MarketPageSections({ content }: { content: MarketContent }) {
             </div>
             <p className="text-slate-500 text-xs mt-6">
               <Link href="/why-jvto/reviews" className="text-jvto-green hover:text-white transition-colors">
-                See all 195 reviews across Trustpilot, Google & TripAdvisor →
+                See all {AGGREGATE_RATING.reviewCount} reviews across Trustpilot, Google & TripAdvisor →
               </Link>
             </p>
           </div>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "../UI/Button";
+import { REVIEW_PLATFORMS } from "@/lib/jvtoReviews";
 
 interface HeroProps {
   title?: string;
@@ -10,6 +11,11 @@ const Hero: React.FC<HeroProps> = ({
   title = "Tourist Police-Led Private Volcano Tours in East Java",
   description = "Private Bromo, Ijen & Tumpak Sewu tours from Surabaya or Bali. Licensed operator (NIB 1102230032918), led by an active Tourist Police officer.",
 }) => {
+  // Resolve platform data at render time
+  const _tp = REVIEW_PLATFORMS.find((p) => p.platform === "Trustpilot");
+  const _gm = REVIEW_PLATFORMS.find((p) => p.platform === "Google Maps");
+  const _ta = REVIEW_PLATFORMS.find((p) => p.platform === "TripAdvisor");
+
   return (
     <div className="relative min-h-[100vh] flex items-center overflow-hidden bg-jvto-navy">
       {/* Background photo */}
@@ -96,9 +102,9 @@ const Hero: React.FC<HeroProps> = ({
         {/* Stats bar */}
         <div className="grid grid-cols-2 md:inline-flex w-full md:w-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
           {[
-            { val: "4.8", lbl: "Trustpilot · 51 reviews" },
-            { val: "4.90", lbl: "Google Maps · 123 reviews" },
-            { val: "4.95", lbl: "TripAdvisor · 21 reviews" },
+            { val: _tp?.rating?.toFixed(2) ?? "4.93", lbl: `Trustpilot · ${_tp?.count ?? 44} reviews` },
+            { val: _gm?.rating?.toFixed(2) ?? "4.90", lbl: `Google Maps · ${_gm?.count ?? 138} reviews` },
+            { val: _ta?.rating?.toFixed(2) ?? "4.95", lbl: `TripAdvisor · ${_ta?.count ?? 21} reviews` },
             { val: "16", lbl: "Private itineraries" },
           ].map((stat, i) => (
             <div
