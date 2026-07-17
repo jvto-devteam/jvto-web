@@ -74,6 +74,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
         include: { hotels: { include: { destinations: true } } },
       },
       package_itinerary_days: {
+        where: { deleted_at: null },
         orderBy: { day_no: 'asc' },
         include: {
           package_itinerary_day_details: {
