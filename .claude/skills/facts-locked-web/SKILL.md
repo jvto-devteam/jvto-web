@@ -1,6 +1,6 @@
 ---
 name: facts-locked-web
-description: Generate jvto-web public content (page copy, a FAQ Q&A, a narrative_claim, an AEO answer, or a JSON-LD schema node) AND verify it against docs/CANONICAL_FACTS.md in the SAME pass — before it is written to a file. Replaces the manual re-read every generated copy/FAQ/schema currently gets (founding 2015 not 2016, review counts 4.8/51 · 4.9/123 · 4.95/21 · 195, no stale 92/47/112/5.0, IDR-only prices, Lifetime Package Credit, mandatory Ijen health wording, email primary) with an automatic draft-lint + JSON-LD parse + precedence check + pass/block verdict. Use when the user asks to "write/draft/answer" jvto-web copy, "add a FAQ", "add a narrative_claim", "write the schema for X", "buat copy/jawaban untuk halaman", or whenever an output asserts a JVTO fact (founding, reviews, credentials, prices, policy, health rule) that lands in src/, public/llms*.txt, or the DB. Does NOT commit or deploy — hands back verified content + the ledger.
+description: Generate jvto-web public content (page copy, a FAQ Q&A, a narrative_claim, an AEO answer, or a JSON-LD schema node) AND verify it against docs/CANONICAL_FACTS.md in the SAME pass — before it is written to a file. Replaces the manual re-read every generated copy/FAQ/schema currently gets (founding 2015 not 2016, review counts 4.8/51 · 4.9/123 · 4.95/21 · 195, no stale 92/47/112/5.0, IDR-only prices, 100% Lifetime Travel Credit per the facts lock, mandatory Ijen health wording, email primary) with an automatic draft-lint + JSON-LD parse + precedence check + pass/block verdict. Use when the user asks to "write/draft/answer" jvto-web copy, "add a FAQ", "add a narrative_claim", "write the schema for X", "buat copy/jawaban untuk halaman", or whenever an output asserts a JVTO fact (founding, reviews, credentials, prices, policy, health rule) that lands in src/, public/llms*.txt, or the DB. Does NOT commit or deploy — hands back verified content + the ledger.
 ---
 
 # JVTO Facts-Locked Web Content
@@ -8,8 +8,9 @@ description: Generate jvto-web public content (page copy, a FAQ Q&A, a narrative
 The recurring failure is not *writing* jvto-web copy — it is a canonical fact
 drifting past `docs/CANONICAL_FACTS.md` after the draft looks good: `EST 2016`
 instead of founding **2015**, a stale `92` / `47 reviews` count, `5.0/5`, a
-`USD`/`Rp` price, `30% deposit`, "Travel Credit" instead of **Lifetime Package
-Credit**, conditional Ijen-health wording, or `gmail` promoted to primary email.
+`USD`/`Rp` price, `30% deposit`, cancellation wording that departs from the
+locked **100% Lifetime Travel Credit** term, conditional Ijen-health wording, or
+`gmail` promoted to primary email.
 `CANONICAL_FACTS.md` says it plainly: *"Diberlakukan manual sekarang"* — enforced
 by hand today. This skill folds that hand-check into generation: **draft →
 verify → report**, and **blocks** any draft carrying a forbidden fact *before* it
@@ -43,7 +44,7 @@ translation that adds no new fact, `(cms)` route-group plumbing, or non-JVTO tex
 | "Write the hero paragraph for the Bali→Ijen tour page" | ✅ | page copy |
 | "Add a FAQ: *How many reviews does JVTO have?*" | ✅ | faq |
 | "Draft a `narrative_claim` about the police-led differentiator" | ✅ | narrative_claim |
-| "Write the `buildPolicySchemas` announcement string for Package Credit" | ✅ | jsonld |
+| "Write the `buildPolicySchemas` cancellation announcement string" | ✅ | jsonld |
 | "Buat AEO snippet: *kapan waktu terbaik ke Bromo?*" | ✅ | aeo |
 | "Is this reviews blurb safe to ship?" (pastes copy) | ✅ (verify-only) | verify |
 | "Rename this component's props" | ❌ no factual claim | — |
@@ -105,10 +106,25 @@ enters a commit. (If a line must quote a forbidden example deliberately, append
 claim — read `CANONICAL_FACTS.md` and check: founding **2015**; Trustpilot
 **4.8/51**, Google **4.9/123**, TripAdvisor **4.95/21**, cross-platform **195**;
 price format `IDR n,nnn,nnn/person`; deposit **20%**, cancellation = **100%
-Lifetime Package Credit** (never cash); Ijen health = **mandatory** (BBKSDA
-SE.1658/KSA.9/2024); email primary **hello@javavolcano-touroperator.com**; office
-**No.102A**; NIB **1102230032918**. A mismatch (or an invented statistic) fails
-the draft even if the denylist did not name it.
+Lifetime Travel Credit** (never cash) — assert the term **exactly as
+`CANONICAL_FACTS.md` line 29 states it**, do not silently substitute another
+term; Ijen health = **mandatory** (BBKSDA SE.1658/KSA.9/2024); email primary
+**hello@javavolcano-touroperator.com**; office **No.102A**; NIB
+**1102230032918**. A mismatch (or an invented statistic) fails the draft even if
+the denylist did not name it.
+
+> **Known credit-term drift (owner-gated — do not resolve in this skill).** The
+> wider v2 policy rollout renamed the brand credit "Lifetime Travel Credit" →
+> "Lifetime Package Credit" across the other JVTO repos + the compiled
+> policy-bundle, but jvto-web's own authorities still say **Travel Credit**:
+> `CANONICAL_FACTS.md` line 29, the validator's canonical comment, and the
+> `@id` `DEFINED_TERMS.JVTO_TRAVEL_CREDIT` (`/#term-jvto-travel-credit`). Per
+> jvto-web `CLAUDE.md` the `@id` is kept stable until the owner confirms a
+> site-wide rename (schema-graph churn). **This skill enforces the facts lock as
+> written (Travel Credit) and must NOT rewrite the lock the other way.** If a
+> draft uses "Package Credit", flag it as a facts-lock mismatch AND note the
+> upstream drift for owner adjudication — do not auto-approve or auto-correct
+> either direction.
 
 **2c. JSON-LD parse + `@id` integrity (format = `jsonld`).** `JSON.parse` every
 `<script type="application/ld+json">` / schema node — a parse error fails.
