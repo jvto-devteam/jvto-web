@@ -13,7 +13,7 @@ type ProofCard = {
   readonly image?: string;
 };
 
-const CATEGORIES = ["All", "Legal", "Press", "History", "Safety", "Reviews"] as const;
+const CATEGORIES = ["All", "Legal", "Press", "History", "Safety"] as const;
 
 const DocIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-[#8CC63F]" aria-hidden="true">
@@ -55,9 +55,9 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filtered.map(({ icon, h3, p, meta, href, image }) => (
+        {filtered.map(({ icon, h3, p, meta, href, image }, i) => (
           <Link
-            key={h3}
+            key={`${meta}-${i}`}
             href={href}
             prefetch={false}
             className="bg-white/[0.04] border border-white/10 rounded-[16px] overflow-hidden hover:border-white/20 transition-colors group block"
