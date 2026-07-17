@@ -1,5 +1,6 @@
 // src/app/(website)/verify-jvto/page.tsx
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 import ssotData from "@/lib/Master_Dataset_JVTO.SSOT.v3.0.json";
 import { getPageSeo } from "@/lib/content/getPageSeo";
@@ -937,14 +938,95 @@ export default async function VerifyJvtoPage() {
         </div>
       </section>
 
-      {/* ── §03 Independent ratings — navy, stacked ──────────────────────── */}
+      {/* ── §03 Police & Safety — navy, stacked ─────────────────────────── */}
       <section
         className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[4]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+            <div className="relative aspect-square rounded-[2rem] overflow-hidden order-2 lg:order-1">
+              <Image
+                src="/founder/agung_sambuko.jpg"
+                alt="Agung Sambuko – JVTO Founder & Tourist Police Officer"
+                fill
+                unoptimized
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-jvto-navy/60 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#8CC63F]">Bripka Agung Sambuko</span>
+                <p className="text-white/80 text-[13px] font-light mt-1">Active Tourist Police · Ditpamobvit POLRI</p>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="flex items-baseline gap-4 mb-8">
+                <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 03</span>
+                <div>
+                  <h2
+                    className="font-black text-white leading-[1.0]"
+                    style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.5vw, 44px)" }}
+                  >
+                    Police &amp; <span className="text-jvto-orange">safety proof.</span>
+                  </h2>
+                </div>
+              </div>
+              <div className="space-y-8">
+                <div className="flex gap-6 items-start">
+                  <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-[#8CC63F]" aria-hidden="true">
+                      <path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z" /><path d="M9 12l2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-[16px] mb-2" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Tourist Police Leadership</h3>
+                    <p className="text-white/50 text-[14px] font-light leading-relaxed">Founder Agung Sambuko is an active member of the Indonesian Tourist Police (POLRI). Official assignment orders (SPRIN) are published in the proof library — independently verifiable.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6 items-start">
+                  <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-[#8CC63F]" aria-hidden="true">
+                      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-[16px] mb-2" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Ijen Health Screening</h3>
+                    <p className="text-white/50 text-[14px] font-light leading-relaxed">When BBKSDA access rules require it (SE.1658/KSA.9/2024), JVTO coordinates the health certificate process with licensed physician Dr. Ahmad Irwandanu — every screening is documented and real.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6 items-start">
+                  <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-[#8CC63F]" aria-hidden="true">
+                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-[16px] mb-2" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>HPWKI-Certified Guides</h3>
+                    <p className="text-white/50 text-[14px] font-light leading-relaxed">All JVTO Ijen guides hold KTA cards from HPWKI — the state-recognized Ijen specialist association. Membership requires BBKSDA-supervised SAR + emergency medical training.</p>
+                  </div>
+                </div>
+              </div>
+              <Link
+                href="/verify-jvto/police-safety"
+                prefetch={false}
+                className="inline-flex items-center gap-2 mt-8 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-jvto-orange hover:text-jvto-orange/75 transition-colors"
+              >
+                View police credentials <ArrowRight />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── §04 Independent ratings — navy, stacked ──────────────────────── */}
+      <section
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.18)" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="flex items-baseline gap-4 mb-10">
-            <span className="font-mono text-[11px] font-bold text-white/40">§ 03</span>
+            <span className="font-mono text-[11px] font-bold text-white/40">§ 04</span>
             <div>
               <h2
                 className="font-black text-white leading-[1.0]"
@@ -986,9 +1068,40 @@ export default async function VerifyJvtoPage() {
         </div>
       </section>
 
+      {/* ── §05 FAQ — off-white, stacked ─────────────────────────────────── */}
+      <section
+        className="bg-[#F6F5F2] py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[6]"
+        style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.08)" }}
+      >
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
+          <div className="flex items-baseline gap-4 mb-10">
+            <span className="font-mono text-[11px] font-bold text-jvto-orange">§ 05</span>
+            <h2
+              className="font-black text-jvto-navy leading-[1.0]"
+              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.03em", fontSize: "clamp(28px, 3.5vw, 44px)" }}
+            >
+              Verification <span className="text-jvto-orange">FAQ.</span>
+            </h2>
+          </div>
+          <div className="space-y-0">
+            {[
+              { q: "Is Java Volcano Tour Operator a legal business?", a: "Yes. JVTO operates under PT Java Volcano Rendezvous with Business Identification Number (NIB) 1102230032918, verifiable via oss.go.id (Indonesia Online Single Submission portal)." },
+              { q: "Is Agung Sambuko really a police officer?", a: "Yes. Agung Sambuko is an active member of the Indonesian Tourist Police (POLRI), Ditpamobvit division. Official SPRIN assignment orders are published in the proof library below." },
+              { q: "How can I verify the documents provided by JVTO?", a: "Documents in the Evidence Locker include a SHA-256 hash. Download the original file and compare its hash to the published value to detect any tampering — mathematically certain proof." },
+              { q: "What safety standards does JVTO follow for Ijen Crater tours?", a: "When BBKSDA rules require it (SE.1658/KSA.9/2024), every climber undergoes a formal health screening with licensed physician Dr. Ahmad Irwandanu. HPWKI-certified guides lead all crater descents." },
+            ].map(({ q, a }) => (
+              <div key={q} className="border-b border-[#E3E0DA] py-7">
+                <h3 className="font-bold text-jvto-navy text-[16px] mb-3" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{q}</h3>
+                <p className="text-[#6b7280] text-[15px] font-light leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA — navy, stacked ───────────────────────────────────────────── */}
       <section
-        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[5]"
+        className="bg-jvto-navy py-20 md:py-28 rounded-t-[clamp(36px,5vw,72px)] -mt-16 relative z-[7]"
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.25)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8 text-center">
