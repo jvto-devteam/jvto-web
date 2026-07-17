@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
 type ProofCard = {
@@ -9,6 +10,7 @@ type ProofCard = {
   readonly p: string;
   readonly meta: string;
   readonly href: string;
+  readonly image?: string;
 };
 
 const CATEGORIES = ["All", "Legal", "Press", "History", "Safety", "Reviews"] as const;
@@ -53,7 +55,7 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filtered.map(({ icon, h3, p, meta, href }) => (
+        {filtered.map(({ icon, h3, p, meta, href, image }) => (
           <Link
             key={h3}
             href={href}
@@ -61,13 +63,24 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
             className="bg-white/[0.04] border border-white/10 rounded-[16px] overflow-hidden hover:border-white/20 transition-colors group block"
           >
             <div className="bg-white/[0.03] h-24 relative overflow-hidden">
-              <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                  backgroundImage: "repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)",
-                  backgroundSize: "8px 8px",
-                }}
-              />
+              {image ? (
+                <Image
+                  src={image}
+                  alt={`Preview: ${h3}`}
+                  fill
+                  unoptimized
+                  className="object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+              ) : (
+                <div
+                  className="absolute inset-0 opacity-10"
+                  style={{
+                    backgroundImage: "repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)",
+                    backgroundSize: "8px 8px",
+                  }}
+                />
+              )}
             </div>
             <div className="p-5">
               {icon === "shield" ? <ShieldIcon /> : <DocIcon />}

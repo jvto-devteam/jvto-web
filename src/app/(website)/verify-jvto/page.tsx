@@ -795,18 +795,18 @@ export default async function VerifyJvtoPage() {
   const hubFaqResolvedNode = buildResolvedFaqSchema(hubFaqResolution, "/verify-jvto");
 
   const PROOF_CARDS = [
-    { icon: "doc", h3: "NIB Business License", p: "PT Java Volcano Rendezvous registration via the Indonesian OSS portal.", meta: "Legal · NIB 1102230032918", href: "/verify-jvto/legal" },
-    { icon: "doc", h3: "Tourist Police Credentials", p: "Founder Agung Sambuko's active POLRI Tourist Police ID and assignment letter.", meta: "Safety · POLRI", href: "/verify-jvto/police-safety" },
-    { icon: "doc", h3: "Stefan Loose Travel Guide", p: "Recommended East Java operator in the German-language Stefan Loose guidebook.", meta: "Press · 2018, 4th ed.", href: "/verify-jvto/press-recognition" },
+    { icon: "doc", h3: "NIB Business License", p: "PT Java Volcano Rendezvous registration via the Indonesian OSS portal.", meta: "Legal · NIB 1102230032918", href: "/verify-jvto/legal", image: "/legal/NIB-1102230032918-preview.webp" },
+    { icon: "doc", h3: "Tourist Police Credentials", p: "Founder Agung Sambuko's active POLRI Tourist Police ID and assignment letter.", meta: "Safety · POLRI", href: "/verify-jvto/police-safety", image: "/legal/SPRIN-POLPAR.webp" },
+    { icon: "doc", h3: "Stefan Loose Travel Guide", p: "Recommended East Java operator in the German-language Stefan Loose guidebook.", meta: "Press · 2018, 4th ed.", href: "/verify-jvto/press-recognition", image: "/history/stefan_loose_crop_enh.jpg" },
     { icon: "doc", h3: "ISIC Discount Partner", p: "Listed partner with the International Student Identity Card.", meta: "Press · isic.org", href: "/verify-jvto/press-recognition" },
     { icon: "doc", h3: "Indecon Sustainable Tourism", p: "Listed under Indecon's sustainable East Java operators directory.", meta: "Press · indecon.or.id", href: "/verify-jvto/press-recognition" },
-    { icon: "doc", h3: "Operational History Archive", p: "Wayback Machine snapshots of operations dating to 2016.", meta: "History · web.archive.org", href: "/verify-jvto/history-artifacts" },
-    { icon: "doc", h3: "Ijen Health Screening", p: "Coordinated health-certificate workflow with a licensed physician (Dr. Ahmad Irwandanu, SIP) under BBKSDA SE.1658/KSA.9/2024.", meta: "Safety · BBKSDA SE.1658", href: "/travel-guide/ijen-health-screening" },
+    { icon: "doc", h3: "Operational History Archive", p: "Wayback Machine snapshots of operations dating to 2016.", meta: "History · web.archive.org", href: "/verify-jvto/history-artifacts", image: "/history/booking-2015-plaque.jpg" },
+    { icon: "doc", h3: "Ijen Health Screening", p: "Coordinated health-certificate workflow with a licensed physician (Dr. Ahmad Irwandanu, SIP) under BBKSDA SE.1658/KSA.9/2024.", meta: "Safety · BBKSDA SE.1658", href: "/travel-guide/ijen-health-screening", image: "/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen-optimized.webp" },
     { icon: "doc", h3: "Trustpilot Reviewed Business", p: "Verified business profile rated 4.8 / 5 from 51 independent guest reviews.", meta: "Reviews · trustpilot.com", href: "/why-jvto/reviews" },
     { icon: "doc", h3: "TripAdvisor Listed Operator", p: "Long-standing TripAdvisor listing rated 4.95 / 5 from 21 reviews.", meta: "Reviews · tripadvisor.com", href: "/why-jvto/reviews" },
-    { icon: "doc", h3: "HPWKI Guide Association", p: "State-recognized Ijen specialist guide association. Membership requires BBKSDA-supervised volcanic safety training.", meta: "Safety · AHU-0001072·2024", href: "/verify-jvto/legal" },
-    { icon: "doc", h3: "BBKSDA Guide Training", p: "Park authority's own 2024 report on the SAR & first-aid training program JVTO's HPWKI guides completed at Paltuding.", meta: "Press · bbksdajatim.org", href: "/verify-jvto/press-recognition" },
-    { icon: "shield", h3: "SHA-256 Forensic Anchors", p: "Every credential document is fingerprinted with a published SHA-256 hash — tamper-evident, verifiable without releasing the original.", meta: "Legal · public/llms.txt", href: "/verify-jvto/legal" },
+    { icon: "doc", h3: "HPWKI Guide Association", p: "State-recognized Ijen specialist guide association. Membership requires BBKSDA-supervised volcanic safety training.", meta: "Safety · AHU-0001072·2024", href: "/verify-jvto/legal", image: "/legal/HPWKI-approval-preview.webp" },
+    { icon: "doc", h3: "BBKSDA Guide Training", p: "Park authority's own 2024 report on the SAR & first-aid training program JVTO's HPWKI guides completed at Paltuding.", meta: "Press · bbksdajatim.org", href: "/verify-jvto/press-recognition", image: "/press/screenshot-bbksda-pelatihan-pemandu-kawah-ijen-optimized.webp" },
+    { icon: "shield", h3: "SHA-256 Forensic Anchors", p: "Every credential document is fingerprinted with a published SHA-256 hash — tamper-evident, verifiable without releasing the original.", meta: "Legal · public/llms.txt", href: "/verify-jvto/legal", image: "/legal/TDUP-1102230032918-preview.webp" },
   ] as const;
 
   const TIMELINE = [
