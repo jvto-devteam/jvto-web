@@ -10,6 +10,7 @@ import {
 import { BBKSDA_REGULATION_SCHEMA } from "@/lib/schemas/entityGraph";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
 import { SHA256_ANCHORS } from "@/lib/forensic-anchors";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
 export const revalidate = 86400;
@@ -332,6 +333,19 @@ export default async function LegalPage() {
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
                 The source document for each credential is published with a SHA-256 hash in <span className="font-mono text-[13px] text-[#6b7280]">public/llms.txt</span> on our website. A SHA-256 hash is a cryptographic fingerprint: if a single character of a document changes, the hash changes completely. You can compute the hash of any document we send you and confirm it matches — proof the file has not been altered, without us having to release the original.
               </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                {SHA256_ANCHORS.map((a) => {
+                  const imgSrc = a.imageUrl.replace("https://javavolcano-touroperator.com", "");
+                  return (
+                    <a key={a.asset} href={a.imageUrl} target="_blank" rel="noopener noreferrer" className="group">
+                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
+                        <Image src={imgSrc} alt={`Preview of ${a.asset}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw" />
+                      </div>
+                      <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{a.asset}</p>
+                    </a>
+                  );
+                })}
+              </div>
               <ul className="mb-10" style={{ borderTop: "1px solid #E3E0DA" }}>
                 {SHA256_ANCHORS.map((a) => (
                   <li key={a.asset} className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>

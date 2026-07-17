@@ -5,6 +5,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { POLICE_SAFETY_DIGITAL_DOCUMENTS } from "@/lib/schemas/buildVerifySchemas";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
 export const revalidate = 86400;
@@ -215,6 +216,19 @@ export default async function PoliceSafetyPage() {
                   </tbody>
                 </table>
               </div>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {[
+                  { src: "/legal/SPRIN-POLPAR.webp", label: "SPRIN POLPAR", href: `${BASE_URL}/legal/SPRIN-POLPAR.pdf` },
+                  { src: "/legal/SPRIN-WAL-TRAVEL-2024-02-12.webp", label: "SPRIN WAL-TRAVEL · 2024-02-12", href: `${BASE_URL}/legal/SPRIN-WAL-TRAVEL-2024-02-12.pdf` },
+                ].map(({ src, label, href }) => (
+                  <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
+                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
+                      <Image src={src} alt={`Document preview: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 768px) 50vw, 33vw" />
+                    </div>
+                    <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{label}</p>
+                  </a>
+                ))}
+              </div>
               <ul className="mb-10" style={{ borderTop: "1px solid #E3E0DA" }}>
                 <li className="py-4 flex flex-col gap-1.5" style={{ borderBottom: "1px solid #E3E0DA" }}>
                   <span className="font-bold text-[15px] text-jvto-navy">SPRIN POLPAR</span>
@@ -264,9 +278,22 @@ export default async function PoliceSafetyPage() {
               <blockquote className="border-l-4 border-jvto-orange pl-5 my-6">
                 <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">"Sejak libur hari Kamis kemarin, saya tak pernah pulang. Stand by dan nginap di sini terus."</p>
               </blockquote>
-              <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-8 -mt-2">
+              <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6 -mt-2">
                 — Bripka Agung Sambuko to Detik.com, on staying on-site overnight at 10°C in rain and fog to enforce health protocols (14 March 2021). Full coverage on the <Link href="/verify-jvto/press-recognition" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Press &amp; Recognition page</Link>.
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                {[
+                  { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
+                  { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
+                ].map(({ src, label, href }) => (
+                  <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
+                      <Image src={src} alt={`Press screenshot: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
+                    </div>
+                    <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{label}</p>
+                  </a>
+                ))}
+              </div>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Layer 4 — Institutional structure</h2>
               <div className="overflow-x-auto">

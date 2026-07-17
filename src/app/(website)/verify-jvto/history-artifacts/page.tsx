@@ -4,6 +4,7 @@ import { getPageSeo } from "@/lib/content/getPageSeo";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { buildVerifySubpageSchema } from "../schema";
 import { resolveFaqsForPage, buildResolvedFaqSchema } from "@/lib/content/resolveFaqs";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
 export const revalidate = 86400;
@@ -294,9 +295,21 @@ export default async function HistoryArtifactsPage() {
                   </div>
                 ))}
               </div>
-              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-6">
                 The 2015 Booking.com award was shipped to <strong className="text-jvto-navy font-semibold">"Agung, Jl. Khairil Anwar No.102, Bondowoso"</strong> — the same address line as today's PT office. That shipping label is the continuity anchor: it places the founder, the name, and the address together a full year before PT Java Volcano Rendezvous was incorporated. The Stefan Loose guidebook then names "Agung" as the operator of Ijen Bondowoso Homestay, confirming an international reputation in print well before any social media existed. Both artifacts are catalogued on the <Link href="/verify-jvto/press-recognition" prefetch={false} className="text-jvto-orange underline decoration-jvto-orange/40 hover:decoration-jvto-orange transition-colors">Press &amp; Recognition page</Link>.
               </p>
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 mb-10">
+                {[
+                  { src: "/history/booking-2015-plaque.jpg", alt: "Booking.com Guest Review Award 2015 plaque — Ijen Bondowoso Homestay" },
+                  { src: "/history/booking-2015-shipping-label.jpg", alt: "Booking.com award shipping label addressed to Agung, Jl. Khairil Anwar No.102, Bondowoso" },
+                  { src: "/history/stefan_loose_crop_enh.jpg", alt: "Stefan Loose Reiseführer Indonesien — Agung / Ijen Bondowoso Homestay entry" },
+                  { src: "/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg", alt: "Mr. Sam with guests at Ijen Bondowoso Homestay" },
+                ].map(({ src, alt }) => (
+                  <div key={src} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2]" style={{ border: "1px solid #E3E0DA" }}>
+                    <Image src={src} alt={alt} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 50vw, 33vw" />
+                  </div>
+                ))}
+              </div>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Independent web archive</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-4">
