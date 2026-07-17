@@ -8,6 +8,7 @@ import {
   PRESS_RECOGNITION_SCHEMAS,
   PRESS_ORGANIZATION_SUBJECTS,
 } from "@/lib/schemas/buildVerifySchemas";
+import Image from "next/image";
 import Link from "@/components/website/AppLink";
 
 export const revalidate = 86400;
@@ -215,9 +216,22 @@ export default async function PressRecognitionPage() {
               <blockquote className="border-l-4 border-jvto-orange pl-5 my-6">
                 <p className="text-[17px] text-jvto-navy font-light italic leading-relaxed">"Ya mau gimana lagi, Mas. Sudah tugas. Yang penting, masyarakat yang berwisata aman."</p>
               </blockquote>
-              <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-8 -mt-2">
+              <p className="text-[15px] text-[#6b7280] font-light leading-relaxed mb-6 -mt-2">
                 — Bripka Agung Sambuko, Detik.com, 14 March 2021.
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                {[
+                  { src: "/press/screencapture-news-detik-berita-jawa-timur-d-5492690-suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin-2026-01-14-02_48_41.png", label: "Detik.com · 14 March 2021", href: "https://news.detik.com/berita-jawa-timur/d-5492690/suka-duka-polisi-pariwisata-bondowoso-tegakkan-prokes-sambil-lawan-dingin" },
+                  { src: "/press/screenshot-radarjember.jawapos.com-polpar-dibentuk-untuk-mendukung-ijen-geopark.png", label: "Radar Jember · 24 March 2021", href: "https://radarjember.jawapos.com" },
+                ].map(({ src, label, href }) => (
+                  <a key={src} href={href} target="_blank" rel="noopener noreferrer" className="group">
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-[#F6F5F2] group-hover:ring-2 group-hover:ring-jvto-orange transition-all" style={{ border: "1px solid #E3E0DA" }}>
+                      <Image src={src} alt={`Press screenshot: ${label}`} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
+                    </div>
+                    <p className="mt-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#6b7280] leading-snug group-hover:text-jvto-navy transition-colors">{label}</p>
+                  </a>
+                ))}
+              </div>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Why cross-corroboration matters</h2>
               <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-5">
@@ -248,9 +262,19 @@ export default async function PressRecognitionPage() {
               </div>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Guidebook mention</h2>
-              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-8">
+              <p className="text-[15px] text-[#374151] font-light leading-relaxed mb-6">
                 <strong className="text-jvto-navy font-semibold">Stefan Loose Reiseführer Indonesien</strong>, 4th Edition (DuMont Reiseverlag, 2018, ISBN 978-3-7701-7881-0), names "Agung" as the operator of Ijen Bondowoso Homestay on <strong className="text-jvto-navy font-semibold">page 287</strong> — an editorial recommendation in a major German-language travel guide, not a paid placement. It establishes that the founder was operating and attracting international visitors before any digital marketing existed.
               </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                {[
+                  { src: "/history/stefan-loose-ijen-bondowoso-page.png", alt: "Stefan Loose Reiseführer Indonesien page 287 — Ijen Bondowoso Homestay entry" },
+                  { src: "/history/stefan_loose_crop_enh.jpg", alt: "Close-up of Stefan Loose guide entry naming Agung as operator" },
+                ].map(({ src, alt }) => (
+                  <div key={src} className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2]" style={{ border: "1px solid #E3E0DA" }}>
+                    <Image src={src} alt={alt} fill unoptimized className="object-cover object-top" sizes="(max-width: 640px) 100vw, 50vw" />
+                  </div>
+                ))}
+              </div>
 
               <h2 className="font-black text-2xl leading-tight mb-4 mt-10 text-jvto-navy" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>Partnership listings</h2>
               <div className="overflow-x-auto">
