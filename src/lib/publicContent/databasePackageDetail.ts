@@ -65,6 +65,7 @@ export async function getPackageDetailFromDatabase(
         },
       },
       package_itinerary_days: {
+        where: { deleted_at: null },
         orderBy: { day_no: "asc" },
         include: {
           package_itinerary_day_details: {
