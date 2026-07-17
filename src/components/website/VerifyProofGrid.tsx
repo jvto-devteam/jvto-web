@@ -62,7 +62,7 @@ export function VerifyProofGrid({ cards }: { cards: readonly ProofCard[] }) {
             prefetch={false}
             className="bg-white/[0.04] border border-white/10 rounded-[16px] overflow-hidden hover:border-white/20 transition-colors group block"
           >
-            <div className="bg-white/[0.03] h-24 relative overflow-hidden">
+            <div className="bg-white/[0.03] h-48 relative overflow-hidden">
               {image ? (
                 <Image
                   src={image}

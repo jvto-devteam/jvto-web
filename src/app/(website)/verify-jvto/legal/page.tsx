@@ -158,6 +158,31 @@ export default async function LegalPage() {
         style={{ boxShadow: "0 -32px 80px -36px rgba(13,27,42,0.10)" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-8">
+          {/* Document ProofCards — visual trust anchors */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+            {[
+              { title: "NIB (Business Identification Number)", desc: "Official registration of PT Java Volcano Rendezvous as a licensed tour operator in Indonesia. Issued via OSS Online Single Submission system.", meta: "NIB: 1102230032918", href: "https://oss.go.id", img: "/legal/NIB-1102230032918-preview.webp" },
+              { title: "TDUP (Tourism Business Registration)", desc: "Mandatory operating licence for tourism services in East Java, issued under the OSS system. Confirms JVTO as a legally registered tour operator.", meta: "Issued: 2023-02-11", href: "https://oss.go.id", img: "/legal/TDUP-1102230032918-preview.webp" },
+              { title: "HPWKI (Ijen Guide Association)", desc: "State-recognized Ijen specialist guide association. Membership requires BBKSDA-supervised volcanic safety training (SAR + emergency medical response).", meta: "AHU-0001072·2024", href: "https://ahu.go.id", img: "/legal/HPWKI-approval-preview.webp" },
+            ].map(({ title, desc, meta, href, img }) => (
+              <a key={title} href={href} target="_blank" rel="noopener noreferrer" className="group bg-white rounded-2xl overflow-hidden border border-[#E3E0DA] hover:border-jvto-orange/30 hover:shadow-lg transition-all block">
+                <div className="relative h-48 overflow-hidden bg-[#F0EDE8]">
+                  <Image src={img} alt={title} fill unoptimized className="object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
+                <div className="p-6">
+                  <div className="w-10 h-10 rounded-xl bg-jvto-orange/10 flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-jvto-orange" aria-hidden="true">
+                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-jvto-navy text-[15px] mb-2 leading-snug" style={{ fontFamily: "Raleway, Inter, sans-serif" }}>{title}</h3>
+                  <p className="text-[#6b7280] text-[13px] font-light leading-relaxed mb-4">{desc}</p>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-jvto-orange">{meta}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-10 md:gap-16">
             {/* Sidebar */}
             <aside className="flex flex-col">
