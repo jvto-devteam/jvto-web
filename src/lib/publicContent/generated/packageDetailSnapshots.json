@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T06:13:06.533Z",
+  "generatedAt": "2026-07-17T07:06:10.030Z",
   "items": [
     {
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
@@ -2902,7 +2902,24 @@
                   "description": "Arrive at the Tumpak Sewu area (Lumajang), and explore Tumpak Sewu Waterfall. Use this activity block for the on-site waterfall experience in the Tumpak Sewu area, following the planned visit duration for exploration and viewing as scheduled.",
                   "timeWindow": "06:30",
                   "durationMinutes": 240,
+                  "location": "Tumpak Sewu Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch",
+                  "description": "Finish explore Tumpak Sewu and having lunch at local warung in Tumpak Sewu area",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
                   "location": "Tumpak Sewu Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bromo",
+                  "description": "Transfer to hotel in Bromo area",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 }
               ],
               "mealsPlan": {
@@ -6425,7 +6442,24 @@
                   "description": "Arrive at the Tumpak Sewu area (Lumajang), and explore Tumpak Sewu Waterfall. Use this activity block for the on-site waterfall experience in the Tumpak Sewu area, following the planned visit duration for exploration and viewing as scheduled.",
                   "timeWindow": "06:30",
                   "durationMinutes": 240,
+                  "location": "Tumpak Sewu Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch",
+                  "description": "Finish explore Tumpak Sewu and having lunch at local warung in Tumpak Sewu area",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
                   "location": "Tumpak Sewu Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bromo",
+                  "description": "Transfer to hotel in Bromo area",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 }
               ],
               "mealsPlan": {
@@ -7016,7 +7050,24 @@
                   "description": "Arrive at the Tumpak Sewu area (Lumajang), and explore Tumpak Sewu Waterfall. Use this activity block for the on-site waterfall experience in the Tumpak Sewu area, following the planned visit duration for exploration and viewing as scheduled.",
                   "timeWindow": "06:30",
                   "durationMinutes": 240,
+                  "location": "Tumpak Sewu Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch",
+                  "description": "Finish explore Tumpak Sewu and having lunch at local warung in Tumpak Sewu area",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
                   "location": "Tumpak Sewu Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bromo",
+                  "description": "Transfer to hotel in Bromo area",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 }
               ],
               "mealsPlan": {
@@ -7633,7 +7684,24 @@
                   "description": "Arrive at the Tumpak Sewu area (Lumajang), and explore Tumpak Sewu Waterfall. Use this activity block for the on-site waterfall experience in the Tumpak Sewu area, following the planned visit duration for exploration and viewing as scheduled.",
                   "timeWindow": "06:30",
                   "durationMinutes": 240,
+                  "location": "Tumpak Sewu Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch",
+                  "description": "Finish explore Tumpak Sewu and having lunch at local warung in Tumpak Sewu area",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
                   "location": "Tumpak Sewu Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bromo",
+                  "description": "Transfer to hotel in Bromo area",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 }
               ],
               "mealsPlan": {
@@ -9149,7 +9217,24 @@
                   "description": "Arrive at the Tumpak Sewu area (Lumajang), and explore Tumpak Sewu Waterfall. Use this activity block for the on-site waterfall experience in the Tumpak Sewu area, following the planned visit duration for exploration and viewing as scheduled.",
                   "timeWindow": "06:30",
                   "durationMinutes": 240,
+                  "location": "Tumpak Sewu Waterfall"
+                },
+                {
+                  "type": "TouristAttractionVisit",
+                  "name": "Lunch",
+                  "description": "Finish explore Tumpak Sewu and having lunch at local warung in Tumpak Sewu area",
+                  "timeWindow": "12:00",
+                  "durationMinutes": 60,
                   "location": "Tumpak Sewu Area"
+                },
+                {
+                  "type": "TravelAction",
+                  "name": "Transfer to Bromo",
+                  "description": "Transfer to hotel in Bromo area",
+                  "timeWindow": "13:00",
+                  "durationMinutes": 180,
+                  "fromLocation": "Tumpak Sewu Area",
+                  "toLocation": "Bromo Area"
                 }
               ],
               "mealsPlan": {
@@ -10804,72 +10889,6 @@
               "overnight": "Bromo Hotel"
             },
             {
-              "day": 1,
-              "title": "Bali to the Bromo Side via East Java Crossing",
-              "summary": "The route begins in Bali and crosses into East Java before moving onward to the Bromo side. This first day is about clean cross-island positioning so the volcano sequence can start properly the next morning.",
-              "activities": [
-                {
-                  "type": "TravelAction",
-                  "name": "Bali Morning Pick-up to Gilimanuk",
-                  "description": "Morning pick up at your hotel in Bali. Meet at the confirmed lobby pick-up point and begin the overland transfer toward Gilimanuk Harbor to connect with the ferry crossing.",
-                  "timeWindow": "08:00",
-                  "durationMinutes": 240,
-                  "fromLocation": "Bali Hotel",
-                  "toLocation": "Gilimanuk Harbour"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Ferry Crossing to Ketapang",
-                  "description": "Arrive at Gilimanuk Harbor and board the ferry. This step covers port arrival and completing the boarding flow to begin the sea crossing to Ketapang Port.",
-                  "timeWindow": "12:00",
-                  "durationMinutes": 60,
-                  "fromLocation": "Gilimanuk Harbour",
-                  "toLocation": "Ketapang Harbour"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Long Journey to Bromo",
-                  "description": "Arrive at Ketapang Port, Banyuwangi and continue the long overland transfer to the Bromo area. This is the extended road journey segment connecting the ferry arrival point to the Bromo accommodation area.",
-                  "timeWindow": "13:00",
-                  "durationMinutes": 60,
-                  "fromLocation": "Ketapang Harbour",
-                  "toLocation": "Transit Stop"
-                },
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Lunch Break (Own Expense)",
-                  "description": "Lunch (at your own expense) along the way. This is a short, practical meal stop during the drive, with time allocated to order food and take a brief rest before continuing the transfer.",
-                  "timeWindow": "14:00",
-                  "durationMinutes": 30,
-                  "location": "Transit Stop"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Transit Stop to Bromo Transfer",
-                  "description": "Continue the long overland journey from the rest stop toward the Bromo area, arriving in time for hotel check-in.",
-                  "timeWindow": "14:30",
-                  "durationMinutes": 270,
-                  "fromLocation": "Transit Stop",
-                  "toLocation": "Bromo Hotel"
-                },
-                {
-                  "type": "CheckInAction",
-                  "name": "Bromo Hotel Check-in",
-                  "description": "Estimated arrival in the Bromo area. Check in to your hotel and rest immediately. This step covers arrival at the accommodation and completing check-in so you can settle in after a full day of travel.",
-                  "timeWindow": "19:00",
-                  "durationMinutes": 10,
-                  "location": "Bromo Hotel"
-                }
-              ],
-              "mealsPlan": {
-                "breakfast": "own expense",
-                "lunch": "own expense",
-                "dinner": "own expense"
-              },
-              "mealsNotes": "",
-              "overnight": "Bromo Hotel"
-            },
-            {
               "day": 2,
               "title": "Bromo Sunrise, Madakaripura, and Transfer to Bondowoso",
               "summary": "After the Bromo sunrise sequence, the route continues through Madakaripura before transferring toward Bondowoso. The day stays productive, but it should be understood as one of the heavier connection days in the itinerary.",
@@ -10957,144 +10976,6 @@
               },
               "mealsNotes": "",
               "overnight": "Bondowoso Hotel"
-            },
-            {
-              "day": 2,
-              "title": "Bromo Sunrise, Madakaripura, and Transfer to Bondowoso",
-              "summary": "After the Bromo sunrise sequence, the route continues through Madakaripura before transferring toward Bondowoso. The day stays productive, but it should be understood as one of the heavier connection days in the itinerary.",
-              "activities": [
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Bromo Jeep Tour",
-                  "description": "Starting the Bromo Jeep tour. Begin the scheduled early-morning Jeep-based Bromo sunrise program, following the Mount Bromo touring sequence within the allocated time block.",
-                  "timeWindow": "02:00",
-                  "durationMinutes": 390,
-                  "location": "Sea of Sand & Bromo Crater"
-                },
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Breakfast at Hotel",
-                  "description": "Back to the hotel for breakfast. Return from the Bromo program to the hotel and take the planned breakfast break, allowing time to rest briefly before check-out and the next destination transfer.",
-                  "timeWindow": "09:00",
-                  "durationMinutes": 60,
-                  "location": "Accommodation"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Check-out and Transfer to Madakaripura",
-                  "description": "Check-out, travel to Madakaripura Waterfall. Complete the hotel check-out process in the Bromo area, then begin the road transfer to Madakaripura Waterfall to start the canyon waterfall segment of the day.",
-                  "timeWindow": "11:00",
-                  "durationMinutes": 60,
-                  "fromLocation": "Bromo Hotel",
-                  "toLocation": "Madakaripura Waterfall"
-                },
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Madakaripura Trekking",
-                  "description": "Arrive at Madakaripura and start trekking. Arrive at the Madakaripura area and begin the scheduled trekking session, using the full activity block for the on-site waterfall exploration as planned.",
-                  "timeWindow": "12:00",
-                  "durationMinutes": 180,
-                  "location": "Madakaripura Waterfall"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Finish explore Madakaripura waterfall",
-                  "description": "Finish explore Madakaripura waterfall. Conclude the trekking and on-site exploration segment at Madakaripura, regroup at the designated meeting point, and prepare for departure to the next transfer leg.",
-                  "timeWindow": "15:00",
-                  "durationMinutes": 0,
-                  "fromLocation": "Madakaripura Waterfall",
-                  "toLocation": "Madakaripura Waterfall"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Transfer to Bondowoso",
-                  "description": "Start the long journey to Bondowoso (about 3 hours). Depart from the Madakaripura area and begin the overland transfer to Bondowoso (Ijen area), using the scheduled travel window for the afternoon relocation.",
-                  "timeWindow": "15:00",
-                  "durationMinutes": 180,
-                  "fromLocation": "Madakaripura Waterfall",
-                  "toLocation": "Bondowoso City"
-                },
-                {
-                  "type": "CheckInAction",
-                  "name": "Check-in at Bondowoso Hotel",
-                  "description": "Arrive in Bondowoso, check-in hotel. Reach Bondowoso and complete the hotel check-in process after the long day, ensuring you are settled before the evening prerequisite procedures.",
-                  "timeWindow": "18:00",
-                  "durationMinutes": 10,
-                  "location": "Bondowoso Hotel"
-                },
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Health screening for Ijen",
-                  "description": "A health screening will be conducted by medical personnel directly at your hotel. This is a brief vital-signs check scheduled as a prerequisite before the Ijen climbing program.",
-                  "timeWindow": "18:30",
-                  "durationMinutes": 15,
-                  "location": "Bondowoso Hotel"
-                },
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Dinner at Accommodation",
-                  "description": "Dinner is served at the accommodation (included). End the day with the included dinner at the accommodation, allowing time to rest after the early start, trekking, and long-distance travel.",
-                  "timeWindow": "19:00",
-                  "durationMinutes": 60,
-                  "location": "Accommodation"
-                }
-              ],
-              "mealsPlan": {
-                "breakfast": "included",
-                "lunch": "own expense",
-                "dinner": "included"
-              },
-              "mealsNotes": "",
-              "overnight": "Bondowoso Hotel"
-            },
-            {
-              "day": 3,
-              "title": "Ijen Climb and Return to Bali",
-              "summary": "The final day completes the Ijen segment before the route crosses back toward Bali. This return works best for guests who actively value the round-trip Bali finish and accept the rhythm needed to make it work cleanly.",
-              "activities": [
-                {
-                  "type": "TouristAttractionVisit",
-                  "name": "Short break after the hike",
-                  "description": "Short break after Ijen Hike. Use this short recovery window in the Ijen area to rest briefly after the hike, reorganize personal items, and prepare for the onward transfer to the harbor.",
-                  "timeWindow": "09:00",
-                  "durationMinutes": 30,
-                  "location": "Ijen Area"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Transfer to Ketapang",
-                  "description": "Start the journey to Ketapang Harbor. Depart from the Ijen area and begin the road transfer to Ketapang Harbor to connect with the ferry crossing to Bali.",
-                  "timeWindow": "09:30",
-                  "durationMinutes": 60,
-                  "fromLocation": "Ijen Area",
-                  "toLocation": "Ketapang Harbour"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Ferry to Gilimanuk Harbor",
-                  "description": "Arrive at Ketapang Port and board the ferry. Proceed through the port arrival and boarding flow to begin the ferry crossing toward Gilimanuk Harbor in Bali.",
-                  "timeWindow": "10:30",
-                  "durationMinutes": 60,
-                  "fromLocation": "Ketapang Harbour",
-                  "toLocation": "Gilimanuk Harbour"
-                },
-                {
-                  "type": "TravelAction",
-                  "name": "Arrival at Bali",
-                  "description": "Arrive at Gilimanuk Harbor, Bali (+1 hour time zone). Disembark at Gilimanuk and adjust to the time zone difference, completing the crossing segment upon arrival in Bali.",
-                  "timeWindow": "12:30",
-                  "durationMinutes": 10,
-                  "fromLocation": "Gilimanuk Harbour",
-                  "toLocation": "Bali Hotel"
-                }
-              ],
-              "mealsPlan": {
-                "breakfast": "included",
-                "lunch": "own expense",
-                "dinner": "own expense"
-              },
-              "mealsNotes": "",
-              "overnight": null
             },
             {
               "day": 3,
