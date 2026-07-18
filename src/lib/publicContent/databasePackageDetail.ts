@@ -36,6 +36,7 @@ export async function getPackageDetailFromDatabase(
       durations: true,
       package_categories: true,
       package_destinations: {
+        where: { deleted_at: null },
         include: {
           destinations: {
             include: { activities: true, destination_gears: true },
@@ -44,13 +45,16 @@ export async function getPackageDetailFromDatabase(
         orderBy: { sort_order: "asc" },
       },
       package_prices: {
+        where: { deleted_at: null },
         include: { price_tiers: true },
         orderBy: { price: "asc" },
       },
       package_includes: {
+        where: { deleted_at: null },
         include: { item_includes: true },
       },
       package_excludes: {
+        where: { deleted_at: null },
         include: { item_excludes: true },
       },
       package_addons: { include: { addons: true } },

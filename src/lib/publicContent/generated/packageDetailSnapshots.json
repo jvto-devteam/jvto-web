@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-17T07:06:10.030Z",
+  "generatedAt": "2026-07-18T05:36:20.399Z",
   "items": [
     {
       "slug": "tours/from-surabaya/bromo-madakaripura-ijen-3d2n",
@@ -8554,18 +8554,12 @@
               },
               {
                 "sku": "1D1N-4",
-                "paxMin": 2,
-                "paxMax": 3,
-                "pricePerPerson": 1300000
-              },
-              {
-                "sku": "1D1N-5",
                 "paxMin": 3,
                 "paxMax": 4,
                 "pricePerPerson": 1400000
               },
               {
-                "sku": "1D1N-6",
+                "sku": "1D1N-5",
                 "paxMin": 2,
                 "paxMax": 2,
                 "pricePerPerson": 1550000
@@ -9601,9 +9595,6 @@
           "route": [
             "Ijen Crater",
             "Mount Bromo",
-            "Ijen Crater",
-            "Madakaripura Waterfall",
-            "Mount Bromo",
             "Madakaripura Waterfall"
           ],
           "tripRef": "/trips/trip-package-BALI-3D2N-001.json",
@@ -9612,18 +9603,6 @@
             {
               "name": "Ijen Crater",
               "highlight": "Acidic crater lake"
-            },
-            {
-              "name": "Mount Bromo",
-              "highlight": "Sunrise over Tengger Caldera and sacred Hindu ceremonies"
-            },
-            {
-              "name": "Ijen Crater",
-              "highlight": "Acidic crater lake"
-            },
-            {
-              "name": "Madakaripura Waterfall",
-              "highlight": "Sacred 200-meter canyon waterfall and Gajah Mada's meditation site"
             },
             {
               "name": "Mount Bromo",
@@ -9650,78 +9629,36 @@
               },
               {
                 "sku": "package-BALI-3D2N-001-2",
-                "paxMin": 11,
-                "paxMax": 0,
-                "pricePerPerson": 2850000
+                "paxMin": 8,
+                "paxMax": 10,
+                "pricePerPerson": 3050000
               },
               {
                 "sku": "package-BALI-3D2N-001-3",
-                "paxMin": 8,
-                "paxMax": 10,
-                "pricePerPerson": 3050000
+                "paxMin": 6,
+                "paxMax": 7,
+                "pricePerPerson": 3350000
               },
               {
                 "sku": "package-BALI-3D2N-001-4",
-                "paxMin": 8,
-                "paxMax": 10,
-                "pricePerPerson": 3050000
+                "paxMin": 4,
+                "paxMax": 5,
+                "pricePerPerson": 3550000
               },
               {
                 "sku": "package-BALI-3D2N-001-5",
-                "paxMin": 6,
-                "paxMax": 7,
-                "pricePerPerson": 3350000
+                "paxMin": 3,
+                "paxMax": 3,
+                "pricePerPerson": 3800000
               },
               {
                 "sku": "package-BALI-3D2N-001-6",
-                "paxMin": 6,
-                "paxMax": 7,
-                "pricePerPerson": 3350000
+                "paxMin": 2,
+                "paxMax": 2,
+                "pricePerPerson": 4050000
               },
               {
                 "sku": "package-BALI-3D2N-001-7",
-                "paxMin": 4,
-                "paxMax": 5,
-                "pricePerPerson": 3550000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-8",
-                "paxMin": 4,
-                "paxMax": 5,
-                "pricePerPerson": 3550000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-9",
-                "paxMin": 3,
-                "paxMax": 3,
-                "pricePerPerson": 3800000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-10",
-                "paxMin": 3,
-                "paxMax": 3,
-                "pricePerPerson": 3800000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-11",
-                "paxMin": 2,
-                "paxMax": 2,
-                "pricePerPerson": 4050000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-12",
-                "paxMin": 2,
-                "paxMax": 2,
-                "pricePerPerson": 4050000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-13",
-                "paxMin": 1,
-                "paxMax": 1,
-                "pricePerPerson": 7500000
-              },
-              {
-                "sku": "package-BALI-3D2N-001-14",
                 "paxMin": 1,
                 "paxMax": 1,
                 "pricePerPerson": 7500000
@@ -10805,10 +10742,6 @@
               "Gas masks (Ijen)",
               "Headlamps",
               "Trekking poles",
-              "Gas masks (Ijen)",
-              "Headlamps",
-              "Trekking poles",
-              "Helmet",
               "Helmet"
             ],
             "recommended": [
@@ -11028,13 +10961,13 @@
             }
           ],
           "gallery": [
-            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
-            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
-            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_2.webp",
-            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_3.webp",
-            "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_4.webp"
+            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
+            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_0.webp",
+            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_2.webp",
+            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_3.webp",
+            "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_4.webp"
           ],
-          "imageUrl": "https://javavolcano-touroperator.com/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
+          "imageUrl": "/uploads/3-day-bromo-ijen-volcano-discovery-from-bali_1.webp",
           "tags": [],
           "aggregateRating": {
             "ratingValue": 0,
