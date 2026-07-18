@@ -53,6 +53,7 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
       durations: true,
       package_categories: true,
       package_destinations: {
+        where: { deleted_at: null },
         include: {
           destinations: {
             include: { activities: true, destination_gears: true },
@@ -61,11 +62,12 @@ export async function getWebPackageDetail(slug: string): Promise<TourPackageDeta
         orderBy: { sort_order: 'asc' },
       },
       package_prices: {
+        where: { deleted_at: null },
         include: { price_tiers: true },
         orderBy: { price: 'asc' },
       },
-      package_includes: { include: { item_includes: true } },
-      package_excludes: { include: { item_excludes: true } },
+      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
+      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
       package_addons: { include: { addons: true } },
       package_assets: { include: { asset: true } },
       package_faqs: true,
