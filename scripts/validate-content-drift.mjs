@@ -214,6 +214,48 @@ function scanFile(file) {
   return hits;
 }
 
+// ── draft mode: lint an in-memory draft from stdin (no baseline) ───────────────
+// Used by the facts-locked-web skill to verify GENERATED content BEFORE it is
+// written to a file — closing the gap that the file-gate below can only scan
+// what is already on disk. A fresh draft has no legacy baseline to grandfather,
+// so ANY forbidden hit exits non-zero. Pure denylist; positive canonical-value
+// assertion + JSON-LD parse stay in the skill (see SKILL.md Verification step).
+//   Usage: printf '%s' "$DRAFT" | node scripts/validate-content-drift.mjs --stdin [--label <route>]
+function scanText(content, rel) {
+  const hits = [];
+  const lines = content.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.includes(WHITELIST_MARKER)) continue;
+    for (const rule of RULES) {
+      const m = rule.re.exec(line);
+      if (m) hits.push({ rel, line: i + 1, rule: rule.name, text: truncate(m[0]) });
+    }
+  }
+  return hits;
+}
+
+if (process.argv.includes('--stdin')) {
+  let input = '';
+  try {
+    input = readFileSync(0, 'utf8');
+  } catch {
+    input = '';
+  }
+  const labelIdx = process.argv.indexOf('--label');
+  const label = labelIdx !== -1 && process.argv[labelIdx + 1] ? process.argv[labelIdx + 1] : '<stdin-draft>';
+  const hits = scanText(input, label);
+  for (const h of hits) console.log(`✗ ${h.rel}:${h.line} — ${h.rule} — ${h.text}`);
+  const lineCount = input ? input.split(/\r?\n/).length : 0;
+  console.log(`\n[content-drift] draft scanned (${lineCount} lines), ${RULES.length} rules — ${hits.length} hit(s)`);
+  if (hits.length) {
+    console.log('[content-drift] DRAFT BLOCKED — forbidden content per docs/CANONICAL_FACTS.md. Fix before writing to a file.');
+    process.exit(1);
+  }
+  console.log('[content-drift] DRAFT CLEAN');
+  process.exit(0);
+}
+
 // ── entrypoint ────────────────────────────────────────────────────────────────
 
 const targets = collectTargets();
