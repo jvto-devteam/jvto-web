@@ -145,7 +145,7 @@ export const inclusions = {
 };
 
 export const miniFaqs: FAQ[] = [
-    { question: "Can I cancel or reschedule?", answer: "Yes. Cancel ≥48 hours before Day 1 for 100% JVTO Travel Credit (no expiry, transferable). Cancel <48 hours before Day 1 means the payment is forfeited. There are no cash refunds. One free reschedule is allowed if requested >48 hours before Day 1." },
+    { question: "Can I cancel or reschedule?", answer: "Yes. Cancel ≥48 hours before Day 1 for 100% JVTO Package Credit (no expiry, transferable). Cancel <48 hours before Day 1 means the payment is forfeited. There are no cash refunds. One free reschedule is allowed if requested >48 hours before Day 1." },
     { question: "Is the Ijen medical test included?", answer: "Yes. A health certificate is mandatory by local law to hike Ijen. JVTO arranges this for you and the cost is included in all our Ijen tour packages. No extra payment is required on the spot." },
     { question: "Are your tours private or shared?", answer: "All JVTO tours are 100% private. You will have your own vehicle, driver, and guide dedicated only to your group for a more personal and flexible experience." },
     { question: "What is included in the price?", answer: "All core costs: private transport, accommodation with breakfast, all entrance fees, Bromo 4WD jeep, Ijen health screening & gear, bottled water, and a JVTO T-shirt. No surprise 'local payments' are required." },
@@ -166,7 +166,7 @@ export const faqs: FAQ[] = [
   },
   {
     question: 'What is your cancellation and reschedule policy?',
-    answer: "Cancellations made more than 48 hours before Day 1 pickup receive 100% of the amount paid as JVTO Travel Credit. This credit never expires and can be transferred. Cancellations within 48 hours of Day 1 result in forfeiture of payment. We do not provide cash refunds. One free reschedule is permitted if requested more than 48 hours before Day 1, subject to availability."
+    answer: "Cancellations made more than 48 hours before Day 1 pickup receive 100% of the amount paid as JVTO Package Credit. This credit never expires and can be transferred. Cancellations within 48 hours of Day 1 result in forfeiture of payment. We do not provide cash refunds. One free reschedule is permitted if requested more than 48 hours before Day 1, subject to availability."
   },
   {
     question: 'Are your tours private or shared?',

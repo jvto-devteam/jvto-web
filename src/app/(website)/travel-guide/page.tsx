@@ -92,7 +92,7 @@ const travelGuideData = {
       id: "booking-information",
       title: "Booking & Payments",
       summaryParagraphs: [
-        "Details on how to book, deposits, final payments, Travel Credit, and why we don't offer cash refunds.",
+        "Details on how to book, deposits, final payments, Package Credit, and why we don't offer cash refunds.",
       ],
       cta: {
         label: "Read Booking Information",

@@ -418,10 +418,10 @@ Bookings are accepted exclusively through the official JVTO website checkout. Wh
 - Cash at JVTO office: only if approved in writing in advance
 
 ### Cancellation policy
-- ≥48 hours before Day 1: 100% of eligible booking value → Lifetime Travel Credit (no expiry, transferable, may be gifted/sold)
-- <48 hours before Day 1: fully forfeited, no Travel Credit
+- ≥48 hours before Day 1: 100% of eligible booking value → Lifetime Package Credit (no expiry, transferable, may be gifted/sold)
+- <48 hours before Day 1: fully forfeited, no Package Credit
 
-**Cash refund is not available for guest-initiated cancellation.** The Travel Credit mechanism replaces it.
+**Cash refund is not available for guest-initiated cancellation.** The Package Credit mechanism replaces it.
 
 ### Rescheduling
 - ≥48h before Day 1: one reschedule for same package, subject to availability and seasonal cost difference
