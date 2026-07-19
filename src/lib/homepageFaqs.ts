@@ -30,7 +30,7 @@ export const HOMEPAGE_FAQS: QaPair[] = [
     question: 'What happens if weather or volcanic conditions change the plan?',
     answer:
       'Safety comes first. If access conditions change, JVTO uses an alternative-route approach and communicates clearly. Force-majeure ' +
-      'closures are handled under our travel-credit policy: 100% Travel Credit (non-expiring, transferable, IDR-denominated, no rebooking fee).',
+      'closures are handled under our package-credit policy: 100% Package Credit (non-expiring, transferable, IDR-denominated, no rebooking fee).',
   },
   {
     question: 'How can I verify JVTO before booking?',
@@ -61,7 +61,7 @@ export const HOMEPAGE_FAQS: QaPair[] = [
   {
     question: 'What happens if my trip is cancelled?',
     answer:
-      'We maintain a transparent cancellation policy. Cancellations made ≥48 hours before Day 1 receive 100% Travel Credit — non-expiring, ' +
+      'We maintain a transparent cancellation policy. Cancellations made ≥48 hours before Day 1 receive 100% Package Credit — non-expiring, ' +
       'transferable to any traveler, denominated in IDR, with no rebooking fee. Our legal registration ensures you have recourse that ' +
       "'freelance' guides cannot offer.",
   },

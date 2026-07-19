@@ -12,7 +12,7 @@ const CONFIDENCE_ITEMS = [
   {
     icon: HeartHandshake,
     title: "What's Covered",
-    description: "Cancellation & Travel Credit terms",
+    description: "Cancellation & Package Credit terms",
     href: "/policy/booking-payment-cancellation",
   },
   {

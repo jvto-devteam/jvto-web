@@ -130,7 +130,7 @@ export const SITE_CONFIG = {
     fullPaymentThresholdDays: 14,
     cancellationCutoffHours: 48,
     cancellationOutcomeBefore:
-      "100% non-expiring travel credit, transferable to any traveler",
+      "100% non-expiring package credit, transferable to any traveler",
     cancellationOutcomeAfter: "Deposit forfeited",
     paymentMethod: "Bank transfer only — BRI or BCA",
   },

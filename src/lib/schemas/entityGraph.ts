@@ -514,14 +514,14 @@ export const DEFINED_TERMS = {
   },
   // JVTO-defined operational terms — differentiators not regulated externally.
   // Custom-named DefinedTerms anchor brand-specific concepts in the entity graph so AI engines
-  // can extract "what is JVTO Travel Credit?" and "what is JVTO FOC Scheme?" with structured answers.
+  // can extract "what is JVTO Package Credit?" and "what is JVTO FOC Scheme?" with structured answers.
   JVTO_TRAVEL_CREDIT: {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
     '@id': `${BASE_URL}/#term-jvto-travel-credit`,
-    name: 'JVTO Travel Credit',
+    name: 'JVTO Package Credit',
     description:
-      'JVTO operational policy: when a booking is cancelled at least 48 hours before Day 1, the entire amount paid is converted to a Travel Credit. ' +
+      'JVTO operational policy: when a booking is cancelled at least 48 hours before Day 1, the entire amount paid is converted to a Package Credit. ' +
       'Non-expiring (no validity window), transferable to any traveler at no additional cost, denominated in IDR (no FX risk to guest), with zero rebooking fee. ' +
       'Differentiator vs industry-standard expiring vouchers. Force-majeure closures fall under the same policy.',
     inDefinedTermSet: {

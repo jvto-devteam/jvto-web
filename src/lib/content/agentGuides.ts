@@ -149,7 +149,7 @@ export const AGENT_GUIDES: Record<string, AgentGuide> = {
     "related": [
       {
         "href": "/travel-guide/cancellation-travel-credit",
-        "label": "Cancellation & Lifetime Travel Credit"
+        "label": "Cancellation & Lifetime Package Credit"
       },
       {
         "href": "/travel-guide/booking-safety",
@@ -160,14 +160,14 @@ export const AGENT_GUIDES: Record<string, AgentGuide> = {
   "cancellation-travel-credit": {
     "slug": "cancellation-travel-credit",
     "route": "/travel-guide/cancellation-travel-credit",
-    "title": "Cancellation & Lifetime Travel Credit",
-    "description": "How JVTO handles guest-initiated cancellations — Travel Credit instead of cash refunds.",
-    "h1": "Cancellation & Lifetime Travel Credit",
-    "intro": "For guest-initiated cancellations JVTO uses Lifetime Travel Credit. Here is the rule.",
+    "title": "Cancellation & Lifetime Package Credit",
+    "description": "How JVTO handles guest-initiated cancellations — Package Credit instead of cash refunds.",
+    "h1": "Cancellation & Lifetime Package Credit",
+    "intro": "For guest-initiated cancellations JVTO uses Lifetime Package Credit. Here is the rule.",
     "sections": [
       {
-        "h2": "Cancellation & Lifetime Travel Credit",
-        "body": "How JVTO handles guest-initiated cancellations — Travel Credit instead of cash refunds, on a 48-hour cut-off.\n\nFor guest-initiated cancellations JVTO uses Travel Credit rather than cash refunds. The binding terms are in the published Booking, Payment & Cancellation policy; this is a summary — see that page for exact details."
+        "h2": "Cancellation & Lifetime Package Credit",
+        "body": "How JVTO handles guest-initiated cancellations — Package Credit instead of cash refunds, on a 48-hour cut-off.\n\nFor guest-initiated cancellations JVTO uses Package Credit rather than cash refunds. The binding terms are in the published Booking, Payment & Cancellation policy; this is a summary — see that page for exact details."
       }
     ],
     "related": [

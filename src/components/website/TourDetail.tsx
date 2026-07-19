@@ -2057,10 +2057,10 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                   </button>
                   {/* AEO/GEO restyle (design-reference W3b): compact booking-terms trust line,
                       mirroring the design-reference "Pricing & booking" data-box. Canonical
-                      wording only — 20% deposit / 100% Lifetime Travel Credit (docs/CANONICAL_FACTS.md) */}
+                      wording only — 20% deposit / 100% Lifetime Package Credit (docs/CANONICAL_FACTS.md) */}
                   <p className="flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-jvto-navy/50 text-center">
                     <ShieldCheck size={12} className="text-jvto-lime shrink-0" />
-                    20% deposit · Cancel ≥48h = 100% Lifetime Travel Credit
+                    20% deposit · Cancel ≥48h = 100% Lifetime Package Credit
                   </p>
                   <div className="text-center">
                     <a

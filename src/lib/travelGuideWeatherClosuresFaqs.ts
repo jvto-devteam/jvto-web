@@ -26,7 +26,7 @@ export const WEATHER_AND_CLOSURES_FAQS: QaPair[] = [
   {
     question: 'What happens to my booking if part of the tour is closed?',
     answer:
-      'If a primary site is closed, JVTO substitutes a comparable same-day alternative where possible — for example, a closed Ijen may be replaced with Bromo and Madakaripura. Where a closure makes the program unworkable, JVTO reschedules the affected portion or issues JVTO Travel Credit per the Booking, Payment & Cancellation Policy. Cash refunds are not standard practice; cancellations convert to Lifetime Travel Credit.',
+      'If a primary site is closed, JVTO substitutes a comparable same-day alternative where possible — for example, a closed Ijen may be replaced with Bromo and Madakaripura. Where a closure makes the program unworkable, JVTO reschedules the affected portion or issues JVTO Package Credit per the Booking, Payment & Cancellation Policy. Cash refunds are not standard practice; cancellations convert to Lifetime Package Credit.',
   },
   {
     question: 'When is the best season for reliable weather at Bromo and Ijen?',

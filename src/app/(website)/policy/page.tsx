@@ -48,7 +48,7 @@ export default async function PolicyHubPage() {
       desc: "Defines how bookings become confirmed, payment rules, cancellation policy with 48-hour cut-off, and operational terms for JVTO private tours.",
       bullets: [
         "20% deposit requirement and payment deadlines",
-        "48-hour cancellation cut-off for travel credit",
+        "48-hour cancellation cut-off for package credit",
         "Force majeure and operational adjustments",
       ],
       href: "/policy/booking-payment-cancellation",

@@ -83,8 +83,8 @@ const BOOKING_STEPS = [
 const DATA_BOX = [
   { k: "Deposit", v: "20% of total · card only" },
   { k: "Balance deadline", v: "Card 5 days before · wire/Wise 3 days before Day 1" },
-  { k: "Cancel ≥ 48h before", v: "100% → Lifetime Travel Credit (no expiry, transferable)" },
-  { k: "Cancel < 48h before", v: "Forfeited · no Travel Credit" },
+  { k: "Cancel ≥ 48h before", v: "100% → Lifetime Package Credit (no expiry, transferable)" },
+  { k: "Cancel < 48h before", v: "Forfeited · no Package Credit" },
 ];
 
 const CHECK_US_SIGNALS = [

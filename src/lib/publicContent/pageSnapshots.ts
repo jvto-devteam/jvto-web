@@ -227,7 +227,7 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
     {
       title: "Booking, Payment & Cancellation Policy | JVTO",
       description:
-        "Rules for confirming a booking, payment timing, reschedules, travel credit, and cancellation handling for JVTO private tours.",
+        "Rules for confirming a booking, payment timing, reschedules, package credit, and cancellation handling for JVTO private tours.",
     },
     {
       h1: "Booking, Payment & Cancellation",
