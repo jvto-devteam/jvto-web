@@ -2116,9 +2116,9 @@
   "operational_logic": {
     "financial_policy": {
       "id": "lifetime-travel-credit",
-      "title": "Lifetime Travel Credit Guarantee",
+      "title": "Lifetime Package Credit Guarantee",
       "cutoff_hours": 48,
-      "cancellation_gt_48h": "100% value converted to travel credit; cash_refund=false",
+      "cancellation_gt_48h": "100% value converted to package credit; cash_refund=false",
       "cancellation_lt_48h": "100% forfeit; travel_credit=false",
       "validity": "Lifetime / Non-expiring",
       "transferability": "Fully Transferable (Can be gifted/sold)",
@@ -2725,7 +2725,7 @@
         "Canonical URL": "https://javavolcano-touroperator.com/travel-guide/booking-information",
         "Route": "/travel-guide/booking-information",
         "Page Type": "Leaf",
-        "H1 / Page Heading": "Booking Information — Payments, Changes & Travel Credit",
+        "H1 / Page Heading": "Booking Information — Payments, Changes & Package Credit",
         "Primary Intent": "Practical guidance to plan a trip and reduce uncertainty.",
         "CS Reference Use": "Share links for common questions (packing, weather, screening, booking).",
         "Must-Link To": null,

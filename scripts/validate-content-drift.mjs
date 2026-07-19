@@ -102,7 +102,7 @@ const RULES = [
   },
   {
     name: 'stale-deposit-terms',
-    // canonical: 20% deposit; cancellation = 100% Lifetime Travel Credit
+    // canonical: 20% deposit; cancellation = 100% Lifetime Package Credit
     re: /30% deposit|balance[^.]{0,20}at pickup/i,
   },
   {

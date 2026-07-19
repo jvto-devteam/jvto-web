@@ -173,7 +173,7 @@ export default async function BestTimeToVisitPage() {
             <h2 className="text-base font-bold mb-3 text-gray-900">JVTO Operating Notes</h2>
             <ul className="text-sm space-y-2.5 text-gray-700">
               <li><strong>We operate year-round.</strong> Rainy season is not an automatic cancellation trigger. We make go/no-go decisions based on real-time BMKG (weather) and PVMBG (volcanic activity) data the evening before each tour.</li>
-              <li><strong>Weather risk is covered by Travel Credit.</strong> If a tour must be modified or cut short due to weather or volcanic closure, guests receive JVTO Travel Credit (non-expiring) for the affected portion. Read: <Link href="/travel-guide/weather-and-closures" className="text-primary hover:underline">Weather &amp; Closures policy</Link>.</li>
+              <li><strong>Weather risk is covered by Package Credit.</strong> If a tour must be modified or cut short due to weather or volcanic closure, guests receive JVTO Package Credit (non-expiring) for the affected portion. Read: <Link href="/travel-guide/weather-and-closures" className="text-primary hover:underline">Weather &amp; Closures policy</Link>.</li>
               <li><strong>Peak season booking advice.</strong> For July and August departures, book at least 3–4 weeks in advance. Accommodation in the Tengger Caldera area and Banyuwangi fills quickly during European summer holidays and Indonesian National Day week.</li>
             </ul>
           </section>

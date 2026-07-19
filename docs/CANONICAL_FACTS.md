@@ -26,7 +26,7 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
   evidence — bukan sebagai syarat pemicu kondisional. Adjudikasi ulang 2026-07-06 (menggantikan
   keputusan kondisional 2026-07-05); lihat commit history untuk detail.
 - **Police escort**: threshold ≈18 guests, "approval not guaranteed", unit Ditlantas.
-- **Deposit 20%**; cancellation = **100% Lifetime Travel Credit** (bukan cash refund).
+- **Deposit 20%**; cancellation = **100% Lifetime Package Credit** (bukan cash refund).
 - **Harga IDR-only** format `IDR 1,550,000/person`.
 - **Review counts**: Trustpilot **4.8/51**, Google **4.9/123**, TripAdvisor **4.95/21**,
   cross-platform **4.8/195**.

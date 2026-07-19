@@ -61,13 +61,13 @@ export const faqData = {
           `
         },
         {
-          q: "What is Travel Credit and do you offer cash refunds?",
+          q: "What is Package Credit and do you offer cash refunds?",
           a: `
-            <p>JVTO uses a Travel Credit system instead of standard cash refunds for most guest-initiated cancellations. In general:</p>
+            <p>JVTO uses a Package Credit system instead of standard cash refunds for most guest-initiated cancellations. In general:</p>
             <ul>
-              <li>If you cancel far enough in advance (before the stated cutoff), we convert your paid amounts into Travel Credit.</li>
-              <li>Travel Credit can be used for future JVTO tours, and may be transferable under the rules stated in our policy.</li>
-              <li>Travel Credit does not normally expire.</li>
+              <li>If you cancel far enough in advance (before the stated cutoff), we convert your paid amounts into Package Credit.</li>
+              <li>Package Credit can be used for future JVTO tours, and may be transferable under the rules stated in our policy.</li>
+              <li>Package Credit does not normally expire.</li>
               <li>Cash refunds are not normally provided except in specially defined situations.</li>
             </ul>
             <p>Exact timing thresholds, percentages and special cases are described in detail on the Booking Information page and in the Booking & Cancellation Policy.</p>
@@ -184,7 +184,7 @@ export const faqData = {
               <li>Reduce visibility</li>
               <li>Require changes in timing or route</li>
             </ul>
-            <p>Severe weather, landslides or dangerous conditions can lead to partial or full cancellations for safety. Our Weather & Closures page explains how we respond and how this links to Travel Credit and itinerary changes.</p>
+            <p>Severe weather, landslides or dangerous conditions can lead to partial or full cancellations for safety. Our Weather & Closures page explains how we respond and how this links to Package Credit and itinerary changes.</p>
           `
         }
       ]
