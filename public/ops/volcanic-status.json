@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-07-19T02:03:29.058Z",
+  "updated_at": "2026-07-20T02:24:13.338Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,7 +9,7 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-07-19",
+      "last_verified": "2026-07-20",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
       "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321021?signature=556a2346f6f09a6743cc38ca5a2b8504d3e91bf9760a1f6c18781e38e7fd7600",
@@ -36,27 +36,27 @@
           "Beware of potential rockfall from crater walls."
         ],
         "author": "Suparjan, A.Md.",
-        "fetched_at": "2026-07-19T02:03:28.531Z"
+        "fetched_at": "2026-07-20T02:24:12.871Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-07-19",
+      "last_verified": "2026-07-20",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321002?signature=5322674386e6fcc135a37edf7cbe3a0e30035007a76aaa26c25ad8ecf4d2ca68",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321082?signature=f4ccd12cafa9ab6bbadc425bb23c22840d3f361408e61bdb3d85dcd8435cd2e7",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-600 meter dari puncak. Cuaca cerah hingga berawan, angin lemah ke arah timur laut, timur, tenggara, selatan dan barat daya.",
-        "visual_en": "White smoke, thin, 50-600 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga berawan, angin lemah ke arah timur laut, timur, tenggara, selatan dan barat daya. Suhu udara sekitar 7-21°C.",
-        "climate_en": "7-21°C · Wind → NE",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607182400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-800 meter dari puncak. Cuaca cerah hingga mendung, angin lemah ke arah utara, timur laut, timur, tenggara, barat daya dan barat.",
+        "visual_en": "White smoke, thin, 50-800 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga mendung, angin lemah ke arah utara, timur laut, timur, tenggara, barat daya dan barat. Suhu udara sekitar 7-20°C.",
+        "climate_en": "7-20°C · Wind → North",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607192400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -67,7 +67,7 @@
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
         "author": "Wahyu Andrian Kusuma",
-        "fetched_at": "2026-07-19T02:03:29.058Z"
+        "fetched_at": "2026-07-20T02:24:13.337Z"
       }
     }
   }
