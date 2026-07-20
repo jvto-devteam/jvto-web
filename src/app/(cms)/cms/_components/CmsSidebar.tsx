@@ -23,6 +23,8 @@ import {
   Image as ImageIcon,
   LayoutTemplate,
   MessageSquare,
+  Layers,
+  Megaphone,
 } from "lucide-react";
 
 type NavChild = {
@@ -48,6 +50,12 @@ const navItems: NavItem[] = [
     href: "/cms/whatsapp",
     label: "WhatsApp Ops",
     icon: MessageSquare,
+  },
+  // === Website SSOT — Route Content Console ===
+  {
+    href: "/cms/pages",
+    label: "Pages (SSOT)",
+    icon: Layers,
   },
   // === Global Singletons (sudah ada) ===
   {
@@ -84,6 +92,12 @@ const navItems: NavItem[] = [
         href: "/cms/collections/content-pages",
         label: "Content Pages",
         icon: LayoutTemplate,
+      },
+      // Narrative Claims (highest-precedence FAQ source)
+      {
+        href: "/cms/collections/narrative-claims",
+        label: "Narrative Claims",
+        icon: Megaphone,
       },
       // 2.1 tourPackages
       {
