@@ -39,6 +39,23 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
+  // ── CMS soft gate: if hitting /cms without any next-auth session cookie,
+  // bounce to sign-in. This is a LIGHT check only; the authoritative admin
+  // authorization lives in the CMS layout (getSessionUser + isAdminEmail) and
+  // in each write API (requireAdmin). The matcher already includes /cms.
+  if (pathname === "/cms" || pathname.startsWith("/cms/")) {
+    const hasSessionCookie =
+      req.cookies.has("next-auth.session-token") ||
+      req.cookies.has("__Secure-next-auth.session-token");
+    if (!hasSessionCookie) {
+      const res = NextResponse.redirect(
+        new URL("/api/auth/signin?callbackUrl=/cms", req.url),
+      );
+      trackVisit(req, res);
+      return res;
+    }
+  }
+
   // daftar exact URL delete permanent
   const goneUrls = [
     "/all-inclusive",

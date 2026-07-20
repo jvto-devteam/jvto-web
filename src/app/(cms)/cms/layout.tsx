@@ -1,9 +1,16 @@
 import type { ReactNode } from "react";
+import { redirect } from "next/navigation";
+import { getSessionUser, isAdminEmail } from "@/lib/auth";
 import CmsSidebar from "./_components/CmsSidebar";
 import CmsTopbar from "./_components/CmsTopbar";
 import "./globals.css";
 
-export default function CmsLayout({ children }: { children: ReactNode }) {
+export default async function CmsLayout({ children }: { children: ReactNode }) {
+  const u = await getSessionUser();
+  if (!isAdminEmail(u?.email)) {
+    redirect("/api/auth/signin?callbackUrl=/cms");
+  }
+
   return (
     // ⬇️ ganti min-h-screen -> h-screen, tambahkan overflow-hidden
     <div className="h-screen overflow-hidden bg-slate-950 text-slate-100 flex">

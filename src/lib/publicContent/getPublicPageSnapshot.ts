@@ -165,11 +165,95 @@ export async function getPublicPageSnapshot(
   const snapshot =
     publicPageSnapshots[route] ?? options?.fallbackSnapshot ?? null;
 
-  if (snapshot && hasRequiredContentFields(snapshot, requiredContentFields)) {
+  const snapshotIsComplete =
+    !!snapshot && hasRequiredContentFields(snapshot, requiredContentFields);
+
+  const allowDatabaseFallback =
+    options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv();
+
+  // Build-vs-runtime split.
+  //   Build/SSG (allowDatabaseFallback === false): NEVER touch the DB — the static
+  //   snapshot (or inline) is authoritative. Keeps the build DB-free/deterministic;
+  //   behavior here is unchanged from before this fix.
+  //   Runtime/ISR (allowDatabaseFallback === true): PREFER a live, active, complete
+  //   content_pages row OVER the static snapshot, so a saved CMS edit + revalidatePath
+  //   renders near-live. The static snapshot stays the fallback whenever the DB row is
+  //   missing/inactive/incomplete or the DB read throws.
+  if (allowDatabaseFallback) {
+    let row: NonNullable<ContentPageRow> | null = null;
+    try {
+      // getContentPage already filters `is_active: true`, so a returned row is active.
+      row = (await getContentPage(route, "en")) ?? null;
+    } catch (err) {
+      logOnce(
+        `database-read-error:${route}`,
+        "error",
+        `[publicContent] content_pages read failed for "${route}" (${
+          err instanceof Error ? err.message : String(err)
+        }). Falling back to snapshot.`,
+      );
+      row = null;
+    }
+
+    const databaseSnapshot = row ? toSnapshot(route, row) : null;
+
+    if (
+      databaseSnapshot &&
+      hasRequiredContentFields(databaseSnapshot, requiredContentFields)
+    ) {
+      logOnce(
+        `database-prefer:${route}`,
+        "warn",
+        `[publicContent] Serving live content_pages row for "${route}" (DB preferred over static snapshot at runtime).`,
+      );
+
+      return {
+        source: "database-fallback",
+        snapshot: databaseSnapshot,
+        pageRow: toPageRowFromContentPageRow(route, row as NonNullable<ContentPageRow>),
+        usedDatabaseFallback: true,
+      };
+    }
+
+    // DB row missing/inactive/incomplete → prefer the static snapshot when complete.
+    if (snapshotIsComplete) {
+      return {
+        source: "snapshot",
+        snapshot: snapshot!,
+        pageRow: toPageRow(snapshot!),
+        usedDatabaseFallback: false,
+      };
+    }
+
+    if (snapshot && requiredContentFields.length > 0) {
+      logOnce(
+        `incomplete-snapshot:${route}:${requiredContentFields.join(",")}`,
+        "warn",
+        `[publicContent] Snapshot for "${route}" is missing required content fields (${requiredContentFields.join(", ")}).`,
+      );
+    }
+
+    logOnce(
+      `missing-db-and-snapshot:${route}`,
+      "error",
+      `[publicContent] No page snapshot or content_pages row found for "${route}". Using inline fallback.`,
+    );
+
+    const inlineFallback = snapshot ?? buildInlineFallback(route, options?.fallbackSnapshot);
+    return {
+      source: snapshot ? "snapshot" : "inline-fallback",
+      snapshot: inlineFallback,
+      pageRow: toPageRow(inlineFallback),
+      usedDatabaseFallback: false,
+    };
+  }
+
+  // Build/SSG path: snapshot-only, no DB dependency (unchanged behavior).
+  if (snapshotIsComplete) {
     return {
       source: "snapshot",
-      snapshot,
-      pageRow: toPageRow(snapshot),
+      snapshot: snapshot!,
+      pageRow: toPageRow(snapshot!),
       usedDatabaseFallback: false,
     };
   }
@@ -182,47 +266,10 @@ export async function getPublicPageSnapshot(
     );
   }
 
-  const allowDatabaseFallback =
-    options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv();
-
-  if (!allowDatabaseFallback) {
-    logOnce(
-      `strict-missing-snapshot:${route}`,
-      "error",
-      `[publicContent] Missing page snapshot for "${route}" in strict production mode.`,
-    );
-
-    const inlineFallback = snapshot ?? buildInlineFallback(route, options?.fallbackSnapshot);
-    return {
-      source: snapshot ? "snapshot" : "inline-fallback",
-      snapshot: inlineFallback,
-      pageRow: toPageRow(inlineFallback),
-      usedDatabaseFallback: false,
-    };
-  }
-
-  const row = await getContentPage(route, "en");
-  const databaseSnapshot = row ? toSnapshot(route, row) : null;
-
-  if (databaseSnapshot) {
-    logOnce(
-      `database-fallback:${route}`,
-      "warn",
-      `[publicContent] Using content_pages fallback for "${route}". Add a public snapshot before production cutover.`,
-    );
-
-    return {
-      source: "database-fallback",
-      snapshot: databaseSnapshot,
-      pageRow: toPageRowFromContentPageRow(route, row as NonNullable<ContentPageRow>),
-      usedDatabaseFallback: true,
-    };
-  }
-
   logOnce(
-    `missing-db-and-snapshot:${route}`,
+    `strict-missing-snapshot:${route}`,
     "error",
-    `[publicContent] No page snapshot or content_pages row found for "${route}". Using inline fallback.`,
+    `[publicContent] Missing page snapshot for "${route}" in strict production mode.`,
   );
 
   const inlineFallback = snapshot ?? buildInlineFallback(route, options?.fallbackSnapshot);
