@@ -13,7 +13,7 @@
 // Save draft  → POST /api/content-pages (upsert), no gate.
 // Publish     → facts-lock validate → BLOCK on violations → save → revalidate.
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Plus, Trash2, Save, Rocket, Loader2, AlertTriangle } from "lucide-react";
 import {
   validateContent,
@@ -108,6 +108,18 @@ export default function ContentPageEditor({
 }: Props) {
   const [form, setForm] = useState<FormState>(() => fromInitial(initial));
   const [busy, setBusy] = useState<null | "draft" | "publish">(null);
+
+  // Preserve the originally-loaded seo/content JSON so route-specific keys the
+  // editor does not surface (e.g. content.sections, which why-jvto/[slug]
+  // notFound()s without) survive a save instead of being dropped.
+  const initialSeoRef = useRef<Record<string, unknown>>(
+    isRecord(initial?.seo) ? { ...(initial!.seo as Record<string, unknown>) } : {},
+  );
+  const initialContentRef = useRef<Record<string, unknown>>(
+    isRecord(initial?.content)
+      ? { ...(initial!.content as Record<string, unknown>) }
+      : {},
+  );
   const [error, setError] = useState<string | null>(null);
   const [violations, setViolations] = useState<string[] | null>(null);
   const [okMsg, setOkMsg] = useState<string | null>(null);
@@ -118,6 +130,12 @@ export default function ContentPageEditor({
     [initial?.route, initial?.lang],
   );
   useEffect(() => {
+    initialSeoRef.current = isRecord(initial?.seo)
+      ? { ...(initial!.seo as Record<string, unknown>) }
+      : {};
+    initialContentRef.current = isRecord(initial?.content)
+      ? { ...(initial!.content as Record<string, unknown>) }
+      : {};
     setForm(fromInitial(initial));
     setError(null);
     setViolations(null);
@@ -152,7 +170,10 @@ export default function ContentPageEditor({
       throw new Error("route wajib diisi dan harus diawali '/'");
     }
 
+    // Spread the originally-loaded seo/content first so unknown route-specific
+    // keys survive, then override ONLY the editor-managed keys below.
     const seo: Record<string, unknown> = {
+      ...initialSeoRef.current,
       title: form.seoTitle || undefined,
       description: form.seoDescription || undefined,
     };
@@ -162,6 +183,12 @@ export default function ContentPageEditor({
       } catch {
         throw new Error("seo.schema_json is not valid JSON — fix before saving.");
       }
+      // Normalize on schema_json; drop the legacy alias so we never emit both.
+      delete seo.schema_jsonld;
+    } else {
+      // Textarea intentionally cleared → emit no page-authored schema.
+      delete seo.schema_json;
+      delete seo.schema_jsonld;
     }
 
     const cleanFaq = form.faq
@@ -169,6 +196,7 @@ export default function ContentPageEditor({
       .filter((f) => f.q || f.a);
 
     const content: Record<string, unknown> = {
+      ...initialContentRef.current,
       h1: form.h1 || undefined,
       body_md: form.bodyMd || undefined,
       faq: cleanFaq,
@@ -229,6 +257,9 @@ export default function ContentPageEditor({
         h1: form.h1,
         bodyMd: form.bodyMd,
         faq: form.faq,
+        // Raw JSON-LD textarea — scanned so a stale count / wrong date in
+        // schema_json cannot bypass the facts-lock gate.
+        schemaJson: form.schemaJsonText,
       });
       const check = await validateContent(draftText);
       if (!check.ok) {

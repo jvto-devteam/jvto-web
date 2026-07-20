@@ -72,7 +72,11 @@ export async function revalidateRoute(
 
 /**
  * Build the plain-text blob that the facts-lock gate scans for a content_pages
- * draft: body markdown + FAQ answers/questions + SEO title/description.
+ * draft: body markdown + FAQ answers/questions + SEO title/description +
+ * seo.schema_json. schema_json is emitted verbatim as JSON-LD, so a stale review
+ * count / wrong founding date inside it must be scanned too — otherwise it would
+ * bypass the Publish gate. Accepts either the raw textarea string or a parsed
+ * object/array.
  */
 export function buildContentPageDraftText(input: {
   seoTitle?: string;
@@ -80,6 +84,7 @@ export function buildContentPageDraftText(input: {
   h1?: string;
   bodyMd?: string;
   faq?: { q: string; a: string }[];
+  schemaJson?: unknown;
 }): string {
   const parts: string[] = [];
   if (input.seoTitle) parts.push(input.seoTitle);
@@ -89,6 +94,17 @@ export function buildContentPageDraftText(input: {
   for (const f of input.faq ?? []) {
     if (f.q) parts.push(f.q);
     if (f.a) parts.push(f.a);
+  }
+  if (input.schemaJson !== undefined && input.schemaJson !== null) {
+    if (typeof input.schemaJson === "string") {
+      if (input.schemaJson.trim()) parts.push(input.schemaJson);
+    } else {
+      try {
+        parts.push(JSON.stringify(input.schemaJson));
+      } catch {
+        /* non-serializable schema — nothing to scan */
+      }
+    }
   }
   return parts.join("\n");
 }

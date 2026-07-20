@@ -8,8 +8,11 @@
 // only that route's claims show + new claims default to it).
 //
 // A narrative_claim IS a FAQ pair: pillar = question, core_claim = answer.
-// Save draft → POST/PATCH, no gate. Publish → facts-lock validate → BLOCK on
-// violations → save → revalidate the primary_page.
+// narrative_claims has NO is_active/draft column and is the HIGHEST-precedence
+// live FAQ source (resolveFaqsForPage reads it first) — there is no draft
+// isolation, every write is immediately live. So EVERY save must pass the
+// facts-lock gate first. Save → validate → BLOCK on violations → save (Save
+// draft stops here; Publish additionally revalidates the primary_page).
 
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -217,8 +220,25 @@ export default function NarrativeClaimEditor({
     setBusy("draft");
     try {
       const payload = buildPayload();
+
+      // narrative_claims writes are live (no draft column) — gate EVERY save.
+      const draftText = buildNarrativeClaimDraftText({
+        pillar: payload.pillar,
+        core_claim: payload.core_claim,
+        nlp_variants: payload.nlp_variants,
+      });
+      const check = await validateContent(draftText);
+      if (!check.ok) {
+        setViolations(check.violations ?? []);
+        setError(
+          check.error ||
+            "Save blocked — claim violates docs/CANONICAL_FACTS.md.",
+        );
+        return; // BLOCK: no draft isolation, so an unvalidated write would be live.
+      }
+
       const row = await save(payload);
-      setOkMsg("Draft saved (no facts-lock gate, no revalidation).");
+      setOkMsg("Saved (facts-lock passed; no revalidation).");
       setEditingId(row.id);
       setForm((prev) => ({ ...prev, id: row.id }));
       await load();
