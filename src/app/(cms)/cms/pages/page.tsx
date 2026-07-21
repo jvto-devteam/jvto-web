@@ -8,6 +8,7 @@ import Link from "@/components/website/AppLink";
 import { Layers, FileStack, GitBranch, Blocks } from "lucide-react";
 import { PAGE_REGISTRY } from "@/lib/registry/pages";
 import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
+import { getAllBlogSlugs } from "@/lib/blog";
 
 // Home ('/') can't be a catch-all segment, so it uses the ~root sentinel that
 // the detail page maps back to '/'.
@@ -67,6 +68,19 @@ export default function RouteConsoleIndexPage() {
     ...f,
     routes: listPublicPageRoutesByPrefix(f.prefix),
   }));
+
+  // blog/[slug] posts come from the blog manifest (getAllBlogSlugs), not the page
+  // snapshots — keep the family in the catalog with a LIVE example so admins can
+  // still reach an individual post (PAGE_REGISTRY only lists the /blog hub).
+  const blogSlugs = getAllBlogSlugs();
+  const dynamicFamilies = [
+    ...DYNAMIC_FAMILIES,
+    {
+      family: "blog/[slug]",
+      example: blogSlugs.length ? `/blog/${blogSlugs[0]}` : "/blog",
+      note: `Blog / insight posts (${blogSlugs.length})`,
+    },
+  ];
 
   return (
     <div className="space-y-6">
@@ -232,7 +246,7 @@ export default function RouteConsoleIndexPage() {
               </tr>
             </thead>
             <tbody>
-              {DYNAMIC_FAMILIES.map((f) => (
+              {dynamicFamilies.map((f) => (
                 <tr
                   key={f.family}
                   className="border-t border-slate-800/80 hover:bg-slate-900/60"
