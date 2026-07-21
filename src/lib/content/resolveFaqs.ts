@@ -20,6 +20,7 @@ import { BEST_TIME_FAQS } from '@/lib/travelGuideBestTimeFaqs';
 import { RIJIK_FAQS } from '@/lib/travelGuideRijikFaqs';
 import { WEATHER_AND_CLOSURES_FAQS } from '@/lib/travelGuideWeatherClosuresFaqs';
 import { SINGAPORE_MARKET_FAQS, MALAYSIA_MARKET_FAQS } from '@/lib/marketFaqs';
+import { POLICY_BOOKING_CANCELLATION_FAQS } from '@/lib/policyBookingFaqs';
 import type { QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
@@ -52,6 +53,7 @@ const CANONICAL_FAQ_REGISTRY: Record<string, () => QaPair[]> = {
   '/travel-guide/weather-and-closures': () => WEATHER_AND_CLOSURES_FAQS,
   '/markets/singapore': () => SINGAPORE_MARKET_FAQS,
   '/markets/malaysia': () => MALAYSIA_MARKET_FAQS,
+  '/policy/booking-payment-cancellation': () => POLICY_BOOKING_CANCELLATION_FAQS,
 };
 
 /** Returns canonical FAQ for a route, or empty array if none registered. */
