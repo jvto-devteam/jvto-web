@@ -30,7 +30,9 @@ import {
   ChevronUp,
   ChevronDown,
   Lock,
+  Eye,
 } from "lucide-react";
+import Link from "@/components/website/AppLink";
 import { validateContent, revalidateRoute } from "./publishHelpers";
 
 // ── Block model (aligned with BlocksRenderer) ──────────────────────────────
@@ -768,10 +770,21 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
           )}
           Publish (gate + revalidate)
         </button>
+        {route && (
+          <Link
+            href={`/cms/preview${route}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900/60 hover:bg-slate-900 text-slate-200 text-xs font-medium px-3 py-2 transition"
+          >
+            <Eye className="h-4 w-4" /> Preview draft
+          </Link>
+        )}
         <span className="text-[10px] text-slate-500">
-          Draft is isolated (live page unchanged). Publish runs the facts-lock gate,
-          promotes the draft, snapshots the prior version to history ({historyCount}),
-          then revalidates.
+          Save the draft first, then Preview opens the saved draft in a new tab
+          (live page unchanged). Publish runs the facts-lock gate, promotes the
+          draft, snapshots the prior version to history ({historyCount}), then
+          revalidates.
         </span>
       </div>
     </div>

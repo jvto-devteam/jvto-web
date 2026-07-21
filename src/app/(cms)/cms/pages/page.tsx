@@ -5,8 +5,9 @@
 // Each row links to the console detail (/cms/pages/<route>) which renders the
 // full atom-ownership breakdown + embedded editors. Server Component.
 import Link from "@/components/website/AppLink";
-import { Layers, FileStack, GitBranch } from "lucide-react";
+import { Layers, FileStack, GitBranch, Blocks } from "lucide-react";
 import { PAGE_REGISTRY } from "@/lib/registry/pages";
+import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
 
 // Home ('/') can't be a catch-all segment, so it uses the ~root sentinel that
 // the detail page maps back to '/'.
@@ -17,16 +18,21 @@ function toConsoleHref(route: string): string {
   return `/cms/pages${route}`;
 }
 
-// Representative example per dynamic route family (one live slug each).
+// Section-based page families — every real slug enumerated from the page
+// snapshots, so an admin can open ANY of them in the console to edit + preview
+// its blocks/body (not just one representative example).
+const SECTION_FAMILIES: { prefix: string; label: string; shape: string }[] = [
+  { prefix: "/why-jvto", label: "why-jvto/[slug]", shape: "sections + blocks" },
+  { prefix: "/travel-guide", label: "travel-guide/[slug]", shape: "body_md" },
+  { prefix: "/policy", label: "policy/[slug]", shape: "body_md" },
+];
+
+// Remaining dynamic families are DB/Prisma-helper-driven (not the block/body
+// content model) — one representative live example each.
 const DYNAMIC_FAMILIES: { family: string; example: string; note: string }[] = [
   {
-    family: "policy/[slug]",
-    example: "/policy/booking-and-payment",
-    note: "CMS-driven policy sub-pages",
-  },
-  {
     family: "destinations/[slug]",
-    example: "/destinations/kawah-ijen",
+    example: "/destinations/ijen-crater",
     note: "Destination detail (DB schema_json)",
   },
   {
@@ -40,24 +46,9 @@ const DYNAMIC_FAMILIES: { family: string; example: string; note: string }[] = [
     note: "Surabaya departure tour detail",
   },
   {
-    family: "why-jvto/[slug]",
-    example: "/why-jvto/reviews",
-    note: "Why-JVTO sub-pages (narrative_claims)",
-  },
-  {
-    family: "travel-guide/[slug]",
-    example: "/travel-guide/best-time-to-visit",
-    note: "Travel guide articles (narrative_claims)",
-  },
-  {
     family: "team/[slug]",
-    example: "/team/agung-sambuko",
+    example: "/team/yandi",
     note: "Team member detail",
-  },
-  {
-    family: "blog/[slug]",
-    example: "/blog/first-post",
-    note: "Blog / insight posts",
   },
 ];
 
@@ -71,6 +62,11 @@ export default function RouteConsoleIndexPage() {
   const staticRows = [...PAGE_REGISTRY].sort((a, b) =>
     a.route.localeCompare(b.route),
   );
+
+  const sectionRows = SECTION_FAMILIES.map((f) => ({
+    ...f,
+    routes: listPublicPageRoutesByPrefix(f.prefix),
+  }));
 
   return (
     <div className="space-y-6">
@@ -162,6 +158,50 @@ export default function RouteConsoleIndexPage() {
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* Section-based pages — every real slug, editable + previewable */}
+      <section className="bg-slate-950/40 border border-slate-800 rounded-xl p-4 md:p-5 space-y-3">
+        <div className="flex items-center gap-2">
+          <Blocks className="w-4 h-4 text-slate-400" />
+          <h2 className="text-sm font-semibold text-slate-100">
+            Section-based pages
+          </h2>
+          <span className="text-[10px] text-slate-500">
+            open to edit blocks / body + Preview draft
+          </span>
+        </div>
+        <div className="space-y-3">
+          {sectionRows.map((f) => (
+            <div key={f.prefix}>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="font-mono text-[11px] text-slate-300">
+                  {f.label}
+                </span>
+                <span className="text-[10px] text-slate-500">
+                  {f.shape} · {f.routes.length} page
+                  {f.routes.length === 1 ? "" : "s"}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {f.routes.length === 0 && (
+                  <span className="text-[11px] text-slate-500">
+                    none in snapshots
+                  </span>
+                )}
+                {f.routes.map((route) => (
+                  <Link
+                    key={route}
+                    href={toConsoleHref(route)}
+                    className="inline-flex rounded-md border border-slate-800 bg-slate-900/60 px-2 py-1 text-[11px] text-emerald-300 hover:border-slate-700 hover:text-emerald-200"
+                  >
+                    {route}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
