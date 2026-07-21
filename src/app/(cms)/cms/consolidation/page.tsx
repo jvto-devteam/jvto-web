@@ -6,8 +6,21 @@
 import fs from "node:fs";
 import path from "node:path";
 import Link from "@/components/website/AppLink";
+import { getEntity } from "@/lib/cms/entityRegistry";
 
 export const dynamic = "force-dynamic";
+
+// Resolve an artifact card to a target that actually renders.
+// Screen-backed entities (faq, policy_document) → their existing CMS screen;
+// dataFile-backed entities → the generic /cms/entity viewer (which notFound()s
+// without a dataFile); unregistered entities (e.g. package.readiness) → no link.
+function hrefForEntity(type: string): string | null {
+  const e = getEntity(type);
+  if (!e) return null;
+  if (e.screen) return e.screen;
+  if (e.dataFile) return `/cms/entity/${e.type}`;
+  return null;
+}
 
 const DATA = path.join(process.cwd(), "src", "data");
 
@@ -86,12 +99,9 @@ export default function ConsolidationBoard() {
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => {
                 const n = count(r.file);
-                return (
-                  <Link
-                    key={r.artifact}
-                    href={`/cms/entity/${r.entity}`}
-                    className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/40 px-3 py-2 text-xs hover:border-slate-700"
-                  >
+                const href = hrefForEntity(r.entity);
+                const body = (
+                  <>
                     <div className="min-w-0">
                       <div className="truncate text-slate-200">{r.artifact}</div>
                       <div className="truncate text-[10px] text-slate-500">→ {r.entity}</div>
@@ -99,7 +109,24 @@ export default function ConsolidationBoard() {
                     <span className={`ml-2 flex-shrink-0 font-semibold ${n == null ? "text-slate-600" : "text-slate-100"}`}>
                       {n == null ? "—" : n}
                     </span>
+                  </>
+                );
+                return href ? (
+                  <Link
+                    key={r.artifact}
+                    href={href}
+                    className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/40 px-3 py-2 text-xs hover:border-slate-700"
+                  >
+                    {body}
                   </Link>
+                ) : (
+                  <div
+                    key={r.artifact}
+                    title="No CMS screen registered for this entity yet"
+                    className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/40 px-3 py-2 text-xs opacity-70"
+                  >
+                    {body}
+                  </div>
                 );
               })}
             </div>
