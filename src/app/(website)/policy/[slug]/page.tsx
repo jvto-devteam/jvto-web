@@ -19,6 +19,7 @@ import {
 import {
   getCustomerCopy,
   getPolicyNotes,
+  getPolicyEvidenceText,
   type CustomerCopyKey,
 } from "@/lib/policy-bundle";
 
@@ -181,7 +182,12 @@ export default async function PolicyDynamicPage({ params }: Props) {
                   Deposit &amp; payment
                 </h2>
                 <div className="text-jvto-navy/80">
-                  <MarkdownRenderer markdown={getPolicyNotes("payment-rules")} />
+                  <MarkdownRenderer
+                    markdown={
+                      getPolicyEvidenceText("payment-rules") ||
+                      getPolicyNotes("payment-rules")
+                    }
+                  />
                 </div>
               </section>
             </div>

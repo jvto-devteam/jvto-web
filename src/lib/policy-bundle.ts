@@ -172,3 +172,23 @@ export function getPolicyNotes(policyId: string): string {
   const domains = policyBundle as unknown as PolicyDomain[];
   return domains.find((d) => d.policy_id === policyId)?.notes ?? "";
 }
+
+/**
+ * Fuller canonical policy body for a domain, from its `evidence[index].text`
+ * (the compiled wiki section — richer than `notes`, e.g. payment carries the
+ * card ≤5d / bank·Wise ≤3d / cash-approval deadlines). Strips the leading
+ * markdown heading + any `[[wiki-link]]` / trailing "See …" cross-refs so it
+ * renders cleanly as customer copy. Returns "" if absent.
+ */
+export function getPolicyEvidenceText(policyId: string, index = 0): string {
+  const domains = policyBundle as unknown as PolicyDomain[];
+  const raw = domains.find((d) => d.policy_id === policyId)?.evidence?.[index]
+    ?.text;
+  if (!raw) return "";
+  return raw
+    .replace(/^#{1,6}\s.*\n+/, "") // drop a leading "## Heading" line
+    .replace(/\s*->\s*\[\[[^\]]*\]\]/g, "") // drop "-> [[wiki-link]]"
+    .replace(/\[\[([^\]]*)\]\]/g, "$1") // unwrap [[x]] (drift-ok: $1 is a regex backref, not a USD price)
+    .replace(/\s*See\s+[^.\n]*\.\s*$/i, "") // drop a trailing "See … ." cross-ref
+    .trim();
+}
