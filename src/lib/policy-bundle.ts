@@ -161,3 +161,14 @@ export function getDecisionMatrix(): DecisionMatrix {
 export function getCustomerCopy(key: CustomerCopyKey): string {
   return customerCopy[key] ?? "";
 }
+
+/**
+ * Canonical short `notes` for a policy domain, keyed by policy_id
+ * (e.g. "booking-paths", "payment-rules", "cancellation-package-credit"),
+ * read from the top-level policy-bundle array. Used to source fresh v2 policy
+ * copy directly from the bundle SSOT instead of a stale page snapshot.
+ */
+export function getPolicyNotes(policyId: string): string {
+  const domains = policyBundle as unknown as PolicyDomain[];
+  return domains.find((d) => d.policy_id === policyId)?.notes ?? "";
+}

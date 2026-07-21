@@ -16,7 +16,11 @@ import {
   buildPolicyWebPageSchema,
   POLICY_SLUG_MENTIONS,
 } from "@/lib/schemas/buildPolicySchemas";
-import { getCustomerCopy, type CustomerCopyKey } from "@/lib/policy-bundle";
+import {
+  getCustomerCopy,
+  getPolicyNotes,
+  type CustomerCopyKey,
+} from "@/lib/policy-bundle";
 
 // Canonical Lifetime Package Guarantee blocks (compiled from the llm-wiki YAML
 // SSOT via customer-copy.json). Rendered on /policy/booking-payment-cancellation
@@ -59,9 +63,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  // The snapshot seo.description for the cancellation policy still says the retired
+  // "Travel Credit"; source a fresh v2 description from the policy-bundle SSOT.
+  const description =
+    slug === "booking-payment-cancellation"
+      ? "How to book, pay, and cancel with JVTO: website-only booking, 20% deposit, and the Lifetime Package Guarantee — cancel your whole booking 48h+ before Day 1 for 100% Lifetime Package Credit (never expires, not cash)."
+      : (seo.description ?? undefined);
+
   return {
     title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
+    description,
   };
 }
 
@@ -80,6 +91,16 @@ export default async function PolicyDynamicPage({ params }: Props) {
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
   const h1 = content?.h1 ?? seo.title ?? "Policy";
   const body = content?.body_md ?? "";
+
+  // Prefer the resolved canonical/narrative FAQ (fresh) over the stale snapshot
+  // content.faq. resolveFaqsForPage already suppresses the CMS FAQ when a
+  // higher-precedence source exists, so this keeps the visible list in sync with
+  // the JSON-LD.
+  const faqItems: { q: string; a: string }[] = faqResolution.faqs.length
+    ? faqResolution.faqs.map((f) => ({ q: f.question, a: f.answer }))
+    : Array.isArray(content?.faq)
+      ? content.faq
+      : [];
   const mentionsTermIds = POLICY_SLUG_MENTIONS[slug] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
     subpath: slug,
@@ -138,6 +159,34 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
         <div className="container mx-auto px-4 max-w-4xl pt-12">
           {slug === "booking-payment-cancellation" && (
+            <div className="mb-10 space-y-8">
+              {/* Fresh booking + payment copy from the policy-bundle SSOT (not the
+                  stale page snapshot). Cancellation follows in the box below. */}
+              <section>
+                <h2
+                  className="font-black text-xl md:text-2xl text-jvto-navy mb-4"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  How booking works
+                </h2>
+                <div className="text-jvto-navy/80">
+                  <MarkdownRenderer markdown={getPolicyNotes("booking-paths")} />
+                </div>
+              </section>
+              <section>
+                <h2
+                  className="font-black text-xl md:text-2xl text-jvto-navy mb-4"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  Deposit &amp; payment
+                </h2>
+                <div className="text-jvto-navy/80">
+                  <MarkdownRenderer markdown={getPolicyNotes("payment-rules")} />
+                </div>
+              </section>
+            </div>
+          )}
+          {slug === "booking-payment-cancellation" && (
             <section className="mb-12 rounded-2xl border border-jvto-lime/30 bg-jvto-lime/5 p-6 md:p-8">
               <h2
                 className="font-black text-xl md:text-2xl text-jvto-navy mb-5"
@@ -163,9 +212,14 @@ export default async function PolicyDynamicPage({ params }: Props) {
               </p>
             </section>
           )}
-          <MarkdownRenderer markdown={body} />
-          {content?.faq && (
-            <Faq items={content?.faq} title={content?.faq_title ?? "FAQ"} />
+          {/* For the cancellation policy the visible body is composed above from
+              the v2 bundle SSOT; skip the stale snapshot body_md. Other policy
+              slugs still render their body_md. */}
+          {slug !== "booking-payment-cancellation" && (
+            <MarkdownRenderer markdown={body} />
+          )}
+          {faqItems.length > 0 && (
+            <Faq items={faqItems} title={content?.faq_title ?? "FAQ"} />
           )}
         </div>
       </main>
