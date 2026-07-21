@@ -15,6 +15,7 @@ import {
 } from "@/lib/content/resolvePageContent";
 import ContentPageEditor from "@/components/cms/ContentPageEditor";
 import NarrativeClaimEditor from "@/components/cms/NarrativeClaimEditor";
+import SectionsBlockEditor from "@/components/cms/SectionsBlockEditor";
 
 const ROOT_SENTINEL = "~root";
 
@@ -68,6 +69,22 @@ export default async function RouteConsoleDetailPage({
     seo: {},
     content: {},
   };
+
+  // Block-model pilot: this route is composed of content.sections[].blocks[]
+  // (the shape BlocksRenderer draws on the live why-jvto / travel-guide pages).
+  // Show the block editor only when such a structure is present (or a draft of it).
+  const contentForBlocks =
+    composition?.editable.contentPage?.content &&
+    typeof composition.editable.contentPage.content === "object"
+      ? (composition.editable.contentPage.content as Record<string, unknown>)
+      : {};
+  const draftForBlocks =
+    contentForBlocks._draft && typeof contentForBlocks._draft === "object"
+      ? (contentForBlocks._draft as Record<string, unknown>)
+      : null;
+  const hasSections =
+    Array.isArray(contentForBlocks.sections) ||
+    (draftForBlocks != null && Array.isArray(draftForBlocks.sections));
 
   return (
     <div className="space-y-6">
@@ -207,6 +224,22 @@ export default async function RouteConsoleDetailPage({
             </p>
             <ContentPageEditor initial={editorInitial} lockRoute />
           </section>
+
+          {hasSections && (
+            <section className="bg-slate-950/40 border border-slate-800 rounded-xl p-4 md:p-5 space-y-3">
+              <h2 className="text-sm font-semibold text-slate-100">
+                Block editor — page sections (draft → publish)
+              </h2>
+              <p className="text-xs text-slate-500">
+                This route is composed of ordered sections and blocks (the same
+                model the live page renders). Edit, reorder, add or remove blocks,
+                Save as a draft (live page unchanged), then Publish — the facts-lock
+                gate runs, the draft is promoted, the prior version is snapshotted to
+                history, and the route is revalidated.
+              </p>
+              <SectionsBlockEditor initial={editorInitial} />
+            </section>
+          )}
 
           <section className="bg-slate-950/40 border border-slate-800 rounded-xl p-4 md:p-5 space-y-3">
             <h2 className="text-sm font-semibold text-slate-100">
