@@ -30,15 +30,16 @@ type Props = {
 
 export const dynamicParams = false;
 
-// ── Block-model pilot ──────────────────────────────────────────────────────
-// why-jvto pages are normally snapshot-only (build-deterministic). For the pilot
-// slug(s) below we prefer the live content_pages row at runtime, so a CMS block
-// edit + Publish (revalidatePath) surfaces on the live page. Every OTHER slug
-// stays snapshot-only — the static snapshot is always the fallback when the DB
-// row is missing/incomplete, so this is zero-blast-radius for non-pilot pages.
-const DB_PREFERRED_PILOT_SLUGS = new Set<string>(["community-standards"]);
-function prefersDbForSlug(slug: string): boolean {
-  return DB_PREFERRED_PILOT_SLUGS.has(slug);
+// ── DB-preferred rendering (widened from the community-standards pilot) ──────
+// why-jvto pages prefer the live content_pages row at runtime, so a CMS block
+// edit + Publish (revalidatePath) surfaces on the live page. This is now enabled
+// for ALL why-jvto slugs, not just the pilot: getPublicPageSnapshot only serves a
+// DB row when it carries the required content fields ("sections"); any slug whose
+// DB row is missing/incomplete falls back to the static snapshot (now v2-clean),
+// so widening is regression-safe by construction. The snapshot is also DB-free at
+// build (CI) time and the DB read is try/caught, so the build never depends on it.
+function prefersDbForSlug(): boolean {
+  return true;
 }
 
 export function generateStaticParams() {
@@ -50,7 +51,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
-    allowDatabaseFallback: prefersDbForSlug(slug),
+    allowDatabaseFallback: prefersDbForSlug(),
     requiredContentFields: ["sections"],
   });
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
@@ -142,7 +143,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   const [page, reviewsData, faqResolution] = await Promise.all([
     getPublicPageSnapshot(route, {
-      allowDatabaseFallback: prefersDbForSlug(slug),
+      allowDatabaseFallback: prefersDbForSlug(),
       requiredContentFields: ["sections"],
     }),
     slug === "reviews" ? getReviewsForSchema().catch(() => []) : Promise.resolve([]),

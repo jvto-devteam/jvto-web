@@ -73,7 +73,7 @@ export default async function PolicyHubPage() {
   ] as const;
   const [page, faqResolution] = await Promise.all([
     getPublicPageSnapshot("/policy", {
-      allowDatabaseFallback: false,
+      allowDatabaseFallback: true,
     }),
     resolveFaqsForPage("/policy"),
   ]);

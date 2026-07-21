@@ -165,7 +165,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPublicPageSnapshot("/travel-guide", {
-    allowDatabaseFallback: false,
+    allowDatabaseFallback: true,
   });
   const title = page.snapshot.seo.title;
   const description =
@@ -206,7 +206,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TravelGuideHubPage() {
   const [page, faqResolution] = await Promise.all([
     getPublicPageSnapshot("/travel-guide", {
-      allowDatabaseFallback: false,
+      allowDatabaseFallback: true,
     }),
     resolveFaqsForPage("/travel-guide"),
   ]);

@@ -52,7 +52,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await getPublicPageSnapshot(`/policy/${slug}`, {
-    allowDatabaseFallback: false,
+    allowDatabaseFallback: true,
     requiredContentFields: ["body_md"],
   });
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
@@ -83,7 +83,7 @@ export default async function PolicyDynamicPage({ params }: Props) {
 
   const [page, faqResolution] = await Promise.all([
     getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
+      allowDatabaseFallback: true,
       requiredContentFields: ["body_md"],
     }),
     resolveFaqsForPage(route),
