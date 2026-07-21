@@ -30,6 +30,17 @@ type Props = {
 
 export const dynamicParams = false;
 
+// ── Block-model pilot ──────────────────────────────────────────────────────
+// why-jvto pages are normally snapshot-only (build-deterministic). For the pilot
+// slug(s) below we prefer the live content_pages row at runtime, so a CMS block
+// edit + Publish (revalidatePath) surfaces on the live page. Every OTHER slug
+// stays snapshot-only — the static snapshot is always the fallback when the DB
+// row is missing/incomplete, so this is zero-blast-radius for non-pilot pages.
+const DB_PREFERRED_PILOT_SLUGS = new Set<string>(["community-standards"]);
+function prefersDbForSlug(slug: string): boolean {
+  return DB_PREFERRED_PILOT_SLUGS.has(slug);
+}
+
 export function generateStaticParams() {
   return listPublicPageRoutesByPrefix("/why-jvto").map((route) => ({
     slug: route.replace("/why-jvto/", ""),
@@ -39,7 +50,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = await getPublicPageSnapshot(`/why-jvto/${slug}`, {
-    allowDatabaseFallback: false,
+    allowDatabaseFallback: prefersDbForSlug(slug),
     requiredContentFields: ["sections"],
   });
   const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
@@ -131,7 +142,7 @@ export default async function WhyJvtoDynamicPage({ params }: Props) {
 
   const [page, reviewsData, faqResolution] = await Promise.all([
     getPublicPageSnapshot(route, {
-      allowDatabaseFallback: false,
+      allowDatabaseFallback: prefersDbForSlug(slug),
       requiredContentFields: ["sections"],
     }),
     slug === "reviews" ? getReviewsForSchema().catch(() => []) : Promise.resolve([]),
