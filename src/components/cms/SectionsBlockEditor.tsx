@@ -286,14 +286,50 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
   }
 
   // ── Persistence ──
-  async function post(content: Record<string, unknown>) {
+  // Refetch the current row so we merge onto the LATEST seo/content rather than
+  // the stale mount-time refs — otherwise a Save/Publish here could clobber edits
+  // just made by the adjacent ContentPageEditor or another admin session (FAQ,
+  // SEO, or other content keys). We only ever override sections/_draft/_history;
+  // every other seo/content field is taken from the fresh row.
+  async function fetchFreshRow(): Promise<{
+    seo: unknown;
+    content: Record<string, unknown>;
+  }> {
+    try {
+      const res = await fetch("/api/content-pages", {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        const rows = await res.json().catch(() => []);
+        if (Array.isArray(rows)) {
+          const match = rows.find(
+            (r) => isRecord(r) && r.route === route && (r.lang ?? "en") === lang,
+          );
+          if (isRecord(match)) {
+            return {
+              seo: match.seo ?? seoRef.current,
+              content: isRecord(match.content)
+                ? (clone(match.content) as Record<string, unknown>)
+                : {},
+            };
+          }
+        }
+      }
+    } catch {
+      /* fall through to the mount-time refs below */
+    }
+    return { seo: seoRef.current, content: clone(contentRef.current) };
+  }
+
+  async function post(seo: unknown, content: Record<string, unknown>) {
     const res = await fetch("/api/content-pages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         route,
         lang,
-        seo: seoRef.current,
+        seo,
         content,
         is_active: initial.is_active !== false,
       }),
@@ -310,11 +346,14 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
     setBusy("draft");
     try {
       // Draft isolation: write sections under content._draft; leave the live
-      // content.sections untouched so the public page does not change.
-      const base = clone(contentRef.current);
+      // content.sections untouched so the public page does not change. Merge onto
+      // the freshly-refetched row so sibling-editor changes are preserved.
+      const fresh = await fetchFreshRow();
+      const base = fresh.content;
       base._draft = { sections, saved_at_note: "cms-draft" };
-      await post(base);
+      await post(fresh.seo, base);
       contentRef.current = base;
+      seoRef.current = fresh.seo;
       setEditingDraft(true);
       setOkMsg("Draft saved. The live page is unchanged until you Publish.");
       onSaved?.(base);
@@ -342,9 +381,11 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
         return;
       }
 
-      // 2. Promote: live sections := draft. Snapshot the prior published content
-      //    into content._history[] (bounded to 5), clear _draft.
-      const base = clone(contentRef.current);
+      // 2. Promote: live sections := draft. Merge onto the freshly-refetched row
+      //    (preserve sibling-editor seo/content), snapshot the prior published
+      //    content into content._history[] (bounded to 5), clear _draft.
+      const fresh = await fetchFreshRow();
+      const base = fresh.content;
       const prior = clone(base);
       delete (prior as Record<string, unknown>)._draft;
       delete (prior as Record<string, unknown>)._history;
@@ -356,8 +397,9 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
       base._history = history;
       delete base._draft;
 
-      const row = await post(base);
+      const row = await post(fresh.seo, base);
       contentRef.current = base;
+      seoRef.current = fresh.seo;
       setEditingDraft(false);
 
       // 3. Revalidate the live route.
@@ -517,13 +559,22 @@ export default function SectionsBlockEditor({ initial, onSaved }: Props) {
                         >
                           <ChevronDown className="h-3 w-3" />
                         </button>
-                        <button
-                          type="button"
-                          className="p-1.5 rounded-md border border-rose-900 bg-rose-950/40 hover:bg-rose-900/50 text-rose-200"
-                          onClick={() => removeBlock(si, bi)}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                        {isEditable ? (
+                          <button
+                            type="button"
+                            className="p-1.5 rounded-md border border-rose-900 bg-rose-950/40 hover:bg-rose-900/50 text-rose-200"
+                            onClick={() => removeBlock(si, bi)}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        ) : (
+                          <span
+                            className="p-1.5 rounded-md border border-slate-800 text-slate-600"
+                            title="Preserved block — delete disabled so verbatim content (e.g. crew_grid) is never dropped."
+                          >
+                            <Lock className="h-3.5 w-3.5" />
+                          </span>
+                        )}
                       </div>
                     </div>
 
