@@ -1,77 +1,41 @@
 // src/app/(api)/api/content-validate/route.ts
-// Admin-only draft facts-lock gate. POST { text } → runs the SAME denylist as
-// CI + the facts-locked-web skill by spawning scripts/validate-content-drift.mjs
-// --stdin (no re-implementation of the regex rules). Exit 0 → { ok:true };
-// exit 1 → { ok:false, violations: [<lines starting with '✗'>] }.
+// Admin-only draft facts-lock gate. POST { text } → runs the SAME denylist as CI +
+// the facts-locked-web skill, imported directly from scripts/lib/contentDriftRules.mjs
+// (no child process, no cwd dependency). Returns { ok:true } when clean, or
+// { ok:false, violations:[...] } listing each forbidden hit.
+//
+// Why not spawn the CLI: the previous version ran `node scripts/validate-content-drift.mjs`
+// with a RELATIVE path against process.cwd(). If the deployed service's cwd was not the
+// repo root, spawn still "succeeded" (node resolves) but node exited 1 with the error on
+// stderr and empty stdout — so the gate blocked EVERY publish with an empty violation
+// list, indistinguishable from a real facts-lock hit. Importing the pure denylist removes
+// that failure mode (a broken import is a build error, not a silent runtime block) and
+// clears the Turbopack "can't resolve" warning.
 import { NextRequest, NextResponse } from "next/server";
-import { spawn } from "node:child_process";
 import { requireAdmin } from "@/lib/auth";
+import { scanText } from "../../../../../scripts/lib/contentDriftRules.mjs";
 
-// Must run in the Node runtime — spawns a child process + reads the repo script.
 export const runtime = "nodejs";
-
-function runValidator(
-  text: string,
-): Promise<{ code: number; stdout: string; stderr: string }> {
-  return new Promise((resolve, reject) => {
-    let child;
-    try {
-      child = spawn(
-        "node",
-        ["scripts/validate-content-drift.mjs", "--stdin"],
-        { cwd: process.cwd() },
-      );
-    } catch (err) {
-      reject(err);
-      return;
-    }
-
-    let stdout = "";
-    let stderr = "";
-    child.stdout.on("data", (d) => {
-      stdout += d.toString();
-    });
-    child.stderr.on("data", (d) => {
-      stderr += d.toString();
-    });
-    child.on("error", reject);
-    child.on("close", (code) => {
-      resolve({ code: code ?? 1, stdout, stderr });
-    });
-
-    child.stdin.on("error", () => {
-      /* ignore EPIPE if the child exits before we finish writing */
-    });
-    child.stdin.write(text);
-    child.stdin.end();
-  });
-}
 
 export async function POST(req: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) {
-    return NextResponse.json(
-      { message: "unauthorized" },
-      { status: auth.status },
-    );
+    return NextResponse.json({ message: "unauthorized" }, { status: auth.status });
   }
 
   try {
     const body = await req.json().catch(() => ({}));
     const text = typeof body?.text === "string" ? body.text : "";
 
-    const { code, stdout } = await runValidator(text);
+    const hits = scanText(text, "<draft>");
 
-    if (code === 0) {
+    if (hits.length === 0) {
       return NextResponse.json({ ok: true }, { status: 200 });
     }
 
-    // Non-zero → parse the '✗'-prefixed violation lines from stdout.
-    const violations = stdout
-      .split(/\r?\n/)
-      .map((l) => l.trim())
-      .filter((l) => l.startsWith("✗"));
-
+    const violations = hits.map(
+      (h) => `✗ ${h.rel}:${h.line} — ${h.rule} — ${h.text}`,
+    );
     return NextResponse.json({ ok: false, violations }, { status: 200 });
   } catch (error) {
     console.error("POST /api/content-validate error:", error);

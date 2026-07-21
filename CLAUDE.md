@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Branch governance (locked 2026-07-05):** `main` = bengkel tunggal (single workshop) — all work happens on feature branches merged into `main` via PR with green CI. **`live` = production release pointer; jangan pernah kerja langsung di `live` (never work directly on `live`).** `live` receives only owner-commanded promote PRs (`live ← main`, CI-gated) plus volcanic-status bot commits. Full rules: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) · Content facts lock: [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md).
+> **Branch governance (locked 2026-07-05):** `main` = bengkel tunggal (single workshop) — all work happens on feature branches merged into `main` via PR with green CI. **`live` = production release pointer; jangan pernah kerja langsung di `live` (never work directly on `live`).** `live` receives only owner-commanded promote PRs (`live ← main`, CI-gated) plus volcanic-status bot commits. Full rules: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) · Content facts lock: [docs/CANONICAL_FACTS.md](docs/CANONICAL_FACTS.md) · **SSOT + CMS map: [docs/SSOT-CMS-KNOWLEDGE-BASE.md](docs/SSOT-CMS-KNOWLEDGE-BASE.md)** (estate, resolver, block model, duplicate-source map, CMS surface, render-path split — read before content/CMS work).
 
 ## Project Overview
 

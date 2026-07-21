@@ -6,23 +6,14 @@ import type { LucideIcon } from "lucide-react";
 import {
   HelpCircle,
   LayoutDashboard,
-  Settings,
   Globe,
-  Search as SearchIcon,
-  Navigation,
   FolderTree,
   Package,
   MapPin,
-  Activity,
   Shield,
-  BookOpen,
   Newspaper,
-  GraduationCap,
-  Users,
-  Handshake,
   Image as ImageIcon,
   LayoutTemplate,
-  MessageSquare,
   Layers,
   Megaphone,
 } from "lucide-react";
@@ -40,136 +31,77 @@ type NavItem = {
   children?: NavChild[];
 };
 
+// Menu rewritten to reality (2026-07-21): removed dead 404 links (whatsapp,
+// activities, travel-guides, isic-offerings, team-members, partnerships, ui-blocks),
+// the dead redirect stubs (faq-manager, blog-manager) now point at the REAL editors
+// (/cms/faq, /cms/blog), and the fake in-memory singletons (global-seo, navigation)
+// are dropped — only the persisted Site Identity remains. Every link below resolves.
 const navItems: NavItem[] = [
   {
     href: "/cms",
     label: "Dashboard",
     icon: LayoutDashboard,
   },
-  {
-    href: "/cms/whatsapp",
-    label: "WhatsApp Ops",
-    icon: MessageSquare,
-  },
-  // === Website SSOT — Route Content Console ===
+  // Website SSOT — Route Content Console (per-page breakdown + block editor)
   {
     href: "/cms/pages",
     label: "Pages (SSOT)",
     icon: Layers,
   },
-  // === Global Singletons (sudah ada) ===
+  // Only real, persisted singleton (global-seo / navigation were in-memory stubs)
   {
-    href: "/cms/global-singletons",
-    label: "Global Singletons",
-    icon: Settings,
-    children: [
-      {
-        href: "/cms/global-singletons/site-identity",
-        label: "Site Identity",
-        icon: Globe,
-      },
-      {
-        href: "/cms/global-singletons/global-seo",
-        label: "Global SEO",
-        icon: SearchIcon,
-      },
-      {
-        href: "/cms/global-singletons/navigation",
-        label: "Navigation Settings",
-        icon: Navigation,
-      },
-    ],
+    href: "/cms/global-singletons/site-identity",
+    label: "Site Identity",
+    icon: Globe,
   },
-
-  // === Core Collections (Point 2.1 - 2.12) ===
   {
-    href: "/cms/collections",
+    // No /cms/collections index page exists — point the group header at its first
+    // real child so it never 404s.
+    href: "/cms/collections/content-pages",
     label: "Core Collections",
     icon: FolderTree,
     children: [
-      // Content Pages
       {
         href: "/cms/collections/content-pages",
         label: "Content Pages",
         icon: LayoutTemplate,
       },
-      // Narrative Claims (highest-precedence FAQ source)
       {
         href: "/cms/collections/narrative-claims",
         label: "Narrative Claims",
         icon: Megaphone,
       },
-      // 2.1 tourPackages
       {
         href: "/cms/tour-packages",
         label: "Tour Packages",
         icon: Package,
       },
-      // 2.2 destinations
       {
         href: "/cms/destinations",
         label: "Destinations",
         icon: MapPin,
       },
-      // 2.3 activities
-      {
-        href: "/cms/collections/activities",
-        label: "Activities",
-        icon: Activity,
-      },
-      // 2.4 policyDocuments
       {
         href: "/cms/collections/policy-documents",
         label: "Policy Documents",
         icon: Shield,
       },
-      // 2.5 faqItems
       {
-        href: "/cms/collections/faq-manager",
+        // Real FAQ editor (the /cms/collections/faq-manager stub just redirects here).
+        href: "/cms/faq",
         label: "FAQ Items",
         icon: HelpCircle,
       },
-      // 2.6 travelGuideArticles
       {
-        href: "/cms/collections/travel-guides",
-        label: "Travel Guide Articles",
-        icon: BookOpen,
-      },
-      // 2.7 insightPosts
-      {
-        href: "/cms/collections/blog-manager",
+        // Real blog editor (the /cms/collections/blog-manager stub just redirects here).
+        href: "/cms/blog",
         label: "Blog / Insight Posts",
         icon: Newspaper,
       },
-      // 2.8 isicOfferings / studentDeals
-      {
-        href: "/cms/collections/isic-offerings",
-        label: "ISIC Offerings",
-        icon: GraduationCap,
-      },
-      // 2.9 teamMembers
-      {
-        href: "/cms/collections/team-members",
-        label: "Team Members",
-        icon: Users,
-      },
-      // 2.10 partnerships
-      {
-        href: "/cms/collections/partnerships",
-        label: "Partnerships",
-        icon: Handshake,
-      },
-      // 2.11 mediaAssets
       {
         href: "/cms/assets",
         label: "Media Assets",
         icon: ImageIcon,
-      },
-      // 2.12 uiBlocks / pageSections
-      {
-        href: "/cms/collections/ui-blocks",
-        label: "UI Blocks / Page Sections",
-        icon: LayoutTemplate,
       },
     ],
   },
