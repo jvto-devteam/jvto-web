@@ -17,9 +17,13 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            set -euo pipefail
+            # Fail-fast + pipefail from the very top. nounset (-u) is enabled only
+            # AFTER sourcing nvm: nvm.sh references unset vars (MANPATH/PREFIX/...)
+            # while loading, so `set -u` before it would abort every deploy.
+            set -eo pipefail
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            set -u
             cd /var/www/jvto-help
             # Force the working tree to exactly origin/main. A plain `git pull`
             # does not fast-forward a dirty/diverged VPS tree, so the build below
