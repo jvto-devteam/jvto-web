@@ -118,6 +118,15 @@ function hasRequiredContentFields(
       return value.trim().length > 0;
     }
 
+    // An empty array is NOT complete content. Without this, an active CMS row
+    // whose `sections: []` was published empty would count as "complete", get
+    // preferred over a good static snapshot, then trip the page's own
+    // empty-sections notFound() → a formerly static page 404s. Treating [] as
+    // incomplete makes such a row fall back to the snapshot instead.
+    if (Array.isArray(value)) {
+      return value.length > 0;
+    }
+
     return value !== undefined && value !== null;
   });
 }
