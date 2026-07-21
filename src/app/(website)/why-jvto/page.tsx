@@ -49,7 +49,7 @@ const defaultWhyDescription =
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPublicPageSnapshot("/why-jvto", {
-    allowDatabaseFallback: false,
+    allowDatabaseFallback: true,
   });
   const title = page.snapshot.seo.title;
   const description = page.snapshot.seo.description ?? defaultWhyDescription;
@@ -150,7 +150,7 @@ const proofDocs = [
 
 export default async function WhyJvtoPage() {
   const [page, faqResolution, narrativeClaims] = await Promise.all([
-    getPublicPageSnapshot("/why-jvto", { allowDatabaseFallback: false }),
+    getPublicPageSnapshot("/why-jvto", { allowDatabaseFallback: true }),
     resolveFaqsForPage("/why-jvto"),
     getAllNarrativeClaims().catch(() => []),
   ]);
