@@ -74,6 +74,7 @@ export const ENTITIES: EntityDef[] = [
   // ── Global & System ──
   { type: "site_identity", label: "Site Identity", cluster: "global", ownerSource: "cms", writePolicy: "editable", screen: "/cms/global-singletons/site-identity" },
   { type: "asset", label: "Media Assets", cluster: "global", ownerSource: "cms", writePolicy: "editable", screen: "/cms/assets" },
+  { type: "source_release", label: "Consolidation Board", cluster: "global", ownerSource: "all repos", writePolicy: "read_only", screen: "/cms/consolidation", note: "freshness + item counts of every consolidated source" },
 ];
 
 export function entitiesByCluster(): Record<Cluster, EntityDef[]> {
