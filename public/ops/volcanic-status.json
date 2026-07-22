@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-07-21T02:02:47.972Z",
+  "updated_at": "2026-07-22T02:01:14.624Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,7 +9,7 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-07-21",
+      "last_verified": "2026-07-22",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
       "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321198?signature=318c3ed079908e526348f7f957e3a89fc6abbae3f22c97776531a1f491a74cf2",
@@ -36,27 +36,27 @@
           "Beware of potential rockfall from crater walls."
         ],
         "author": "Ahmad Subhan Nur Fajidi, A.Md.",
-        "fetched_at": "2026-07-21T02:02:47.444Z"
+        "fetched_at": "2026-07-22T02:01:14.117Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-07-21",
+      "last_verified": "2026-07-22",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321158?signature=24239cd4c0a25e422a88adda016ee1f23e92621de8040862f0ab5b315d7ff31c",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321238?signature=aac91401d271a0d4669f44efb77cb226a019123fcc81749763cb369987093a6c",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-700 meter dari puncak. Cuaca cerah hingga mendung, angin lemah ke arah timur laut, timur, tenggara, selatan dan barat daya.",
-        "visual_en": "White smoke, thin, 50-700 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga mendung, angin lemah ke arah timur laut, timur, tenggara, selatan dan barat daya. Suhu udara sekitar 6.8-25.6°C.",
-        "climate_en": "Wind → NE",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607202400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-500 meter dari puncak. Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah utara dan timur laut.",
+        "visual_en": "White smoke, thin, 50-500 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah utara dan timur laut. Suhu udara sekitar 8-26°C.",
+        "climate_en": "8-26°C",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607212400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -66,8 +66,8 @@
           "Sunrise viewpoints and jeep safari routes remain accessible.",
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
-        "author": "Wahyu Andrian Kusuma",
-        "fetched_at": "2026-07-21T02:02:47.972Z"
+        "author": "Wahyu Wijayanto, A.Md.",
+        "fetched_at": "2026-07-22T02:01:14.624Z"
       }
     }
   }
