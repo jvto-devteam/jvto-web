@@ -13,7 +13,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { getPageSeo } from "@/lib/content/getPageSeo";
-import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 export const revalidate = 3600;
 
 const fallbackSeo = {
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  return getPublicPackageList({ categoryId: 2, limit: 8 });
+  return getWebPackagesList({ categoryId: 2, limit: 8 });
 }
 
 export default async function IsicStudentPackagePage() {

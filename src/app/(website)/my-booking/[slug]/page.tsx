@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { BookingData } from "./types";
-import packageSnapshots from "@/lib/publicContent/generated/packageDetailSnapshots.json";
+import { prisma } from "@/lib/prisma";
 import BookingPaymentAction from "./BookingPaymentAction";
 import EditBookingModals from "./EditBookingModals";
 import ItineraryAccordion from "./ItineraryAccordion";
@@ -74,10 +74,13 @@ export default async function MyBookingPage({
     ?.replace(/^https?:\/\/[^/]+/, "")
     ?.replace(/^\//, "")
     ?.replace(/\/$/, "");
-  const pkgSnap = (packageSnapshots as any).items?.find(
-    (i: any) => i.slug === pkgSlug,
-  );
-  const pkgProductId: string | undefined = pkgSnap?.payload?.product?.packageId;
+  const pkgRow = pkgSlug
+    ? await prisma.packages.findFirst({
+        where: { slug: pkgSlug },
+        select: { code: true },
+      })
+    : null;
+  const pkgProductId: string | undefined = pkgRow?.code ?? undefined;
   const productSchema = pkgProductId
     ? {
         "@context": "https://schema.org",

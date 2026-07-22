@@ -14,10 +14,6 @@ import type { TourPackageDetail as TourPackageDetailResponse } from "@/interface
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import {
-  getPublicPackageDetail,
-  getPublicPackageDetailStaticParams,
-} from "@/lib/publicContent/packageDetailSnapshot";
 import { getPublicHomeReviews } from "@/lib/publicContent/reviewSnapshot";
 import {
   buildOrganizationJsonLd,
@@ -26,6 +22,8 @@ import {
 import { getAllNarrativeClaims } from "@/lib/queries/narrativeClaims";
 import { getPublishedPackageFaqsBySlug } from "@/lib/queries/packageFaqs";
 import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
+import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
+import { routeSlugToParam } from "@/lib/routing/staticParams";
 import {
   buildTourFaqSchema,
   pickTourRelevantClaims,
@@ -37,7 +35,6 @@ import { DEFINED_TERMS } from "@/lib/schemas/entityGraph";
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 export const revalidate = 3600;
-export const dynamicParams = false;
 
 // --- 1. TYPE DEFINITIONS (SESUAI JSON API) ---
 
@@ -97,10 +94,11 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getPublicPackageDetailStaticParams("tours/from-surabaya", {
-    categoryId: 1,
-    fromId: 4,
-  });
+  const routes = await getPublishedPackageSlugs({ categoryId: 1, fromId: 4 });
+  return routes
+    .map((r) => routeSlugToParam(r.slug, "tours/from-surabaya"))
+    .filter((slug): slug is string => Boolean(slug))
+    .map((slug) => ({ slug }));
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -153,7 +151,7 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  return getPublicPackageDetail(
+  return getWebPackageDetail(
     slugParam.includes("tours/")
       ? slugParam
       : `tours/from-surabaya/${slugParam}`,

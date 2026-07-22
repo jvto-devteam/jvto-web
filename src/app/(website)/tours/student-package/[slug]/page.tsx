@@ -5,10 +5,9 @@ import type { TourPackageDetail as TourPackageDetailResponse } from "@/interface
 import TourDetail from "@/components/website/TourDetail"; // Pastikan path ini sesuai
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import {
-  getPublicPackageDetail,
-  getPublicPackageDetailStaticParams,
-} from "@/lib/publicContent/packageDetailSnapshot";
+import { getWebPackageDetail } from "@/lib/packages/getWebPackageDetail";
+import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
+import { routeSlugToParam } from "@/lib/routing/staticParams";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -16,7 +15,6 @@ import {
 import { getGoogleReviewStats } from "@/lib/publicContent/getReviewStats";
 
 export const revalidate = 3600;
-export const dynamicParams = false;
 
 // --- 1. TYPE DEFINITIONS (SESUAI JSON API) ---
 
@@ -76,9 +74,11 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return getPublicPackageDetailStaticParams("tours/student-package", {
-    categoryId: 2,
-  });
+  const routes = await getPublishedPackageSlugs({ categoryId: 2 });
+  return routes
+    .map((r) => routeSlugToParam(r.slug, "tours/student-package"))
+    .filter((slug): slug is string => Boolean(slug))
+    .map((slug) => ({ slug }));
 }
 
 // --- 2. HELPER FUNCTIONS ---
@@ -131,7 +131,7 @@ function getDestinationUrl(name: string) {
 // Menggunakan React 'cache' untuk Request Memoization
 // API hanya akan dipanggil 1x meskipun dipanggil di generateMetadata dan Page
 const getTourData = cache(async (slugParam: string) => {
-  return getPublicPackageDetail(
+  return getWebPackageDetail(
     slugParam.includes("tours/")
       ? slugParam
       : `tours/student-package/${slugParam}`,

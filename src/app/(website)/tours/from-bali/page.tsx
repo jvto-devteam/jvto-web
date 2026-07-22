@@ -5,7 +5,7 @@ import Link from "@/components/website/AppLink";
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getToursFromBali(): Promise<ListTourPackage[]> {
-  return getPublicPackageList({ fromId: 3, categoryId: 1 });
+  return getWebPackagesList({ fromId: 3, categoryId: 1 });
 }
 
 const INCLUSIONS_BALI = [

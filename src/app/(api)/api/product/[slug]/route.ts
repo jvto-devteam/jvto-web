@@ -18,18 +18,19 @@ export async function GET(
       package_addons: { include: { addons: true } },
       package_categories: true,
       package_destinations: {
+        where: { deleted_at: null },
         include: {
           destinations: {
             include: { activities: true },
           },
         },
       },
-      package_excludes: { include: { item_excludes: true } },
+      package_excludes: { where: { deleted_at: null }, include: { item_excludes: true } },
       package_hotel_options: {
         orderBy: { day_no: "asc" },
         include: { hotels: true },
       },
-      package_includes: { include: { item_includes: true } },
+      package_includes: { where: { deleted_at: null }, include: { item_includes: true } },
       package_itinerary_days: {
         where: { deleted_at: null },
         orderBy: { day_no: "asc" },
@@ -40,6 +41,7 @@ export async function GET(
         },
       },
       package_prices: {
+        where: { deleted_at: null },
         include: { price_tiers: true },
         orderBy: {
           price_tiers: {
