@@ -168,33 +168,31 @@ const Home = async () => {
       {/* 5. Reviews */}
       <section className="bg-jvto-navy py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="mb-12 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
-              <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
-                Trusted by travelers
-              </span>
+          <div className="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 mb-5">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">
+                  Trusted by travelers
+                </span>
+              </div>
+              <h2
+                className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
+                style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
+              >
+                <em className="text-jvto-orange not-italic">Loved by the travelers.</em>
+              </h2>
+              <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
+                Ratings verified across two independent platforms. Every review links
+                to the original profile — browse by guide, by destination, or by trip length
+                to find what matters to you.
+              </p>
             </div>
-            <h2
-              className="text-3xl md:text-5xl font-black text-white leading-tight mb-4 md:max-w-2xl"
-              style={{ fontFamily: "Raleway, Inter, sans-serif", letterSpacing: "-0.025em" }}
-            >
-              <em className="text-jvto-orange not-italic">Loved by the travelers.</em>
-            </h2>
-            <p className="text-white/60 text-sm md:text-base md:max-w-xl leading-relaxed">
-              Ratings verified across two independent platforms. Every review links
-              to the original profile — browse by guide, by destination, or by trip length
-              to find what matters to you.
-            </p>
-          </div>
 
-          <GoogleReviewsCarousel />
-
-          <div className="mt-8 flex justify-start">
             <a
               href="https://www.google.com/maps?cid=1266403973589689021"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 bg-white/8 hover:bg-white/15 border border-white/20 text-white font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] transition-colors"
+              className="flex-shrink-0 inline-flex items-center gap-2.5 px-6 py-3.5 bg-white hover:bg-white/90 text-jvto-navy font-mono text-[11px] font-bold uppercase tracking-[0.18em] rounded-[12px] transition-colors self-center md:self-end"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -208,6 +206,8 @@ const Home = async () => {
               </svg>
             </a>
           </div>
+
+          <GoogleReviewsCarousel />
         </div>
       </section>
 
