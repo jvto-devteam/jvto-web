@@ -121,9 +121,19 @@ export function GoogleReviewsCarouselClient({ reviews }: Props) {
   }
 
   return (
-    <div className="relative">
-      {/* Navigation arrows — top-right */}
-      <div className="absolute -top-14 right-0 flex gap-2 z-10">
+    <div>
+      {/* Scrollable track */}
+      <div
+        ref={trackRef}
+        className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
+      >
+        {reviews.map((r) => (
+          <ReviewCard key={r.id} review={r} />
+        ))}
+      </div>
+
+      {/* Navigation arrows — below carousel, right-aligned */}
+      <div className="flex justify-end gap-2 mt-5">
         <button
           onClick={() => scroll("left")}
           className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
@@ -138,16 +148,6 @@ export function GoogleReviewsCarouselClient({ reviews }: Props) {
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 5l7 7-7 7"/></svg>
         </button>
-      </div>
-
-      {/* Scrollable track */}
-      <div
-        ref={trackRef}
-        className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory"
-      >
-        {reviews.map((r) => (
-          <ReviewCard key={r.id} review={r} />
-        ))}
       </div>
     </div>
   );
