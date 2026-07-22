@@ -192,7 +192,7 @@ const Home = async () => {
             strategy="lazyOnload"
           />
           <div
-            className="elfsight-app-93543a08-7f29-4299-bcb6-061f2e3182f6"
+            className="elfsight-app-1469fc6d-077d-4a68-b55f-7060679cd169"
             data-elfsight-app-lazy
           />
         </div>
