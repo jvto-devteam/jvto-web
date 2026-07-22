@@ -6,7 +6,7 @@ import Differentiators from "@/components/website/Home/Differentiators";
 import HomeDestinations from "@/components/website/Home/HomeDestinations";
 import HomeVolcanoStatus from "@/components/website/Home/HomeVolcanoStatus";
 import FeaturedTours from "@/components/website/Home/FeaturedTours";
-import Script from "next/script";
+import { GoogleReviewsCarousel } from "@/components/website/Home/GoogleReviewsCarousel";
 import TrustVerification from "@/components/website/Home/TrustVerification";
 import WhyJVTO from "@/components/website/Home/WhyJVTO";
 import HomeCTA from "@/components/website/Home/HomeCTA";
@@ -187,14 +187,7 @@ const Home = async () => {
             </p>
           </div>
 
-          <Script
-            src="https://elfsightcdn.com/platform.js"
-            strategy="lazyOnload"
-          />
-          <div
-            className="elfsight-app-1469fc6d-077d-4a68-b55f-7060679cd169"
-            data-elfsight-app-lazy
-          />
+          <GoogleReviewsCarousel />
         </div>
       </section>
 
