@@ -1,6 +1,5 @@
 // app/(website)/policy/booking-payment-cancellation/page.tsx
 import { type Metadata } from "next";
-import { notFound } from "next/navigation";
 import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
@@ -68,8 +67,7 @@ export default async function BookingPaymentCancellationPage() {
   const seo = (page.pageRow.seo as Record<string, unknown> | null) ?? {};
   const h1 = content?.h1 ?? (seo.title as string | undefined) ?? "Booking, Payment & Cancellation";
   const body: string = content?.body_md ?? "";
-
-  if (!body.trim().length) return notFound();
+  const hasBody = body.trim().length > 0;
 
   const mentionsTermIds = POLICY_SLUG_MENTIONS[SLUG] ?? [];
   const policyAnchorSchema = buildPolicyWebPageSchema({
@@ -130,7 +128,7 @@ export default async function BookingPaymentCancellationPage() {
                 { label: "Standard deposit", value: "20%" },
                 { label: "Cancellation cut-off", value: "48 hours" },
                 { label: "Pricing currency", value: "IDR" },
-                { label: "Travel Credit", value: "Non-expiring" },
+                { label: "Package Credit", value: "Non-expiring · one transfer" },
               ].map(({ label, value }) => (
                 <div
                   key={label}
@@ -190,7 +188,14 @@ export default async function BookingPaymentCancellationPage() {
 
             {/* Article body */}
             <article className="bg-white rounded-[20px] p-8 md:p-12 border border-[#E3E0DA] min-w-0">
-              <MarkdownRenderer markdown={body} />
+              {hasBody ? (
+                <MarkdownRenderer markdown={body} />
+              ) : (
+                <p className="text-[#6b7280] font-light text-[15px] leading-relaxed">
+                  Policy document is being updated. For current terms, please{" "}
+                  <a href="/contact" className="text-jvto-orange underline underline-offset-2">contact us</a>.
+                </p>
+              )}
               {content?.faq && (
                 <Faq items={content.faq} title={content.faq_title ?? "FAQ"} />
               )}
