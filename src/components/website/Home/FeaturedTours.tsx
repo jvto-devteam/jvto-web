@@ -1,11 +1,11 @@
 import Link from "@/components/website/AppLink";
 import { ArrowRight } from "lucide-react";
 import { ListTourPackage } from "@/types";
-import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
+import { getWebPackagesList } from "@/lib/packages/getWebPackagesList";
 import TourRowClient from "./TourRowClient";
 
 async function getToursByLocation(id: number): Promise<ListTourPackage[]> {
-  return getPublicPackageList({ fromId: id, limit: 6 });
+  return getWebPackagesList({ fromId: id, limit: 6 });
 }
 
 const FeaturedTours = async () => {

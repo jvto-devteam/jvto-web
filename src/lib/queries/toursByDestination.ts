@@ -22,7 +22,7 @@ export async function getToursByDestination(
       is_publish: true,
       deleted_at: null,
       package_destinations: {
-        some: { destinations: { slug: destinationSlug } },
+        some: { deleted_at: null, destinations: { slug: destinationSlug } },
       },
     },
     select: {

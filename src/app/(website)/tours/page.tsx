@@ -4,7 +4,6 @@ import ToursPageClient from "@/components/website/ToursPageClient"; // Sesuaikan
 import type { Metadata } from "next";
 import { getPageSeo } from "@/lib/content/getPageSeo";
 import { getOrganizationProfile } from "@/lib/content/getOrganizationProfile";
-import { getPublicPackageList } from "@/lib/publicContent/packageListSnapshot";
 import {
   buildOrganizationJsonLd,
   buildWebSiteJsonLd,
@@ -33,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getAllTours(): Promise<ListTourPackage[]> {
-  return getPublicPackageList({ categoryId: 1 });
+  return getWebPackagesList({ categoryId: 1 });
 }
 
 export default async function ToursPageGlobal() {

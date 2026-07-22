@@ -7,10 +7,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
 
-const PACKAGE_OUTPUT_PATH = path.join(
-  repoRoot,
-  "src/lib/publicContent/generated/packageListSnapshot.json",
-);
 const DESTINATION_OUTPUT_PATH = path.join(
   repoRoot,
   "src/lib/publicContent/generated/destinationListSnapshot.json",
@@ -21,68 +17,6 @@ const prisma = new PrismaClient();
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
-}
-
-function serializePackage(pkg) {
-  const imageAssets = (pkg.package_assets ?? [])
-    .filter((pa) => pa.asset?.type === "image")
-    .map((pa) => ({
-      url: pa.asset?.url || "",
-      alt: pa.asset?.description || "",
-      isPrimary: pa.is_primary === true,
-    }));
-
-  const primaryImage =
-    imageAssets.find((img) => img.isPrimary) || imageAssets[0] || null;
-
-  const validPrices = (pkg.package_prices ?? [])
-    .map((p) => p.price)
-    .filter((price) => typeof price === "number" && price > 0);
-
-  const startFrom = validPrices.length > 0 ? Math.min(...validPrices) : 0;
-  const excludedDestinationIds = new Set([3, 4]);
-
-  return {
-    id: Number(pkg.id),
-    name: pkg.name,
-    startDestination: pkg.start_destination?.name ?? null,
-    endDestination: pkg.end_destination?.name ?? null,
-    duration: {
-      day: Number(pkg.durations?.day) || 0,
-      night: Number(pkg.durations?.night) || 0,
-    },
-    banner: {
-      url: primaryImage?.url || "/fallback-banner.jpg",
-      alt: primaryImage?.alt || pkg.name || "Package banner",
-    },
-    keyExperiences: (pkg.package_destinations ?? [])
-      .filter((pd) => !excludedDestinationIds.has(Number(pd.destination_id)))
-      .map(
-        (dest) => dest.destinations?.activities?.[0]?.activity_name ?? "",
-      )
-      .filter(Boolean),
-    images: primaryImage
-      ? [{ url: primaryImage.url, alt: primaryImage.alt }]
-      : [{ url: "/fallback-banner.jpg", alt: pkg.name || "Package banner" }],
-    startFrom,
-    slug: pkg.slug || "",
-    physicality: pkg.physicality || "",
-    tags: Array.isArray(pkg.tags)
-      ? pkg.tags.map((s) => s?.trim()).filter((s) => s && s.length > 0)
-      : [],
-    highlights: Array.isArray(pkg.highlights_bullets)
-      ? pkg.highlights_bullets
-          .map((s) => s?.trim())
-          .filter((s) => s && s.length > 0)
-      : [],
-    snapshotMeta: {
-      packageCategoryId:
-        pkg.package_category_id != null ? Number(pkg.package_category_id) : null,
-      startDestinationId:
-        pkg.start_destination_id != null ? Number(pkg.start_destination_id) : null,
-      durationId: pkg.duration_id != null ? Number(pkg.duration_id) : null,
-    },
-  };
 }
 
 function safeJson(val, fallback = []) {
@@ -144,32 +78,6 @@ function serializeDestination(dest) {
 try {
   const generatedAt = new Date().toISOString();
 
-  const packages = await prisma.packages.findMany({
-    where: {
-      is_publish: true,
-      package_category_id: { in: [1, 2] },
-    },
-    include: {
-      start_destination: true,
-      end_destination: true,
-      durations: true,
-      package_prices: {
-        include: { price_tiers: true },
-        orderBy: { price: "asc" },
-      },
-      package_destinations: {
-        include: {
-          destinations: {
-            include: { activities: true, destination_gears: true },
-          },
-        },
-        orderBy: { sort_order: "asc" },
-      },
-      package_assets: { include: { asset: true } },
-    },
-    orderBy: { id: "asc" },
-  });
-
   const destinations = await prisma.destinations.findMany({
     where: {
       published: true,
@@ -214,19 +122,11 @@ try {
     orderBy: { id: "asc" },
   });
 
-  writeJson(PACKAGE_OUTPUT_PATH, {
-    generatedAt,
-    items: packages.map(serializePackage),
-  });
-
   writeJson(DESTINATION_OUTPUT_PATH, {
     generatedAt,
     items: destinations.map(serializeDestination),
   });
 
-  console.log(
-    `Wrote ${packages.length} package list snapshots to ${PACKAGE_OUTPUT_PATH}`,
-  );
   console.log(
     `Wrote ${destinations.length} destination list snapshots to ${DESTINATION_OUTPUT_PATH}`,
   );

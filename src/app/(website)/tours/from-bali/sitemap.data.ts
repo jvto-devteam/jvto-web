@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
 import { url } from "@/lib/site";
-import { getPublicPackageRoutesForSitemap } from "@/lib/publicContent/packageDetailSnapshot";
+import { getPublishedPackageSlugs } from "@/lib/packages/getWebPackagesList";
 
 export async function sitemapToursFromBali(
   t: Date,
 ): Promise<MetadataRoute.Sitemap> {
-  const packages = getPublicPackageRoutesForSitemap({
-    prefix: "tours/from-bali",
+  const packages = await getPublishedPackageSlugs({
     categoryId: 1,
     fromId: 3,
   });

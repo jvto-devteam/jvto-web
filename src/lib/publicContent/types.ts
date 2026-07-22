@@ -1,9 +1,4 @@
-import type {
-  Destination,
-  DestinationDetail,
-  TourPackageDetail,
-} from "@/interfaces";
-import type { ListTourPackage } from "@/types";
+import type { Destination, DestinationDetail } from "@/interfaces";
 
 export type PublicSnapshotSource =
   | "snapshot"
@@ -69,40 +64,6 @@ export type PublicOrganizationProfileSnapshot = {
   hero_image_url?: string | null;
   schema_json?: Record<string, unknown> | unknown[] | null;
   updated_at?: Date | null;
-};
-
-export type PublicPackageListSnapshot = {
-  generatedAt: string;
-  items: Array<
-    ListTourPackage & {
-      snapshotMeta?: {
-        packageCategoryId?: number | null;
-        startDestinationId?: number | null;
-        durationId?: number | null;
-      };
-    }
-  >;
-};
-
-export type PublicPackageDetailSnapshot = {
-  generatedAt: string;
-  payload: TourPackageDetail;
-};
-
-export type PublicPackageDetailSnapshotItem = {
-  slug: string;
-  updatedAt?: string;
-  snapshotMeta?: {
-    packageCategoryId?: number | null;
-    startDestinationId?: number | null;
-    durationId?: number | null;
-  };
-  payload: TourPackageDetail;
-};
-
-export type PublicPackageDetailSnapshotCollection = {
-  generatedAt: string;
-  items: PublicPackageDetailSnapshotItem[];
 };
 
 export type PublicDestinationListSnapshot = {
