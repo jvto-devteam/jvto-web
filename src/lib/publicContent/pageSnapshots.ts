@@ -1,5 +1,10 @@
 import type { PublicPageSnapshot } from "./types";
-import dbPageSnapshotsJson from "./generated/dbPageSnapshots.json";
+// Editorial content-plane swap (jvto_cms seed): the retired jvto_dev editorial
+// export (generated/dbPageSnapshots.json) is no longer merged here — the seed
+// supersedes it for every SEED_COVERED_ROUTES route. manualPageSnapshots stays
+// as the fallback for routes the seed does NOT cover (e.g. /markets/*, /blog,
+// /isic/*). The JSON file remains on disk but unreferenced for editorial pages.
+import { seedPageSnapshots } from "@/lib/cms/seedResolver";
 
 const SNAPSHOT_GENERATED_AT = "2026-05-08T00:00:00.000Z";
 
@@ -400,11 +405,11 @@ const manualPageSnapshots: Record<string, PublicPageSnapshot> = {
   ),
 };
 
-const dbPageSnapshots = dbPageSnapshotsJson as Record<string, PublicPageSnapshot>;
-
+// Seed WINS for its covered routes; manualPageSnapshots is the fallback for the
+// rest. (Was previously merging generated/dbPageSnapshots.json — retired.)
 export const publicPageSnapshots: Record<string, PublicPageSnapshot> = {
   ...manualPageSnapshots,
-  ...dbPageSnapshots,
+  ...seedPageSnapshots,
 };
 
 export function getPublicPageSnapshotRecord(route: string) {
