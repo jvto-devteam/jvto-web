@@ -4,22 +4,39 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { jvtoCmsEnabled } from "@/lib/cms/jvtoCmsClient";
+import {
+  getCmsContentPage,
+  listCmsContentPages,
+  upsertCmsContentPage,
+} from "@/lib/cms/jvtoCmsContent";
 
 function serialize(row: any) {
+  // jvto_cms ids are uuids (strings) — keep as-is; legacy content_pages ids are bigints.
+  const numeric = row.id != null && /^\d+$/.test(String(row.id));
   return {
     ...row,
-    id: row.id != null ? Number(row.id) : null,
+    id: row.id == null ? null : numeric ? Number(row.id) : row.id,
   };
 }
 
-// GET /api/content-pages — list route,lang,seo,content,is_active
-export async function GET() {
+// GET /api/content-pages — list route,lang,seo,content,is_active (or ?route= for one)
+export async function GET(req: NextRequest) {
   const auth = await requireAdmin();
   if (!auth.ok) {
     return NextResponse.json({ message: "unauthorized" }, { status: auth.status });
   }
 
   try {
+    if (jvtoCmsEnabled()) {
+      const single = new URL(req.url).searchParams.get("route");
+      if (single) {
+        const one = await getCmsContentPage(single, "en");
+        return NextResponse.json(one ? [serialize(one)] : [], { status: 200 });
+      }
+      const rows = await listCmsContentPages();
+      return NextResponse.json(rows.map(serialize), { status: 200 });
+    }
     const rows = await prisma.content_pages.findMany({
       orderBy: [{ route: "asc" }, { lang: "asc" }],
       select: {
@@ -67,6 +84,11 @@ export async function POST(req: NextRequest) {
     const content = body.content !== undefined ? body.content : {};
     const is_active =
       typeof body.is_active === "boolean" ? body.is_active : true;
+
+    if (jvtoCmsEnabled()) {
+      const cmsRow = await upsertCmsContentPage({ route, lang, seo, content, is_active });
+      return NextResponse.json(serialize(cmsRow), { status: 200 });
+    }
 
     const row = await prisma.content_pages.upsert({
       where: { route_lang: { route, lang } },
