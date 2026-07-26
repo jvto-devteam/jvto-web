@@ -52,8 +52,10 @@ export const RULES = [
   },
   {
     name: "non-idr-currency",
-    // prices are IDR-only, format `IDR 1,550,000/person`
-    re: /\$\s?\d|EUR\s?\d|USD\s?\d{2,}|Rp\s?\d/,
+    // prices are IDR-only, format `IDR 1,550,000/person`. A dollar PRICE always has
+    // 2+ digits ($50, $1550) or a thousands separator ($1,550); a bare `$1`/`$2` is a
+    // Postgres query placeholder (parameterized SQL), not currency — don't flag it.
+    re: /\$\s?\d{2,}|\$\s?\d,\d{3}|EUR\s?\d|USD\s?\d{2,}|Rp\s?\d/,
   },
   {
     name: "stale-deposit-terms",
