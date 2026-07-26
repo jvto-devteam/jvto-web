@@ -94,19 +94,9 @@ function collectText(value, acc) {
 const BLUE_FIRE_NEGATION_CUE =
   /cannot|can'?t|\bnot\b|no guarantee|be guaranteed\?|does\s+jvto\s+guarantee|outside[^.]{0,40}control|maximis|subject to weather/i;
 
-// `wrong-founding-year` fires on the accurate "PT … incorporated 2016-01-01" — the real
-// PT (AHU) registration date, which is DISTINCT from the 2015 founding and is a legitimate
-// verifiable fact on the verify pages. Drop the hit ONLY when the line is clearly
-// PT-incorporation context and NOT a founding claim; a real "founded/since/EST 2016" still fails.
-const PT_INCORP_CUE = /incorporat|\bAHU\b|pt\s+(?:java|incorporation|registration)|registration/i;
-const FOUNDING_CLAIM_CUE = /founded|founding|since\s+2016|est\.?\s*2016|established\s+2016|operating since/i;
-
 function isFalsePositive(hit, lineText) {
-  if (hit.rule === "blue-fire-guarantee") return BLUE_FIRE_NEGATION_CUE.test(lineText);
-  if (hit.rule === "wrong-founding-year") {
-    return PT_INCORP_CUE.test(lineText) && !FOUNDING_CLAIM_CUE.test(lineText);
-  }
-  return false;
+  if (hit.rule !== "blue-fire-guarantee") return false;
+  return BLUE_FIRE_NEGATION_CUE.test(lineText);
 }
 
 const coveredRoutes = [];
