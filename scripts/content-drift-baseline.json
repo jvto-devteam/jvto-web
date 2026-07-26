@@ -12,7 +12,7 @@
   "src/data/cms/governance_facts.json :: stale-conditional-health-wording": 1,
   "src/data/cms/governance_facts.json :: stale-review-counts": 2,
   "src/data/cms/governance_facts.json :: wrong-founding-year": 1,
-  "src/data/cms/page_sections.json :: wrong-founding-year": 2,
+  "src/data/cms/page_sections.json :: blue-fire-guarantee": 3,
   "src/data/faqs.ts :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 4,
   "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
