@@ -26,7 +26,10 @@ const getContentPageCached = unstable_cache(
 // the public SSG build has no JVTO_CMS_DATABASE_URL, so it stays DB-free/seed-only.
 export const getContentPage = cache(async (route: string, lang = "en") => {
   if (jvtoCmsEnabled()) {
-    return getCmsContentPage(route, lang);
+    // Public/shared reader — active-only, matching the legacy `is_active: true` filter
+    // so a draft page never supplies SEO/content to a public route. The CMS console
+    // loads drafts via getCmsContentPage(..., { activeOnly: false }) directly.
+    return getCmsContentPage(route, lang, { activeOnly: true });
   }
   return getContentPageCached(route, lang);
 });

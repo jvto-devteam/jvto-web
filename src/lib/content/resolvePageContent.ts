@@ -8,6 +8,8 @@
 // getNarrativeClaimsByPage, PAGE_REGISTRY) — never self-fetches an API.
 import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
 import { getContentPage } from "@/lib/content/getContentPage";
+import { jvtoCmsEnabled } from "@/lib/cms/jvtoCmsClient";
+import { getCmsContentPage } from "@/lib/cms/jvtoCmsContent";
 import { resolveFaqsForPage } from "@/lib/content/resolveFaqs";
 import { getNarrativeClaimsByPage } from "@/lib/queries/narrativeClaims";
 import { PAGE_REGISTRY } from "@/lib/registry/pages";
@@ -103,8 +105,12 @@ export async function resolvePageContent(
   const emitVia: PageComposition["emitVia"] = registryEntry?.emitVia ?? "unknown";
 
   // 4. Editable payloads.
-  //    contentPage: raw active content_pages row (for the editor to load).
-  const rawRow = await getContentPage(route, lang);
+  //    contentPage: raw row for the editor to load. In jvto_cms mode read the master
+  //    directly with activeOnly:false so the console can open draft/unpublished pages
+  //    (getContentPage is active-only for public safety).
+  const rawRow = jvtoCmsEnabled()
+    ? await getCmsContentPage(route, lang, { activeOnly: false })
+    : await getContentPage(route, lang);
   const contentPageEditable = rawRow
     ? {
         route: rawRow.route || route,

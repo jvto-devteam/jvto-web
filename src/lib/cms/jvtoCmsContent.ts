@@ -26,18 +26,25 @@ export interface CmsContentPageRow {
 
 const PAGE_CONTENT = "page_content";
 
-/** Read a route as a content_pages-shaped row from jvto_cms (null if the page is absent). */
+/**
+ * Read a route as a content_pages-shaped row from jvto_cms (null if absent).
+ * `activeOnly` (default true) mirrors the legacy public reader's `is_active: true`
+ * filter, so a draft/unpublished page never leaks to public routes. The CMS console
+ * passes `activeOnly: false` so it can still load a draft page to edit it.
+ */
 export async function getCmsContentPage(
   route: string,
   lang = "en",
+  opts: { activeOnly?: boolean } = {},
 ): Promise<CmsContentPageRow | null> {
+  const activeOnly = opts.activeOnly !== false;
   const rows = await jvtoCmsPool().query(
     `SELECT p.id::text AS id, p.route, p.seo, p.h1, p.status,
             ps.content AS section_content
        FROM pages p
        LEFT JOIN page_sections ps
          ON ps.page_id = p.id AND ps.section_type = $2
-      WHERE p.route = $1
+      WHERE p.route = $1 ${activeOnly ? "AND p.status = 'published'" : ""}
       LIMIT 1`,
     [route, PAGE_CONTENT],
   );
@@ -67,7 +74,7 @@ export async function getCmsContentPageById(id: string): Promise<CmsContentPageR
   const res = await jvtoCmsPool().query(`SELECT route FROM pages WHERE id = $1::uuid LIMIT 1`, [id]);
   const route = res.rows[0]?.route;
   if (!route) return null;
-  return getCmsContentPage(route, "en");
+  return getCmsContentPage(route, "en", { activeOnly: false }); // console context — allow drafts
 }
 
 /** List all editable-surface routes as content_pages-shaped rows (for the collections list). */
@@ -173,35 +180,44 @@ export async function upsertCmsContentPage(input: {
   }
 }
 
-/**
- * "Reset" a route's override: clear the editable flag on its page + page_content
- * section so the next upstream refresh (load.sql) restores the synced baseline.
- * (jvto_cms is the master, so a route always exists — we never delete the page.)
- */
-export async function resetCmsContentPageByRoute(route: string): Promise<boolean> {
+// Console-created pages (no upstream baseline) get file_group '000' at INSERT time;
+// seeded pages carry a real IA group ('001'..'008'). A "delete" therefore means:
+//   • seeded route         → clear editable so the next upstream refresh restores it,
+//   • console-created route → actually remove the page (sections CASCADE) — there is
+//                             no baseline to fall back to, so resetting would leave it
+//                             lingering and reappearing in the list.
+const CONSOLE_CREATED_FILE_GROUP = "000";
+
+async function deleteOrResetPage(
+  where: { route: string } | { id: string },
+): Promise<{ ok: boolean; action: "deleted" | "reset" | "not_found" }> {
   const pool = jvtoCmsPool();
-  const res = await pool.query(
-    `UPDATE pages SET editable = false WHERE route = $1`,
-    [route],
-  );
+  const lookup =
+    "route" in where
+      ? await pool.query(`SELECT route, file_group FROM pages WHERE route = $1`, [where.route])
+      : await pool.query(`SELECT route, file_group FROM pages WHERE id = $1::uuid`, [where.id]);
+  const row = lookup.rows[0];
+  if (!row) return { ok: false, action: "not_found" };
+
+  if (row.file_group === CONSOLE_CREATED_FILE_GROUP) {
+    await pool.query(`DELETE FROM pages WHERE route = $1`, [row.route]); // page_sections CASCADE
+    return { ok: true, action: "deleted" };
+  }
+  await pool.query(`UPDATE pages SET editable = false WHERE route = $1`, [row.route]);
   await pool.query(
     `UPDATE page_sections ps SET editable = false
        FROM pages p WHERE ps.page_id = p.id AND p.route = $1 AND ps.section_type = $2`,
-    [route, PAGE_CONTENT],
+    [row.route, PAGE_CONTENT],
   );
-  return (res.rowCount ?? 0) > 0;
+  return { ok: true, action: "reset" };
 }
 
-/** Same reset, addressed by the jvto_cms pages.id (uuid). */
+/** Delete (console-created) or reset-to-baseline (seeded) a route addressed by route. */
+export async function resetCmsContentPageByRoute(route: string): Promise<boolean> {
+  return (await deleteOrResetPage({ route })).ok;
+}
+
+/** Delete (console-created) or reset-to-baseline (seeded) a route addressed by pages.id (uuid). */
 export async function resetCmsContentPageById(id: string): Promise<boolean> {
-  const pool = jvtoCmsPool();
-  const res = await pool.query(`UPDATE pages SET editable = false WHERE id = $1::uuid RETURNING route`, [id]);
-  const route = res.rows[0]?.route;
-  if (!route) return false;
-  await pool.query(
-    `UPDATE page_sections ps SET editable = false
-       FROM pages p WHERE ps.page_id = p.id AND p.route = $1 AND ps.section_type = $2`,
-    [route, PAGE_CONTENT],
-  );
-  return true;
+  return (await deleteOrResetPage({ id })).ok;
 }
