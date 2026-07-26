@@ -1,4 +1,5 @@
 import { getContentPage } from "@/lib/content/getContentPage";
+import { SEED_COVERED_ROUTES } from "@/lib/cms/seedResolver";
 import { publicPageSnapshots } from "./pageSnapshots";
 import type {
   PublicPageResolution,
@@ -177,8 +178,15 @@ export async function getPublicPageSnapshot(
   const snapshotIsComplete =
     !!snapshot && hasRequiredContentFields(snapshot, requiredContentFields);
 
-  const allowDatabaseFallback =
-    options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv();
+  // Editorial content-plane swap (jvto_cms seed): for seed-covered routes the
+  // seed snapshot is AUTHORITATIVE at both build AND runtime — force
+  // allowDatabaseFallback=false so no jvto_dev content_pages row can override
+  // it. Non-covered routes keep byte-identical behavior below.
+  const seedOwnsRoute = SEED_COVERED_ROUTES.has(route);
+
+  const allowDatabaseFallback = seedOwnsRoute
+    ? false
+    : (options?.allowDatabaseFallback ?? allowDatabaseFallbackInCurrentEnv());
 
   // Build-vs-runtime split.
   //   Build/SSG (allowDatabaseFallback === false): NEVER touch the DB — the static

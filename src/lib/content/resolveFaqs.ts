@@ -9,6 +9,7 @@
 // Single FAQPage per page rule: pages with a higher-precedence source MUST suppress lower-precedence
 // FAQPage emissions (especially the CMS one auto-injected by PageJsonLdCombined).
 import { getNarrativeClaimsByPage } from '@/lib/queries/narrativeClaims';
+import { SEED_COVERED_ROUTES, getSeedFaqsForRoute } from '@/lib/cms/seedResolver';
 import { HOMEPAGE_FAQS } from '@/lib/homepageFaqs';
 import {
   LEGAL_FAQS,
@@ -25,7 +26,7 @@ import type { QaPair } from '@/lib/tourFaqs';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 
-export type FaqSource = 'narrative_claims' | 'canonical' | 'cms' | 'none';
+export type FaqSource = 'cms-seed' | 'narrative_claims' | 'canonical' | 'cms' | 'none';
 
 export interface FaqResolution {
   /** Which source supplied the resolved FAQs. */
@@ -67,6 +68,21 @@ function getCanonicalForRoute(route: string): QaPair[] {
  * Centralises the precedence rule so every page-level builder agrees.
  */
 export async function resolveFaqsForPage(route: string): Promise<FaqResolution> {
+  // 0. Editorial content-plane swap (jvto_cms seed). For seed-covered routes the
+  //    seed OWNS the FAQ — it supersedes narrative_claims, the hardcoded canonical
+  //    files (HOMEPAGE_FAQS/LEGAL_FAQS/etc.), and CMS content.faq. Even when the
+  //    seed carries zero FAQ for a covered route we still suppress the CMS FAQ so
+  //    we never fall through to a stale jvto_dev content.faq.
+  if (SEED_COVERED_ROUTES.has(route)) {
+    const faqs = getSeedFaqsForRoute(route);
+    return {
+      source: 'cms-seed',
+      faqs,
+      suppressCmsFaq: true,
+      origin: `cms-seed (jvto_cms — ${faqs.length} Q&A)`,
+    };
+  }
+
   // 1. narrative_claims wired to this primary_page?
   const claims = await getNarrativeClaimsByPage(route);
   const usableClaims = claims.filter((c) => c.pillar && c.core_claim);
