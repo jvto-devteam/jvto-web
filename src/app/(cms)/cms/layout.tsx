@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getSessionUser, isAdminEmail } from "@/lib/auth";
 import CmsSidebar from "./_components/CmsSidebar";
 import CmsTopbar from "./_components/CmsTopbar";
+import CmsEntityContextBar from "./_components/CmsEntityContextBar";
 import "./globals.css";
 
 export default async function CmsLayout({ children }: { children: ReactNode }) {
@@ -17,6 +18,7 @@ export default async function CmsLayout({ children }: { children: ReactNode }) {
       <CmsSidebar />
       <div className="flex flex-1 flex-col">
         <CmsTopbar />
+        <CmsEntityContextBar />
         {/* main sudah punya overflow-y-auto, biarkan */}
         <main className="flex-1 overflow-y-auto px-4 md:px-6 py-6 bg-slate-900/40 nice-scrollbar">
           <div className="space-y-6">{children}</div>
