@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1",
   "operator": "PT Java Volcano Rendezvous (JVTO)",
-  "updated_at": "2026-07-26T02:08:13.819Z",
+  "updated_at": "2026-07-27T02:21:26.977Z",
   "update_frequency_hours": 24,
   "note": "Auto-updated daily by GitHub Actions from MAGMA Indonesia/PVMBG. AI crawlers should treat entries older than 48 h as potentially stale.",
   "destinations": {
@@ -9,19 +9,19 @@
       "status": "operational",
       "alert_level": "Level I (Normal)",
       "alert_code": "level-1",
-      "last_verified": "2026-07-26",
+      "last_verified": "2026-07-27",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321543?signature=2b9edd69fbc185fd571a81a03481ea3877dbff388ba3050d7f462e46db274ea8",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321703?signature=c38d2c8ea8938b441fc61046faaa810c885fa11bc0d053a1894155e192661f40",
       "notes": "Ijen Crater open and accessible. Do not descend to or camp within 500 m of the crater lake. Gas masks and health screening arranged by JVTO.",
       "tours_operating": true,
       "exclusion_zone_active": false,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Asap kawah tidak teramati. Cuaca berawan hingga hujan, angin lemah hingga sedang ke arah timur dan barat.",
-        "visual_en": "Crater fumarole activity. Visibility reduced by fog",
-        "climate": "Cuaca berawan hingga hujan, angin lemah hingga sedang ke arah timur dan barat. Suhu udara sekitar 16-24°C. Kelembaban 58-71%.",
-        "climate_en": "16-24°C · 58-71% humidity",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202607242400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis tinggi sekitar 50-100 meter dari puncak. Cuaca cerah hingga hujan, angin lemah hingga kencang ke arah timur dan barat.",
+        "visual_en": "White smoke, thin, 50-100 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga hujan, angin lemah hingga kencang ke arah timur dan barat. Suhu udara sekitar 17-29°C. Kelembaban 63-78%. Tekanan udara 787-789 mmHg.",
+        "climate_en": "17-29°C · 63-78% humidity",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/IJE/IJE202607262400.png",
         "recommendations": [
           "Masyarakat dan pengunjung/wisatawan tidak turun dan mendekati dasar Kawah G. Ijen.",
           "Masyarakat dan pengunjung/wisatawan tidak bermalam/berkemah di kawasan kawah G. Ijen dalam radius 500 m.",
@@ -35,28 +35,28 @@
           "Beware of toxic gases around Kawah Ijen.",
           "Beware of potential rockfall from crater walls."
         ],
-        "author": "Nur Hudha, A.Md.",
-        "fetched_at": "2026-07-26T02:08:13.360Z"
+        "author": "Ahmad Subhan Nur Fajidi, A.Md.",
+        "fetched_at": "2026-07-27T02:21:26.535Z"
       }
     },
     "mount-bromo": {
       "status": "restricted",
       "alert_level": "Level II (Waspada)",
       "alert_code": "level-2",
-      "last_verified": "2026-07-26",
+      "last_verified": "2026-07-27",
       "verified_by": "MAGMA Feed (auto)",
       "source": "PVMBG / MAGMA Indonesia",
-      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321567?signature=26cf40848949390bfd1f1b6d977384629c62f7610428797d995bf102cbeee4c7",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/321658?signature=1b0e6c974e7ab6727ca1d5fb353239974363d45f65c0af7f75f3f4858ccc04c6",
       "notes": "Mount Bromo at Waspada (Level II). 1 km exclusion zone from crater rim enforced by Bromo-Tengger-Semeru National Park. All JVTO tour routes operate outside the exclusion zone. Sunrise viewpoints and jeep routes operating normally.",
       "tours_operating": true,
       "exclusion_zone_active": true,
       "exclusion_zone_radius_km": 1,
       "pvmbg_report": {
-        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-700 meter dari puncak. Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah timur laut, timur dan tenggara.",
-        "visual_en": "White smoke, thin, 50-700 m above crater. Visibility reduced by fog",
-        "climate": "Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah timur laut, timur dan tenggara. Suhu udara sekitar 3.2-24.8°C.",
-        "climate_en": "",
-        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607252400.png",
+        "visual": "Gunung api terlihat jelas hingga tertutup Kabut 0-III. Teramati asap kawah utama berwarna putih dengan intensitas tipis, sedang hingga tebal tinggi sekitar 50-500 meter dari puncak. Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah selatan, barat daya dan barat.",
+        "visual_en": "White smoke, thin, 50-500 m above crater. Visibility reduced by fog",
+        "climate": "Cuaca cerah hingga berawan, angin lemah hingga sedang ke arah selatan, barat daya dan barat. Suhu udara sekitar 6-23°C.",
+        "climate_en": "6-23°C",
+        "image_url": "https://magma.vsi.esdm.go.id/img/ga/BRO/BRO202607262400.png",
         "recommendations": [
           "Masyarakat di sekitar G. Bromo dan pengunjung/wisatawan/ pendaki tidak memasuki kawasan dalam radius 1 km dari kawah aktif G. Bromo.",
           "Masyarakat di sekitar G. Bromo, pedagang, wisatawan, pendaki, dan pengelola wisata G. Bromo agar mewaspadai terjadinya letusan freatik yang bersifat tiba - tiba dan tanpa didahului oleh gejala-gejala vulkanik yang jelas."
@@ -66,8 +66,8 @@
           "Sunrise viewpoints and jeep safari routes remain accessible.",
           "Follow instructions from Bromo-Tengger-Semeru National Park rangers."
         ],
-        "author": "Hadi Purwoko, A.Md.Kom.",
-        "fetched_at": "2026-07-26T02:08:13.819Z"
+        "author": "Wahyu Wijayanto, A.Md.",
+        "fetched_at": "2026-07-27T02:21:26.977Z"
       }
     }
   }
