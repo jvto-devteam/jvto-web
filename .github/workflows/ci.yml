@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: sambuko82/knowledge-catalog-jvto-bootstrap
-          ref: master
+          ref: main
           path: knowledge-catalog-jvto-bootstrap
           token: ${{ secrets.GH_PAT }}
 
