@@ -35,12 +35,20 @@ export interface NamedGuidePersona {
   knowsLanguage: string[];
   description: string;
   sameAs?: string[];
+  /**
+   * KTA (HPWKI guide card) identifier, e.g. "KTA-G-2024-001". Source: OKF
+   * curation/approved/people.yaml, credential_state: confirmed. Omit for crew
+   * with credential_state: pending (yusuf, dika, pras) — buildCrewPersonSchema
+   * only emits hasCredential.identifier when this is present.
+   */
+  ktaId?: string;
 }
 
 // Verify each knowsAbout entry directly with the named guide before production.
 export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   {
     code: 'anjas',
+    ktaId: 'KTA-G-2024-006',
     name: 'Anjas',
     jobTitle: 'Senior Ijen Photography Guide',
     isGuide: true,
@@ -58,6 +66,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'gufron',
+    ktaId: 'KTA-G-2024-001',
     name: 'Gufron',
     jobTitle: 'Bromo and Tengger Specialist Guide',
     isGuide: true,
@@ -75,6 +84,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'rendi',
+    ktaId: 'KTA-G-2024-002',
     name: 'Rendi',
     jobTitle: 'Multi-Destination Senior Guide',
     isGuide: true,
@@ -92,6 +102,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'boy',
+    ktaId: 'KTA-G-2024-004',
     name: 'Boy (Ahboy)',
     jobTitle: 'Senior Ijen Crater Guide',
     isGuide: true,
@@ -109,6 +120,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'kiki',
+    ktaId: 'KTA-G-2024-008',
     name: 'Kiki',
     jobTitle: 'Photography-Centric Volcano Guide',
     isGuide: true,
@@ -126,6 +138,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'taufik',
+    ktaId: 'KTA-G-2024-007',
     name: 'Taufik',
     jobTitle: 'Family-Inclusive Multi-Destination Guide',
     isGuide: true,
@@ -143,6 +156,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'fauzi',
+    ktaId: 'KTA-G-2024-010',
     name: 'Fauzi',
     jobTitle: 'Crowd-Avoidance and Attentive Coordination Guide',
     isGuide: true,
@@ -160,6 +174,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'fredi',
+    ktaId: 'KTA-D-2024-005',
     name: 'Fredi',
     jobTitle: 'East Java Long-Haul Tour Driver',
     isGuide: false,
@@ -177,6 +192,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'joyo',
+    ktaId: 'KTA-D-2024-011',
     name: 'Joyo',
     jobTitle: 'Precision Tour Driver',
     isGuide: false,
@@ -194,6 +210,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'yandi',
+    ktaId: 'KTA-D-2024-003',
     name: 'Yandi',
     jobTitle: 'Senior Touring Driver - Briefings and Family Coordination',
     isGuide: false,
@@ -211,6 +228,7 @@ export const NAMED_GUIDE_PERSONAS: NamedGuidePersona[] = [
   },
   {
     code: 'holili',
+    ktaId: 'KTA-D-2024-009',
     name: 'Holili',
     jobTitle: 'Punctuality-First Tour Driver',
     isGuide: false,

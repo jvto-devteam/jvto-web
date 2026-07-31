@@ -5,7 +5,7 @@
 > drift. Companion to [CANONICAL_FACTS.md](./CANONICAL_FACTS.md) (the facts veto) and
 > [CONTRIBUTING.md](./CONTRIBUTING.md) (branch governance).
 >
-> Last verified: 2026-07-21 (read-only audit).
+> Last verified: 2026-07-31 (read-only audit + OKF pipeline built same day).
 
 ---
 
@@ -16,9 +16,9 @@
 | **jvto-web** (this) | Canonical site (Next.js 16) + the ONE app the CMS lives in | — |
 | **llm-wiki** | Narrative / policy / trust SSOT; compiles bundles | **one-way → jvto-web `src/data/*`** (read-only in web, CI-enforced) |
 | **jvto-itinerary-core** | Pure data/rule engine (e.g. `evaluateCancellation`) | consumed as data |
-| **knowledge-catalog-okf** | OKF pipeline (downstream consumer) | consumes llm-wiki |
+| **knowledge-catalog-jvto-bootstrap (OKF)** | Curated public-facts graph; downstream of llm-wiki, upstream of the website (`okf/jvto/CLAUDE.md`: "source knowledge + evidence → OKF graph → the website"). `docs/CANONICAL_FACTS.md` itself was adjudicated from this catalog. | **llm-wiki → OKF → jvto-web `src/data/okf/*`** (read-only in web, CI-enforced via `npm run sync:okf` + `validate:okf`, 2026-07-31) |
 | **jvto-new-on-design-system** | Static design/handoff prototype | manual mirror |
-| **jvto-unified-cms-bootstrap** | Governance/control-plane scaffold; its `cms_*`/`integration_*` migrations landed in jvto_dev but are **orphaned from jvto-web code** | none (parked) |
+| **jvto-unified-cms-bootstrap** | Governance/control-plane scaffold; its `cms_*`/`integration_*` migrations landed in jvto_dev but are **orphaned from jvto-web code**. Also the source for `src/data/cms/*` (CMS seed) via `npm run sync:cms-seed` — not CI-wired, so that data is only refreshed manually. | none (parked) for `cms_*`/`integration_*`; manual pull for CMS seed |
 | **jvto-data-core** | Stale one-shot ETL | dropped |
 
 **Environments:** prod = self-hosted VPS/pm2 from branch **`live`** (`javavolcano-touroperator.com`). Develop = **`main`** → auto-deploy to `/var/www/jvto-help` (pm2 `jvto-help`, `help.javavolcano-touroperator.com`). **`main` and `live` are unrelated git histories** (production cutover paused). No SSH access from the agent — only GitHub + Adminer HTTPS.
@@ -32,7 +32,7 @@
   - `narrative_claims(pillar → Q, core_claim → A, primary_page → route)`
   - plus `packages`, `destinations`, `faqs`, `policy_documents`, `crew_members`, `reviews`, `site_identity`.
 - **Resolver:** `src/lib/content/resolvePageContent.ts` → per-route composition + an `atoms[]` ownership map (`source` / `owner` / `editable`). This is the closest thing to a field-ownership manifest and it is computed **in code at request time** (not a DB table).
-- **FAQ precedence:** `src/lib/content/resolveFaqs.ts` → **narrative_claims › canonical hardcoded (`CANONICAL_FAQ_REGISTRY`) › CMS `content.faq`**; single-FAQPage enforced via `suppressCmsFaq`.
+- **FAQ precedence:** `src/lib/content/resolveFaqs.ts` → **cms-seed (`SEED_COVERED_ROUTES`) › narrative_claims › canonical hardcoded (`CANONICAL_FAQ_REGISTRY`) › CMS `content.faq`**; single-FAQPage enforced via `suppressCmsFaq`.
 - **Schema injection:** `src/components/seo/PageJsonLdCombined.tsx` (Organization + WebSite + WebPage + BreadcrumbList + FAQ + per-page extras).
 - **Block model (already exists):** `content.sections[].blocks[]`, rendered by `src/components/content/BlocksRenderer.tsx`. Block types: `markdown`, `image`, `grid` (card grid), `crew_grid`. Edited via `src/components/cms/SectionsBlockEditor.tsx` — draft isolation (`content._draft`), version history (`content._history`, bounded 5), facts-lock-gated Publish, `revalidatePath`.
 - **Snapshot-vs-DB split** (`src/lib/publicContent/getPublicPageSnapshot.ts`): `allowDatabaseFallback` omitted → **true at runtime** (prefers the live `content_pages` row); explicit `false` → **snapshot-only** (never touches DB — build-deterministic). Snapshots live in `src/lib/publicContent/pageSnapshots.ts` + generated `generated/*.json`.
