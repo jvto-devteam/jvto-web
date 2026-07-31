@@ -89,13 +89,12 @@ const OurStoryPage = () => {
               </p>
               <ul>
                 <li>
-                  <strong>Operating Since 2016:</strong> We began guiding and
+                  <strong>Operating Since {SITE_CONFIG.foundingDate.slice(0, 4)}:</strong> We began guiding and
                   hosting travelers in East Java.
                 </li>
                 <li>
-                  <strong>Incorporated in 2019:</strong> We formally registered
-                  as <strong>PT Java Volcano Rendezvous</strong>, an Indonesian
-                  limited company.
+                  <strong>Registered as PT Java Volcano Rendezvous:</strong> We
+                  formalized as an Indonesian limited company.
                 </li>
                 <li>
                   <strong>Licensed in 2023:</strong> We were issued Indonesian

@@ -96,7 +96,7 @@ export function getTourSpineQaPairs(tour: TourFaqSeed): QaPair[] {
     {
       question: 'Do you offer student discounts through ISIC?',
       answer:
-        `JVTO is a verified ISIC partner (Provider ID 259268). Valid ISIC cardholders receive a student rate on Ijen and Bromo tour packages. ` +
+        `JVTO is a registered ISIC provider (Provider ID 259268). Valid ISIC cardholders receive a student rate on Ijen and Bromo tour packages. ` +
         `Show your ISIC card when booking; the student rate is confirmed in your booking summary before deposit. ` +
         `Verification: isic.org/discounts/?providerId=259268.`,
       uiMeta: 'See ISIC student packages',

@@ -59,7 +59,7 @@ export const ORGANIZATION_SCHEMA = {
   // Historical artifacts — proves operational continuity since 2015
   award: [
     'Booking.com Guest Review Award 2015 — Ijen Bondowoso Homestay (Score 9.4/10)',
-    'Stefan Loose Reiseführer Indonesien — Editorial Feature (4th Edition, 2018)',
+    'Stefan Loose Reiseführer Indonesien — Editorial Feature (page 287)',
   ],
 
   // Verified credentials (legal + association).
@@ -161,15 +161,11 @@ export const ORGANIZATION_SCHEMA = {
     },
     {
       '@type': 'Book',
-      name: 'Stefan Loose Reiseführer Indonesien',
-      isbn: '978-3-7701-7881-0',
-      datePublished: '2018-07-05',
+      name: 'Stefan Loose Reiseführer Indonesien: mit Reiseatlas',
+      isbn: '9783770167654',
       inLanguage: 'de',
-      numberOfPages: 772,
-      bookEdition: '4',
-      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
       url: 'https://www.tripplanner.at/en/product-page/stefan-loose-reisef%C3%BChrer-indonesien',
-      description: 'German-language travel guide; independently features Ijen Bondowoso Homestay (JVTO) — non-paid editorial listing.',
+      description: 'German-language travel guide; independently features Ijen Bondowoso Homestay (JVTO) on page 287 — non-paid editorial listing. Publication year and edition are not asserted.',
       image: `${BASE_URL}/history/stefan-loose-ijen-bondowoso-page.png`,
     },
   ],
@@ -299,14 +295,10 @@ export const FOUNDER_SCHEMA = {
     },
     {
       '@type': 'Book',
-      name: 'Stefan Loose Reiseführer Indonesien',
-      isbn: '978-3-7701-7881-0',
-      datePublished: '2018-07-05',
+      name: 'Stefan Loose Reiseführer Indonesien: mit Reiseatlas',
+      isbn: '9783770167654',
       inLanguage: 'de',
-      numberOfPages: 772,
-      bookEdition: '4',
-      publisher: { '@type': 'Organization', name: 'DuMont Reiseverlag' },
-      description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay (non-paid editorial).',
+      description: 'German travel guide independently referencing tours arranged by Agung at Ijen Bondowoso Homestay on page 287 (non-paid editorial). Publication year and edition are not asserted.',
       image: `${BASE_URL}/history/guest-visit-ijen-bondowoso-homestay-stefan-loose-inspired.jpg`,
     },
   ],
@@ -489,7 +481,7 @@ export const DEFINED_TERMS = {
     name: 'ISIC (International Student Identity Card)',
     description:
       'Global student membership card accepted at 150,000+ discounts in 130+ countries. ' +
-      'JVTO is a verified ISIC partner (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
+      'JVTO is a registered ISIC provider (Provider ID 259268) — Ijen and Bromo tour packages are available at student rates to valid ISIC cardholders. ' +
       'Verifiable at isic.org/discounts/?providerId=259268.',
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',

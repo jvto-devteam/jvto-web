@@ -439,13 +439,10 @@ export default async function VerifyJvtoPage() {
   const stefanLooseBookSchema = {
     "@type": "Book",
     "@id": `${siteUrl}/#book-stefan-loose-indonesien`,
-    name: "Stefan Loose Reiseführer Indonesien",
-    publisher: { "@type": "Organization", name: "DuMont Reiseverlag" },
-    bookEdition: "4th Edition",
-    datePublished: "2018-07-05",
-    isbn: "978-3-7701-7881-0",
+    name: "Stefan Loose Reiseführer Indonesien: mit Reiseatlas",
+    isbn: "9783770167654",
     inLanguage: "de",
-    numberOfPages: 772,
+    description: "Independently features Ijen Bondowoso Homestay (JVTO) on page 287 — non-paid editorial listing. Publication year and edition are not asserted.",
   };
 
   // Team persons (from your snippets)

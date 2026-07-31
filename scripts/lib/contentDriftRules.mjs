@@ -31,7 +31,11 @@ export const RULES = [
     // legitimate for legal/PT-formalization context (e.g. "TDUP issued
     // 2023-02-11") but forbidden specifically as a foundingDate value — so
     // only that alternative gains |23, not "incorporated"/"EST".
-    re: /incorporated 20(16|19|20)|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
+    //
+    // Widened 2026-07-31: "incorporated 20XX" alone missed prose like "Mr. Sam
+    // incorporated PT Java Volcano Rendezvous on 2016-01-01" — same word, just
+    // not adjacent to the year. Added a within-one-sentence variant.
+    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
   },
   {
     name: "brand-config-json-pattern",

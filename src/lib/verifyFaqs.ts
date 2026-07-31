@@ -82,10 +82,10 @@ export const PRESS_RECOGNITION_FAQS: QaPair[] = [
   {
     question: 'Is JVTO featured in any independent travel guides?',
     answer:
-      'Yes. Stefan Loose Reiseführer Indonesien — the German-language Lonely-Planet-equivalent published by DuMont Reiseverlag — features ' +
-      "Ijen Bondowoso Homestay (the founder's 2015 guesthouse, JVTO's historical anchor) in its 4th Edition (ISBN 978-3-7701-7881-0, July 2018). " +
-      'This is non-paid editorial coverage; the listing is verifiable via the German National Library (DNB).',
-    uiMeta: 'ISBN 978-3-7701-7881-0',
+      'Yes. Stefan Loose Reiseführer Indonesien: mit Reiseatlas — a German-language Indonesia travel guide — features ' +
+      "Ijen Bondowoso Homestay (the founder's 2015 guesthouse, JVTO's historical anchor) on page 287 (ISBN-13 9783770167654). " +
+      'This is non-paid editorial coverage. Publication year and edition are not asserted.',
+    uiMeta: 'ISBN-13 9783770167654',
   },
   {
     question: 'Has the founder been profiled by national press?',
