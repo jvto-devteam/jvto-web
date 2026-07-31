@@ -5,6 +5,7 @@ import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getContentPage } from "@/lib/content/getContentPage";
 import { getActiveCrewMembers } from "@/lib/queries/crewMembers";
 import { buildCrewPersonSchema } from "@/lib/schemas/entityGraph";
+import { isGuideRole } from "@/lib/crewRole";
 
 export const revalidate = 3600;
 
@@ -75,8 +76,8 @@ export default async function TeamHubPage() {
         content: { h1: "JVTO Field Crew" },
       };
 
-  const guides = crewMembers.filter((m) => m.type === "Guide");
-  const drivers = crewMembers.filter((m) => m.type !== "Guide");
+  const guides = crewMembers.filter((m) => isGuideRole(m.type));
+  const drivers = crewMembers.filter((m) => !isGuideRole(m.type));
 
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-24">
