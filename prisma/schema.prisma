@@ -637,6 +637,7 @@ model crew_member_roles {
 model crew_members {
   id                    BigInt                  @id @default(autoincrement())
   code                  String?
+  kta_id                String?
   name                  String
   phone                 String?
   full_name             String?                 @db.VarChar(255)
