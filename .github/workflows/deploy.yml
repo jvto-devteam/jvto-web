@@ -46,5 +46,7 @@ jobs:
             git reset --hard origin/main
             npm ci
             npm run build
-            # --update-env so pm2 picks up newly-added env (e.g. CMS_ADMIN_EMAILS)
-            pm2 restart jvto-help --update-env
+            # --update-env so pm2 picks up newly-added env (e.g. CMS_ADMIN_EMAILS).
+            # $PM2_BIN (captured pre-`nvm use 20`) so switching Node for the build
+            # can't hide a Node-18-global pm2 from PATH -> command-not-found.
+            "$PM2_BIN" restart jvto-help --update-env
