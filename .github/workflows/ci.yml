@@ -28,6 +28,17 @@ jobs:
           path: llm-wiki
           token: ${{ secrets.GH_PAT }}
 
+      # Second producer repo, for src/data/okf/ (see scripts/sync-okf.mjs). Prior
+      # to this, src/data/okf/ was a one-shot hand snapshot with no sync path and
+      # no CI gate — it silently drifted from OKF's canonical wording.
+      - name: Checkout knowledge-catalog-jvto-bootstrap (producer)
+        uses: actions/checkout@v4
+        with:
+          repository: sambuko82/knowledge-catalog-jvto-bootstrap
+          ref: master
+          path: knowledge-catalog-jvto-bootstrap
+          token: ${{ secrets.GH_PAT }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -78,13 +89,22 @@ jobs:
           # LLM_WIKI_PATH) per its own header comment — set both to the same
           # checked-out producer repo rather than editing the synced script.
           LLM_WIKI_ROOT: ${{ github.workspace }}/llm-wiki
+          OKF_PATH: ${{ github.workspace }}/knowledge-catalog-jvto-bootstrap
         run: |
           npm run sync:packages
           npm run sync:trust
           npm run sync:blog
           npm run sync:policy-bundle
-          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle \
-            || { echo "::error::Synced bundles drifted from llm-wiki output. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle' and commit."; exit 1; }
+          npm run sync:okf
+          git diff --exit-code src/data/package-readiness src/data/trust-bundle src/data/blog src/data/policy-bundle src/data/okf \
+            || { echo "::error::Synced bundles drifted from source. Run 'npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle && npm run sync:okf' and commit."; exit 1; }
+
+      - name: Validate OKF consumption (blocking)
+        # scripts/validate-okf-consumption.mjs: every AGENT_GUIDES route (src/lib/
+        # content/agentGuides.ts) must map to at least one OKF module, and its
+        # copy must not diverge from OKF on any canonical-facts rule — catches
+        # hand-edits away from the mandatory/canonical wording OKF ships.
+        run: npm run validate:okf
 
       - name: Typecheck (non-blocking)
         continue-on-error: true

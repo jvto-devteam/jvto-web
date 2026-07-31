@@ -46,7 +46,7 @@ const INCLUSIONS_BALI = [
   { label: "Dedicated crew", detail: "English-speaking driver-guide (1–3 guests), or professional driver + escort guide (4+). Licensed local site guides at key locations." },
   { label: "Entrance fees, permits & accommodation", detail: "Entrance fees, permits, and accommodation + breakfast on all nights, per itinerary." },
   { label: "Private 4WD jeep", detail: "Bromo crater area. One jeep per ≤4 guests; additional jeeps for larger groups." },
-  { label: "Gas masks & trekking poles", detail: "For the Ijen crater hike, plus health-certificate screening coordination when current access rules require it." },
+  { label: "Gas masks & trekking poles", detail: "For the Ijen crater hike, plus mandatory health-certificate screening coordination for every guest before crater entry." },
   { label: "Daily mineral water & pick-up", detail: "Full pick-up to drop-off from your Bali hotel, and a JVTO travel T-shirt (one per participant)." },
 ];
 

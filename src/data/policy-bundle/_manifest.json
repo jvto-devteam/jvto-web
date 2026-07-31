@@ -1,13 +1,13 @@
 {
   "schema_version": "policy-bundle/v2.0",
   "generated_by": "scripts/compile_policy_bundle.py",
-  "generated_at": "2026-07-15T05:27:37.759483+00:00",
+  "generated_at": "2026-07-31T03:17:33.457401+00:00",
   "dry_run": false,
   "cancellation_policy_version": "2026-07",
   "cancellation_policy_hash": "7118ef3b7689",
   "source_hashes": {
     "policy-source-ownership": "8b1b0d8d6a6a",
-    "packages-overview": "fb302eee0f95",
+    "packages-overview": "49afdb3052ea",
     "faq-master": "2fce84a142c5",
     "cancellation-package-credit": "7118ef3b7689"
   },

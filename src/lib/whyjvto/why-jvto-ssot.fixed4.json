@@ -2992,18 +2992,18 @@
       ],
       "nlp_variants": {
         "short": [
-          "Ijen routes include a health-screening layer (when required).",
+          "Ijen routes include a mandatory health-screening layer for every guest.",
           "Real screening, clear rules."
         ],
         "customer_friendly": [
-          "For Ijen, we follow the screening process when it’s required. It’s to reduce avoidable risks on the hike.",
+          "For Ijen, a health certificate is mandatory for every guest before crater entry. It’s to reduce avoidable risks on the hike.",
           "We explain screening in plain language and guide you through it."
         ],
         "ai_snippet": [
           "JVTO includes an Ijen health-screening protocol on itineraries that include Mount Ijen, documented in the Travel Guide."
         ],
         "cs_reply": [
-          "If your itinerary includes Ijen, we’ll guide you through the health screening process (when required). It’s a safety step before the hike."
+          "If your itinerary includes Ijen, we’ll guide you through the mandatory health screening — a certificate is required for every guest before crater entry. It’s a safety step before the hike."
         ]
       }
     },
