@@ -19,6 +19,21 @@ feature branch (claude/*, codex/*, feat/*, fix/*, …)
     live  ──VPS pull──▶  production
 ```
 
+### Per-box `NEXT_PUBLIC_SITE_URL` (SEO indexability lever)
+
+Each VPS box keeps an untracked `.env.local`. `NEXT_PUBLIC_SITE_URL` there is the **single
+lever** deciding whether that deployment is indexable (see `.env.example` + `src/lib/site.ts`
+`isIndexableDeployment()`):
+
+| Box | `NEXT_PUBLIC_SITE_URL` | Result |
+|---|---|---|
+| help / preview (`help.javavolcano-touroperator.com`) | `https://help.javavolcano-touroperator.com` | **noindex** (`X-Robots-Tag` + meta robots) — never competes with live in search |
+| live / production (`javavolcano-touroperator.com`) | `https://javavolcano-touroperator.com` | indexable + primary URLs |
+| unset | — | fail-safe **noindex** |
+
+On the `main → live` cutover the code is unchanged; only the live box's `NEXT_PUBLIC_SITE_URL`
+makes it indexable again. Owner sets these values on the VPS — they are not stored in the repo.
+
 ## Rules
 
 ### 1. All work goes through `main`
