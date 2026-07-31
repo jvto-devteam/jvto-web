@@ -46,7 +46,7 @@ const INCLUSIONS = [
   { label: "Entrance fees & permits", detail: "All attractions on the itinerary — no surprise gate payments." },
   { label: "Accommodation + breakfast", detail: "All overnight packages, per itinerary." },
   { label: "Private 4WD jeep", detail: "Bromo crater area. One jeep per ≤4 guests; additional jeeps arranged for larger groups." },
-  { label: "Gas masks & trekking poles", detail: "On Ijen-inclusive packages, plus health-certificate screening coordination when current access rules require it." },
+  { label: "Gas masks & trekking poles", detail: "On Ijen-inclusive packages, plus mandatory health-certificate screening coordination for every guest before crater entry." },
   { label: "Daily mineral water & pick-up", detail: "Full pick-up to drop-off assistance from your Surabaya hotel or address." },
   { label: "JVTO travel T-shirt", detail: "One per participant." },
 ];

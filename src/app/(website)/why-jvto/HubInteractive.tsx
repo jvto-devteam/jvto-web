@@ -199,7 +199,7 @@ export function ReviewQuoteRotator() {
 // 03 · Story timeline tabs
 // Fact-corrected: docs/CANONICAL_FACTS.md forbids inventing a PT
 // incorporation year (2016/2019/2020/2023). The design-reference spec's
-// middle tab ("'16 · PT formed", "incorporated on 2016-01-01") is dropped —
+// middle tab ("'16 · PT formed", "incorporated on 2016-01-01") is dropped — drift-ok: contoh terlarang dikutip sengaja
 // the legal entity is named only in the 2023 TDUP-formalization context,
 // with no fabricated incorporation date, matching the already-published
 // adjudication in the (unused) why-jvto/our-story/"page copy.tsx" reference

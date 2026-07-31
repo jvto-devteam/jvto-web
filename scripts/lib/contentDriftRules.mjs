@@ -31,7 +31,11 @@ export const RULES = [
     // legitimate for legal/PT-formalization context (e.g. "TDUP issued
     // 2023-02-11") but forbidden specifically as a foundingDate value — so
     // only that alternative gains |23, not "incorporated"/"EST".
-    re: /incorporated 20(16|19|20)|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
+    //
+    // Widened 2026-07-31: "incorporated 20XX" alone missed prose like "Mr. Sam
+    // incorporated PT Java Volcano Rendezvous on 2016-01-01" — same word, just
+    // not adjacent to the year. Added a within-one-sentence variant.
+    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
   },
   {
     name: "brand-config-json-pattern",
@@ -41,14 +45,28 @@ export const RULES = [
   {
     name: "blue-fire-guarantee",
     // blue fire = natural phenomenon, cannot be guaranteed
-    re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|guarantee[^.]{0,40}[Bb]lue\s*[Ff]ire/,
+    // Both orders: "blue fire … guaranteed" and "100% / guaranteed … blue fire".
+    re: /[Bb]lue\s*[Ff]ire[^.]{0,40}(guarantee|100%)|(guarantee|100%)[^.]{0,40}[Bb]lue\s*[Ff]ire/,
+    // CANONICAL_FACTS.md mandates the negated form ("cannot be guaranteed"), which the
+    // bare `re` above would itself flag — that false positive is why the OKF snapshot got
+    // hand-edited to "cannot be promised", diverging from upstream. Allow the negated
+    // form so syncing OKF verbatim stays lossless; positive claims still fail.
+    // (?:\s|\\n|\\r) also matches a literal two-char `\n`/`\r` escape sequence —
+    // JSON string values (e.g. src/data/okf/policy-cards.json) sometimes embed
+    // markdown line breaks as literal backslash-n inside one physical file line.
+    allow: /\b(cannot|can ?not|can't|never|not|no|isn't|aren't)(?:\s|\\n|\\r)+(be(?:\s|\\n|\\r)+)?guarantee/i,
   },
   {
     name: "stale-conditional-health-wording",
     // Ijen health screening is MANDATORY (adjudicated 2026-07-06, supersedes the prior
     // conditional decision) — catches the old "when BBKSDA rules require it" / "can
     // require" / "— conditional" framing so it can't silently regress.
-    re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,15}BBKSDA.{0,30}(require|rules)|when (it|access rules?) (applies|require)/i,
+    //
+    // Widened 2026-07-31: the original window (`When` within 15 chars of `BBKSDA`) was
+    // too tight and missed both phrasings actually shipping on /travel-guide/* —
+    // "When the East Java conservation authority (BBKSDA) requires it" (36 chars) and
+    // "...certificate when their regulations are in effect" (no BBKSDA token at all).
+    re: /health screening.{0,15}conditional|conditional.{0,15}health|can require a[^.]{0,25}health certificate|[Ww]hen[^.]{0,60}BBKSDA[^.]{0,40}(require|rules)|when (it|access rules?) (applies|require)|(screening|certificate)[^.]{0,60}(when|where)[^.]{0,40}(require|regulations?|rules?)|(when|where)[^.]{0,40}(regulations?|rules?)[^.]{0,20}(in effect|apply|applies)/i,
   },
   {
     name: "non-idr-currency",
@@ -91,6 +109,11 @@ export function scanText(content, rel) {
     const line = lines[i];
     if (line.includes(WHITELIST_MARKER)) continue;
     for (const rule of RULES) {
+      // Rule-level escape hatch: a line matching `allow` is exempt from THIS rule only.
+      // Line-granular by design — a line mixing an allowed phrasing with a real
+      // violation is exempted, which is the accepted trade for letting canonical
+      // negated wording ("cannot be guaranteed") through unmodified.
+      if (rule.allow && rule.allow.test(line)) continue;
       const m = rule.re.exec(line);
       if (m) hits.push({ rel, line: i + 1, rule: rule.name, text: truncate(m[0]) });
     }

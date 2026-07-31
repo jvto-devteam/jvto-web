@@ -173,16 +173,8 @@ export default async function PressRecognitionPage() {
               </p>
               <dl className="space-y-2 text-xs text-slate-500">
                 <div className="flex gap-3">
-                  <dt className="shrink-0 font-semibold text-slate-400 w-20">Publisher</dt>
-                  <dd>DuMont Reiseverlag</dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="shrink-0 font-semibold text-slate-400 w-20">Edition</dt>
-                  <dd>4th (2018)</dd>
-                </div>
-                <div className="flex gap-3">
                   <dt className="shrink-0 font-semibold text-slate-400 w-20">ISBN</dt>
-                  <dd>978-3-7701-7881-0</dd>
+                  <dd>ISBN-13 9783770167654 (ISBN-10 3770167651)</dd>
                 </div>
                 <div className="flex gap-3">
                   <dt className="shrink-0 font-semibold text-slate-400 w-20">Page</dt>

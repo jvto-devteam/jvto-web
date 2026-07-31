@@ -81,31 +81,12 @@
   },
   {
     "key": "forbidden_values",
+    "_note": "every string below is a deliberately-quoted forbidden example (denylist reference), not a live claim — same pattern as docs/CANONICAL_FACTS.md's drift-ok quotes",
     "value": {
-      "founding": [
-        "2016",
-        "2019",
-        "2020",
-        "2023 (as founding)",
-        "EST 2016"
-      ],
-      "reviews": [
-        "112",
-        "4.9/112",
-        "47",
-        "92",
-        "5.0/5"
-      ],
-      "cancellation": [
-        "Travel Credit",
-        "Lifetime Travel Credit"
-      ],
-      "ijen_health": [
-        "when BBKSDA regulations require it",
-        "where required",
-        "when their regulations are in effect",
-        "conditional"
-      ]
+      "founding": ["2016", "2019", "2020", "2023 (as founding)", "EST 2016"], "_drift_ok_founding": "drift-ok: forbidden example",
+      "reviews": ["112", "4.9/112", "47", "92", "5.0/5"], "_drift_ok_reviews": "drift-ok: forbidden example",
+      "cancellation": ["Travel Credit", "Lifetime Travel Credit"],
+      "ijen_health": ["when BBKSDA regulations require it", "where required", "when their regulations are in effect", "conditional"], "_drift_ok_ijen_health": "drift-ok: forbidden example"
     }
   }
 ]

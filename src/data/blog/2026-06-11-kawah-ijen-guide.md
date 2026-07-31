@@ -73,7 +73,7 @@ JVTO's founder, Agung "Mr. Sam" Sambuko, is an active Tourist Police officer (Di
 Every JVTO Ijen tour is:
 
 - **100% private** — your vehicle, your guide, no shared groups
-- **BBKSDA-compliant** — health screening coordinated when regulations require it
+- **BBKSDA-compliant** — mandatory health screening for every guest, per SE.1658/KSA.9/2024
 - **Gear-inclusive** — gas mask and headlamp standard on every Ijen package
 
 The company has operated at Kawah Ijen since 2015. Across Trustpilot (4.8/5, 51 reviews), Google Maps (4.9/5, 123 reviews), and TripAdvisor (4.95/5, 21 reviews), 195 independent reviews reflect a decade of operations at this specific volcano.

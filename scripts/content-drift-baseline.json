@@ -1,5 +1,4 @@
 {
-  "public/llms-full.txt :: blue-fire-guarantee": 1,
   "src/app/(website)/tour-from-bali/page.tsx :: blue-fire-guarantee": 1,
   "src/app/(website)/tour-from-bali/page.tsx :: stale-deposit-terms": 1,
   "src/app/(website)/tour-from-surabaya/page.tsx :: blue-fire-guarantee": 1,
@@ -7,19 +6,11 @@
   "src/app/(website)/tours-from-surabaya/page.tsx :: non-idr-currency": 1,
   "src/components/website/Navbar.tsx :: wrong-founding-year": 1,
   "src/components/website/Tours/TourCard.tsx :: stale-review-counts": 1,
-  "src/data_new.ts :: stale-review-counts": 16,
-  "src/data/cms/entities.json :: blue-fire-guarantee": 2,
-  "src/data/cms/governance_facts.json :: stale-conditional-health-wording": 1,
-  "src/data/cms/governance_facts.json :: stale-review-counts": 2,
-  "src/data/cms/governance_facts.json :: wrong-founding-year": 1,
   "src/data/cms/page_sections.json :: blue-fire-guarantee": 3,
-  "src/data/faqs.ts :: blue-fire-guarantee": 1,
-  "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 4,
+  "src/data/policy-bundle/consumer-bundles.json :: blue-fire-guarantee": 2,
   "src/data/policy-bundle/deprecated-wording-report.json :: blue-fire-guarantee": 1,
   "src/data/policy-bundle/deprecated-wording-report.json :: unverified-press-names": 2,
-  "src/data/policy-bundle/policy-bundle.json :: blue-fire-guarantee": 2,
-  "src/lib/content/agentGuides.ts :: blue-fire-guarantee": 1,
+  "src/data/policy-bundle/policy-bundle.json :: blue-fire-guarantee": 1,
   "src/lib/faq-data.ts :: blue-fire-guarantee": 1,
-  "src/lib/site-config.ts :: wrong-founding-year": 1,
-  "src/services/mockData.ts :: stale-review-counts": 8
+  "src/lib/site-config.ts :: wrong-founding-year": 1
 }

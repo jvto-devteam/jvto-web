@@ -2,6 +2,10 @@
 // Created 2026-04-29 (AEO/GEO port Phase 5) — deterministic FAQ source resolution.
 //
 // Precedence (highest → lowest):
+//   0. cms-seed (jvto_cms editorial seed, SEED_COVERED_ROUTES) — for seed-covered
+//      routes this OWNS the FAQ, superseding every tier below (see step 0 in
+//      resolveFaqsForPage — added after this header comment was written; keep
+//      this list in sync with the function body, not the other way round)
 //   1. narrative_claims (DB, primary_page-wired) — canonical brand voice, AEO-tuned
 //   2. canonical hardcoded Q&A files (HOMEPAGE_FAQS, LEGAL_FAQS, etc.) — static AEO content not yet in DB
 //   3. CMS content.faq — admin-managed fallback

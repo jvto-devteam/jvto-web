@@ -106,7 +106,7 @@ export default async function TeamHubPage() {
             <span className="text-jvto-green">JVTO's private volcano operations.</span>
           </h1>
           <p className="text-slate-400 text-base leading-relaxed max-w-xl">
-            {crewMembers.length > 0 ? crewMembers.length : "11"}+ permanent crew. Every guide holds a KTA licence
+            {crewMembers.length > 0 ? crewMembers.length : "14"}+ permanent crew. Every guide holds a KTA licence
             from HPWKI, supervised by BBKSDA Jawa Timur. No freelancers — same faces your reviews mention.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">

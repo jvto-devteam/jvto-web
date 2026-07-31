@@ -54,12 +54,7 @@ import { fileURLToPath } from 'node:url';
 // RULES / scanText / truncate / WHITELIST_MARKER now live in a shared, dependency-free
 // module so the runtime admin gate (content-validate/route.ts) imports the SAME
 // denylist instead of re-implementing or spawning this CLI.
-import {
-  RULES,
-  WHITELIST_MARKER,
-  truncate,
-  scanText,
-} from './lib/contentDriftRules.mjs';
+import { RULES, scanText } from './lib/contentDriftRules.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASELINE_PATH = path.join(ROOT, 'scripts', 'content-drift-baseline.json');
@@ -139,18 +134,13 @@ function scanFile(file) {
     return []; // unreadable — out of scope
   }
   if (content.includes('\u0000')) return []; // binary despite extension
-  const hits = [];
   const rel = path.relative(ROOT, file).split(path.sep).join('/');
-  const lines = content.split(/\r?\n/);
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.includes(WHITELIST_MARKER)) continue;
-    for (const rule of RULES) {
-      const m = rule.re.exec(line);
-      if (m) hits.push({ rel, line: i + 1, rule: rule.name, text: truncate(m[0]) });
-    }
-  }
-  return hits;
+  // Delegate to the shared scanText (see header comment) instead of
+  // reimplementing the per-line loop — a prior duplicate loop here silently
+  // stopped respecting per-rule `allow` exemptions (e.g. the canonical negated
+  // "cannot be guaranteed" blue-fire wording) because it never picked up
+  // scanText's allow-check when that feature was added.
+  return scanText(content, rel);
 }
 
 // ── draft mode: lint an in-memory draft from stdin (no baseline) ───────────────

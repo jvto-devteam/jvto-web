@@ -265,10 +265,9 @@ export const evidenceRegistry: EvidenceItem[] = [
     category: 'history',
     title: 'Stefan Loose Reiseführer Indonesien — Editorial Feature',
     description:
-      '"Agung" named as operator of Ijen Bondowoso Homestay on page 287 of the Stefan Loose Reiseführer Indonesien (4th Edition, 2018). Independent editorial mention by DuMont Reiseverlag — the canonical German-language Indonesia guidebook. Page 287 of 772.',
-    identifier: 'ISBN 978-3-7701-7881-0',
-    issuedDate: '2018-07-05',
-    authority: 'DuMont Reiseverlag — Stefan Loose Reiseführer Indonesien (4th Edition)',
+      '"Agung" named as operator of Ijen Bondowoso Homestay on page 287 of the Stefan Loose Reiseführer Indonesien: mit Reiseatlas. Independent editorial mention — a German-language Indonesia guidebook.',
+    identifier: 'ISBN-13 9783770167654',
+    authority: 'Stefan Loose Reiseführer Indonesien: mit Reiseatlas',
     fileUrl: 'https://javavolcano-touroperator.com/history/stefan-loose-ijen-bondowoso-page.png',
     previewUrl: 'https://javavolcano-touroperator.com/history/stefan_loose_crop_enh.jpg',
     claimSupports: ['C9', 'C5'],
@@ -276,7 +275,7 @@ export const evidenceRegistry: EvidenceItem[] = [
     bestPlacement: ['why-jvto', 'verify-jvto', 'homepage'],
     costlySignalWeight: 4,
     notes:
-      'LOCKED BUSINESS ASSET (owner-approved 2026-05-27). Schema mapping: use Book with isbn "978-3-7701-7881-0", publisher "DuMont Reiseverlag", datePublished "2018-07-05", inLanguage "de", numberOfPages 772. Connect via Organization.subjectOf → Book.',
+      'LOCKED BUSINESS ASSET (owner-approved 2026-05-27); ISBN/edition/year field superseded 2026-07-31 by cross-repo adjudication (llm-wiki DEC-001, 2026-06-25; OKF references/stefan-loose-indonesien-3770167651, last_verified 2026-06-26) — the previously-locked ISBN 978-3-7701-7881-0 / 4th Edition / 2018 was never independently evidenced by either source; both agree only on ISBN-13 9783770167654, page 287, with no year, publisher, or edition asserted. Schema mapping: use Book with isbn "9783770167654", inLanguage "de". Do not assert datePublished, bookEdition, publisher, or numberOfPages. Connect via Organization.subjectOf → Book.',
   },
 
   // ─── PRESS (E5 / C9) ───────────────────────────────────────────────────
