@@ -28,6 +28,20 @@ assemble `operational-events.json` without parsing the full `packageDetailSnapsh
 This artifact deliberately omits routing IDs (`route_node_id`), operational buffers, and exact
 times beyond the source `time_window`/label — downstream must not infer them from here.
 
+## reviewApiSnapshots.json
+
+Public review API snapshot: `feed` (on-site displayable reviews), `preview`, `stats`, `xmlItems`.
+
+- **Regenerate:** `node scripts/export-public-review-api-snapshots.mjs` (needs `DATABASE_URL`).
+- **`stats` is NOT `COUNT(*) FROM reviews`.** It is the authoritative platform total from the
+  facts lock (`src/lib/jvtoReviews.ts` → `getCanonicalReviewStats`): Google 123 · Trustpilot 51 ·
+  TripAdvisor 21 · total 195 · rating 4.8. The DB only holds the ingested subset (currently
+  92/44/21), so counting rows would publish the forbidden stale value `92`
+  (`docs/CANONICAL_FACTS.md`).
+- **`feed`/`preview`/`xmlItems` come from the DB** and are legitimately **smaller** than
+  `stats.total` by design — the feed is the reviews we have on-record to display, not the full
+  platform totals. `feed` never "sums to" `stats.total`; that is expected, not a bug.
+
 ## Other artifacts
 
 - `packageDetailSnapshots.json`, `destinationDetailSnapshots.json` — full public detail snapshots

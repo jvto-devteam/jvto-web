@@ -2,6 +2,11 @@
 // Ported from rewrite repo (e:\test-2-2026\lib\jvtoReviews.ts) on 2026-04-29 as part of AEO/GEO port.
 // Schema rule: AggregateRating ACTIVE on Organization. Individual @type:Review ACTIVE on /why-jvto/reviews.
 
+// Platform counts + cross-platform rating come from ONE machine-readable file so
+// the runtime (here) and the generated snapshot (scripts/export-public-review-api-
+// snapshots.mjs) can never diverge. Update review counts in that JSON only.
+import CANONICAL_REVIEW_STATS from '@/data/reviewStats.canonical.json';
+
 export interface ReviewPlatform {
   platform: string;
   count: number | null;
@@ -19,10 +24,10 @@ export interface ReviewTheme {
 }
 
 export const AGGREGATE_RATING = {
-  ratingValue: 4.8,
+  ratingValue: CANONICAL_REVIEW_STATS.average_rating,
   bestRating: 5,
   worstRating: 1,
-  reviewCount: 51,
+  reviewCount: CANONICAL_REVIEW_STATS.platforms.trustpilot,
   primaryPlatform: 'Trustpilot',
   primaryPlatformUrl: 'https://trustpilot.com/review/javavolcano-touroperator.com',
   lastVerified: '2026-05-09',
@@ -31,7 +36,7 @@ export const AGGREGATE_RATING = {
 export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   {
     platform: 'Trustpilot',
-    count: 51,
+    count: CANONICAL_REVIEW_STATS.platforms.trustpilot,
     rating: 4.8,
     url: 'https://trustpilot.com/review/javavolcano-touroperator.com',
     isPrimary: true,
@@ -39,7 +44,7 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   },
   {
     platform: 'Google Maps',
-    count: 123,
+    count: CANONICAL_REVIEW_STATS.platforms.google,
     rating: 4.9,
     url: 'https://www.google.com/maps?cid=1266403973589689021',
     isPrimary: false,
@@ -47,7 +52,7 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   },
   {
     platform: 'TripAdvisor',
-    count: 21,
+    count: CANONICAL_REVIEW_STATS.platforms.tripadvisor,
     rating: 4.95,
     url: 'https://www.tripadvisor.com/Attraction_Review-g297715-d19983165-Reviews-Java_Volcano_Tour_Operator-Surabaya_East_Java_Java.html',
     isPrimary: false,
@@ -62,6 +67,27 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
     lastVerified: null,
   },
 ];
+
+// Canonical public review aggregate for the review API `stats` block.
+//
+// IMPORTANT: these are the authoritative PLATFORM totals (what a visitor sees on
+// the Google Maps / Trustpilot / TripAdvisor pages themselves), from the single
+// source src/data/reviewStats.canonical.json (per the facts lock,
+// docs/CANONICAL_FACTS.md). They are NOT `SELECT COUNT(*) FROM reviews` — the DB
+// only holds the ingested subset (currently 92/44/21), so counting rows would
+// publish the forbidden stale value 92. The export script reads the SAME JSON, so
+// the generated snapshot and this runtime can never diverge. `stats` must come
+// from here, never prisma.reviews.count(); `feed` is the DB subset and is
+// legitimately smaller than `stats.total` by design.
+export function getCanonicalReviewStats() {
+  const { trustpilot, google, tripadvisor } = CANONICAL_REVIEW_STATS.platforms;
+  return {
+    success: true,
+    total: google + trustpilot + tripadvisor,
+    platforms: { google, trustpilot, tripadvisor },
+    average_rating: CANONICAL_REVIEW_STATS.average_rating,
+  };
+}
 
 // HTML-first review themes for /why-jvto/reviews. NOT @type:Review schema.
 export const REVIEW_THEMES: ReviewTheme[] = [
