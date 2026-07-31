@@ -12,6 +12,7 @@
 //   because live's per-page Org injection uses the same @id.
 
 import { AGGREGATE_RATING } from '@/lib/jvtoReviews';
+import { isGuideRole } from '@/lib/crewRole';
 
 const BASE_URL = 'https://javavolcano-touroperator.com';
 const ORG_ID   = `${BASE_URL}/#organization`;
@@ -576,7 +577,7 @@ export function buildCrewPersonSchema(member: {
     '@type': 'Person',
     '@id': `${BASE_URL}/#crew-${member.code}`,
     name: member.name,
-    jobTitle: member.type === 'Guide' ? 'Licensed Tour Guide' : 'Professional Tour Driver',
+    jobTitle: isGuideRole(member.type) ? 'Licensed Tour Guide' : 'Professional Tour Driver',
     ...(member.photoUrl ? {
       image: { '@type': 'ImageObject', url: member.photoUrl, caption: member.name },
     } : {}),
@@ -595,11 +596,11 @@ export function buildCrewPersonSchema(member: {
     ...(member.ktaId ? {
       hasCredential: {
         '@type': 'EducationalOccupationalCredential',
-        name: member.type === 'Guide'
+        name: isGuideRole(member.type)
           ? 'KTA (Kartu Tanda Anggota) — Guide Licence'
           : 'KTA (Kartu Tanda Anggota) — Driver Card',
         identifier: member.ktaId,
-        credentialCategory: member.type === 'Guide'
+        credentialCategory: isGuideRole(member.type)
           ? 'Indonesian Tour Guide Licence'
           : 'Indonesian Tour Driver Card',
         ...(member.ktaCardUrl ? { url: member.ktaCardUrl } : {}),
