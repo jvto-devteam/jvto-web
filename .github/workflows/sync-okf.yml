@@ -10,7 +10,7 @@ name: Sync OKF artifacts
 # wording (see scripts/sync-okf.mjs header for the concrete incident).
 on:
   repository_dispatch:
-    types: [okf-master-updated]
+    types: [okf-main-updated]
   workflow_dispatch:
 
 jobs:

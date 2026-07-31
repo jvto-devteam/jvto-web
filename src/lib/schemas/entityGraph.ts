@@ -587,13 +587,21 @@ export function buildCrewPersonSchema(member: {
       name: 'Java Volcano Tour Operator',
     },
     employmentType: 'FULL_TIME',
-    // KTA credential — issued via HPWKI/local guide association
+    // KTA credential — issued via HPWKI/local guide association. Name/category
+    // must track member.type the same way jobTitle above does: KTA-D-* driver
+    // cards are a distinct credential from KTA-G-* guide cards, not a "Guide
+    // Licence" — hasCredential must not overclaim a licence type the card
+    // itself (per its ID prefix) doesn't carry.
     ...(member.ktaId ? {
       hasCredential: {
         '@type': 'EducationalOccupationalCredential',
-        name: 'KTA (Kartu Tanda Anggota) — Guide Licence',
+        name: member.type === 'Guide'
+          ? 'KTA (Kartu Tanda Anggota) — Guide Licence'
+          : 'KTA (Kartu Tanda Anggota) — Driver Card',
         identifier: member.ktaId,
-        credentialCategory: 'Indonesian Tour Guide Licence',
+        credentialCategory: member.type === 'Guide'
+          ? 'Indonesian Tour Guide Licence'
+          : 'Indonesian Tour Driver Card',
         ...(member.ktaCardUrl ? { url: member.ktaCardUrl } : {}),
         recognizedBy: {
           '@type': 'Organization',
