@@ -14,6 +14,19 @@ const OUTPUT_PATH = path.join(
 
 const prisma = new PrismaClient();
 
+// Canonical public review aggregate = authoritative PLATFORM totals from the facts
+// lock (docs/CANONICAL_FACTS.md), NOT `SELECT COUNT(*) FROM reviews`. The DB only
+// holds the ingested subset (currently 92/44/21), so counting rows would publish the
+// forbidden stale value 92. Keep in sync with src/lib/jvtoReviews.ts REVIEW_PLATFORMS /
+// AGGREGATE_RATING — the content-drift CI gate fails if these regress to a stale value.
+// `feed` below is the DB subset and is legitimately smaller than `stats.total` by design.
+const CANONICAL_REVIEW_STATS = {
+  success: true,
+  total: 195,
+  platforms: { google: 123, trustpilot: 51, tripadvisor: 21 },
+  average_rating: 4.8,
+};
+
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
@@ -203,28 +216,6 @@ try {
     },
   });
 
-  const [google, trustpilot, tripadvisor] = await Promise.all([
-    prisma.reviews.count({
-      where: { platform: "Google", star: { gte: 1 } },
-    }),
-    prisma.reviews.count({
-      where: { platform: "Trustpilot", star: { gte: 1 } },
-    }),
-    prisma.reviews.count({
-      where: { platform: "TripAdvisor", star: { gte: 1 } },
-    }),
-  ]);
-
-  const avgRating = await prisma.reviews.aggregate({
-    where: {
-      platform: { in: ["Google", "Trustpilot", "TripAdvisor"] },
-      star: { gte: 1 },
-    },
-    _avg: {
-      star: true,
-    },
-  });
-
   const xmlReviews = await prisma.reviews.findMany({
     where: {
       package_id: {
@@ -255,16 +246,7 @@ try {
           crew.year_of_joining != null ? Number(crew.year_of_joining) : null,
       })),
     },
-    stats: {
-      success: true,
-      total: google + trustpilot + tripadvisor,
-      platforms: {
-        google,
-        trustpilot,
-        tripadvisor,
-      },
-      average_rating: parseFloat(avgRating._avg.star?.toFixed(1) || "4.9"),
-    },
+    stats: CANONICAL_REVIEW_STATS,
     xmlItems: xmlReviews.map((review) => ({
       id: toId(review.id),
       customer_name: review.customer_name,

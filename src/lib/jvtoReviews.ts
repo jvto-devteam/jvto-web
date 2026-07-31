@@ -63,6 +63,32 @@ export const REVIEW_PLATFORMS: ReviewPlatform[] = [
   },
 ];
 
+// Canonical public review aggregate for the review API `stats` block.
+//
+// IMPORTANT: these are the authoritative PLATFORM totals (what a visitor sees on
+// the Google Maps / Trustpilot / TripAdvisor pages themselves), sourced from the
+// facts lock (docs/CANONICAL_FACTS.md) via REVIEW_PLATFORMS above. They are NOT
+// `SELECT COUNT(*) FROM reviews` — the DB only holds the subset of reviews that
+// were ingested as individual records (currently 92/44/21), so counting rows
+// would publish the forbidden stale value 92. `stats` must therefore come from
+// here, never from prisma.reviews.count(); the `feed` array is the DB subset and
+// is legitimately smaller than `stats.total` by design.
+export function getCanonicalReviewStats() {
+  const byPlatform = (name: string) =>
+    REVIEW_PLATFORMS.find((p) => p.platform === name)?.count ?? 0;
+
+  const google = byPlatform('Google Maps');
+  const trustpilot = byPlatform('Trustpilot');
+  const tripadvisor = byPlatform('TripAdvisor');
+
+  return {
+    success: true,
+    total: google + trustpilot + tripadvisor,
+    platforms: { google, trustpilot, tripadvisor },
+    average_rating: AGGREGATE_RATING.ratingValue,
+  };
+}
+
 // HTML-first review themes for /why-jvto/reviews. NOT @type:Review schema.
 export const REVIEW_THEMES: ReviewTheme[] = [
   {

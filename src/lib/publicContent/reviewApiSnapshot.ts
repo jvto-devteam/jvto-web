@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
+import { getCanonicalReviewStats } from "@/lib/jvtoReviews";
 import reviewApiSnapshotsJson from "./generated/reviewApiSnapshots.json";
 import {
   canUsePublishedSnapshotDatabaseFallback,
@@ -230,39 +231,13 @@ async function getReviewPreviewFromDatabase() {
   };
 }
 
-async function getReviewStatsFromDatabase(): Promise<PublicReviewApiStats> {
-  const [google, trustpilot, tripadvisor] = await Promise.all([
-    prisma.reviews.count({
-      where: { platform: "Google", star: { gte: 1 } },
-    }),
-    prisma.reviews.count({
-      where: { platform: "Trustpilot", star: { gte: 1 } },
-    }),
-    prisma.reviews.count({
-      where: { platform: "TripAdvisor", star: { gte: 1 } },
-    }),
-  ]);
-
-  const avgRating = await prisma.reviews.aggregate({
-    where: {
-      platform: { in: ["Google", "Trustpilot", "TripAdvisor"] },
-      star: { gte: 1 },
-    },
-    _avg: {
-      star: true,
-    },
-  });
-
-  return {
-    success: true,
-    total: google + trustpilot + tripadvisor,
-    platforms: {
-      google,
-      trustpilot,
-      tripadvisor,
-    },
-    average_rating: parseFloat(avgRating._avg.star?.toFixed(1) || "4.9"),
-  };
+// Stats = authoritative platform totals from the facts lock (getCanonicalReviewStats),
+// NOT prisma.reviews.count(). The DB only holds the ingested subset (92/44/21), so
+// counting rows would publish the forbidden stale value 92. This keeps the runtime
+// fallback consistent with the generated snapshot and the facts lock. See
+// src/lib/jvtoReviews.ts for the rationale.
+function getReviewStatsFromDatabase(): PublicReviewApiStats {
+  return getCanonicalReviewStats();
 }
 
 async function getReviewXmlItemsFromDatabase(): Promise<PublicReviewXmlItem[]> {
