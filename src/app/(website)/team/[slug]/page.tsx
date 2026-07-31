@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2, Globe, ShieldCheck, Users } from "lucide-react
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { getContentPage } from "@/lib/content/getContentPage";
 import { prisma } from "@/lib/prisma";
+import { isGuideRole } from "@/lib/crewRole";
 import {
   getPersonaByCode,
   buildNamedGuidePersonaSchema,
@@ -58,7 +59,7 @@ export default async function TeamMemberPage({ params }: Props) {
   const name = content.h1 ?? seo.title ?? slug;
   const description = seo.description ?? "";
   const photoUrl = (crewMember as any)?.photo_url as string | null ?? null;
-  const isGuide = (crewMember as any)?.type === "Guide";
+  const isGuide = isGuideRole((crewMember as any)?.type);
 
   // Try to use the named persona schema (with specialty signals) first.
   // Fall back to a generic Person schema built from DB data.
