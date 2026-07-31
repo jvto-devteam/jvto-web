@@ -23,6 +23,17 @@ jobs:
             set -eo pipefail
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            # Resolve pm2 in the pre-switch env (where it has always been
+            # reachable — the deploy worked here before Next 16). If pm2 is a
+            # global under the box's default Node 18, `nvm use 20` below would
+            # drop it from PATH and `pm2 restart` would be command-not-found,
+            # leaving the site frozen despite a green build. Call it by this
+            # captured path at the end instead.
+            PM2_BIN="$(command -v pm2 || echo pm2)"
+            # Next.js 16 requires Node >=20.9.0. nvm is sourced above but its
+            # default on this box is 18, so `next build` aborted every deploy.
+            # Explicitly select 20 here (installed on the box) for the build.
+            nvm use 20
             set -u
             cd /var/www/jvto-help
             # Force the working tree to exactly origin/main. A plain `git pull`
@@ -35,5 +46,7 @@ jobs:
             git reset --hard origin/main
             npm ci
             npm run build
-            # --update-env so pm2 picks up newly-added env (e.g. CMS_ADMIN_EMAILS)
-            pm2 restart jvto-help --update-env
+            # --update-env so pm2 picks up newly-added env (e.g. CMS_ADMIN_EMAILS).
+            # $PM2_BIN (captured pre-`nvm use 20`) so switching Node for the build
+            # can't hide a Node-18-global pm2 from PATH -> command-not-found.
+            "$PM2_BIN" restart jvto-help --update-env
