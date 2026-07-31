@@ -1,4 +1,12 @@
 // next.config.js
+// Hanya deployment yang di-build dengan NEXT_PUBLIC_SITE_URL = origin produksi
+// yang boleh diindeks. Preview/help (env=help host, atau kosong) mendapat header
+// X-Robots-Tag: noindex global (lihat headers()). Dievaluasi saat build di tiap
+// box, jadi help box → noindex, live box → indexable — tanpa perubahan kode.
+const IS_PROD_DEPLOY =
+  (process.env.NEXT_PUBLIC_SITE_URL || "").trim().replace(/\/+$/, "") ===
+  "https://javavolcano-touroperator.com";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -71,6 +79,17 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Preview/help deployment: de-index secara global. Diletakkan lebih dulu;
+      // crawl tetap diizinkan (robots.ts) supaya Google membaca noindex ini dan
+      // menghapus/menahan indeks. Live box (IS_PROD_DEPLOY) tak dapat header ini.
+      ...(!IS_PROD_DEPLOY
+        ? [
+            {
+              source: "/(.*)",
+              headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+            },
+          ]
+        : []),
       {
         source: "/(.*)",
         headers: [
