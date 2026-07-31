@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { PrismaClient } from "../src/generated/prisma/index.js";
+// Single source of truth for the review aggregate, shared with the runtime
+// (src/lib/jvtoReviews.ts). Importing it here — instead of inlining the counts —
+// guarantees the generated snapshot and the runtime can never diverge.
+import canonicalReviewStats from "../src/data/reviewStats.canonical.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,17 +18,17 @@ const OUTPUT_PATH = path.join(
 
 const prisma = new PrismaClient();
 
-// Canonical public review aggregate = authoritative PLATFORM totals from the facts
-// lock (docs/CANONICAL_FACTS.md), NOT `SELECT COUNT(*) FROM reviews`. The DB only
-// holds the ingested subset (currently 92/44/21), so counting rows would publish the
-// forbidden stale value 92. Keep in sync with src/lib/jvtoReviews.ts REVIEW_PLATFORMS /
-// AGGREGATE_RATING — the content-drift CI gate fails if these regress to a stale value.
-// `feed` below is the DB subset and is legitimately smaller than `stats.total` by design.
+// Authoritative PLATFORM totals from the shared canonical source (the SAME JSON the
+// runtime uses), NOT `SELECT COUNT(*) FROM reviews`. The DB holds only the ingested
+// subset (currently 92/44/21), so counting rows would publish the forbidden stale
+// value 92. `feed` below is that DB subset and is legitimately smaller than
+// `stats.total` by design.
+const { trustpilot, google, tripadvisor } = canonicalReviewStats.platforms;
 const CANONICAL_REVIEW_STATS = {
   success: true,
-  total: 195,
-  platforms: { google: 123, trustpilot: 51, tripadvisor: 21 },
-  average_rating: 4.8,
+  total: google + trustpilot + tripadvisor,
+  platforms: { google, trustpilot, tripadvisor },
+  average_rating: canonicalReviewStats.average_rating,
 };
 
 function writeJson(filePath, value) {
