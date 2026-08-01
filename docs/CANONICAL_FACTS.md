@@ -25,6 +25,13 @@ Baris dalam dokumen ini yang mengutip contoh SALAH secara sengaja diberi marker
   before Kawah Ijen crater entry), didukung sitasi otoritas BBKSDA SE.1658/KSA.9/2024 sebagai
   evidence — bukan sebagai syarat pemicu kondisional. Adjudikasi ulang 2026-07-06 (menggantikan
   keputusan kondisional 2026-07-05); lihat commit history untuk detail.
+  Sertifikat (surat sehat) = **BSrE (Balai Sertifikasi Elektronik / BSSN) electronically-signed**
+  (tanda tangan elektronik sah menurut UU ITE), **verifiable via QR** dan traceable ke SIP dokter;
+  screening included dalam paket & dilakukan di hotel tamu sebelum guide briefing. Wording
+  BSrE/QR/electronic-signature ini **canonical** — akuntabel & tamper-evident, safeguard terhadap
+  surat sehat palsu (self-issued). Batas: sample hanya membuktikan **format tanda tangan** — jangan
+  klaim "diterima/diverifikasi di gerbang" tanpa evidence otoritas gerbang. Evidence anchors: OKF
+  `policies/ijen-health-screening` + llm-wiki E019 (BSrE-signed sample certificate on file).
 - **Police escort**: threshold ≈18 guests, "approval not guaranteed", unit Ditlantas.
 - **Deposit 20%**; cancellation = **100% Lifetime Package Credit** (bukan cash refund).
 - **Harga IDR-only** format `IDR 1,550,000/person`.
