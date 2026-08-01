@@ -140,7 +140,7 @@ Each claim has a tested AI snippet (extraction-optimized one-liner), a short tag
 
 **Important framing**: Mandatory for every guest — supported by citation to BBKSDA SE.1658/KSA.9/2024 as the governing authority. JVTO **coordinates** the screening workflow for all guests.
 
-**Evidence**: `bbksda-surat-edaran-se-1658-ksa-9-2024`, `bbksda-ticket-terms-screenshot`, `health-screening-form-sample-2026-02-17`, `surat-sehat-sample`, `sip-dr-ahmad-irwandanu-2026`.
+**Evidence**: `bbksda-surat-edaran-se-1658-ksa-9-2024`, `bbksda-ticket-terms-screenshot`, `health-screening-form-sample-2026-02-17`, `sip-dr-ahmad-irwandanu-2026`.
 
 ### C5 — Proof-First Trust / Verification Layer (authority)
 
