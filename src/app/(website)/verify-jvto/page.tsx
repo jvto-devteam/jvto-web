@@ -297,6 +297,8 @@ export default async function VerifyJvtoPage() {
         about: {
           "@type": "DigitalDocument",
           name: "Health Clearance Form (Surat Sehat)",
+          description:
+            "Mandatory Ijen health-screening certificate issued under SIP-licensed medical supervision. Electronically signed with a BSrE (Balai Sertifikasi Elektronik / BSSN) certificate — a legally valid e-signature under UU ITE — verifiable via its QR code and traceable to the doctor's SIP; an accountable, tamper-evident document, a safeguard against fake or self-issued certificates.",
         },
       };
     }
