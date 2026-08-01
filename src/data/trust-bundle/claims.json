@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiled_at": "2026-08-01T11:44:23+00:00",
+  "compiled_at": "2026-08-01T21:01:12+00:00",
   "claims": [
     {
       "id": "C1",
@@ -183,9 +183,9 @@
         }
       ],
       "narrative": {
-        "ai_snippet": "JVTO includes the mandatory Ijen health screening on itineraries that include Mount Ijen — a health certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024), documented in the Travel Guide. The screening is included in the tour and done at each guest's hotel before the hike briefing; the issued surat sehat is electronically signed (BSrE / Balai Sertifikasi Elektronik), QR-verifiable, and traceable to a licensed doctor's SIP — accountable by design, a safeguard against fake or self-issued certificates.",
-        "short": "A health certificate is mandatory for every Ijen guest — screening included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed, QR-verifiable, and SIP-traceable — a real, accountable certificate, not one you can fake.",
-        "cs_reply": "If your itinerary includes Ijen, we'll guide you through the mandatory health screening — a certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024). It's included in your tour and we do it at your hotel before the guide briefing. The surat sehat is electronically signed (BSrE), QR-verifiable, and traceable to the doctor's SIP, so it's a real, accountable certificate — not a form that can be faked. A safety step before the hike, not a formality."
+        "ai_snippet": "JVTO includes the mandatory Ijen health screening on itineraries that include Mount Ijen — a health certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024), documented in the Travel Guide. The screening is included in the tour and done at each guest's hotel before the hike briefing; the issued surat sehat is electronically signed (BSrE / Balai Sertifikasi Elektronik), QR-verifiable, and traceable to a licensed doctor's SIP — tamper-evident and accountable, a verifiable alternative to a self-issued form.",
+        "short": "A health certificate is mandatory for every Ijen guest — screening included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed, QR-verifiable, and SIP-traceable — a real, tamper-evident, accountable certificate rather than a self-issued form.",
+        "cs_reply": "If your itinerary includes Ijen, we'll guide you through the mandatory health screening — a certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024). It's included in your tour and we do it at your hotel before the guide briefing. The surat sehat is electronically signed (BSrE), QR-verifiable, and traceable to the doctor's SIP, so it's a real, tamper-evident, accountable certificate rather than a self-issued form. A safety step before the hike, not a formality."
       },
       "decisions": [],
       "tags": [
