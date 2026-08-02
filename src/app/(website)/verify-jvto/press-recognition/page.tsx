@@ -166,10 +166,9 @@ export default async function PressRecognitionPage() {
                 Stefan Loose Reiseführer Indonesien
               </h2>
               <p className="text-slate-400 text-sm leading-relaxed mb-5">
-                The 4th edition of the Stefan Loose Indonesien travel guide (DuMont Reiseverlag,
-                2018) names the founder by name on page 287 in the Ijen Massif section — an
-                independent editorial citation in a widely distributed German-language travel guide
-                predating PT incorporation.
+                The Stefan Loose Indonesien travel guide names the founder by name on page 287
+                in the Ijen Massif section — an independent editorial citation in a widely
+                distributed German-language travel guide predating PT incorporation.
               </p>
               <dl className="space-y-2 text-xs text-slate-500">
                 <div className="flex gap-3">
