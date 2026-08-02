@@ -162,10 +162,14 @@ Content facts live **upstream**: `sambuko82/llm-wiki` (`master`) compiles the tr
 
 **Auto-sync workflows** `sync-llm-wiki.yml` / `sync-okf.yml`: `repository_dispatch` (on producer push) + manual `workflow_dispatch`; matrix `base: [main, live]`; open an `automation/sync-*-<base>` PR and auto-merge once `verify` is green (`build-develop` is non-required — flaky VPS SSH).
 
-**⚠ Deadlock gotcha:** each auto-sync workflow refreshes only **its own** slice, but `verify` demands **all** bundles consistent at once — so when two producers change together, their sync PRs **deadlock** (each fails `verify` on the other's staleness, neither merges). **Fix = one consolidated commit** running all five syncs from the current producer heads, PR'd into `main`:
+**⚠ Deadlock / coverage gotcha:** each auto-sync workflow refreshes only **its own** slice, but `verify` demands **all five** bundles consistent at once. Two distinct failure modes:
+1. **Two producers change together** → their sync PRs **deadlock** (each fails `verify` on the other's staleness, neither merges).
+2. **`policy-bundle` has no auto-sync at all** — `sync-llm-wiki.yml` syncs/detects only `package-readiness`, `trust-bundle`, `blog`, but `ci.yml verify` *also* re-syncs + checks `policy-bundle`. So a policy-bundle-only upstream change can never land via the workflow (it reports "no changes" or opens a PR that still fails `verify`), even with no OKF change.
+
+**Fix for both = one consolidated commit** running all five syncs from the current producer heads, PR'd into `main`. Note: the inline `VAR=x cmd` form applies only to the first command — **`export` the vars** so the whole `&&` chain sees them:
 ```bash
-LLM_WIKI_PATH=/path/llm-wiki LLM_WIKI_ROOT=/path/llm-wiki OKF_PATH=/path/okf \
-  npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle && npm run sync:okf
+export LLM_WIKI_PATH=/path/llm-wiki LLM_WIKI_ROOT=/path/llm-wiki OKF_PATH=/path/okf
+npm run sync:packages && npm run sync:trust && npm run sync:blog && npm run sync:policy-bundle && npm run sync:okf
 # red-flag check: only src/data/* changed + a 2nd run adds no diff (idempotent) => verify will pass
 ```
 Keep consolidated fixes to **`main` only**; the workflows also target `live`, but `live` is owner-promoted (do not drive its sync legs).
