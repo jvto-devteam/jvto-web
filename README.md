@@ -88,9 +88,12 @@ Deploy dijalankan oleh **GitHub Actions `.github/workflows/deploy.yml`**:
 
 Cara yang disarankan untuk re-deploy tanpa perubahan kode: jalankan ulang
 workflow **Deploy to VPS** via `workflow_dispatch` (Actions UI / `gh workflow run
-deploy.yml --ref main`). Blok di bawah hanya untuk kondisi GitHub Actions tak
-tersedia — urutannya mengikuti `deploy.yml` (termasuk `nvm use 20`) supaya
-`npm run build` tidak gagal di Node 18 default box:
+deploy.yml --ref <branch>`). **Branch menentukan target:** `--ref main` →
+preview/develop (box `jvto-help`, `help.javavolcano-touroperator.com`);
+`--ref live` → produksi (`javavolcano-touroperator.com`). Blok di bawah hanya
+untuk kondisi GitHub Actions tak tersedia dan berlaku untuk box `jvto-help`;
+urutannya mengikuti `deploy.yml` (termasuk `nvm use 20`) supaya `npm run build`
+tidak gagal di Node 18 default box:
 
 ```bash
 cd /var/www/jvto-help
