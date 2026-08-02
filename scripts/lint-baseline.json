@@ -41,7 +41,6 @@
   "src/components/website/TourDetail.tsx :: @typescript-eslint/ban-ts-comment": 1,
   "src/components/website/TourDetail.tsx :: react/no-unescaped-entities": 2,
   "src/components/website/ToursPageClient.tsx :: react-hooks/set-state-in-effect": 1,
-  "src/components/why/SSOTRenderer.tsx :: @typescript-eslint/ban-ts-comment": 1,
   "src/hooks/use-composed-ref.ts :: react-hooks/immutability": 1,
   "src/hooks/use-element-rect.ts :: react-hooks/set-state-in-effect": 1,
   "src/hooks/use-is-breakpoint.ts :: react-hooks/set-state-in-effect": 1,
