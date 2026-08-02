@@ -13,10 +13,13 @@ name: Sync artifacts (llm-wiki + OKF)
 # five bundles from both producers in a single PR makes the drift gate satisfiable in
 # one commit: deadlock is structurally impossible and every bundle is covered.
 #
-# repository_dispatch fires from the DEFAULT branch (main) for BOTH producers' push
-# notifications; this one workflow drives both target branches via a matrix:
-#   - main  -> help/develop subdomain (deploy.yml runs on push to main)
-#   - live  -> production (its own deploy trigger; deploy.yml is NOT touched here)
+# repository_dispatch fires from the DEFAULT branch (main) for BOTH producers'
+# push notifications. This workflow auto-syncs **`main` only** — `live` is
+# deliberately excluded: per docs/CONTRIBUTING.md, `live` receives only
+# owner-commanded `main` -> `live` promote PRs (which carry main's already-synced
+# `src/data`), so auto-writing bundles straight to `live` would bypass that gate.
+# (That especially matters for `policy-bundle`, which never had a live auto-sync.)
+# main push -> deploy.yml -> help/develop subdomain.
 on:
   repository_dispatch:
     types: [llm-wiki-master-updated, okf-main-updated]
@@ -26,10 +29,11 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     strategy:
-      # Independent legs — a problem syncing one branch must not abort the other.
+      # `main` only (see header). Kept as a matrix so a target can be added later
+      # without restructuring; `live` stays owner-promoted.
       fail-fast: false
       matrix:
-        base: [main, live]
+        base: [main]
     # One sync per base at a time; a fixed per-base PR branch means re-runs update
     # the same PR instead of stacking new ones, and a dispatch that arrives mid-run
     # queues rather than racing.
