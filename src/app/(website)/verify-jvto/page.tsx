@@ -616,8 +616,8 @@ export default async function VerifyJvtoPage() {
     ],
 
     award: [
-      "Booking.com Guest Review Award 2016 (Score 9.2/10 - Homestay Era)",
-      "Stefan Loose Travel Handbuch Recommendation 2018 (Featured as trusted local operator)",
+      "Booking.com Guest Review Award 2015 (Score 9.4/10 - Homestay Era)",
+      "Stefan Loose Travel Handbuch Recommendation (Featured as trusted local operator)",
     ],
 
     memberOf: [

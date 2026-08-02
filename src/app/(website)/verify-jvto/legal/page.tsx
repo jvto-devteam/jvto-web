@@ -285,9 +285,8 @@ export default async function LegalPage() {
               </p>
               <p className="text-slate-500 text-xs leading-relaxed">
                 Founder Mr. Sam (Bripka Agung Sambuko) operated the guesthouse
-                from 2015 and is named in the 4th-edition Stefan Loose
-                Reisef&uuml;hrer Indonesien (DuMont Reiseverlag) as the operator
-                at the homestay address.
+                from 2015 and is named in the Stefan Loose Reisef&uuml;hrer
+                Indonesien as the operator at the homestay address.
               </p>
             </div>
 

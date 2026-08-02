@@ -106,7 +106,7 @@ export const VERIFY_HUB_FAQS: QaPair[] = [
     answer:
       'Four layers: (1) Legal — NIB/TDUP/AHU registration verifiable on Indonesian government registries; (2) Police — founder Bripka Agung ' +
       "Sambuko's SPRIN-POLPAR + SPRIN-WAL-TRAVEL assignment documents and Detik.com identity confirmation; (3) Press & Recognition — Stefan " +
-      'Loose 2018 editorial feature, Booking.com 2015 award, Detik 2021 article; (4) History & Artifacts — operational continuity from 2015 ' +
+      'Loose editorial feature, Booking.com 2015 award, Detik 2021 article; (4) History & Artifacts — operational continuity from 2015 ' +
       'guesthouse era through 2023 PT formalization.',
     uiMeta: 'See sub-pages: /legal, /police-safety, /press-recognition, /history-artifacts',
   },
