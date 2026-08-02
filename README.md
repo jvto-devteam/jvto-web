@@ -86,11 +86,22 @@ Deploy dijalankan oleh **GitHub Actions `.github/workflows/deploy.yml`**:
 
 ### Deploy manual (fallback, dijalankan di VPS)
 
+Cara yang disarankan untuk re-deploy tanpa perubahan kode: jalankan ulang
+workflow **Deploy to VPS** via `workflow_dispatch` (Actions UI / `gh workflow run
+deploy.yml --ref main`). Blok di bawah hanya untuk kondisi GitHub Actions tak
+tersedia — urutannya mengikuti `deploy.yml` (termasuk `nvm use 20`) supaya
+`npm run build` tidak gagal di Node 18 default box:
+
 ```bash
 cd /var/www/jvto-help
+# Next.js 16 butuh Node >= 20.9 — default box = Node 18, jadi pilih Node 20 dulu
+# (persis seperti deploy.yml); tanpa ini `npm run build` gagal:
+export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+PM2_BIN="$(command -v pm2 || echo pm2)"   # tangkap sebelum `nvm use 20` (pm2 di Node 18 global)
+nvm use 20
 git fetch --prune origin main && git reset --hard origin/main
 npm ci && npm run build
-pm2 restart jvto-help --update-env
+"$PM2_BIN" restart jvto-help --update-env
 ```
 
 ### Management Layanan
@@ -117,9 +128,12 @@ Next.js:    pm2 [status|start|stop|restart] jvto-help
 
 ```bash
 cd /var/www/jvto-help
+export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+PM2_BIN="$(command -v pm2 || echo pm2)"   # Node 20 + pm2 handling sama seperti deploy.yml
+nvm use 20
 git checkout <commit_stabil_terakhir>
 npm ci && npm run build
-pm2 restart jvto-help --update-env
+"$PM2_BIN" restart jvto-help --update-env
 ```
 
 Alternatif yang lebih aman: revert di `main` lewat PR — `deploy.yml` akan
