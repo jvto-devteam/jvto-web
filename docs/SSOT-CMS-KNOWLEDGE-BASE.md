@@ -57,7 +57,7 @@ Founding **2015** (never 2016/19/20/23; PT-formal 2023 is legal-context only) ·
 | Founding 2015 | `src/lib/site-config.ts:9` (+ derived `:173,176`) | `entityGraph.ts:35` (hardcoded), `generateFaqSchema.ts:89`, `verify-jvto/page.tsx:533`, `organizationSnapshot.ts:8`, tours pages, `marketContent.ts`. Drift residue: `OurStoryPage.tsx:96` ("2019") |
 | Reviews / ratings | `src/lib/jvtoReviews.ts:21-64` (consumed by `entityGraph.ts:51`) | literals in tours pages, `marketContent.ts`, `pageSnapshots.ts`; **stale evasion** `tours/student-package/[slug]/page.tsx:290-291` (`4.9`/`112`) |
 | Deposit / thresholds | `src/lib/site-config.ts:127-136` (**zero importers**) | `data.ts`, `data/knowledge.ts`, `faq-data.ts`, tours pages |
-| Cancellation / Package Credit | `src/lib/site-config.ts:132` + synced `src/data/policy-bundle/*` | `data.ts`, `data/knowledge.ts`, `homepageFaqs.ts`, `faq-data.ts`, `agentGuides.ts`, `entityGraph DEFINED_TERMS`; **stale "Travel Credit"** in `generated/dbPageSnapshots.json` + `faqSnapshots.json` |
+| Cancellation / Package Credit | `src/lib/site-config.ts:132` + synced `src/data/policy-bundle/*` | `data.ts`, `data/knowledge.ts`, `homepageFaqs.ts`, `faq-data.ts`, `agentGuides.ts`, `entityGraph DEFINED_TERMS`; **stale "Travel Credit"** in `faqSnapshots.json` |
 | NIB / contact / legal | `src/lib/site-config.ts:3-25` + `evidenceRegistry.ts` | `data.ts`, `data/knowledge.ts`, `verifyFaqs.ts`, `marketContent.ts`, `entityGraph`, `legal.ts` |
 
 ---

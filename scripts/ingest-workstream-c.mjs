@@ -215,8 +215,7 @@ try {
 
   console.log("");
   console.log("─".repeat(70));
-  console.log("Next: regenerate snapshot");
-  console.log("  node scripts/export-public-page-snapshots.mjs");
+  console.log("Next: rebuild so the updated content_pages are picked up");
   console.log("  npm run build");
   console.log("─".repeat(70));
 } finally {
