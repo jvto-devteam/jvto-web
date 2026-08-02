@@ -127,6 +127,22 @@ const nextConfig = {
           },
         ],
       },
+      // HTML pages: short cache so content updates surface quickly instead of
+      // sitting behind Next.js's default ~1yr `stale-while-revalidate` (which made
+      // edited pages appear unchanged in browsers until a hard refresh). max-age=0
+      // → the browser revalidates every load (cheap 304s via ETag); s-maxage/SWR=60
+      // → CDN refreshes within ~1min. Scoped to page routes only: excludes /api
+      // (own Cache-Control), /_next assets (immutable, must stay long-cached), and
+      // any path with a file extension (favicon, robots.txt, llms.txt, sitemap…).
+      {
+        source: "/((?!api|_next|.*\\..*).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
+          },
+        ],
+      },
     ];
   },
   async redirects() {
