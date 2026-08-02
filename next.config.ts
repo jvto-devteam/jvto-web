@@ -127,6 +127,27 @@ const nextConfig = {
           },
         ],
       },
+      // PUBLIC HTML pages: short cache so content updates surface quickly instead
+      // of sitting behind Next.js's default ~1yr `stale-while-revalidate` (which
+      // made edited pages look unchanged in browsers until a hard refresh).
+      // max-age=0 → browser revalidates every load (cheap 304s via ETag);
+      // s-maxage/SWR=60 → CDN refreshes within ~1min.
+      // SECURITY: `public` + `s-maxage` must NEVER apply to authenticated/PII
+      // pages — a shared CDN could serve one user's rendered HTML to another. The
+      // matcher therefore EXCLUDES the private route prefixes: /cms (admin),
+      // /customer (dashboard), /checkout + /my-booking (booking PII) — plus /api
+      // (own Cache-Control), /_next assets (immutable), and any path with a file
+      // extension. Excluded routes keep Next's safe private/no-store defaults.
+      {
+        source:
+          "/((?!api|_next|cms|customer|checkout|my-booking|.*\\..*).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
+          },
+        ],
+      },
     ];
   },
   async redirects() {
