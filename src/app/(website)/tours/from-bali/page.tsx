@@ -94,7 +94,7 @@ const CHECK_US_SIGNALS = [
   { signal: "NIB 1102230032918", source: "OSS-verifiable at oss.go.id" },
   { signal: "Founder: active Tourist Police officer", source: "Detik.com press record, 2021" },
   { signal: "ISIC Student Tours", source: "Provider ID 259268 — isic.org verifiable" },
-  { signal: "Founded 2015", source: "Booking.com 2015 award · Stefan Loose 2018, p. 287" },
+  { signal: "Founded 2015", source: "Booking.com 2015 award · Stefan Loose, p. 287" },
 ];
 
 export default async function ToursPageBali() {

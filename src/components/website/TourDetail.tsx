@@ -18,6 +18,7 @@ import ReviewsClient from "@/components/website/Home/ReviewsClient";
 // import Reviews from "@/components/website/Home/Reviews";
 import Link from "@/components/website/AppLink";
 import { getTourSpineQaPairs } from "@/lib/tourFaqs";
+import { getCanonicalReviewStats } from "@/lib/jvtoReviews";
 
 // Import CSS Swiper (Wajib)
 import "swiper/css";
@@ -1705,7 +1706,7 @@ export default function PackageDetailPage({ initialData, reviews, ijenRelevant =
                         ))}
                       </div>
                       <span className="text-sm font-bold text-slate-500">
-                        Rated by 112 adventurers
+                        Rated by {getCanonicalReviewStats().total} adventurers
                       </span>
                     </div>
                   </div>

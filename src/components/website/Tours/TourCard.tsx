@@ -4,6 +4,7 @@ import { ListTourPackage } from "@/types";
 import { formatPrice } from "@/services/mockData";
 import Button from "../UI/Button";
 import Image from "next/image";
+import { AGGREGATE_RATING, getCanonicalReviewStats } from "@/lib/jvtoReviews";
 
 interface TourCardProps {
   tour: ListTourPackage;
@@ -58,8 +59,8 @@ const TourCard: React.FC<TourCardProps> = ({ tour }) => {
         <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent flex items-end">
           <div className="flex items-center gap-1 text-white">
             <Star className="fill-jvto-green text-jvto-green w-4 h-4" />
-            <span className="font-bold text-sm">4.9</span>
-            <span className="text-xs text-gray-300">(112 reviews)</span>
+            <span className="font-bold text-sm">{AGGREGATE_RATING.ratingValue}</span>
+            <span className="text-xs text-gray-300">({getCanonicalReviewStats().total} reviews)</span>
           </div>
         </div>
       </div>
