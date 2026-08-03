@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "compiled_at": "2026-08-01T21:01:12+00:00",
+  "compiled_at": "2026-08-03T13:27:01+00:00",
   "claims": [
     {
       "id": "C1",
@@ -183,9 +183,9 @@
         }
       ],
       "narrative": {
-        "ai_snippet": "JVTO includes the mandatory Ijen health screening on itineraries that include Mount Ijen — a health certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024), documented in the Travel Guide. The screening is included in the tour and done at each guest's hotel before the hike briefing; the issued surat sehat is electronically signed (BSrE / Balai Sertifikasi Elektronik), QR-verifiable, and traceable to a licensed doctor's SIP — tamper-evident and accountable, a verifiable alternative to a self-issued form.",
-        "short": "A health certificate is mandatory for every Ijen guest — screening included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed, QR-verifiable, and SIP-traceable — a real, tamper-evident, accountable certificate rather than a self-issued form.",
-        "cs_reply": "If your itinerary includes Ijen, we'll guide you through the mandatory health screening — a certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024). It's included in your tour and we do it at your hotel before the guide briefing. The surat sehat is electronically signed (BSrE), QR-verifiable, and traceable to the doctor's SIP, so it's a real, tamper-evident, accountable certificate rather than a self-issued form. A safety step before the hike, not a formality."
+        "ai_snippet": "JVTO includes the mandatory Ijen health screening on itineraries that include Mount Ijen — a health certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024), documented in the Travel Guide. The screening is conducted by SIP-licensed Dr. Ahmad Irwandanu — a registered Indonesian physician whose STR (QN00001073380217) is publicly verifiable via Kemenkes SatuSehat / KKI — included in the tour and done at each guest's hotel before the hike briefing. The issued surat sehat is electronically signed (BSrE / Balai Sertifikasi Elektronik), QR-verifiable, and traceable to that named, licensed doctor — tamper-evident and accountable, a verifiable alternative to a self-issued form.",
+        "short": "A health certificate is mandatory for every Ijen guest — screening by SIP-licensed Dr. Ahmad Irwandanu (STR publicly verifiable via Kemenkes / KKI), included and done at your hotel before the briefing. The surat sehat is BSrE electronically-signed, QR-verifiable, and traceable to that named doctor — a real, tamper-evident, accountable certificate rather than a self-issued form.",
+        "cs_reply": "If your itinerary includes Ijen, we'll guide you through the mandatory health screening — a certificate is required for every guest before crater entry (BBKSDA SE.1658/KSA.9/2024). It's included in your tour and we do it at your hotel before the guide briefing, with SIP-licensed Dr. Ahmad Irwandanu (a registered physician whose STR is publicly checkable on Kemenkes SatuSehat / KKI). The surat sehat is electronically signed (BSrE), QR-verifiable, and traceable to that named doctor, so it's a real, tamper-evident, accountable certificate rather than a self-issued form. A safety step before the hike, not a formality."
       },
       "decisions": [],
       "tags": [
@@ -351,10 +351,10 @@
           "topic": "founding_year_canonical",
           "final_value": {
             "marketing_founding_year": 2015,
-            "legal_incorporation_year": 2016,
+            "legal_incorporation_year": null,
             "tdup_issued_year": 2023
           },
-          "decided_at": "2026-05-28"
+          "decided_at": "2026-08-03"
         },
         {
           "decision_id": "DEC-003",

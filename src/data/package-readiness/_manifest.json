@@ -1,11 +1,11 @@
 {
   "schema_version": "package-readiness/v1.3",
   "generated_by": "scripts/compile_packages.py",
-  "generated_at": "2026-07-15T05:30:20.485689+00:00",
+  "generated_at": "2026-08-03T13:27:01.993411+00:00",
   "dry_run": false,
   "canonical_package_count": 16,
   "source_hashes": {
-    "packages-overview": "fb302eee0f95",
+    "packages-overview": "09c65f05abdf",
     "packages-full-pricing": "c78771b3c396",
     "packages-itineraries": "627317e792f2",
     "sitemap": "b60018b623d0",
