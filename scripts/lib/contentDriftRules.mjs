@@ -35,7 +35,12 @@ export const RULES = [
     // Widened 2026-07-31: "incorporated 20XX" alone missed prose like "Mr. Sam
     // incorporated PT Java Volcano Rendezvous on 2016-01-01" — same word, just
     // not adjacent to the year. Added a within-one-sentence variant.
-    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
+    // Widened 2026-08-03 (Codex #139 P1): the CMS seed said "incorporation —
+    // 2016-01-01" — the noun form the verb-only pattern missed. Added a noun
+    // variant scoped to a full ISO date so it catches "incorporation — 2016-01-01"
+    // without false-flagging KBLI codes (e.g. "62019") or the "incorporation year
+    // (2016/2019/2020/2023)" explanatory comment.
+    re: /incorporated 20(16|19|20)|incorporated[^.]{0,60}20(16|19|20)\b|incorporat(?:ed|ion)[^.]{0,60}20(16|19|20)-\d\d-\d\d|EST\.? 20(16|19|20)|foundingDate["']?\s*[:=]\s*["']20(16|19|20|23)/i,
   },
   {
     name: "brand-config-json-pattern",
