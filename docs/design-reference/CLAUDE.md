@@ -13,7 +13,7 @@
 | Adjudicated facts lock (founding, reviews, prices, contact/legal IDs, blue-fire, health rule) | `docs/CANONICAL_FACTS.md` |
 | Production content (compiled bundles) | `src/data/{trust-bundle,policy-bundle,package-readiness,blog,okf}` — synced from producers, never hand-edited |
 | Content producers (upstream SSOT) | `sambuko82/llm-wiki` (`master`) + `sambuko82/knowledge-catalog-jvto-bootstrap` (OKF `main`) |
-| Schema / JSON-LD emitters | `src/lib/schemas/*` (e.g. `entityGraph.ts`) |
+| Schema / JSON-LD emitters | `src/lib/schemas/*` (e.g. `entityGraph.ts`) **and** `src/lib/seo/jsonld/builders.ts` — the shared Organization/WebSite/WebPage/FAQ/breadcrumb builders emitted via `src/components/seo/PageJsonLdCombined.tsx` |
 | FAQ / narrative copy | `src/lib/*Faqs.ts` + DB `narrative_claims` (resolver: `src/lib/content/resolveFaqs.ts`) |
 
 When writing or fixing site copy or schema, read `docs/CANONICAL_FACTS.md` first. If a fact
