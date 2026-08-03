@@ -165,7 +165,7 @@ export const evidenceRegistry: EvidenceItem[] = [
     bestPlacement: ['why-jvto', 'verify-jvto', 'travel-guide'],
     costlySignalWeight: 5,
     notes:
-      'Voice invariant: never describe Ijen health screening as "mandatory" without referencing BBKSDA SE.1658/KSA.9/2024 conditional qualifier.',
+      'Voice invariant: Ijen health screening is mandatory for every guest before crater entry; cite BBKSDA SE.1658/KSA.9/2024 as the supporting authority (adjudicated 2026-07-06 — not a conditional trigger).',
   },
   {
     id: 'medical-bbksda-se-1658',
