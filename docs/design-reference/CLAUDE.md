@@ -20,7 +20,7 @@
 | NIB | 1102230032918 | legacy `0220001393513` (never in copy) |
 | TDUP | 1102230032918 · issued **2023-02-11** | — |
 | AHU (company registry) | AHU-0023020 | — |
-| Incorporated | **2016** (2016-01-01) | ~~2020~~ |
+| PT legal formalization | **2023** (NIB/TDUP era · TDUP issued **2023-02-11** · AHU-0023020) — never assert a 2016 incorporation date | ~~Incorporated 2016 / EST 2016 / 2016-01-01~~ · ~~2020~~ |
 | Guesthouse era | 2015 (Ijen Bondowoso Homestay, Booking.com 9.4/10) | — |
 | HQ address | **Jl. Khairil Anwar No.102 A, Badean, Bondowoso, Jawa Timur 68214** | ~~Banyuwangi, East Java, Indonesia~~ |
 | Phone | +62 822 4478 8833 (`+6282244788833`) | — |
@@ -38,7 +38,7 @@
 | Cancellation | ≥48h → 100% **Lifetime Travel Credit** (no expiry, transferable); <48h → forfeited | cash refund / "deposit minus 5%" |
 | Police escort | qualifying size **≈18 guests or more** · Traffic Police (Ditlantas) · **approval not guaranteed** | ~~"groups of 6+"~~ ; not a default inclusion |
 | FOC | 18→1 free · 35→2 · 50→3 + 5% group discount | — |
-| Stefan Loose | 4th ed., **2018**, ISBN 978-3-7701-7881-0, **p.287** | — |
+| Stefan Loose | ISBN **9783770167654** · **p.287** (independent German guidebook; no year/edition/publisher asserted) | ~~4th ed. / 2018 / ISBN 978-3-7701-7881-0 / DuMont Reiseverlag~~ |
 | Heights | Kawah Ijen 2,386 m · Mount Bromo 2,329 m | — |
 
 ### Reviews (single source — see `uploads/trust-signals.md` §Schema Canonical Values)
@@ -96,7 +96,7 @@ Grep the project for these drift patterns; **every hit is a bug** unless it's in
 ```
 Banyuwangi, East Java,<br />Indonesia      # footer drift
 112\+|4\.9 / 5 · 92|47 reviews|5\.0 / 5     # stale review counts
-incorporated 2020|Issued.{0,4}2020          # wrong founding year
+EST 2016|incorporated 2016|2016-01-01|incorporated 2020|Issued.{0,4}2020   # invented founding/incorporation year
 [Mm]andatory health|must hold a valid|required for all .{0,8}guests
 [Bb]lue [Ff]ire guaranteed|100% [Bb]lue
 \$\d|EUR \d|Rp \d                            # non-IDR / wrong price format
