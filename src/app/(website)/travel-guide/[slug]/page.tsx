@@ -6,15 +6,22 @@ import Link from "@/components/website/AppLink";
 import { PageJsonLdCombined } from "@/components/seo/PageJsonLdCombined";
 import { Faq } from "@/components/content/Faq";
 import {
-  buildResolvedFaqSchema,
-  resolveFaqsForPage,
-} from "@/lib/content/resolveFaqs";
-import { getPublicPageSnapshot } from "@/lib/publicContent/getPublicPageSnapshot";
-import { listPublicPageRoutesByPrefix } from "@/lib/publicContent/pageSnapshots";
-import {
   buildIjenHealthHowToSchema,
   buildIjenHealthMedicalWebPageSchema,
 } from "@/lib/schemas/buildTravelGuideSchemas";
+import { DOCTOR_SCHEMA } from "@/lib/schemas/entityGraph";
+import {
+  listPublishedStaticPages,
+  loadStaticPage,
+  PRODUCTION_ORIGIN,
+  type StaticPage,
+} from "@/lib/static-content";
+
+// PACKAGE 04 (2026-08-04): the seed-owned Travel Guide slug routes are served from
+// content/pages/travel-guide/ (static-content SSOT). Routes still owned by folder
+// pages (faq, police-escort-for-groups, rijik-monthly-closure, best-time-to-visit)
+// and the 13 OKF-backed agent-guide pages are NOT in this loader's param set — they
+// keep their current behavior until their migration lands (see the ledger).
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -34,31 +41,47 @@ const TRAVEL_GUIDE_DEST_LINKS: Record<
 };
 
 export function generateStaticParams() {
-  return listPublicPageRoutesByPrefix("/travel-guide")
-    .filter((route) => route !== "/travel-guide/faq")
-    .map((route) => ({
-      slug: route.replace("/travel-guide/", ""),
-    }));
+  return listPublishedStaticPages({ section: "travel-guide" })
+    .filter((p) => p.meta.route !== "/travel-guide")
+    .map((p) => ({ slug: p.meta.route.replace("/travel-guide/", "") }));
+}
+
+/** Minimal PageRowLike so PageJsonLdCombined emits WebPage/breadcrumbs for a static page. */
+function staticPageRow(page: StaticPage) {
+  return {
+    route: page.meta.route,
+    lang: "en",
+    seo: {
+      title: page.meta.browserTitle ?? page.meta.title,
+      description: page.meta.description,
+    },
+    content: { h1: page.meta.title },
+  };
+}
+
+/** Visible FAQ HTML and FAQPage JSON-LD share this one array (AD-08). */
+function buildStaticFaqSchema(route: string, faq: NonNullable<StaticPage["faq"]>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${PRODUCTION_ORIGIN}${route}#faq`,
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getPublicPageSnapshot(`/travel-guide/${slug}`, {
-    allowDatabaseFallback: true,
-    requiredContentFields: ["body_md"],
-  });
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const content = (page.pageRow.content as Record<string, any> | null) ?? {};
-
-  if (typeof content.body_md !== "string" || content.body_md.trim().length === 0) {
-    return {
-      title: "Page Not Found",
-    };
+  const page = loadStaticPage(`/travel-guide/${slug}`);
+  if (!page || page.meta.status !== "published") {
+    return { title: "Page Not Found" };
   }
-
   return {
-    title: seo.title ?? content.h1 ?? page.pageRow.route,
-    description: seo.description ?? undefined,
+    title: page.meta.browserTitle ?? page.meta.title,
+    description: page.meta.description,
   };
 }
 
@@ -67,44 +90,29 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
   const route = `/travel-guide/${slug}`;
   const destLinks = TRAVEL_GUIDE_DEST_LINKS[slug] ?? [];
 
-  const [page, faqResolution] = await Promise.all([
-    getPublicPageSnapshot(route, {
-      allowDatabaseFallback: true,
-      requiredContentFields: ["body_md"],
-    }),
-    resolveFaqsForPage(route),
-  ]);
-  const content = page.pageRow.content as any;
-  const seo = (page.pageRow.seo as Record<string, any> | null) ?? {};
-  const h1 = content?.h1 ?? seo.title ?? "Travel Guide";
-  const body = content?.body_md ?? "";
-  const faqSchema = buildResolvedFaqSchema(faqResolution, route);
-  // Prefer the resolved FAQ source (narrative_claims / canonical) for the visible
-  // block too, so on-page content matches the FAQPage JSON-LD (AEO parity). Falls
-  // back to CMS content.faq only when no higher-precedence source is registered
-  // for this slug (unaffected routes keep their existing CMS-FAQ behaviour).
-  const visibleFaqItems = faqResolution.faqs.length
-    ? faqResolution.faqs.map((p) => ({ q: p.question, a: p.answer }))
-    : ((content?.faq as Array<{ q: string; a: string }> | undefined) ?? []);
-  const visibleFaqTitle = faqResolution.faqs.length
-    ? "Frequently Asked Questions"
-    : (content?.faq_title ?? "FAQ");
+  const page = loadStaticPage(route);
+  if (!page || page.meta.status !== "published") return notFound();
 
+  const h1 = page.meta.title;
+  const faqItems = page.faq ?? [];
+  const faqSchema = faqItems.length ? buildStaticFaqSchema(route, faqItems) : null;
+
+  // Ijen health screening keeps its MedicalWebPage + HowTo schema, and now also
+  // injects DOCTOR_SCHEMA so the MedicalWebPage's reviewedBy @id
+  // (/#dr-ahmad-irwandanu) resolves on this page (it was dangling pre-migration).
   const ijenHealthSchemas =
     slug === "ijen-health-screening"
-      ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema()]
+      ? [buildIjenHealthMedicalWebPageSchema(), buildIjenHealthHowToSchema(), DOCTOR_SCHEMA]
       : [];
 
   const slugExtraSchemas = [faqSchema, ...ijenHealthSchemas].filter(Boolean);
 
-  if (!body.trim().length) return notFound();
-
   return (
     <div className="flex min-h-screen bg-background">
       <PageJsonLdCombined
-        pageRow={page.pageRow}
+        pageRow={staticPageRow(page)}
         extraSchemas={slugExtraSchemas}
-        suppressCmsFaq={faqResolution.suppressCmsFaq}
+        suppressCmsFaq
       />
       <Sidebar />
 
@@ -135,9 +143,12 @@ export default async function TravelGuideDynamicPage({ params }: Props) {
         </section>
 
         <div className="container mx-auto px-4 max-w-4xl pt-12">
-          <MarkdownRendererTravelGuide markdown={body} />
-          {visibleFaqItems.length > 0 && (
-            <Faq items={visibleFaqItems} title={visibleFaqTitle} />
+          <MarkdownRendererTravelGuide markdown={page.body ?? ""} />
+          {faqItems.length > 0 && (
+            <Faq
+              items={faqItems.map((f) => ({ q: f.question, a: f.answer }))}
+              title="Frequently Asked Questions"
+            />
           )}
           {destLinks.length > 0 && (
             <div className="mt-10 pt-8 border-t border-gray-200">

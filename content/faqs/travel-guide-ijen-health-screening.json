@@ -1,0 +1,25 @@
+{
+  "key": "travel-guide-ijen-health-screening",
+  "items": [
+    {
+      "question": "Is Ijen health screening mandatory?",
+      "answer": "For tours that include the Ijen night hike, a pre-hike health screening is included as part of the route logistics and may be required depending on local rules at the time of travel."
+    },
+    {
+      "question": "What does the screening typically check?",
+      "answer": "Typical checks include basic measurements such as blood pressure and oxygen level plus a short set of questions by trained medical staff, following local guidelines."
+    },
+    {
+      "question": "What happens if someone is not cleared?",
+      "answer": "If a guest is denied clearance, affected components may not operate for that person. Policy handling follows /policy/booking-payment-cancellation."
+    },
+    {
+      "question": "Does screening guarantee nothing will happen?",
+      "answer": "No. Screening reduces risk but conditions remain subject to local authority decisions, weather/visibility, and on-site safety assessments."
+    },
+    {
+      "question": "How is screening-related data handled?",
+      "answer": "If personal data is collected during screening, it is handled in line with JVTO privacy commitments and provider/authority requirements. See /policy/privacy."
+    }
+  ]
+}
